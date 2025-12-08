@@ -1,0 +1,203 @@
+<!-- Hero Section -->
+<section class="relative py-20 bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 overflow-hidden">
+  <!-- Background decoration -->
+  <div class="absolute inset-0">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-secondary-400/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="max-w-3xl">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium mb-6">
+        {{ 'services.page.badge' | translate }}
+      </span>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+        {{ 'services.page.title' | translate }}
+      </h1>
+      <p class="text-lg text-white/80">
+        {{ 'services.page.description' | translate }}
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-20 bg-background">
+  <div class="container-custom">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        *ngFor="let service of services"
+        class="group bg-surface rounded-2xl border border-border overflow-hidden hover:shadow-hard transition-all duration-300 hover:-translate-y-1"
+      >
+        <!-- Service Header -->
+        <div class="p-6 border-b border-border">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center text-white text-2xl group-hover:scale-110 transition-transform overflow-hidden">
+              <img *ngIf="service.iconSvg" [src]="service.iconSvg" [alt]="service.title | translate" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
+              <span *ngIf="!service.iconSvg" [innerHTML]="service.icon"></span>
+            </div>
+            <span
+              *ngIf="service.badge"
+              class="px-3 py-1 text-xs font-semibold rounded-full"
+              [ngClass]="{
+                'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400': service.badge === 'Popular',
+                'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400': service.badge === 'New'
+              }"
+            >
+              {{ service.badge }}
+            </span>
+          </div>
+          <h2 class="text-xl font-bold mb-2 group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
+            {{ service.title | translate }}
+          </h2>
+          <p class="text-neutral-600 dark:text-neutral-400">
+            {{ service.description | translate }}
+          </p>
+        </div>
+
+        <!-- Features List -->
+        <div class="p-6">
+          <h3 class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
+            {{ 'services.keyFeatures' | translate }}
+          </h3>
+          <ul class="space-y-3">
+            <li *ngFor="let feature of service.features" class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-neutral-700 dark:text-neutral-300">
+                {{ feature | translate }}
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="px-6 pb-6">
+          <a
+            [routerLink]="service.route"
+            class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 rounded-xl font-semibold hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
+          >
+            {{ 'common.learnMore' | translate }}
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Our Services Section -->
+<section class="py-20 bg-surface">
+  <div class="container-custom">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Content -->
+      <div>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 text-sm font-medium mb-4">
+          {{ 'services.whyChoose.badge' | translate }}
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          {{ 'services.whyChoose.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+          {{ 'services.whyChoose.description' | translate }}
+        </p>
+
+        <!-- Benefits list -->
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">{{ 'services.whyChoose.benefit1.title' | translate }}</h3>
+              <p class="text-neutral-600 dark:text-neutral-400">{{ 'services.whyChoose.benefit1.description' | translate }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">{{ 'services.whyChoose.benefit2.title' | translate }}</h3>
+              <p class="text-neutral-600 dark:text-neutral-400">{{ 'services.whyChoose.benefit2.description' | translate }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">{{ 'services.whyChoose.benefit3.title' | translate }}</h3>
+              <p class="text-neutral-600 dark:text-neutral-400">{{ 'services.whyChoose.benefit3.description' | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual/Stats -->
+      <div class="bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl p-8 text-white">
+        <h3 class="text-2xl font-bold mb-8">{{ 'services.stats.title' | translate }}</h3>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm">
+            <div class="text-4xl font-bold mb-2">99.9%</div>
+            <div class="text-white/80">{{ 'services.stats.uptime' | translate }}</div>
+          </div>
+          <div class="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm">
+            <div class="text-4xl font-bold mb-2">24/7</div>
+            <div class="text-white/80">{{ 'services.stats.support' | translate }}</div>
+          </div>
+          <div class="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm">
+            <div class="text-4xl font-bold mb-2">150+</div>
+            <div class="text-white/80">{{ 'services.stats.clients' | translate }}</div>
+          </div>
+          <div class="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm">
+            <div class="text-4xl font-bold mb-2">&lt;1hr</div>
+            <div class="text-white/80">{{ 'services.stats.response' | translate }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-background">
+  <div class="container-custom">
+    <div class="bg-surface rounded-3xl border border-border p-8 md:p-12 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        {{ 'services.cta.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto">
+        {{ 'services.cta.description' | translate }}
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          routerLink="/contact"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+        >
+          {{ 'services.cta.button' | translate }}
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          routerLink="/pricing"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-surface border border-border rounded-xl font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+        >
+          {{ 'services.cta.secondaryButton' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

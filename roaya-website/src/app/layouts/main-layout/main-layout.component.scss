@@ -1,0 +1,164 @@
+/**
+ * Main Layout Component Styles
+ * Roaya IT - Angular 21
+ */
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+// Floating Navbar
+.floating-navbar {
+  border-radius: 9999px; // Full pill shape
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.1),
+              0 2px 8px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+
+  :host-context(.dark) & {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4),
+                0 2px 8px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  // Inner container
+  > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+// Header transitions
+.header-default {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  :host-context(.dark) & {
+    background-color: rgba(15, 23, 42, 0.85);
+  }
+}
+
+.header-scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.12),
+              0 2px 8px -2px rgba(0, 0, 0, 0.08);
+
+  :host-context(.dark) & {
+    background-color: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.4),
+                0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Mobile drawer animations
+.mobile-drawer-backdrop {
+  animation: backdropFadeIn 0.2s ease-out forwards;
+}
+
+.mobile-drawer {
+  will-change: transform;
+}
+
+.mobile-drawer-ltr {
+  animation: slideFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mobile-drawer-rtl {
+  animation: slideFromLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+// Footer styles
+footer {
+  a {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: currentColor;
+      transition: width 0.2s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  // RTL support for underline animation
+  :host-context([dir="rtl"]) & a::after {
+    left: auto;
+    right: 0;
+  }
+}
+
+// Skip to content link styles
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+// Smooth scrolling for anchor links
+html {
+  scroll-behavior: smooth;
+}
+
+// Prevent layout shift when scrollbar appears
+html {
+  overflow-y: scroll;
+}

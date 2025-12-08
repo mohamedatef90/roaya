@@ -1,0 +1,125 @@
+import { Routes } from '@angular/router';
+
+/**
+ * Application Routes
+ * Roaya IT - Lazy loaded feature routes for optimal performance
+ */
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+    title: 'Roaya IT - Innovative Technology Solutions'
+  },
+  {
+    path: 'services',
+    loadComponent: () => import('./features/services/services.component').then(m => m.ServicesComponent),
+    title: 'Services - Roaya IT'
+  },
+  // Dedicated Service Routes (alphabetical order, before generic :id route)
+  {
+    path: 'services/automation',
+    loadComponent: () => import('./features/services/automation/automation.component').then(m => m.AutomationComponent),
+    title: 'IT Automation & AI Solutions - Roaya IT'
+  },
+  {
+    path: 'services/backup',
+    loadComponent: () => import('./features/services/backup/backup.component').then(m => m.BackupComponent),
+    title: 'Backup & Disaster Recovery Solutions - Roaya IT'
+  },
+  {
+    path: 'services/cloud',
+    loadComponent: () => import('./features/services/cloud/cloud.component').then(m => m.CloudComponent),
+    title: 'Cloud Solutions & Infrastructure Management - Roaya IT'
+  },
+  {
+    path: 'services/consulting',
+    loadComponent: () => import('./features/services/consulting/consulting.component').then(m => m.ConsultingComponent),
+    title: 'IT Consulting & Digital Transformation - Roaya IT'
+  },
+  {
+    path: 'services/email',
+    loadComponent: () => import('./features/services/email/email.component').then(m => m.EmailComponent),
+    title: 'Email & Collaboration Solutions - Roaya IT'
+  },
+  {
+    path: 'services/managed',
+    loadComponent: () => import('./features/services/managed/managed.component').then(m => m.ManagedComponent),
+    title: 'Managed IT Services & Support - Roaya IT'
+  },
+  {
+    path: 'services/sap',
+    loadComponent: () => import('./features/services/sap/sap.component').then(m => m.SapComponent),
+    title: 'SAP Cloud Operations & Basis Management - Roaya IT'
+  },
+  {
+    path: 'services/security',
+    loadComponent: () => import('./features/services/security/security.component').then(m => m.SecurityComponent),
+    title: 'Cybersecurity Solutions & Threat Protection - Roaya IT'
+  },
+  // Fallback for any unknown service routes
+  {
+    path: 'services/:id',
+    loadComponent: () => import('./features/services/service-detail/service-detail.component').then(m => m.ServiceDetailComponent),
+    title: 'Service Details - Roaya IT'
+  },
+  {
+    path: 'industries',
+    loadComponent: () => import('./features/industries/industries.component').then(m => m.IndustriesComponent),
+    title: 'Industries - Roaya IT'
+  },
+  {
+    path: 'industries/:id',
+    loadComponent: () => import('./features/industries/industry-detail/industry-detail.component').then(m => m.IndustryDetailComponent),
+    title: 'Industry Solutions - Roaya IT'
+  },
+  {
+    path: 'pricing',
+    loadComponent: () => import('./features/pricing/pricing.component').then(m => m.PricingComponent),
+    title: 'Pricing - Roaya IT'
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./features/about/about.component').then(m => m.AboutComponent),
+    title: 'About Us - Roaya IT'
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./features/contact/contact.component').then(m => m.ContactComponent),
+    title: 'Contact Us - Roaya IT'
+  },
+  {
+    path: 'roi-calculator',
+    loadComponent: () => import('./features/roi-calculator/roi-calculator.component').then(m => m.RoiCalculatorComponent),
+    title: 'ROI Calculator - Roaya IT'
+  },
+  {
+    path: 'resources',
+    loadComponent: () => import('./features/resources/resources.component').then(m => m.ResourcesComponent),
+    title: 'Resources - Roaya IT'
+  },
+  {
+    path: 'resources/blog',
+    loadComponent: () => import('./features/resources/blog/blog.component').then(m => m.BlogComponent),
+    title: 'Blog - Roaya IT'
+  },
+  {
+    path: 'resources/blog/:slug',
+    loadComponent: () => import('./features/resources/blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
+    title: 'Blog Post - Roaya IT'
+  },
+  {
+    path: 'resources/case-studies',
+    loadComponent: () => import('./features/resources/case-studies/case-studies.component').then(m => m.CaseStudiesComponent),
+    title: 'Case Studies - Roaya IT'
+  },
+  {
+    path: 'resources/case-studies/:slug',
+    loadComponent: () => import('./features/resources/case-studies/case-study-detail/case-study-detail.component').then(m => m.CaseStudyDetailComponent),
+    title: 'Case Study - Roaya IT'
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
+];

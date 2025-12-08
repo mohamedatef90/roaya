@@ -1,0 +1,177 @@
+<!-- Card Stack Section - ineo-sense style stacking cards -->
+<section
+  #stackContainer
+  class="card-stack-section"
+  [class]="containerClass"
+  [class.card-stack-section--dark]="darkVariant"
+  role="region"
+  [attr.aria-label]="sectionTitle ? (sectionTitle | translate) : 'Interactive card stack'"
+>
+  <!-- Section Header (optional) -->
+  @if (sectionBadge || sectionTitle || sectionSubtitle) {
+    <header class="card-stack-header">
+      @if (sectionBadge) {
+        <span class="card-stack-badge">
+          {{ sectionBadge | translate }}
+        </span>
+      }
+
+      @if (sectionTitle) {
+        <h2 class="card-stack-title">
+          {{ sectionTitle | translate }}
+        </h2>
+      }
+
+      @if (sectionSubtitle) {
+        <p class="card-stack-subtitle">
+          {{ sectionSubtitle | translate }}
+        </p>
+      }
+    </header>
+  }
+
+  <!-- Parallax Background Elements -->
+  <div class="parallax-bg parallax-bg--slow" aria-hidden="true"></div>
+  <div class="parallax-bg parallax-bg--fast" aria-hidden="true"></div>
+
+  <!-- Sticky Wrapper (Gets pinned during scroll) -->
+  <div #stickyWrapper class="card-stack-sticky">
+    <!-- Cards Container -->
+    <div class="card-stack-cards">
+      <!-- Card Items -->
+      @for (card of cards; track trackByCardId($index, card); let i = $index) {
+        <article
+          #stackCard
+          class="card-stack-item"
+          [class]="card.customClass || ''"
+          [class.is-first]="i === 0"
+          [style.--card-index]="i + 1"
+          [style.background]="getCardBackground(card, i)"
+          [style.color]="getCardTextColor(card)"
+          role="article"
+          [attr.aria-label]="(card.title | translate) + ' - Card ' + (i + 1) + ' of ' + cards.length"
+        >
+          <!-- Background Overlay for Gradient Cards -->
+          <div class="card-stack-item__bg-overlay" aria-hidden="true"></div>
+
+          <!-- Card Content Container -->
+          <div class="card-stack-item__container">
+            <div class="card-stack-item__content">
+              <!-- Left Column: Text Content -->
+              <div class="card-stack-item__text">
+                @if (card.subtitle) {
+                  <span class="card-stack-item__subtitle">
+                    {{ card.subtitle | translate }}
+                  </span>
+                }
+
+                <h3 class="card-stack-item__title">
+                  {{ card.title | translate }}
+                </h3>
+
+                <p class="card-stack-item__description">
+                  {{ card.description | translate }}
+                </p>
+
+                <!-- Features List (optional) -->
+                @if (card.features && card.features.length > 0) {
+                  <ul class="card-stack-item__features">
+                    @for (feature of card.features; track feature) {
+                      <li class="card-stack-item__feature">
+                        <svg
+                          class="card-stack-item__feature-icon"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>{{ feature | translate }}</span>
+                      </li>
+                    }
+                  </ul>
+                }
+
+                <!-- CTA Link (optional) -->
+                @if (card.link) {
+                  <a
+                    [href]="card.link"
+                    class="card-stack-item__link"
+                  >
+                    {{ card.linkText ? (card.linkText | translate) : 'Learn more' }}
+                    <svg
+                      class="card-stack-item__link-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                }
+              </div>
+
+              <!-- Right Column: Image/Icon (optional) -->
+              @if (card.image || card.icon) {
+                <div class="card-stack-item__visual">
+                  @if (card.image) {
+                    <img
+                      [src]="card.image"
+                      [alt]="card.title | translate"
+                      class="card-stack-item__image"
+                      loading="lazy"
+                    />
+                  }
+                  @if (card.icon && !card.image) {
+                    <div class="card-stack-item__icon-wrapper">
+                      <svg
+                        class="card-stack-item__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path [attr.d]="card.icon"></path>
+                      </svg>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Card Index Indicator -->
+          <div class="card-stack-item__index" aria-hidden="true">
+            <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+
+
+  <!-- Screen Reader Announcement -->
+  <div
+    class="sr-only"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    @if (cards[activeCardIndex()]) {
+      Viewing card {{ activeCardIndex() + 1 }} of {{ cards.length }}:
+      {{ cards[activeCardIndex()].title | translate }}
+    }
+  </div>
+</section>

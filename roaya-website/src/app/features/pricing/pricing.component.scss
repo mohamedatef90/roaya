@@ -1,0 +1,67 @@
+/**
+ * Pricing Component Styles
+ * Roaya IT - Pricing Page
+ */
+
+// Staggered animation for pricing cards
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pricing-grid > * {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@for $i from 1 through 3 {
+  .pricing-grid > *:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.15}s;
+  }
+}
+
+// Price animation on toggle
+.price-value {
+  transition: transform 0.3s ease;
+
+  &.changing {
+    transform: scale(1.05);
+  }
+}
+
+// FAQ accordion animation
+.faq-answer {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+
+  &.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  &.expanded {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .pricing-grid > * {
+    animation: none;
+    opacity: 1;
+  }
+
+  .price-value {
+    transition: none;
+  }
+
+  .faq-answer {
+    transition: none;
+  }
+}

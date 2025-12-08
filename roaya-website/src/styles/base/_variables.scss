@@ -1,0 +1,145 @@
+/**
+ * CSS Custom Properties for Theming
+ * Roaya IT - Brand Colors and Design Tokens
+ */
+
+:root {
+  // Brand Colors - Light Mode
+  --color-primary-50: #f0f4f8;
+  --color-primary-100: #d9e2ec;
+  --color-primary-200: #bcccdc;
+  --color-primary-300: #9fb3c8;
+  --color-primary-400: #829ab1;
+  --color-primary-500: #3D5A80;
+  --color-primary-600: #334d6e;
+  --color-primary-700: #2a3f5f;
+  --color-primary-800: #203047;
+  --color-primary-900: #192532;
+  --color-primary-950: #0f1a28;
+
+  --color-secondary-50: #f0fafb;
+  --color-secondary-100: #d9f2f5;
+  --color-secondary-200: #b3e5eb;
+  --color-secondary-300: #8dd8e0;
+  --color-secondary-400: #71c7d1;
+  --color-secondary-500: #5DB7C2;
+  --color-secondary-600: #4a9ca6;
+  --color-secondary-700: #3c7f87;
+  --color-secondary-800: #2e6169;
+  --color-secondary-900: #1f424a;
+  --color-secondary-950: #142d32;
+
+  --color-accent-50: #f5f2f9;
+  --color-accent-100: #e8e0f1;
+  --color-accent-200: #d1c1e3;
+  --color-accent-300: #b9a2d5;
+  --color-accent-400: #9278bc;
+  --color-accent-500: #6B4C9A;
+  --color-accent-600: #5a3f82;
+  --color-accent-700: #49336a;
+  --color-accent-800: #382652;
+  --color-accent-900: #271a3a;
+  --color-accent-950: #1a1127;
+
+  // Semantic Colors - Light Mode
+  --color-background: #ffffff;
+  --color-foreground: #0a0a0a;
+  --color-surface: #fafafa;
+  --color-surface-hover: #f5f5f5;
+  --color-border: #e5e5e5;
+  --color-border-hover: #d4d4d4;
+  --color-input: #ffffff;
+  --color-ring: #3D5A80;
+
+  // Text Colors
+  --color-text-primary: #0a0a0a;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #737373;
+  --color-text-inverse: #ffffff;
+
+  // Status Colors
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  // Shadows
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
+
+  // Spacing (complementing Tailwind)
+  --spacing-xs: 0.5rem;   // 8px
+  --spacing-sm: 0.75rem;  // 12px
+  --spacing-md: 1rem;     // 16px
+  --spacing-lg: 1.5rem;   // 24px
+  --spacing-xl: 2rem;     // 32px
+  --spacing-2xl: 3rem;    // 48px
+  --spacing-3xl: 4rem;    // 64px
+  --spacing-4xl: 6rem;    // 96px
+
+  // Border Radius
+  --radius-sm: 0.25rem;   // 4px
+  --radius-md: 0.375rem;  // 6px
+  --radius-lg: 0.5rem;    // 8px
+  --radius-xl: 0.75rem;   // 12px
+  --radius-2xl: 1rem;     // 16px
+  --radius-3xl: 1.5rem;   // 24px
+  --radius-full: 9999px;
+
+  // Typography
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-arabic: 'Tajawal', system-ui, -apple-system, sans-serif;
+
+  // Transitions
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Z-index layers
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+// Dark Mode Theme
+.dark {
+  --color-background: #0a0a0a;
+  --color-foreground: #fafafa;
+  --color-surface: #171717;
+  --color-surface-hover: #262626;
+  --color-border: #404040;
+  --color-border-hover: #525252;
+  --color-input: #262626;
+  --color-ring: #5DB7C2;
+
+  // Text Colors (Dark Mode)
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #d4d4d4;
+  --color-text-tertiary: #a3a3a3;
+  --color-text-inverse: #0a0a0a;
+
+  // Adjusted shadows for dark mode
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.5), 0 10px 20px -2px rgba(0, 0, 0, 0.3);
+}
+
+// RTL Support
+[dir="rtl"] {
+  --text-align-start: right;
+  --text-align-end: left;
+}
+
+[dir="ltr"] {
+  --text-align-start: left;
+  --text-align-end: right;
+}

@@ -1,0 +1,59 @@
+/**
+ * Industries Component Styles
+ * Roaya IT - Industries Page
+ */
+
+// Staggered animation for cards
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.industries-grid > * {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@for $i from 1 through 6 {
+  .industries-grid > *:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.1}s;
+  }
+}
+
+// Industry card icon hover effects
+.group {
+  &:hover {
+    .industry-icon {
+      transform: scale(1.1);
+    }
+  }
+}
+
+// Case study card hover effect
+.case-study-card {
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .industries-grid > * {
+    animation: none;
+    opacity: 1;
+  }
+
+  .group:hover .industry-icon {
+    transform: none;
+  }
+
+  .case-study-card:hover {
+    transform: none;
+  }
+}

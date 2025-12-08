@@ -1,0 +1,481 @@
+<div class="roi-calculator-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="text-center max-w-4xl mx-auto">
+        <span class="badge">{{ 'roiCalculator.badge' | translate }}</span>
+        <h1 class="title">{{ 'roiCalculator.title' | translate }}</h1>
+        <p class="subtitle">{{ 'roiCalculator.subtitle' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator Section -->
+  <section class="calculator-section">
+    <div class="container mx-auto px-4 pb-16 md:pb-24">
+      <div class="calculator-card">
+
+        <!-- Tab Selector -->
+        <div class="tabs">
+          <button
+            class="tab"
+            [class.active]="activeTab() === 'cloud'"
+            (click)="selectTab('cloud')"
+            type="button">
+            <span class="tab-icon">☁️</span>
+            <span class="tab-text">{{ 'roiCalculator.tabs.cloud' | translate }}</span>
+          </button>
+
+          <button
+            class="tab"
+            [class.active]="activeTab() === 'email'"
+            (click)="selectTab('email')"
+            type="button">
+            <span class="tab-icon">📧</span>
+            <span class="tab-text">{{ 'roiCalculator.tabs.email' | translate }}</span>
+          </button>
+
+          <button
+            class="tab"
+            [class.active]="activeTab() === 'security'"
+            (click)="selectTab('security')"
+            type="button">
+            <span class="tab-icon">🔒</span>
+            <span class="tab-text">{{ 'roiCalculator.tabs.security' | translate }}</span>
+          </button>
+        </div>
+
+        <div class="calculator-content">
+          <!-- Cloud Infrastructure Calculator -->
+          <div class="calculator-panel" *ngIf="activeTab() === 'cloud'">
+            <div class="grid md:grid-cols-2 gap-8">
+              <!-- Inputs -->
+              <div class="inputs-section">
+                <h3 class="section-title">{{ 'roiCalculator.inputs.title' | translate }}</h3>
+
+                <div class="input-group">
+                  <label for="cloud-cost" class="input-label">
+                    {{ 'roiCalculator.inputs.currentCost' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="cloud-cost"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="cloudInputs().currentCost"
+                      (ngModelChange)="updateCloudInput('currentCost', $event)"
+                      min="0"
+                      step="1000"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="server-count" class="input-label">
+                    {{ 'roiCalculator.inputs.servers' | translate }}
+                  </label>
+                  <input
+                    id="server-count"
+                    type="number"
+                    class="input-field"
+                    [ngModel]="cloudInputs().serverCount"
+                    (ngModelChange)="updateCloudInput('serverCount', $event)"
+                    min="1"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="maintenance-hours" class="input-label">
+                    {{ 'roiCalculator.inputs.maintenanceHours' | translate }}
+                  </label>
+                  <input
+                    id="maintenance-hours"
+                    type="number"
+                    class="input-field"
+                    [ngModel]="cloudInputs().maintenanceHours"
+                    (ngModelChange)="updateCloudInput('maintenanceHours', $event)"
+                    min="0"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="hourly-cost" class="input-label">
+                    {{ 'roiCalculator.inputs.hourlyCost' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="hourly-cost"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="cloudInputs().hourlyCost"
+                      (ngModelChange)="updateCloudInput('hourlyCost', $event)"
+                      min="0"
+                      step="50"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="downtime-hours" class="input-label">
+                    {{ 'roiCalculator.inputs.downtimeHours' | translate }}
+                  </label>
+                  <input
+                    id="downtime-hours"
+                    type="number"
+                    class="input-field"
+                    [ngModel]="cloudInputs().downtimeHours"
+                    (ngModelChange)="updateCloudInput('downtimeHours', $event)"
+                    min="0"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="revenue-loss" class="input-label">
+                    {{ 'roiCalculator.inputs.revenueLoss' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="revenue-loss"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="cloudInputs().revenuePerHour"
+                      (ngModelChange)="updateCloudInput('revenuePerHour', $event)"
+                      min="0"
+                      step="1000"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Results -->
+              <div class="results-section">
+                <h3 class="section-title">{{ 'roiCalculator.results.title' | translate }}</h3>
+
+                <div class="results-highlight">
+                  <div class="savings-label">{{ 'roiCalculator.results.annualSavings' | translate }}</div>
+                  <div class="savings-amount">{{ formatNumber(animatedSavings()) }}</div>
+                  <div class="savings-currency">{{ 'roiCalculator.currency' | translate }}</div>
+                </div>
+
+                <div class="results-grid">
+                  <div class="result-card">
+                    <div class="result-label">{{ 'roiCalculator.results.monthlySavings' | translate }}</div>
+                    <div class="result-value">{{ formatNumber(results().monthlySavings) }}</div>
+                  </div>
+
+                  <div class="result-card">
+                    <div class="result-label">{{ 'roiCalculator.results.paybackPeriod' | translate }}</div>
+                    <div class="result-value">{{ results().paybackPeriod }} {{ 'roiCalculator.results.months' | translate }}</div>
+                  </div>
+                </div>
+
+                <!-- Breakdown Chart -->
+                <div class="breakdown-section">
+                  <h4 class="breakdown-title">{{ 'roiCalculator.results.breakdown' | translate }}</h4>
+                  <div class="breakdown-chart">
+                    <div
+                      *ngFor="let item of results().breakdown"
+                      class="breakdown-item">
+                      <div class="breakdown-label">
+                        <span>{{ item.label | translate }}</span>
+                        <span class="breakdown-value">{{ formatNumber(item.value) }}</span>
+                      </div>
+                      <div class="breakdown-bar-container">
+                        <div
+                          class="breakdown-bar"
+                          [style.width.%]="item.percentage">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cta-section">
+                  <a [routerLink]="['/contact']" class="cta-button">
+                    {{ 'roiCalculator.results.getReport' | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Services Calculator -->
+          <div class="calculator-panel" *ngIf="activeTab() === 'email'">
+            <div class="grid md:grid-cols-2 gap-8">
+              <!-- Inputs -->
+              <div class="inputs-section">
+                <h3 class="section-title">{{ 'roiCalculator.inputs.title' | translate }}</h3>
+
+                <div class="input-group">
+                  <label for="mailbox-count" class="input-label">
+                    {{ 'roiCalculator.inputs.mailboxes' | translate }}
+                  </label>
+                  <input
+                    id="mailbox-count"
+                    type="number"
+                    class="input-field"
+                    [ngModel]="emailInputs().mailboxCount"
+                    (ngModelChange)="updateEmailInput('mailboxCount', $event)"
+                    min="1"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="email-cost" class="input-label">
+                    {{ 'roiCalculator.inputs.emailCost' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="email-cost"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="emailInputs().costPerMailbox"
+                      (ngModelChange)="updateEmailInput('costPerMailbox', $event)"
+                      min="0"
+                      step="10"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                  <small class="input-hint">{{ 'roiCalculator.inputs.roayaPrice' | translate }}: 45 {{ 'roiCalculator.currency' | translate }}</small>
+                </div>
+
+                <div class="input-group">
+                  <label for="email-hours" class="input-label">
+                    {{ 'roiCalculator.inputs.emailHours' | translate }}
+                  </label>
+                  <input
+                    id="email-hours"
+                    type="number"
+                    class="input-field"
+                    [ngModel]="emailInputs().itHours"
+                    (ngModelChange)="updateEmailInput('itHours', $event)"
+                    min="0"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="email-hourly-cost" class="input-label">
+                    {{ 'roiCalculator.inputs.hourlyCost' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="email-hourly-cost"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="emailInputs().hourlyCost"
+                      (ngModelChange)="updateEmailInput('hourlyCost', $event)"
+                      min="0"
+                      step="50"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Results -->
+              <div class="results-section">
+                <h3 class="section-title">{{ 'roiCalculator.results.title' | translate }}</h3>
+
+                <div class="results-highlight">
+                  <div class="savings-label">{{ 'roiCalculator.results.annualSavings' | translate }}</div>
+                  <div class="savings-amount">{{ formatNumber(animatedSavings()) }}</div>
+                  <div class="savings-currency">{{ 'roiCalculator.currency' | translate }}</div>
+                </div>
+
+                <div class="results-grid">
+                  <div class="result-card">
+                    <div class="result-label">{{ 'roiCalculator.results.monthlySavings' | translate }}</div>
+                    <div class="result-value">{{ formatNumber(results().monthlySavings) }}</div>
+                  </div>
+
+                  <div class="result-card">
+                    <div class="result-label">{{ 'roiCalculator.results.paybackPeriod' | translate }}</div>
+                    <div class="result-value">{{ results().paybackPeriod }} {{ 'roiCalculator.results.months' | translate }}</div>
+                  </div>
+                </div>
+
+                <!-- Breakdown Chart -->
+                <div class="breakdown-section">
+                  <h4 class="breakdown-title">{{ 'roiCalculator.results.breakdown' | translate }}</h4>
+                  <div class="breakdown-chart">
+                    <div
+                      *ngFor="let item of results().breakdown"
+                      class="breakdown-item">
+                      <div class="breakdown-label">
+                        <span>{{ item.label | translate }}</span>
+                        <span class="breakdown-value">{{ formatNumber(item.value) }}</span>
+                      </div>
+                      <div class="breakdown-bar-container">
+                        <div
+                          class="breakdown-bar"
+                          [style.width.%]="item.percentage">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cta-section">
+                  <a [routerLink]="['/contact']" class="cta-button">
+                    {{ 'roiCalculator.results.getReport' | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cybersecurity Calculator -->
+          <div class="calculator-panel" *ngIf="activeTab() === 'security'">
+            <div class="grid md:grid-cols-2 gap-8">
+              <!-- Inputs -->
+              <div class="inputs-section">
+                <h3 class="section-title">{{ 'roiCalculator.inputs.title' | translate }}</h3>
+
+                <div class="input-group">
+                  <label for="annual-revenue" class="input-label">
+                    {{ 'roiCalculator.inputs.annualRevenue' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="annual-revenue"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="securityInputs().annualRevenue"
+                      (ngModelChange)="updateSecurityInput('annualRevenue', $event)"
+                      min="0"
+                      step="100000"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="security-cost" class="input-label">
+                    {{ 'roiCalculator.inputs.securityCost' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input
+                      id="security-cost"
+                      type="number"
+                      class="input-field"
+                      [ngModel]="securityInputs().securityCost"
+                      (ngModelChange)="updateSecurityInput('securityCost', $event)"
+                      min="0"
+                      step="1000"
+                    />
+                    <span class="input-suffix">{{ 'roiCalculator.currency' | translate }}</span>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="security-staff" class="input-label">
+                    {{ 'roiCalculator.inputs.securityStaff' | translate }}
+                  </label>
+                  <input
+                    id="security-staff"
+                    type="number"
+                    class="input-field"
+                    [ngModel]="securityInputs().securityStaff"
+                    (ngModelChange)="updateSecurityInput('securityStaff', $event)"
+                    min="0"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="industry" class="input-label">
+                    {{ 'roiCalculator.inputs.industry' | translate }}
+                  </label>
+                  <select
+                    id="industry"
+                    class="input-field"
+                    [ngModel]="securityInputs().industry"
+                    (ngModelChange)="updateSecurityInput('industry', $event)">
+                    <option *ngFor="let ind of industries" [value]="ind.name">
+                      {{ 'roiCalculator.industries.' + ind.name.toLowerCase() | translate }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Results -->
+              <div class="results-section">
+                <h3 class="section-title">{{ 'roiCalculator.results.title' | translate }}</h3>
+
+                <div class="results-highlight">
+                  <div class="savings-label">{{ 'roiCalculator.results.annualValue' | translate }}</div>
+                  <div class="savings-amount">{{ formatNumber(animatedSavings()) }}</div>
+                  <div class="savings-currency">{{ 'roiCalculator.currency' | translate }}</div>
+                </div>
+
+                <div class="results-grid">
+                  <div class="result-card">
+                    <div class="result-label">{{ 'roiCalculator.results.monthlySavings' | translate }}</div>
+                    <div class="result-value">{{ formatNumber(results().monthlySavings) }}</div>
+                  </div>
+
+                  <div class="result-card">
+                    <div class="result-label">{{ 'roiCalculator.results.paybackPeriod' | translate }}</div>
+                    <div class="result-value">{{ results().paybackPeriod }} {{ 'roiCalculator.results.months' | translate }}</div>
+                  </div>
+                </div>
+
+                <!-- Breakdown Chart -->
+                <div class="breakdown-section">
+                  <h4 class="breakdown-title">{{ 'roiCalculator.results.breakdown' | translate }}</h4>
+                  <div class="breakdown-chart">
+                    <div
+                      *ngFor="let item of results().breakdown"
+                      class="breakdown-item">
+                      <div class="breakdown-label">
+                        <span>{{ item.label | translate }}</span>
+                        <span class="breakdown-value">{{ formatNumber(item.value) }}</span>
+                      </div>
+                      <div class="breakdown-bar-container">
+                        <div
+                          class="breakdown-bar"
+                          [style.width.%]="item.percentage">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cta-section">
+                  <a [routerLink]="['/contact']" class="cta-button">
+                    {{ 'roiCalculator.results.getReport' | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="trust-section">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="trust-card">
+            <div class="trust-icon">✓</div>
+            <h3 class="trust-title">{{ 'roiCalculator.trust.accurate.title' | translate }}</h3>
+            <p class="trust-description">{{ 'roiCalculator.trust.accurate.description' | translate }}</p>
+          </div>
+
+          <div class="trust-card">
+            <div class="trust-icon">📊</div>
+            <h3 class="trust-title">{{ 'roiCalculator.trust.realData.title' | translate }}</h3>
+            <p class="trust-description">{{ 'roiCalculator.trust.realData.description' | translate }}</p>
+          </div>
+
+          <div class="trust-card">
+            <div class="trust-icon">🔒</div>
+            <h3 class="trust-title">{{ 'roiCalculator.trust.noCommitment.title' | translate }}</h3>
+            <p class="trust-description">{{ 'roiCalculator.trust.noCommitment.description' | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,291 @@
+<!-- Hero Section -->
+<section class="relative py-16 bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-500 overflow-hidden">
+  <!-- Background decoration -->
+  <div class="absolute inset-0">
+    <div class="absolute top-0 right-1/3 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-96 h-96 bg-secondary-400/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10 text-center">
+    <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium mb-6">
+      {{ 'pricing.page.badge' | translate }}
+    </span>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+      {{ 'pricing.page.title' | translate }}
+    </h1>
+    <p class="text-lg text-white/80 max-w-2xl mx-auto mb-8">
+      {{ 'pricing.page.description' | translate }}
+    </p>
+
+    <!-- Billing Toggle -->
+    <div class="inline-flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-full p-1.5">
+      <button
+        (click)="toggleBilling()"
+        class="px-6 py-2 rounded-full font-medium transition-all"
+        [ngClass]="!isYearly() ? 'bg-white text-primary-600' : 'text-white hover:text-white/80'"
+      >
+        {{ 'pricing.monthly' | translate }}
+      </button>
+      <button
+        (click)="toggleBilling()"
+        class="px-6 py-2 rounded-full font-medium transition-all flex items-center gap-2"
+        [ngClass]="isYearly() ? 'bg-white text-primary-600' : 'text-white hover:text-white/80'"
+      >
+        {{ 'pricing.yearly' | translate }}
+        <span class="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full">
+          {{ 'pricing.save' | translate }} 17%
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Cards -->
+<section class="py-20 bg-background -mt-8">
+  <div class="container-custom">
+    <div class="pricing-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div
+        *ngFor="let plan of plans"
+        class="relative bg-surface rounded-2xl border transition-all duration-300"
+        [ngClass]="plan.highlighted
+          ? 'border-primary-500 shadow-hard scale-105 z-10'
+          : 'border-border hover:border-primary-200 dark:hover:border-primary-800 hover:shadow-lg'"
+      >
+        <!-- Badge -->
+        <div
+          *ngIf="plan.badge"
+          class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-primary text-white text-sm font-semibold rounded-full whitespace-nowrap"
+        >
+          {{ plan.badge | translate }}
+        </div>
+
+        <div class="p-8">
+          <!-- Plan Header -->
+          <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold mb-2">{{ plan.name | translate }}</h2>
+            <p class="text-neutral-600 dark:text-neutral-400">{{ plan.description | translate }}</p>
+          </div>
+
+          <!-- Price -->
+          <div class="text-center mb-8">
+            <div *ngIf="getPrice(plan) > 0; else customPricing">
+              <div class="flex items-baseline justify-center gap-1">
+                <span class="text-4xl md:text-5xl font-bold">
+                  {{ getPrice(plan) | number }}
+                </span>
+                <span class="text-neutral-500 dark:text-neutral-400">{{ 'pricing.currency' | translate }}</span>
+              </div>
+              <div class="text-neutral-500 dark:text-neutral-400 mt-1">
+                {{ isYearly() ? ('pricing.perYear' | translate) : ('pricing.perMonth' | translate) }}
+              </div>
+              <div *ngIf="isYearly() && getSavings(plan) > 0" class="text-green-600 dark:text-green-400 text-sm mt-2">
+                {{ 'pricing.saveAmount' | translate:{ amount: (plan.price.monthly * 12 - plan.price.yearly) | number } }}
+              </div>
+            </div>
+            <ng-template #customPricing>
+              <div class="text-3xl font-bold">{{ 'pricing.custom' | translate }}</div>
+              <div class="text-neutral-500 dark:text-neutral-400 mt-1">{{ 'pricing.contactUs' | translate }}</div>
+            </ng-template>
+          </div>
+
+          <!-- Features -->
+          <ul class="space-y-4 mb-8">
+            <li *ngFor="let feature of plan.features" class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-neutral-700 dark:text-neutral-300">{{ feature | translate }}</span>
+            </li>
+          </ul>
+
+          <!-- CTA -->
+          <a
+            routerLink="/contact"
+            class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition-all"
+            [ngClass]="plan.highlighted
+              ? 'bg-gradient-primary text-white hover:shadow-lg'
+              : 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 hover:bg-primary-100 dark:hover:bg-primary-900/50'"
+          >
+            {{ getPrice(plan) > 0 ? ('pricing.getStarted' | translate) : ('pricing.contactSales' | translate) }}
+            <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="py-12 bg-surface">
+  <div class="container-custom">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h3 class="font-semibold mb-1">{{ 'pricing.trust.noHidden' | translate }}</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.noHiddenDesc' | translate }}</p>
+      </div>
+      <div>
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="font-semibold mb-1">{{ 'pricing.trust.cancel' | translate }}</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.cancelDesc' | translate }}</p>
+      </div>
+      <div>
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+          <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+        <h3 class="font-semibold mb-1">{{ 'pricing.trust.support' | translate }}</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.supportDesc' | translate }}</p>
+      </div>
+      <div>
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+          <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="font-semibold mb-1">{{ 'pricing.trust.roi' | translate }}</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.roiDesc' | translate }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI Calculator CTA -->
+<section class="py-16 bg-background">
+  <div class="container-custom">
+    <div class="max-w-4xl mx-auto bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+
+      <div class="relative z-10 text-center">
+        <div class="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold mb-6">
+          📊 {{ 'pricing.roiCta.badge' | translate }}
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'pricing.roiCta.title' | translate }}
+        </h2>
+        <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+          {{ 'pricing.roiCta.description' | translate }}
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            routerLink="/roi-calculator"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold hover:bg-neutral-100 hover:shadow-xl transition-all hover:scale-105"
+          >
+            {{ 'pricing.roiCta.button' | translate }}
+            <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </a>
+          <div class="flex items-center gap-2 text-white/90">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm">{{ 'pricing.roiCta.features.free' | translate }}</span>
+          </div>
+          <div class="flex items-center gap-2 text-white/90">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm">{{ 'pricing.roiCta.features.instant' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-background">
+  <div class="container-custom max-w-3xl">
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 text-sm font-medium mb-4">
+        {{ 'pricing.faq.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        {{ 'pricing.faq.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400">
+        {{ 'pricing.faq.description' | translate }}
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <div
+        *ngFor="let faq of faqs; let i = index"
+        class="bg-surface rounded-xl border border-border overflow-hidden"
+      >
+        <button
+          (click)="toggleFAQ(i)"
+          class="w-full px-6 py-4 flex items-center justify-between text-left font-semibold hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors"
+        >
+          <span>{{ faq.question | translate }}</span>
+          <svg
+            class="w-5 h-5 text-neutral-500 transition-transform"
+            [ngClass]="expandedFAQ() === i ? 'rotate-180' : ''"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div
+          class="overflow-hidden transition-all duration-300"
+          [ngClass]="expandedFAQ() === i ? 'max-h-96' : 'max-h-0'"
+        >
+          <div class="px-6 pb-4 text-neutral-600 dark:text-neutral-400">
+            {{ faq.answer | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-surface">
+  <div class="container-custom">
+    <div class="bg-gradient-to-r from-primary-600 to-secondary-500 rounded-3xl p-8 md:p-12 text-center text-white">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        {{ 'pricing.cta.title' | translate }}
+      </h2>
+      <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+        {{ 'pricing.cta.description' | translate }}
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          routerLink="/contact"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold hover:bg-neutral-100 transition-colors"
+        >
+          {{ 'pricing.cta.button' | translate }}
+          <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href="tel:+20123456789"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-xl font-semibold hover:bg-white/20 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          {{ 'pricing.cta.call' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

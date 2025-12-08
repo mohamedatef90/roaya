@@ -1,0 +1,302 @@
+<div class="service-detail-page">
+  <!-- Hero Section with Gradient Background -->
+  <section class="hero-section relative overflow-hidden bg-gradient-to-br from-[var(--color-primary-600)] via-[var(--color-primary-500)] to-[var(--color-secondary-500)] text-white">
+    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+    <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm opacity-90">
+          <ol class="flex items-center justify-center gap-2">
+            <li><a routerLink="/" class="hover:underline">{{ 'common.home' | translate }}</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a routerLink="/services" class="hover:underline">{{ 'common.services' | translate }}</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" class="font-semibold">{{ 'services.' + serviceId() + '.title' | translate }}</li>
+          </ol>
+        </nav>
+
+        <!-- Service Badge (if applicable) -->
+        @if (service()?.badge) {
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+            <span class="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></span>
+            {{ service()!.badge }}
+          </div>
+        }
+
+        <!-- Service Icon -->
+        <div class="w-24 h-24 md:w-28 md:h-28 mx-auto mb-6 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+          <img *ngIf="service()?.iconSvg" [src]="service()?.iconSvg" [alt]="'services.' + serviceId() + '.title' | translate" class="w-16 h-16 md:w-20 md:h-20 object-contain brightness-0 invert" loading="lazy" />
+          <span *ngIf="!service()?.iconSvg" class="text-6xl md:text-7xl" [innerHTML]="service()?.icon"></span>
+        </div>
+
+        <!-- Service Title -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          {{ 'services.' + serviceId() + '.title' | translate }}
+        </h1>
+
+        <!-- Service Full Description -->
+        <p class="text-lg md:text-xl opacity-90 mb-8 leading-relaxed">
+          {{ 'services.' + serviceId() + '.fullDescription' | translate }}
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            (click)="scrollToContact()"
+            class="px-8 py-4 bg-white text-[var(--color-primary-600)] font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg">
+            {{ 'common.getStarted' | translate }}
+          </button>
+          <button
+            (click)="goToPricing()"
+            class="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors">
+            {{ 'common.pricing' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wave separator -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg class="w-full h-auto" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--color-background)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Key Features Section -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.keyFeatures' | translate }}
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          {{ 'services.' + serviceId() + '.description' | translate }}
+        </p>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        @for (featureKey of ['infrastructure', 'migration', 'optimization', 'monitoring']; track featureKey; let i = $index) {
+          <div
+            class="group p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-2 animate-fade-in-up"
+            [style.animation-delay]="i * 100 + 'ms'">
+            <!-- Feature Icon -->
+            <div class="w-14 h-14 mb-4 bg-gradient-to-br from-[var(--color-primary-500)] to-[var(--color-secondary-500)] rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+              <ng-icon name="faCircleCheck"></ng-icon>
+            </div>
+
+            <!-- Feature Title -->
+            <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">
+              {{ 'services.' + serviceId() + '.features.' + featureKey | translate }}
+            </h3>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12 animate-fade-in-up">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            {{ 'services.detail.whyChoose.title' | translate }}
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            {{ 'services.detail.whyChoose.description' | translate }}
+          </p>
+        </div>
+
+        <!-- Benefits Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          @for (benefit of benefits; track benefit.key; let i = $index) {
+            <div
+              class="group flex items-start gap-4 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-[var(--color-primary-300)] dark:hover:border-[var(--color-primary-600)] animate-fade-in-up"
+              [style.animation-delay]="i * 100 + 'ms'">
+              <div class="flex-shrink-0 w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform">
+                <ng-icon [name]="benefit.icon" size="24"></ng-icon>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-2 text-gray-900 dark:text-gray-100 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">
+                  {{ 'services.detail.benefits.' + benefit.key + '.title' | translate }}
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {{ 'services.detail.benefits.' + benefit.key + '.description' | translate }}
+                </p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries Served Section -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12 animate-fade-in-up">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            {{ 'services.detail.industries.title' | translate }}
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            {{ 'services.detail.industries.description' | translate }}
+          </p>
+        </div>
+
+        <!-- Industry Badges -->
+        <div class="flex flex-wrap justify-center gap-4">
+          @for (industry of industries; track industry; let i = $index) {
+            <div
+              class="group px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full font-medium hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:bg-gradient-to-r hover:from-[var(--color-primary-50)] hover:to-[var(--color-secondary-50)] dark:hover:from-[var(--color-primary-900)] dark:hover:to-[var(--color-secondary-900)] transition-all duration-300 cursor-default animate-fade-in-up hover:shadow-md"
+              [style.animation-delay]="i * 50 + 'ms'">
+              <ng-icon name="faBuilding" class="inline-block mr-2 rtl:ml-2 rtl:mr-0 group-hover:scale-110 transition-transform" size="16"></ng-icon>
+              {{ 'services.detail.industries.' + industry.toLowerCase().replace(' ', '_') | translate }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Teaser Section -->
+  <section class="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Transparent Pricing
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            No hidden fees. No surprises. Choose the plan that fits your needs.
+          </p>
+        </div>
+
+        <!-- Pricing Tiers Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          @for (tier of pricingTiers(); track tier.name; let i = $index) {
+            <div
+              class="group bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-1 animate-fade-in-up"
+              [style.animation-delay]="i * 100 + 'ms'">
+              <h3 class="text-xl font-bold mb-4 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">{{ tier.name }}</h3>
+              <div class="mb-6">
+                @if (tier.price === 'Custom') {
+                  <div class="text-3xl font-bold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]">
+                    {{ 'pricing.custom' | translate }}
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                    {{ 'pricing.contactUs' | translate }}
+                  </p>
+                } @else {
+                  <div class="text-3xl font-bold bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-secondary-600)] bg-clip-text text-transparent">
+                    {{ tier.price }} <span class="text-lg font-normal text-gray-600 dark:text-gray-400">EGP</span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                    {{ 'pricing.perMonth' | translate }}
+                  </p>
+                }
+              </div>
+              <button
+                [routerLink]="['/pricing']"
+                class="w-full px-6 py-3 bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-700)] text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300">
+                {{ 'common.learnMore' | translate }}
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- View Full Pricing Link -->
+        <div class="text-center mt-8 animate-fade-in-up" style="animation-delay: 300ms">
+          <a
+            [routerLink]="['/pricing']"
+            class="group inline-flex items-center gap-2 text-[var(--color-primary-600)] hover:text-[var(--color-primary-700)] dark:text-[var(--color-primary-400)] dark:hover:text-[var(--color-primary-300)] font-semibold transition-all">
+            {{ 'services.detail.pricing.viewFullPricing' | translate }}
+            <svg class="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Services Section -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12 animate-fade-in-up">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.detail.relatedServices.title' | translate }}
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          {{ 'services.detail.relatedServices.description' | translate }}
+        </p>
+      </div>
+
+      <!-- Related Services Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        @for (relatedService of relatedServices(); track relatedService.id; let i = $index) {
+          <a
+            [routerLink]="[relatedService.route]"
+            class="group block p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-2 animate-fade-in-up"
+            [style.animation-delay]="i * 100 + 'ms'">
+            <!-- Service Icon -->
+            <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-[var(--color-primary-500)] to-[var(--color-secondary-500)] flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden shadow-lg">
+              <img *ngIf="relatedService.iconSvg" [src]="relatedService.iconSvg" [alt]="relatedService.title | translate" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
+              <span *ngIf="!relatedService.iconSvg" class="text-2xl text-white" [innerHTML]="relatedService.icon"></span>
+            </div>
+
+            <!-- Service Title -->
+            <h3 class="text-xl font-bold mb-3 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">
+              {{ relatedService.title | translate }}
+            </h3>
+
+            <!-- Service Description -->
+            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+              {{ relatedService.description | translate }}
+            </p>
+
+            <!-- Learn More Link -->
+            <div class="flex items-center gap-2 text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)] font-semibold text-sm group-hover:gap-3 transition-all">
+              {{ 'common.learnMore' | translate }}
+              <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="py-16 md:py-24 bg-gradient-to-br from-[var(--color-primary-600)] via-[var(--color-primary-500)] to-[var(--color-secondary-500)] text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto text-center animate-fade-in-up">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          {{ 'services.detail.cta.title' | translate }}
+        </h2>
+        <p class="text-lg md:text-xl opacity-90 mb-8 leading-relaxed">
+          {{ 'services.detail.cta.description' | translate: {service: ('services.' + serviceId() + '.title' | translate)} }}
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            [routerLink]="['/contact']"
+            class="group px-8 py-4 bg-white text-[var(--color-primary-600)] font-semibold rounded-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2">
+            <ng-icon name="faEnvelope" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
+            {{ 'common.contact' | translate }}
+          </button>
+          <button
+            [routerLink]="['/pricing']"
+            class="group px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 inline-flex items-center justify-center gap-2">
+            <ng-icon name="faCreditCard" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
+            {{ 'common.pricing' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

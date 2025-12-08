@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.prose {
+  color: var(--foreground);
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--foreground);
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    margin-bottom: 1.25em;
+    line-height: 1.75;
+  }
+
+  a {
+    color: var(--color-primary-500);
+    text-decoration: underline;
+    
+    &:hover {
+      color: var(--color-primary-600);
+    }
+  }
+
+  ul, ol {
+    margin-bottom: 1.25em;
+    padding-left: 1.625em;
+  }
+
+  li {
+    margin-bottom: 0.5em;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    margin: 1.5em 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background: var(--muted);
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,322 @@
+/**
+ * Backup & Recovery Component Styles
+ * Dedicated styles for Backup service page
+ */
+
+.backup-page {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+// Hero Section
+.hero-section {
+  position: relative;
+  min-height: 60vh;
+
+  // Grid pattern background
+  .bg-grid-pattern {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  // Breadcrumb styling
+  nav[aria-label="Breadcrumb"] {
+    a {
+      transition: all 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // Badge animation
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+// Statistics Cards
+.statistics-card {
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+// Service Categories
+.service-category-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+
+    .category-icon {
+      transform: scale(1.1) rotate(3deg);
+    }
+  }
+}
+
+// Benefits Grid
+.benefit-card {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-500),
+      var(--color-secondary-500)
+    );
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+// Industry Badges
+.industry-badge {
+  cursor: default;
+  user-select: none;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Differentiators
+.differentiator-card {
+  position: relative;
+  overflow: hidden;
+
+  // Subtle gradient overlay on hover
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(var(--color-primary-rgb), 0.05),
+      rgba(var(--color-secondary-rgb), 0.05)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+// Pricing Cards
+.pricing-tier-card {
+  position: relative;
+
+  // Popular badge glow effect
+  &.is-popular {
+    box-shadow:
+      0 0 0 1px var(--color-primary-500),
+      0 10px 30px rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  // Feature list styling
+  ul {
+    li {
+      position: relative;
+      padding-left: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+// Related Services
+.related-service-card {
+  display: block;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    text-decoration: none;
+
+    .service-icon-wrapper {
+      transform: scale(1.1) rotate(3deg);
+    }
+  }
+}
+
+// Animations
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 50vh;
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  // Stack pricing cards vertically
+  .pricing-tier-card {
+    margin-bottom: 1rem;
+  }
+
+  // Reduce spacing on mobile
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  // Tablet adjustments
+  .hero-section {
+    h1 {
+      font-size: 3rem;
+    }
+  }
+}
+
+// RTL Support
+[dir="rtl"] {
+  .hero-section {
+    nav[aria-label="Breadcrumb"] {
+      direction: rtl;
+    }
+  }
+
+  // Flip icons and arrows
+  .rtl\:rotate-180 {
+    transform: rotate(180deg);
+  }
+
+  // Adjust spacing for RTL
+  .benefit-card::before {
+    transform-origin: right;
+  }
+}
+
+// Dark mode specific adjustments
+[data-theme="dark"] {
+  .bg-grid-pattern {
+    opacity: 0.05 !important;
+  }
+
+  .statistics-card {
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.5), rgba(17, 24, 39, 0.5));
+  }
+
+  .pricing-tier-card.is-popular {
+    box-shadow:
+      0 0 0 2px var(--color-primary-500),
+      0 10px 40px rgba(var(--color-primary-rgb), 0.3);
+  }
+}
+
+// Accessibility - Focus states (scoped to .backup-page)
+.backup-page {
+  a, button {
+    &:focus-visible {
+      outline: 2px solid var(--color-primary-500);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// Print styles (scoped to .backup-page)
+@media print {
+  .backup-page {
+    .hero-section {
+      background: white !important;
+      color: black !important;
+
+      .bg-grid-pattern,
+      svg {
+        display: none !important;
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+
+    a[routerLink] {
+      &::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        color: #666;
+      }
+    }
+  }
+}
+
+// High contrast mode support (scoped to .backup-page)
+@media (prefers-contrast: high) {
+  .backup-page {
+    .pricing-tier-card,
+    .benefit-card,
+    .related-service-card {
+      border-width: 2px !important;
+    }
+  }
+}
+
+// Reduced motion support (scoped to .backup-page)
+@media (prefers-reduced-motion: reduce) {
+  .backup-page {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .animate-fade-in-up {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+}

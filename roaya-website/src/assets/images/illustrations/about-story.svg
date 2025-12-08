@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="storyBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3D5A80;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#5DB7C2;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="storyAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3D5A80"/>
+      <stop offset="100%" style="stop-color:#5DB7C2"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#storyBg)" rx="16"/>
+  <!-- Office building silhouette -->
+  <rect x="150" y="120" width="120" height="180" rx="4" stroke="url(#storyAccent)" stroke-width="2" fill="white" fill-opacity="0.5"/>
+  <rect x="330" y="80" width="120" height="220" rx="4" stroke="url(#storyAccent)" stroke-width="2" fill="white" fill-opacity="0.5"/>
+  <!-- Windows -->
+  <rect x="165" y="140" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="210" y="140" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="165" y="180" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="210" y="180" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="165" y="220" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="210" y="220" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="345" y="100" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="390" y="100" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="345" y="140" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="390" y="140" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="345" y="180" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="390" y="180" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="345" y="220" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <rect x="390" y="220" width="30" height="25" rx="2" fill="url(#storyAccent)" opacity="0.3"/>
+  <!-- Ground line -->
+  <line x1="100" y1="300" x2="500" y2="300" stroke="url(#storyAccent)" stroke-width="2"/>
+  <!-- Cloud connection -->
+  <ellipse cx="490" cy="100" rx="50" ry="30" stroke="url(#storyAccent)" stroke-width="2" fill="white" fill-opacity="0.5"/>
+  <path d="M450 300 L490 130" stroke="url(#storyAccent)" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="300" y="360" font-family="Inter, sans-serif" font-size="16" fill="#3D5A80" text-anchor="middle" opacity="0.5">Company Story Image</text>
+</svg>

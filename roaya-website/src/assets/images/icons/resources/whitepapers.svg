@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="whitepapersGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3D5A80"/>
+      <stop offset="100%" style="stop-color:#5DB7C2"/>
+    </linearGradient>
+  </defs>
+  <path d="M20 8H44l8 8v40c0 2.2-1.8 4-4 4H16c-2.2 0-4-1.8-4-4V12c0-2.2 1.8-4 4-4z" stroke="url(#whitepapersGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 8v8h8" stroke="url(#whitepapersGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 28h20M22 36h20M22 44h12" stroke="url(#whitepapersGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="28" cy="18" r="2" fill="url(#whitepapersGrad)"/>
+</svg>
+

@@ -1,0 +1,173 @@
+{
+  "agents": {
+    "product-orchestrator": {
+      "description": "Super-coordinator for strategic coordination across multiple domains",
+      "use_cases": [
+        "Starting a new feature or product",
+        "Making architectural decisions spanning multiple domains",
+        "Planning MVPs with trade-offs",
+        "Security-sensitive features",
+        "Complex stakeholder requests"
+      ],
+      "coordinates": ["business-analyst", "ux-engineer", "tech-lead", "security-reviewer", "qa-test-engineer"]
+    },
+    "super-business-analyst": {
+      "description": "Expert-level business analysis and requirements engineering",
+      "use_cases": [
+        "Problem discovery (5 Whys framework)",
+        "INVEST-compliant user stories",
+        "Stakeholder analysis and alignment",
+        "Business value quantification",
+        "Requirements traceability matrices",
+        "Veto authority on poorly-defined requirements"
+      ]
+    },
+    "super-tech-lead": {
+      "description": "Expert technical architecture and engineering leadership",
+      "use_cases": [
+        "System architecture design",
+        "Technology selection and evaluation",
+        "Scalability planning",
+        "Technical debt management",
+        "Coding standards and PR guidelines",
+        "Veto power over over-engineering"
+      ]
+    },
+    "super-pm": {
+      "description": "Strategic product planning and scope management",
+      "use_cases": [
+        "MVP definition and milestone planning",
+        "Roadmap creation",
+        "Risk assessment",
+        "Scope creep management (veto power)",
+        "Prioritization (RICE, MoSCoW, Kano)",
+        "Sprint planning",
+        "Stakeholder communication"
+      ]
+    },
+    "super-frontend-engineer": {
+      "description": "Expert frontend implementation and performance optimization",
+      "use_cases": [
+        "Responsive design systems",
+        "Performance optimization (Lighthouse)",
+        "Component architecture",
+        "Accessibility compliance (WCAG 2.1 AA)",
+        "Pixel-perfect implementations"
+      ]
+    },
+    "ai-strategy-specialist": {
+      "description": "AI/ML integration decisions and architecture",
+      "use_cases": [
+        "AI suitability evaluation",
+        "Model selection (GPT-4, Claude, etc.)",
+        "Prompt engineering",
+        "RAG system design",
+        "AI safety measures",
+        "Evaluation frameworks"
+      ]
+    },
+    "qa-test-engineer": {
+      "description": "Comprehensive test strategy and quality assurance",
+      "use_cases": [
+        "Test strategy design",
+        "Test case development",
+        "Regression testing plans",
+        "Bug report templates",
+        "E2E test automation (Playwright)",
+        "Risk-based test prioritization"
+      ]
+    },
+    "ux-engineer": {
+      "description": "User flows, information architecture, and interaction design",
+      "use_cases": [
+        "User flow design",
+        "Screen structures and wireframes",
+        "Interaction states (empty, error, loading)",
+        "Accessibility considerations",
+        "RTL layout support"
+      ],
+      "workflow_position": "After business requirements, before frontend implementation"
+    },
+    "content-terminology-specialist": {
+      "description": "Naming conventions, UX copy, and bilingual content",
+      "use_cases": [
+        "Domain glossaries",
+        "UX copy (buttons, errors, tooltips)",
+        "Bilingual content (EN/AR)",
+        "Voice and tone guidelines",
+        "Terminology consistency"
+      ],
+      "workflow_position": "After domain concepts defined, before frontend implementation"
+    },
+    "code-reviewer": {
+      "description": "Code review for correctness and best practices",
+      "use_cases": [
+        "Post-implementation code review",
+        "Correctness verification",
+        "Code quality assessment",
+        "Security issue detection",
+        "Best practices enforcement"
+      ],
+      "workflow_position": "After code written, before merging"
+    },
+    "design-reviewer": {
+      "description": "UI/UX implementation review for visual quality and accessibility",
+      "use_cases": [
+        "Visual quality review",
+        "Design system compliance",
+        "WCAG accessibility verification",
+        "Responsive behavior checking",
+        "Pre-launch design review"
+      ],
+      "workflow_position": "After UI implementation, before features go live"
+    },
+    "visual-inspiration-analyzer": {
+      "description": "Extract design patterns from reference URLs and images",
+      "use_cases": [
+        "Design system extraction",
+        "Color palette analysis",
+        "Typography scale extraction",
+        "Component pattern identification",
+        "Tailwind/Flutter config generation"
+      ]
+    },
+    "ui-design-expert": {
+      "description": "Expert UI/UX design guidance with active web browsing for design inspiration",
+      "use_cases": [
+        "Visual design specifications and concepts",
+        "Color palette creation with accessibility compliance",
+        "Typography recommendations and font pairing",
+        "Component design with implementation-ready specs",
+        "Design system architecture and guidelines",
+        "Active browsing of Awwwards, Dribbble, Mobbin for current trends",
+        "Design critique and improvement recommendations",
+        "Design handoff specifications for frontend developers"
+      ],
+      "expertise": [
+        "Color theory and WCAG accessibility",
+        "Typography hierarchy and web fonts",
+        "Layout composition and grid systems",
+        "Multiple design styles (3D, minimalist, corporate, brutalist, etc.)",
+        "Tailwind CSS, Shadcn/UI, Material UI, Chakra UI",
+        "Animation libraries (Framer Motion, GSAP, Lottie)"
+      ],
+      "tools": ["WebFetch for browsing design websites", "Visual analysis", "Design specification generation"],
+      "workflow_position": "After UX Engineer (flows), before Frontend implementation",
+      "authority": "Design decisions, visual consistency, design system standards"
+    }
+  },
+  "workflow_sequence": [
+    "product-orchestrator (coordination)",
+    "super-business-analyst (requirements)",
+    "super-pm (planning & prioritization)",
+    "super-tech-lead (architecture)",
+    "ai-strategy-specialist (if AI involved)",
+    "ux-engineer (user flows & wireframes)",
+    "ui-design-expert (visual design & specs)",
+    "content-terminology-specialist (copy)",
+    "super-frontend-engineer (implementation)",
+    "code-reviewer (review)",
+    "qa-test-engineer (testing)",
+    "design-reviewer (final review)"
+  ]
+}

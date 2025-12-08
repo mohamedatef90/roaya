@@ -1,0 +1,33 @@
+/**
+ * Theme Toggle Component Styles
+ * Beautiful animated toggle switch for light/dark mode
+ */
+
+:host {
+  display: inline-block;
+}
+
+// Additional hover effects
+label {
+  &:hover {
+    .relative {
+      transform: scale(1.02);
+    }
+  }
+
+  // Focus ring for accessibility
+  input:focus-visible + div {
+    outline: 2px solid theme('colors.primary.500');
+    outline-offset: 2px;
+  }
+}
+
+// Smooth animations for all transitions
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Ensure icons don't interfere with click events
+svg {
+  pointer-events: none;
+}

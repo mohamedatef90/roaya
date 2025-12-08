@@ -1,0 +1,999 @@
+<!-- News/Announcement Marquee Bar - Fixed at Top -->
+<div class="news-marquee-bar fixed top-0 left-0 right-0 z-50 bg-neutral-900 dark:bg-neutral-950 border-b border-neutral-800">
+  <div class="news-marquee-wrapper overflow-hidden">
+    <div class="news-marquee-track flex animate-marquee">
+      <!-- Repeated content for seamless loop -->
+      <div class="news-marquee-content flex items-center shrink-0">
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">✨</span>
+          <span class="news-text">{{ 'home.newsBar.text' | translate }}</span>
+        </span>
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">🚀</span>
+          <span class="news-text">{{ 'home.newsBar.promo1' | translate }}</span>
+        </span>
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">🔒</span>
+          <span class="news-text">{{ 'home.newsBar.promo2' | translate }}</span>
+        </span>
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">🛡️</span>
+          <span class="news-text">{{ 'home.newsBar.promo3' | translate }}</span>
+        </span>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="news-marquee-content flex items-center shrink-0" aria-hidden="true">
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">✨</span>
+          <span class="news-text">{{ 'home.newsBar.text' | translate }}</span>
+        </span>
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">🚀</span>
+          <span class="news-text">{{ 'home.newsBar.promo1' | translate }}</span>
+        </span>
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">🔒</span>
+          <span class="news-text">{{ 'home.newsBar.promo2' | translate }}</span>
+        </span>
+        <span class="news-item flex items-center gap-2 px-8 py-2">
+          <span class="news-icon text-lg">🛡️</span>
+          <span class="news-text">{{ 'home.newsBar.promo3' | translate }}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page Intro Overlay - Pure CSS Animation -->
+<div class="intro-overlay">
+  <!-- Animated Background Gradient -->
+  <div class="intro-bg"></div>
+
+  <!-- Intro Content -->
+  <div class="intro-content">
+    <!-- Logo Animation -->
+    <div class="intro-logo">
+      <img
+        src="/assets/images/roaya-logo.png"
+        alt="Roaya IT"
+        class="w-20 h-20 md:w-24 md:h-24 object-contain"
+      />
+    </div>
+
+    <!-- Tagline with word reveal -->
+    <h2 class="intro-tagline">
+      <span class="intro-word">Empowering</span>
+      <span class="intro-word">Digital</span>
+      <span class="intro-word">Excellence</span>
+    </h2>
+  </div>
+
+  <!-- Reveal Curtains -->
+  <div class="intro-curtain intro-curtain-left"></div>
+  <div class="intro-curtain intro-curtain-right"></div>
+</div>
+
+<!-- Hero Section - Full-screen Cinematic Style -->
+<section #heroSection class="hero-section-cinematic relative min-h-screen flex flex-col justify-center items-center overflow-hidden">
+  <!-- Animated Background -->
+  <div class="hero-bg-container absolute inset-0">
+    <!-- Gradient Background -->
+    <div class="hero-gradient-bg absolute inset-0 bg-gradient-to-br from-primary-950 via-primary-900 to-accent-950"></div>
+
+    <!-- Animated Gradient Orbs -->
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <!-- Subtle Noise/Grain Overlay -->
+    <div class="hero-noise absolute inset-0 opacity-[0.03] pointer-events-none"></div>
+
+    <!-- Grid Pattern -->
+    <div class="hero-grid absolute inset-0 opacity-[0.02]"></div>
+  </div>
+
+  <!-- Main Hero Content - Centered -->
+  <div class="hero-content-wrapper relative z-10 container-custom text-center px-6 py-20 lg:py-32">
+    <!-- Pre-headline Badge -->
+    <div class="hero-badge-cinematic animate-in">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-500"></span>
+      </span>
+      <span>{{ 'home.hero.badge' | translate }}</span>
+    </div>
+
+    <!-- Main Headline with Word-by-Word Animation -->
+    <h1 class="hero-headline-cinematic">
+      <span class="hero-word animate-in" style="animation-delay: 0.3s">{{ 'home.hero.title' | translate }}</span>
+    </h1>
+
+    <!-- Gradient Accent Line -->
+    <div class="hero-accent-line animate-in">
+      <span class="hero-accent-word" style="animation-delay: 0.8s">{{ 'home.hero.subtitle' | translate }}</span>
+    </div>
+
+    <!-- Description -->
+    <p class="hero-description-cinematic animate-in">
+      {{ 'home.hero.description' | translate }}
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="hero-cta-cinematic animate-in">
+      <a
+        routerLink="/roi-calculator"
+        class="hero-btn-primary group"
+      >
+        <span>{{ 'home.hero.cta' | translate }}</span>
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+      <a
+        routerLink="/pricing"
+        class="hero-btn-secondary"
+      >
+        {{ 'home.hero.secondaryCta' | translate }}
+      </a>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="hero-trust-badges animate-in">
+      <div class="trust-badge">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <span>{{ 'home.hero.trust.noHiddenFees' | translate }}</span>
+      </div>
+      <div class="trust-badge">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <span>{{ 'home.hero.trust.support' | translate }}</span>
+      </div>
+      <div class="trust-badge">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <span>{{ 'home.hero.trust.guarantee' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Down Indicator -->
+  <div
+    class="hero-scroll-indicator"
+    [class.animate-in]="heroAnimationsStarted()"
+  >
+    <span class="scroll-text">{{ 'home.hero.scrollDown' | translate }}</span>
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Stats Section with Glassmorphism -->
+<section #statsSection class="stats-section relative py-16 bg-gradient-to-b from-background via-surface to-background overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 rtl:-left-40 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 rtl:-right-40 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div *ngFor="let stat of stats()" class="stat-card group">
+        <!-- Glow Effect on Hover -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+        <!-- Glass Card -->
+        <div class="relative text-center p-6 bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl rounded-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+          <div class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent tabular-nums">
+            {{ stat.current }}{{ stat.suffix }}
+          </div>
+          <div class="text-neutral-600 dark:text-neutral-400 mt-2 font-medium">
+            {{ stat.label | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="process-section py-20 bg-background relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 right-1/4 rtl:left-1/4 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/4 rtl:right-1/4 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.process.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'home.process.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.process.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Process Steps - Desktop Horizontal / Mobile Vertical -->
+    <div class="relative">
+      <!-- Desktop Layout -->
+      <div class="hidden lg:grid lg:grid-cols-4 gap-6 lg:items-stretch">
+        <div *ngFor="let step of processSteps; let i = index; let last = last" class="relative flex">
+          <!-- Process Step Card -->
+          <div class="process-step group relative flex-1 flex flex-col">
+            <!-- Glow Effect -->
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+            <!-- Card Content -->
+            <div class="relative p-6 rounded-2xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg flex-1 flex flex-col">
+              <!-- Step Number and Icon Row -->
+              <div class="flex items-center justify-between gap-6 mb-4">
+                <!-- Step Number -->
+                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0">
+                  {{ step.stepNumber }}
+                </div>
+
+                <!-- Icon -->
+                <div class="w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-800/50 flex items-center justify-center text-primary-600 dark:text-secondary-400">
+                  <ng-icon [name]="step.icon" size="24"></ng-icon>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+                {{ step.title | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-400 mb-3 text-sm leading-relaxed flex-grow">
+                {{ step.description | translate }}
+              </p>
+
+              <!-- Duration Badge -->
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium mt-auto">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ step.duration | translate }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Connector Arrow (not on last item) -->
+          <div *ngIf="!last" class="process-connector hidden lg:block absolute top-1/2 -right-3 rtl:-left-3 rtl:right-auto transform -translate-y-1/2 rtl:rotate-180 z-10">
+            <svg class="w-6 h-6 text-primary-400 dark:text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile/Tablet Layout - Vertical Timeline -->
+      <div class="lg:hidden relative">
+        <!-- Vertical Line -->
+        <div class="absolute left-6 rtl:right-6 rtl:left-auto top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 to-secondary-500"></div>
+
+        <div class="space-y-8">
+          <div *ngFor="let step of processSteps" class="process-step relative pl-16 rtl:pr-16 rtl:pl-0">
+            <!-- Step Number Circle -->
+            <div class="absolute left-0 rtl:right-0 rtl:left-auto w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold shadow-lg z-10">
+              {{ step.stepNumber }}
+            </div>
+
+            <!-- Card -->
+            <div class="p-5 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-800/50 flex items-center justify-center text-primary-600 dark:text-secondary-400">
+                  <ng-icon [name]="step.icon" size="20"></ng-icon>
+                </div>
+                <h3 class="text-lg font-semibold">{{ step.title | translate }}</h3>
+              </div>
+              <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-3">{{ step.description | translate }}</p>
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ step.duration | translate }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-12">
+      <a
+        routerLink="/contact"
+        class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+      >
+        {{ 'home.process.cta' | translate }}
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Why Roaya Section with Glassmorphism -->
+<section id="why-roaya" class="py-20 bg-background relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.whyRoaya.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+        {{ 'home.whyRoaya.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.whyRoaya.description' | translate }}
+      </p>
+    </div>
+
+    <!-- Features Grid with Glassmorphism -->
+    <div class="features-grid grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+      <div
+        *ngFor="let feature of features; let i = index"
+        class="feature-card group relative flex"
+      >
+        <!-- Glow Effect on Hover -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+        <!-- Glass Card -->
+        <div class="relative p-6 rounded-2xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1 flex-1 flex flex-col">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform shadow-lg">
+            <ng-icon [name]="feature.icon" size="28"></ng-icon>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            {{ feature.title | translate }}
+          </h3>
+          <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
+            {{ feature.description | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Industries Preview Section -->
+<section class="industries-section py-20 bg-surface relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-20 right-0 rtl:left-0 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-20 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.industries.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'home.industries.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.industries.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Industries Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a
+        *ngFor="let industry of industries"
+        [routerLink]="industry.route"
+        class="industry-card group relative"
+      >
+        <!-- Glow Effect -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+        <!-- Card Content -->
+        <div class="relative p-6 rounded-2xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1 h-full">
+          <!-- Icon -->
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500/10 to-secondary-500/10 flex items-center justify-center text-primary-600 dark:text-secondary-400 mb-4 group-hover:scale-110 transition-transform">
+            <ng-icon [name]="industry.icon" size="28"></ng-icon>
+          </div>
+
+          <!-- Content -->
+          <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            {{ industry.name | translate }}
+          </h3>
+          <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">
+            {{ industry.description | translate }}
+          </p>
+
+          <!-- Footer -->
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-secondary-600 dark:text-secondary-400 bg-secondary-100 dark:bg-secondary-900/30 px-3 py-1 rounded-full">
+              {{ industry.clientCount | translate }}
+            </span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
+              {{ 'common.learnMore' | translate }}
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-12">
+      <a
+        routerLink="/industries"
+        class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline"
+      >
+        {{ 'home.industries.viewAll' | translate }}
+        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Expertise Section - What We Do Best -->
+<section class="expertise-section py-20 bg-surface relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 right-0 rtl:left-0 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 left-0 rtl:right-0 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.expertise.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'home.expertise.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.expertise.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Expertise Grid -->
+    <div class="grid md:grid-cols-2 gap-6">
+      <div
+        *ngFor="let card of expertiseCards; let i = index"
+        class="expertise-card group relative"
+      >
+        <!-- Glow Effect -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+        <!-- Card Content -->
+        <div class="relative p-6 lg:p-8 rounded-2xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1 h-full">
+          <!-- Icon -->
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform shadow-lg">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="card.icon"></path>
+            </svg>
+          </div>
+
+          <!-- Subtitle -->
+          <span *ngIf="card.subtitle" class="inline-block text-sm font-semibold text-secondary-600 dark:text-secondary-400 uppercase tracking-wide mb-2">
+            {{ card.subtitle | translate }}
+          </span>
+
+          <!-- Title -->
+          <h3 class="text-xl lg:text-2xl font-semibold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            {{ card.title | translate }}
+          </h3>
+
+          <!-- Description -->
+          <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+            {{ card.description | translate }}
+          </p>
+
+          <!-- Features -->
+          <ul *ngIf="card.features && card.features.length > 0" class="space-y-2 mb-5">
+            <li *ngFor="let feature of card.features" class="flex items-start gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+              <svg class="w-4 h-4 text-secondary-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>{{ feature | translate }}</span>
+            </li>
+          </ul>
+
+          <!-- Link -->
+          <a *ngIf="card.link" [routerLink]="card.link" class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 font-medium hover:underline">
+            {{ card.linkText ? (card.linkText | translate) : ('common.learnMore' | translate) }}
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Security & Certifications Section -->
+<section class="security-section py-20 bg-gradient-to-b from-background via-surface to-background relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 right-0 rtl:left-0 rtl:right-auto w-96 h-96 bg-accent-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 left-0 rtl:right-0 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.security.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'home.security.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.security.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Certifications Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+      <div
+        *ngFor="let cert of certifications"
+        class="certification-badge group relative"
+      >
+        <!-- Glow Effect -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+        <!-- Badge Content -->
+        <div class="relative flex flex-col items-center p-6 rounded-2xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1 text-center h-full">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary-500/20 to-accent-500/20 flex items-center justify-center text-secondary-600 dark:text-secondary-400 mb-4 group-hover:scale-110 transition-transform">
+            <ng-icon [name]="cert.icon" size="32"></ng-icon>
+          </div>
+          <h4 class="text-lg font-semibold mb-1">{{ cert.name | translate }}</h4>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ cert.description | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Guarantees -->
+    <div class="grid md:grid-cols-3 gap-8">
+      <div
+        *ngFor="let guarantee of securityGuarantees"
+        class="security-guarantee group flex items-start gap-4 p-6 rounded-xl bg-white/50 dark:bg-primary-900/30 backdrop-blur-md border border-white/40 dark:border-primary-700/30"
+      >
+        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+          <ng-icon [name]="guarantee.icon" size="24"></ng-icon>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-1 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            {{ guarantee.title | translate }}
+          </h4>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            {{ guarantee.description | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-12">
+      <a
+        routerLink="/about"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+      >
+        {{ 'home.security.cta' | translate }}
+        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Services Section - Stacking Cards Effect -->
+<section #servicesSection id="services">
+  <app-card-stack
+    [cards]="servicesStackCards"
+    sectionBadge="home.services.badge"
+    sectionTitle="home.services.title"
+    sectionSubtitle="home.services.subtitle"
+    containerClass="services-stack-section"
+  ></app-card-stack>
+
+  <!-- View All Services CTA -->
+  <div class="bg-background py-12">
+    <div class="container-custom text-center">
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-6">
+        {{ 'home.services.viewAllDescription' | translate }}
+      </p>
+      <a
+        routerLink="/services"
+        #viewAllBtn
+        (mousemove)="onButtonMouseMove($event, viewAllBtn)"
+        (mouseleave)="onButtonMouseLeave(viewAllBtn)"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-neutral-900 to-neutral-800 dark:from-white dark:to-neutral-100 text-white dark:text-neutral-900 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+      >
+        {{ 'common.viewAll' | translate }}
+        <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section py-20 bg-surface relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 left-1/3 rtl:right-1/3 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/3 rtl:left-1/3 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.testimonials.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'home.testimonials.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.testimonials.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div
+      class="relative max-w-4xl mx-auto"
+      (mouseenter)="pauseTestimonialRotation()"
+      (mouseleave)="resumeTestimonialRotation()"
+    >
+      <!-- Current Testimonial Card -->
+      <div class="testimonial-card relative">
+        <!-- Glow Effect -->
+        <div class="absolute -inset-1 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-30 blur-xl rounded-3xl"></div>
+
+        <!-- Card Content -->
+        <div class="relative p-8 md:p-12 rounded-3xl bg-white/80 dark:bg-primary-900/60 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-2xl">
+          <!-- Quote Icon -->
+          <div class="absolute top-6 left-6 rtl:right-6 rtl:left-auto w-12 h-12 rounded-full bg-gradient-to-br from-primary-500/10 to-secondary-500/10 flex items-center justify-center text-primary-400 dark:text-secondary-500">
+            <ng-icon name="lucideQuote" size="24"></ng-icon>
+          </div>
+
+          <!-- Metric Badge -->
+          <div *ngIf="testimonials[currentTestimonialIndex()].metric" class="absolute top-6 right-6 rtl:left-6 rtl:right-auto">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-secondary-500 to-accent-500 text-white text-sm font-bold shadow-lg">
+              {{ testimonials[currentTestimonialIndex()].metricValue }}
+              {{ testimonials[currentTestimonialIndex()].metric | translate }}
+            </span>
+          </div>
+
+          <!-- Quote Text -->
+          <blockquote class="mt-12 mb-8">
+            <p class="text-lg md:text-xl text-neutral-700 dark:text-neutral-200 leading-relaxed italic">
+              "{{ testimonials[currentTestimonialIndex()].quote | translate }}"
+            </p>
+          </blockquote>
+
+          <!-- Client Info -->
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-4">
+              <!-- Avatar Placeholder -->
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                {{ (testimonials[currentTestimonialIndex()].clientName | translate).charAt(0) }}
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">{{ testimonials[currentTestimonialIndex()].clientName | translate }}</h4>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400">
+                  {{ testimonials[currentTestimonialIndex()].clientTitle | translate }}
+                </p>
+                <p class="text-xs text-secondary-600 dark:text-secondary-400 font-medium">
+                  {{ testimonials[currentTestimonialIndex()].industry | translate }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Star Rating -->
+            <div class="flex items-center gap-1">
+              <ng-icon
+                *ngFor="let star of [1,2,3,4,5]"
+                name="lucideStar"
+                size="20"
+                class="text-yellow-400 fill-current"
+              ></ng-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button
+        (click)="prevTestimonial()"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 w-12 h-12 rounded-full bg-white/80 dark:bg-primary-800/80 backdrop-blur-md border border-white/60 dark:border-primary-700/40 shadow-lg flex items-center justify-center text-primary-600 dark:text-secondary-400 hover:scale-110 transition-transform"
+        aria-label="Previous testimonial"
+      >
+        <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        (click)="nextTestimonial()"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 w-12 h-12 rounded-full bg-white/80 dark:bg-primary-800/80 backdrop-blur-md border border-white/60 dark:border-primary-700/40 shadow-lg flex items-center justify-center text-primary-600 dark:text-secondary-400 hover:scale-110 transition-transform"
+        aria-label="Next testimonial"
+      >
+        <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dot Navigation -->
+      <div class="flex items-center justify-center gap-2 mt-8">
+        <button
+          *ngFor="let testimonial of testimonials; let i = index"
+          (click)="goToTestimonial(i)"
+          class="w-3 h-3 rounded-full transition-all"
+          [class.bg-primary-500]="currentTestimonialIndex() === i"
+          [class.w-8]="currentTestimonialIndex() === i"
+          [class.bg-neutral-300]="currentTestimonialIndex() !== i"
+          [class.dark:bg-neutral-600]="currentTestimonialIndex() !== i"
+          [attr.aria-label]="'Go to testimonial ' + (i + 1)"
+        ></button>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-12">
+      <a
+        routerLink="/resources/case-studies"
+        class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline"
+      >
+        {{ 'home.testimonials.viewAll' | translate }}
+        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Case Studies Preview Section -->
+<section class="case-studies-section py-20 bg-background relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-0 rtl:left-0 rtl:right-auto w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        {{ 'home.caseStudies.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'home.caseStudies.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {{ 'home.caseStudies.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Case Studies Grid -->
+    <div class="grid md:grid-cols-3 gap-6">
+      <a
+        *ngFor="let caseStudy of caseStudiesPreview"
+        [routerLink]="'/resources/case-studies/' + caseStudy.slug"
+        class="case-study-card group relative"
+      >
+        <!-- Glow Effect -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+        <!-- Card Content -->
+        <div class="relative flex flex-col h-full p-6 rounded-2xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+          <!-- Industry Tag -->
+          <span class="inline-block self-start px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-800/50 text-primary-600 dark:text-secondary-400 text-xs font-medium mb-4">
+            {{ caseStudy.industry | translate }}
+          </span>
+
+          <!-- Metric Badge -->
+          <div class="mb-4">
+            <span class="text-4xl font-bold bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">
+              {{ caseStudy.metricValue }}
+            </span>
+            <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ caseStudy.metric | translate }}</p>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            {{ caseStudy.title | translate }}
+          </h3>
+
+          <!-- Summary -->
+          <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4 flex-grow">
+            {{ caseStudy.summary | translate }}
+          </p>
+
+          <!-- Footer -->
+          <div class="flex items-center justify-between mt-auto pt-4 border-t border-neutral-200 dark:border-primary-700/50">
+            <span class="text-sm text-neutral-500 dark:text-neutral-400">{{ caseStudy.company | translate }}</span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
+              {{ 'common.readMore' | translate }}
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-12">
+      <a
+        routerLink="/resources/case-studies"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+      >
+        {{ 'home.caseStudies.viewAll' | translate }}
+        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Preview Section -->
+<section class="faq-section py-20 bg-surface relative overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 right-1/4 rtl:left-1/4 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/4 rtl:right-1/4 rtl:left-auto w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <!-- Left: Header & CTA -->
+      <div>
+        <span class="inline-block px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+          {{ 'home.faq.badge' | translate }}
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'home.faq.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mb-8">
+          {{ 'home.faq.subtitle' | translate }}
+        </p>
+        <a
+          routerLink="/contact"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+        >
+          {{ 'home.faq.cta' | translate }}
+          <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Right: FAQ Accordion -->
+      <div class="space-y-4">
+        <div
+          *ngFor="let faq of faqs()"
+          class="faq-item"
+        >
+          <!-- FAQ Card -->
+          <div class="rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg overflow-hidden">
+            <!-- Question Button -->
+            <button
+              (click)="toggleFaq(faq.id)"
+              class="w-full flex items-center justify-between p-5 text-left hover:bg-white/50 dark:hover:bg-primary-800/30 transition-colors"
+              [attr.aria-expanded]="faq.isOpen"
+            >
+              <span class="font-semibold text-lg pr-4 rtl:pl-4 rtl:pr-0">{{ faq.question | translate }}</span>
+              <ng-icon
+                name="lucideChevronDown"
+                size="20"
+                class="flex-shrink-0 transition-transform duration-300 text-primary-500 dark:text-secondary-400"
+                [class.rotate-180]="faq.isOpen"
+              ></ng-icon>
+            </button>
+
+            <!-- Answer Panel -->
+            <div
+              class="overflow-hidden transition-all duration-300"
+              [class.max-h-0]="!faq.isOpen"
+              [class.max-h-96]="faq.isOpen"
+            >
+              <div class="p-5 pt-0 text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                {{ faq.answer | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section with 3D Elements -->
+<section id="cta" class="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-accent-800 relative overflow-hidden">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+      </pattern>
+      <rect width="100" height="100" fill="url(#grid)" />
+    </svg>
+  </div>
+
+  <!-- Floating Elements -->
+  <div class="absolute top-10 right-10 rtl:left-10 rtl:right-auto w-20 h-20 bg-white/10 rounded-2xl rotate-12 blur-sm"></div>
+  <div class="absolute bottom-10 left-10 rtl:right-10 rtl:left-auto w-16 h-16 bg-secondary-400/20 rounded-xl -rotate-6 blur-sm"></div>
+
+  <div class="container-custom relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+        {{ 'home.cta.title' | translate }}
+      </h2>
+      <p class="text-lg md:text-xl text-white/80 mb-10 leading-relaxed">
+        {{ 'home.cta.description' | translate }}
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          routerLink="/contact"
+          #ctaContactBtn
+          (mousemove)="onButtonMouseMove($event, ctaContactBtn)"
+          (mouseleave)="onButtonMouseLeave(ctaContactBtn)"
+          class="group relative inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all overflow-hidden"
+        >
+          <!-- Shine Effect -->
+          <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-primary-100 to-transparent"></div>
+          <span class="relative">{{ 'home.cta.button' | translate }}</span>
+          <svg class="relative w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          routerLink="/pricing"
+          #ctaPricingBtn
+          (mousemove)="onButtonMouseMove($event, ctaPricingBtn)"
+          (mouseleave)="onButtonMouseLeave(ctaPricingBtn)"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold border border-white/20 hover:bg-white/20 transition-all"
+        >
+          {{ 'home.cta.secondaryButton' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trusted By Section -->
+<section class="py-16 bg-background border-t border-border">
+  <div class="container-custom">
+    <p class="text-center text-neutral-500 dark:text-neutral-400 mb-8 font-medium">
+      {{ 'home.trustedBy' | translate }}
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+      <!-- Client logos - replace with actual client logos -->
+      <div *ngFor="let logo of trustedLogos" class="h-12 w-32 flex items-center justify-center">
+        <img [src]="logo.logo" [alt]="logo.name" class="h-full w-full object-contain opacity-40 hover:opacity-70 transition-opacity grayscale hover:grayscale-0" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
