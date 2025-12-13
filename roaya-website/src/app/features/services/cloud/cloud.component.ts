@@ -335,4 +335,48 @@ export class CloudComponent implements OnInit {
   goToPricing(): void {
     // This will be handled by router navigation
   }
+
+  /**
+   * Get grid class for asymmetrical layout based on card index
+   */
+  getCardGridClass(index: number): string {
+    const classes = [
+      'grid-item-1', // Card 0: Large, spans 2 columns, 2 rows
+      'grid-item-2', // Card 1: Medium, spans 1 column, 2 rows
+      'grid-item-3', // Card 2: Medium, spans 1 column, 1 row
+      'grid-item-4', // Card 3: Large, spans 2 columns, 1 row
+      'grid-item-5'  // Card 4: Medium, spans 1 column, 2 rows
+    ];
+    return classes[index] || 'grid-item-1';
+  }
+
+  /**
+   * Get layout direction class for card content
+   */
+  getCardLayoutClass(index: number): string {
+    // Alternate between row and column layouts, with some variation
+    const layouts = [
+      'md:flex-row',      // Card 0: Row layout
+      'md:flex-col',      // Card 1: Column layout
+      'md:flex-row',      // Card 2: Row layout
+      'md:flex-row',      // Card 3: Row layout
+      'md:flex-col'       // Card 4: Column layout
+    ];
+    return layouts[index] || 'md:flex-row';
+  }
+
+  /**
+   * Get features grid class based on card index
+   */
+  getFeaturesGridClass(index: number): string {
+    // Vary the grid columns for visual interest
+    const classes = [
+      'grid-cols-1 md:grid-cols-2',           // Card 0: 2 columns
+      'grid-cols-1',                          // Card 1: 1 column (narrow card)
+      'grid-cols-1 md:grid-cols-2',           // Card 2: 2 columns
+      'grid-cols-1 md:grid-cols-3',           // Card 3: 3 columns (wide card)
+      'grid-cols-1'                           // Card 4: 1 column (narrow card)
+    ];
+    return classes[index] || 'grid-cols-1 md:grid-cols-2';
+  }
 }

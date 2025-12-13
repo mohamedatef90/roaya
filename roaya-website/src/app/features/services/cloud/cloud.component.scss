@@ -48,16 +48,50 @@
   }
 }
 
-// Service Categories
-.service-category-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+// Service Categories - Bold Minimalism Style
+.service-categories-bold-minimal {
+  // Ultra-bold typography
+  h2 {
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
 
-  &:hover {
-    transform: translateY(-4px);
+  h3 {
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
 
-    .category-icon {
-      transform: scale(1.1) rotate(3deg);
+  // Clean borders with subtle hover
+  [class*="border-b-2"] {
+    border-color: var(--color-border);
+    transition: border-color 0.3s ease;
+  }
+
+  // Minimal hover effect - subtle border color change
+  > div > div:hover {
+    [class*="border-b-2"] {
+      border-color: var(--color-primary-500);
     }
+  }
+
+  // Feature list styling - clean and minimal
+  span[class*="text-primary"] {
+    font-weight: 700;
+    opacity: 0.8;
+  }
+
+  // Clean spacing for paragraphs
+  p {
+    margin-bottom: 0;
+  }
+
+  // Remove decorative elements from cards
+  .animate-fade-in-up {
+    box-shadow: none;
+    background: transparent;
+    border-radius: 0;
   }
 }
 
