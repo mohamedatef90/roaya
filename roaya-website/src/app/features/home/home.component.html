@@ -44,51 +44,27 @@
   </div>
 </div>
 
-<!-- Page Intro Overlay - Pure CSS Animation -->
-<div class="intro-overlay">
-  <!-- Animated Background Gradient -->
-  <div class="intro-bg"></div>
-
-  <!-- Intro Content -->
-  <div class="intro-content">
-    <!-- Logo Animation -->
-    <div class="intro-logo">
-      <img
-        src="/assets/images/roaya-logo.png"
-        alt="Roaya IT"
-        class="w-20 h-20 md:w-24 md:h-24 object-contain"
-      />
-    </div>
-
-    <!-- Tagline with word reveal -->
-    <h2 class="intro-tagline">
-      <span class="intro-word">Empowering</span>
-      <span class="intro-word">Digital</span>
-      <span class="intro-word">Excellence</span>
-    </h2>
-  </div>
-
-  <!-- Reveal Curtains -->
-  <div class="intro-curtain intro-curtain-left"></div>
-  <div class="intro-curtain intro-curtain-right"></div>
-</div>
-
 <!-- Hero Section - Full-screen Cinematic Style -->
 <section #heroSection class="hero-section-cinematic relative min-h-screen flex flex-col justify-center items-center overflow-hidden">
-  <!-- Animated Background -->
+  <!-- Animated Gradient Background -->
   <div class="hero-bg-container absolute inset-0">
-    <!-- Gradient Background -->
-    <div class="hero-gradient-bg absolute inset-0 bg-gradient-to-br from-primary-950 via-primary-900 to-accent-950"></div>
+    <!-- Animated Mesh Gradient Background -->
+    <div class="hero-animated-gradient absolute inset-0"></div>
 
+    <!-- Gradient Orbs -->
+    <div class="gradient-orb gradient-orb-1"></div>
+    <div class="gradient-orb gradient-orb-2"></div>
+    <div class="gradient-orb gradient-orb-3"></div>
+    <div class="gradient-orb gradient-orb-4"></div>
 
     <!-- Subtle Noise/Grain Overlay -->
-    <div class="hero-noise absolute inset-0 opacity-[0.03] pointer-events-none"></div>
+    <div class="hero-noise absolute inset-0 opacity-[0.02] pointer-events-none"></div>
   </div>
 
   <!-- Main Hero Content - Centered -->
   <div class="hero-content-wrapper relative z-10 container-custom text-center px-6 py-20 lg:py-32">
     <!-- Pre-headline Badge -->
-    <div class="hero-badge-cinematic animate-in">
+    <div class="hero-badge-cinematic">
       <span class="relative flex h-2 w-2">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-400 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-500"></span>
@@ -98,21 +74,21 @@
 
     <!-- Main Headline with Word-by-Word Animation -->
     <h1 class="hero-headline-cinematic">
-      <span class="hero-word animate-in" style="animation-delay: 0.3s">{{ 'home.hero.title' | translate }}</span>
+      <span class="hero-word">{{ 'home.hero.title' | translate }}</span>
     </h1>
 
     <!-- Gradient Accent Line -->
-    <div class="hero-accent-line animate-in">
-      <span class="hero-accent-word" style="animation-delay: 0.8s">{{ 'home.hero.subtitle' | translate }}</span>
+    <div class="hero-accent-line">
+      <span class="hero-accent-word">{{ 'home.hero.subtitle' | translate }}</span>
     </div>
 
     <!-- Description -->
-    <p class="hero-description-cinematic animate-in">
+    <p class="hero-description-cinematic">
       {{ 'home.hero.description' | translate }}
     </p>
 
     <!-- CTA Buttons -->
-    <div class="hero-cta-cinematic animate-in">
+    <div class="hero-cta-cinematic">
       <a
         routerLink="/roi-calculator"
         class="hero-btn-primary group"
@@ -131,7 +107,7 @@
     </div>
 
     <!-- Trust Badges -->
-    <div class="hero-trust-badges animate-in">
+    <div class="hero-trust-badges">
       <div class="trust-badge">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -154,10 +130,7 @@
   </div>
 
   <!-- Scroll Down Indicator -->
-  <div
-    class="hero-scroll-indicator"
-    [class.animate-in]="heroAnimationsStarted()"
-  >
+  <div class="hero-scroll-indicator">
     <span class="scroll-text">{{ 'home.hero.scrollDown' | translate }}</span>
     <div class="scroll-mouse">
       <div class="scroll-wheel"></div>

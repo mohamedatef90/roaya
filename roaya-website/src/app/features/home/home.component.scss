@@ -21,142 +21,146 @@
 }
 
 // ============================================
-// Page Intro Overlay - Pure CSS Animation
+// Animated Gradient Background
 // ============================================
-.intro-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: all;
-  overflow: hidden;
-  // Auto-hide after animation completes
-  animation: introHide 0.1s ease-out 3.5s forwards;
+.hero-animated-gradient {
+  background: linear-gradient(
+    -45deg,
+    #0f172a,
+    #1e3a5f,
+    #0c4a6e,
+    #164e63,
+    #134e4a,
+    #1e3a5f,
+    #312e81,
+    #1e1b4b,
+    #0f172a
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 20s ease infinite;
 }
 
-@keyframes introHide {
-  to {
-    pointer-events: none;
-    visibility: hidden;
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-.intro-bg {
+// Gradient Orbs - Floating animated blobs
+.gradient-orb {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-  // Fade out after content animation
-  animation: introBgFade 0.8s ease-out 2.5s forwards;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
-@keyframes introBgFade {
-  to {
-    opacity: 0;
+.gradient-orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(93, 183, 194, 0.6) 0%, transparent 70%);
+  top: -10%;
+  left: -10%;
+  animation: orbFloat1 25s ease-in-out infinite;
+}
+
+.gradient-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(107, 76, 154, 0.5) 0%, transparent 70%);
+  top: 20%;
+  right: -5%;
+  animation: orbFloat2 30s ease-in-out infinite;
+}
+
+.gradient-orb-3 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(61, 90, 128, 0.5) 0%, transparent 70%);
+  bottom: -5%;
+  left: 30%;
+  animation: orbFloat3 22s ease-in-out infinite;
+}
+
+.gradient-orb-4 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, transparent 70%);
+  bottom: 30%;
+  right: 20%;
+  animation: orbFloat4 28s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(100px, 50px) scale(1.1);
+  }
+  50% {
+    transform: translate(50px, 100px) scale(0.95);
+  }
+  75% {
+    transform: translate(-50px, 50px) scale(1.05);
   }
 }
 
-.intro-content {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.intro-logo {
-  opacity: 0;
-  transform: scale(0.8) translateY(20px);
-  // Auto-animate logo appearance
-  animation: logoReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-
-  img {
-    filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(93, 183, 194, 0.5));
+@keyframes orbFloat2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-80px, 60px) scale(1.05);
+  }
+  50% {
+    transform: translate(-40px, -80px) scale(1.1);
+  }
+  75% {
+    transform: translate(40px, -40px) scale(0.95);
   }
 }
 
-@keyframes logoReveal {
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+@keyframes orbFloat3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(60px, -60px) scale(1.08);
+  }
+  66% {
+    transform: translate(-60px, -30px) scale(0.92);
   }
 }
 
-.intro-tagline {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem 0.75rem;
-  max-width: 600px;
-  text-align: center;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 600;
-  color: white;
-
-  .intro-word {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(30px);
-    background: linear-gradient(135deg, #ffffff 0%, rgba(93, 183, 194, 1) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: wordReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes orbFloat4 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
   }
-
-  // Staggered word animation delays
-  .intro-word:nth-child(1) { animation-delay: 0.7s; }
-  .intro-word:nth-child(2) { animation-delay: 0.85s; }
-  .intro-word:nth-child(3) { animation-delay: 1s; }
-}
-
-@keyframes wordReveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  20% {
+    transform: translate(-50px, -50px) scale(1.1);
   }
-}
-
-// Intro Curtains - Auto-animate open
-.intro-curtain {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  z-index: 20;
-}
-
-.intro-curtain-left {
-  left: 0;
-  transform-origin: left center;
-  animation: curtainOpenLeft 1s cubic-bezier(0.77, 0, 0.175, 1) 2.2s forwards;
-}
-
-.intro-curtain-right {
-  right: 0;
-  transform-origin: right center;
-  animation: curtainOpenRight 1s cubic-bezier(0.77, 0, 0.175, 1) 2.3s forwards;
-}
-
-@keyframes curtainOpenLeft {
-  to {
-    transform: scaleX(0);
+  40% {
+    transform: translate(50px, -30px) scale(0.95);
   }
-}
-
-@keyframes curtainOpenRight {
-  to {
-    transform: scaleX(0);
+  60% {
+    transform: translate(30px, 50px) scale(1.05);
   }
-}
-
-// Reduced motion support
-@media (prefers-reduced-motion: reduce) {
-  .intro-overlay {
-    display: none !important;
+  80% {
+    transform: translate(-30px, 30px) scale(1);
   }
 }
 
@@ -173,19 +177,6 @@
   overflow: hidden;
 }
 
-.hero-gradient-bg {
-  animation: gradientShift 15s ease infinite;
-  background-size: 400% 400%;
-}
-
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
 
 // Noise texture
@@ -221,15 +212,10 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2rem;
-  // Auto-animate after intro overlay
+  // Animate on page load
   opacity: 0;
   transform: translateY(20px);
-  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3s forwards;
-
-  &.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
 
 // Main Headline
@@ -249,8 +235,8 @@
   display: inline-block;
   opacity: 0;
   transform: translateY(40px) rotateX(-15deg);
-  // Auto-animate after intro overlay
-  animation: heroWordReveal var(--hero-text-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards;
+  // Animate on page load
+  animation: heroWordReveal var(--hero-text-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
 @keyframes heroWordReveal {
@@ -269,10 +255,10 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0 0.3em;
-  // Auto-animate after intro overlay
+  // Animate on page load
   opacity: 0;
   transform: translateY(20px);
-  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3.4s forwards;
+  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
 }
 
 .hero-accent-word {
@@ -290,10 +276,10 @@
   color: rgba(255, 255, 255, 0.7);
   max-width: 650px;
   margin: 0 auto 3rem;
-  // Auto-animate after intro overlay
+  // Animate on page load
   opacity: 0;
   transform: translateY(20px);
-  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3.6s forwards;
+  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 // CTA Buttons
@@ -303,10 +289,10 @@
   justify-content: center;
   gap: 1rem;
   margin-bottom: 3rem;
-  // Auto-animate after intro overlay
+  // Animate on page load
   opacity: 0;
   transform: translateY(20px);
-  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3.8s forwards;
+  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
 }
 
 .hero-btn-primary {
@@ -360,10 +346,10 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
-  // Auto-animate after intro overlay
+  // Animate on page load
   opacity: 0;
   transform: translateY(20px);
-  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 4s forwards;
+  animation: heroElementReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
 }
 
 .trust-badge {
@@ -388,9 +374,9 @@
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  // Auto-animate after intro overlay
+  // Animate on page load
   opacity: 0;
-  animation: heroScrollReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 4.2s forwards;
+  animation: heroScrollReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
 }
 
 @keyframes heroScrollReveal {
@@ -478,13 +464,29 @@
     bottom: 1rem;
   }
 
-  .intro-tagline {
-    font-size: clamp(1.25rem, 6vw, 2rem);
+  // Reduce gradient orbs on mobile for performance
+  .gradient-orb {
+    filter: blur(60px);
+    opacity: 0.3;
   }
 
-  // Hide complex orbs on mobile for performance
-  .hero-orb {
-    opacity: 0.2;
+  .gradient-orb-1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .gradient-orb-2 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .gradient-orb-3 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .gradient-orb-4 {
+    display: none; // Hide 4th orb on mobile
   }
 }
 
@@ -508,14 +510,12 @@
 // ============================================
 [dir="rtl"] {
   .hero-headline-cinematic,
-  .hero-accent-line,
-  .intro-tagline {
+  .hero-accent-line {
     direction: rtl;
   }
 
   .hero-word,
-  .hero-accent-word,
-  .intro-word {
+  .hero-accent-word {
     &:last-child {
       margin-left: 0;
     }
@@ -530,21 +530,16 @@
 // Reduced Motion Support
 // ============================================
 @media (prefers-reduced-motion: reduce) {
-  .intro-overlay {
-    display: none !important;
-  }
-
-  .hero-orb {
+  .hero-animated-gradient {
     animation: none !important;
   }
 
-  .hero-gradient-bg {
+  .gradient-orb {
     animation: none !important;
   }
 
   .hero-word,
-  .hero-accent-word,
-  .intro-word {
+  .hero-accent-word {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -559,14 +554,11 @@
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
 
   .scroll-wheel {
     animation: none !important;
-  }
-
-  .intro-curtain {
-    display: none !important;
   }
 }
 
