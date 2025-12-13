@@ -8,6 +8,7 @@ import { of } from 'rxjs';
  * Loading Service
  * Manages application loading states including:
  * - Solar system loading screen (initial app load)
+ * - Wave abstract lines page transition effect
  * - Page transition loading states
  * - Global loading overlay
  */
@@ -33,8 +34,8 @@ export class LoadingService {
   /** Maximum time to wait before forcing dismissal */
   private readonly MAX_DISPLAY_TIME = 10000; // 10 seconds (safety timeout)
 
-  /** Fade-out animation duration (must match CSS) */
-  private readonly FADE_DURATION = 600; // ms
+  /** Wave transition animation duration */
+  private readonly WAVE_TRANSITION_DURATION = 1500; // ms
 
   /** Timestamp when loading started */
   private loadingStartTime = Date.now();
@@ -42,12 +43,32 @@ export class LoadingService {
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.initSolarSystemLoader();
+      this.detectLanguageForTransition();
+    }
+  }
+
+  /**
+   * Detect browser language and update transition text
+   */
+  private detectLanguageForTransition(): void {
+    const transitionText = document.getElementById('transition-text');
+    if (!transitionText) return;
+
+    const browserLang = navigator.language || (navigator as any).userLanguage;
+    const isArabic = browserLang.startsWith('ar');
+
+    if (isArabic) {
+      transitionText.setAttribute('data-lang', 'ar');
+      const mainText = transitionText.querySelector('.transition-text-main');
+      const subText = transitionText.querySelector('.transition-text-sub');
+      if (mainText) mainText.textContent = 'مرحباً';
+      if (subText) subText.textContent = 'نبتكر حلول تقنية المعلومات';
     }
   }
 
   /**
    * Initialize the solar system loading screen dismissal logic.
-   * Waits for the Angular app to stabilize, then hides the screen.
+   * Waits for the Angular app to stabilize, then hides the screen with wave transition.
    */
   private initSolarSystemLoader(): void {
     // Wait for app to be stable (all async tasks complete)
@@ -65,11 +86,12 @@ export class LoadingService {
   }
 
   /**
-   * Hide the solar system loading screen with smooth fade-out animation.
+   * Hide the solar system loading screen with wave abstract lines transition.
    * Respects minimum display time to prevent flash on fast loads.
    */
   private hideSolarSystemLoader(): void {
     const loadingScreen = document.getElementById('loading-screen');
+    const waveTransition = document.getElementById('wave-transition');
     if (!loadingScreen) return;
 
     const elapsedTime = Date.now() - this.loadingStartTime;
@@ -77,16 +99,42 @@ export class LoadingService {
 
     // Ensure minimum display time for smooth UX
     setTimeout(() => {
-      // Add fade-out class to trigger CSS transition
-      loadingScreen.classList.add('fade-out');
+      // Cleanup typing animation if exists
+      if (typeof (window as any).cleanupTypingAnimation === 'function') {
+        (window as any).cleanupTypingAnimation();
+      }
 
-      // Update signal state
-      this.isInitialLoading.set(false);
+      // Step 1: Start fading out the loader
+      loadingScreen.classList.add('wave-exit');
 
-      // Remove from DOM after transition completes
+      // Step 2: Activate wave transition with incoming animation
+      setTimeout(() => {
+        if (waveTransition) {
+          waveTransition.classList.add('active', 'wave-in');
+        }
+      }, 200);
+
+      // Step 3: Remove loading screen while wave is visible
       setTimeout(() => {
         loadingScreen.remove();
-      }, this.FADE_DURATION);
+        this.isInitialLoading.set(false);
+      }, 500);
+
+      // Step 4: Start wave out animation to reveal hero
+      setTimeout(() => {
+        if (waveTransition) {
+          waveTransition.classList.remove('wave-in');
+          waveTransition.classList.add('wave-out');
+        }
+      }, 2000);
+
+      // Step 5: Remove wave transition after animation completes
+      setTimeout(() => {
+        if (waveTransition) {
+          waveTransition.classList.remove('active', 'wave-out');
+          waveTransition.remove();
+        }
+      }, 3000);
     }, remainingTime);
   }
 

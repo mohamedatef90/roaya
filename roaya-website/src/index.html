@@ -355,58 +355,268 @@
       color: rgba(93, 183, 194, 0.9);
     }
 
-    /* Service Label - Coding Style */
-    .service-label {
+    /* Wave Transition Overlay - Abstract Lines Effect */
+    .wave-transition-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+    }
+
+    .wave-transition-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+
+    /* Abstract Wave Lines Container */
+    .wave-lines-container {
       position: absolute;
-      font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      color: rgba(93, 183, 194, 0.85);
-      white-space: nowrap;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(93, 183, 194, 0.4);
-      opacity: 0.9;
-      transition: opacity 0.3s ease;
+      inset: 0;
+      overflow: hidden;
     }
 
-    /* Label positions based on icon location */
-    .label-top {
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-bottom: 6px;
+    /* Individual Wave Lines - SVG-based abstract curves */
+    .wave-line {
+      position: absolute;
+      width: 200%;
+      height: 2px;
+      left: -50%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(93, 183, 194, 0.1) 10%,
+        rgba(93, 183, 194, 0.6) 30%,
+        rgba(107, 76, 154, 0.8) 50%,
+        rgba(61, 90, 128, 0.6) 70%,
+        rgba(93, 183, 194, 0.1) 90%,
+        transparent 100%
+      );
+      transform-origin: center;
+      opacity: 0;
     }
 
-    .label-bottom {
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-top: 6px;
+    /* Wave line positions - creating flowing abstract pattern */
+    .wave-line-1 { top: 10%; transform: rotate(-3deg) scaleX(0); }
+    .wave-line-2 { top: 20%; transform: rotate(2deg) scaleX(0); }
+    .wave-line-3 { top: 30%; transform: rotate(-1deg) scaleX(0); }
+    .wave-line-4 { top: 40%; transform: rotate(3deg) scaleX(0); }
+    .wave-line-5 { top: 50%; transform: rotate(-2deg) scaleX(0); }
+    .wave-line-6 { top: 60%; transform: rotate(1deg) scaleX(0); }
+    .wave-line-7 { top: 70%; transform: rotate(-3deg) scaleX(0); }
+    .wave-line-8 { top: 80%; transform: rotate(2deg) scaleX(0); }
+    .wave-line-9 { top: 90%; transform: rotate(-1deg) scaleX(0); }
+
+    /* Glowing particles along wave lines */
+    .wave-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(93, 183, 194, 1);
+      box-shadow: 0 0 15px rgba(93, 183, 194, 0.8), 0 0 30px rgba(93, 183, 194, 0.4);
+      opacity: 0;
     }
 
-    .label-left {
-      right: 100%;
+    /* Transition Text - Centered reveal text */
+    .transition-text {
+      position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      margin-right: 8px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
     }
 
-    .label-right {
-      left: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-left: 8px;
+    .transition-text-main {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 600;
+      color: transparent;
+      background: linear-gradient(135deg, #5DB7C2 0%, #6B4C9A 50%, #3D5A80 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      opacity: 0;
+      transform: translateY(30px);
+      letter-spacing: 0.1em;
     }
 
-    /* Code-style brackets around label */
-    .service-label::before {
-      content: '{ ';
-      color: rgba(107, 76, 154, 0.7);
+    .transition-text-sub {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: clamp(0.875rem, 2vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
     }
 
-    .service-label::after {
-      content: ' }';
-      color: rgba(107, 76, 154, 0.7);
+    /* Arabic text styling */
+    .transition-text[data-lang="ar"] .transition-text-main,
+    .transition-text[data-lang="ar"] .transition-text-sub {
+      font-family: 'Tajawal', system-ui, sans-serif;
+      direction: rtl;
+    }
+
+    /* Wave animation states */
+    .wave-transition-overlay.wave-in .wave-line {
+      animation: wave-sweep-in 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .wave-transition-overlay.wave-in .wave-line-1 { animation-delay: 0s; }
+    .wave-transition-overlay.wave-in .wave-line-2 { animation-delay: 0.05s; }
+    .wave-transition-overlay.wave-in .wave-line-3 { animation-delay: 0.1s; }
+    .wave-transition-overlay.wave-in .wave-line-4 { animation-delay: 0.15s; }
+    .wave-transition-overlay.wave-in .wave-line-5 { animation-delay: 0.2s; }
+    .wave-transition-overlay.wave-in .wave-line-6 { animation-delay: 0.25s; }
+    .wave-transition-overlay.wave-in .wave-line-7 { animation-delay: 0.3s; }
+    .wave-transition-overlay.wave-in .wave-line-8 { animation-delay: 0.35s; }
+    .wave-transition-overlay.wave-in .wave-line-9 { animation-delay: 0.4s; }
+
+    .wave-transition-overlay.wave-in .transition-text-main {
+      animation: text-reveal 0.8s 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .wave-transition-overlay.wave-in .transition-text-sub {
+      animation: text-reveal 0.8s 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .wave-transition-overlay.wave-out .wave-line {
+      animation: wave-sweep-out 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .wave-transition-overlay.wave-out .wave-line-9 { animation-delay: 0s; }
+    .wave-transition-overlay.wave-out .wave-line-8 { animation-delay: 0.03s; }
+    .wave-transition-overlay.wave-out .wave-line-7 { animation-delay: 0.06s; }
+    .wave-transition-overlay.wave-out .wave-line-6 { animation-delay: 0.09s; }
+    .wave-transition-overlay.wave-out .wave-line-5 { animation-delay: 0.12s; }
+    .wave-transition-overlay.wave-out .wave-line-4 { animation-delay: 0.15s; }
+    .wave-transition-overlay.wave-out .wave-line-3 { animation-delay: 0.18s; }
+    .wave-transition-overlay.wave-out .wave-line-2 { animation-delay: 0.21s; }
+    .wave-transition-overlay.wave-out .wave-line-1 { animation-delay: 0.24s; }
+
+    .wave-transition-overlay.wave-out .transition-text-main,
+    .wave-transition-overlay.wave-out .transition-text-sub {
+      animation: text-hide 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .wave-transition-overlay.wave-out {
+      animation: overlay-fade-out 0.6s 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes wave-sweep-in {
+      0% {
+        opacity: 0;
+        transform: rotate(var(--rotation, 0deg)) scaleX(0) translateX(-50%);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 1;
+        transform: rotate(var(--rotation, 0deg)) scaleX(1) translateX(0);
+      }
+    }
+
+    @keyframes wave-sweep-out {
+      0% {
+        opacity: 1;
+        transform: rotate(var(--rotation, 0deg)) scaleX(1) translateX(0);
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 0;
+        transform: rotate(var(--rotation, 0deg)) scaleX(0) translateX(50%);
+      }
+    }
+
+    @keyframes text-reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes text-hide {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes overlay-fade-out {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* Floating particle animation along wave lines */
+    @keyframes particle-flow {
+      0% {
+        left: -5%;
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        left: 105%;
+        opacity: 0;
+      }
+    }
+
+    .wave-transition-overlay.wave-in .wave-particle {
+      animation: particle-flow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Loading screen exit animation - wave style */
+    #loading-screen.wave-exit {
+      animation: loading-wave-exit 0.6s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+
+    #loading-screen.wave-exit .loader-container {
+      animation: loader-scale-exit 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+
+    #loading-screen.wave-exit .starfield,
+    #loading-screen.wave-exit .nebula,
+    #loading-screen.wave-exit .shooting-star {
+      animation: fade-quick 0.3s ease-out forwards;
+    }
+
+    @keyframes loading-wave-exit {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes loader-scale-exit {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0; }
+    }
+
+    @keyframes fade-quick {
+      to { opacity: 0; }
     }
 
     /* Counter-rotation to keep icons upright */
@@ -679,6 +889,35 @@
         opacity: 1 !important;
         transform: none !important;
       }
+
+      /* Disable wave transition animations for reduced motion */
+      .wave-transition-overlay,
+      .wave-line,
+      .wave-particle,
+      .transition-text-main,
+      .transition-text-sub {
+        animation: none !important;
+        transition: opacity 0.2s ease !important;
+      }
+
+      .wave-transition-overlay.wave-in .wave-line,
+      .wave-transition-overlay.wave-out .wave-line {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .wave-transition-overlay.wave-in .transition-text-main,
+      .wave-transition-overlay.wave-in .transition-text-sub {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      #loading-screen.wave-exit .loader-container {
+        animation: none !important;
+        opacity: 0 !important;
+      }
     }
 
     /* Responsive adjustments */
@@ -740,9 +979,17 @@
         bottom: -90px;
       }
 
-      /* Hide service labels on tablet/mobile */
-      .service-label {
-        display: none;
+      /* Mobile wave transition adjustments */
+      .wave-line {
+        height: 1.5px;
+      }
+
+      .transition-text-main {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+      }
+
+      .transition-text-sub {
+        font-size: clamp(0.75rem, 2.5vw, 1rem);
       }
     }
 
@@ -835,7 +1082,6 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
             </svg>
-            <span class="service-label label-top">cloud</span>
           </div>
           <!-- Security -->
           <div class="orbit-icon icon-2">
@@ -843,7 +1089,6 @@
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
               <path d="m9 12 2 2 4-4"/>
             </svg>
-            <span class="service-label label-bottom">security</span>
           </div>
         </div>
 
@@ -855,7 +1100,6 @@
               <rect width="20" height="16" x="2" y="4" rx="2"/>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
-            <span class="service-label label-top">email</span>
           </div>
           <!-- Backup -->
           <div class="orbit-icon icon-2">
@@ -864,7 +1108,6 @@
               <polyline points="17 8 12 3 7 8"/>
               <line x1="12" x2="12" y1="3" y2="15"/>
             </svg>
-            <span class="service-label label-right">backup</span>
           </div>
           <!-- Database -->
           <div class="orbit-icon icon-3">
@@ -873,7 +1116,6 @@
               <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
               <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>
             </svg>
-            <span class="service-label label-left">database</span>
           </div>
         </div>
 
@@ -885,7 +1127,6 @@
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
               <circle cx="12" cy="12" r="4"/>
             </svg>
-            <span class="service-label label-top">SAP</span>
           </div>
           <!-- Consulting -->
           <div class="orbit-icon icon-2">
@@ -893,7 +1134,6 @@
               <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
               <rect width="20" height="14" x="2" y="6" rx="2"/>
             </svg>
-            <span class="service-label label-right">consulting</span>
           </div>
           <!-- Automation -->
           <div class="orbit-icon icon-3">
@@ -905,7 +1145,6 @@
               <path d="M15 13v2"/>
               <path d="M9 13v2"/>
             </svg>
-            <span class="service-label label-bottom">automation</span>
           </div>
           <!-- Analytics -->
           <div class="orbit-icon icon-4">
@@ -913,7 +1152,6 @@
               <path d="M3 3v18h18"/>
               <path d="m19 9-5 5-4-4-3 3"/>
             </svg>
-            <span class="service-label label-left">analytics</span>
           </div>
         </div>
 
@@ -925,7 +1163,6 @@
               <circle cx="12" cy="12" r="3"/>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
-            <span class="service-label label-top">managed</span>
           </div>
           <!-- Network -->
           <div class="orbit-icon icon-2">
@@ -936,14 +1173,12 @@
               <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/>
               <path d="M12 12V8"/>
             </svg>
-            <span class="service-label label-right">network</span>
           </div>
           <!-- Support -->
           <div class="orbit-icon icon-3">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
             </svg>
-            <span class="service-label label-left">support</span>
           </div>
         </div>
 
@@ -957,6 +1192,31 @@
           </span>
         </div>
       </div>
+  </div>
+
+  <!-- Wave Transition Overlay - Abstract Lines Effect -->
+  <div class="wave-transition-overlay" id="wave-transition">
+    <!-- Wave Lines Container -->
+    <div class="wave-lines-container">
+      <div class="wave-line wave-line-1"></div>
+      <div class="wave-line wave-line-2"></div>
+      <div class="wave-line wave-line-3"></div>
+      <div class="wave-line wave-line-4"></div>
+      <div class="wave-line wave-line-5"></div>
+      <div class="wave-line wave-line-6"></div>
+      <div class="wave-line wave-line-7"></div>
+      <div class="wave-line wave-line-8"></div>
+      <div class="wave-line wave-line-9"></div>
+      <!-- Glowing particles -->
+      <div class="wave-particle" style="top: 30%; animation-delay: 0.2s;"></div>
+      <div class="wave-particle" style="top: 50%; animation-delay: 0.5s;"></div>
+      <div class="wave-particle" style="top: 70%; animation-delay: 0.8s;"></div>
+    </div>
+    <!-- Transition Text -->
+    <div class="transition-text" id="transition-text" data-lang="en">
+      <div class="transition-text-main">Welcome</div>
+      <div class="transition-text-sub">Innovating IT Solutions</div>
+    </div>
   </div>
 
   <!-- Angular App Root -->
