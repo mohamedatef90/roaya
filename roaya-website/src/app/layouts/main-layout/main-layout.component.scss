@@ -8,6 +8,17 @@
   min-height: 100vh;
 }
 
+// Header positioning states
+.header-below-news {
+  top: 38px; // Below news bar
+  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-sticky {
+  top: 0; // Stick to top of viewport
+  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 // Floating Navbar
 .floating-navbar {
   border-radius: 9999px; // Full pill shape

@@ -30,11 +30,19 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Scroll state signal
   isScrolled = signal<boolean>(false);
-  private scrollThreshold = 50;
+  private scrollThreshold = 50; // Threshold for navbar background change
+
+  // News bar height (when navbar should stick to top)
+  private newsBarHeight = 38;
 
   // Computed signals for template
   headerClass = computed(() =>
     this.isScrolled() ? 'header-scrolled' : 'header-default'
+  );
+
+  // Computed signal for header positioning (sticky behavior)
+  headerPosition = computed(() =>
+    this.isScrolled() ? 'header-sticky' : 'header-below-news'
   );
 
   isRTL = computed(() => this.languageService.isRTL());
