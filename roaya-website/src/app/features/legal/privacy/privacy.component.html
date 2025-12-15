@@ -1,0 +1,358 @@
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-neutral-900 dark:to-neutral-800 py-20 overflow-hidden">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 1px); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium mb-6">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </svg>
+        <span>{{ 'legal.privacy.badge' | translate }}</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-white mb-6">
+        {{ 'legal.privacy.title' | translate }}
+      </h1>
+
+      <!-- Last Updated -->
+      <p class="text-lg text-neutral-600 dark:text-neutral-300 mb-4">
+        {{ 'legal.lastUpdated' | translate }}: <time [attr.datetime]="lastUpdated" class="font-medium">{{ lastUpdated }}</time>
+      </p>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-center gap-4">
+        <button
+          (click)="printPage()"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          <span>{{ 'legal.actions.print' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-16 bg-background">
+  <div class="container-custom">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Table of Contents (Sticky Sidebar) -->
+        <aside class="lg:col-span-3">
+          <div class="lg:sticky lg:top-24 space-y-4">
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.tableOfContents' | translate }}
+            </h2>
+            <nav class="space-y-1" aria-label="Table of contents">
+              <button
+                *ngFor="let item of tableOfContents"
+                (click)="scrollToSection(item.id)"
+                [class.font-semibold]="activeSection() === item.id"
+                [class.text-primary-600]="activeSection() === item.id"
+                [class.dark:text-secondary-400]="activeSection() === item.id"
+                [class.text-neutral-600]="activeSection() !== item.id"
+                [class.dark:text-neutral-400]="activeSection() !== item.id"
+                [class.ps-0]="item.level === 1"
+                [class.ps-4]="item.level === 2"
+                class="block w-full text-start px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm"
+              >
+                {{ item.title | translate }}
+              </button>
+            </nav>
+
+            <!-- Contact Card -->
+            <div class="hidden lg:block mt-8 p-6 rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
+              <h3 class="font-semibold text-neutral-900 dark:text-white mb-2">
+                {{ 'legal.questions.title' | translate }}
+              </h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+                {{ 'legal.questions.description' | translate }}
+              </p>
+              <a
+                routerLink="/contact"
+                class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 hover:text-primary-700 dark:hover:text-secondary-300 font-medium text-sm"
+              >
+                <span>{{ 'legal.questions.cta' | translate }}</span>
+                <svg class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <article #contentContainer class="lg:col-span-9 prose prose-lg dark:prose-invert max-w-none">
+          <!-- Introduction -->
+          <section id="introduction" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.introduction.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.introduction.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Information We Collect -->
+          <section id="information-we-collect" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.informationWeCollect.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+              {{ 'legal.privacy.sections.informationWeCollect.intro' | translate }}
+            </p>
+
+            <!-- Personal Information -->
+            <div id="personal-information" class="scroll-mt-24 mb-8">
+              <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-4">
+                {{ 'legal.privacy.sections.informationWeCollect.personalInfo.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+                {{ 'legal.privacy.sections.informationWeCollect.personalInfo.description' | translate }}
+              </p>
+              <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+                <li>{{ 'legal.privacy.sections.informationWeCollect.personalInfo.items.name' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.personalInfo.items.email' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.personalInfo.items.phone' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.personalInfo.items.company' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.personalInfo.items.jobTitle' | translate }}</li>
+              </ul>
+            </div>
+
+            <!-- Usage Data -->
+            <div id="usage-data" class="scroll-mt-24">
+              <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-4">
+                {{ 'legal.privacy.sections.informationWeCollect.usageData.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+                {{ 'legal.privacy.sections.informationWeCollect.usageData.description' | translate }}
+              </p>
+              <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+                <li>{{ 'legal.privacy.sections.informationWeCollect.usageData.items.ipAddress' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.usageData.items.browser' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.usageData.items.pages' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.usageData.items.timeSpent' | translate }}</li>
+                <li>{{ 'legal.privacy.sections.informationWeCollect.usageData.items.referrer' | translate }}</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- How We Use Information -->
+          <section id="how-we-use-information" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.howWeUseInformation.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+              {{ 'legal.privacy.sections.howWeUseInformation.intro' | translate }}
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+              <li>{{ 'legal.privacy.sections.howWeUseInformation.items.provideServices' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.howWeUseInformation.items.communicate' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.howWeUseInformation.items.improve' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.howWeUseInformation.items.marketing' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.howWeUseInformation.items.security' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.howWeUseInformation.items.legal' | translate }}</li>
+            </ul>
+          </section>
+
+          <!-- Data Sharing -->
+          <section id="data-sharing" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.dataSharing.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+              {{ 'legal.privacy.sections.dataSharing.intro' | translate }}
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+              <li>{{ 'legal.privacy.sections.dataSharing.items.serviceProviders' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.dataSharing.items.businessTransfers' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.dataSharing.items.legal' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.dataSharing.items.consent' | translate }}</li>
+            </ul>
+          </section>
+
+          <!-- Data Security -->
+          <section id="data-security" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.dataSecurity.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.dataSecurity.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Your Rights -->
+          <section id="your-rights" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.yourRights.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+              {{ 'legal.privacy.sections.yourRights.intro' | translate }}
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+              <li>{{ 'legal.privacy.sections.yourRights.items.access' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.yourRights.items.correction' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.yourRights.items.deletion' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.yourRights.items.objection' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.yourRights.items.portability' | translate }}</li>
+              <li>{{ 'legal.privacy.sections.yourRights.items.withdraw' | translate }}</li>
+            </ul>
+          </section>
+
+          <!-- Cookies -->
+          <section id="cookies" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.cookies.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+              {{ 'legal.privacy.sections.cookies.content' | translate }}
+            </p>
+            <a
+              routerLink="/cookies"
+              class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 hover:text-primary-700 dark:hover:text-secondary-300 font-medium"
+            >
+              <span>{{ 'legal.privacy.sections.cookies.learnMore' | translate }}</span>
+              <svg class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+          </section>
+
+          <!-- Third-Party Services -->
+          <section id="third-party-services" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.thirdPartyServices.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.thirdPartyServices.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Data Retention -->
+          <section id="data-retention" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.dataRetention.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.dataRetention.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Children's Privacy -->
+          <section id="childrens-privacy" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.childrensPrivacy.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.childrensPrivacy.content' | translate }}
+            </p>
+          </section>
+
+          <!-- International Transfers -->
+          <section id="international-transfers" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.internationalTransfers.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.internationalTransfers.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Changes to Policy -->
+          <section id="changes-to-policy" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.changesToPolicy.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.privacy.sections.changesToPolicy.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Contact Us -->
+          <section id="contact-us" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.privacy.sections.contactUs.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+              {{ 'legal.privacy.sections.contactUs.intro' | translate }}
+            </p>
+            <div class="p-6 rounded-xl bg-neutral-100 dark:bg-neutral-800 space-y-3">
+              <div class="flex items-start gap-3">
+                <svg class="h-5 w-5 text-primary-600 dark:text-secondary-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'legal.contact.email' | translate }}</p>
+                  <a href="mailto:privacy@roaya.co" class="text-primary-600 dark:text-secondary-400 hover:underline">privacy@roaya.co</a>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="h-5 w-5 text-primary-600 dark:text-secondary-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'legal.contact.address' | translate }}</p>
+                  <p class="text-neutral-600 dark:text-neutral-300">{{ 'footer.address' | translate }}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Related Legal Pages -->
+          <div class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+            <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.relatedPages.title' | translate }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <a
+                routerLink="/terms"
+                class="flex items-center gap-3 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500 dark:hover:border-secondary-400 transition-colors group"
+              >
+                <svg class="h-6 w-6 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'footer.termsOfService' | translate }}</p>
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'legal.relatedPages.termsDescription' | translate }}</p>
+                </div>
+              </a>
+              <a
+                routerLink="/cookies"
+                class="flex items-center gap-3 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500 dark:hover:border-secondary-400 transition-colors group"
+              >
+                <svg class="h-6 w-6 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'footer.cookiePolicy' | translate }}</p>
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'legal.relatedPages.cookiesDescription' | translate }}</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Back to Top Button -->
+<button
+  *ngIf="showBackToTop()"
+  (click)="scrollToTop()"
+  class="fixed bottom-8 end-8 p-3 rounded-full bg-primary-600 dark:bg-secondary-500 text-white shadow-lg hover:bg-primary-700 dark:hover:bg-secondary-600 transition-all hover:scale-110 z-50 print:hidden"
+  aria-label="Back to top"
+>
+  <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+  </svg>
+</button>

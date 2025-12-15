@@ -67,19 +67,19 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (stat of statistics; track stat.label; let i = $index) {
           <div
-            class="group relative text-center p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up overflow-hidden"
+            class="group relative text-center p-6 rounded-xl animate-fade-in-up overflow-hidden"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Hover glow -->
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-            <div class="relative bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6">
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
               <div class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
                 {{ stat.value }}
               </div>
               <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
                 {{ stat.label }}
               </div>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              <p class="text-sm text-neutral-600 dark:text-neutral-200">
                 {{ stat.description }}
               </p>
             </div>
@@ -153,25 +153,24 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         @for (benefit of benefits; track benefit.title; let i = $index) {
-          <div
-            class="group relative rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up overflow-hidden"
-            [style.animation-delay]="i * 100 + 'ms'">
-            <!-- Hover glow -->
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+          <div class="group relative flex focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 focus-within:rounded-2xl animate-fade-in-up" [style.animation-delay]="i * 100 + 'ms'">
+            <!-- Glow Effect on Hover -->
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-            <div class="relative bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6">
+            <!-- Glass Card -->
+            <div class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 flex-1 flex flex-col">
               <!-- Icon -->
-              <div class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+              <div class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 transition-transform">
                 <ng-icon [name]="benefit.icon" size="28"></ng-icon>
               </div>
 
               <!-- Title -->
-              <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ benefit.title }}
               </h3>
 
               <!-- Description -->
-              <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
                 {{ benefit.description }}
               </p>
             </div>
@@ -221,21 +220,21 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         @for (diff of differentiators; track diff.title; let i = $index) {
           <div
-            class="group relative rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden animate-fade-in-up"
+            class="group relative rounded-xl overflow-hidden animate-fade-in-up"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Hover glow -->
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-            <div class="relative bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-8">
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
               <!-- Highlight Badge -->
               <div class="absolute top-4 right-4 rtl:right-auto rtl:left-4 px-3 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-xs font-semibold rounded-full">
                 {{ diff.highlight }}
               </div>
 
-              <h3 class="text-xl font-bold mb-3 pr-24 rtl:pr-0 rtl:pl-24 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              <h3 class="text-xl font-bold mb-3 pr-24 rtl:pr-0 rtl:pl-24 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ diff.title }}
               </h3>
-              <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed">
                 {{ diff.description }}
               </p>
             </div>
@@ -260,14 +259,14 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         @for (tier of pricingTiers; track tier.name; let i = $index) {
           <div
-            class="group relative rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up hover:-translate-y-2 overflow-hidden"
+            class="group relative rounded-xl animate-fade-in-up overflow-hidden"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Hover glow (only for non-popular cards) -->
             @if (!tier.popular) {
-              <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
             }
 
-            <div class="relative bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl rounded-xl p-8"
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2"
                  [ngClass]="tier.popular ? 'border-2 border-primary-500 dark:border-primary-400' : 'border border-white/60 dark:border-primary-700/40'">
 
               <!-- Popular Badge -->
@@ -277,7 +276,7 @@
                 </div>
               }
 
-              <h3 class="text-2xl font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              <h3 class="text-2xl font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ tier.name }}
               </h3>
 
@@ -355,24 +354,24 @@
         @for (service of relatedServices; track service.id; let i = $index) {
           <a
             [routerLink]="service.route"
-            class="group relative block rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up overflow-hidden"
+            class="group relative block rounded-xl animate-fade-in-up overflow-hidden"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Hover glow -->
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-            <div class="relative bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6">
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
               <!-- Service Icon -->
-              <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden shadow-lg">
+              <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
                 <img [src]="service.iconSvg" [alt]="service.title" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
               </div>
 
               <!-- Service Title -->
-              <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ service.title }}
               </h3>
 
               <!-- Service Description -->
-              <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4 leading-relaxed">
+              <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
                 {{ service.description }}
               </p>
 

@@ -165,14 +165,38 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     { value: 10, suffix: '+', label: 'home.stats.experience', current: 0 }
   ]);
 
-  // Trusted by logos (placeholder data - replace with real client logos)
+  // Trusted by logos - Real client logos
   trustedLogos = [
-    { name: 'Client 1', logo: '/assets/images/logos/clients/client-placeholder.svg' },
-    { name: 'Client 2', logo: '/assets/images/logos/clients/client-placeholder.svg' },
-    { name: 'Client 3', logo: '/assets/images/logos/clients/client-placeholder.svg' },
-    { name: 'Client 4', logo: '/assets/images/logos/clients/client-placeholder.svg' },
-    { name: 'Client 5', logo: '/assets/images/logos/clients/client-placeholder.svg' },
-    { name: 'Client 6', logo: '/assets/images/logos/clients/client-placeholder.svg' }
+    {
+      name: 'Misr Insurance',
+      logo: '/assets/images/logos/clients/misr-logo.webp',
+      nameAr: 'مصر للتأمين'
+    },
+    {
+      name: 'Elsewedy Electric',
+      logo: '/assets/images/logos/clients/Elsewedy-EMG-logo-01-e1528629466548.png',
+      nameAr: 'السويدي إلكتريك'
+    },
+    {
+      name: 'Dorra Group',
+      logo: '/assets/images/logos/clients/Dorra-group-logo.png',
+      nameAr: 'مجموعة درة'
+    },
+    {
+      name: 'Cleopatra Group',
+      logo: '/assets/images/logos/clients/logo-cleopatra.png',
+      nameAr: 'مجموعة كليوباترا'
+    },
+    {
+      name: '2B Computer',
+      logo: '/assets/images/logos/clients/208-2086972_1-2b-computer-logo-2b-computer-logo-hd.png',
+      nameAr: '2B كمبيوتر'
+    },
+    {
+      name: 'Egyptian Banking Corporation',
+      logo: '/assets/images/logos/clients/637187487380375480.jpg',
+      nameAr: 'البنك المصري'
+    }
   ];
 
   // Features/benefits - using Font Awesome Regular (outline) icons

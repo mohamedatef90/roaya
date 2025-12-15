@@ -39,7 +39,7 @@
     "solutions": "Solutions",
     "company": "Company",
     "contact": "Contact Us",
-    "address": "Cairo, Egypt",
+    "address": "Block 3/67, Maadi Zahraa - 10th Sector, Cairo, Egypt",
     "securityFirst": "Security First",
     "certified": "ISO Certified",
     "allRightsReserved": "All rights reserved.",
@@ -73,7 +73,8 @@
   "megaMenu": {
     "viewAll": "View all solutions",
     "viewAllServices": "View all solutions",
-    "viewAllIndustries": "View all industries"
+    "viewAllIndustries": "View all industries",
+    "viewAllResources": "View all resources"
   },
   "services": {
     "page": {
@@ -969,9 +970,10 @@
     "info": {
       "title": "Contact Information",
       "description": "Reach out to us through any of these channels. Our team is ready to assist you.",
+      "badge": "Get in Touch",
       "address": {
         "title": "Office Address",
-        "value": "Cairo, Egypt"
+        "value": "Block 3/67, Maadi Zahraa - 10th Sector, Cairo, Egypt"
       },
       "email": {
         "title": "Email Us"
@@ -1020,9 +1022,11 @@
       }
     },
     "map": {
+      "badge": "Find Us",
       "title": "Visit Our Office",
-      "description": "We'd love to meet you in person. Visit our office in Cairo.",
-      "placeholder": "Map Loading..."
+      "description": "We'd love to meet you in person. Visit our office in Maadi Zahraa, Cairo.",
+      "placeholder": "Map Loading...",
+      "getDirections": "Get Directions"
     },
     "cta": {
       "title": "Prefer to Talk?",
@@ -1233,10 +1237,378 @@
       "button": "Talk to an Expert"
     }
   },
-  "megaMenu": {
-    "viewAll": "View all solutions",
-    "viewAllServices": "View all solutions",
-    "viewAllIndustries": "View all industries",
-    "viewAllResources": "View all resources"
+  "legal": {
+    "lastUpdated": "Last Updated",
+    "tableOfContents": "Table of Contents",
+    "actions": {
+      "print": "Print"
+    },
+    "questions": {
+      "title": "Have Questions?",
+      "description": "If you have any questions about this policy, please contact us.",
+      "cta": "Contact Us"
+    },
+    "contact": {
+      "email": "Email",
+      "address": "Address"
+    },
+    "relatedPages": {
+      "title": "Related Legal Documents",
+      "privacyDescription": "How we handle your data",
+      "termsDescription": "Terms and conditions",
+      "cookiesDescription": "How we use cookies"
+    },
+    "privacy": {
+      "badge": "Legal Document",
+      "title": "Privacy Policy",
+      "toc": {
+        "introduction": "Introduction",
+        "informationWeCollect": "Information We Collect",
+        "personalInformation": "Personal Information",
+        "usageData": "Usage Data",
+        "howWeUseInformation": "How We Use Information",
+        "dataSharing": "Data Sharing and Disclosure",
+        "dataSecurity": "Data Security",
+        "yourRights": "Your Privacy Rights",
+        "cookies": "Cookies and Tracking",
+        "thirdPartyServices": "Third-Party Services",
+        "dataRetention": "Data Retention",
+        "childrensPrivacy": "Children's Privacy",
+        "internationalTransfers": "International Data Transfers",
+        "changesToPolicy": "Changes to This Policy",
+        "contactUs": "Contact Us"
+      },
+      "sections": {
+        "introduction": {
+          "title": "Introduction",
+          "content": "Roaya IT (\"we,\" \"us,\" or \"our\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services. Please read this policy carefully to understand our practices regarding your personal data."
+        },
+        "informationWeCollect": {
+          "title": "Information We Collect",
+          "intro": "We collect several types of information from and about users of our website and services:",
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Information that can be used to identify you personally, which you provide voluntarily when using our services:",
+            "items": {
+              "name": "Full name and contact details",
+              "email": "Email address",
+              "phone": "Phone number",
+              "company": "Company name and job title",
+              "jobTitle": "Professional information"
+            }
+          },
+          "usageData": {
+            "title": "Usage Data",
+            "description": "Information automatically collected when you use our website:",
+            "items": {
+              "ipAddress": "IP address and device information",
+              "browser": "Browser type and version",
+              "pages": "Pages visited and time spent",
+              "timeSpent": "Usage patterns and interactions",
+              "referrer": "Referral source"
+            }
+          }
+        },
+        "howWeUseInformation": {
+          "title": "How We Use Your Information",
+          "intro": "We use the information we collect for the following purposes:",
+          "items": {
+            "provideServices": "To provide, maintain, and improve our IT services",
+            "communicate": "To communicate with you about our services and respond to inquiries",
+            "improve": "To analyze usage patterns and improve our website and services",
+            "marketing": "To send promotional communications (with your consent)",
+            "security": "To protect against fraud and enhance security",
+            "legal": "To comply with legal obligations and enforce our terms"
+          }
+        },
+        "dataSharing": {
+          "title": "Data Sharing and Disclosure",
+          "intro": "We do not sell your personal information. We may share your information with:",
+          "items": {
+            "serviceProviders": "Trusted third-party service providers who assist in operating our business",
+            "businessTransfers": "In connection with mergers, acquisitions, or asset sales",
+            "legal": "To comply with legal requirements or respond to lawful requests",
+            "consent": "With your explicit consent for specific purposes"
+          }
+        },
+        "dataSecurity": {
+          "title": "Data Security",
+          "content": "We implement industry-standard security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security."
+        },
+        "yourRights": {
+          "title": "Your Privacy Rights",
+          "intro": "Depending on your location, you may have the following rights regarding your personal data:",
+          "items": {
+            "access": "Right to access your personal information",
+            "correction": "Right to correct inaccurate data",
+            "deletion": "Right to request deletion of your data",
+            "objection": "Right to object to certain processing activities",
+            "portability": "Right to data portability",
+            "withdraw": "Right to withdraw consent at any time"
+          }
+        },
+        "cookies": {
+          "title": "Cookies and Tracking Technologies",
+          "content": "We use cookies and similar tracking technologies to enhance your browsing experience and analyze website traffic. You can control cookie preferences through your browser settings.",
+          "learnMore": "Learn more about our Cookie Policy"
+        },
+        "thirdPartyServices": {
+          "title": "Third-Party Services",
+          "content": "Our website may contain links to third-party websites and services. We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies."
+        },
+        "dataRetention": {
+          "title": "Data Retention",
+          "content": "We retain your personal information for as long as necessary to fulfill the purposes outlined in this policy, unless a longer retention period is required by law. When data is no longer needed, we securely delete or anonymize it."
+        },
+        "childrensPrivacy": {
+          "title": "Children's Privacy",
+          "content": "Our services are not directed to individuals under the age of 16. We do not knowingly collect personal information from children. If you believe we have collected information from a child, please contact us immediately."
+        },
+        "internationalTransfers": {
+          "title": "International Data Transfers",
+          "content": "Your information may be transferred to and processed in countries other than your country of residence. We ensure appropriate safeguards are in place to protect your data in accordance with this policy and applicable laws."
+        },
+        "changesToPolicy": {
+          "title": "Changes to This Privacy Policy",
+          "content": "We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on this page and updating the \"Last Updated\" date. We encourage you to review this policy periodically."
+        },
+        "contactUs": {
+          "title": "Contact Us",
+          "intro": "If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:"
+        }
+      }
+    },
+    "terms": {
+      "badge": "Legal Agreement",
+      "title": "Terms of Service",
+      "toc": {
+        "acceptance": "Acceptance of Terms",
+        "descriptionOfServices": "Description of Services",
+        "userObligations": "User Obligations",
+        "acceptableUse": "Acceptable Use",
+        "prohibitedActivities": "Prohibited Activities",
+        "intellectualProperty": "Intellectual Property",
+        "serviceFees": "Service Fees and Payment",
+        "paymentTerms": "Payment Terms",
+        "refundPolicy": "Refund Policy",
+        "confidentiality": "Confidentiality",
+        "warranties": "Warranties and Disclaimers",
+        "limitationOfLiability": "Limitation of Liability",
+        "indemnification": "Indemnification",
+        "termAndTermination": "Term and Termination",
+        "disputeResolution": "Dispute Resolution",
+        "governingLaw": "Governing Law",
+        "changesToTerms": "Changes to Terms",
+        "contact": "Contact Information"
+      },
+      "sections": {
+        "acceptance": {
+          "title": "Acceptance of Terms",
+          "content": "By accessing and using Roaya IT's website and services, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services. These terms constitute a legally binding agreement between you and Roaya IT."
+        },
+        "descriptionOfServices": {
+          "title": "Description of Services",
+          "content": "Roaya IT provides enterprise IT solutions including cloud infrastructure, cybersecurity, managed IT services, email solutions, backup and disaster recovery, IT consulting, and related professional services. Service specifications and deliverables are defined in individual service agreements or statements of work."
+        },
+        "userObligations": {
+          "title": "User Obligations",
+          "intro": "As a user of our services, you agree to:",
+          "acceptableUse": {
+            "title": "Acceptable Use",
+            "content": "Use our services only for lawful purposes and in accordance with these terms. You are responsible for all activities that occur under your account and must maintain the security of your account credentials."
+          },
+          "prohibitedActivities": {
+            "title": "Prohibited Activities",
+            "items": {
+              "unlawful": "Engage in any illegal or unauthorized activities",
+              "harmful": "Transmit harmful code, viruses, or malicious software",
+              "infringe": "Infringe upon intellectual property rights of others",
+              "interfere": "Interfere with the operation of our services or systems"
+            }
+          }
+        },
+        "intellectualProperty": {
+          "title": "Intellectual Property Rights",
+          "content": "All content, software, and materials provided through our services are the property of Roaya IT or our licensors and are protected by intellectual property laws. You may not copy, modify, distribute, or create derivative works without our explicit written permission."
+        },
+        "serviceFees": {
+          "title": "Service Fees and Payment",
+          "intro": "Fees for our services are specified in your service agreement or invoice.",
+          "paymentTerms": {
+            "title": "Payment Terms",
+            "content": "Payment is due according to the terms specified in your service agreement. Late payments may incur interest charges and may result in service suspension. All fees are non-refundable unless otherwise stated in your agreement."
+          },
+          "refundPolicy": {
+            "title": "Refund Policy",
+            "content": "Refund requests are evaluated on a case-by-case basis. Services delivered in full or partially consumed are generally not eligible for refunds. Any applicable refunds will be processed within 30 days of approval."
+          }
+        },
+        "confidentiality": {
+          "title": "Confidentiality",
+          "content": "Both parties agree to maintain the confidentiality of any proprietary or sensitive information disclosed during the course of our business relationship. This obligation survives the termination of services."
+        },
+        "warranties": {
+          "title": "Warranties and Disclaimers",
+          "content": "We warrant that our services will be performed in a professional manner consistent with industry standards. However, our services are provided \"as is\" without any additional warranties, express or implied. We do not guarantee uninterrupted or error-free service."
+        },
+        "limitationOfLiability": {
+          "title": "Limitation of Liability",
+          "content": "To the maximum extent permitted by law, Roaya IT shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services. Our total liability shall not exceed the amount paid by you for the services in the 12 months preceding the claim."
+        },
+        "indemnification": {
+          "title": "Indemnification",
+          "content": "You agree to indemnify and hold harmless Roaya IT, its officers, directors, employees, and agents from any claims, damages, or expenses arising from your use of our services, violation of these terms, or infringement of any third-party rights."
+        },
+        "termAndTermination": {
+          "title": "Term and Termination",
+          "content": "These terms remain in effect while you use our services. Either party may terminate the service relationship with written notice as specified in the service agreement. Upon termination, you must cease using our services and any outstanding fees become immediately due."
+        },
+        "disputeResolution": {
+          "title": "Dispute Resolution",
+          "content": "Any disputes arising from these terms or our services shall first be attempted to be resolved through good-faith negotiations. If resolution is not achieved, disputes shall be resolved through binding arbitration in accordance with Egyptian law."
+        },
+        "governingLaw": {
+          "title": "Governing Law",
+          "content": "These Terms of Service are governed by and construed in accordance with the laws of the Arab Republic of Egypt. Any legal action or proceeding relating to these terms shall be brought exclusively in the courts of Cairo, Egypt."
+        },
+        "changesToTerms": {
+          "title": "Changes to These Terms",
+          "content": "We reserve the right to modify these Terms of Service at any time. Material changes will be communicated to active customers via email. Continued use of our services after changes constitute acceptance of the modified terms."
+        },
+        "contact": {
+          "title": "Contact Information",
+          "intro": "For questions about these Terms of Service or our services, please contact us at:"
+        }
+      }
+    },
+    "cookies": {
+      "badge": "Cookie Information",
+      "title": "Cookie Policy",
+      "toc": {
+        "whatAreCookies": "What Are Cookies",
+        "howWeUseCookies": "How We Use Cookies",
+        "typesOfCookies": "Types of Cookies",
+        "essentialCookies": "Essential Cookies",
+        "analyticsCookies": "Analytics Cookies",
+        "marketingCookies": "Marketing Cookies",
+        "preferenceCookies": "Preference Cookies",
+        "cookieList": "Cookie List",
+        "managingCookies": "Managing Cookies",
+        "thirdPartyCookies": "Third-Party Cookies",
+        "updates": "Updates to This Policy",
+        "contact": "Contact Us"
+      },
+      "types": {
+        "essential": {
+          "label": "Essential"
+        },
+        "analytics": {
+          "label": "Analytics"
+        },
+        "marketing": {
+          "label": "Marketing"
+        },
+        "preferences": {
+          "label": "Preferences"
+        }
+      },
+      "table": {
+        "name": "Cookie Name",
+        "purpose": "Purpose",
+        "duration": "Duration",
+        "type": "Type"
+      },
+      "list": {
+        "theme": {
+          "purpose": "Stores your theme preference (light/dark mode)"
+        },
+        "language": {
+          "purpose": "Stores your language preference (English/Arabic)"
+        },
+        "ga": {
+          "purpose": "Google Analytics - distinguishes unique users"
+        },
+        "gaProperty": {
+          "purpose": "Google Analytics - property-specific tracking"
+        },
+        "session": {
+          "purpose": "Maintains your session state and security"
+        }
+      },
+      "browsers": {
+        "chrome": "Google Chrome",
+        "chromeInstructions": "Settings > Privacy and security > Cookies and other site data",
+        "firefox": "Mozilla Firefox",
+        "firefoxInstructions": "Settings > Privacy & Security > Cookies and Site Data",
+        "safari": "Safari",
+        "safariInstructions": "Preferences > Privacy > Manage Website Data",
+        "edge": "Microsoft Edge",
+        "edgeInstructions": "Settings > Privacy, search, and services > Cookies and site permissions"
+      },
+      "sections": {
+        "whatAreCookies": {
+          "title": "What Are Cookies?",
+          "content": "Cookies are small text files that are placed on your device when you visit a website. They help websites remember your preferences, understand how you use the site, and improve your browsing experience. Cookies contain information that is transferred to your device's hard drive."
+        },
+        "howWeUseCookies": {
+          "title": "How We Use Cookies",
+          "intro": "We use cookies to:",
+          "items": {
+            "remember": "Remember your preferences and settings",
+            "understand": "Understand how you interact with our website",
+            "secure": "Keep your account secure and prevent fraud",
+            "improve": "Improve our services and user experience"
+          }
+        },
+        "typesOfCookies": {
+          "title": "Types of Cookies We Use",
+          "intro": "We use the following categories of cookies on our website:",
+          "essential": {
+            "title": "Essential Cookies",
+            "content": "These cookies are necessary for the website to function properly. They enable core functionality such as security, network management, and accessibility. You cannot opt-out of essential cookies as they are strictly necessary for the operation of our website."
+          },
+          "analytics": {
+            "title": "Analytics Cookies",
+            "content": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. We use Google Analytics to track visitor behavior, measure site performance, and identify areas for improvement."
+          },
+          "marketing": {
+            "title": "Marketing Cookies",
+            "content": "These cookies track your online activity to help us deliver more relevant advertising and measure the effectiveness of our marketing campaigns. They may be set by third-party advertising networks with our permission."
+          },
+          "preferences": {
+            "title": "Preference Cookies",
+            "content": "These cookies remember your preferences and choices (such as language or region) to provide a more personalized experience. They help us remember settings you've applied to the website."
+          }
+        },
+        "cookieList": {
+          "title": "Detailed Cookie List",
+          "intro": "Below is a list of cookies we use on our website:"
+        },
+        "managingCookies": {
+          "title": "Managing Your Cookie Preferences",
+          "intro": "You can control and manage cookies in several ways:",
+          "warning": {
+            "title": "Important Note",
+            "content": "Blocking or deleting cookies may impact your user experience and some features of our website may not function properly."
+          }
+        },
+        "thirdPartyCookies": {
+          "title": "Third-Party Cookies",
+          "intro": "We use the following third-party services that may set cookies:",
+          "items": {
+            "googleAnalytics": "Google Analytics - for website analytics and performance tracking",
+            "hubspot": "HubSpot - for customer relationship management and marketing automation"
+          }
+        },
+        "updates": {
+          "title": "Updates to This Cookie Policy",
+          "content": "We may update this Cookie Policy from time to time to reflect changes in our use of cookies or for operational, legal, or regulatory reasons. Please revisit this page periodically to stay informed about our use of cookies."
+        },
+        "contact": {
+          "title": "Contact Us About Cookies",
+          "intro": "If you have questions or concerns about our use of cookies, please contact us at:"
+        }
+      }
+    }
   }
 }

@@ -118,6 +118,21 @@ export const routes: Routes = [
     title: 'Case Study - Roaya IT'
   },
   {
+    path: 'privacy',
+    loadComponent: () => import('./features/legal/privacy/privacy.component').then(m => m.PrivacyComponent),
+    title: 'Privacy Policy - Roaya IT'
+  },
+  {
+    path: 'terms',
+    loadComponent: () => import('./features/legal/terms/terms.component').then(m => m.TermsComponent),
+    title: 'Terms of Service - Roaya IT'
+  },
+  {
+    path: 'cookies',
+    loadComponent: () => import('./features/legal/cookies/cookies.component').then(m => m.CookiesComponent),
+    title: 'Cookie Policy - Roaya IT'
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'

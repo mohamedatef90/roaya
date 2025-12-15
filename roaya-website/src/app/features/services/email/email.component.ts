@@ -10,8 +10,13 @@ import {
   faSquareCheck,
   faCircle,
   faClock,
-  faLightbulb
+  faLightbulb,
+  faCalendarDays
 } from '@ng-icons/font-awesome/regular';
+import {
+  faSolidShieldHalved,
+  faSolidBoxArchive
+} from '@ng-icons/font-awesome/solid';
 import { Meta, Title } from '@angular/platform-browser';
 
 /**
@@ -34,7 +39,10 @@ import { Meta, Title } from '@angular/platform-browser';
       faSquareCheck,
       faCircle,
       faClock,
-      faLightbulb
+      faLightbulb,
+      faCalendarDays,
+      faShieldHalved: faSolidShieldHalved,
+      faBoxArchive: faSolidBoxArchive
     })
   ]
 })

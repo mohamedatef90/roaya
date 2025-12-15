@@ -1,0 +1,41 @@
+// Cookie Policy Component Styles
+// Shared styles with Privacy component + table styles
+
+@use '../privacy/privacy.component.scss';
+
+// Table styles for cookie list
+table {
+  width: 100%;
+  border-spacing: 0;
+
+  thead {
+    position: sticky;
+    top: 96px; // Account for fixed header
+    z-index: 10;
+  }
+
+  th {
+    white-space: nowrap;
+  }
+
+  td {
+    vertical-align: top;
+  }
+
+  code {
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+}
+
+// Responsive table on mobile
+@media (max-width: 768px) {
+  .overflow-x-auto {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 600px;
+  }
+}

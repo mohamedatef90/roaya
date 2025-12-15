@@ -3,6 +3,7 @@
     "home": "Home",
     "services": "Solutions",
     "industries": "Industries",
+    "resources": "Resources",
     "pricing": "Pricing",
     "about": "About",
     "contact": "Contact",
@@ -70,7 +71,9 @@
     "minLength": "Please enter at least 10 characters"
   },
   "megaMenu": {
-    "viewAll": "View all solutions"
+    "viewAll": "View all solutions",
+    "viewAllServices": "View all solutions",
+    "viewAllIndustries": "View all industries"
   },
   "services": {
     "page": {
@@ -196,9 +199,73 @@
       "description": "Our solutions architects can help you identify the right combination of services for your business needs.",
       "button": "Talk to an Expert",
       "secondaryButton": "Compare Plans"
+    },
+    "detail": {
+      "whyChoose": {
+        "title": "Why Choose This Solution?",
+        "description": "Enterprise-grade benefits that drive real business value"
+      },
+      "benefits": {
+        "security": {
+          "title": "Enterprise Security",
+          "description": "Bank-grade security with 24/7 SOC monitoring and threat detection"
+        },
+        "support": {
+          "title": "24/7 Expert Support",
+          "description": "Egyptian support team available around the clock in your timezone"
+        },
+        "scalable": {
+          "title": "Infinitely Scalable",
+          "description": "Scale up or down instantly as your business needs change"
+        },
+        "compliance": {
+          "title": "Full Compliance",
+          "description": "Meet all regulatory requirements with built-in compliance tools"
+        },
+        "performance": {
+          "title": "Optimized Performance",
+          "description": "99.9% uptime SLA with lightning-fast response times"
+        },
+        "costEffective": {
+          "title": "Cost Effective",
+          "description": "Reduce IT costs by up to 40% with our managed solutions"
+        }
+      },
+      "industries": {
+        "title": "Industries We Serve",
+        "description": "Trusted by leading organizations across multiple sectors",
+        "banking_&_finance": "Banking & Finance",
+        "healthcare": "Healthcare",
+        "manufacturing": "Manufacturing",
+        "retail": "Retail",
+        "education": "Education",
+        "government": "Government"
+      },
+      "pricing": {
+        "viewFullPricing": "View Full Pricing Details"
+      },
+      "relatedServices": {
+        "title": "Related Services",
+        "description": "Explore other solutions that complement your needs"
+      },
+      "cta": {
+        "title": "Ready to Get Started?",
+        "description": "Let's discuss how {{service}} can transform your business."
+      }
     }
   },
   "home": {
+    "intro": {
+      "word1": "Empowering",
+      "word2": "Digital",
+      "word3": "Excellence"
+    },
+    "newsBar": {
+      "text": "Enterprise Email Security Suite Now Available",
+      "promo1": "Save 40% on Cloud Migration This Quarter",
+      "promo2": "Free Cybersecurity Assessment for New Clients",
+      "promo3": "Egyptian Support 24/7 - 15-Minute Response Guaranteed"
+    },
     "hero": {
       "badge": "Trusted by 150+ Egyptian Companies",
       "title": "IT Services That Deliver Results",
@@ -206,6 +273,7 @@
       "description": "Egypt's first IT provider with transparent pricing and guaranteed ROI. Enterprise-grade security and 24/7 Egyptian support.",
       "cta": "Start Your Journey",
       "secondaryCta": "View Pricing",
+      "scrollDown": "Scroll to explore",
       "trust": {
         "noHiddenFees": "Zero Hidden Fees",
         "support": "24/7 Egyptian Support",
@@ -213,6 +281,7 @@
       }
     },
     "stats": {
+      "heading": "Company Statistics and Achievements",
       "clients": "Happy Clients",
       "uptime": "Uptime",
       "support": "Support",
@@ -243,7 +312,61 @@
     },
     "services": {
       "badge": "Our Solutions",
-      "title": "Enterprise IT Solutions"
+      "title": "Enterprise IT Solutions",
+      "subtitle": "Comprehensive IT solutions designed to transform Egyptian enterprises with security, trust, and transparency.",
+      "viewAllDescription": "Explore all our enterprise IT solutions designed to transform your business."
+    },
+    "featuredServices": {
+      "cloud": {
+        "badge": "Cloud Solutions"
+      },
+      "security": {
+        "badge": "Cybersecurity"
+      },
+      "email": {
+        "badge": "Email & Collaboration"
+      },
+      "managed": {
+        "badge": "Managed Services"
+      }
+    },
+    "expertise": {
+      "badge": "Our Expertise",
+      "title": "What We Do Best",
+      "subtitle": "Comprehensive IT solutions tailored for Egyptian businesses, backed by enterprise-grade security and local expertise.",
+      "learnMore": "Explore Solution",
+      "cloud": {
+        "subtitle": "Cloud Infrastructure",
+        "title": "Build & Scale in the Cloud",
+        "description": "Deploy, manage, and scale your applications with multi-cloud infrastructure designed for reliability, performance, and cost optimization.",
+        "feature1": "Multi-cloud architecture (AWS, Azure, GCP)",
+        "feature2": "Automated scaling and load balancing",
+        "feature3": "24/7 monitoring with 99.9% uptime SLA"
+      },
+      "security": {
+        "subtitle": "Cybersecurity",
+        "title": "Protect What Matters Most",
+        "description": "Comprehensive security solutions with 24/7 SOC monitoring, threat detection, and incident response to keep your business safe.",
+        "feature1": "24/7 Security Operations Center (SOC)",
+        "feature2": "Vulnerability assessments and penetration testing",
+        "feature3": "Compliance management (ISO 27001, PCI-DSS)"
+      },
+      "email": {
+        "subtitle": "Email & Collaboration",
+        "title": "Communicate with Confidence",
+        "description": "Enterprise email solutions powered by WorldPosta with advanced security, compliance features, and seamless collaboration tools.",
+        "feature1": "Secure email hosting with 99.9% uptime",
+        "feature2": "Advanced spam and malware protection",
+        "feature3": "Email archiving and e-discovery"
+      },
+      "managed": {
+        "subtitle": "Managed IT Services",
+        "title": "Focus on Your Business",
+        "description": "Let us handle your IT while you focus on growth. Proactive monitoring, maintenance, and dedicated support keep your systems running smoothly.",
+        "feature1": "Proactive infrastructure monitoring",
+        "feature2": "Dedicated help desk with local support",
+        "feature3": "Monthly performance reports and reviews"
+      }
     },
     "cta": {
       "title": "Ready to Transform Your IT?",
@@ -251,7 +374,258 @@
       "button": "Schedule a Consultation",
       "secondaryButton": "View Our Pricing"
     },
-    "trustedBy": "Trusted by leading Egyptian companies"
+    "trustedBy": "Trusted by leading Egyptian companies",
+    "process": {
+      "badge": "Simple Process",
+      "title": "How We Work",
+      "subtitle": "A proven 4-step process that ensures smooth IT transformation with zero disruption to your business.",
+      "cta": "Start Your Free Assessment",
+      "step1": {
+        "title": "Discovery Call",
+        "description": "We analyze your current IT setup, identify risks and opportunities, and calculate your potential ROI.",
+        "duration": "30-60 min"
+      },
+      "step2": {
+        "title": "Transparent Proposal",
+        "description": "Receive a detailed breakdown of services, SLAs, and costs. No hidden fees, no surprises.",
+        "duration": "3-5 days"
+      },
+      "step3": {
+        "title": "Seamless Implementation",
+        "description": "Our team migrates your systems during off-hours with full backup and rollback plans in place.",
+        "duration": "2-4 weeks"
+      },
+      "step4": {
+        "title": "Continuous Support",
+        "description": "24/7 monitoring, proactive maintenance, and quarterly performance reviews to optimize your systems.",
+        "duration": "Ongoing"
+      }
+    },
+    "industries": {
+      "badge": "Industries We Serve",
+      "title": "Built for Your Industry",
+      "subtitle": "Tailored IT solutions that address the unique challenges of Egyptian enterprises across critical sectors.",
+      "viewAll": "View All Industries",
+      "finance": {
+        "name": "Finance & Banking",
+        "description": "Secure, compliant infrastructure meeting CBE regulations with 24/7 monitoring.",
+        "clients": "30+ clients"
+      },
+      "healthcare": {
+        "name": "Healthcare",
+        "description": "HIPAA-aligned systems protecting patient data with 99.99% uptime.",
+        "clients": "25+ clients"
+      },
+      "government": {
+        "name": "Government",
+        "description": "Sovereign cloud infrastructure with complete data control and compliance.",
+        "clients": "15+ clients"
+      },
+      "manufacturing": {
+        "name": "Manufacturing",
+        "description": "Zero-downtime infrastructure for ERP systems and production monitoring.",
+        "clients": "20+ clients"
+      },
+      "retail": {
+        "name": "Retail & E-commerce",
+        "description": "PCI-compliant infrastructure with auto-scaling for peak traffic.",
+        "clients": "18+ clients"
+      },
+      "education": {
+        "name": "Education",
+        "description": "Secure platforms for learning management and student portals.",
+        "clients": "12+ clients"
+      }
+    },
+    "security": {
+      "badge": "Enterprise Security",
+      "title": "Enterprise-Grade Security. Guaranteed.",
+      "subtitle": "Your data stays in Egypt, protected by international security standards and local compliance.",
+      "cta": "Learn About Our Security",
+      "certifications": {
+        "iso27001": {
+          "name": "ISO 27001",
+          "description": "Information Security"
+        },
+        "iso9001": {
+          "name": "ISO 9001",
+          "description": "Quality Management"
+        },
+        "gdpr": {
+          "name": "GDPR",
+          "description": "Data Protection"
+        },
+        "soc2": {
+          "name": "SOC 2",
+          "description": "Security Controls"
+        }
+      },
+      "guarantees": {
+        "sovereignty": {
+          "title": "Egyptian Data Sovereignty",
+          "description": "Your data resides in Egyptian data centers, fully compliant with local regulations and your full control."
+        },
+        "encryption": {
+          "title": "Military-Grade Encryption",
+          "description": "End-to-end encryption for all data in transit and at rest, protecting against unauthorized access."
+        },
+        "monitoring": {
+          "title": "24/7 SOC Monitoring",
+          "description": "Real-time threat detection and rapid incident response by our Egyptian security operations team."
+        }
+      }
+    },
+    "testimonials": {
+      "badge": "Client Success",
+      "title": "Results That Speak",
+      "subtitle": "Egyptian enterprises trust us to deliver measurable IT transformation.",
+      "viewAll": "View All Success Stories",
+      "testimonial1": {
+        "quote": "Roaya IT's proactive monitoring prevented a ransomware attack that could have cost us millions. Their 24/7 SOC team is exceptional.",
+        "name": "Ahmed Hassan",
+        "title": "IT Director",
+        "company": "Leading Egyptian Bank",
+        "industry": "Finance Sector",
+        "metric": "reduction in security incidents"
+      },
+      "testimonial2": {
+        "quote": "Our clinics operate 24/7 without IT disruptions. Roaya's support team responds in minutes, not hours. The best decision we made.",
+        "name": "Dr. Sara Ibrahim",
+        "title": "CTO",
+        "company": "Multi-Branch Healthcare Provider",
+        "industry": "Healthcare Sector",
+        "metric": "system uptime"
+      },
+      "testimonial3": {
+        "quote": "Transparent pricing with no surprises. We finally understand what we're paying for and why. Our IT costs dropped significantly.",
+        "name": "Mohamed El-Sayed",
+        "title": "CEO",
+        "company": "Egyptian Manufacturing Company",
+        "industry": "Manufacturing Sector",
+        "metric": "cost reduction"
+      }
+    },
+    "caseStudies": {
+      "badge": "Success Stories",
+      "title": "Proven Results",
+      "subtitle": "See how Egyptian enterprises achieved measurable IT transformation with Roaya IT.",
+      "viewAll": "View All Case Studies",
+      "case1": {
+        "title": "Cloud Migration Success",
+        "company": "National Bank of Egypt Branch",
+        "industry": "Finance & Banking",
+        "metric": "Cost Reduction",
+        "summary": "Migrated core banking systems to hybrid cloud with zero downtime, reducing operational costs while improving performance."
+      },
+      "case2": {
+        "title": "Healthcare Security Transformation",
+        "company": "Cairo Medical Network",
+        "industry": "Healthcare",
+        "metric": "System Uptime",
+        "summary": "Implemented comprehensive security framework achieving full compliance and zero security incidents in 12 months."
+      },
+      "case3": {
+        "title": "Manufacturing IT Automation",
+        "company": "Delta Industries Group",
+        "industry": "Manufacturing",
+        "metric": "Efficiency Gain",
+        "summary": "Automated IT operations and monitoring, reducing manual tasks and improving production system reliability."
+      }
+    },
+    "faq": {
+      "badge": "Quick Answers",
+      "title": "Common Questions",
+      "subtitle": "Get answers to the most frequently asked questions from Egyptian enterprises considering IT transformation.",
+      "cta": "Still Have Questions?",
+      "q1": {
+        "question": "How long does IT infrastructure migration take?",
+        "answer": "Most migrations complete in 2-4 weeks with zero business disruption. We work during off-hours and maintain full backups with rollback capability throughout the process."
+      },
+      "q2": {
+        "question": "What if we're locked into a current provider contract?",
+        "answer": "We help you review contract terms and plan migrations that align with renewal dates. Many clients save enough to offset early termination costs if needed."
+      },
+      "q3": {
+        "question": "Do you provide on-site support in Egypt?",
+        "answer": "Yes! Our Egyptian-based team provides on-site support across Cairo, Alexandria, and major cities, plus 24/7 remote assistance in Arabic and English."
+      },
+      "q4": {
+        "question": "How do you ensure our data stays in Egypt?",
+        "answer": "All data is hosted in Egyptian data centers with contractual guarantees. You maintain full ownership and can audit storage locations anytime."
+      }
+    },
+    "roiPreview": {
+      "badge": "Calculate Your Savings",
+      "title": "See Your Cost Savings in 60 Seconds",
+      "subtitle": "Our ROI calculator helps you understand the financial impact of migrating to modern IT solutions",
+      "cloud": {
+        "title": "Cloud Migration",
+        "description": "Calculate savings from cloud infrastructure"
+      },
+      "email": {
+        "title": "Email Security",
+        "description": "See ROI from secure email solutions"
+      },
+      "security": {
+        "title": "Cybersecurity",
+        "description": "Measure protection investment returns"
+      },
+      "stats": {
+        "costReduction": "Average Cost Reduction",
+        "paybackMonths": "Months Payback Period",
+        "calculations": "ROI Calculations Done"
+      },
+      "cta": "Calculate Your ROI Now"
+    },
+    "pricingPreview": {
+      "badge": "Transparent Pricing",
+      "title": "No Hidden Fees. No Surprises. Ever.",
+      "subtitle": "We're the first IT services provider in Egypt to publish transparent pricing. See exactly what you'll pay.",
+      "starter": {
+        "title": "Starter",
+        "price": "From 2,500 EGP/mo",
+        "description": "Perfect for small teams"
+      },
+      "business": {
+        "title": "Business",
+        "price": "From 8,500 EGP/mo",
+        "description": "For growing companies"
+      },
+      "enterprise": {
+        "title": "Enterprise",
+        "price": "Custom Pricing",
+        "description": "Tailored solutions"
+      },
+      "popular": "Most Popular",
+      "noHiddenFees": "No hidden fees",
+      "cancelAnytime": "Cancel anytime",
+      "moneyBack": "30-day money-back guarantee",
+      "cta": "View All Pricing"
+    },
+    "localExpertise": {
+      "badge": "Local Expertise, Global Standards",
+      "title": "Your Trusted IT Partner in Egypt",
+      "subtitle": "We understand the Egyptian market, regulatory requirements, and business challenges - backed by global infrastructure.",
+      "local": {
+        "title": "Egyptian Market Expertise",
+        "item1": "Data centers located in Egypt",
+        "item2": "Full Arabic language support",
+        "item3": "CBE & NTRA regulatory compliance",
+        "item4": "Local on-site support team"
+      },
+      "global": {
+        "title": "WorldPosta Partnership",
+        "item1": "Global enterprise infrastructure",
+        "item2": "International security certifications",
+        "item3": "99.95% uptime guarantee",
+        "item4": "24/7 technical support"
+      },
+      "stats": {
+        "clients": "Egyptian Clients",
+        "uptime": "Uptime Guarantee",
+        "support": "Local Support"
+      }
+    }
   },
   "industries": {
     "page": {
@@ -273,73 +647,6 @@
         "cloud": "Secure cloud infrastructure for financial apps",
         "disaster": "Disaster recovery and business continuity"
       }
-    },
-    "healthcare": {
-      "title": "Healthcare",
-      "description": "HIPAA-compliant IT solutions for healthcare providers. Protect patient data while improving care delivery and operational efficiency.",
-      "solutions": {
-        "hipaa": "HIPAA compliance and data protection",
-        "ehr": "Electronic Health Records integration",
-        "telemedicine": "Telemedicine infrastructure support",
-        "backup": "Medical data backup and recovery"
-      }
-    },
-    "manufacturing": {
-      "title": "Manufacturing",
-      "description": "Digital transformation solutions for manufacturers. Optimize operations, connect systems, and leverage data for smarter decision-making.",
-      "solutions": {
-        "erp": "ERP system integration and support",
-        "iot": "IoT connectivity and monitoring",
-        "automation": "Process automation solutions",
-        "analytics": "Production analytics and reporting"
-      }
-    },
-    "retail": {
-      "title": "Retail & E-commerce",
-      "description": "Technology solutions that power modern retail. From POS systems to e-commerce platforms, we help retailers deliver exceptional customer experiences.",
-      "solutions": {
-        "ecommerce": "E-commerce platform development",
-        "pos": "POS system integration",
-        "inventory": "Inventory management systems",
-        "crm": "Customer relationship management"
-      }
-    },
-    "education": {
-      "title": "Education",
-      "description": "IT solutions for schools, universities, and training centers. Enable effective learning with secure, reliable technology infrastructure.",
-      "solutions": {
-        "lms": "Learning Management Systems",
-        "virtual": "Virtual classroom solutions",
-        "security": "Student data protection",
-        "collaboration": "Collaboration tools for educators"
-      }
-    },
-    "government": {
-      "title": "Government & Public Sector",
-      "description": "Secure, reliable IT solutions for government agencies. We help public sector organizations modernize services while maintaining compliance.",
-      "solutions": {
-        "digital": "Digital government services",
-        "security": "Government-grade cybersecurity",
-        "infrastructure": "Critical infrastructure protection",
-        "compliance": "Regulatory compliance solutions"
-      },
-      "headline": "Sovereign Cloud Infrastructure with Complete Data Control",
-      "compliance": [
-        "Data Sovereignty",
-        "National Security Standards",
-        "Government IT Frameworks"
-      ]
-    },
-    "finance": {
-      "title": "Financial Services",
-      "headline": "Meet CBE Compliance Without Compromising Performance",
-      "description": "Secure, compliant infrastructure for banking, insurance, and fintech. GDPR and local regulatory compliance built-in.",
-      "compliance": [
-        "CBE Regulations",
-        "PCI DSS",
-        "SOX",
-        "ISO 27001"
-      ]
     },
     "healthcare": {
       "title": "Healthcare",
@@ -379,6 +686,33 @@
         "FERPA",
         "Student Privacy Laws",
         "Education Data Standards"
+      ]
+    },
+    "government": {
+      "title": "Government & Public Sector",
+      "description": "Secure, reliable IT solutions for government agencies. We help public sector organizations modernize services while maintaining compliance.",
+      "solutions": {
+        "digital": "Digital government services",
+        "security": "Government-grade cybersecurity",
+        "infrastructure": "Critical infrastructure protection",
+        "compliance": "Regulatory compliance solutions"
+      },
+      "headline": "Sovereign Cloud Infrastructure with Complete Data Control",
+      "compliance": [
+        "Data Sovereignty",
+        "National Security Standards",
+        "Government IT Frameworks"
+      ]
+    },
+    "finance": {
+      "title": "Financial Services",
+      "headline": "Meet CBE Compliance Without Compromising Performance",
+      "description": "Secure, compliant infrastructure for banking, insurance, and fintech. GDPR and local regulatory compliance built-in.",
+      "compliance": [
+        "CBE Regulations",
+        "PCI DSS",
+        "SOX",
+        "ISO 27001"
       ]
     },
     "expertise": {
@@ -525,6 +859,16 @@
       "description": "Our team can help you design a solution that fits your specific requirements and budget.",
       "button": "Schedule a Consultation",
       "call": "Call Us Now"
+    },
+    "roiCta": {
+      "badge": "Calculate Your Savings",
+      "title": "See Your Potential ROI in Minutes",
+      "description": "Use our free ROI calculator to estimate how much you can save by switching to Roaya IT services. Get instant, personalized results based on your current infrastructure.",
+      "button": "Calculate ROI Now",
+      "features": {
+        "free": "100% Free",
+        "instant": "Instant Results"
+      }
     }
   },
   "about": {
@@ -687,5 +1031,212 @@
       "email": "Email Us",
       "support": "Egyptian Support"
     }
+  },
+  "roiCalculator": {
+    "badge": "ROI Calculator",
+    "title": "Calculate Your Savings",
+    "subtitle": "See how much you can save with Roaya IT services. Get instant estimates based on your current infrastructure.",
+    "tabs": {
+      "cloud": "Cloud Infrastructure",
+      "email": "Email Services",
+      "security": "Cybersecurity"
+    },
+    "inputs": {
+      "title": "Your Current Situation",
+      "currentCost": "Current Monthly Server/Hosting Costs",
+      "servers": "Number of Servers",
+      "maintenanceHours": "Monthly Maintenance Hours",
+      "hourlyCost": "Average Hourly IT Staff Cost",
+      "downtimeHours": "Annual Downtime Hours",
+      "revenueLoss": "Revenue Loss Per Hour of Downtime",
+      "mailboxes": "Number of Mailboxes",
+      "emailCost": "Current Cost Per Mailbox",
+      "emailHours": "Monthly Email IT Hours",
+      "roayaPrice": "Roaya price",
+      "annualRevenue": "Annual Revenue",
+      "securityCost": "Monthly Security Tools Cost",
+      "securityStaff": "Security Staff Count",
+      "industry": "Select Your Industry"
+    },
+    "industries": {
+      "finance": "Finance & Banking",
+      "healthcare": "Healthcare",
+      "retail": "Retail & E-commerce",
+      "manufacturing": "Manufacturing",
+      "government": "Government & Public Sector",
+      "education": "Education"
+    },
+    "results": {
+      "title": "Your Potential Savings",
+      "annualSavings": "Total Annual Savings",
+      "annualValue": "Total Annual Value",
+      "monthlySavings": "Monthly Savings",
+      "paybackPeriod": "ROI Payback Period",
+      "months": "months",
+      "breakdown": "Savings Breakdown",
+      "getReport": "Get Full Report"
+    },
+    "breakdown": {
+      "infrastructure": "Infrastructure Cost Reduction",
+      "maintenance": "Maintenance Time Savings",
+      "downtime": "Downtime Prevention",
+      "hosting": "Email Hosting Savings",
+      "itTime": "IT Time Reduction",
+      "breachRisk": "Breach Risk Reduction",
+      "socCost": "SOC Cost Savings"
+    },
+    "currency": "EGP",
+    "trust": {
+      "accurate": {
+        "title": "Accurate Calculations",
+        "description": "Based on real client data and industry benchmarks from our 150+ successful implementations."
+      },
+      "realData": {
+        "title": "Real Market Data",
+        "description": "Calculations use current Egyptian market prices and actual cost savings from our client base."
+      },
+      "noCommitment": {
+        "title": "No Commitment Required",
+        "description": "This is a free estimation tool. Use it to understand your potential savings with no obligations."
+      }
+    }
+  },
+  "blog": {
+    "badge": "Blog",
+    "title": "IT Insights & Updates",
+    "description": "Stay informed with the latest IT trends, best practices, and updates from Roaya IT experts.",
+    "categories": {
+      "all": "All Posts",
+      "cloud": "Cloud",
+      "security": "Security",
+      "sap": "SAP",
+      "industry": "Industry",
+      "updates": "Updates"
+    },
+    "search": {
+      "placeholder": "Search blog posts..."
+    },
+    "readingTime": "min read",
+    "readMore": "Read More",
+    "empty": {
+      "title": "No posts found",
+      "description": "Try adjusting your filters or search query."
+    },
+    "cta": {
+      "title": "Want to Learn More?",
+      "description": "Contact our experts to discuss how we can help transform your IT infrastructure.",
+      "button": "Get in Touch"
+    },
+    "detail": {
+      "loading": "Loading post...",
+      "back": "Back to Blog",
+      "tags": "Tags",
+      "share": "Share this post",
+      "related": "Related Posts",
+      "notFound": {
+        "title": "Post Not Found",
+        "description": "The blog post you're looking for doesn't exist or has been removed.",
+        "back": "Back to Blog"
+      },
+      "cta": {
+        "title": "Ready to Transform Your IT?",
+        "description": "Get in touch with our team to discuss your IT needs.",
+        "button": "Contact Us"
+      }
+    }
+  },
+  "caseStudies": {
+    "badge": "Case Studies",
+    "title": "Real Egyptian Enterprises. Real Results.",
+    "description": "See how banks, hospitals, and manufacturers reduced IT costs by 40% while achieving 99.9%+ uptime with Roaya IT's transparent cloud and security solutions.",
+    "filters": {
+      "all": "All",
+      "byIndustry": "Filter by Industry",
+      "byService": "Filter by Service",
+      "finance": "Finance & Banking",
+      "healthcare": "Healthcare",
+      "government": "Government",
+      "manufacturing": "Manufacturing",
+      "retail": "Retail & E-commerce",
+      "education": "Education",
+      "cloud": "Cloud Infrastructure",
+      "email": "Email Services",
+      "security": "Cybersecurity",
+      "migration": "Cloud Migration",
+      "sap": "SAP Operations",
+      "automation": "IT Automation"
+    },
+    "stats": {
+      "costReduction": "Average Cost Reduction",
+      "uptime": "Total Uptime Across Clients",
+      "clients": "Egyptian Businesses Transformed"
+    },
+    "employees": "employees",
+    "readMore": "Read Case Study",
+    "empty": {
+      "title": "No case studies found",
+      "description": "Try adjusting your filters to see more case studies.",
+      "clearFilters": "Clear Filters"
+    },
+    "cta": {
+      "title": "Become Our Next Success Story",
+      "description": "Join 150+ Egyptian enterprises who reduced IT costs while improving reliability. Get transparent pricing and your custom solution plan in 48 hours.",
+      "button": "Get Your Free Assessment",
+      "calculator": "Calculate Your ROI"
+    },
+    "detail": {
+      "loading": "Loading case study...",
+      "back": "Back to Case Studies",
+      "keyResults": "Key Results",
+      "services": "Services Used",
+      "download": "Download PDF",
+      "related": "Related Case Studies",
+      "notFound": {
+        "title": "Case Study Not Found",
+        "description": "The case study you're looking for doesn't exist or has been removed.",
+        "back": "Back to Case Studies"
+      },
+      "cta": {
+        "title": "Ready to Achieve Similar Results?",
+        "description": "Get in touch with our team to discuss your IT transformation needs.",
+        "button": "Contact Us",
+        "calculator": "Calculate Your ROI"
+      }
+    }
+  },
+  "resources": {
+    "badge": "Resources",
+    "title": "IT Resources & Insights",
+    "description": "Access expert insights, case studies, whitepapers, and documentation to help guide your IT decisions.",
+    "explore": "Explore",
+    "types": {
+      "blog": {
+        "title": "Blog",
+        "description": "Latest IT insights, trends, and best practices"
+      },
+      "caseStudies": {
+        "title": "Case Studies",
+        "description": "Real success stories from Egyptian enterprises"
+      },
+      "whitepapers": {
+        "title": "Whitepapers",
+        "description": "In-depth technical resources and guides"
+      },
+      "documentation": {
+        "title": "Documentation",
+        "description": "Technical documentation and API references"
+      }
+    },
+    "cta": {
+      "title": "Need Expert Guidance?",
+      "description": "Our IT experts can help you navigate your digital transformation journey.",
+      "button": "Talk to an Expert"
+    }
+  },
+  "megaMenu": {
+    "viewAll": "View all solutions",
+    "viewAllServices": "View all solutions",
+    "viewAllIndustries": "View all industries",
+    "viewAllResources": "View all resources"
   }
 }

@@ -1,0 +1,381 @@
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-neutral-900 dark:to-neutral-800 py-20 overflow-hidden">
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 1px); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium mb-6">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+        </svg>
+        <span>{{ 'legal.cookies.badge' | translate }}</span>
+      </div>
+
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-white mb-6">
+        {{ 'legal.cookies.title' | translate }}
+      </h1>
+
+      <p class="text-lg text-neutral-600 dark:text-neutral-300 mb-4">
+        {{ 'legal.lastUpdated' | translate }}: <time [attr.datetime]="lastUpdated" class="font-medium">{{ lastUpdated }}</time>
+      </p>
+
+      <div class="flex items-center justify-center gap-4">
+        <button
+          (click)="printPage()"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          <span>{{ 'legal.actions.print' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-16 bg-background">
+  <div class="container-custom">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Table of Contents -->
+        <aside class="lg:col-span-3">
+          <div class="lg:sticky lg:top-24 space-y-4">
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.tableOfContents' | translate }}
+            </h2>
+            <nav class="space-y-1" aria-label="Table of contents">
+              <button
+                *ngFor="let item of tableOfContents"
+                (click)="scrollToSection(item.id)"
+                [class.font-semibold]="activeSection() === item.id"
+                [class.text-primary-600]="activeSection() === item.id"
+                [class.dark:text-secondary-400]="activeSection() === item.id"
+                [class.text-neutral-600]="activeSection() !== item.id"
+                [class.dark:text-neutral-400]="activeSection() !== item.id"
+                [class.ps-0]="item.level === 1"
+                [class.ps-4]="item.level === 2"
+                class="block w-full text-start px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm"
+              >
+                {{ item.title | translate }}
+              </button>
+            </nav>
+
+            <div class="hidden lg:block mt-8 p-6 rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
+              <h3 class="font-semibold text-neutral-900 dark:text-white mb-2">
+                {{ 'legal.questions.title' | translate }}
+              </h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+                {{ 'legal.questions.description' | translate }}
+              </p>
+              <a
+                routerLink="/contact"
+                class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 hover:text-primary-700 dark:hover:text-secondary-300 font-medium text-sm"
+              >
+                <span>{{ 'legal.questions.cta' | translate }}</span>
+                <svg class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <article #contentContainer class="lg:col-span-9 prose prose-lg dark:prose-invert max-w-none">
+          <!-- What Are Cookies -->
+          <section id="what-are-cookies" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.whatAreCookies.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.cookies.sections.whatAreCookies.content' | translate }}
+            </p>
+          </section>
+
+          <!-- How We Use Cookies -->
+          <section id="how-we-use-cookies" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.howWeUseCookies.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+              {{ 'legal.cookies.sections.howWeUseCookies.intro' | translate }}
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+              <li>{{ 'legal.cookies.sections.howWeUseCookies.items.remember' | translate }}</li>
+              <li>{{ 'legal.cookies.sections.howWeUseCookies.items.understand' | translate }}</li>
+              <li>{{ 'legal.cookies.sections.howWeUseCookies.items.secure' | translate }}</li>
+              <li>{{ 'legal.cookies.sections.howWeUseCookies.items.improve' | translate }}</li>
+            </ul>
+          </section>
+
+          <!-- Types of Cookies -->
+          <section id="types-of-cookies" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.typesOfCookies.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+              {{ 'legal.cookies.sections.typesOfCookies.intro' | translate }}
+            </p>
+
+            <!-- Essential Cookies -->
+            <div id="essential-cookies" class="scroll-mt-24 mb-8 p-6 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800">
+              <div class="flex items-start gap-3 mb-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+                  {{ 'legal.cookies.types.essential.label' | translate }}
+                </span>
+              </div>
+              <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-3">
+                {{ 'legal.cookies.sections.typesOfCookies.essential.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                {{ 'legal.cookies.sections.typesOfCookies.essential.content' | translate }}
+              </p>
+            </div>
+
+            <!-- Analytics Cookies -->
+            <div id="analytics-cookies" class="scroll-mt-24 mb-8 p-6 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
+              <div class="flex items-start gap-3 mb-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                  {{ 'legal.cookies.types.analytics.label' | translate }}
+                </span>
+              </div>
+              <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-3">
+                {{ 'legal.cookies.sections.typesOfCookies.analytics.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                {{ 'legal.cookies.sections.typesOfCookies.analytics.content' | translate }}
+              </p>
+            </div>
+
+            <!-- Marketing Cookies -->
+            <div id="marketing-cookies" class="scroll-mt-24 mb-8 p-6 rounded-xl bg-purple-50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-800">
+              <div class="flex items-start gap-3 mb-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">
+                  {{ 'legal.cookies.types.marketing.label' | translate }}
+                </span>
+              </div>
+              <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-3">
+                {{ 'legal.cookies.sections.typesOfCookies.marketing.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                {{ 'legal.cookies.sections.typesOfCookies.marketing.content' | translate }}
+              </p>
+            </div>
+
+            <!-- Preference Cookies -->
+            <div id="preference-cookies" class="scroll-mt-24 p-6 rounded-xl bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800">
+              <div class="flex items-start gap-3 mb-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                  {{ 'legal.cookies.types.preferences.label' | translate }}
+                </span>
+              </div>
+              <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-3">
+                {{ 'legal.cookies.sections.typesOfCookies.preferences.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                {{ 'legal.cookies.sections.typesOfCookies.preferences.content' | translate }}
+              </p>
+            </div>
+          </section>
+
+          <!-- Cookie List -->
+          <section id="cookie-list" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.cookieList.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+              {{ 'legal.cookies.sections.cookieList.intro' | translate }}
+            </p>
+
+            <!-- Cookies Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-neutral-100 dark:bg-neutral-800">
+                    <th class="px-4 py-3 text-start text-sm font-semibold text-neutral-900 dark:text-white">
+                      {{ 'legal.cookies.table.name' | translate }}
+                    </th>
+                    <th class="px-4 py-3 text-start text-sm font-semibold text-neutral-900 dark:text-white">
+                      {{ 'legal.cookies.table.purpose' | translate }}
+                    </th>
+                    <th class="px-4 py-3 text-start text-sm font-semibold text-neutral-900 dark:text-white">
+                      {{ 'legal.cookies.table.duration' | translate }}
+                    </th>
+                    <th class="px-4 py-3 text-start text-sm font-semibold text-neutral-900 dark:text-white">
+                      {{ 'legal.cookies.table.type' | translate }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cookie of cookiesList; let i = index" class="border-b border-neutral-200 dark:border-neutral-700">
+                    <td class="px-4 py-4">
+                      <code class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 text-sm font-mono">{{ cookie.name }}</code>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-neutral-600 dark:text-neutral-300">
+                      {{ cookie.purpose | translate }}
+                    </td>
+                    <td class="px-4 py-4 text-sm text-neutral-600 dark:text-neutral-300">
+                      {{ cookie.duration }}
+                    </td>
+                    <td class="px-4 py-4">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium" [ngClass]="getCookieTypeColor(cookie.type)">
+                        {{ getCookieTypeLabel(cookie.type) | translate }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Managing Cookies -->
+          <section id="managing-cookies" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.managingCookies.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+              {{ 'legal.cookies.sections.managingCookies.intro' | translate }}
+            </p>
+
+            <div class="p-6 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 mb-6">
+              <div class="flex gap-3">
+                <svg class="h-6 w-6 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <div>
+                  <p class="font-semibold text-neutral-900 dark:text-white mb-2">
+                    {{ 'legal.cookies.sections.managingCookies.warning.title' | translate }}
+                  </p>
+                  <p class="text-sm text-neutral-700 dark:text-neutral-300">
+                    {{ 'legal.cookies.sections.managingCookies.warning.content' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+                <h4 class="font-semibold text-neutral-900 dark:text-white mb-2">{{ 'legal.cookies.browsers.chrome' | translate }}</h4>
+                <p class="text-sm text-neutral-600 dark:text-neutral-300">
+                  {{ 'legal.cookies.browsers.chromeInstructions' | translate }}
+                </p>
+              </div>
+              <div class="p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+                <h4 class="font-semibold text-neutral-900 dark:text-white mb-2">{{ 'legal.cookies.browsers.firefox' | translate }}</h4>
+                <p class="text-sm text-neutral-600 dark:text-neutral-300">
+                  {{ 'legal.cookies.browsers.firefoxInstructions' | translate }}
+                </p>
+              </div>
+              <div class="p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+                <h4 class="font-semibold text-neutral-900 dark:text-white mb-2">{{ 'legal.cookies.browsers.safari' | translate }}</h4>
+                <p class="text-sm text-neutral-600 dark:text-neutral-300">
+                  {{ 'legal.cookies.browsers.safariInstructions' | translate }}
+                </p>
+              </div>
+              <div class="p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+                <h4 class="font-semibold text-neutral-900 dark:text-white mb-2">{{ 'legal.cookies.browsers.edge' | translate }}</h4>
+                <p class="text-sm text-neutral-600 dark:text-neutral-300">
+                  {{ 'legal.cookies.browsers.edgeInstructions' | translate }}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Third-Party Cookies -->
+          <section id="third-party-cookies" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.thirdPartyCookies.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+              {{ 'legal.cookies.sections.thirdPartyCookies.intro' | translate }}
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-300">
+              <li>{{ 'legal.cookies.sections.thirdPartyCookies.items.googleAnalytics' | translate }}</li>
+              <li>{{ 'legal.cookies.sections.thirdPartyCookies.items.hubspot' | translate }}</li>
+            </ul>
+          </section>
+
+          <!-- Updates -->
+          <section id="updates" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.updates.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {{ 'legal.cookies.sections.updates.content' | translate }}
+            </p>
+          </section>
+
+          <!-- Contact -->
+          <section id="contact" class="scroll-mt-24 mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.cookies.sections.contact.title' | translate }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+              {{ 'legal.cookies.sections.contact.intro' | translate }}
+            </p>
+            <div class="p-6 rounded-xl bg-neutral-100 dark:bg-neutral-800 space-y-3">
+              <div class="flex items-start gap-3">
+                <svg class="h-5 w-5 text-primary-600 dark:text-secondary-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'legal.contact.email' | translate }}</p>
+                  <a href="mailto:privacy@roaya.co" class="text-primary-600 dark:text-secondary-400 hover:underline">privacy@roaya.co</a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Related Pages -->
+          <div class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+            <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
+              {{ 'legal.relatedPages.title' | translate }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <a
+                routerLink="/privacy"
+                class="flex items-center gap-3 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500 dark:hover:border-secondary-400 transition-colors group"
+              >
+                <svg class="h-6 w-6 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'footer.privacyPolicy' | translate }}</p>
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'legal.relatedPages.privacyDescription' | translate }}</p>
+                </div>
+              </a>
+              <a
+                routerLink="/terms"
+                class="flex items-center gap-3 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-500 dark:hover:border-secondary-400 transition-colors group"
+              >
+                <svg class="h-6 w-6 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <div>
+                  <p class="font-medium text-neutral-900 dark:text-white">{{ 'footer.termsOfService' | translate }}</p>
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'legal.relatedPages.termsDescription' | translate }}</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Back to Top Button -->
+<button
+  *ngIf="showBackToTop()"
+  (click)="scrollToTop()"
+  class="fixed bottom-8 end-8 p-3 rounded-full bg-primary-600 dark:bg-secondary-500 text-white shadow-lg hover:bg-primary-700 dark:hover:bg-secondary-600 transition-all hover:scale-110 z-50 print:hidden"
+  aria-label="Back to top"
+>
+  <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+  </svg>
+</button>
