@@ -97,11 +97,15 @@
 
       <!-- Actions -->
       <div class="flex items-center gap-2 lg:gap-3">
-        <!-- Beautiful Theme Toggle -->
-        <app-theme-toggle class="hidden sm:block"></app-theme-toggle>
+        <!-- Beautiful Theme Toggle (Desktop only) -->
+        <div class="hidden lg:block">
+          <app-theme-toggle></app-theme-toggle>
+        </div>
 
-        <!-- Language Dropdown Selector -->
-        <app-language-selector class="hidden sm:block"></app-language-selector>
+        <!-- Language Dropdown Selector (Desktop only) -->
+        <div class="hidden lg:block">
+          <app-language-selector></app-language-selector>
+        </div>
 
         <!-- Mobile Menu Toggle -->
         <button
@@ -155,10 +159,10 @@
   </nav>
 </header>
 
-<!-- Mobile Navigation Drawer -->
+<!-- Mobile Navigation - Full Screen Floating Card from Top -->
 <div
   *ngIf="isMobileMenuOpen()"
-  class="mobile-drawer-backdrop lg:hidden"
+  class="mobile-menu-backdrop fixed inset-0 z-50 lg:hidden bg-black/60 backdrop-blur-sm"
   (click)="onBackdropClick($event)"
   role="dialog"
   aria-modal="true"
@@ -166,21 +170,31 @@
   id="mobile-menu"
 >
   <div
-    class="mobile-drawer"
-    [ngClass]="isRTL() ? 'mobile-drawer-rtl' : 'mobile-drawer-ltr'"
+    class="mobile-menu-card fixed inset-x-0 top-0 z-50 min-h-screen h-full bg-background flex flex-col"
   >
-    <!-- Drawer Header -->
-    <div class="flex-between p-4 border-b border-border">
-      <span id="mobile-menu-title" class="font-semibold text-lg">{{ 'nav.menu' | translate }}</span>
+    <!-- Menu Header -->
+    <div class="flex items-center justify-between p-4 border-b border-border">
+      <!-- Logo -->
+      <a routerLink="/" (click)="closeMobileMenu()" class="flex items-center gap-3">
+        <img
+          src="/assets/images/roaya-logo.png"
+          alt="Roaya IT"
+          class="h-8 w-auto dark:brightness-0 dark:invert"
+          width="32"
+          height="32"
+        />
+      </a>
+      <span id="mobile-menu-title" class="sr-only">{{ 'nav.menu' | translate }}</span>
+      <!-- Close Button -->
       <button
         (click)="closeMobileMenu()"
-        class="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
-        [attr.aria-label]="'Close menu'"
+        class="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
+        aria-label="Close menu"
         type="button"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          class="h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -193,65 +207,171 @@
       </button>
     </div>
 
-    <!-- Drawer Navigation -->
+    <!-- Menu Navigation -->
     <nav class="flex-1 overflow-y-auto p-4" aria-label="Mobile navigation">
       <div class="flex flex-col gap-1">
         <!-- Home -->
         <a
           routerLink="/"
           (click)="closeMobileMenu()"
-          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400 border-s-4 border-primary-500"
+          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
           [routerLinkActiveOptions]="{exact: true}"
-          class="px-4 py-3 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium"
+          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
         >
           {{ 'common.home' | translate }}
         </a>
 
-        <!-- Solutions/Services -->
+        <!-- Solutions/Services (Expandable) -->
+        <div class="flex flex-col">
+          <button
+            (click)="toggleMobileServices()"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium w-full text-start text-lg"
+            [attr.aria-expanded]="isMobileServicesOpen()"
+            aria-controls="mobile-services-menu"
+          >
+            <span>{{ 'common.services' | translate }}</span>
+            <svg
+              class="h-5 w-5 transition-transform duration-200"
+              [class.rotate-180]="isMobileServicesOpen()"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <!-- Services Sub-menu -->
+          <div
+            *ngIf="isMobileServicesOpen()"
+            id="mobile-services-menu"
+            class="flex flex-col gap-1 ps-4 mt-1 pb-2"
+          >
+            <a
+              routerLink="/services"
+              (click)="closeMobileMenu()"
+              routerLinkActive="text-primary-500 dark:text-secondary-400"
+              [routerLinkActiveOptions]="{exact: true}"
+              class="px-4 py-2.5 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            >
+              {{ 'megaMenu.viewAllServices' | translate }}
+            </a>
+            <a
+              *ngFor="let service of megaMenuItems"
+              [routerLink]="service.route"
+              (click)="closeMobileMenu()"
+              routerLinkActive="text-primary-500 dark:text-secondary-400"
+              class="px-4 py-2.5 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            >
+              {{ service.title | translate }}
+            </a>
+          </div>
+        </div>
+
+        <!-- Industries (Expandable) -->
+        <div class="flex flex-col">
+          <button
+            (click)="toggleMobileIndustries()"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium w-full text-start text-lg"
+            [attr.aria-expanded]="isMobileIndustriesOpen()"
+            aria-controls="mobile-industries-menu"
+          >
+            <span>{{ 'common.industries' | translate }}</span>
+            <svg
+              class="h-5 w-5 transition-transform duration-200"
+              [class.rotate-180]="isMobileIndustriesOpen()"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <!-- Industries Sub-menu -->
+          <div
+            *ngIf="isMobileIndustriesOpen()"
+            id="mobile-industries-menu"
+            class="flex flex-col gap-1 ps-4 mt-1 pb-2"
+          >
+            <a
+              routerLink="/industries"
+              (click)="closeMobileMenu()"
+              routerLinkActive="text-primary-500 dark:text-secondary-400"
+              [routerLinkActiveOptions]="{exact: true}"
+              class="px-4 py-2.5 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            >
+              {{ 'megaMenu.viewAllIndustries' | translate }}
+            </a>
+            <a
+              *ngFor="let industry of industryMenuItems"
+              [routerLink]="industry.route"
+              (click)="closeMobileMenu()"
+              routerLinkActive="text-primary-500 dark:text-secondary-400"
+              class="px-4 py-2.5 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            >
+              {{ industry.title | translate }}
+            </a>
+          </div>
+        </div>
+
+        <!-- Resources -->
         <a
-          routerLink="/services"
+          routerLink="/resources"
           (click)="closeMobileMenu()"
-          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400 border-s-4 border-primary-500"
-          class="px-4 py-3 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium"
+          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
+          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
         >
-          {{ 'common.services' | translate }}
+          {{ 'common.resources' | translate }}
         </a>
 
-        <!-- Other nav items (Industries, Pricing, About, Contact) -->
+        <!-- Pricing -->
         <a
-          *ngFor="let item of navigationService.getNavItems()"
-          [routerLink]="item.route"
+          routerLink="/pricing"
           (click)="closeMobileMenu()"
-          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400 border-s-4 border-primary-500"
-          [routerLinkActiveOptions]="{exact: item.route === '/'}"
-          class="px-4 py-3 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium"
+          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
+          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
         >
-          {{ item.label | translate }}
+          {{ 'common.pricing' | translate }}
+        </a>
+
+        <!-- About -->
+        <a
+          routerLink="/about"
+          (click)="closeMobileMenu()"
+          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
+          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
+        >
+          {{ 'common.about' | translate }}
+        </a>
+
+        <!-- Contact -->
+        <a
+          routerLink="/contact"
+          (click)="closeMobileMenu()"
+          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
+          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
+        >
+          {{ 'common.contact' | translate }}
         </a>
       </div>
 
-      <!-- CTA in drawer -->
+      <!-- CTA Button -->
       <a
         routerLink="/contact"
         (click)="closeMobileMenu()"
-        class="btn-primary w-full mt-6 justify-center"
+        class="btn-primary w-full mt-6 justify-center text-lg py-4"
       >
         {{ 'common.getStarted' | translate }}
       </a>
     </nav>
 
-    <!-- Drawer Footer -->
-    <div class="p-4 border-t border-border">
-      <!-- Theme and Language in drawer -->
-      <div class="flex flex-col items-center gap-4 mb-4">
-        <!-- Beautiful Theme Toggle for Mobile -->
-        <div class="flex items-center justify-center w-full">
-          <app-theme-toggle></app-theme-toggle>
-        </div>
-        <!-- Language Selector for Mobile -->
-        <div class="flex items-center justify-center w-full">
-          <app-language-selector></app-language-selector>
-        </div>
+    <!-- Menu Footer -->
+    <div class="p-4 border-t border-border mt-auto">
+      <!-- Theme and Language (same row) -->
+      <div class="flex items-center justify-center gap-6 mb-4">
+        <app-theme-toggle></app-theme-toggle>
+        <app-language-selector></app-language-selector>
       </div>
 
       <!-- Social links -->
@@ -260,7 +380,7 @@
           href="https://linkedin.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
+          class="p-3 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
           aria-label="LinkedIn"
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -271,7 +391,7 @@
           href="https://twitter.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
+          class="p-3 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
           aria-label="Twitter"
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -282,7 +402,7 @@
           href="https://facebook.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
+          class="p-3 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
           aria-label="Facebook"
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

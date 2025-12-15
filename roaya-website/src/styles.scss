@@ -204,6 +204,15 @@
     left: 0;
     animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  /* Mobile floating card menu */
+  .mobile-menu-backdrop {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .mobile-menu-card {
+    animation: slideInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 /* ========================================
@@ -628,6 +637,20 @@
 .fixed-outside-smoother {
   position: fixed !important;
   z-index: var(--z-fixed);
+}
+
+/* ========================================
+   Focus Indicators (WCAG AA Accessibility)
+   ======================================== */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-teal, #5DB7C2);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Reduced motion */

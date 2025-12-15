@@ -32,6 +32,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   isScrolled = signal<boolean>(false);
   private scrollThreshold = 50; // Threshold for navbar background change
 
+  // Mobile menu expandable sections state
+  private mobileServicesOpen = signal<boolean>(false);
+  private mobileIndustriesOpen = signal<boolean>(false);
+
+  // Computed signals for mobile menu expandable sections
+  isMobileServicesOpen = computed(() => this.mobileServicesOpen());
+  isMobileIndustriesOpen = computed(() => this.mobileIndustriesOpen());
+
   // News bar height (when navbar should stick to top)
   private newsBarHeight = 38;
 
@@ -270,6 +278,17 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   closeMobileMenu(): void {
     this.navigationService.closeMobileMenu();
+    // Reset expandable sections when closing menu
+    this.mobileServicesOpen.set(false);
+    this.mobileIndustriesOpen.set(false);
+  }
+
+  toggleMobileServices(): void {
+    this.mobileServicesOpen.update(state => !state);
+  }
+
+  toggleMobileIndustries(): void {
+    this.mobileIndustriesOpen.update(state => !state);
   }
 
   onBackdropClick(event: MouseEvent): void {

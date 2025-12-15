@@ -553,6 +553,78 @@
         "question": "How do you ensure our data stays in Egypt?",
         "answer": "All data is hosted in Egyptian data centers with contractual guarantees. You maintain full ownership and can audit storage locations anytime."
       }
+    },
+    "roiPreview": {
+      "badge": "Calculate Your Savings",
+      "title": "See Your Cost Savings in 60 Seconds",
+      "subtitle": "Our ROI calculator helps you understand the financial impact of migrating to modern IT solutions",
+      "cloud": {
+        "title": "Cloud Migration",
+        "description": "Calculate savings from cloud infrastructure"
+      },
+      "email": {
+        "title": "Email Security",
+        "description": "See ROI from secure email solutions"
+      },
+      "security": {
+        "title": "Cybersecurity",
+        "description": "Measure protection investment returns"
+      },
+      "stats": {
+        "costReduction": "Average Cost Reduction",
+        "paybackMonths": "Months Payback Period",
+        "calculations": "ROI Calculations Done"
+      },
+      "cta": "Calculate Your ROI Now"
+    },
+    "pricingPreview": {
+      "badge": "Transparent Pricing",
+      "title": "No Hidden Fees. No Surprises. Ever.",
+      "subtitle": "We're the first IT services provider in Egypt to publish transparent pricing. See exactly what you'll pay.",
+      "starter": {
+        "title": "Starter",
+        "price": "From 2,500 EGP/mo",
+        "description": "Perfect for small teams"
+      },
+      "business": {
+        "title": "Business",
+        "price": "From 8,500 EGP/mo",
+        "description": "For growing companies"
+      },
+      "enterprise": {
+        "title": "Enterprise",
+        "price": "Custom Pricing",
+        "description": "Tailored solutions"
+      },
+      "popular": "Most Popular",
+      "noHiddenFees": "No hidden fees",
+      "cancelAnytime": "Cancel anytime",
+      "moneyBack": "30-day money-back guarantee",
+      "cta": "View All Pricing"
+    },
+    "localExpertise": {
+      "badge": "Local Expertise, Global Standards",
+      "title": "Your Trusted IT Partner in Egypt",
+      "subtitle": "We understand the Egyptian market, regulatory requirements, and business challenges - backed by global infrastructure.",
+      "local": {
+        "title": "Egyptian Market Expertise",
+        "item1": "Data centers located in Egypt",
+        "item2": "Full Arabic language support",
+        "item3": "CBE & NTRA regulatory compliance",
+        "item4": "Local on-site support team"
+      },
+      "global": {
+        "title": "WorldPosta Partnership",
+        "item1": "Global enterprise infrastructure",
+        "item2": "International security certifications",
+        "item3": "99.95% uptime guarantee",
+        "item4": "24/7 technical support"
+      },
+      "stats": {
+        "clients": "Egyptian Clients",
+        "uptime": "Uptime Guarantee",
+        "support": "Local Support"
+      }
     }
   },
   "industries": {

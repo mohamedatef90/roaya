@@ -631,6 +631,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   // Current testimonial index for carousel
   currentTestimonialIndex = signal(0);
 
+  // Animation pause controls
+  isMarqueePaused = signal(false);
+  isTestimonialPaused = signal(false);
+
   private animationInterval: ReturnType<typeof setInterval> | null = null;
   private testimonialInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -729,6 +733,21 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 5000); // Change every 5 seconds
   }
 
+  // Toggle marquee pause
+  toggleMarqueePause(): void {
+    this.isMarqueePaused.update(paused => !paused);
+  }
+
+  // Toggle testimonial pause
+  toggleTestimonialPause(): void {
+    this.isTestimonialPaused.update(paused => !paused);
+    if (this.isTestimonialPaused()) {
+      this.pauseTestimonialRotation();
+    } else {
+      this.resumeTestimonialRotation();
+    }
+  }
+
   // Pause testimonial rotation on hover
   pauseTestimonialRotation(): void {
     if (this.testimonialInterval) {
@@ -738,7 +757,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   resumeTestimonialRotation(): void {
-    if (!this.testimonialInterval && !this.prefersReducedMotion()) {
+    if (!this.testimonialInterval && !this.prefersReducedMotion() && !this.isTestimonialPaused()) {
       this.startTestimonialAutoRotation();
     }
   }
@@ -1060,5 +1079,18 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getServices() {
     return this.navigationService.getServiceItems();
+  }
+
+  // Scroll to next section (Stats) from hero
+  scrollToNextSection(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+      statsSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }

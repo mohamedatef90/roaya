@@ -61,6 +61,10 @@
       background: linear-gradient(135deg, rgba(15, 23, 42, 1) 0%, rgba(10, 10, 10, 1) 100%);
       transition: opacity 0.6s cubic-bezier(0.4, 0, 1, 1);
       overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
     }
 
     #loading-screen.fade-out {
@@ -225,8 +229,8 @@
 
     .loader-container {
       position: relative;
-      width: 680px;
-      height: 680px;
+      width: 540px;
+      height: 540px;
       z-index: 10;
     }
 
@@ -296,12 +300,6 @@
       border-color: rgba(107, 76, 154, 0.25);
     }
 
-    .orbit-path-4 {
-      width: 620px;
-      height: 620px;
-      border-color: rgba(93, 183, 194, 0.2);
-    }
-
     /* Orbit Containers */
     .orbit {
       position: absolute;
@@ -321,10 +319,6 @@
 
     .orbit-3 {
       animation: orbit-rotate 20s linear infinite;
-    }
-
-    .orbit-4 {
-      animation: orbit-rotate 28s linear infinite reverse;
     }
 
     @keyframes orbit-rotate {
@@ -632,10 +626,6 @@
       animation: counter-rotate-3 20s linear infinite;
     }
 
-    .orbit-4 .orbit-icon {
-      animation: counter-rotate-4 28s linear infinite reverse;
-    }
-
     @keyframes counter-rotate-1 {
       from { transform: rotate(0deg); }
       to { transform: rotate(-360deg); }
@@ -649,11 +639,6 @@
     @keyframes counter-rotate-3 {
       from { transform: rotate(0deg); }
       to { transform: rotate(-360deg); }
-    }
-
-    @keyframes counter-rotate-4 {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
     }
 
     /* Orbit 1 Positions (100px radius) - 2 icons */
@@ -670,11 +655,6 @@
     .orbit-3 .icon-2 { top: -24px; left: 216px; }
     .orbit-3 .icon-3 { top: 192px; left: -24px; }
     .orbit-3 .icon-4 { top: -24px; left: -264px; }
-
-    /* Orbit 4 Positions (310px radius) - 3 icons */
-    .orbit-4 .icon-1 { top: -310px; left: -24px; }
-    .orbit-4 .icon-2 { top: 130px; left: 244px; }
-    .orbit-4 .icon-3 { top: 130px; left: -292px; }
 
     /* Connection Lines */
     .connection-lines {
@@ -720,19 +700,10 @@
     .connection-lines-3 .line-3 { width: 240px; transform: rotate(180deg); }
     .connection-lines-3 .line-4 { width: 240px; transform: rotate(270deg); }
 
-    /* Orbit 4 connection lines (310px radius) */
-    .connection-lines-4 {
-      animation: orbit-rotate 28s linear infinite reverse;
-    }
-
-    .connection-lines-4 .line-1 { width: 310px; transform: rotate(0deg); }
-    .connection-lines-4 .line-2 { width: 310px; transform: rotate(120deg); }
-    .connection-lines-4 .line-3 { width: 310px; transform: rotate(240deg); }
-
     /* Loading Text */
     .loading-text {
       position: absolute;
-      bottom: -60px;
+      top: -60px;
       left: 50%;
       transform: translateX(-50%);
       color: rgba(255, 255, 255, 0.7);
@@ -758,7 +729,7 @@
     /* Subtitle Container */
     .loading-subtitle {
       position: absolute;
-      bottom: -95px;
+      top: -95px;
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
@@ -838,15 +809,12 @@
       .orbit-1,
       .orbit-2,
       .orbit-3,
-      .orbit-4,
       .orbit-1 .orbit-icon,
       .orbit-2 .orbit-icon,
       .orbit-3 .orbit-icon,
-      .orbit-4 .orbit-icon,
       .connection-lines-1,
       .connection-lines-2,
       .connection-lines-3,
-      .connection-lines-4,
       .stars,
       .stars-layer-1,
       .stars-layer-2,
@@ -923,15 +891,14 @@
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .loader-container {
-        width: 400px;
-        height: 400px;
+        width: 340px;
+        height: 340px;
         transform: scale(0.85);
       }
 
       .orbit-path-1 { width: 120px; height: 120px; }
       .orbit-path-2 { width: 200px; height: 200px; }
       .orbit-path-3 { width: 280px; height: 280px; }
-      .orbit-path-4 { width: 360px; height: 360px; }
 
       /* Orbit 1 mobile positions (60px radius) */
       .orbit-1 .icon-1 { top: -60px; left: -24px; }
@@ -948,11 +915,6 @@
       .orbit-3 .icon-3 { top: 92px; left: -24px; }
       .orbit-3 .icon-4 { top: -24px; left: -164px; }
 
-      /* Orbit 4 mobile positions (180px radius) */
-      .orbit-4 .icon-1 { top: -180px; left: -24px; }
-      .orbit-4 .icon-2 { top: 66px; left: 132px; }
-      .orbit-4 .icon-3 { top: 66px; left: -180px; }
-
       .connection-lines-1 .line-1,
       .connection-lines-1 .line-2 { width: 60px; }
 
@@ -965,10 +927,6 @@
       .connection-lines-3 .line-3,
       .connection-lines-3 .line-4 { width: 140px; }
 
-      .connection-lines-4 .line-1,
-      .connection-lines-4 .line-2,
-      .connection-lines-4 .line-3 { width: 180px; }
-
       /* Mobile subtitle adjustments */
       .subtitle-text {
         font-size: 14px;
@@ -976,7 +934,7 @@
 
       .loading-subtitle {
         max-width: 400px;
-        bottom: -90px;
+        top: -90px;
       }
 
       /* Mobile wave transition adjustments */
@@ -1003,7 +961,7 @@
       }
 
       .loading-subtitle {
-        bottom: -80px;
+        top: -80px;
       }
 
       .subtitle-text {
@@ -1036,11 +994,10 @@
       <div class="shooting-star shooting-star-3"></div>
 
       <div class="loader-container">
-        <!-- Orbit Paths (Visual) - 4 Levels -->
+        <!-- Orbit Paths (Visual) - 3 Levels -->
         <div class="orbit-path orbit-path-1"></div>
         <div class="orbit-path orbit-path-2"></div>
         <div class="orbit-path orbit-path-3"></div>
-        <div class="orbit-path orbit-path-4"></div>
 
         <!-- Connection Lines - Orbit 1 -->
         <div class="connection-lines connection-lines-1">
@@ -1061,13 +1018,6 @@
           <div class="connection-line line-2"></div>
           <div class="connection-line line-3"></div>
           <div class="connection-line line-4"></div>
-        </div>
-
-        <!-- Connection Lines - Orbit 4 -->
-        <div class="connection-lines connection-lines-4">
-          <div class="connection-line line-1"></div>
-          <div class="connection-line line-2"></div>
-          <div class="connection-line line-3"></div>
         </div>
 
         <!-- Center Logo -->
@@ -1151,33 +1101,6 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 3v18h18"/>
               <path d="m19 9-5 5-4-4-3 3"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Orbit 4 - Extended Services (Slowest, Furthest) -->
-        <div class="orbit orbit-4">
-          <!-- Managed Services -->
-          <div class="orbit-icon icon-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-          </div>
-          <!-- Network -->
-          <div class="orbit-icon icon-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="16" y="16" width="6" height="6" rx="1"/>
-              <rect x="2" y="16" width="6" height="6" rx="1"/>
-              <rect x="9" y="2" width="6" height="6" rx="1"/>
-              <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/>
-              <path d="M12 12V8"/>
-            </svg>
-          </div>
-          <!-- Support -->
-          <div class="orbit-icon icon-3">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
             </svg>
           </div>
         </div>
