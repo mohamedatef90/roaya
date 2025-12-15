@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, signal, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, HostListener, ChangeDetectionStrategy, Renderer2, OnDestroy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -62,13 +63,13 @@ export interface MegaMenuGroup {
         *ngIf="isOpen() || isClosing()"
         [id]="menuId"
         [class.menu-closing]="isClosing()"
-        class="absolute top-full left-0 rtl:left-auto rtl:right-0 mt-2 w-[600px] max-w-[90vw] rounded-2xl shadow-2xl overflow-hidden mega-menu-dropdown glass-dropdown "
+        class="absolute top-full left-0 rtl:left-auto rtl:right-0 mt-2 w-[600px] max-w-[90vw] rounded-2xl shadow-2xl overflow-hidden  backdrop-blur-sm"
         role="menu"
         aria-orientation="vertical"
       >
         <!-- Menu Content -->
-        <div class="p-6 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm rounded-t-[23px]">
-          <div class="grid grid-cols-2 gap-4">
+        <div class="p-6 bg-white/80 dark:bg-neutral-900/50  rounded-t-[23px]">
+          <div class="grid grid-cols-2 gap-4 ">
             <!-- Services Grid -->
             <a
               *ngFor="let item of items"
@@ -181,7 +182,7 @@ export interface MegaMenuGroup {
     }
   `]
 })
-export class MegaMenuComponent {
+export class MegaMenuComponent implements OnDestroy {
   @Input() triggerLabel = 'common.services';
   @Input() items: MegaMenuItem[] = [];
   @Input() viewAllRoute = '/services';
@@ -192,6 +193,11 @@ export class MegaMenuComponent {
   isClosing = signal(false);
   private closeTimeout: ReturnType<typeof setTimeout> | null = null;
   menuId = `mega-menu-${Math.random().toString(36).substr(2, 9)}`;
+
+  constructor(
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
@@ -220,6 +226,7 @@ export class MegaMenuComponent {
     }
     this.isClosing.set(false);
     this.isOpen.set(true);
+    this.setBodyBlur(true);
   }
 
   closeMenu(): void {
@@ -231,6 +238,7 @@ export class MegaMenuComponent {
         setTimeout(() => {
           this.isOpen.set(false);
           this.isClosing.set(false);
+          this.setBodyBlur(false);
         }, 150); // Match animation duration
       }
     }, 100);
@@ -243,6 +251,24 @@ export class MegaMenuComponent {
     setTimeout(() => {
       this.isOpen.set(false);
       this.isClosing.set(false);
+      this.setBodyBlur(false);
     }, 150);
+  }
+
+  ngOnDestroy(): void {
+    // Clean up: remove blur class if component is destroyed while menu is open
+    this.setBodyBlur(false);
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+    }
+  }
+
+  private setBodyBlur(active: boolean): void {
+    const body = this.document.body;
+    if (active) {
+      this.renderer.addClass(body, 'mega-menu-open');
+    } else {
+      this.renderer.removeClass(body, 'mega-menu-open');
+    }
   }
 }

@@ -78,6 +78,18 @@
   .focus-ring:focus-visible {
     @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
   }
+
+  /* Mega menu blur effect - blurs main content when menu is open */
+  body.mega-menu-open #main-content {
+    filter: blur(4px);
+    transition: filter 0.2s ease-in-out;
+  }
+
+  /* Ensure header and mega menu are not blurred */
+  body.mega-menu-open header,
+  body.mega-menu-open app-mega-menu {
+    filter: none !important;
+  }
 }
 
 /* ========================================
