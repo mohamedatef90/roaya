@@ -142,13 +142,40 @@ module.exports = {
         },
       },
       screens: {
-        'xs': '320px',
-        'sm': '480px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
-        '2xl': '1536px',
-        '3xl': '1920px',
+        // Mobile
+        'xs': '375px',       // iPhone SE, small phones
+        'sm': '430px',       // iPhone Pro Max, large phones
+
+        // Tablet
+        'md': '768px',       // iPad portrait
+        'lg': '1024px',      // iPad Pro landscape
+
+        // Laptop (THE CRITICAL ZONE)
+        'laptop': '1280px',      // MacBook Air 13", standard laptops
+        'laptop-md': '1366px',   // Most common Windows resolution
+        'laptop-lg': '1440px',   // MacBook Pro 15", Dell XPS 15
+        'laptop-xl': '1536px',   // Surface Laptop, Windows high-DPI
+
+        // Desktop
+        'desktop': '1600px',     // Standard external monitors
+        'desktop-lg': '1920px',  // Full HD monitors
+        'desktop-xl': '2560px',  // 2K/Ultrawide monitors
+      },
+    },
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        xs: '1rem',
+        sm: '1.25rem',
+        md: '1.5rem',
+        lg: '2rem',
+        laptop: '2.5rem',
+        'laptop-md': '3rem',
+        'laptop-lg': '3.5rem',
+        'laptop-xl': '4rem',
+        desktop: '5rem',
+        'desktop-lg': '6rem',
       },
     },
   },
