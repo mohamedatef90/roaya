@@ -48,7 +48,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Solar System Loading Screen Styles -->
+  <!-- Earth from Space Loading Screen Styles -->
   <style>
     /* Loading Screen Container */
     #loading-screen {
@@ -58,7 +58,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 1) 0%, rgba(10, 10, 10, 1) 100%);
+      background: radial-gradient(ellipse at center, rgba(15, 23, 42, 1) 0%, rgba(10, 10, 10, 1) 100%);
       transition: opacity 0.6s cubic-bezier(0.4, 0, 1, 1);
       overflow: hidden;
       width: 100vw;
@@ -72,281 +72,237 @@
       pointer-events: none;
     }
 
-    /* Starfield Background */
-    .starfield {
+    /* Twinkling Stars Background - 3 Layers */
+    .stars-container {
       position: absolute;
       inset: 0;
       overflow: hidden;
       pointer-events: none;
+      z-index: 1; /* Background layer - behind Earth */
     }
 
-    /* Star Layers - Multiple depths for parallax effect */
-    .stars {
+    .stars-layer {
       position: absolute;
       width: 100%;
       height: 100%;
-      background-repeat: repeat;
-      will-change: transform;
     }
 
-    /* Small distant stars - Navy themed */
-    .stars-layer-1 {
+    /* Small stars - distant layer */
+    .stars-small {
       background-image:
-        radial-gradient(1px 1px at 20px 30px, rgba(61, 90, 128, 0.8), transparent),
-        radial-gradient(1px 1px at 40px 70px, rgba(93, 183, 194, 0.6), transparent),
-        radial-gradient(1px 1px at 50px 160px, rgba(61, 90, 128, 0.7), transparent),
-        radial-gradient(1px 1px at 90px 40px, rgba(107, 76, 154, 0.5), transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(93, 183, 194, 0.6), transparent),
-        radial-gradient(1px 1px at 160px 120px, rgba(61, 90, 128, 0.8), transparent),
-        radial-gradient(1px 1px at 200px 200px, rgba(107, 76, 154, 0.5), transparent),
-        radial-gradient(1px 1px at 250px 50px, rgba(93, 183, 194, 0.7), transparent),
-        radial-gradient(1px 1px at 280px 150px, rgba(61, 90, 128, 0.6), transparent),
-        radial-gradient(1px 1px at 320px 100px, rgba(93, 183, 194, 0.5), transparent);
-      background-size: 350px 350px;
-      animation: stars-drift 120s linear infinite;
-      opacity: 0.8;
+        radial-gradient(1px 1px at 5% 10%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 12% 25%, rgba(93, 183, 194, 0.7), transparent),
+        radial-gradient(1px 1px at 18% 45%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 25% 70%, rgba(107, 76, 154, 0.6), transparent),
+        radial-gradient(1px 1px at 32% 15%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 40% 35%, rgba(93, 183, 194, 0.7), transparent),
+        radial-gradient(1px 1px at 48% 55%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 55% 80%, rgba(61, 90, 128, 0.7), transparent),
+        radial-gradient(1px 1px at 62% 20%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 70% 40%, rgba(93, 183, 194, 0.7), transparent),
+        radial-gradient(1px 1px at 78% 65%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 85% 85%, rgba(107, 76, 154, 0.6), transparent),
+        radial-gradient(1px 1px at 92% 30%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 95% 50%, rgba(93, 183, 194, 0.7), transparent);
+      background-size: 100% 100%;
+      animation: twinkle-small 3s ease-in-out infinite;
     }
 
-    /* Medium stars - Teal themed */
-    .stars-layer-2 {
+    /* Medium stars */
+    .stars-medium {
       background-image:
-        radial-gradient(1.5px 1.5px at 100px 50px, rgba(93, 183, 194, 0.9), transparent),
-        radial-gradient(1.5px 1.5px at 200px 150px, rgba(61, 90, 128, 0.8), transparent),
-        radial-gradient(1.5px 1.5px at 300px 250px, rgba(107, 76, 154, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 50px 300px, rgba(93, 183, 194, 0.8), transparent),
-        radial-gradient(1.5px 1.5px at 150px 400px, rgba(61, 90, 128, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 400px 100px, rgba(93, 183, 194, 0.9), transparent),
-        radial-gradient(1.5px 1.5px at 350px 350px, rgba(107, 76, 154, 0.6), transparent),
-        radial-gradient(1.5px 1.5px at 450px 200px, rgba(61, 90, 128, 0.8), transparent);
-      background-size: 500px 500px;
-      animation: stars-drift 90s linear infinite reverse;
-      opacity: 0.9;
+        radial-gradient(1.5px 1.5px at 8% 15%, rgba(255, 255, 255, 1), transparent),
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(93, 183, 194, 0.9), transparent),
+        radial-gradient(1.5px 1.5px at 35% 50%, rgba(255, 255, 255, 0.95), transparent),
+        radial-gradient(1.5px 1.5px at 50% 75%, rgba(107, 76, 154, 0.8), transparent),
+        radial-gradient(1.5px 1.5px at 65% 25%, rgba(255, 255, 255, 1), transparent),
+        radial-gradient(1.5px 1.5px at 80% 60%, rgba(93, 183, 194, 0.9), transparent),
+        radial-gradient(1.5px 1.5px at 90% 85%, rgba(255, 255, 255, 0.95), transparent),
+        radial-gradient(1.5px 1.5px at 15% 90%, rgba(61, 90, 128, 0.8), transparent);
+      background-size: 100% 100%;
+      animation: twinkle-medium 4s ease-in-out infinite 0.5s;
     }
 
-    /* Large bright stars - Brand colors with glow */
-    .stars-layer-3 {
+    /* Large bright stars with glow */
+    .stars-large {
       background-image:
-        radial-gradient(2px 2px at 150px 100px, rgba(93, 183, 194, 1), rgba(93, 183, 194, 0.3) 2px, transparent),
-        radial-gradient(2.5px 2.5px at 400px 300px, rgba(107, 76, 154, 1), rgba(107, 76, 154, 0.3) 2px, transparent),
-        radial-gradient(2px 2px at 250px 450px, rgba(61, 90, 128, 1), rgba(61, 90, 128, 0.3) 2px, transparent),
-        radial-gradient(3px 3px at 550px 150px, rgba(93, 183, 194, 1), rgba(93, 183, 194, 0.2) 3px, transparent),
-        radial-gradient(2px 2px at 100px 500px, rgba(107, 76, 154, 1), rgba(107, 76, 154, 0.3) 2px, transparent),
-        radial-gradient(2.5px 2.5px at 500px 500px, rgba(61, 90, 128, 1), rgba(61, 90, 128, 0.2) 2px, transparent);
-      background-size: 650px 650px;
-      animation: stars-drift 60s linear infinite, stars-twinkle 4s ease-in-out infinite alternate;
-      opacity: 1;
+        radial-gradient(2.5px 2.5px at 10% 20%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.4) 3px, transparent),
+        radial-gradient(3px 3px at 30% 40%, rgba(93, 183, 194, 1), rgba(93, 183, 194, 0.3) 4px, transparent),
+        radial-gradient(2.5px 2.5px at 50% 60%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.4) 3px, transparent),
+        radial-gradient(3px 3px at 70% 30%, rgba(107, 76, 154, 1), rgba(107, 76, 154, 0.3) 4px, transparent),
+        radial-gradient(2.5px 2.5px at 85% 70%, rgba(93, 183, 194, 1), rgba(93, 183, 194, 0.4) 3px, transparent),
+        radial-gradient(3px 3px at 20% 80%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.3) 4px, transparent);
+      background-size: 100% 100%;
+      animation: twinkle-large 5s ease-in-out infinite 1s;
     }
 
-    /* Twinkling stars overlay */
-    .stars-twinkle {
-      background-image:
-        radial-gradient(2px 2px at 80px 200px, rgba(93, 183, 194, 1), transparent),
-        radial-gradient(2px 2px at 320px 80px, rgba(107, 76, 154, 1), transparent),
-        radial-gradient(1.5px 1.5px at 480px 400px, rgba(61, 90, 128, 1), transparent),
-        radial-gradient(2px 2px at 180px 380px, rgba(93, 183, 194, 1), transparent),
-        radial-gradient(1.5px 1.5px at 600px 250px, rgba(107, 76, 154, 1), transparent);
-      background-size: 700px 500px;
-      animation: stars-twinkle 3s ease-in-out infinite;
-      opacity: 0.7;
+    @keyframes twinkle-small {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
     }
 
-    @keyframes stars-drift {
-      from { transform: translateY(0) translateX(0); }
-      to { transform: translateY(-100px) translateX(-50px); }
-    }
-
-    @keyframes stars-twinkle {
-      0%, 100% { opacity: 0.4; }
+    @keyframes twinkle-medium {
+      0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
     }
 
-    /* Nebula gradient overlays for depth */
-    .nebula {
+    @keyframes twinkle-large {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* Earth Canvas Container */
+    #earth-canvas-container {
       position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .nebula-1 {
-      background: radial-gradient(ellipse 80% 50% at 20% 80%, rgba(61, 90, 128, 0.15) 0%, transparent 50%);
-      animation: nebula-pulse 8s ease-in-out infinite alternate;
-    }
-
-    .nebula-2 {
-      background: radial-gradient(ellipse 60% 40% at 80% 20%, rgba(107, 76, 154, 0.12) 0%, transparent 50%);
-      animation: nebula-pulse 10s ease-in-out infinite alternate-reverse;
-    }
-
-    .nebula-3 {
-      background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(93, 183, 194, 0.08) 0%, transparent 60%);
-      animation: nebula-pulse 12s ease-in-out infinite alternate;
-    }
-
-    @keyframes nebula-pulse {
-      0% { opacity: 0.5; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.1); }
-    }
-
-    /* Shooting stars */
-    .shooting-star {
-      position: absolute;
-      width: 100px;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(93, 183, 194, 0), rgba(93, 183, 194, 1), rgba(93, 183, 194, 0));
-      opacity: 0;
-      animation: shooting-star 8s ease-in-out infinite;
-      transform-origin: left center;
-    }
-
-    .shooting-star-1 {
-      top: 15%;
-      left: 10%;
-      transform: rotate(35deg);
-      animation-delay: 0s;
-    }
-
-    .shooting-star-2 {
-      top: 30%;
-      left: 70%;
-      transform: rotate(45deg);
-      animation-delay: 3s;
-      background: linear-gradient(90deg, rgba(107, 76, 154, 0), rgba(107, 76, 154, 1), rgba(107, 76, 154, 0));
-    }
-
-    .shooting-star-3 {
-      top: 60%;
-      left: 20%;
-      transform: rotate(25deg);
-      animation-delay: 5s;
-    }
-
-    @keyframes shooting-star {
-      0% { opacity: 0; transform: translateX(0) rotate(35deg); width: 0; }
-      5% { opacity: 1; width: 100px; }
-      15% { opacity: 0; transform: translateX(300px) rotate(35deg); width: 100px; }
-      100% { opacity: 0; }
-    }
-
-    .loader-container {
-      position: relative;
-      width: 540px;
-      height: 540px;
-      z-index: 10;
-    }
-
-    /* Center Logo */
-    .center-logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100px;
-      height: 100px;
-      transform: translate(-50%, -50%);
-      animation: logo-pulse 2s ease-in-out infinite alternate;
-      z-index: 10;
-    }
-
-    .center-logo img {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1) drop-shadow(0 0 30px rgba(93, 183, 194, 0.6));
-    }
-
-    .center-logo::before {
-      content: '';
-      position: absolute;
-      inset: -20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(93, 183, 194, 0.3) 0%, transparent 70%);
-      animation: glow-pulse 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes logo-pulse {
-      0% { transform: translate(-50%, -50%) scale(1); }
-      100% { transform: translate(-50%, -50%) scale(1.08); }
-    }
-
-    @keyframes glow-pulse {
-      0% { opacity: 0.5; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.2); }
-    }
-
-    /* Orbit Paths (Visual Reference) */
-    .orbit-path {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border: 1px dashed rgba(61, 90, 128, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .orbit-path-1 {
-      width: 200px;
-      height: 200px;
-      border-color: rgba(93, 183, 194, 0.25);
-    }
-
-    .orbit-path-2 {
-      width: 340px;
-      height: 340px;
-      border-color: rgba(61, 90, 128, 0.25);
-    }
-
-    .orbit-path-3 {
-      width: 480px;
-      height: 480px;
-      border-color: rgba(107, 76, 154, 0.25);
-    }
-
-    /* Orbit Containers */
-    .orbit {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-    }
-
-    .orbit-1 {
-      animation: orbit-rotate 10s linear infinite;
-    }
-
-    .orbit-2 {
-      animation: orbit-rotate 15s linear infinite reverse;
-    }
-
-    .orbit-3 {
-      animation: orbit-rotate 20s linear infinite;
-    }
-
-    @keyframes orbit-rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* Service Icons */
-    .orbit-icon {
-      position: absolute;
-      width: 48px;
-      height: 48px;
+      height: 50%; /* Bottom half of screen */
+      bottom: 0;
+      left: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(93, 183, 194, 0.25);
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(107, 76, 154, 0.3);
-      transition: box-shadow 0.3s ease;
+      opacity: 0;
+      animation: earth-fade-in 0.8s ease-out 0.2s forwards;
+      z-index: 10; /* Above stars - foreground layer */
+      overflow: hidden;
     }
 
-    .orbit-icon svg {
-      width: 24px;
-      height: 24px;
-      color: rgba(93, 183, 194, 0.9);
+    @keyframes earth-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #earth-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 20px rgba(93, 183, 194, 0.3));
+    }
+
+    /* Roaya Logo Reveal */
+    .roaya-logo {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, 0) scale(0.8);
+      opacity: 0;
+      width: 120px;
+      height: 120px;
+      z-index: 30; /* Above Earth */
+      animation: logo-reveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) 2s forwards;
+    }
+
+    .roaya-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    @keyframes logo-reveal {
+      from {
+        transform: translate(-50%, -20px) scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 40px rgba(93, 183, 194, 0.8)) drop-shadow(0 0 80px rgba(93, 183, 194, 0.4));
+      }
+    }
+
+    /* Loading Text */
+    .loading-text {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: text-fade-in 0.6s ease-out 1s forwards;
+      z-index: 30; /* Above Earth */
+    }
+
+    .loading-text::after {
+      content: '';
+      animation: loading-dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes text-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes loading-dots {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+      100% { content: ''; }
+    }
+
+    /* Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce) {
+      .stars-small,
+      .stars-medium,
+      .stars-large,
+      #earth-canvas-container,
+      .roaya-logo,
+      .loading-text {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      .roaya-logo {
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .loading-text::after {
+        animation: none;
+        content: '...';
+      }
+
+      #loading-screen {
+        transition: opacity 0.2s ease-in-out;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #earth-canvas-container {
+        height: 50%; /* Maintain bottom half on mobile */
+      }
+
+      .roaya-logo {
+        width: 100px;
+        height: 100px;
+      }
+
+      .loading-text {
+        font-size: 12px;
+        bottom: 12%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #earth-canvas-container {
+        height: 50%; /* Maintain bottom half on small screens */
+      }
+
+      .roaya-logo {
+        width: 80px;
+        height: 80px;
+      }
+
+      .loading-text {
+        font-size: 11px;
+        bottom: 10%;
+      }
     }
 
     /* Wave Transition Overlay - Abstract Lines Effect */
@@ -971,150 +927,29 @@
   </style>
 </head>
 <body>
-  <!-- Solar System Loading Screen (outside app-root so it persists during Angular bootstrap) -->
+  <!-- Earth from Space Loading Screen -->
   <div id="loading-screen" role="status" aria-live="polite" aria-label="Loading Roaya IT">
       <span class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Loading application, please wait...</span>
 
-      <!-- Starfield Background -->
-      <div class="starfield">
-        <div class="stars stars-layer-1"></div>
-        <div class="stars stars-layer-2"></div>
-        <div class="stars stars-layer-3"></div>
-        <div class="stars stars-twinkle"></div>
+      <!-- Twinkling Stars Background -->
+      <div class="stars-container">
+        <div class="stars-layer stars-small"></div>
+        <div class="stars-layer stars-medium"></div>
+        <div class="stars-layer stars-large"></div>
       </div>
 
-      <!-- Nebula Effects for Depth -->
-      <div class="nebula nebula-1"></div>
-      <div class="nebula nebula-2"></div>
-      <div class="nebula nebula-3"></div>
-
-      <!-- Shooting Stars -->
-      <div class="shooting-star shooting-star-1"></div>
-      <div class="shooting-star shooting-star-2"></div>
-      <div class="shooting-star shooting-star-3"></div>
-
-      <div class="loader-container">
-        <!-- Orbit Paths (Visual) - 3 Levels -->
-        <div class="orbit-path orbit-path-1"></div>
-        <div class="orbit-path orbit-path-2"></div>
-        <div class="orbit-path orbit-path-3"></div>
-
-        <!-- Connection Lines - Orbit 1 -->
-        <div class="connection-lines connection-lines-1">
-          <div class="connection-line line-1"></div>
-          <div class="connection-line line-2"></div>
-        </div>
-
-        <!-- Connection Lines - Orbit 2 -->
-        <div class="connection-lines connection-lines-2">
-          <div class="connection-line line-1"></div>
-          <div class="connection-line line-2"></div>
-          <div class="connection-line line-3"></div>
-        </div>
-
-        <!-- Connection Lines - Orbit 3 -->
-        <div class="connection-lines connection-lines-3">
-          <div class="connection-line line-1"></div>
-          <div class="connection-line line-2"></div>
-          <div class="connection-line line-3"></div>
-          <div class="connection-line line-4"></div>
-        </div>
-
-        <!-- Center Logo -->
-        <div class="center-logo">
-          <img src="/assets/images/roaya-logo.png" alt="Roaya IT" />
-        </div>
-
-        <!-- Orbit 1 - Core Services (Fastest, Closest) -->
-        <div class="orbit orbit-1">
-          <!-- Cloud -->
-          <div class="orbit-icon icon-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
-            </svg>
-          </div>
-          <!-- Security -->
-          <div class="orbit-icon icon-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
-              <path d="m9 12 2 2 4-4"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Orbit 2 - Communication Services -->
-        <div class="orbit orbit-2">
-          <!-- Email -->
-          <div class="orbit-icon icon-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="20" height="16" x="2" y="4" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-            </svg>
-          </div>
-          <!-- Backup -->
-          <div class="orbit-icon icon-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" x2="12" y1="3" y2="15"/>
-            </svg>
-          </div>
-          <!-- Database -->
-          <div class="orbit-icon icon-3">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="12" cy="5" rx="9" ry="3"/>
-              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-              <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Orbit 3 - Enterprise Solutions -->
-        <div class="orbit orbit-3">
-          <!-- SAP -->
-          <div class="orbit-icon icon-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-              <circle cx="12" cy="12" r="4"/>
-            </svg>
-          </div>
-          <!-- Consulting -->
-          <div class="orbit-icon icon-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              <rect width="20" height="14" x="2" y="6" rx="2"/>
-            </svg>
-          </div>
-          <!-- Automation -->
-          <div class="orbit-icon icon-3">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 8V4H8"/>
-              <rect width="16" height="12" x="4" y="8" rx="2"/>
-              <path d="M2 14h2"/>
-              <path d="M20 14h2"/>
-              <path d="M15 13v2"/>
-              <path d="M9 13v2"/>
-            </svg>
-          </div>
-          <!-- Analytics -->
-          <div class="orbit-icon icon-4">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 3v18h18"/>
-              <path d="m19 9-5 5-4-4-3 3"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Loading Text -->
-        <div class="loading-text">Loading</div>
-
-        <!-- Typing Subtitle -->
-        <div class="loading-subtitle">
-          <span class="subtitle-text" data-lang="en" id="subtitle-text">
-            <span class="typing-cursor"></span>
-          </span>
-        </div>
+      <!-- 3D Earth Canvas -->
+      <div id="earth-canvas-container">
+        <canvas id="earth-canvas"></canvas>
       </div>
+
+      <!-- Roaya Logo Reveal -->
+      <div class="roaya-logo">
+        <img src="/assets/images/roaya-logo.png" alt="Roaya IT" />
+      </div>
+
+      <!-- Loading Text -->
+      <div class="loading-text">Loading</div>
   </div>
 
   <!-- Wave Transition Overlay - Abstract Lines Effect -->
@@ -1145,217 +980,388 @@
   <!-- Angular App Root -->
   <app-root></app-root>
 
-  <!-- Typing Animation Script -->
+  <!-- Three.js Earth Rendering Script -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
   <script>
     (function() {
       'use strict';
 
-      // Subtitle data (bilingual) - from Content Terminology Specialist
-      const subtitles = [
-        // Technical/Service-Focused
-        { en: "Initializing cloud infrastructure...", ar: "جارٍ تهيئة البنية السحابية..." },
-        { en: "Activating security protocols...", ar: "جارٍ تفعيل بروتوكولات الأمان..." },
-        { en: "Loading enterprise solutions...", ar: "جارٍ تحميل الحلول المؤسسية..." },
-        // Brand Value-Driven
-        { en: "Your security is our priority...", ar: "أمانك أولويتنا..." },
-        { en: "Trust built through transparency...", ar: "الثقة تُبنى بالشفافية..." },
-        { en: "Protecting what matters most...", ar: "نحمي ما يهمك..." },
-        // Service Excellence
-        { en: "24/7 monitoring. Zero compromises.", ar: "مراقبة على مدار الساعة. بلا تنازلات." },
-        { en: "Where innovation meets reliability...", ar: "حيث يلتقي الابتكار بالموثوقية..." }
-      ];
-
       // Configuration
       const config = {
-        typingSpeed: 60,        // ms per character (faster = lower number)
-        untypingSpeed: 40,      // ms per character when deleting
-        pauseAfterTyping: 2500, // ms to pause after typing complete
-        pauseBeforeUntype: 1000 // ms to pause before untyping
+        earthRadius: 2,
+        earthSegments: 64,
+        rotationSpeed: 0.002, // Slower rotation for smooth effect
+        atmosphereGlow: true,
+        reducedMotion: false,
+        // Egypt coordinates (Cairo): ~30°N, 31°E
+        egyptLat: 30.0444,
+        egyptLon: 31.2357
       };
 
-      // State
-      let currentIndex = -1;
-      let currentLang = 'en';
-      let isTyping = false;
-      let typingTimeout = null;
-      let usedIndices = [];
-      let prefersReducedMotion = false;
-
-      // Get DOM elements
-      const subtitleElement = document.getElementById('subtitle-text');
-      const cursorElement = subtitleElement?.querySelector('.typing-cursor');
-
-      // Check if user prefers reduced motion
+      // Check for reduced motion preference
       if (window.matchMedia) {
         const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        prefersReducedMotion = motionQuery.matches;
+        config.reducedMotion = motionQuery.matches;
       }
 
-      // Detect browser language (EN or AR)
-      function detectLanguage() {
-        const browserLang = navigator.language || navigator.userLanguage;
-        return browserLang.startsWith('ar') ? 'ar' : 'en';
+      // Get canvas element
+      const canvas = document.getElementById('earth-canvas');
+      if (!canvas) {
+        console.warn('Earth canvas not found');
+        return;
       }
 
-      // Get random subtitle index (avoid repeats until all seen)
-      function getRandomIndex() {
-        if (usedIndices.length >= subtitles.length) {
-          usedIndices = []; // Reset when all subtitles have been shown
-        }
+      // Setup Three.js scene
+      let scene, camera, renderer, earth, atmosphere, cityLights, countryGlow, egyptMarker, animationId;
+      const textureLoader = new THREE.TextureLoader();
 
-        let randomIndex;
-        do {
-          randomIndex = Math.floor(Math.random() * subtitles.length);
-        } while (usedIndices.includes(randomIndex));
-
-        usedIndices.push(randomIndex);
-        return randomIndex;
+      // Convert lat/lon to 3D coordinates
+      function latLonToVector3(lat, lon, radius) {
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = (lon + 180) * (Math.PI / 180);
+        
+        const x = -(radius * Math.sin(phi) * Math.cos(theta));
+        const y = radius * Math.cos(phi);
+        const z = radius * Math.sin(phi) * Math.sin(theta);
+        
+        return new THREE.Vector3(x, y, z);
       }
 
-      // Type text character by character
-      function typeText(text, callback) {
-        if (!subtitleElement || prefersReducedMotion) {
-          if (callback) callback();
-          return;
-        }
+      function initThreeJS() {
+        // Create scene
+        scene = new THREE.Scene();
 
-        let charIndex = 0;
-        const textNode = document.createTextNode('');
+        // Setup camera - use container dimensions for full width
+        const container = document.getElementById('earth-canvas-container');
+        const containerWidth = container ? container.offsetWidth : canvas.offsetWidth;
+        const containerHeight = container ? container.offsetHeight : canvas.offsetHeight;
+        const width = containerWidth || canvas.offsetWidth || 800;
+        const height = containerHeight || canvas.offsetHeight || 400;
+        
+        camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+        // Adjust camera position for full-width bottom half view
+        camera.position.z = width > height ? 4.5 : 6;
+        camera.position.y = 0.5; // Slight upward angle for better view
 
-        // Insert text node before cursor
-        if (cursorElement) {
-          subtitleElement.insertBefore(textNode, cursorElement);
-        }
+        // Create renderer
+        renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+          antialias: true
+        });
+        // Set canvas size to match container
+        canvas.width = width;
+        canvas.height = height;
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        function typeNextChar() {
-          if (charIndex < text.length) {
-            textNode.textContent += text[charIndex];
-            charIndex++;
-            typingTimeout = setTimeout(typeNextChar, config.typingSpeed);
-          } else {
-            if (callback) {
-              typingTimeout = setTimeout(callback, config.pauseAfterTyping);
-            }
+        // Create Earth sphere
+        const earthGeometry = new THREE.SphereGeometry(config.earthRadius, config.earthSegments, config.earthSegments);
+
+        // Load Earth textures with fallback
+        let earthTextureLoaded = false;
+        const earthTexture = textureLoader.load(
+          'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+          function() {
+            earthTextureLoaded = true;
+          },
+          undefined,
+          function(err) {
+            console.warn('Earth texture failed to load, trying alternative source:', err);
+            // Try alternative CDN
+            textureLoader.load(
+              'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg',
+              function() {
+                earthTextureLoaded = true;
+              },
+              undefined,
+              function() {
+                console.warn('All Earth texture sources failed, using procedural fallback');
+                createProceduralEarth();
+              }
+            );
           }
-        }
-
-        typeNextChar();
-      }
-
-      // Untype text character by character
-      function untypeText(callback) {
-        if (!subtitleElement || prefersReducedMotion) {
-          if (callback) callback();
-          return;
-        }
-
-        const textNodes = Array.from(subtitleElement.childNodes).filter(
-          node => node.nodeType === Node.TEXT_NODE && node.textContent.trim()
         );
 
-        if (textNodes.length === 0) {
-          if (callback) callback();
-          return;
+        const earthNormalMap = textureLoader.load(
+          'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_normal_2048.jpg',
+          undefined,
+          undefined,
+          function() {
+            // Try alternative source for normal map
+            textureLoader.load(
+              'https://threejs.org/examples/textures/planets/earth_normal_2048.jpg',
+              undefined,
+              undefined,
+              function() {
+                // Normal map is optional, continue without it if all sources fail
+              }
+            );
+          }
+        );
+
+        // Load city lights texture (night side of Earth)
+        const cityLightsTexture = textureLoader.load(
+          'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_lights_2048.jpg',
+          undefined,
+          undefined,
+          function() {
+            // Try alternative source for city lights
+            textureLoader.load(
+              'https://threejs.org/examples/textures/planets/earth_lights_2048.jpg',
+              undefined,
+              undefined,
+              function() {
+                // City lights are optional, continue without them if all sources fail
+              }
+            );
+          }
+        );
+
+        // Earth material with realistic texture
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: earthTexture,
+          normalMap: earthNormalMap,
+          normalScale: new THREE.Vector2(0.5, 0.5),
+          shininess: 10,
+          specular: new THREE.Color(0x111111)
+        });
+
+        earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        scene.add(earth);
+
+        // Create city lights layer (emissive material for night side)
+        if (cityLightsTexture) {
+          const cityLightsMaterial = new THREE.MeshBasicMaterial({
+            map: cityLightsTexture,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+          });
+          cityLights = new THREE.Mesh(earthGeometry.clone(), cityLightsMaterial);
+          scene.add(cityLights);
         }
 
-        const textNode = textNodes[0];
-        let text = textNode.textContent;
+        // Create atmosphere glow
+        if (config.atmosphereGlow) {
+          const atmosphereGeometry = new THREE.SphereGeometry(config.earthRadius * 1.08, 32, 32);
+          const atmosphereMaterial = new THREE.MeshBasicMaterial({
+            color: 0x5DB7C2,
+            transparent: true,
+            opacity: 0.15,
+            side: THREE.BackSide
+          });
+          atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+          scene.add(atmosphere);
+        }
 
-        function untypeNextChar() {
-          if (text.length > 0) {
-            text = text.slice(0, -1);
-            textNode.textContent = text;
-            typingTimeout = setTimeout(untypeNextChar, config.untypingSpeed);
-          } else {
-            // Remove empty text node
-            if (textNode.parentNode) {
-              textNode.parentNode.removeChild(textNode);
-            }
-            if (callback) {
-              typingTimeout = setTimeout(callback, 300);
-            }
+        // Create blinking marker above Egypt
+        const egyptPosition = latLonToVector3(config.egyptLat, config.egyptLon, config.earthRadius * 1.15);
+        
+        // Create a glowing sprite above Egypt
+        const markerGeometry = new THREE.SphereGeometry(0.08, 16, 16);
+        const markerMaterial = new THREE.MeshBasicMaterial({
+          color: 0x5DB7C2,
+          transparent: true,
+          blending: THREE.AdditiveBlending
+        });
+        
+        egyptMarker = new THREE.Mesh(markerGeometry, markerMaterial);
+        egyptMarker.position.copy(egyptPosition);
+        scene.add(egyptMarker);
+
+        // Create pulsing glow rings around Egypt marker
+        const ringGeometry = new THREE.RingGeometry(0.12, 0.18, 32);
+        const ringMaterial = new THREE.MeshBasicMaterial({
+          color: 0x5DB7C2,
+          transparent: true,
+          opacity: 0.6,
+          side: THREE.DoubleSide,
+          blending: THREE.AdditiveBlending
+        });
+        
+        const glowRing1 = new THREE.Mesh(ringGeometry, ringMaterial.clone());
+        glowRing1.position.copy(egyptPosition);
+        glowRing1.lookAt(camera.position);
+        scene.add(glowRing1);
+        
+        const glowRing2 = new THREE.Mesh(ringGeometry, ringMaterial.clone());
+        glowRing2.position.copy(egyptPosition);
+        glowRing2.lookAt(camera.position);
+        scene.add(glowRing2);
+        
+        // Store rings for animation
+        egyptMarker.glowRings = [glowRing1, glowRing2];
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.2);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        directionalLight.position.set(5, 3, 5);
+        scene.add(directionalLight);
+
+        // Start animation loop
+        if (!config.reducedMotion) {
+          animate();
+        } else {
+          // Render once for static view
+          renderer.render(scene, camera);
+        }
+
+        // Signal that Earth is fully rendered
+        window.earthRendered = true;
+        if (typeof window.onEarthReady === 'function') {
+          window.onEarthReady();
+        }
+      }
+
+      // Fallback procedural Earth if texture loading fails
+      function createProceduralEarth() {
+        if (!earth) return;
+        
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          color: 0x2d5a7b,
+          emissive: 0x0a1929,
+          emissiveIntensity: 0.3,
+          shininess: 10
+        });
+        earth.material = earthMaterial;
+      }
+
+      // Animation loop
+      function animate() {
+        animationId = requestAnimationFrame(animate);
+        const time = Date.now() * 0.001;
+
+        // Rotate Earth slowly
+        if (earth) {
+          earth.rotation.y += config.rotationSpeed;
+        }
+
+        // Rotate city lights with Earth
+        if (cityLights) {
+          cityLights.rotation.y = earth.rotation.y;
+        }
+
+        // Update Egypt marker position and blinking effect
+        if (egyptMarker) {
+          // Calculate new position based on Earth rotation
+          const egyptPosition = latLonToVector3(config.egyptLat, config.egyptLon, config.earthRadius * 1.15);
+          const rotationMatrix = new THREE.Matrix4().makeRotationY(earth.rotation.y);
+          egyptPosition.applyMatrix4(rotationMatrix);
+          egyptMarker.position.copy(egyptPosition);
+          
+          // Blinking effect for marker
+          const blink = Math.sin(time * 3.0) * 0.5 + 0.5; // 0 to 1
+          egyptMarker.material.opacity = 0.4 + blink * 0.6;
+          egyptMarker.scale.setScalar(0.8 + blink * 0.4);
+          
+          // Update glow rings
+          if (egyptMarker.glowRings) {
+            egyptMarker.glowRings.forEach((ring, index) => {
+              ring.position.copy(egyptPosition);
+              ring.lookAt(camera.position);
+              
+              // Animate rings with offset
+              const ringTime = time + index * 0.5;
+              const ringPulse = Math.sin(ringTime * 2.0) * 0.5 + 0.5;
+              ring.material.opacity = 0.3 + ringPulse * 0.4;
+              ring.scale.setScalar(0.7 + ringPulse * 0.6);
+            });
           }
         }
 
-        typingTimeout = setTimeout(untypeNextChar, config.pauseBeforeUntype);
-      }
-
-      // Show next subtitle with typing animation
-      function showNextSubtitle() {
-        if (isTyping || !subtitleElement) return;
-
-        isTyping = true;
-        currentIndex = getRandomIndex();
-        const subtitle = subtitles[currentIndex];
-        const text = subtitle[currentLang];
-
-        // Update language attribute for proper font
-        subtitleElement.setAttribute('data-lang', currentLang);
-
-        // Add fade-in class
-        subtitleElement.classList.add('fade-in');
-        subtitleElement.classList.remove('fade-out');
-
-        // Type the text
-        typeText(text, () => {
-          // After typing complete, wait then untype
-          untypeText(() => {
-            // Add fade-out class
-            subtitleElement.classList.remove('fade-in');
-            subtitleElement.classList.add('fade-out');
-
-            isTyping = false;
-
-            // Show next subtitle
-            showNextSubtitle();
-          });
-        });
-      }
-
-      // Initialize typing animation
-      function init() {
-        if (!subtitleElement) {
-          console.warn('Subtitle element not found');
-          return;
+        // Pulse atmosphere
+        if (atmosphere) {
+          atmosphere.material.opacity = 0.12 + Math.sin(time * 0.5) * 0.05;
         }
 
-        // Detect language
-        currentLang = detectLanguage();
-
-        // For reduced motion, just show static text
-        if (prefersReducedMotion) {
-          const firstSubtitle = subtitles[0];
-          subtitleElement.setAttribute('data-lang', currentLang);
-          const textNode = document.createTextNode(firstSubtitle[currentLang]);
-          subtitleElement.insertBefore(textNode, cursorElement);
-          return;
-        }
-
-        // Start typing animation after a short delay
-        setTimeout(() => {
-          showNextSubtitle();
-        }, 800);
+        renderer.render(scene, camera);
       }
 
-      // Cleanup on page unload
+      // Handle window resize
+      function onWindowResize() {
+        if (!canvas || !camera || !renderer) return;
+
+        const container = document.getElementById('earth-canvas-container');
+        const containerWidth = container ? container.offsetWidth : canvas.offsetWidth;
+        const containerHeight = container ? container.offsetHeight : canvas.offsetHeight;
+        const width = containerWidth || canvas.offsetWidth || 800;
+        const height = containerHeight || canvas.offsetHeight || 400;
+
+        camera.aspect = width / height;
+        // Adjust camera position for full-width view
+        camera.position.z = width > height ? 4.5 : 6;
+        camera.updateProjectionMatrix();
+        
+        // Update canvas size
+        canvas.width = width;
+        canvas.height = height;
+        renderer.setSize(width, height);
+      }
+
+      // Cleanup function
       function cleanup() {
-        if (typingTimeout) {
-          clearTimeout(typingTimeout);
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        if (renderer) {
+          renderer.dispose();
+        }
+        if (scene) {
+          scene.traverse((object) => {
+            if (object.geometry) object.geometry.dispose();
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(material => material.dispose());
+              } else {
+                object.material.dispose();
+              }
+            }
+            // Cleanup textures
+            if (object.material && object.material.map) {
+              object.material.map.dispose();
+            }
+            if (object.material && object.material.normalMap) {
+              object.material.normalMap.dispose();
+            }
+          });
         }
       }
 
       // Initialize when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
+      function startInitialization() {
+        setTimeout(() => {
+          try {
+            initThreeJS();
+            // Signal that Earth is ready (or at least initialized)
+            window.earthInitialized = true;
+            if (typeof window.onEarthReady === 'function') {
+              window.onEarthReady();
+            }
+          } catch (error) {
+            console.error('Earth initialization error:', error);
+            // Still signal ready to prevent infinite loading
+            window.earthInitialized = true;
+          }
+        }, 100);
       }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startInitialization);
+      } else {
+        startInitialization();
+      }
+
+      // Handle resize
+      window.addEventListener('resize', onWindowResize);
 
       // Cleanup on page unload
       window.addEventListener('beforeunload', cleanup);
 
-      // Expose cleanup function globally for Angular to call
-      window.cleanupTypingAnimation = cleanup;
+      // Expose cleanup function globally for Angular
+      window.cleanupEarthAnimation = cleanup;
     })();
   </script>
 </body>

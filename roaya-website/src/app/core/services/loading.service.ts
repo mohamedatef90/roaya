@@ -88,6 +88,7 @@ export class LoadingService {
   /**
    * Hide the solar system loading screen with wave abstract lines transition.
    * Respects minimum display time to prevent flash on fast loads.
+   * Waits for Earth to be rendered before dismissing.
    */
   private hideSolarSystemLoader(): void {
     const loadingScreen = document.getElementById('loading-screen');
@@ -97,8 +98,34 @@ export class LoadingService {
     const elapsedTime = Date.now() - this.loadingStartTime;
     const remainingTime = Math.max(0, this.MIN_DISPLAY_TIME - elapsedTime);
 
-    // Ensure minimum display time for smooth UX
-    setTimeout(() => {
+    // Wait for Earth to be ready (with timeout)
+    const waitForEarth = (): Promise<void> => {
+      return new Promise((resolve) => {
+        const checkEarth = () => {
+          const earthReady = (window as any).earthRendered === true;
+          if (earthReady) {
+            resolve();
+          } else {
+            // Check again after a short delay, but don't wait forever
+            setTimeout(() => {
+              if (Date.now() - this.loadingStartTime < this.MAX_DISPLAY_TIME) {
+                checkEarth();
+              } else {
+                // Timeout - proceed anyway
+                resolve();
+              }
+            }, 100);
+          }
+        };
+        checkEarth();
+      });
+    };
+
+    // Ensure minimum display time and Earth readiness for smooth UX
+    Promise.all([
+      new Promise(resolve => setTimeout(resolve, remainingTime)),
+      waitForEarth()
+    ]).then(() => {
       // Cleanup typing animation if exists
       if (typeof (window as any).cleanupTypingAnimation === 'function') {
         (window as any).cleanupTypingAnimation();
@@ -135,7 +162,7 @@ export class LoadingService {
           waveTransition.remove();
         }
       }, 3000);
-    }, remainingTime);
+    });
   }
 
   /**
