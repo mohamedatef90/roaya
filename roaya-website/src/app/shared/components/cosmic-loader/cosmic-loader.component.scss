@@ -13,15 +13,7 @@
   isolation: isolate;
 }
 
-.cosmic-loader__sky {
-  position: absolute;
-  inset: -6%;
-  background: radial-gradient(circle at 50% 30%, rgba(40, 90, 180, 0.45), rgba(87, 126, 233, 0.95) 70%);
-  filter: blur(12px);
-  opacity: 0.9;
-  z-index: 0;
-  pointer-events: none;
-}
+
 
 .cosmic-loader__milkyway {
   position: absolute;
@@ -57,23 +49,6 @@
   background: radial-gradient(circle at center, transparent 30%, rgba(5, 12, 31, 0.92) 100%);
   pointer-events: none;
   z-index: 1;
-}
-
-.cosmic-loader__scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(
-      90deg,
-      rgba(255, 0, 0, 0.04),
-      rgba(0, 255, 0, 0.015),
-      rgba(0, 0, 255, 0.04)
-    );
-  background-size: 100% 2px, 3px 100%;
-  opacity: 0.25;
-  z-index: 2;
 }
 
 .cosmic-loader__overlay {

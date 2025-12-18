@@ -25,6 +25,40 @@
   top: 5px !important;
 }
 
+/* Edge scroll line */
+.edge-scroll-line {
+  position: fixed;
+  right: 14px;
+  top: 50%;
+transform: translateY(-50%);
+  width: 4px;
+  height: 100vh;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.edge-scroll-line__track {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(93, 183, 194, 0.18), rgba(93, 183, 194, 0.05));
+  filter: drop-shadow(0 0 12px rgba(93, 183, 194, 0.35));
+}
+
+.edge-scroll-line__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #5db7c2, #6b4c9a);
+  transform-origin: top;
+  transform: scaleY(0);
+  box-shadow:
+    0 0 8px rgba(93, 183, 194, 0.6),
+    0 0 14px rgba(107, 76, 154, 0.45);
+  transition: transform 0.15s ease-out;
+}
+
 // Floating Navbar
 .floating-navbar {
   border-radius: 9999px; // Full pill shape

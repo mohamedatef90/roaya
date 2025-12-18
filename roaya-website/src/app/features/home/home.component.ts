@@ -168,9 +168,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   // Trusted by logos - Real client logos
   trustedLogos = [
     {
-      name: 'Misr Insurance',
+      name: 'Misr Pharmacy',
       logo: '/assets/images/logos/clients/misr-logo.webp',
-      nameAr: 'مصر للتأمين'
+      nameAr: 'صيدليات مصر'
     },
     {
       name: 'Elsewedy Electric',
@@ -193,9 +193,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       nameAr: '2B كمبيوتر'
     },
     {
-      name: 'Egyptian Banking Corporation',
+      name: 'RA Sports',
       logo: '/assets/images/logos/clients/637187487380375480.jpg',
-      nameAr: 'البنك المصري'
+      nameAr: 'RA الرياضة'
     }
   ];
 

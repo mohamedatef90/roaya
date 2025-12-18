@@ -34,6 +34,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Content entrance animation gate
   contentEntered = false;
   isHomeRoute = true;
+  scrollProgress = 0;
 
   // Scroll state signal
   isScrolled = signal<boolean>(false);
@@ -284,6 +285,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         ? this.scrollSmootherService.scrollTop()
         : window.scrollY;
       this.isScrolled.set(scrollY > this.scrollThreshold);
+
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const progress = max > 0 ? Math.min(scrollY / max, 1) : 0;
+      this.scrollProgress = progress;
     }
   }
 

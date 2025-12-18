@@ -225,7 +225,7 @@ export class IndustryDetailComponent implements OnInit {
       ],
       icon: '🛒',
       iconSvg: '/assets/images/icons/industries/retail.svg',
-      gradient: 'from-pink-600 to-rose-700',
+      gradient: 'from-teal-500 to-emerald-600',
       services: [
         {
           iconPath: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
