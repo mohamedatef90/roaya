@@ -1,6 +1,6 @@
 import { Component, HostListener, signal, computed, inject, OnInit, OnDestroy, AfterViewInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
@@ -11,11 +11,13 @@ import { MegaMenuComponent, MegaMenuItem } from '../../shared/components/mega-me
 import { ScrollIndicatorComponent } from '../../shared/components/scroll-indicator/scroll-indicator.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
+import { CosmicLoaderComponent } from '../../shared/components/cosmic-loader/cosmic-loader.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
@@ -24,8 +26,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly themeService = inject(ThemeService);
   readonly languageService = inject(LanguageService);
   readonly navigationService = inject(NavigationService);
-  private readonly loadingService = inject(LoadingService); // Initializes solar system loader
+  readonly loadingService = inject(LoadingService);
   private readonly scrollSmootherService = inject(ScrollSmootherService);
+  private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
 
   // Scroll state signal
@@ -214,9 +217,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
 
+  private navigationSub?: Subscription;
+  private navigationStartTime = 0;
+  private readonly minimumLoaderDuration = 6000;
+  private loaderShownOnce = false;
+
   ngOnInit(): void {
     // Check initial scroll position
     this.checkScroll();
+    this.initializeLoader();
   }
 
   ngAfterViewInit(): void {
@@ -233,6 +242,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }, 100);
     }
+
+    // Ensure loader is visible on first paint
+    this.showInitialLoader();
   }
 
   ngOnDestroy(): void {
@@ -240,6 +252,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.scrollSmootherService.destroy();
     // Close mobile menu when component is destroyed
     this.navigationService.closeMobileMenu();
+    this.navigationSub?.unsubscribe();
   }
 
   @HostListener('window:scroll', [])
@@ -262,6 +275,50 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         : window.scrollY;
       this.isScrolled.set(scrollY > this.scrollThreshold);
     }
+  }
+
+  private initializeLoader(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    this.navigationSub = this.router.events.subscribe(event => {
+      if (this.loaderShownOnce) {
+        return;
+      }
+
+      if (event instanceof NavigationStart) {
+        this.navigationStartTime = performance.now();
+        this.loadingService.showLoading();
+      }
+
+      if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        const elapsed = performance.now() - this.navigationStartTime;
+        const remaining = Math.max(0, this.minimumLoaderDuration - elapsed);
+        window.setTimeout(() => {
+          this.loadingService.hideLoading();
+          this.loaderShownOnce = true;
+        }, remaining);
+      }
+    });
+  }
+
+  private showInitialLoader(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // Prevent double-run if already shown via navigation events
+    if (this.loaderShownOnce) {
+      return;
+    }
+
+    this.navigationStartTime = performance.now();
+    this.loadingService.showLoading();
+    window.setTimeout(() => {
+      this.loadingService.hideLoading();
+      this.loaderShownOnce = true;
+    }, this.minimumLoaderDuration);
   }
 
   toggleTheme(): void {

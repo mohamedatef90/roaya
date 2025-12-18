@@ -191,6 +191,12 @@
   overflow: hidden;
 }
 
+.hero-bg-container img {
+  filter: blur(2px);
+  transform: scale(1.04);
+  transform-origin: center;
+}
+
 
 
 // Noise texture

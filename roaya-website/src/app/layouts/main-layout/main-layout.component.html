@@ -6,6 +6,13 @@
   {{ 'accessibility.skipToContent' | translate }}
 </a>
 
+<!-- Cosmic loading overlay -->
+<app-cosmic-loader
+  *ngIf="loadingService.isLoading()"
+  class="fixed inset-0 z-[60]"
+  aria-label="Loading Roaya IT experience"
+></app-cosmic-loader>
+
 <!-- Header - Fixed Sticky Navbar (below news bar) -->
 <header
   class="fixed inset-x-0 z-40 px-4 lg:px-6 pt-3"

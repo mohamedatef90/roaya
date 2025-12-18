@@ -1,0 +1,40 @@
+<div
+  class="cosmic-loader"
+  role="status"
+  aria-live="polite"
+  aria-label="Loading Roaya IT experience"
+>
+  <div class="cosmic-loader__sky" aria-hidden="true"></div>
+  <div class="cosmic-loader__milkyway" aria-hidden="true"></div>
+
+  <div #canvasContainer class="cosmic-loader__canvas">
+    <canvas #canvas aria-hidden="true"></canvas>
+  </div>
+
+  <div class="cosmic-loader__vignette" aria-hidden="true"></div>
+  <div class="cosmic-loader__scanlines" aria-hidden="true"></div>
+
+  <div class="cosmic-loader__overlay">
+    <div class="cosmic-loader__logo-wrap">
+      <img
+        src="/assets/images/roaya-logo.png"
+        alt="Roaya IT"
+        class="cosmic-loader__logo"
+        width="200"
+        height="200"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <p class="cosmic-loader__label">
+      {{ label }}
+    </p>
+    <div class="cosmic-loader__bar">
+      <div class="cosmic-loader__bar-progress"></div>
+    </div>
+    <div class="cosmic-loader__typing" aria-hidden="true">
+      Enterprise-grade cloud, security, and managed IT by Roaya.
+    </div>
+    <span class="sr-only">Loading application, please wait…</span>
+  </div>
+</div>
