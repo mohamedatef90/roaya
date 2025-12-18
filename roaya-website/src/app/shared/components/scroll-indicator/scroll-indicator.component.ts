@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, effect, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
