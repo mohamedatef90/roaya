@@ -422,8 +422,8 @@
 </div>
 
 <!-- ScrollSmoother Wrapper -->
-<div id="smooth-wrapper">
-  <div id="smooth-content">
+<div id="smooth-wrapper" [class.app-content-entrance]="contentEntered">
+  <div id="smooth-content" [class.app-content-entrance]="contentEntered">
     <!-- Main Content -->
     <main id="main-content" class="min-h-screen">
       <router-outlet />

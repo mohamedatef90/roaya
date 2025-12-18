@@ -31,6 +31,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
 
+  // Content entrance animation gate
+  contentEntered = false;
+
   // Scroll state signal
   isScrolled = signal<boolean>(false);
   private scrollThreshold = 50; // Threshold for navbar background change
@@ -298,6 +301,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         window.setTimeout(() => {
           this.loadingService.hideLoading();
           this.loaderShownOnce = true;
+          this.contentEntered = true;
         }, remaining);
       }
     });
@@ -318,6 +322,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     window.setTimeout(() => {
       this.loadingService.hideLoading();
       this.loaderShownOnce = true;
+      this.contentEntered = true;
     }, this.minimumLoaderDuration);
   }
 
