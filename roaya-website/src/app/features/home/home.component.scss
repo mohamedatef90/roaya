@@ -197,38 +197,6 @@
   transform-origin: center;
 }
 
-.hero-integration-lines {
-  background:
-    linear-gradient(90deg, rgba(93, 183, 194, 0.16) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(93, 183, 194, 0.12) 1px, transparent 1px),
-    radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.22) 2px, transparent 8px),
-    radial-gradient(circle at 70% 45%, rgba(93, 183, 194, 0.18) 2px, transparent 8px),
-    radial-gradient(circle at 45% 70%, rgba(107, 76, 154, 0.16) 2px, transparent 8px);
-  background-size: 140px 140px, 140px 140px, 240px 240px, 260px 260px, 220px 220px;
-  mix-blend-mode: screen;
-  opacity: 0;
-  animation: integrationPulse 2.4s ease-in-out 0.3s forwards;
-  transform: translateY(10px);
-}
-
-@keyframes integrationPulse {
-  0% {
-    opacity: 0;
-    transform: translateY(24px);
-    filter: blur(6px);
-  }
-  55% {
-    opacity: 0.75;
-    transform: translateY(6px);
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 0.55;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
 
 
 // Noise texture

@@ -232,27 +232,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Initialize ScrollSmoother after view is ready
-    if (isPlatformBrowser(this.platformId)) {
-      // Small delay to ensure DOM is fully rendered
-      setTimeout(() => {
-        this.scrollSmootherService.init({
-          smooth: 1.5,
-          effects: true,
-          normalizeScroll: true,
-          smoothTouch: 0.1,
-          ignoreMobileResize: true
-        });
-      }, 100);
-    }
-
     // Ensure loader is visible on first paint
     this.showInitialLoader();
   }
 
   ngOnDestroy(): void {
-    // Cleanup ScrollSmoother
-    this.scrollSmootherService.destroy();
     // Close mobile menu when component is destroyed
     this.navigationService.closeMobileMenu();
     this.navigationSub?.unsubscribe();
