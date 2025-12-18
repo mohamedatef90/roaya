@@ -244,11 +244,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // Re-enable smooth scrolling after view is ready
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
+        // Detect mobile devices for optimized scroll behavior
+        const isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
+
         this.scrollSmootherService.init({
-          smooth: 1.5,
-          effects: true,
-          normalizeScroll: true,
-          smoothTouch: 0.1,
+          smooth: isMobile ? 0.5 : 1.5,
+          effects: !isMobile,
+          normalizeScroll: !isMobile,
+          smoothTouch: false,  // Let mobile use native momentum scrolling
           ignoreMobileResize: true
         });
       }, 100);

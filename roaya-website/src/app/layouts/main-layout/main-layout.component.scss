@@ -10,19 +10,28 @@
 
 /* Entrance animations removed per request */
 
+// Mobile scroll optimization
+#smooth-wrapper {
+  touch-action: pan-y;
+  overscroll-behavior-y: contain;
+}
+
 // Header positioning states
 .header-below-news {
   top: 38px; // Below news bar
+  padding-top: env(safe-area-inset-top, 0); // Safe area for notched devices
   transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-sticky {
   top: 0; // Stick to top of viewport
+  padding-top: env(safe-area-inset-top, 0); // Safe area for notched devices
   transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-nonhome {
   top: 5px !important;
+  padding-top: env(safe-area-inset-top, 0); // Safe area for notched devices
 }
 
 /* Edge scroll line */
@@ -202,11 +211,6 @@ footer {
   overflow: visible;
   clip: auto;
   white-space: normal;
-}
-
-// Smooth scrolling for anchor links
-html {
-  scroll-behavior: smooth;
 }
 
 // Prevent layout shift when scrollbar appears
