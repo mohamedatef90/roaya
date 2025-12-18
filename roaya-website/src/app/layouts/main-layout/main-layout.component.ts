@@ -33,6 +33,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Content entrance animation gate
   contentEntered = false;
+  isHomeRoute = true;
 
   // Scroll state signal
   isScrolled = signal<boolean>(false);
@@ -221,6 +222,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   private navigationSub?: Subscription;
+  private routeSub?: Subscription;
   private navigationStartTime = 0;
   private readonly minimumLoaderDuration = 6000;
   private loaderShownOnce = false;
@@ -229,9 +231,28 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // Check initial scroll position
     this.checkScroll();
     this.initializeLoader();
+    this.updateRouteState(this.router.url);
+    this.routeSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateRouteState(event.urlAfterRedirects);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
+    // Re-enable smooth scrolling after view is ready
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        this.scrollSmootherService.init({
+          smooth: 1.5,
+          effects: true,
+          normalizeScroll: true,
+          smoothTouch: 0.1,
+          ignoreMobileResize: true
+        });
+      }, 100);
+    }
+
     // Ensure loader is visible on first paint
     this.showInitialLoader();
   }
@@ -239,7 +260,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     // Close mobile menu when component is destroyed
     this.navigationService.closeMobileMenu();
+    this.scrollSmootherService.destroy();
     this.navigationSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
   }
 
   @HostListener('window:scroll', [])
@@ -308,6 +331,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.loaderShownOnce = true;
       this.contentEntered = true;
     }, this.minimumLoaderDuration);
+  }
+
+  private updateRouteState(url: string): void {
+    // Treat root as home; everything else as non-home
+    this.isHomeRoute = url === '/' || url === '';
   }
 
   toggleTheme(): void {

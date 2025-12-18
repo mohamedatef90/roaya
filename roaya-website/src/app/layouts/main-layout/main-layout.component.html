@@ -16,7 +16,7 @@
 <!-- Header - Fixed Sticky Navbar (below news bar) -->
 <header
   class="fixed inset-x-0 z-40 px-4 lg:px-6 pt-3"
-  [ngClass]="headerPosition()"
+  [ngClass]="[headerPosition(), !isHomeRoute ? 'header-nonhome' : '']"
   role="banner"
 >
   <nav
@@ -422,8 +422,8 @@
 </div>
 
 <!-- ScrollSmoother Wrapper -->
-<div id="smooth-wrapper" [class.app-content-entrance]="contentEntered">
-  <div id="smooth-content" [class.app-content-entrance]="contentEntered">
+<div id="smooth-wrapper">
+  <div id="smooth-content">
     <!-- Main Content -->
     <main id="main-content" class="min-h-screen">
       <router-outlet />

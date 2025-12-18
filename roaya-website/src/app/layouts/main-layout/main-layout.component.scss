@@ -8,66 +8,7 @@
   min-height: 100vh;
 }
 
-.app-content-entrance {
-  animation: contentReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
-}
-
-@keyframes contentReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(60px);
-    filter: blur(14px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(10px);
-    filter: blur(4px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-/* Parallax-style hero entrance (background rises slightly slower) */
-.app-content-entrance .hero-section-cinematic .hero-bg-container {
-  animation: heroBgParallax 1.05s cubic-bezier(0.2, 0.9, 0.25, 1) 0.08s both;
-}
-
-.app-content-entrance .hero-section-cinematic .hero-content-wrapper {
-  animation: heroContentParallax 1.05s cubic-bezier(0.2, 0.9, 0.25, 1) 0.14s both;
-}
-
-@keyframes heroBgParallax {
-  0% {
-    opacity: 0.6;
-    transform: translateY(30px);
-  }
-  70% {
-    opacity: 1;
-    transform: translateY(6px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes heroContentParallax {
-  0% {
-    opacity: 0;
-    transform: translateY(80px);
-  }
-  70% {
-    opacity: 1;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Entrance animations removed per request */
 
 // Header positioning states
 .header-below-news {
@@ -78,6 +19,10 @@
 .header-sticky {
   top: 0; // Stick to top of viewport
   transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-nonhome {
+  top: 5px !important;
 }
 
 // Floating Navbar

@@ -1,19 +1,16 @@
 <!-- News/Announcement Marquee Bar - Fixed at Top -->
-<div class="news-marquee-bar fixed top-0 left-0 right-0 z-50 bg-neutral-900 dark:bg-neutral-950 border-b border-neutral-800">
-  <div
-    class="news-marquee-wrapper overflow-hidden relative"
-    [attr.aria-live]="isMarqueePaused() ? 'off' : 'polite'"
-    aria-atomic="false"
-  >
+<div
+  class="news-marquee-bar fixed top-0 left-0 right-0 z-50 bg-neutral-900 dark:bg-neutral-950 border-b border-neutral-800">
+  <div class="news-marquee-wrapper overflow-hidden relative" [attr.aria-live]="isMarqueePaused() ? 'off' : 'polite'"
+    aria-atomic="false">
     <!-- Pause Button (Screen Reader Accessible) -->
-    <button
-      (click)="toggleMarqueePause()"
+    <button (click)="toggleMarqueePause()"
       class="sr-only focus:not-sr-only focus:absolute focus:top-1 focus:right-2 rtl:focus:left-2 rtl:focus:right-auto focus:z-10 focus:px-4 focus:py-2 focus:bg-neutral-800 focus:text-white focus:rounded focus:text-sm"
-      [attr.aria-label]="isMarqueePaused() ? 'Resume news marquee' : 'Pause news marquee'"
-    >
+      [attr.aria-label]="isMarqueePaused() ? 'Resume news marquee' : 'Pause news marquee'">
       {{ isMarqueePaused() ? 'Resume' : 'Pause' }}
     </button>
-    <div class="news-marquee-track flex" [class.animate-marquee]="!isMarqueePaused()"  [class.paused]="isMarqueePaused()">
+    <div class="news-marquee-track flex" [class.animate-marquee]="!isMarqueePaused()"
+      [class.paused]="isMarqueePaused()">
       <!-- Repeated content for seamless loop -->
       <div class="news-marquee-content flex items-center shrink-0">
         <span class="news-item flex items-center gap-2 px-8 py-2">
@@ -61,11 +58,8 @@
   <!-- Animated Gradient Background -->
   <div class="hero-bg-container absolute inset-0">
     <!-- Hero Background Image (Under Gradient) -->
-    <img 
-      src="assets/images/hero/build-integration.png" 
-      alt="Global build system integration" 
-      class="absolute inset-0 w-full h-full object-cover"
-    />
+    <img src="assets/images/hero/build-integration.png" alt="Global build system integration"
+      class="absolute inset-0 w-full h-full object-cover" />
 
     <!-- Animated Mesh Gradient Background -->
     <div class="hero-animated-gradient absolute inset-0"></div>
@@ -84,7 +78,8 @@
   </div>
 
   <!-- Main Hero Content - Centered -->
-  <div class="hero-content-wrapper relative z-10 container-custom text-center px-4 sm:px-6 md:px-8 laptop:px-12 laptop-lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28 laptop:py-28 laptop-lg:py-32 desktop-lg:py-36">
+  <div
+    class="hero-content-wrapper relative z-10 container-custom text-center px-4 sm:px-6 md:px-8 laptop:px-12 laptop-lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28 laptop:py-28 laptop-lg:py-32 desktop-lg:py-36">
     <!-- Pre-headline Badge -->
     <div class="hero-badge-cinematic">
       <span class="relative flex h-2 w-2">
@@ -111,19 +106,14 @@
 
     <!-- CTA Buttons -->
     <div class="hero-cta-cinematic">
-      <a
-        routerLink="/roi-calculator"
-        class="hero-btn-primary group"
-      >
+      <a routerLink="/roi-calculator" class="hero-btn-primary group">
         <span>{{ 'home.hero.cta' | translate }}</span>
-        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
       </a>
-      <a
-        routerLink="/pricing"
-        class="hero-btn-secondary"
-      >
+      <a routerLink="/pricing" class="hero-btn-secondary">
         {{ 'home.hero.secondaryCta' | translate }}
       </a>
     </div>
@@ -132,19 +122,25 @@
     <div class="hero-trust-badges">
       <div class="trust-badge">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd" />
         </svg>
         <span>{{ 'home.hero.trust.noHiddenFees' | translate }}</span>
       </div>
       <div class="trust-badge">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd" />
         </svg>
         <span>{{ 'home.hero.trust.support' | translate }}</span>
       </div>
       <div class="trust-badge">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd" />
         </svg>
         <span>{{ 'home.hero.trust.guarantee' | translate }}</span>
       </div>
@@ -152,11 +148,9 @@
   </div>
 
   <!-- Scroll Down Indicator -->
-  <button
-    (click)="scrollToNextSection()"
+  <button (click)="scrollToNextSection()"
     class="hero-scroll-indicator cursor-pointer bg-transparent border-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500"
-    aria-label="{{ 'home.hero.scrollDown' | translate }}"
-  >
+    aria-label="{{ 'home.hero.scrollDown' | translate }}">
     <span class="scroll-text">{{ 'home.hero.scrollDown' | translate }}</span>
     <div class="scroll-mouse">
       <div class="scroll-wheel"></div>
@@ -168,8 +162,11 @@
 <section class="py-16 md:py-20 bg-background border-t border-border relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/2 left-1/4 rtl:left-3/4 rtl:right-1/4 w-64 h-64 bg-primary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute top-1/2 right-1/4 rtl:right-3/4 rtl:left-1/4 w-64 h-64 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/4 rtl:left-3/4 rtl:right-1/4 w-64 h-64 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
+    <div
+      class="absolute top-1/2 right-1/4 rtl:right-3/4 rtl:left-1/4 w-64 h-64 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
@@ -182,35 +179,27 @@
 
     <!-- Client Logos Grid -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
-      <div
-        *ngFor="let client of trustedLogos"
-        class="group relative w-full h-20 flex items-center justify-center px-4 transition-all duration-300 hover:scale-105"
-      >
+      <div *ngFor="let client of trustedLogos"
+        class="group relative w-full h-20 flex items-center justify-center px-4 transition-all duration-300 hover:scale-105">
         <!-- Logo Container -->
         <div class="relative w-full h-full flex items-center justify-center">
-          <img
-            [src]="client.logo"
-            [alt]="client.name"
-            class="max-w-full max-h-full w-auto h-auto object-contain
+          <img [src]="client.logo" [alt]="client.name" class="max-w-full max-h-full w-auto h-auto object-contain
                    filter grayscale opacity-50
                    group-hover:grayscale-0 group-hover:opacity-100
                    transition-all duration-300 ease-in-out
                    dark:brightness-0 dark:invert dark:opacity-40
                    dark:group-hover:brightness-100 dark:group-hover:invert-0 dark:group-hover:opacity-100"
-            loading="lazy"
-          />
+            loading="lazy" />
         </div>
 
         <!-- Tooltip on Hover (Optional) -->
-        <div
-          class="absolute -bottom-8 left-1/2 -translate-x-1/2 rtl:translate-x-1/2
+        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 rtl:translate-x-1/2
                  px-3 py-1.5 bg-neutral-900 dark:bg-neutral-100
                  text-white dark:text-neutral-900
                  text-xs font-medium rounded-md
                  opacity-0 group-hover:opacity-100
                  transition-opacity duration-200
-                 pointer-events-none whitespace-nowrap z-20"
-        >
+                 pointer-events-none whitespace-nowrap z-20">
           {{ client.name }}
         </div>
       </div>
@@ -226,22 +215,31 @@
 </section>
 
 <!-- Stats Section with Glassmorphism (POSITION 4) -->
-<section #statsSection class="stats-section relative py-16 bg-gradient-to-b from-background via-surface to-background overflow-hidden">
+<section #statsSection
+  class="stats-section relative py-16 bg-gradient-to-b from-background via-surface to-background overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-40 -right-40 rtl:-left-40 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-40 -left-40 rtl:-right-40 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
+    <div
+      class="absolute -top-40 -right-40 rtl:-left-40 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
+    <div
+      class="absolute -bottom-40 -left-40 rtl:-right-40 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
       <div *ngFor="let stat of stats()" class="stat-card group">
         <!-- Glow Effect on Hover -->
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+        <div
+          class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+        </div>
 
         <!-- Glass Card -->
-        <div class="relative text-center p-6 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
-          <div class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent tabular-nums">
+        <div
+          class="relative text-center p-6 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+          <div
+            class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent tabular-nums">
             {{ stat.current }}{{ stat.suffix }}
           </div>
           <div class="text-neutral-700 dark:text-neutral-300 mt-2 font-medium">
@@ -258,9 +256,11 @@
   <div class="container-custom">
     <!-- Badge -->
     <div class="flex justify-center mb-6">
-      <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
+      <span
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
         </svg>
         {{ 'home.roiPreview.badge' | translate }}
       </span>
@@ -279,10 +279,13 @@
     <!-- Calculator Type Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-10">
       <!-- Cloud Migration ROI -->
-      <div class="group p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center">
-        <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white">
+      <div
+        class="group p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center">
+        <div
+          class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white">
           <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
           </svg>
         </div>
         <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.roiPreview.cloud.title' | translate }}</h3>
@@ -290,10 +293,13 @@
       </div>
 
       <!-- Email Security ROI -->
-      <div class="group p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center">
-        <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-secondary-500 to-accent-500 flex items-center justify-center text-white">
+      <div
+        class="group p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center">
+        <div
+          class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-secondary-500 to-accent-500 flex items-center justify-center text-white">
           <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
         <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.roiPreview.email.title' | translate }}</h3>
@@ -301,10 +307,13 @@
       </div>
 
       <!-- Cybersecurity ROI -->
-      <div class="group p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center">
-        <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-accent-500 to-primary-500 flex items-center justify-center text-white">
+      <div
+        class="group p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center">
+        <div
+          class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-accent-500 to-primary-500 flex items-center justify-center text-white">
           <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
         </div>
         <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.roiPreview.security.title' | translate }}</h3>
@@ -341,11 +350,14 @@
 </section>
 
 <!-- Why Roaya Section (POSITION 6) - Split Screen Layout -->
-<section id="why-roaya" class="py-20 bg-background relative overflow-hidden">
-  <!-- Background Decorations -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500/5 rounded-full blur-3xl"></div>
+<section id="why-roaya" class="py-20 relative overflow-hidden text-white">
+  <!-- Background Image with Overlay -->
+  <div class="absolute inset-0 z-0 pointer-events-none">
+    <img src="assets/images/why-roaya-bg.png" alt="Trust and Partnership Background"
+      class="absolute inset-0 w-full h-full object-cover" />
+    <!-- Dark overlay for text readability -->
+    <div class="absolute inset-0 bg-neutral-900/85 dark:bg-neutral-950/90 mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-primary-900/40 mix-blend-overlay"></div>
   </div>
 
   <div class="container-custom relative z-10">
@@ -353,13 +365,14 @@
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <!-- Left Side: Section Header & CTA -->
       <div class="lg:sticky lg:top-32 lg:self-start">
-        <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-6 shadow-lg">
+        <span
+          class="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-sm font-semibold mb-6 shadow-lg">
           {{ 'home.whyRoaya.badge' | translate }}
         </span>
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white leading-tight">
           {{ 'home.whyRoaya.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed mb-8">
+        <p class="text-lg text-neutral-200 leading-relaxed mb-8">
           {{ 'home.whyRoaya.description' | translate }}
         </p>
         <!-- CTA Button -->
@@ -373,22 +386,24 @@
 
       <!-- Right Side: Features Grid (2x2) with Glassmorphism -->
       <div class="features-grid grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div
-          *ngFor="let feature of features; let i = index"
-          class="feature-card group relative flex focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 focus-within:rounded-2xl"
-        >
+        <div *ngFor="let feature of features; let i = index"
+          class="feature-card group relative flex focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 focus-within:rounded-2xl">
           <!-- Glow Effect on Hover -->
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+          </div>
 
           <!-- Glass Card -->
-          <div class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 flex-1 flex flex-col">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-lg">
+          <div
+            class="relative p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-all duration-300 group-hover:-translate-y-2 flex-1 flex flex-col">
+            <div
+              class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-lg">
               <ng-icon [name]="feature.icon" size="24"></ng-icon>
             </div>
-            <h3 class="text-lg font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            <h3 class="text-lg font-semibold mb-2 text-white transition-colors">
               {{ feature.title | translate }}
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed text-sm flex-grow">
+            <p class="text-neutral-200 leading-relaxed text-sm flex-grow">
               {{ feature.description | translate }}
             </p>
           </div>
@@ -399,13 +414,16 @@
 </section>
 
 <!-- Transparent Pricing Teaser Section (POSITION 7) -->
-<section class="py-20 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 relative overflow-hidden">
+<section
+  class="py-20 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 relative overflow-hidden">
   <div class="container-custom">
     <!-- Badge -->
     <div class="flex justify-center mb-6">
-      <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
+      <span
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         {{ 'home.pricingPreview.badge' | translate }}
       </span>
@@ -424,8 +442,10 @@
     <!-- Pricing Tier Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
       <!-- Starter -->
-      <div class="p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 text-center">
-        <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.pricingPreview.starter.title' | translate }}</h3>
+      <div
+        class="p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 text-center">
+        <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.pricingPreview.starter.title' | translate }}
+        </h3>
         <div class="text-3xl font-bold text-primary-600 dark:text-secondary-400 mb-2">
           {{ 'home.pricingPreview.starter.price' | translate }}
         </div>
@@ -433,8 +453,10 @@
       </div>
 
       <!-- Business (Featured) -->
-      <div class="p-6 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 text-white text-center transform scale-105 shadow-xl">
-        <div class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-medium mb-3">{{ 'home.pricingPreview.popular' | translate }}</div>
+      <div
+        class="p-6 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 text-white text-center transform scale-105 shadow-xl">
+        <div class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-medium mb-3">{{
+          'home.pricingPreview.popular' | translate }}</div>
         <h3 class="font-semibold text-lg mb-2">{{ 'home.pricingPreview.business.title' | translate }}</h3>
         <div class="text-3xl font-bold mb-2">
           {{ 'home.pricingPreview.business.price' | translate }}
@@ -443,8 +465,10 @@
       </div>
 
       <!-- Enterprise -->
-      <div class="p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 text-center">
-        <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.pricingPreview.enterprise.title' | translate }}</h3>
+      <div
+        class="p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50 text-center">
+        <h3 class="font-semibold text-lg mb-2 text-foreground">{{ 'home.pricingPreview.enterprise.title' | translate }}
+        </h3>
         <div class="text-3xl font-bold text-primary-600 dark:text-secondary-400 mb-2">
           {{ 'home.pricingPreview.enterprise.price' | translate }}
         </div>
@@ -490,14 +514,19 @@
 <section class="process-section py-20 bg-background relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-0 right-1/4 rtl:left-1/4 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-0 left-1/4 rtl:right-1/4 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div
+      class="absolute top-0 right-1/4 rtl:left-1/4 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
+    <div
+      class="absolute bottom-0 left-1/4 rtl:right-1/4 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
         {{ 'home.process.badge' | translate }}
       </span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -516,25 +545,31 @@
           <!-- Process Step Card -->
           <div class="process-step group relative flex-1 flex flex-col">
             <!-- Glow Effect -->
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+            <div
+              class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+            </div>
 
             <!-- Card Content -->
-            <div class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg flex-1 flex flex-col">
+            <div
+              class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg flex-1 flex flex-col">
               <!-- Step Number and Icon Row -->
               <div class="flex items-center justify-between gap-6 mb-4">
                 <!-- Step Number -->
-                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0">
+                <div
+                  class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0">
                   {{ step.stepNumber }}
                 </div>
 
                 <!-- Icon -->
-                <div class="w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-800/50 flex items-center justify-center text-primary-600 dark:text-secondary-400">
+                <div
+                  class="w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-800/50 flex items-center justify-center text-primary-600 dark:text-secondary-400">
                   <ng-icon [name]="step.icon" size="24"></ng-icon>
                 </div>
               </div>
 
               <!-- Content -->
-              <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+              <h3
+                class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ step.title | translate }}
               </h3>
               <p class="text-neutral-700 dark:text-neutral-300 mb-3 text-sm leading-relaxed flex-grow">
@@ -542,9 +577,11 @@
               </p>
 
               <!-- Duration Badge -->
-              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium mt-auto">
+              <span
+                class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium mt-auto">
                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {{ step.duration | translate }}
               </span>
@@ -552,8 +589,11 @@
           </div>
 
           <!-- Connector Arrow (not on last item) -->
-          <div *ngIf="!last" class="process-connector hidden lg:block absolute top-1/2 -right-3 rtl:-left-3 rtl:right-auto transform -translate-y-1/2 rtl:rotate-180 z-10" aria-hidden="true">
-            <svg class="w-6 h-6 text-primary-400 dark:text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <div *ngIf="!last"
+            class="process-connector hidden lg:block absolute top-1/2 -right-3 rtl:-left-3 rtl:right-auto transform -translate-y-1/2 rtl:rotate-180 z-10"
+            aria-hidden="true">
+            <svg class="w-6 h-6 text-primary-400 dark:text-primary-600" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </div>
@@ -563,27 +603,34 @@
       <!-- Mobile/Tablet Layout - Vertical Timeline -->
       <div class="lg:hidden relative">
         <!-- Vertical Line -->
-        <div class="absolute left-6 rtl:right-6 rtl:left-auto top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 to-secondary-500"></div>
+        <div
+          class="absolute left-6 rtl:right-6 rtl:left-auto top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 to-secondary-500">
+        </div>
 
         <div class="space-y-8">
           <div *ngFor="let step of processSteps" class="process-step relative pl-16 rtl:pr-16 rtl:pl-0">
             <!-- Step Number Circle -->
-            <div class="absolute left-0 rtl:right-0 rtl:left-auto w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold shadow-lg z-10">
+            <div
+              class="absolute left-0 rtl:right-0 rtl:left-auto w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold shadow-lg z-10">
               {{ step.stepNumber }}
             </div>
 
             <!-- Card -->
-            <div class="p-6 rounded-xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg">
+            <div
+              class="p-6 rounded-xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg">
               <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-800/50 flex items-center justify-center text-primary-600 dark:text-secondary-400">
+                <div
+                  class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-800/50 flex items-center justify-center text-primary-600 dark:text-secondary-400">
                   <ng-icon [name]="step.icon" size="20"></ng-icon>
                 </div>
                 <h3 class="text-lg font-semibold">{{ step.title | translate }}</h3>
               </div>
               <p class="text-neutral-700 dark:text-neutral-300 text-sm mb-3">{{ step.description | translate }}</p>
-              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium">
+              <span
+                class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium">
                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {{ step.duration | translate }}
               </span>
@@ -595,12 +642,11 @@
 
     <!-- CTA -->
     <div class="text-center mt-12">
-      <a
-        routerLink="/contact"
-        class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
-      >
+      <a routerLink="/contact"
+        class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
         {{ 'home.process.cta' | translate }}
-        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
       </a>
@@ -612,14 +658,17 @@
 <section class="industries-section py-20 bg-surface relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-20 right-0 rtl:left-0 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-20 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute -top-20 right-0 rtl:left-0 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
+    <div class="absolute -bottom-20 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
         {{ 'home.industries.badge' | translate }}
       </span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -632,23 +681,24 @@
 
     <!-- Industries Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a
-        *ngFor="let industry of industries"
-        [routerLink]="industry.route"
-        class="industry-card group relative"
-      >
+      <a *ngFor="let industry of industries" [routerLink]="industry.route" class="industry-card group relative">
         <!-- Glow Effect -->
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+        <div
+          class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+        </div>
 
         <!-- Card Content -->
-        <div class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
+        <div
+          class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
           <!-- Icon -->
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500/10 to-secondary-500/10 flex items-center justify-center text-primary-600 dark:text-secondary-400 mb-4 group-hover:scale-110 transition-transform">
+          <div
+            class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500/10 to-secondary-500/10 flex items-center justify-center text-primary-600 dark:text-secondary-400 mb-4 group-hover:scale-110 transition-transform">
             <ng-icon [name]="industry.icon" size="28"></ng-icon>
           </div>
 
           <!-- Content -->
-          <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ industry.name | translate }}
           </h3>
           <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed mb-4">
@@ -657,12 +707,15 @@
 
           <!-- Footer -->
           <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-secondary-600 dark:text-secondary-400 bg-secondary-100 dark:bg-secondary-900/30 px-3 py-1 rounded-full">
+            <span
+              class="text-xs font-medium text-secondary-600 dark:text-secondary-400 bg-secondary-100 dark:bg-secondary-900/30 px-3 py-1 rounded-full">
               {{ industry.clientCount | translate }}
             </span>
-            <span class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
+            <span
+              class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
               {{ 'common.learnMore' | translate }}
-              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </span>
@@ -673,10 +726,8 @@
 
     <!-- CTA -->
     <div class="text-center mt-12">
-      <a
-        routerLink="/industries"
-        class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline"
-      >
+      <a routerLink="/industries"
+        class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline">
         {{ 'home.industries.viewAll' | translate }}
         <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -690,14 +741,17 @@
 <section class="expertise-section py-20 bg-surface relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 right-0 rtl:left-0 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-1/4 left-0 rtl:right-0 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/4 right-0 rtl:left-0 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
+    <div class="absolute bottom-1/4 left-0 rtl:right-0 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
         {{ 'home.expertise.badge' | translate }}
       </span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -710,29 +764,32 @@
 
     <!-- Expertise Grid -->
     <div class="grid md:grid-cols-2 gap-6">
-      <div
-        *ngFor="let card of expertiseCards; let i = index"
-        class="expertise-card group relative"
-      >
+      <div *ngFor="let card of expertiseCards; let i = index" class="expertise-card group relative">
         <!-- Glow Effect -->
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+        <div
+          class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+        </div>
 
         <!-- Card Content -->
-        <div class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
+        <div
+          class="relative p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
           <!-- Icon -->
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform shadow-lg">
+          <div
+            class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform shadow-lg">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="card.icon"></path>
             </svg>
           </div>
 
           <!-- Subtitle -->
-          <span *ngIf="card.subtitle" class="inline-block text-sm font-semibold text-secondary-600 dark:text-secondary-400 uppercase tracking-wide mb-2">
+          <span *ngIf="card.subtitle"
+            class="inline-block text-sm font-semibold text-secondary-600 dark:text-secondary-400 uppercase tracking-wide mb-2">
             {{ card.subtitle | translate }}
           </span>
 
           <!-- Title -->
-          <h3 class="text-xl lg:text-2xl font-semibold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+          <h3
+            class="text-xl lg:text-2xl font-semibold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ card.title | translate }}
           </h3>
 
@@ -743,18 +800,23 @@
 
           <!-- Features -->
           <ul *ngIf="card.features && card.features.length > 0" class="space-y-2 mb-5">
-            <li *ngFor="let feature of card.features" class="flex items-start gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+            <li *ngFor="let feature of card.features"
+              class="flex items-start gap-2 text-sm text-neutral-700 dark:text-neutral-300">
               <svg class="w-4 h-4 text-secondary-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd" />
               </svg>
               <span>{{ feature | translate }}</span>
             </li>
           </ul>
 
           <!-- Link -->
-          <a *ngIf="card.link" [routerLink]="card.link" class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 font-medium hover:underline">
+          <a *ngIf="card.link" [routerLink]="card.link"
+            class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 font-medium hover:underline">
             {{ card.linkText ? (card.linkText | translate) : ('common.learnMore' | translate) }}
-            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </a>
@@ -765,17 +827,21 @@
 </section>
 
 <!-- Security & Certifications Section -->
-<section class="security-section py-20 bg-gradient-to-b from-background via-surface to-background relative overflow-hidden">
+<section
+  class="security-section py-20 bg-gradient-to-b from-background via-surface to-background relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 right-0 rtl:left-0 rtl:right-auto w-96 h-96 bg-accent-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-1/4 left-0 rtl:right-0 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/4 right-0 rtl:left-0 rtl:right-auto w-96 h-96 bg-accent-500/5 rounded-full blur-3xl">
+    </div>
+    <div class="absolute bottom-1/4 left-0 rtl:right-0 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
         {{ 'home.security.badge' | translate }}
       </span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -788,16 +854,17 @@
 
     <!-- Certifications Grid -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-      <div
-        *ngFor="let cert of certifications"
-        class="certification-badge group relative"
-      >
+      <div *ngFor="let cert of certifications" class="certification-badge group relative">
         <!-- Glow Effect -->
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+        <div
+          class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+        </div>
 
         <!-- Badge Content -->
-        <div class="relative flex flex-col items-center p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 text-center h-full">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary-500/20 to-accent-500/20 flex items-center justify-center text-secondary-600 dark:text-secondary-400 mb-4 group-hover:scale-110 transition-transform">
+        <div
+          class="relative flex flex-col items-center p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 text-center h-full">
+          <div
+            class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary-500/20 to-accent-500/20 flex items-center justify-center text-secondary-600 dark:text-secondary-400 mb-4 group-hover:scale-110 transition-transform">
             <ng-icon [name]="cert.icon" size="32"></ng-icon>
           </div>
           <h4 class="text-lg font-semibold mb-1">{{ cert.name | translate }}</h4>
@@ -808,15 +875,15 @@
 
     <!-- Security Guarantees -->
     <div class="grid md:grid-cols-3 gap-8">
-      <div
-        *ngFor="let guarantee of securityGuarantees"
-        class="security-guarantee group flex items-start gap-4 p-6 rounded-xl bg-white/50 dark:bg-primary-900/30 backdrop-blur-md border border-white/40 dark:border-primary-700/30"
-      >
-        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+      <div *ngFor="let guarantee of securityGuarantees"
+        class="security-guarantee group flex items-start gap-4 p-6 rounded-xl bg-white/50 dark:bg-primary-900/30 backdrop-blur-md border border-white/40 dark:border-primary-700/30">
+        <div
+          class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
           <ng-icon [name]="guarantee.icon" size="24"></ng-icon>
         </div>
         <div>
-          <h4 class="text-lg font-semibold mb-1 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+          <h4
+            class="text-lg font-semibold mb-1 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ guarantee.title | translate }}
           </h4>
           <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
@@ -828,10 +895,8 @@
 
     <!-- CTA -->
     <div class="text-center mt-12">
-      <a
-        routerLink="/about"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-      >
+      <a routerLink="/about"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
         {{ 'home.security.cta' | translate }}
         <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -846,9 +911,11 @@
   <div class="container-custom">
     <!-- Badge -->
     <div class="flex justify-center mb-6">
-      <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
+      <span
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         {{ 'home.localExpertise.badge' | translate }}
       </span>
@@ -867,34 +934,40 @@
     <!-- Two Column Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
       <!-- Local Expertise Column -->
-      <div class="p-8 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
+      <div
+        class="p-8 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-2xl">
+          <div
+            class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-2xl">
             🇪🇬
           </div>
           <h3 class="text-xl font-semibold text-foreground">{{ 'home.localExpertise.local.title' | translate }}</h3>
         </div>
         <ul class="space-y-3">
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.local.item1' | translate }}</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.local.item2' | translate }}</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.local.item3' | translate }}</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.local.item4' | translate }}</span>
@@ -903,34 +976,40 @@
       </div>
 
       <!-- WorldPosta Partnership Column -->
-      <div class="p-8 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
+      <div
+        class="p-8 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary-500 to-accent-500 flex items-center justify-center text-white text-2xl">
+          <div
+            class="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary-500 to-accent-500 flex items-center justify-center text-white text-2xl">
             🌍
           </div>
           <h3 class="text-xl font-semibold text-foreground">{{ 'home.localExpertise.global.title' | translate }}</h3>
         </div>
         <ul class="space-y-3">
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.global.item1' | translate }}</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.global.item2' | translate }}</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.global.item3' | translate }}</span>
           </li>
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             <span class="text-muted-foreground">{{ 'home.localExpertise.global.item4' | translate }}</span>
@@ -959,13 +1038,8 @@
 
 <!-- Featured Services Section - Stacking Cards Effect -->
 <section #servicesSection id="services">
-  <app-card-stack
-    [cards]="servicesStackCards"
-    sectionBadge="home.services.badge"
-    sectionTitle="home.services.title"
-    sectionSubtitle="home.services.subtitle"
-    containerClass="services-stack-section"
-  ></app-card-stack>
+  <app-card-stack [cards]="servicesStackCards" sectionBadge="home.services.badge" sectionTitle="home.services.title"
+    sectionSubtitle="home.services.subtitle" containerClass="services-stack-section"></app-card-stack>
 
   <!-- View All Services CTA -->
   <div class="bg-background py-12">
@@ -973,13 +1047,9 @@
       <p class="text-lg text-neutral-700 dark:text-neutral-300 mb-6">
         {{ 'home.services.viewAllDescription' | translate }}
       </p>
-      <a
-        routerLink="/services"
-        #viewAllBtn
-        (mousemove)="onButtonMouseMove($event, viewAllBtn)"
+      <a routerLink="/services" #viewAllBtn (mousemove)="onButtonMouseMove($event, viewAllBtn)"
         (mouseleave)="onButtonMouseLeave(viewAllBtn)"
-        class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-neutral-900 to-neutral-800 dark:from-white dark:to-neutral-100 text-white dark:text-neutral-900 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
-      >
+        class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-neutral-900 to-neutral-800 dark:from-white dark:to-neutral-100 text-white dark:text-neutral-900 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
         {{ 'common.viewAll' | translate }}
         <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -993,14 +1063,18 @@
 <section class="testimonials-section py-20 bg-surface relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-0 left-1/3 rtl:right-1/3 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-0 right-1/3 rtl:left-1/3 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-0 left-1/3 rtl:right-1/3 rtl:left-auto w-96 h-96 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
+    <div
+      class="absolute bottom-0 right-1/3 rtl:left-1/3 rtl:right-auto w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
         {{ 'home.testimonials.badge' | translate }}
       </span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -1012,39 +1086,38 @@
     </div>
 
     <!-- Testimonials Carousel -->
-    <div
-      class="relative max-w-4xl mx-auto"
-      (mouseenter)="pauseTestimonialRotation()"
-      (mouseleave)="resumeTestimonialRotation()"
-      (focusin)="pauseTestimonialRotation()"
-      (focusout)="resumeTestimonialRotation()"
-      [attr.aria-live]="isTestimonialPaused() ? 'off' : 'polite'"
-      aria-atomic="false"
-    >
+    <div class="relative max-w-4xl mx-auto" (mouseenter)="pauseTestimonialRotation()"
+      (mouseleave)="resumeTestimonialRotation()" (focusin)="pauseTestimonialRotation()"
+      (focusout)="resumeTestimonialRotation()" [attr.aria-live]="isTestimonialPaused() ? 'off' : 'polite'"
+      aria-atomic="false">
       <!-- Pause Button (Screen Reader Accessible + Visible) -->
-      <button
-        (click)="toggleTestimonialPause()"
+      <button (click)="toggleTestimonialPause()"
         class="absolute top-4 right-4 rtl:left-4 rtl:right-auto z-10 px-4 py-2 bg-white/80 dark:bg-primary-800/80 backdrop-blur-md border border-white/60 dark:border-primary-700/40 rounded-lg text-sm font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl transition-all"
-        [attr.aria-label]="isTestimonialPaused() ? 'Resume testimonial carousel' : 'Pause testimonial carousel'"
-      >
+        [attr.aria-label]="isTestimonialPaused() ? 'Resume testimonial carousel' : 'Pause testimonial carousel'">
         {{ isTestimonialPaused() ? '▶ Resume' : '⏸ Pause' }}
       </button>
 
       <!-- Current Testimonial Card -->
       <div class="testimonial-card relative">
         <!-- Glow Effect -->
-        <div class="absolute -inset-1 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-30 blur-xl rounded-3xl"></div>
+        <div
+          class="absolute -inset-1 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-30 blur-xl rounded-3xl">
+        </div>
 
         <!-- Card Content -->
-        <div class="relative p-8 md:p-12 rounded-3xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-2xl">
+        <div
+          class="relative p-8 md:p-12 rounded-3xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-2xl">
           <!-- Quote Icon -->
-          <div class="absolute top-6 left-6 rtl:right-6 rtl:left-auto w-12 h-12 rounded-full bg-gradient-to-br from-primary-500/10 to-secondary-500/10 flex items-center justify-center text-primary-400 dark:text-secondary-500">
+          <div
+            class="absolute top-6 left-6 rtl:right-6 rtl:left-auto w-12 h-12 rounded-full bg-gradient-to-br from-primary-500/10 to-secondary-500/10 flex items-center justify-center text-primary-400 dark:text-secondary-500">
             <ng-icon name="lucideQuote" size="24"></ng-icon>
           </div>
 
           <!-- Metric Badge -->
-          <div *ngIf="testimonials[currentTestimonialIndex()].metric" class="absolute top-6 right-6 rtl:left-6 rtl:right-auto">
-            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-secondary-500 to-accent-500 text-white text-sm font-bold shadow-lg">
+          <div *ngIf="testimonials[currentTestimonialIndex()].metric"
+            class="absolute top-6 right-6 rtl:left-6 rtl:right-auto">
+            <span
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-secondary-500 to-accent-500 text-white text-sm font-bold shadow-lg">
               {{ testimonials[currentTestimonialIndex()].metricValue }}
               {{ testimonials[currentTestimonialIndex()].metric | translate }}
             </span>
@@ -1061,11 +1134,13 @@
           <div class="flex items-center justify-between flex-wrap gap-4">
             <div class="flex items-center gap-4">
               <!-- Avatar Placeholder -->
-              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+              <div
+                class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 {{ (testimonials[currentTestimonialIndex()].clientName | translate).charAt(0) }}
               </div>
               <div>
-                <h4 class="font-semibold text-lg">{{ testimonials[currentTestimonialIndex()].clientName | translate }}</h4>
+                <h4 class="font-semibold text-lg">{{ testimonials[currentTestimonialIndex()].clientName | translate }}
+                </h4>
                 <p class="text-sm text-neutral-500 dark:text-neutral-400">
                   {{ testimonials[currentTestimonialIndex()].clientTitle | translate }}
                 </p>
@@ -1077,32 +1152,24 @@
 
             <!-- Star Rating -->
             <div class="flex items-center gap-1">
-              <ng-icon
-                *ngFor="let star of [1,2,3,4,5]"
-                name="lucideStar"
-                size="20"
-                class="text-yellow-400 fill-current"
-              ></ng-icon>
+              <ng-icon *ngFor="let star of [1,2,3,4,5]" name="lucideStar" size="20"
+                class="text-yellow-400 fill-current"></ng-icon>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Navigation Arrows -->
-      <button
-        (click)="prevTestimonial()"
+      <button (click)="prevTestimonial()"
         class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 w-12 h-12 rounded-full bg-white/80 dark:bg-primary-800/80 backdrop-blur-md border border-white/60 dark:border-primary-700/40 shadow-lg flex items-center justify-center text-primary-600 dark:text-secondary-400 hover:scale-110 transition-transform"
-        aria-label="Previous testimonial"
-      >
+        aria-label="Previous testimonial">
         <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <button
-        (click)="nextTestimonial()"
+      <button (click)="nextTestimonial()"
         class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 w-12 h-12 rounded-full bg-white/80 dark:bg-primary-800/80 backdrop-blur-md border border-white/60 dark:border-primary-700/40 shadow-lg flex items-center justify-center text-primary-600 dark:text-secondary-400 hover:scale-110 transition-transform"
-        aria-label="Next testimonial"
-      >
+        aria-label="Next testimonial">
         <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
@@ -1118,20 +1185,13 @@
 
         <!-- Dot Navigation -->
         <div class="flex items-center justify-center gap-2">
-          <button
-            *ngFor="let testimonial of testimonials; let i = index"
-            (click)="goToTestimonial(i)"
+          <button *ngFor="let testimonial of testimonials; let i = index" (click)="goToTestimonial(i)"
             class="min-w-[44px] min-h-[44px] rounded-full transition-all flex items-center justify-center"
             [attr.aria-label]="('common.goToTestimonial' | translate) + ' ' + (i + 1) + ' ' + ('common.of' | translate) + ' ' + testimonials.length"
-            [attr.aria-current]="currentTestimonialIndex() === i ? 'true' : 'false'"
-          >
-            <span
-              class="w-3 h-3 rounded-full transition-all"
-              [class.bg-primary-500]="currentTestimonialIndex() === i"
-              [class.w-8]="currentTestimonialIndex() === i"
-              [class.bg-neutral-300]="currentTestimonialIndex() !== i"
-              [class.dark:bg-neutral-600]="currentTestimonialIndex() !== i"
-            ></span>
+            [attr.aria-current]="currentTestimonialIndex() === i ? 'true' : 'false'">
+            <span class="w-3 h-3 rounded-full transition-all" [class.bg-primary-500]="currentTestimonialIndex() === i"
+              [class.w-8]="currentTestimonialIndex() === i" [class.bg-neutral-300]="currentTestimonialIndex() !== i"
+              [class.dark:bg-neutral-600]="currentTestimonialIndex() !== i"></span>
           </button>
         </div>
       </div>
@@ -1139,10 +1199,8 @@
 
     <!-- CTA -->
     <div class="text-center mt-12">
-      <a
-        routerLink="/resources/case-studies"
-        class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline"
-      >
+      <a routerLink="/resources/case-studies"
+        class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline">
         {{ 'home.testimonials.viewAll' | translate }}
         <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -1156,14 +1214,17 @@
 <section class="case-studies-section py-20 bg-background relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-1/4 right-0 rtl:left-0 rtl:right-auto w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/4 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl">
+    </div>
+    <div class="absolute bottom-1/4 right-0 rtl:left-0 rtl:right-auto w-80 h-80 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
         {{ 'home.caseStudies.badge' | translate }}
       </span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -1176,31 +1237,34 @@
 
     <!-- Case Studies Grid -->
     <div class="grid md:grid-cols-3 gap-6">
-      <a
-        *ngFor="let caseStudy of caseStudiesPreview"
-        [routerLink]="'/resources/case-studies/' + caseStudy.slug"
-        class="case-study-card group relative"
-      >
+      <a *ngFor="let caseStudy of caseStudiesPreview" [routerLink]="'/resources/case-studies/' + caseStudy.slug"
+        class="case-study-card group relative">
         <!-- Glow Effect -->
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+        <div
+          class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+        </div>
 
         <!-- Card Content -->
-        <div class="relative flex flex-col h-full p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+        <div
+          class="relative flex flex-col h-full p-6 rounded-2xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
           <!-- Industry Tag -->
-          <span class="inline-block self-start px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-800/50 text-primary-600 dark:text-secondary-400 text-xs font-medium mb-4">
+          <span
+            class="inline-block self-start px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-800/50 text-primary-600 dark:text-secondary-400 text-xs font-medium mb-4">
             {{ caseStudy.industry | translate }}
           </span>
 
           <!-- Metric Badge -->
           <div class="mb-4">
-            <span class="text-4xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent">
+            <span
+              class="text-4xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent">
               {{ caseStudy.metricValue }}
             </span>
             <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ caseStudy.metric | translate }}</p>
           </div>
 
           <!-- Title -->
-          <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ caseStudy.title | translate }}
           </h3>
 
@@ -1210,11 +1274,14 @@
           </p>
 
           <!-- Footer -->
-          <div class="flex items-center justify-between mt-auto pt-4 border-t border-neutral-200 dark:border-primary-700/50">
+          <div
+            class="flex items-center justify-between mt-auto pt-4 border-t border-neutral-200 dark:border-primary-700/50">
             <span class="text-sm text-neutral-500 dark:text-neutral-400">{{ caseStudy.company | translate }}</span>
-            <span class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
+            <span
+              class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
               {{ 'common.readMore' | translate }}
-              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </span>
@@ -1225,10 +1292,8 @@
 
     <!-- CTA -->
     <div class="text-center mt-12">
-      <a
-        routerLink="/resources/case-studies"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-      >
+      <a routerLink="/resources/case-studies"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl font-medium text-primary-600 dark:text-secondary-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
         {{ 'home.caseStudies.viewAll' | translate }}
         <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -1242,15 +1307,20 @@
 <section class="faq-section py-20 bg-surface relative overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-0 right-1/4 rtl:left-1/4 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-0 left-1/4 rtl:right-1/4 rtl:left-auto w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div
+      class="absolute top-0 right-1/4 rtl:left-1/4 rtl:right-auto w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl">
+    </div>
+    <div
+      class="absolute bottom-0 left-1/4 rtl:right-1/4 rtl:left-auto w-80 h-80 bg-primary-500/5 rounded-full blur-3xl">
+    </div>
   </div>
 
   <div class="container-custom relative z-10">
     <div class="grid lg:grid-cols-2 gap-12 items-start">
       <!-- Left: Header & CTA -->
       <div>
-        <span class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
+        <span
+          class="inline-block px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-secondary-400 text-sm font-semibold mb-4 shadow-lg">
           {{ 'home.faq.badge' | translate }}
         </span>
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
@@ -1259,10 +1329,8 @@
         <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed mb-8">
           {{ 'home.faq.subtitle' | translate }}
         </p>
-        <a
-          routerLink="/contact"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
-        >
+        <a routerLink="/contact"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
           {{ 'home.faq.cta' | translate }}
           <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -1272,38 +1340,25 @@
 
       <!-- Right: FAQ Accordion -->
       <div class="space-y-4">
-        <div
-          *ngFor="let faq of faqs()"
-          class="faq-item"
-        >
+        <div *ngFor="let faq of faqs()" class="faq-item">
           <!-- FAQ Card -->
-          <div class="rounded-xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg overflow-hidden">
+          <div
+            class="rounded-xl bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 shadow-lg overflow-hidden">
             <!-- Question Button -->
-            <button
-              (click)="toggleFaq(faq.id)"
+            <button (click)="toggleFaq(faq.id)"
               class="w-full min-h-[44px] flex items-center justify-between p-5 text-left hover:bg-white/50 dark:hover:bg-primary-800/30 transition-colors"
-              [attr.id]="'faq-button-' + faq.id"
-              [attr.aria-expanded]="faq.isOpen"
-              [attr.aria-controls]="'faq-answer-' + faq.id"
-            >
+              [attr.id]="'faq-button-' + faq.id" [attr.aria-expanded]="faq.isOpen"
+              [attr.aria-controls]="'faq-answer-' + faq.id">
               <span class="font-semibold text-lg pr-4 rtl:pl-4 rtl:pr-0">{{ faq.question | translate }}</span>
-              <ng-icon
-                name="lucideChevronDown"
-                size="20"
+              <ng-icon name="lucideChevronDown" size="20"
                 class="flex-shrink-0 min-w-[44px] min-h-[44px] transition-transform duration-300 text-primary-500 dark:text-secondary-400"
-                [class.rotate-180]="faq.isOpen"
-              ></ng-icon>
+                [class.rotate-180]="faq.isOpen"></ng-icon>
             </button>
 
             <!-- Answer Panel -->
-            <div
-              [attr.id]="'faq-answer-' + faq.id"
-              [attr.aria-labelledby]="'faq-button-' + faq.id"
-              [attr.role]="'region'"
-              class="overflow-hidden transition-all duration-300"
-              [class.max-h-0]="!faq.isOpen"
-              [class.max-h-[500px]]="faq.isOpen"
-            >
+            <div [attr.id]="'faq-answer-' + faq.id" [attr.aria-labelledby]="'faq-button-' + faq.id"
+              [attr.role]="'region'" class="overflow-hidden transition-all duration-300" [class.max-h-0]="!faq.isOpen"
+              [class.max-h-[500px]]="faq.isOpen">
               <div class="p-6 pt-0 text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
                 {{ faq.answer | translate }}
               </div>
@@ -1316,20 +1371,24 @@
 </section>
 
 <!-- CTA Section with 3D Elements -->
-<section id="cta" class="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-accent-800 relative overflow-hidden">
+<section id="cta"
+  class="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-accent-800 relative overflow-hidden">
   <!-- Background Pattern -->
   <div class="absolute inset-0 opacity-10">
     <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" />
       </pattern>
       <rect width="100" height="100" fill="url(#grid)" />
     </svg>
   </div>
 
   <!-- Floating Elements -->
-  <div class="absolute top-10 right-10 rtl:left-10 rtl:right-auto w-20 h-20 bg-white/10 rounded-2xl rotate-12 blur-sm"></div>
-  <div class="absolute bottom-10 left-10 rtl:right-10 rtl:left-auto w-16 h-16 bg-secondary-400/20 rounded-xl -rotate-6 blur-sm"></div>
+  <div class="absolute top-10 right-10 rtl:left-10 rtl:right-auto w-20 h-20 bg-white/10 rounded-2xl rotate-12 blur-sm">
+  </div>
+  <div
+    class="absolute bottom-10 left-10 rtl:right-10 rtl:left-auto w-16 h-16 bg-secondary-400/20 rounded-xl -rotate-6 blur-sm">
+  </div>
 
   <div class="container-custom relative z-10">
     <div class="max-w-3xl mx-auto text-center">
@@ -1340,27 +1399,22 @@
         {{ 'home.cta.description' | translate }}
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a
-          routerLink="/contact"
-          #ctaContactBtn
-          (mousemove)="onButtonMouseMove($event, ctaContactBtn)"
+        <a routerLink="/contact" #ctaContactBtn (mousemove)="onButtonMouseMove($event, ctaContactBtn)"
           (mouseleave)="onButtonMouseLeave(ctaContactBtn)"
-          class="group relative inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all overflow-hidden"
-        >
+          class="group relative inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all overflow-hidden">
           <!-- Shine Effect -->
-          <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-primary-100 to-transparent"></div>
+          <div
+            class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-primary-100 to-transparent">
+          </div>
           <span class="relative">{{ 'home.cta.button' | translate }}</span>
-          <svg class="relative w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg class="relative w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
-        <a
-          routerLink="/pricing"
-          #ctaPricingBtn
-          (mousemove)="onButtonMouseMove($event, ctaPricingBtn)"
+        <a routerLink="/pricing" #ctaPricingBtn (mousemove)="onButtonMouseMove($event, ctaPricingBtn)"
           (mouseleave)="onButtonMouseLeave(ctaPricingBtn)"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold border border-white/20 hover:bg-white/20 transition-all"
-        >
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold border border-white/20 hover:bg-white/20 transition-all">
           {{ 'home.cta.secondaryButton' | translate }}
         </a>
       </div>
