@@ -79,17 +79,39 @@
     @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
   }
 
-  /* Mega menu blur effect - blurs main content when menu is open */
-  body.mega-menu-open #main-content {
-    filter: blur(4px);
-    transition: filter 0.2s ease-in-out;
-  }
+}
 
-  /* Ensure header and mega menu are not blurred */
-  body.mega-menu-open header,
-  body.mega-menu-open app-mega-menu {
-    filter: none !important;
-  }
+/* ========================================
+   Mega Menu Overlay
+   ======================================== */
+/* Dark overlay - covers entire page when mega menu is open */
+body.mega-menu-open {
+  position: relative;
+}
+
+body.mega-menu-open::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 35;
+  animation: megaMenuOverlayFadeIn 200ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes megaMenuOverlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Ensure header stays above overlay */
+body.mega-menu-open header {
+  z-index: 40 !important;
 }
 
 /* ========================================

@@ -1,0 +1,687 @@
+<div class="worldposta-page">
+  <!-- Hero Section - WorldPosta Brand Colors -->
+  <section class="hero-section relative overflow-hidden text-white min-h-[600px] md:min-h-[700px]">
+    <!-- Background Image -->
+    <div class="hero-parallax-bg absolute inset-0">
+      <img src="/assets/images/worldposta/Hyper-realistic workspace.jpeg" alt="" class="w-full h-full object-cover"
+        loading="eager" />
+      <!-- Gradient Overlay -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-worldposta-green/90 via-worldposta-green-dark/85 to-worldposta-navy/90">
+      </div>
+      <!-- Additional dark overlay for better text readability -->
+      <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
+      <div class="hero-parallax-content max-w-4xl mx-auto text-center">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm opacity-90">
+          <ol class="flex items-center justify-center gap-2 flex-wrap">
+            <li><a routerLink="/" class="hover:underline">{{ 'common.home' | translate }}</a></li>
+            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li><a routerLink="/services" class="hover:underline">{{ 'common.services' | translate }}</a></li>
+            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li aria-current="page" class="font-semibold">WorldPosta</li>
+          </ol>
+        </nav>
+
+        <!-- Partner Badge -->
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+          <span class="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></span>
+          Official WorldPosta Partner in Egypt
+        </div>
+
+        <!-- WorldPosta Logo -->
+        <div
+          class="w-48 h-20 md:w-64 md:h-24 mx-auto mb-6 rounded-2xl bg-white/95 backdrop-blur-sm flex items-center justify-center overflow-hidden p-4">
+          <img [src]="logoPath" alt="WorldPosta" class="w-full h-full object-contain" loading="eager" />
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          {{ 'services.worldposta.heroTitle' | translate }}
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-lg md:text-xl opacity-90 mb-8 leading-relaxed max-w-3xl mx-auto">
+          {{ 'services.worldposta.heroDescription' | translate }}
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a routerLink="/contact"
+            class="px-8 py-4 bg-white text-worldposta-green font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            {{ 'services.worldposta.ctaGetStarted' | translate }}
+          </a>
+          <a routerLink="/pricing"
+            class="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300">
+            {{ 'services.worldposta.ctaViewPricing' | translate }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wave separator -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg class="w-full h-auto" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none">
+        <path
+          d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+          class="fill-background" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats-section py-12 md:py-16 bg-background -mt-1">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        @for (stat of statistics; track stat.label; let i = $index) {
+        <div class="stat-parallax group relative text-center p-6 rounded-xl overflow-hidden">
+          <!-- Hover glow -->
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+          </div>
+
+          <div
+            class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+            <div
+              class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-worldposta-green to-worldposta-blue bg-clip-text text-transparent mb-2">
+              {{ stat.value }}
+            </div>
+            <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ stat.label }}
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+              {{ stat.description }}
+            </p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section - Bento Grid Style -->
+  <section class="py-20 md:py-32 bg-background">
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center animate-fade-in-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+          {{ 'services.worldposta.productsTitle' | translate }}
+        </h2>
+        <p class="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.worldposta.productsDescription' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        @for (product of products; track product.id; let i = $index) {
+        <div class="product-parallax group relative rounded-2xl overflow-hidden">
+          <!-- Hover glow -->
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+          </div>
+
+          <div
+            class="relative h-full bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+            <!-- Product Logo -->
+            <div class="w-full h-24 mb-6 flex items-center justify-center">
+              <img [src]="product.logo" [alt]="product.name"
+                class="h-full w-auto object-contain group-hover:scale-110 transition-transform" loading="lazy" />
+            </div>
+
+            <!-- Product Header -->
+            <div class="text-center mb-6">
+              <h3 class="text-2xl font-bold text-neutral-900 dark:text-white mb-1">{{ product.name }}</h3>
+              <p class="text-sm text-worldposta-green dark:text-worldposta-green-light font-medium">{{ product.tagline
+                }}</p>
+            </div>
+
+            <!-- Description -->
+            <p class="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
+              {{ product.description }}
+            </p>
+
+            <!-- Features -->
+            <ul class="space-y-3">
+              @for (feature of product.features; track feature) {
+              <li class="flex items-start gap-3">
+                <ng-icon name="faCircleCheck" class="text-worldposta-green mt-0.5 flex-shrink-0" size="16"></ng-icon>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">{{ feature }}</span>
+              </li>
+              }
+            </ul>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Advanced Products Section - Infrastructure & Security -->
+  <section class="advanced-products-section relative py-20 md:py-32 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-gradient-to-b from-surface via-background to-surface"></div>
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-worldposta-green rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-worldposta-blue rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="text-center mb-16">
+        <span
+          class="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-worldposta-blue bg-worldposta-blue/10 rounded-full">
+          {{ 'services.worldposta.advancedProductsLabel' | translate }}
+        </span>
+        <h2 class="text-3xl md:text-5xl font-bold mb-4">
+          {{ 'services.worldposta.advancedProductsTitle' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.worldposta.advancedProductsDescription' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        @for (product of advancedProducts; track product.id; let i = $index) {
+        <div class="advanced-product-card group relative rounded-2xl overflow-hidden">
+          <!-- Hover glow -->
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-500 rounded-3xl"
+            [ngClass]="product.gradient"></div>
+
+          <div
+            class="relative h-full bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2">
+            <!-- Card Header with Image & Gradient -->
+            <div class="relative h-48 overflow-hidden">
+              <!-- Background Image -->
+              <img [src]="product.image" [alt]="product.name"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy" />
+
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 opacity-85" [ngClass]="'bg-gradient-to-r ' + product.gradient"></div>
+
+              <!-- Content container -->
+              <div class="relative p-6 h-full flex flex-col justify-end z-10">
+                <!-- Badge -->
+                <div *ngIf="product.badge"
+                  class="absolute top-4 right-4 rtl:right-auto rtl:left-4 px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full border border-white/20">
+                  {{ product.badge }}
+                </div>
+
+                <div class="flex items-end gap-4">
+                  <!-- Icon -->
+                  <div
+                    class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white flex-shrink-0 border border-white/20">
+                    <ng-icon [name]="product.icon" size="24"></ng-icon>
+                  </div>
+
+                  <div>
+                    <!-- Title & Tagline -->
+                    <h3 class="text-2xl font-bold text-white mb-0.5 leading-none">{{ product.name }}</h3>
+                    <p class="text-white/90 text-sm font-medium">{{ product.tagline | translate }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-6 pt-4">
+              <!-- Description -->
+              <p class="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
+                {{ product.description | translate }}
+              </p>
+
+              <!-- Features -->
+              <ul class="space-y-2 mb-6">
+                @for (feature of product.features; track feature) {
+                <li class="flex items-start gap-3">
+                  <ng-icon name="faCircleCheck" class="text-worldposta-green mt-0.5 flex-shrink-0" size="16"></ng-icon>
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">{{ feature | translate }}</span>
+                </li>
+                }
+              </ul>
+
+              <!-- Specs Grid -->
+              <div class="grid grid-cols-3 gap-3 mb-6 p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl">
+                @for (spec of product.specs; track spec.label) {
+                <div class="text-center">
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">{{ spec.label }}
+                  </div>
+                  <div class="text-sm font-semibold text-neutral-900 dark:text-white mt-1">{{ spec.value }}</div>
+                </div>
+                }
+              </div>
+
+              <!-- CTA -->
+              <a routerLink="/contact" [queryParams]="{ product: product.id }"
+                class="group/btn w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r text-white font-semibold rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                [ngClass]="product.gradient">
+                {{ 'services.worldposta.learnMore' | translate }}
+                <svg
+                  class="w-4 h-4 group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1 rtl:rotate-180 transition-transform"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Benefits Section - Modern Bento Grid -->
+  <section
+    class="benefits-section py-16 md:py-24 bg-gradient-to-b from-background via-surface to-background overflow-hidden">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span
+          class="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-worldposta-green bg-worldposta-green/10 rounded-full">
+          {{ 'services.worldposta.benefitsTitle' | translate }}
+        </span>
+        <h2 class="text-3xl md:text-5xl font-bold mb-4">
+          {{ 'services.worldposta.benefitsTitle' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+          {{ 'services.worldposta.benefitsDescription' | translate }}
+        </p>
+      </div>
+
+      <!-- Bento Grid Layout -->
+      <div class="benefits-bento-grid max-w-7xl mx-auto">
+        <!-- Row 1: Large card + 2 stacked cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <!-- Large Featured Card (Enterprise Security) -->
+          <div class="benefit-parallax group relative lg:row-span-2">
+            <div
+              class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-500 rounded-3xl">
+            </div>
+            <div
+              class="relative h-full min-h-[320px] p-8 md:p-10 rounded-3xl bg-gradient-to-br from-worldposta-green to-worldposta-navy text-white overflow-hidden">
+              <!-- Background Pattern -->
+              <div class="absolute inset-0 opacity-10">
+                <div
+                  class="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2">
+                </div>
+                <div
+                  class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2">
+                </div>
+              </div>
+
+              <div class="relative z-10 h-full flex flex-col">
+                <div
+                  class="float-element w-16 h-16 mb-6 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                  <ng-icon [name]="benefits[0].icon" size="32" class="text-white"></ng-icon>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-4">{{ benefits[0].title }}</h3>
+                <p class="text-white/80 text-lg leading-relaxed flex-grow">{{ benefits[0].description }}</p>
+                <div class="mt-6 flex items-center gap-2 text-sm font-medium text-white/90">
+                  <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                  Active Protection
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: 2 stacked cards -->
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Global Infrastructure -->
+            <div class="benefit-parallax group relative">
+              <div
+                class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+              </div>
+              <div
+                class="relative p-6 md:p-8 rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                <div class="flex items-start gap-5">
+                  <div
+                    class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-worldposta-blue to-worldposta-purple rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                    <ng-icon [name]="benefits[1].icon" size="28"></ng-icon>
+                  </div>
+                  <div class="flex-1">
+                    <h3
+                      class="text-xl font-bold mb-2 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+                      {{ benefits[1].title }}</h3>
+                    <p class="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{{ benefits[1].description
+                      }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 99.95% Uptime -->
+            <div class="benefit-parallax group relative">
+              <div
+                class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+              </div>
+              <div
+                class="relative p-6 md:p-8 rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                <div class="flex items-start gap-5">
+                  <div
+                    class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-worldposta-green to-worldposta-green-dark rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                    <ng-icon [name]="benefits[2].icon" size="28"></ng-icon>
+                  </div>
+                  <div class="flex-1">
+                    <h3
+                      class="text-xl font-bold mb-2 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+                      {{ benefits[2].title }}</h3>
+                    <p class="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{{ benefits[2].description
+                      }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: 3 equal cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- 24/7 Support -->
+          <div class="benefit-parallax group relative">
+            <div
+              class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+            </div>
+            <div
+              class="relative p-6 rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
+              <div
+                class="w-12 h-12 mb-4 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <ng-icon [name]="benefits[3].icon" size="24"></ng-icon>
+              </div>
+              <h3
+                class="text-lg font-bold mb-2 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+                {{ benefits[3].title }}</h3>
+              <p class="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{{ benefits[3].description }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Easy Migration -->
+          <div class="benefit-parallax group relative">
+            <div
+              class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+            </div>
+            <div
+              class="relative p-6 rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
+              <div
+                class="w-12 h-12 mb-4 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <ng-icon [name]="benefits[4].icon" size="24"></ng-icon>
+              </div>
+              <h3
+                class="text-lg font-bold mb-2 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+                {{ benefits[4].title }}</h3>
+              <p class="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{{ benefits[4].description }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Scalable Plans -->
+          <div class="benefit-parallax group relative">
+            <div
+              class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+            </div>
+            <div
+              class="relative p-6 rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 h-full">
+              <div
+                class="w-12 h-12 mb-4 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <ng-icon [name]="benefits[5].icon" size="24"></ng-icon>
+              </div>
+              <h3
+                class="text-lg font-bold mb-2 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+                {{ benefits[5].title }}</h3>
+              <p class="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{{ benefits[5].description }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries Served Section -->
+  <section class="industries-section py-16 md:py-24 bg-surface">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.worldposta.industriesTitle' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.worldposta.industriesDescription' | translate }}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+        @for (industry of industries; track industry.id; let i = $index) {
+        <div
+          class="industry-parallax group px-6 py-3 bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border-2 border-white/60 dark:border-primary-700/40 rounded-full font-medium hover:border-worldposta-green dark:hover:border-worldposta-green transition-all duration-300 cursor-default hover:shadow-md">
+          <ng-icon [name]="industry.icon"
+            class="inline-block mr-2 rtl:ml-2 rtl:mr-0 group-hover:scale-110 transition-transform" size="16"></ng-icon>
+          {{ industry.name }}
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Differentiators Section -->
+  <section class="py-16 md:py-24 bg-background">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12 animate-fade-in-up">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.worldposta.whyRoayaTitle' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.worldposta.whyRoayaDescription' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        @for (diff of differentiators; track diff.title; let i = $index) {
+        <div class="diff-parallax group relative rounded-xl overflow-hidden">
+          <!-- Hover glow -->
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+          </div>
+
+          <div
+            class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+            <!-- Highlight Badge -->
+            <div
+              class="absolute top-4 right-4 rtl:right-auto rtl:left-4 px-3 py-1 bg-gradient-to-r from-worldposta-green to-worldposta-green-dark text-white text-xs font-semibold rounded-full">
+              {{ diff.highlight }}
+            </div>
+
+            <h3
+              class="text-xl font-bold mb-3 pr-24 rtl:pr-0 rtl:pl-24 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+              {{ diff.title }}
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed">
+              {{ diff.description }}
+            </p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Know About WorldPosta Section -->
+  <section class="know-about-section relative py-16 md:py-24 overflow-hidden">
+    <!-- Background Image with Blur -->
+    <div class="absolute inset-0">
+      <img
+        src="/assets/images/worldposta/cloud-computing-technology-internet-binary-code-cloud-service-cloud-storage-concept.jpg"
+        alt="" class="w-full h-full object-cover blur-sm scale-105" loading="lazy" />
+      <!-- Dark Overlay -->
+      <div class="absolute inset-0 bg-black/60"></div>
+      <!-- Gradient Overlay -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-worldposta-navy/80 via-worldposta-green-dark/50 to-worldposta-navy/80">
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <div class="group relative rounded-2xl overflow-hidden">
+          <!-- Hover glow -->
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+          </div>
+
+          <div
+            class="relative bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border border-white/60 dark:border-neutral-700/40 rounded-2xl p-8 md:p-12 shadow-2xl">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+              <!-- WorldPosta Logo -->
+              <div class="know-about-logo flex-shrink-0">
+                <div
+                  class="float-element w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-white flex items-center justify-center p-4 shadow-md">
+                  <img [src]="logoPath" alt="WorldPosta" class="w-full h-full object-contain" loading="lazy" />
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="know-about-content flex-1 text-center md:text-left rtl:md:text-right">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                  {{ 'services.worldposta.knowAboutTitle' | translate }}
+                </h2>
+                <p class="text-lg text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
+                  {{ 'services.worldposta.knowAboutDescription' | translate }}
+                </p>
+
+                <!-- Features List -->
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                  <li class="flex items-center gap-2">
+                    <ng-icon name="faCircleCheck" class="text-worldposta-green flex-shrink-0" size="18"></ng-icon>
+                    <span class="text-neutral-700 dark:text-neutral-300">{{ 'services.worldposta.knowAboutFeature1' |
+                      translate }}</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <ng-icon name="faCircleCheck" class="text-worldposta-green flex-shrink-0" size="18"></ng-icon>
+                    <span class="text-neutral-700 dark:text-neutral-300">{{ 'services.worldposta.knowAboutFeature2' |
+                      translate }}</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <ng-icon name="faCircleCheck" class="text-worldposta-green flex-shrink-0" size="18"></ng-icon>
+                    <span class="text-neutral-700 dark:text-neutral-300">{{ 'services.worldposta.knowAboutFeature3' |
+                      translate }}</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <ng-icon name="faCircleCheck" class="text-worldposta-green flex-shrink-0" size="18"></ng-icon>
+                    <span class="text-neutral-700 dark:text-neutral-300">{{ 'services.worldposta.knowAboutFeature4' |
+                      translate }}</span>
+                  </li>
+                </ul>
+
+                <!-- Visit Website Button -->
+                <a href="https://www.worldposta.com" target="_blank" rel="noopener noreferrer"
+                  class="group/btn inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-worldposta-green to-worldposta-green-dark text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300">
+                  <ng-icon name="faGlobe" size="20" class="group-hover/btn:scale-110 transition-transform"></ng-icon>
+                  {{ 'services.worldposta.visitWebsite' | translate }}
+                  <svg
+                    class="w-5 h-5 group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1 rtl:rotate-180 transition-transform"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Services Section -->
+  <section class="related-section py-16 md:py-24 bg-background">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.worldposta.relatedTitle' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.worldposta.relatedDescription' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        @for (service of relatedServices; track service.id; let i = $index) {
+        <a [routerLink]="service.route" class="related-parallax group relative block rounded-xl overflow-hidden">
+          <!-- Hover glow -->
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
+          </div>
+
+          <div
+            class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+            <!-- Service Icon -->
+            <div
+              class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-worldposta-green to-worldposta-green-dark flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
+              <img [src]="service.iconSvg" [alt]="service.title" class="w-8 h-8 object-contain brightness-0 invert"
+                loading="lazy" />
+            </div>
+
+            <!-- Service Title -->
+            <h3
+              class="text-xl font-bold mb-3 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+              {{ service.title }}
+            </h3>
+
+            <!-- Service Description -->
+            <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
+              {{ service.description }}
+            </p>
+
+            <!-- Learn More Link -->
+            <div
+              class="flex items-center gap-2 text-worldposta-green dark:text-worldposta-green-light font-semibold text-sm group-hover:gap-3 transition-all">
+              Learn More
+              <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section
+    class="cta-section py-16 md:py-24 bg-gradient-to-br from-worldposta-green via-worldposta-green-dark to-worldposta-navy text-white relative overflow-hidden">
+    <div class="hero-parallax-bg absolute inset-0 bg-grid-pattern opacity-10"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="cta-parallax max-w-4xl mx-auto text-center">
+        <!-- WorldPosta Icon -->
+        <div
+          class="float-element w-20 h-20 mx-auto mb-6 rounded-2xl bg-white/95 flex items-center justify-center overflow-hidden p-2">
+          <img [src]="wpIconPath" alt="WorldPosta" class="w-full h-full object-contain" loading="lazy" />
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          {{ 'services.worldposta.ctaTitle' | translate }}
+        </h2>
+        <p class="text-lg md:text-xl opacity-90 mb-8 leading-relaxed">
+          {{ 'services.worldposta.ctaDescription' | translate }}
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a routerLink="/contact"
+            class="group px-8 py-4 bg-white text-worldposta-green font-semibold rounded-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2">
+            <ng-icon name="faEnvelope" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
+            {{ 'services.worldposta.ctaGetStarted' | translate }}
+          </a>
+          <a routerLink="/roi-calculator"
+            class="group px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 inline-flex items-center justify-center gap-2">
+            <ng-icon name="faCircleCheck" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
+            {{ 'services.worldposta.ctaCalculateROI' | translate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

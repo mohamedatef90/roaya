@@ -171,6 +171,81 @@
         "custom": "Custom Development"
       }
     },
+    "worldposta": {
+      "title": "WorldPosta Services",
+      "description": "Complete cloud platform: email, storage, and no-code apps",
+      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email, CloudEdge secure storage, and CloudSpace no-code app builder. Enterprise-grade solutions starting at $1.50/user/month.",
+      "features": {
+        "email": "Posta Business Email",
+        "storage": "CloudEdge Cloud Storage",
+        "apps": "CloudSpace App Builder",
+        "security": "Enterprise Security"
+      },
+      "heroTitle": "WorldPosta Cloud Services",
+      "heroDescription": "Enterprise email, cloud storage, and no-code apps. Complete cloud platform with 99.95% uptime and Egyptian data center options.",
+      "ctaGetStarted": "Start Free Trial",
+      "ctaViewPricing": "View Pricing",
+      "ctaCalculateROI": "Calculate ROI",
+      "productsTitle": "WorldPosta Cloud Products",
+      "productsDescription": "Three powerful products to transform your business operations",
+      "benefitsTitle": "Why Choose WorldPosta",
+      "benefitsDescription": "Enterprise-grade cloud services with local support and global infrastructure",
+      "industriesTitle": "Industries We Serve",
+      "industriesDescription": "Trusted by organizations across multiple sectors",
+      "whyRoayaTitle": "Why Choose Roaya for WorldPosta",
+      "whyRoayaDescription": "As the official WorldPosta partner in Egypt, we provide expert implementation and local support",
+      "knowAboutTitle": "Learn More About WorldPosta",
+      "knowAboutDescription": "WorldPosta is a leading cloud platform providing enterprise-grade email, storage, and application solutions trusted by thousands of businesses worldwide.",
+      "knowAboutFeature1": "Global cloud infrastructure",
+      "knowAboutFeature2": "Enterprise-grade security",
+      "knowAboutFeature3": "24/7 technical support",
+      "knowAboutFeature4": "99.95% uptime guarantee",
+      "visitWebsite": "Visit WorldPosta Website",
+      "advancedProductsLabel": "Enterprise Infrastructure",
+      "advancedProductsTitle": "Advanced Cloud Solutions",
+      "advancedProductsDescription": "Enterprise-grade infrastructure for demanding workloads, AI/ML, and mission-critical applications",
+      "learnMore": "Learn More",
+      "vdc": {
+        "name": "Virtual Data Centre",
+        "tagline": "Dynamic Resource Allocation",
+        "description": "Scale your infrastructure dynamically with VDC's flexible resource pools. Unlike traditional VMs, VDC offers boundless scaling, guaranteed performance, and usage-based billing.",
+        "feature1": "Dynamic resource allocation (no fixed sizing)",
+        "feature2": "Guaranteed dedicated performance",
+        "feature3": "All-Flash storage arrays (2TB-10TB)",
+        "feature4": "Zero-downtime resource adjustments"
+      },
+      "cloudFirewall": {
+        "name": "Cloud Firewall",
+        "tagline": "Zero Trust Security",
+        "description": "Protect your cloud infrastructure with NSX-powered Cloud Firewall. Zero Trust architecture with micro-segmentation prevents lateral threat movement with ML-based detection.",
+        "feature1": "Zero Trust architecture",
+        "feature2": "Micro-segmentation for workload isolation",
+        "feature3": "Advanced threat prevention (IDS/IPS)",
+        "feature4": "Supports up to 100Gbps throughput"
+      },
+      "gpuInstances": {
+        "name": "GPU Instances",
+        "tagline": "H100 VMs for AI & ML",
+        "description": "Accelerate AI model training and HPC workloads with NVIDIA H100 GPUs paired with 5th Gen AMD EPYC processors. Fully managed infrastructure with up to 1.5TB RAM.",
+        "feature1": "NVIDIA H100 GPUs + AMD EPYC 9555",
+        "feature2": "Up to 1.5TB RAM & 4TB NetApp storage",
+        "feature3": "100Gbps networking for distributed computing",
+        "feature4": "Enterprise security suite included"
+      },
+      "postaHybrid": {
+        "name": "Posta Hybrid",
+        "tagline": "Hybrid Email Solution",
+        "description": "Combine on-premises email infrastructure with cloud flexibility. Seamless migration with zero downtime and full compliance support for enterprise requirements.",
+        "feature1": "On-premises + Cloud integration",
+        "feature2": "Zero-downtime migration",
+        "feature3": "Enterprise compliance ready",
+        "feature4": "Unified management console"
+      },
+      "relatedTitle": "Complementary Services",
+      "relatedDescription": "Enhance your WorldPosta experience with these solutions",
+      "ctaTitle": "Ready to Get Started with WorldPosta?",
+      "ctaDescription": "Join thousands of businesses using WorldPosta for secure email, storage, and custom apps. Contact us for a free trial."
+    },
     "whyChoose": {
       "badge": "Why Choose Us",
       "title": "Why Businesses Trust Roaya",

@@ -61,6 +61,15 @@ module.exports = {
           900: '#171717',
           950: '#0a0a0a',
         },
+        // WorldPosta Brand Colors
+        worldposta: {
+          green: '#679A41',
+          'green-dark': '#4a7a2e',
+          'green-light': '#8bc166',
+          navy: '#293C51',
+          blue: '#4A90D9',
+          purple: '#7C5BB2',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

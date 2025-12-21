@@ -131,6 +131,17 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       iconSvg: '/assets/images/icons/services/automation.svg',
       route: '/services/automation',
       badge: 'New'
+    },
+    {
+      id: 'worldposta',
+      title: 'services.worldposta.title',
+      description: 'services.worldposta.description',
+      icon: '&#128231;',
+      logoImage: '/assets/images/logos/partners/worldposta.png',
+      backgroundImage: '/assets/images/worldposta/data-storage-cloud-computing-technology-concept-with-digital-blue-cloud-symbol-abstract-dark.jpg',
+      route: '/services/worldposta',
+      badge: 'Partner',
+      isFeatured: true
     }
   ];
 

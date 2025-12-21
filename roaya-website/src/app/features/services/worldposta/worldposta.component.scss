@@ -1,0 +1,158 @@
+// WorldPosta Brand Colors
+$worldposta-green: #679A41;
+$worldposta-green-dark: #4a7a2e;
+$worldposta-green-light: #8bc166;
+$worldposta-navy: #293C51;
+$worldposta-blue: #4A90D9;
+$worldposta-purple: #7C5BB2;
+
+// WorldPosta Page Styles
+.worldposta-page {
+  // Hero Section with WorldPosta brand gradient
+  .hero-section {
+    background: linear-gradient(135deg, $worldposta-green 0%, $worldposta-green-dark 50%, $worldposta-navy 100%);
+  }
+
+  // Grid pattern overlay
+  .bg-grid-pattern {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}
+
+// WorldPosta Color Utility Classes
+:host {
+  // Green variants
+  --worldposta-green: #{$worldposta-green};
+  --worldposta-green-dark: #{$worldposta-green-dark};
+  --worldposta-green-light: #{$worldposta-green-light};
+  --worldposta-navy: #{$worldposta-navy};
+  --worldposta-blue: #{$worldposta-blue};
+  --worldposta-purple: #{$worldposta-purple};
+}
+
+// Text colors
+.text-worldposta-green {
+  color: $worldposta-green;
+}
+
+.text-worldposta-green-dark {
+  color: $worldposta-green-dark;
+}
+
+.text-worldposta-green-light {
+  color: $worldposta-green-light;
+}
+
+// Background colors
+.bg-worldposta-green {
+  background-color: $worldposta-green;
+}
+
+.bg-worldposta-green-dark {
+  background-color: $worldposta-green-dark;
+}
+
+.bg-worldposta-navy {
+  background-color: $worldposta-navy;
+}
+
+// Gradient backgrounds
+.bg-gradient-worldposta {
+  background: linear-gradient(135deg, $worldposta-green 0%, $worldposta-navy 100%);
+}
+
+// From/To gradient colors for Tailwind-style usage
+.from-worldposta-green {
+  --tw-gradient-from: #{$worldposta-green};
+  --tw-gradient-to: #{rgba($worldposta-green, 0)};
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-worldposta-green-dark {
+  --tw-gradient-to: #{$worldposta-green-dark};
+}
+
+.to-worldposta-navy {
+  --tw-gradient-to: #{$worldposta-navy};
+}
+
+.via-worldposta-green-dark {
+  --tw-gradient-to: #{rgba($worldposta-navy, 0)};
+  --tw-gradient-stops: var(--tw-gradient-from), #{$worldposta-green-dark}, var(--tw-gradient-to);
+}
+
+.via-worldposta-blue {
+  --tw-gradient-to: #{rgba($worldposta-purple, 0)};
+  --tw-gradient-stops: var(--tw-gradient-from), #{$worldposta-blue}, var(--tw-gradient-to);
+}
+
+// Border colors
+.border-worldposta-green {
+  border-color: $worldposta-green;
+}
+
+// Hover states
+.hover\:text-worldposta-green:hover {
+  color: $worldposta-green;
+}
+
+.hover\:text-worldposta-green-dark:hover {
+  color: $worldposta-green-dark;
+}
+
+.hover\:border-worldposta-green:hover {
+  border-color: $worldposta-green;
+}
+
+// Focus ring
+.focus-within\:ring-worldposta-green:focus-within {
+  --tw-ring-color: #{$worldposta-green};
+}
+
+// Dark mode variants
+:host-context(.dark) {
+  .dark\:text-worldposta-green-light {
+    color: $worldposta-green-light;
+  }
+
+  .dark\:hover\:text-worldposta-green:hover {
+    color: $worldposta-green;
+  }
+
+  .dark\:border-worldposta-green {
+    border-color: $worldposta-green;
+  }
+
+  .dark\:hover\:border-worldposta-green:hover {
+    border-color: $worldposta-green;
+  }
+}
+
+// Animation keyframes (inherited from common animations)
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+// Wave fill for background wave
+.fill-background {
+  fill: var(--color-background, #ffffff);
+}
+
+:host-context(.dark) .fill-background {
+  fill: var(--color-background, #0f172a);
+}

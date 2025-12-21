@@ -56,6 +56,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/services/security/security.component').then(m => m.SecurityComponent),
     title: 'Cybersecurity Solutions & Threat Protection - Roaya IT'
   },
+  {
+    path: 'services/worldposta',
+    loadComponent: () => import('./features/services/worldposta/worldposta.component').then(m => m.WorldpostaComponent),
+    title: 'WorldPosta Cloud Services - Business Email, Storage & Apps | Roaya IT'
+  },
   // Fallback for any unknown service routes
   {
     path: 'services/:id',
