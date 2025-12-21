@@ -48,7 +48,366 @@
   }
 }
 
-// Service Categories - Bold Minimalism Style
+// ========================================
+// SAP Brand Colors (Soft Variants)
+// ========================================
+
+// SAP Gold - Primary accent
+$sap-gold: #F0AB00;
+$sap-gold-light: #FEF7CD;
+$sap-gold-soft: #FDF6B2;
+$sap-gold-dark: #B8860B;
+
+// SAP Blue - Trust & Technology
+$sap-blue: #0070F2;
+$sap-blue-light: #DBEAFE;
+$sap-blue-soft: #E0F2FE;
+$sap-blue-dark: #1E40AF;
+
+// SAP Teal - Innovation
+$sap-teal: #00B4A0;
+$sap-teal-light: #CCFBF1;
+$sap-teal-soft: #D1FAE5;
+$sap-teal-dark: #047857;
+
+// SAP Purple - Security & Enterprise
+$sap-purple: #8B5CF6;
+$sap-purple-light: #EDE9FE;
+$sap-purple-soft: #F3E8FF;
+$sap-purple-dark: #6B21A8;
+
+// SAP Navy - Professional & Reliable
+$sap-navy: #354A5F;
+$sap-navy-light: #E0E7FF;
+$sap-navy-soft: #EEF2FF;
+$sap-navy-dark: #1E3A5F;
+
+// CSS Custom Properties for SAP Colors
+:root {
+  --sap-gold: #{$sap-gold};
+  --sap-gold-light: #{$sap-gold-light};
+  --sap-gold-dark: #{$sap-gold-dark};
+  --sap-blue: #{$sap-blue};
+  --sap-blue-light: #{$sap-blue-light};
+  --sap-blue-dark: #{$sap-blue-dark};
+  --sap-teal: #{$sap-teal};
+  --sap-teal-light: #{$sap-teal-light};
+  --sap-teal-dark: #{$sap-teal-dark};
+  --sap-purple: #{$sap-purple};
+  --sap-purple-light: #{$sap-purple-light};
+  --sap-purple-dark: #{$sap-purple-dark};
+  --sap-navy: #{$sap-navy};
+  --sap-navy-light: #{$sap-navy-light};
+  --sap-navy-dark: #{$sap-navy-dark};
+}
+
+// ========================================
+// SAP Bento Grid Section
+// ========================================
+
+.sap-bento-section {
+  position: relative;
+  overflow: hidden;
+}
+
+// SAP Bento Grid Layout
+.sap-bento-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(280px, auto);
+
+  // Tablet: 2 columns
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  // Desktop: 3 columns with asymmetric layout
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, minmax(200px, auto));
+    gap: 1.5rem;
+
+    // Large card: top-left, spans 2 cols x 2 rows
+    .sap-bento-large {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+    }
+
+    // Tall card: top-right, spans 1 col x 2 rows
+    .sap-bento-tall {
+      grid-column: 3;
+      grid-row: 1 / 3;
+    }
+
+    // Standard cards: bottom row
+    .sap-bento-standard:nth-of-type(3) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .sap-bento-standard:nth-of-type(4) {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    // Wide card: bottom right or full width
+    .sap-bento-wide {
+      grid-column: 3;
+      grid-row: 3;
+    }
+  }
+
+  // Large Desktop: 4 columns
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, minmax(260px, auto)) minmax(160px, auto);
+
+    .sap-bento-large {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+    }
+
+    .sap-bento-tall {
+      grid-column: 3;
+      grid-row: 1 / 3;
+    }
+
+    .sap-bento-standard:nth-of-type(3) {
+      grid-column: 4;
+      grid-row: 1;
+    }
+
+    .sap-bento-standard:nth-of-type(4) {
+      grid-column: 4;
+      grid-row: 2;
+    }
+
+    .sap-bento-wide {
+      grid-column: 1 / 5;
+      grid-row: 3;
+    }
+  }
+}
+
+// SAP Bento Card Base Styles
+.sap-bento-card {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  // Large card sizing
+  &.sap-bento-large {
+    min-height: 400px;
+
+    @media (min-width: 1024px) {
+      min-height: 520px;
+    }
+  }
+
+  // Tall card sizing
+  &.sap-bento-tall {
+    min-height: 400px;
+
+    @media (min-width: 1024px) {
+      min-height: 520px;
+    }
+  }
+
+  // Standard card sizing
+  &.sap-bento-standard {
+    min-height: 280px;
+
+    @media (min-width: 1024px) {
+      min-height: 260px;
+    }
+  }
+
+  // Wide card sizing
+  &.sap-bento-wide {
+    min-height: 180px;
+
+    @media (min-width: 1024px) {
+      min-height: 160px;
+    }
+  }
+}
+
+// SAP Card Inner Container
+.sap-card-inner {
+  position: relative;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+
+  // Neutral Card (No background color)
+  &.sap-card-neutral {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-color: rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+  }
+
+  // Gold Card (SAP Basis) - kept for reference
+  &.sap-card-gold {
+    background: linear-gradient(135deg, $sap-gold-light 0%, $sap-gold-soft 50%, rgba($sap-gold, 0.08) 100%);
+    border-color: rgba($sap-gold, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-gold, 0.3);
+    }
+  }
+
+  // Blue Card (Monitoring) - kept for reference
+  &.sap-card-blue {
+    background: linear-gradient(135deg, $sap-blue-light 0%, $sap-blue-soft 50%, rgba($sap-blue, 0.08) 100%);
+    border-color: rgba($sap-blue, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-blue, 0.3);
+    }
+  }
+
+  // Teal Card (Performance) - kept for reference
+  &.sap-card-teal {
+    background: linear-gradient(135deg, $sap-teal-light 0%, $sap-teal-soft 50%, rgba($sap-teal, 0.08) 100%);
+    border-color: rgba($sap-teal, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-teal, 0.3);
+    }
+  }
+
+  // Purple Card (Security) - kept for reference
+  &.sap-card-purple {
+    background: linear-gradient(135deg, $sap-purple-light 0%, $sap-purple-soft 50%, rgba($sap-purple, 0.08) 100%);
+    border-color: rgba($sap-purple, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-purple, 0.3);
+    }
+  }
+
+  // Navy Card (Disaster Recovery) - kept for reference
+  &.sap-card-navy {
+    background: linear-gradient(135deg, $sap-navy-light 0%, $sap-navy-soft 50%, rgba($sap-navy, 0.08) 100%);
+    border-color: rgba($sap-navy, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-navy, 0.3);
+    }
+  }
+}
+
+// Dark Mode Card Adjustments
+[data-theme="dark"] {
+  .sap-card-inner {
+    &.sap-card-neutral {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.08);
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.15);
+        background: rgba(30, 41, 59, 0.8);
+      }
+    }
+
+    &.sap-card-gold {
+      background: linear-gradient(135deg, rgba($sap-gold-dark, 0.15) 0%, rgba($sap-gold, 0.08) 50%, rgba($sap-gold, 0.03) 100%);
+      border-color: rgba($sap-gold, 0.2);
+    }
+
+    &.sap-card-blue {
+      background: linear-gradient(135deg, rgba($sap-blue-dark, 0.15) 0%, rgba($sap-blue, 0.08) 50%, rgba($sap-blue, 0.03) 100%);
+      border-color: rgba($sap-blue, 0.2);
+    }
+
+    &.sap-card-teal {
+      background: linear-gradient(135deg, rgba($sap-teal-dark, 0.15) 0%, rgba($sap-teal, 0.08) 50%, rgba($sap-teal, 0.03) 100%);
+      border-color: rgba($sap-teal, 0.2);
+    }
+
+    &.sap-card-purple {
+      background: linear-gradient(135deg, rgba($sap-purple-dark, 0.15) 0%, rgba($sap-purple, 0.08) 50%, rgba($sap-purple, 0.03) 100%);
+      border-color: rgba($sap-purple, 0.2);
+    }
+
+    &.sap-card-navy {
+      background: linear-gradient(135deg, rgba($sap-navy-dark, 0.2) 0%, rgba($sap-navy, 0.1) 50%, rgba($sap-navy, 0.05) 100%);
+      border-color: rgba($sap-navy-light, 0.15);
+    }
+  }
+}
+
+// SAP Color Utility Classes
+.text-sap-gold { color: $sap-gold !important; }
+.text-sap-gold-dark { color: $sap-gold-dark !important; }
+.text-sap-blue { color: $sap-blue !important; }
+.text-sap-blue-dark { color: $sap-blue-dark !important; }
+.text-sap-teal { color: $sap-teal !important; }
+.text-sap-teal-dark { color: $sap-teal-dark !important; }
+.text-sap-purple { color: $sap-purple !important; }
+.text-sap-purple-dark { color: $sap-purple-dark !important; }
+.text-sap-navy { color: $sap-navy !important; }
+.text-sap-navy-dark { color: $sap-navy-dark !important; }
+.text-sap-navy-light { color: $sap-navy-light !important; }
+
+.bg-sap-gold { background-color: $sap-gold !important; }
+.bg-sap-gold\/10 { background-color: rgba($sap-gold, 0.1) !important; }
+.bg-sap-gold\/15 { background-color: rgba($sap-gold, 0.15) !important; }
+.bg-sap-gold\/20 { background-color: rgba($sap-gold, 0.2) !important; }
+.bg-sap-gold\/30 { background-color: rgba($sap-gold, 0.3) !important; }
+
+.bg-sap-blue\/10 { background-color: rgba($sap-blue, 0.1) !important; }
+.bg-sap-blue\/15 { background-color: rgba($sap-blue, 0.15) !important; }
+.bg-sap-blue\/20 { background-color: rgba($sap-blue, 0.2) !important; }
+.bg-sap-blue\/25 { background-color: rgba($sap-blue, 0.25) !important; }
+.bg-sap-blue\/30 { background-color: rgba($sap-blue, 0.3) !important; }
+
+.bg-sap-teal\/15 { background-color: rgba($sap-teal, 0.15) !important; }
+.bg-sap-teal\/25 { background-color: rgba($sap-teal, 0.25) !important; }
+
+.bg-sap-purple\/15 { background-color: rgba($sap-purple, 0.15) !important; }
+.bg-sap-purple\/25 { background-color: rgba($sap-purple, 0.25) !important; }
+
+.bg-sap-navy\/10 { background-color: rgba($sap-navy, 0.1) !important; }
+.bg-sap-navy\/20 { background-color: rgba($sap-navy, 0.2) !important; }
+.bg-sap-navy\/30 { background-color: rgba($sap-navy, 0.3) !important; }
+.bg-sap-navy\/40 { background-color: rgba($sap-navy, 0.4) !important; }
+
+.border-sap-navy\/20 { border-color: rgba($sap-navy, 0.2) !important; }
+.border-sap-navy\/40 { border-color: rgba($sap-navy, 0.4) !important; }
+
+// Gradient utilities
+.from-sap-gold { --tw-gradient-from: #{$sap-gold}; }
+.to-sap-gold-dark { --tw-gradient-to: #{$sap-gold-dark}; }
+.from-sap-blue { --tw-gradient-from: #{$sap-blue}; }
+.to-sap-blue-dark { --tw-gradient-to: #{$sap-blue-dark}; }
+.from-sap-teal { --tw-gradient-from: #{$sap-teal}; }
+.to-sap-teal-dark { --tw-gradient-to: #{$sap-teal-dark}; }
+.from-sap-purple { --tw-gradient-from: #{$sap-purple}; }
+.to-sap-purple-dark { --tw-gradient-to: #{$sap-purple-dark}; }
+.from-sap-navy { --tw-gradient-from: #{$sap-navy}; }
+.to-sap-navy-dark { --tw-gradient-to: #{$sap-navy-dark}; }
+
+// Legacy Bold Minimalism (kept for reference, can be removed if not used elsewhere)
 .service-categories-bold-minimal {
   // Ultra-bold typography
   h2 {

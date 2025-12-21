@@ -89,50 +89,87 @@
     </div>
   </section>
 
-  <!-- Service Categories Section - Bold Minimalism -->
-  <section class="service-categories-bold-minimal py-20 md:py-32 bg-background">
+  <!-- Service Categories Section - F-Pattern & Z-Pattern Layout -->
+  <section class="service-categories-pattern py-20 md:py-32 bg-background">
     <div class="container mx-auto px-4">
-      <div class="mb-20 animate-fade-in-up">
-        <h2 class="text-5xl md:text-7xl font-black mb-6 text-primary-900 dark:text-primary-100 tracking-tight">
+      <!-- F-Pattern: Strong horizontal header -->
+      <div class="text-center mb-16 md:mb-24 animate-fade-in-up">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-500/10 dark:bg-primary-400/20 rounded-full text-sm font-semibold text-primary-700 dark:text-primary-300 mb-6">
+          <ng-icon name="faLightbulb" size="16"></ng-icon>
+          AI-Powered Solutions
+        </div>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-primary-900 dark:text-primary-100 tracking-tight">
           Comprehensive Automation & AI Services
         </h2>
-        <p class="text-xl md:text-2xl text-neutral-700 dark:text-neutral-300 max-w-4xl font-light leading-relaxed">
+        <p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto font-light leading-relaxed">
           Five specialized service categories to automate and optimize your business operations
         </p>
       </div>
 
+      <!-- Z-Pattern: Alternating left-right layout -->
       <div class="space-y-16 md:space-y-24 max-w-7xl mx-auto">
         @for (category of serviceCategories; track category.id; let i = $index) {
           <div
-            class="animate-fade-in-up border-b-2 border-neutral-200 dark:border-neutral-800 pb-16 md:pb-24 last:border-b-0"
+            class="animate-fade-in-up"
             [style.animation-delay]="i * 100 + 'ms'">
-            <div class="flex flex-col gap-8">
-              <!-- Header -->
-              <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                <div class="flex-1">
-                  <h3 class="text-4xl md:text-6xl font-black mb-4 text-primary-900 dark:text-primary-100 tracking-tight leading-none">
-                    {{ category.title }}
-                  </h3>
-                  <p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-3xl">
-                    {{ category.description }}
-                  </p>
-                </div>
-                <!-- Minimal Icon -->
-                <div class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-                  <ng-icon [name]="category.icon" size="48" class="text-primary-600 dark:text-primary-400 opacity-60"></ng-icon>
+
+            <!-- Z-Pattern Row: Alternates direction -->
+            <div class="flex flex-col gap-8"
+              [ngClass]="i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'">
+
+              <!-- Visual/Icon Side -->
+              <div class="lg:w-2/5 flex items-center justify-center">
+                <div class="relative group">
+                  <!-- Background glow -->
+                  <div class="absolute -inset-4 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  <!-- Icon container -->
+                  <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-primary-500 to-secondary-600 flex items-center justify-center shadow-2xl group-hover:scale-105 transition-transform duration-300">
+                    <ng-icon [name]="category.icon" size="64" class="text-white"></ng-icon>
+                  </div>
+
+                  <!-- Floating number badge -->
+                  <div class="absolute -top-3 -right-3 rtl:-left-3 rtl:right-auto w-10 h-10 rounded-full bg-white dark:bg-primary-900 shadow-lg flex items-center justify-center">
+                    <span class="text-lg font-bold text-primary-600 dark:text-primary-400">{{ i + 1 }}</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Features List - Minimal -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4">
-                @for (feature of category.features; track feature) {
-                  <div class="flex items-start gap-3">
-                    <span class="text-primary-600 dark:text-primary-400 font-bold text-lg mt-0.5">—</span>
-                    <span class="text-base md:text-lg text-neutral-700 dark:text-neutral-300 font-medium">{{ feature }}</span>
-                  </div>
-                }
+              <!-- Content Side -->
+              <div class="lg:w-3/5 flex flex-col justify-center"
+                [ngClass]="i % 2 === 0 ? 'lg:pl-8' : 'lg:pr-8'">
+
+                <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-primary-900 dark:text-primary-100">
+                  {{ category.title }}
+                </h3>
+
+                <p class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+                  {{ category.description }}
+                </p>
+
+                <!-- Features as pills/tags -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                  @for (feature of category.features; track feature) {
+                    <span class="px-3 py-1.5 bg-white dark:bg-primary-900/60 border border-neutral-200 dark:border-neutral-700 rounded-full text-sm text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-default">
+                      {{ feature }}
+                    </span>
+                  }
+                </div>
+
+                <!-- Visual connector line (hidden on mobile) -->
+                <div class="hidden lg:block h-0.5 w-24 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"
+                  [ngClass]="i % 2 === 0 ? '' : 'ml-auto'"></div>
               </div>
             </div>
+
+            <!-- Diagonal connector between sections (except last) -->
+            @if (i < serviceCategories.length - 1) {
+              <div class="hidden lg:flex justify-center my-8">
+                <svg class="w-8 h-16 text-neutral-300 dark:text-neutral-700" viewBox="0 0 32 64" fill="none">
+                  <path d="M16 0 L16 64" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                </svg>
+              </div>
+            }
           </div>
         }
       </div>

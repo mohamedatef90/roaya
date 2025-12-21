@@ -42,8 +42,8 @@ export class SapComponent implements OnInit {
   private readonly meta = inject(Meta);
   private readonly title = inject(Title);
 
-  // Service icon path
-  readonly iconPath = '/assets/images/icons/services/sap.svg';
+  // SAP logo path
+  readonly iconPath = '/assets/images/logos/partners/sap-logo-png_seeklogo-122607.png';
 
   // Statistics - Key performance metrics
   readonly statistics = [
