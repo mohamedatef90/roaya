@@ -2,6 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideShield,
+  lucideHandshake,
+  lucideGem,
+  lucideRocket,
+  lucideTarget,
+  lucideCircleCheck
+} from '@ng-icons/lucide';
 
 interface TeamMember {
   name: string;
@@ -24,29 +33,39 @@ interface Milestone {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  styleUrl: './about.component.scss',
+  providers: [
+    provideIcons({
+      lucideShield,
+      lucideHandshake,
+      lucideGem,
+      lucideRocket,
+      lucideTarget,
+      lucideCircleCheck
+    })
+  ]
 })
 export class AboutComponent {
   values: Value[] = [
     {
-      icon: '🛡️',
+      icon: 'lucideShield',
       title: 'about.values.security.title',
       description: 'about.values.security.description'
     },
     {
-      icon: '🤝',
+      icon: 'lucideHandshake',
       title: 'about.values.trust.title',
       description: 'about.values.trust.description'
     },
     {
-      icon: '💎',
+      icon: 'lucideGem',
       title: 'about.values.transparency.title',
       description: 'about.values.transparency.description'
     },
     {
-      icon: '🚀',
+      icon: 'lucideRocket',
       title: 'about.values.innovation.title',
       description: 'about.values.innovation.description'
     }

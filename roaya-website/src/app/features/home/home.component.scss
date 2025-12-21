@@ -340,10 +340,11 @@
 
 .hero-accent-word {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(93, 183, 194, 1) 0%, rgba(107, 76, 154, 1) 100%);
+  background: linear-gradient(135deg, rgb(158, 233, 243) 0%, rgb(167, 116, 243) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-size: 50px;
 }
 
 // Description
