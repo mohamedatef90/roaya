@@ -217,6 +217,33 @@
   }
 }
 
+// Animated Gradient Overlay
+.animated-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, 
+    rgba(15, 23, 42, 0.95), 
+    rgba(30, 41, 59, 0.9), 
+    rgba(88, 28, 135, 0.95), 
+    rgba(15, 23, 42, 0.95)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  z-index: 1;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 // Animations
 @keyframes fade-in-up {
   from {
@@ -232,6 +259,286 @@
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
   opacity: 0;
+}
+
+// ============================================
+// SECURITY TOUCH - Visual Enhancement Effects
+// ============================================
+
+// 1. Security Grid Background (Hero Section)
+.security-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(93, 183, 194, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 183, 194, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  z-index: 1;
+}
+
+// Security Shield Glow Effect (Hero Section)
+.security-shield-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(93, 183, 194, 0.15) 0%,
+    rgba(107, 76, 154, 0.1) 30%,
+    rgba(61, 90, 128, 0.05) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: shield-pulse 6s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes shield-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+// 2. Glowing Border Pulse Effect (Outcome Cards)
+.security-card-glow {
+  position: relative;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #5DB7C2, #6B4C9A);
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+    animation: border-glow-pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes border-glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 5px rgba(93, 183, 194, 0.3),
+      0 0 10px rgba(93, 183, 194, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 15px rgba(93, 183, 194, 0.6),
+      0 0 30px rgba(93, 183, 194, 0.4),
+      0 0 45px rgba(107, 76, 154, 0.3);
+  }
+}
+
+// 3. Shield Pulse Indicator (Active Tab)
+.security-pulse-indicator {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+
+  .pulse-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5DB7C2, #6B4C9A);
+    animation: shield-pulse 1.5s ease-out infinite;
+  }
+
+  .pulse-dot {
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5DB7C2, #6B4C9A);
+  }
+}
+
+@keyframes shield-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+// 4. Terminal Cursor Effect (Statistics)
+.terminal-value {
+  font-family: 'Courier New', 'Monaco', monospace;
+  letter-spacing: -0.02em;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: linear-gradient(180deg, #5DB7C2, #6B4C9A);
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+// 5. Radar Sweep Effect (Partner Cards)
+.security-radar-sweep {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(93, 183, 194, 0.3) 0%,
+      rgba(107, 76, 154, 0.2) 40%,
+      transparent 70%
+    );
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    width: 300px;
+    height: 300px;
+    opacity: 1;
+  }
+}
+
+// 6. Particle Network Background
+.security-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &::before {
+    background-image:
+      radial-gradient(circle, rgba(93, 183, 194, 0.15) 1px, transparent 1px),
+      radial-gradient(circle, rgba(107, 76, 154, 0.12) 1px, transparent 1px);
+    background-size: 60px 60px, 90px 90px;
+    background-position: 0 0, 45px 45px;
+    animation: particles-float 25s linear infinite;
+  }
+
+  &::after {
+    background-image:
+      radial-gradient(circle, rgba(61, 90, 128, 0.1) 1.5px, transparent 1.5px);
+    background-size: 80px 80px;
+    background-position: 30px 30px;
+    animation: particles-float 35s linear infinite reverse;
+  }
+}
+
+@keyframes particles-float {
+  0% {
+    background-position: 0 0, 45px 45px;
+  }
+  100% {
+    background-position: 120px 120px, 165px 165px;
+  }
+}
+
+// 7. Binary Rain Effect (Threats Section)
+.security-binary-rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='200'%3E%3Ctext x='10' y='20' fill='rgba(93,183,194,0.08)' font-family='monospace' font-size='10'%3E01001%3C/text%3E%3Ctext x='10' y='40' fill='rgba(107,76,154,0.06)' font-family='monospace' font-size='10'%3E10110%3C/text%3E%3Ctext x='10' y='60' fill='rgba(93,183,194,0.07)' font-family='monospace' font-size='10'%3E01010%3C/text%3E%3Ctext x='10' y='80' fill='rgba(107,76,154,0.05)' font-family='monospace' font-size='10'%3E11001%3C/text%3E%3Ctext x='10' y='100' fill='rgba(93,183,194,0.08)' font-family='monospace' font-size='10'%3E00110%3C/text%3E%3Ctext x='10' y='120' fill='rgba(107,76,154,0.06)' font-family='monospace' font-size='10'%3E10101%3C/text%3E%3Ctext x='10' y='140' fill='rgba(93,183,194,0.07)' font-family='monospace' font-size='10'%3E01100%3C/text%3E%3Ctext x='10' y='160' fill='rgba(107,76,154,0.05)' font-family='monospace' font-size='10'%3E11010%3C/text%3E%3Ctext x='10' y='180' fill='rgba(93,183,194,0.06)' font-family='monospace' font-size='10'%3E00101%3C/text%3E%3Ctext x='10' y='200' fill='rgba(107,76,154,0.07)' font-family='monospace' font-size='10'%3E10011%3C/text%3E%3C/svg%3E");
+    background-size: 100px auto;
+    animation: binary-fall 20s linear infinite;
+  }
+}
+
+@keyframes binary-fall {
+  0% {
+    transform: translateY(-200px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+// ============================================
+// END SECURITY TOUCH EFFECTS
+// ============================================
+
+// ============================================
+// SECURITY EFFECTS - MOBILE OPTIMIZATIONS
+// ============================================
+// Hide/simplify heavy effects on mobile for performance
+@media (max-width: 768px) {
+  .security-binary-rain {
+    display: none !important;
+  }
+
+  .security-shield-glow {
+    width: 300px;
+    height: 300px;
+    filter: blur(40px);
+  }
+
+  .security-grid-bg {
+    background-size: 30px 30px;
+    opacity: 0.5;
+  }
+
+  .security-card-glow::before {
+    display: none;
+  }
+
+  .security-radar-sweep::before {
+    display: none;
+  }
 }
 
 // Responsive adjustments

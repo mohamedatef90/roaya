@@ -118,9 +118,24 @@
             "label": "SOC Monitoring",
             "description": "Round-the-clock threat hunting and response"
           },
+          "threatDetection": {
+            "value": "70% Faster",
+            "label": "Threat Detection",
+            "description": "70% faster than industry average"
+          },
+          "responseSLA": {
+            "value": "<15 min",
+            "label": "Response SLA",
+            "description": "Initial incident response time"
+          },
+          "clientRetention": {
+            "value": "98%",
+            "label": "Client Retention",
+            "description": "Year-over-year client retention"
+          },
           "aiDetection": {
             "value": "AI-Accelerated",
-            "label": "Threat Detection",
+            "label": "AI-Powered",
             "description": "Human-led, AI-powered analysis"
           },
           "framework": {
@@ -166,6 +181,9 @@
         "solutions": {
           "title": "Solutions at a Glance",
           "subtitle": "Three specialized security service areas to protect your digital assets",
+          "slaTitle": "SLA Guarantees",
+          "deliverablesTitle": "Deliverables",
+          "capabilitiesTitle": "Response Capabilities",
           "soc": {
             "title": "24/7 SOC Monitoring & Response",
             "description": "Our Managed SOC (Security Operations Center) services provide round-the-clock threat monitoring, detection, and response. Roaya's analysts act as an extension of your team – hunting for threats 24/7 and using modern SIEM/XDR tools to correlate alerts.",
@@ -174,7 +192,11 @@
             "feature3": "Immediate investigation and response",
             "feature4": "Containment, blocking, and escalation",
             "feature5": "Threat hunting by expert analysts",
-            "feature6": "Security event correlation"
+            "feature6": "Security event correlation",
+            "sla1": "Initial alert triage: < 5 minutes",
+            "sla2": "Critical incident escalation: < 15 minutes",
+            "sla3": "Monthly threat intelligence reports",
+            "sla4": "Quarterly security posture reviews"
           },
           "pentest": {
             "title": "Penetration Testing & Vulnerability Management",
@@ -184,7 +206,11 @@
             "feature3": "Vulnerability assessment services",
             "feature4": "Risk-prioritized remediation guidance",
             "feature5": "Critical issues identified first",
-            "feature6": "Strengthened security posture"
+            "feature6": "Strengthened security posture",
+            "deliverable1": "Executive summary with risk scoring",
+            "deliverable2": "Technical findings with CVSS ratings",
+            "deliverable3": "Prioritized remediation roadmap",
+            "deliverable4": "Retesting validation (included)"
           },
           "incidentResponse": {
             "title": "Incident Response & Digital Forensics",
@@ -194,7 +220,11 @@
             "feature3": "Digital forensics investigation",
             "feature4": "Root cause identification",
             "feature5": "Evidence preservation",
-            "feature6": "Legal & compliance support"
+            "feature6": "Legal & compliance support",
+            "capability1": "24/7 emergency hotline",
+            "capability2": "Remote and on-site response teams",
+            "capability3": "Evidence preservation and chain of custody",
+            "capability4": "Legal and regulatory reporting support"
           }
         },
         "technologyPartners": {
@@ -268,10 +298,12 @@
         "whyRoaya": {
           "title": "Why Roaya",
           "subtitle": "What sets us apart in delivering enterprise-grade cybersecurity",
+          "certificationsLabel": "Team Certifications",
           "expertise": {
             "title": "Expertise You Can Trust",
             "description": "Our team consists of certified cybersecurity professionals with experience protecting enterprises across finance, healthcare, telecom, and more. We bring real-world incident experience and up-to-date training to every engagement.",
-            "badge": "Certified Experts"
+            "badge": "Certified Experts",
+            "certifications": "CISSP, CISM, CEH, OSCP, GIAC, CompTIA Security+"
           },
           "aiHuman": {
             "title": "AI-Accelerated, Human-Centric",
@@ -286,18 +318,40 @@
           "outcomeFocused": {
             "title": "Outcome-Focused Approach",
             "description": "We focus on delivering measurable outcomes – reduced incidents, faster response times, and improved compliance. You receive regular reports and metrics that translate cyber risk into business terms.",
-            "badge": "Measurable Results"
+            "badge": "Measurable Results",
+            "metric1": "Monthly security metrics dashboard",
+            "metric2": "Quarterly business risk reports",
+            "metric3": "Annual security posture assessment",
+            "metric4": "ROI tracking and cost avoidance metrics"
           }
         },
         "industries": {
           "title": "Industries We Protect",
           "subtitle": "Specialized cybersecurity expertise across multiple high-risk sectors",
-          "finance": "Finance & Banking",
-          "healthcare": "Healthcare",
-          "telecom": "Telecom",
-          "government": "Government",
-          "manufacturing": "Manufacturing",
-          "retail": "Retail & E-commerce"
+          "finance": {
+            "name": "Finance & Banking",
+            "expertise": "PCI DSS, SOX compliance, fraud detection"
+          },
+          "healthcare": {
+            "name": "Healthcare",
+            "expertise": "HIPAA, patient data protection"
+          },
+          "government": {
+            "name": "Government",
+            "expertise": "Sovereign data, regulatory compliance"
+          },
+          "telecom": {
+            "name": "Telecom",
+            "expertise": "Network security, DDoS mitigation"
+          },
+          "retail": {
+            "name": "Retail & E-commerce",
+            "expertise": "Payment security, customer data protection"
+          },
+          "manufacturing": {
+            "name": "Manufacturing",
+            "expertise": "OT/ICS security, supply chain protection"
+          }
         },
         "pricing": {
           "title": "Transparent Cybersecurity Pricing",
@@ -362,7 +416,10 @@
           "description": "Ready to fortify your defenses with security services built for the real world? Talk to an Expert at Roaya today. We'll assess your needs and tailor a cybersecurity solution that reduces risk, improves compliance, and gives you peace of mind.",
           "subtext": "Secure your organization's future now with a partner committed to your success.",
           "buttonPrimary": "Talk to an Expert",
-          "buttonSecondary": "View Full Pricing"
+          "buttonSecondary": "View Full Pricing",
+          "benefit1": "Free security assessment consultation",
+          "benefit2": "Custom proposal within 48 hours",
+          "benefit3": "Flexible engagement models"
         }
       }
     },

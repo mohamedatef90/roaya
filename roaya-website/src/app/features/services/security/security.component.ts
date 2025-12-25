@@ -1,5 +1,5 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, ChangeDetectionStrategy, PLATFORM_ID, NgZone } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -13,6 +13,8 @@ import {
   faCircle
 } from '@ng-icons/font-awesome/regular';
 import { Meta, Title } from '@angular/platform-browser';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 /**
  * Security (Cybersecurity) Service Standalone Component
@@ -38,9 +40,11 @@ import { Meta, Title } from '@angular/platform-browser';
     })
   ]
 })
-export class SecurityComponent implements OnInit {
+export class SecurityComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly meta = inject(Meta);
   private readonly title = inject(Title);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly ngZone = inject(NgZone);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/security.svg';
@@ -59,9 +63,9 @@ export class SecurityComponent implements OnInit {
 
   // Solutions at a Glance - 3 main service areas (using translation keys)
   readonly solutions = [
-    { id: 'soc', icon: 'faClock' },
-    { id: 'pentest', icon: 'faSquareCheck' },
-    { id: 'incidentResponse', icon: 'faLightbulb' }
+    { id: 'soc', icon: 'faClock', image: '/assets/images/services/security/soc.png' },
+    { id: 'pentest', icon: 'faSquareCheck', image: '/assets/images/services/security/pentest.png' },
+    { id: 'incidentResponse', icon: 'faLightbulb', image: '/assets/images/services/security/incident-response.png' }
   ];
 
   // Technology Partners - Best-in-class platforms (using translation keys)
@@ -136,6 +140,272 @@ export class SecurityComponent implements OnInit {
     this.meta.updateTag({ property: 'og:title', content: 'Cybersecurity Services Built for Real-World Threats - Roaya IT' });
     this.meta.updateTag({ property: 'og:description', content: 'Enterprise-grade cybersecurity with 24/7 SOC, AI-accelerated threat detection, and privacy-preserving infrastructure.' });
     this.meta.updateTag({ property: 'og:type', content: 'website' });
+  }
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // Run outside Angular zone for better performance
+      this.ngZone.runOutsideAngular(() => {
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        // Hero parallax - background moves slower than content
+        gsap.to('.hero-parallax-bg', {
+          yPercent: 30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+
+        // Hero content parallax - moves up and fades as you scroll
+        gsap.to('.hero-parallax-content', {
+          yPercent: -20,
+          opacity: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: '80% top',
+            scrub: true
+          }
+        });
+
+        // Statistics cards stagger reveal
+        gsap.fromTo('.stat-parallax',
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.stats-section',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Threats section - fade in with slide up
+        gsap.fromTo('.threats-parallax',
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.threats-section',
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Outcomes cards - staggered reveal with scale
+        gsap.utils.toArray('.outcome-parallax').forEach((card: any, i: number) => {
+          gsap.fromTo(card,
+            { y: 80, opacity: 0, scale: 0.95 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              delay: i * 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: '.outcomes-section',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Solutions section header
+        gsap.fromTo('.solutions-header',
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.solutions-section',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Solutions tab buttons - stagger
+        gsap.fromTo('.solution-tab',
+          { y: 30, opacity: 0, scale: 0.9 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.1,
+            duration: 0.5,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.solutions-section',
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Solutions content - slide in
+        gsap.fromTo('.solution-content',
+          { x: -50, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.solutions-section',
+              start: 'top 70%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Partners section - cards float up with stagger
+        gsap.fromTo('.partner-parallax',
+          { y: 40, opacity: 0, scale: 0.9 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.08,
+            duration: 0.5,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.partners-section',
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Frameworks section - slide in with rotation
+        gsap.utils.toArray('.framework-parallax').forEach((card: any, i: number) => {
+          gsap.fromTo(card,
+            { y: 50, opacity: 0, rotate: i % 2 === 0 ? -2 : 2 },
+            {
+              y: 0,
+              opacity: 1,
+              rotate: 0,
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Why Roaya section - cards with depth
+        gsap.utils.toArray('.diff-parallax').forEach((card: any, i: number) => {
+          gsap.fromTo(card,
+            { y: 60, opacity: 0, scale: 0.95 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              delay: i * 0.15,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: '.whyroaya-section',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Industries section - chips float up
+        gsap.fromTo('.industry-parallax',
+          { y: 30, opacity: 0, scale: 0.9 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.06,
+            duration: 0.4,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.industries-section',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Related services - cascade effect
+        gsap.fromTo('.related-parallax',
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.12,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.related-section',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Final CTA section - zoom in effect
+        gsap.fromTo('.cta-parallax',
+          { scale: 0.9, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.cta-section',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Security shield glow - continuous floating animation
+        gsap.to('.security-shield-glow', {
+          y: -10,
+          duration: 3,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true
+        });
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // Clean up all ScrollTrigger instances
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    }
   }
 
   /**
