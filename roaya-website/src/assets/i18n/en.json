@@ -103,6 +103,263 @@
         "assessment": "Vulnerability assessments and penetration testing",
         "compliance": "Regulatory compliance management",
         "response": "Incident response and recovery"
+      },
+      "page": {
+        "hero": {
+          "badge": "Enterprise Security",
+          "title": "Cybersecurity Services Built for Real-World Threats",
+          "subtitle": "Enterprise-grade security solutions to protect your business from evolving cyber threats",
+          "ctaPrimary": "Talk to an Expert",
+          "ctaSecondary": "View Pricing"
+        },
+        "statistics": {
+          "soc": {
+            "value": "24/7",
+            "label": "SOC Monitoring",
+            "description": "Round-the-clock threat hunting and response"
+          },
+          "aiDetection": {
+            "value": "AI-Accelerated",
+            "label": "Threat Detection",
+            "description": "Human-led, AI-powered analysis"
+          },
+          "framework": {
+            "value": "NIST",
+            "label": "Aligned Framework",
+            "description": "Industry-standard incident response"
+          }
+        },
+        "threats": {
+          "heading": "Threats",
+          "paragraph1": "Protect, detect, and respond to cyber threats with enterprise-grade solutions built for the realities of today's threat landscape. Roaya Cybersecurity Solutions delivers advanced cybersecurity services and solutions in Egypt and across the MENA region with globally aligned best practices.",
+          "paragraph2": "We help you reduce your risk exposure, prioritize what matters, and prevent likely attacks before they disrupt your business. Our approach integrates security across your cloud, on-premises, and hybrid environments.",
+          "paragraph3": "Our methodology leverages AI-assisted analysis – human-led and AI-accelerated – to speed up threat detection and response. All AI processing uses Roaya's own models on secure, privacy-preserving infrastructure, ensuring your data stays protected."
+        },
+        "outcomes": {
+          "title": "Cybersecurity Outcomes",
+          "subtitle": "Measurable results that protect your business and enable growth",
+          "reducedRisk": {
+            "title": "Reduced Attack Surface & Risk Exposure",
+            "description": "Proactively identify weaknesses through continuous scanning and vulnerability assessment, then remediate them to shrink your attack surface, lowering the odds of a breach."
+          },
+          "fasterDetection": {
+            "title": "Faster Threat Detection",
+            "description": "24/7 monitoring with advanced analytics (including AI) enables us to spot threats in minutes – not months – for early containment."
+          },
+          "rapidResponse": {
+            "title": "Rapid Incident Response",
+            "description": "Orchestrated response workflows aligned to NIST best practices let us contain and eradicate incidents swiftly, minimizing damage and downtime."
+          },
+          "compliance": {
+            "title": "Compliance Readiness",
+            "description": "Security controls mapped to frameworks like NIST CSF and ISO 27001 help you meet regulatory requirements and pass audits with confidence."
+          },
+          "resilience": {
+            "title": "Resilience & Continuous Improvement",
+            "description": "Each incident or assessment yields actionable insights to harden your defenses, improve response times, and bolster long-term cyber resilience."
+          }
+        },
+        "solutions": {
+          "title": "Solutions at a Glance",
+          "subtitle": "Three specialized security service areas to protect your digital assets",
+          "soc": {
+            "title": "24/7 SOC Monitoring & Response",
+            "description": "Our Managed SOC (Security Operations Center) services provide round-the-clock threat monitoring, detection, and response. Roaya's analysts act as an extension of your team – hunting for threats 24/7 and using modern SIEM/XDR tools to correlate alerts.",
+            "feature1": "Round-the-clock threat monitoring",
+            "feature2": "Modern SIEM/XDR tool integration",
+            "feature3": "Immediate investigation and response",
+            "feature4": "Containment, blocking, and escalation",
+            "feature5": "Threat hunting by expert analysts",
+            "feature6": "Security event correlation"
+          },
+          "pentest": {
+            "title": "Penetration Testing & Vulnerability Management",
+            "description": "Roaya's ethical hacking team simulates real-world attacks on your networks, applications, and cloud systems to uncover weaknesses before attackers do. We provide clear remediation guidance prioritized by risk.",
+            "feature1": "Simulated real-world attacks",
+            "feature2": "Network, application & cloud testing",
+            "feature3": "Vulnerability assessment services",
+            "feature4": "Risk-prioritized remediation guidance",
+            "feature5": "Critical issues identified first",
+            "feature6": "Strengthened security posture"
+          },
+          "incidentResponse": {
+            "title": "Incident Response & Digital Forensics",
+            "description": "When cyber incidents strike, every second counts. Our incident response services follow the NIST SP 800-61 lifecycle – from Preparation and Detection to Containment, Eradication, and Recovery.",
+            "feature1": "24/7 incident response on standby",
+            "feature2": "NIST SP 800-61 lifecycle methodology",
+            "feature3": "Digital forensics investigation",
+            "feature4": "Root cause identification",
+            "feature5": "Evidence preservation",
+            "feature6": "Legal & compliance support"
+          }
+        },
+        "technologyPartners": {
+          "title": "Powered by Best-in-Class Platforms",
+          "subtitle": "Roaya leverages an ecosystem of industry-leading security technologies to deliver superior protection and visibility",
+          "paloAlto": {
+            "name": "Palo Alto Networks",
+            "description": "Precision AI™-powered Cortex XSIAM® platform",
+            "category": "Core Platform"
+          },
+          "splunk": {
+            "name": "Splunk",
+            "description": "SIEM and analytics",
+            "category": "SIEM"
+          },
+          "elastic": {
+            "name": "Elastic Security",
+            "description": "Data analysis and threat detection",
+            "category": "SIEM"
+          },
+          "crowdstrike": {
+            "name": "CrowdStrike",
+            "description": "Endpoint protection",
+            "category": "Endpoint"
+          },
+          "fortinet": {
+            "name": "Fortinet FortiGuard",
+            "description": "Threat intelligence",
+            "category": "Threat Intel"
+          },
+          "kaspersky": {
+            "name": "Kaspersky",
+            "description": "Endpoint protection",
+            "category": "Endpoint"
+          },
+          "f5": {
+            "name": "F5",
+            "description": "Application and network security",
+            "category": "Network"
+          },
+          "nessus": {
+            "name": "Nessus",
+            "description": "Vulnerability scanning",
+            "category": "Vulnerability"
+          }
+        },
+        "frameworks": {
+          "title": "Aligned with Global Frameworks",
+          "subtitle": "Our services align with globally recognized cybersecurity frameworks and standards",
+          "nistCsf": {
+            "name": "NIST Cybersecurity Framework (CSF)",
+            "description": "We cover the full range of Identify, Protect, Detect, Respond, Recover functions for holistic security management."
+          },
+          "nist80061": {
+            "name": "NIST SP 800-61",
+            "description": "Our incident response process follows NIST's lifecycle phases (preparation through lessons learned) for effective breach handling."
+          },
+          "iso27001": {
+            "name": "ISO/IEC 27001 & 27002",
+            "description": "Roaya's policies and controls adhere to international standards for information security management and best-practice security controls."
+          },
+          "mitreAttack": {
+            "name": "MITRE ATT&CK®",
+            "description": "We map threats and detections to the MITRE ATT&CK matrix, ensuring our defenses address real-world adversary tactics and techniques."
+          },
+          "cis": {
+            "name": "CIS Critical Security Controls",
+            "description": "We prioritize and implement the CIS top controls to quickly reduce risk and improve your security posture in key areas."
+          }
+        },
+        "whyRoaya": {
+          "title": "Why Roaya",
+          "subtitle": "What sets us apart in delivering enterprise-grade cybersecurity",
+          "expertise": {
+            "title": "Expertise You Can Trust",
+            "description": "Our team consists of certified cybersecurity professionals with experience protecting enterprises across finance, healthcare, telecom, and more. We bring real-world incident experience and up-to-date training to every engagement.",
+            "badge": "Certified Experts"
+          },
+          "aiHuman": {
+            "title": "AI-Accelerated, Human-Centric",
+            "description": "Roaya blends human expertise with AI-assisted analysis to accelerate detection and decision-making. Every alert is vetted by our analysts – human-validated decisions backed by AI speed. Our AI models run on Roaya's own secure servers, so your data never leaves your control.",
+            "badge": "Privacy-First AI"
+          },
+          "vendorAgnostic": {
+            "title": "Vendor-Agnostic Integration",
+            "description": "We partner with leading vendors but remain flexible to your needs. Roaya's solutions integrate with your existing tools and cloud platforms (on-premises, private cloud, or hybrid) to maximize your investments.",
+            "badge": "Flexible"
+          },
+          "outcomeFocused": {
+            "title": "Outcome-Focused Approach",
+            "description": "We focus on delivering measurable outcomes – reduced incidents, faster response times, and improved compliance. You receive regular reports and metrics that translate cyber risk into business terms.",
+            "badge": "Measurable Results"
+          }
+        },
+        "industries": {
+          "title": "Industries We Protect",
+          "subtitle": "Specialized cybersecurity expertise across multiple high-risk sectors",
+          "finance": "Finance & Banking",
+          "healthcare": "Healthcare",
+          "telecom": "Telecom",
+          "government": "Government",
+          "manufacturing": "Manufacturing",
+          "retail": "Retail & E-commerce"
+        },
+        "pricing": {
+          "title": "Transparent Cybersecurity Pricing",
+          "subtitle": "Flexible pricing plans designed to match your organization's security requirements",
+          "essential": {
+            "name": "Essential Security",
+            "price": "Starting at 8,000",
+            "period": "month",
+            "description": "Core security services for small businesses",
+            "feature1": "Vulnerability scanning (monthly)",
+            "feature2": "Basic firewall management",
+            "feature3": "Security awareness training",
+            "feature4": "Business hours support (8x5)",
+            "cta": "Get Started"
+          },
+          "advanced": {
+            "name": "Advanced Security",
+            "price": "Starting at 20,000",
+            "period": "month",
+            "description": "Comprehensive security for growing enterprises",
+            "feature1": "24/7 SOC monitoring",
+            "feature2": "SIEM integration and alerting",
+            "feature3": "Quarterly penetration testing",
+            "feature4": "Incident response support",
+            "feature5": "Compliance management (GDPR, PCI-DSS)",
+            "cta": "Contact Sales",
+            "popular": "Most Popular"
+          },
+          "enterprise": {
+            "name": "Enterprise Security",
+            "price": "Custom",
+            "period": "custom",
+            "description": "Tailored security solutions for large organizations",
+            "feature1": "Dedicated security team",
+            "feature2": "Custom SLA agreements",
+            "feature3": "Threat hunting services",
+            "feature4": "Zero Trust architecture design",
+            "feature5": "Executive security consulting",
+            "cta": "Request Quote"
+          },
+          "viewFullPricing": "View Detailed Pricing & Custom Packages",
+          "customPricing": "Tailored to your needs"
+        },
+        "relatedServices": {
+          "title": "Complementary Services",
+          "subtitle": "Enhance your security posture with these related solutions",
+          "cloud": {
+            "title": "Cloud Solutions",
+            "description": "Secure cloud infrastructure with built-in security controls"
+          },
+          "managed": {
+            "title": "Managed Services",
+            "description": "24/7 managed IT services with security-first approach"
+          },
+          "backup": {
+            "title": "Backup & Recovery",
+            "description": "Secure backup solutions with disaster recovery planning"
+          }
+        },
+        "cta": {
+          "title": "Talk to an Expert",
+          "description": "Ready to fortify your defenses with security services built for the real world? Talk to an Expert at Roaya today. We'll assess your needs and tailor a cybersecurity solution that reduces risk, improves compliance, and gives you peace of mind.",
+          "subtext": "Secure your organization's future now with a partner committed to your success.",
+          "buttonPrimary": "Talk to an Expert",
+          "buttonSecondary": "View Full Pricing"
+        }
       }
     },
     "email": {
