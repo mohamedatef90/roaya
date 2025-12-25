@@ -131,6 +131,10 @@
         },
         "threats": {
           "heading": "Threats",
+          "titleProtect": "Protect",
+          "titleDetect": "Detect",
+          "titleRespond": "Respond",
+          "subtitle": "Enterprise-grade cybersecurity built for today's threat landscape",
           "paragraph1": "Protect, detect, and respond to cyber threats with enterprise-grade solutions built for the realities of today's threat landscape. Roaya Cybersecurity Solutions delivers advanced cybersecurity services and solutions in Egypt and across the MENA region with globally aligned best practices.",
           "paragraph2": "We help you reduce your risk exposure, prioritize what matters, and prevent likely attacks before they disrupt your business. Our approach integrates security across your cloud, on-premises, and hybrid environments.",
           "paragraph3": "Our methodology leverages AI-assisted analysis – human-led and AI-accelerated – to speed up threat detection and response. All AI processing uses Roaya's own models on secure, privacy-preserving infrastructure, ensuring your data stays protected."
