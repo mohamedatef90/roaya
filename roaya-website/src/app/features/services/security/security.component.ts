@@ -45,6 +45,9 @@ export class SecurityComponent implements OnInit {
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/security.svg';
 
+  // Active tab for Concept 3 (Tabbed Interface)
+  activeSolutionTab = 'soc';
+
   // Cybersecurity Outcomes - Key business outcomes (using translation keys)
   readonly outcomes = [
     { key: 'reducedRisk', icon: 'faCircle' },
