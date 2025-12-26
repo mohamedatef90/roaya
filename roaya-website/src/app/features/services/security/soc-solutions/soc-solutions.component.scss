@@ -1,0 +1,195 @@
+/**
+ * SOC Solutions Component Styles
+ * Roaya IT - Command Center Aesthetic with Status Indicators
+ */
+
+// ============================================
+// SOC Command Center Theme Variables
+// ============================================
+:host {
+  --soc-bg-dark: #0f172a;
+  --soc-bg-secondary: #1e293b;
+  --soc-status-active: #10b981;
+  --soc-status-warning: #f59e0b;
+  --soc-status-critical: #ef4444;
+  --soc-accent-cyan: #22d3ee;
+  --soc-gradient-monitoring: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+}
+
+// ============================================
+// Hero Section - Command Center Background
+// ============================================
+.soc-hero-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  position: relative;
+
+  // Subtle scanning lines effect
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(59, 130, 246, 0.03) 2px,
+      rgba(59, 130, 246, 0.03) 4px
+    );
+    pointer-events: none;
+  }
+}
+
+.soc-scan-lines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4px,
+    rgba(34, 211, 238, 0.02) 4px,
+    rgba(34, 211, 238, 0.02) 8px
+  );
+  animation: scanlines 10s linear infinite;
+}
+
+@keyframes scanlines {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(8px);
+  }
+}
+
+// ============================================
+// Status Badge - Pulsing Active Indicator
+// ============================================
+.soc-status-badge {
+  animation: glowPulse 2s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  }
+}
+
+// ============================================
+// Package Cards - Alert-Style Borders
+// ============================================
+.package-card {
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  // Gradient border for XDR package
+  &.border-gradient {
+    border-image: linear-gradient(135deg, #3d5a80 0%, #5db7c2 100%) 1;
+  }
+}
+
+// ============================================
+// Workflow Steps - Timeline Connector
+// ============================================
+.workflow-step {
+  position: relative;
+}
+
+// ============================================
+// Animations
+// ============================================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// ============================================
+// RTL Support
+// ============================================
+[dir="rtl"] {
+  .package-card:hover {
+    transform: translateX(-4px);
+  }
+}
+
+// ============================================
+// Reduced Motion Support
+// ============================================
+@media (prefers-reduced-motion: reduce) {
+  .soc-scan-lines,
+  .soc-status-badge,
+  .package-card,
+  .workflow-step {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .package-card:hover {
+    transform: none;
+  }
+}
+
+// ============================================
+// High Contrast Mode Support
+// ============================================
+@media (prefers-contrast: high) {
+  .soc-hero-bg::before,
+  .soc-scan-lines {
+    display: none;
+  }
+
+  .package-card {
+    border-width: 2px;
+  }
+}
+
+// ============================================
+// Focus States (Accessibility)
+// ============================================
+.soc-solutions-page {
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--soc-accent-cyan);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  .package-card:focus-within {
+    outline: 2px solid var(--soc-accent-cyan);
+    outline-offset: 2px;
+  }
+}
+
+// ============================================
+// Print Styles
+// ============================================
+@media print {
+  .soc-hero-bg,
+  .soc-scan-lines {
+    background: white !important;
+  }
+
+  .soc-status-badge {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}

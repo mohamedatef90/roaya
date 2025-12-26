@@ -162,6 +162,9 @@ export class ScrollIndicatorComponent implements OnInit, OnDestroy {
     this.scrollSubscription = fromEvent(window, 'scroll', { passive: true })
       .pipe(throttleTime(100))
       .subscribe(() => {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scroll-indicator.component.ts:164',message:'Scroll indicator scroll event',data:{timestamp:Date.now()},sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+        // #endregion
         this.updateActiveSection();
       });
   }
@@ -198,14 +201,21 @@ export class ScrollIndicatorComponent implements OnInit, OnDestroy {
   }
 
   private updateActiveSection(): void {
+    const startTime = performance.now();
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scroll-indicator.component.ts:200',message:'updateActiveSection entry',data:{sectionCount:this.sections().length},sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+    // #endregion
     const sections = this.sections();
     if (sections.length === 0) return;
 
     const scrollPosition = window.scrollY + window.innerHeight / 3; // Check at 1/3 from top
 
     let activeIndex = 0;
+    let domQueryCount = 0;
     sections.forEach((sectionId, index) => {
+      const beforeQuery = performance.now();
       const element = document.getElementById(sectionId) || document.querySelector(`[data-section="${sectionId}"]`);
+      domQueryCount++;
       if (element) {
         const rect = element.getBoundingClientRect();
         const elementTop = rect.top + window.scrollY;
@@ -216,7 +226,9 @@ export class ScrollIndicatorComponent implements OnInit, OnDestroy {
         }
       }
     });
-
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scroll-indicator.component.ts:219',message:'updateActiveSection exit',data:{domQueryCount,activeIndex,totalTime:performance.now()-startTime},sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+    // #endregion
     this.activeIndex.set(activeIndex);
   }
 

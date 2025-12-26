@@ -1,0 +1,766 @@
+<div class="penetration-testing-page">
+  <!-- Hero Section -->
+  <section class="hero-section relative overflow-hidden text-white min-h-[60vh] flex items-center bg-primary-900">
+    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+
+    <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm opacity-90">
+          <ol class="flex items-center justify-center gap-2 flex-wrap">
+            <li><a routerLink="/" class="hover:underline">{{ 'common.home' | translate }}</a></li>
+            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li><a routerLink="/services" class="hover:underline">{{ 'common.services' | translate }}</a></li>
+            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li><a routerLink="/services/security" class="hover:underline">{{ 'services.security.title' | translate }}</a></li>
+            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li aria-current="page" class="font-semibold">{{ 'services.security.page.penetrationTesting.title' | translate }}</li>
+          </ol>
+        </nav>
+
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full text-sm font-medium mb-6">
+          <span class="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></span>
+          {{ 'services.security.page.penetrationTesting.hero.badge' | translate }}
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          {{ 'services.security.page.penetrationTesting.hero.title' | translate }}
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-lg md:text-xl opacity-90 mb-8 leading-relaxed max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.hero.subtitle' | translate }}
+        </p>
+
+        <!-- Dual CTA Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+          <a routerLink="/contact"
+            class="px-8 py-4 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            {{ 'services.security.page.penetrationTesting.hero.cta' | translate }}
+          </a>
+          <a routerLink="/services/security"
+            class="px-8 py-4 bg-transparent text-white font-semibold rounded-lg border-2 border-white/50 hover:border-white hover:bg-white/10 transition-all duration-300">
+            {{ 'services.security.page.penetrationTesting.hero.ctaSecondary' | translate }}
+          </a>
+        </div>
+
+        <!-- Trust Signals -->
+        <div class="pt-8 border-t border-white/20">
+          <p class="text-sm text-white/70 mb-4">{{ 'services.security.page.penetrationTesting.hero.certifications' | translate }}</p>
+          <div class="flex flex-wrap justify-center gap-6 items-center">
+            <div class="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+              <ng-icon name="lucideShieldCheck" size="20" class="text-secondary-400" aria-hidden="true"></ng-icon>
+              <span class="text-sm font-medium text-white/90">OSCP</span>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+              <ng-icon name="lucideShieldCheck" size="20" class="text-secondary-400" aria-hidden="true"></ng-icon>
+              <span class="text-sm font-medium text-white/90">PNPT</span>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+              <ng-icon name="lucideShieldCheck" size="20" class="text-secondary-400" aria-hidden="true"></ng-icon>
+              <span class="text-sm font-medium text-white/90">CEH</span>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+              <ng-icon name="lucideShieldCheck" size="20" class="text-secondary-400" aria-hidden="true"></ng-icon>
+              <span class="text-sm font-medium text-white/90">CISSP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wave separator -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg class="w-full h-auto" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none">
+        <path
+          d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+          class="fill-background" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats-section py-12 md:py-16 bg-background -mt-1">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
+        @for (stat of stats; track stat.key) {
+        <div class="stat-card group relative text-center rounded-xl overflow-hidden h-full">
+          <div
+            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
+            <!-- Animated Counter Value -->
+            <div
+              class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
+              {{ animatedStats[stat.key] }}{{ stat.suffix }}
+            </div>
+            <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ 'services.security.page.penetrationTesting.stats.' + stat.key + '.label' | translate }}
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-200 mb-3">
+              {{ 'services.security.page.penetrationTesting.stats.' + stat.key + '.description' | translate }}
+            </p>
+            <!-- Benchmark Comparison Badge -->
+            <div class="inline-flex items-center justify-center gap-1.5 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-medium">
+              <ng-icon name="lucideCheckCircle2" size="12" aria-hidden="true"></ng-icon>
+              <span>{{ stat.benchmark }} {{ 'services.security.page.penetrationTesting.stats.benchmark' | translate }}</span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Penetration Testing Matters Section -->
+  <section class="why-pentest-matters-section py-16 md:py-24 bg-surface overflow-hidden">
+    <div class="container mx-auto px-4">
+      <!-- Section Header -->
+      <div class="text-center mb-12 why-matters-item">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.whyItMatters.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.whyItMatters.subtitle' | translate }}
+        </p>
+      </div>
+
+      <!-- Two Column Layout: Content + Sidebar -->
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 max-w-6xl mx-auto">
+
+        <!-- Main Content Column -->
+        <div class="flex-1 max-w-3xl">
+          <div class="space-y-6 text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+
+            <!-- Paragraph 1: The Core Truth -->
+            <p class="why-matters-item">
+              {{ 'services.security.page.penetrationTesting.whyItMatters.p1.before' | translate }}<span class="font-semibold text-primary-600 dark:text-primary-400">{{ 'services.security.page.penetrationTesting.whyItMatters.p1.bold1' | translate }}</span>{{ 'services.security.page.penetrationTesting.whyItMatters.p1.mid1' | translate }}<span class="font-semibold text-primary-600 dark:text-primary-400">{{ 'services.security.page.penetrationTesting.whyItMatters.p1.bold2' | translate }}</span>{{ 'services.security.page.penetrationTesting.whyItMatters.p1.mid2' | translate }}<span class="font-semibold text-primary-600 dark:text-primary-400">{{ 'services.security.page.penetrationTesting.whyItMatters.p1.bold3' | translate }}</span>{{ 'services.security.page.penetrationTesting.whyItMatters.p1.after' | translate }}
+            </p>
+
+            <!-- CISA Citation Callout Card -->
+            <div class="citation-callout why-matters-item">
+              <div class="flex items-start gap-3">
+                <ng-icon name="lucideShieldAlert" class="text-primary-600 dark:text-primary-400 flex-shrink-0 mt-1" size="22" aria-hidden="true"></ng-icon>
+                <div>
+                  <p class="text-base md:text-lg font-medium text-neutral-800 dark:text-neutral-200">
+                    {{ 'services.security.page.penetrationTesting.whyItMatters.p2.bold1' | translate }}
+                  </p>
+                  <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
+                    — CISA Joint Advisory, 2024
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Verizon DBIR Citation Callout Card -->
+            <div class="citation-callout citation-callout--secondary why-matters-item">
+              <div class="flex items-start gap-3">
+                <ng-icon name="lucideFileWarning" class="text-secondary-600 dark:text-secondary-400 flex-shrink-0 mt-1" size="22" aria-hidden="true"></ng-icon>
+                <div>
+                  <p class="text-base md:text-lg font-medium text-neutral-800 dark:text-neutral-200">
+                    {{ 'services.security.page.penetrationTesting.whyItMatters.p2.bold2' | translate }}
+                  </p>
+                  <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
+                    — Verizon Data Breach Investigations Report, 2024
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paragraph 3: Understanding Failure -->
+            <p class="why-matters-item">
+              {{ 'services.security.page.penetrationTesting.whyItMatters.p3.before' | translate }}<span class="font-semibold text-accent-600 dark:text-accent-400">{{ 'services.security.page.penetrationTesting.whyItMatters.p3.bold' | translate }}</span>{{ 'services.security.page.penetrationTesting.whyItMatters.p3.after' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Sources Sidebar (Desktop Only) -->
+        <aside class="sources-sidebar hidden lg:block why-matters-item">
+          <h4 class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
+            {{ 'services.security.page.penetrationTesting.whyItMatters.sources.title' | translate }}
+          </h4>
+          <ul class="space-y-3">
+            <li>
+              <a href="https://www.cisa.gov/news-events/cybersecurity-advisories"
+                 target="_blank" rel="noopener noreferrer"
+                 aria-label="CISA Advisories (opens in new window)"
+                 class="flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400 hover:underline">
+                <ng-icon name="lucideExternalLink" size="14" aria-hidden="true"></ng-icon>
+                CISA Advisories
+              </a>
+            </li>
+            <li>
+              <a href="https://www.verizon.com/business/resources/reports/dbir/"
+                 target="_blank" rel="noopener noreferrer"
+                 aria-label="Verizon DBIR 2024 (opens in new window)"
+                 class="flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400 hover:underline">
+                <ng-icon name="lucideExternalLink" size="14" aria-hidden="true"></ng-icon>
+                Verizon DBIR 2024
+              </a>
+            </li>
+          </ul>
+          <div class="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+            <p class="text-xs text-neutral-400 dark:text-neutral-500">
+              {{ 'services.security.page.penetrationTesting.whyItMatters.sources.disclaimer' | translate }}
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Roaya's Approach Section - Split Layout -->
+  <section class="roaya-approach-section py-16 md:py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-secondary-900 text-white overflow-hidden">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 max-w-6xl mx-auto">
+
+        <!-- Left Side: Content -->
+        <div class="flex-1 text-center lg:text-start">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+            <ng-icon name="lucideTarget" class="text-secondary-400" size="18" aria-hidden="true"></ng-icon>
+            <span class="text-sm font-medium text-white/90">{{ 'services.security.page.penetrationTesting.roayaApproach.badge' | translate }}</span>
+          </div>
+
+          <!-- Heading -->
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+            {{ 'services.security.page.penetrationTesting.roayaApproach.title' | translate }}
+          </h2>
+
+          <!-- Main Text -->
+          <p class="text-lg md:text-xl text-white/80 leading-relaxed mb-8">
+            {{ 'services.security.page.penetrationTesting.roayaApproach.description' | translate }}
+          </p>
+
+          <!-- Key Points -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div class="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="w-10 h-10 rounded-lg bg-secondary-500/20 flex items-center justify-center flex-shrink-0">
+                <ng-icon name="lucideCheckCircle2" class="text-secondary-400" size="20" aria-hidden="true"></ng-icon>
+              </div>
+              <span class="text-sm md:text-base text-white/90">{{ 'services.security.page.penetrationTesting.roayaApproach.point1' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="w-10 h-10 rounded-lg bg-secondary-500/20 flex items-center justify-center flex-shrink-0">
+                <ng-icon name="lucideUsers" class="text-secondary-400" size="20" aria-hidden="true"></ng-icon>
+              </div>
+              <span class="text-sm md:text-base text-white/90">{{ 'services.security.page.penetrationTesting.roayaApproach.point2' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="w-10 h-10 rounded-lg bg-secondary-500/20 flex items-center justify-center flex-shrink-0">
+                <ng-icon name="lucideCpu" class="text-secondary-400" size="20" aria-hidden="true"></ng-icon>
+              </div>
+              <span class="text-sm md:text-base text-white/90">{{ 'services.security.page.penetrationTesting.roayaApproach.point3' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="w-10 h-10 rounded-lg bg-secondary-500/20 flex items-center justify-center flex-shrink-0">
+                <ng-icon name="lucideShieldCheck" class="text-secondary-400" size="20" aria-hidden="true"></ng-icon>
+              </div>
+              <span class="text-sm md:text-base text-white/90">{{ 'services.security.page.penetrationTesting.roayaApproach.point4' | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Icon Grid Visual -->
+        <div class="flex-shrink-0 w-full lg:w-auto" aria-hidden="true">
+          <div class="grid grid-cols-3 gap-4 max-w-xs mx-auto lg:mx-0">
+            <!-- Row 1 -->
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideGlobe" class="text-secondary-400" size="32"></ng-icon>
+            </div>
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideNetwork" class="text-white/70" size="32"></ng-icon>
+            </div>
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideCloud" class="text-secondary-400" size="32"></ng-icon>
+            </div>
+            <!-- Row 2 -->
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideSmartphone" class="text-white/70" size="32"></ng-icon>
+            </div>
+            <div class="aspect-square rounded-2xl bg-secondary-500/30 backdrop-blur-sm border border-secondary-400/40 flex items-center justify-center p-4">
+              <ng-icon name="lucideShield" class="text-secondary-300" size="40"></ng-icon>
+            </div>
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideFingerprint" class="text-white/70" size="32"></ng-icon>
+            </div>
+            <!-- Row 3 -->
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideServer" class="text-secondary-400" size="32"></ng-icon>
+            </div>
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideLock" class="text-white/70" size="32"></ng-icon>
+            </div>
+            <div class="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-4 hover:bg-white/15 transition-colors">
+              <ng-icon name="lucideTarget" class="text-secondary-400" size="32"></ng-icon>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- What You Get Section -->
+  <section class="outcomes-section py-16 md:py-24 bg-gradient-to-b from-surface via-background to-surface">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.whatYouGet.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.whatYouGet.subtitle' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        @for (outcome of outcomes; track outcome.key) {
+        <div
+          class="group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div
+            class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 transition-transform">
+            <ng-icon [name]="outcome.icon" size="28"></ng-icon>
+          </div>
+          <h3
+            class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            {{ 'services.security.page.penetrationTesting.whatYouGet.' + outcome.key + '.title' | translate }}
+          </h3>
+          <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+            {{ 'services.security.page.penetrationTesting.whatYouGet.' + outcome.key + '.description' | translate }}
+          </p>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Overview - Tabbed Interface -->
+  <section class="services-overview-section py-16 md:py-24 bg-background">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.servicesOverview.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.servicesOverview.subtitle' | translate }}
+        </p>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="flex justify-center gap-4 mb-12 flex-wrap">
+        @for (service of services; track service.id) {
+        <button (click)="activeServiceTab = service.id"
+          [class]="activeServiceTab === service.id
+            ? 'px-8 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300'
+            : 'px-8 py-3 bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 font-medium rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-400 transition-all duration-300'">
+          {{ 'services.security.page.penetrationTesting.servicesOverview.' + service.id + '.title' | translate }}
+        </button>
+        }
+      </div>
+
+      <!-- Tab Content -->
+      <div class="max-w-4xl mx-auto">
+        @for (service of services; track service.id) {
+        @if (activeServiceTab === service.id) {
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg">
+          <h3 class="text-2xl font-bold mb-4 text-primary-900 dark:text-primary-100">
+            {{ 'services.security.page.penetrationTesting.servicesOverview.' + service.id + '.title' | translate }}
+          </h3>
+          <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
+            {{ 'services.security.page.penetrationTesting.servicesOverview.' + service.id + '.description' | translate }}
+          </p>
+
+          <!-- Best For -->
+          <div class="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
+            <h4 class="font-semibold text-primary-900 dark:text-primary-100 mb-2">
+              {{ 'services.security.page.penetrationTesting.servicesOverview.bestForLabel' | translate }}
+            </h4>
+            <p class="text-neutral-700 dark:text-neutral-300 text-sm">
+              {{ 'services.security.page.penetrationTesting.servicesOverview.' + service.id + '.bestFor' | translate }}
+            </p>
+          </div>
+
+          <!-- Key Points -->
+          <ul class="space-y-3">
+            @for (pointNum of [1, 2, 3, 4, 5]; track pointNum) {
+            <li class="flex items-start gap-3">
+              <div
+                class="w-6 h-6 bg-secondary-100 dark:bg-secondary-900 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-secondary-600 dark:text-secondary-400" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span class="text-neutral-700 dark:text-neutral-300">
+                {{ 'services.security.page.penetrationTesting.servicesOverview.' + service.id + '.point' + pointNum | translate }}
+              </span>
+            </li>
+            }
+          </ul>
+        </div>
+        }
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Test Section - Process Timeline -->
+  <section class="process-section py-16 md:py-24 bg-surface">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.howWeTest.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.howWeTest.subtitle' | translate }}
+        </p>
+      </div>
+
+      <!-- Desktop Timeline (horizontal) -->
+      <div class="hidden md:block max-w-6xl mx-auto">
+        <div class="relative">
+          <!-- Timeline Line -->
+          <div class="absolute top-12 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-secondary-500"></div>
+
+          <div class="grid grid-cols-4 gap-4">
+            @for (step of processSteps; track step.number) {
+            <div class="relative">
+              <!-- Step Number Circle -->
+              <div
+                class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg relative z-10">
+                {{ step.number }}
+              </div>
+
+              <!-- Step Content -->
+              <div class="text-center">
+                <h3 class="text-xl font-bold mb-2 text-primary-900 dark:text-primary-100">
+                  {{ 'services.security.page.penetrationTesting.howWeTest.step' + step.number + '.title' | translate }}
+                </h3>
+                <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                  {{ 'services.security.page.penetrationTesting.howWeTest.step' + step.number + '.description' | translate }}
+                </p>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Timeline (vertical) -->
+      <div class="md:hidden space-y-8">
+        @for (step of processSteps; track step.number) {
+        <div class="flex gap-4">
+          <!-- Step Number Circle -->
+          <div
+            class="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
+            {{ step.number }}
+          </div>
+
+          <!-- Step Content -->
+          <div class="flex-1 pt-2">
+            <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
+              {{ 'services.security.page.penetrationTesting.howWeTest.step' + step.number + '.title' | translate }}
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              {{ 'services.security.page.penetrationTesting.howWeTest.step' + step.number + '.description' | translate }}
+            </p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Comprehensive Penetration Testing Services - 12 Categories -->
+  <section class="pentest-services-section py-16 md:py-24 bg-background">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.pentestServices.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.pentestServices.subtitle' | translate }}
+        </p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap justify-center gap-2 mb-10">
+        @for (category of serviceCategories; track category) {
+        <button
+          (click)="activeServiceCategory = category"
+          [class]="activeServiceCategory === category
+            ? 'px-5 py-2 bg-primary-600 text-white font-medium rounded-full shadow-md transition-all duration-200'
+            : 'px-5 py-2 bg-white dark:bg-gray-800 text-neutral-600 dark:text-neutral-400 font-medium rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-200'">
+          {{ 'services.security.page.penetrationTesting.pentestServices.categories.' + category | translate }}
+        </button>
+        }
+      </div>
+
+      <!-- Services Grid - 3 columns on desktop, 2 on tablet, 1 on mobile -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        @for (service of filteredPentestServices; track service.key) {
+        <div
+          class="group relative rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-400 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
+          [class.ring-2]="expandedServiceKey === service.key"
+          [class.ring-primary-500]="expandedServiceKey === service.key">
+
+          <!-- Most Requested Badge -->
+          @if (service.mostRequested) {
+          <div class="absolute top-0 end-0 z-10">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-xl shadow-md">
+              {{ 'services.security.page.penetrationTesting.pentestServices.mostRequested' | translate }}
+            </div>
+          </div>
+          }
+
+          <!-- Card Header - Always Visible -->
+          <div class="p-6 cursor-pointer" (click)="toggleServiceExpand(service.key)">
+            <div class="flex items-start gap-4">
+              <!-- Service Number Badge -->
+              <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                {{ service.number }}
+              </div>
+
+              <!-- Title & Scope -->
+              <div class="flex-1 min-w-0">
+                <h3 class="text-lg font-bold text-primary-900 dark:text-primary-100 mb-1 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+                  {{ 'services.security.page.penetrationTesting.pentestServices.' + service.key + '.title' | translate }}
+                </h3>
+                <p class="text-sm text-secondary-600 dark:text-secondary-400 font-medium">
+                  {{ 'services.security.page.penetrationTesting.pentestServices.' + service.key + '.scope' | translate }}
+                </p>
+              </div>
+
+              <!-- Expand Icon -->
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center transition-transform duration-300"
+                   [class.rotate-180]="expandedServiceKey === service.key">
+                <ng-icon name="lucideChevronDown" size="18" class="text-neutral-500 dark:text-neutral-400" aria-hidden="true"></ng-icon>
+              </div>
+            </div>
+
+            <!-- Icon & Typical For Badges - Compact View -->
+            <div class="flex items-center justify-between mt-4">
+              <div class="w-12 h-12 bg-gradient-to-br from-primary-500/10 to-secondary-500/10 rounded-xl flex items-center justify-center">
+                <ng-icon [name]="service.icon" size="24" class="text-primary-600 dark:text-secondary-400" aria-hidden="true"></ng-icon>
+              </div>
+
+              <!-- Typical For Badges -->
+              <div class="flex flex-wrap gap-1.5 justify-end">
+                @for (badge of [1, 2, 3]; track badge) {
+                <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+                  {{ 'services.security.page.penetrationTesting.pentestServices.' + service.key + '.typicalFor' + badge | translate }}
+                </span>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Expanded Content -->
+          @if (expandedServiceKey === service.key) {
+          <div class="px-6 pb-6 border-t border-gray-100 dark:border-gray-700 pt-4 animate-fadeIn">
+            <h4 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
+              {{ 'services.security.page.penetrationTesting.pentestServices.examplesLabel' | translate }}
+            </h4>
+            <ul class="space-y-2">
+              @for (exampleNum of [1, 2, 3, 4, 5, 6]; track exampleNum) {
+              <li class="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                <svg class="w-4 h-4 text-secondary-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>{{ 'services.security.page.penetrationTesting.pentestServices.' + service.key + '.example' + exampleNum | translate }}</span>
+              </li>
+              }
+            </ul>
+          </div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Commercial Packages CTA -->
+      <div class="mt-16 text-center">
+        <div class="inline-block p-8 rounded-2xl bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 border border-primary-200 dark:border-primary-800">
+          <h3 class="text-xl font-bold text-primary-900 dark:text-primary-100 mb-2">
+            {{ 'services.security.page.penetrationTesting.pentestServices.packagesTitle' | translate }}
+          </h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4 max-w-xl">
+            {{ 'services.security.page.penetrationTesting.pentestServices.packagesDescription' | translate }}
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <span class="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-primary-700 dark:text-primary-300 shadow-sm">
+              {{ 'services.security.page.penetrationTesting.pentestServices.package1' | translate }}
+            </span>
+            <span class="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-primary-700 dark:text-primary-300 shadow-sm">
+              {{ 'services.security.page.penetrationTesting.pentestServices.package2' | translate }}
+            </span>
+            <span class="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-primary-700 dark:text-primary-300 shadow-sm">
+              {{ 'services.security.page.penetrationTesting.pentestServices.package3' | translate }}
+            </span>
+            <span class="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-primary-700 dark:text-primary-300 shadow-sm">
+              {{ 'services.security.page.penetrationTesting.pentestServices.package4' | translate }}
+            </span>
+            <span class="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-primary-700 dark:text-primary-300 shadow-sm">
+              {{ 'services.security.page.penetrationTesting.pentestServices.package5' | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reporting Section -->
+  <section class="reporting-section py-16 md:py-24 bg-surface">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.reporting.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.reporting.subtitle' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        @for (component of reportingComponents; track component.key) {
+        <div
+          class="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300">
+          <div class="flex items-start gap-4">
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center text-white">
+              <ng-icon [name]="component.icon" size="24"></ng-icon>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
+                {{ 'services.security.page.penetrationTesting.reporting.' + component.key + '.title' | translate }}
+              </h3>
+              <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+                {{ 'services.security.page.penetrationTesting.reporting.' + component.key + '.description' | translate }}
+              </p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards Alignment Section -->
+  <section class="standards-section py-16 md:py-24 bg-background">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.standards.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.standards.subtitle' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        @for (standard of standards; track standard.key) {
+        <div
+          class="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 text-center">
+          <div
+            class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+            <ng-icon name="lucideCheckCircle2" size="24" class="text-white"></ng-icon>
+          </div>
+          <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
+            {{ 'services.security.page.penetrationTesting.standards.' + standard.key + '.name' | translate }}
+          </h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            {{ 'services.security.page.penetrationTesting.standards.' + standard.key + '.description' | translate }}
+          </p>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Roaya Section -->
+  <section class="whyroaya-section py-16 md:py-24 bg-gradient-to-b from-surface via-background to-surface">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          {{ 'services.security.page.penetrationTesting.whyRoaya.title' | translate }}
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          {{ 'services.security.page.penetrationTesting.whyRoaya.subtitle' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        @for (diff of differentiators; track diff.key) {
+        <div
+          class="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <h3 class="text-xl font-bold mb-3 text-primary-900 dark:text-primary-100">
+            {{ 'services.security.page.penetrationTesting.whyRoaya.' + diff.key + '.title' | translate }}
+          </h3>
+          <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed">
+            {{ 'services.security.page.penetrationTesting.whyRoaya.' + diff.key + '.description' | translate }}
+          </p>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section - Enhanced with Urgency & Trust -->
+  <section
+    class="cta-section py-16 md:py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-accent-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-5xl mx-auto">
+        <!-- Urgency Badge -->
+        <div class="flex justify-center mb-6">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 border border-amber-400/30 rounded-full">
+            <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse" aria-hidden="true"></span>
+            <span class="text-sm font-medium text-amber-300">{{ 'services.security.page.penetrationTesting.cta.urgencyBadge' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="text-center mb-10">
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+            {{ 'services.security.page.penetrationTesting.cta.title' | translate }}
+          </h2>
+          <p class="text-lg md:text-xl opacity-90 mb-8 leading-relaxed max-w-3xl mx-auto">
+            {{ 'services.security.page.penetrationTesting.cta.description' | translate }}
+          </p>
+
+          <!-- CTA Button -->
+          <div class="flex justify-center mb-10">
+            <a routerLink="/contact"
+              class="group px-8 py-4 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2">
+              <ng-icon name="lucideMail" size="20" class="group-hover:scale-110 transition-transform" aria-hidden="true"></ng-icon>
+              {{ 'services.security.page.penetrationTesting.cta.button' | translate }}
+            </a>
+          </div>
+        </div>
+
+        <!-- Trust Reassurances -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div class="flex items-center gap-3 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <ng-icon name="lucideCheckCircle2" size="20" class="text-green-400" aria-hidden="true"></ng-icon>
+            </div>
+            <span class="text-sm text-white/90">{{ 'services.security.page.penetrationTesting.cta.trust1' | translate }}</span>
+          </div>
+          <div class="flex items-center gap-3 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <ng-icon name="lucideCheckCircle2" size="20" class="text-green-400" aria-hidden="true"></ng-icon>
+            </div>
+            <span class="text-sm text-white/90">{{ 'services.security.page.penetrationTesting.cta.trust2' | translate }}</span>
+          </div>
+          <div class="flex items-center gap-3 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <ng-icon name="lucideCheckCircle2" size="20" class="text-green-400" aria-hidden="true"></ng-icon>
+            </div>
+            <span class="text-sm text-white/90">{{ 'services.security.page.penetrationTesting.cta.trust3' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="pentestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3D5A80"/>
+      <stop offset="100%" style="stop-color:#6B4C9A"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer target circle -->
+  <circle cx="32" cy="32" r="24" stroke="url(#pentestGrad)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Inner target circle -->
+  <circle cx="32" cy="32" r="14" stroke="url(#pentestGrad)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Center dot -->
+  <circle cx="32" cy="32" r="4" fill="url(#pentestGrad)"/>
+  <!-- Crosshair lines -->
+  <path d="M32 4v10M32 50v10M4 32h10M50 32h10" stroke="url(#pentestGrad)" stroke-width="3" stroke-linecap="round"/>
+</svg>

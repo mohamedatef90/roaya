@@ -1,6 +1,6 @@
 # Roaya IT Corporate Website - Claude Context
 
-> **Last Updated:** 2025-12-06
+> **Last Updated:** 2025-12-26
 > **Project Status:** Phase 1-3 Complete, Phase 4 In Progress (Backend Integration Pending)
 > **Claude Code Role:** Super Tech Lead
 
@@ -325,6 +325,10 @@ product-orchestrator (Master Coordinator)
 ├── /services (Services Overview)
 │   └── /services/:id (Service Detail)
 │   └── /services/sap (SAP Service)
+│   └── /services/worldposta (WorldPosta Email Service)
+│   └── /services/security (Cybersecurity Overview)
+│       ├── /services/security/penetration-testing (Penetration Testing)
+│       └── /services/security/soc-solutions (SOC Solutions - 24/7 Monitoring)
 ├── /industries (Industries Overview)
 │   └── /industries/:id (Industry Detail)
 ├── /pricing (Pricing Page)
@@ -342,6 +346,7 @@ product-orchestrator (Master Coordinator)
 - **Desktop:** Home | Solutions (Mega Menu) | Industries (Mega Menu) | Resources (Mega Menu) | Pricing | About | Contact
 - **Mobile:** Drawer menu with all navigation items
 - **Resources Mega Menu:** Blog | Case Studies | Whitepapers | Documentation
+- **Solutions Mega Menu:** Includes expandable Cybersecurity section with nested items (Penetration Testing, SOC Services, etc.)
 
 ---
 
@@ -476,6 +481,11 @@ npm run typecheck       # TypeScript type checking
 8. ✅ **Resources Hub** - Overview page linking to all resources
 9. ✅ **Blog** - Listing and detail pages with filtering and search
 10. ✅ **Case Studies** - Listing and detail pages with filtering
+11. ✅ **SAP Services** - Bento grid layout with SAP solutions
+12. ✅ **WorldPosta** - Dedicated email service page with WorldPosta partnership
+13. ✅ **Cybersecurity Overview** - Security solutions overview page
+14. ✅ **Penetration Testing** - Detailed pen testing services page
+15. ✅ **SOC Solutions** - 24/7 Security Operations Center services page
 
 **Status:** All core pages implemented and functional
 
@@ -488,6 +498,16 @@ npm run typecheck       # TypeScript type checking
 - [x] Backend API service stubs (ready for integration)
 - [x] Build error fixes (import paths, deprecated methods, TypeScript types)
 - [x] Production build verification (builds successfully with warnings only)
+- [x] Mega menu expandable sections (Cybersecurity with nested items)
+- [x] Security service pages (Overview, Penetration Testing)
+- [x] WorldPosta service page with dedicated assets
+- [x] SAP services page with Bento Grid layout
+- [x] Translation path structure standardization
+- [x] Icon standardization (Lucide icons preferred over Font Awesome)
+- [x] SOC Solutions page (`/services/security/soc-solutions`) with full EN/AR translations
+- [x] Penetration Testing page enhancements (animated counters, category filters, accessibility)
+- [x] Security partner logos integration (Palo Alto, IBM QRadar, Splunk, Elastic, CrowdStrike, Fortinet, Kaspersky, Nessus)
+- [x] Dark mode logo support with CSS filters
 
 **Remaining Tasks:**
 - [ ] Backend API connection (HubSpot CRM, email service, PDF generation)
@@ -660,6 +680,120 @@ featuredServices = [
 - EN translations: Complete
 - AR translations: Complete
 - All content keys properly structured in JSON
+
+---
+
+### Security Service Pages (2025-12-25)
+
+**New Pages Implemented:**
+- **Cybersecurity Overview** (`/services/security`)
+  - Hero section with outcomes, solutions, partners
+  - Technology partners showcase (Palo Alto, CrowdStrike, Splunk, etc.)
+  - Global frameworks alignment (NIST CSF, ISO 27001, MITRE ATT&CK)
+  - Why Roaya differentiators
+
+- **Penetration Testing** (`/services/security/penetration-testing`)
+  - Complete service page with all sections
+  - Stats display (500+ assessments, 99.8% detection, 48h delivery)
+  - What You Get (6 value propositions)
+  - Services Overview with tabs (Assessments vs Pen Testing)
+  - How We Test (4-step methodology)
+  - What We Test (8 testing categories with tools)
+  - Reporting deliverables
+  - Standards alignment section
+  - Why Roaya differentiators
+  - CTA section
+
+**Mega Menu Enhancements:**
+- Expandable Cybersecurity section in Solutions mega menu
+- Nested items show on hover
+- Smooth width expansion animation
+- Translation paths properly structured
+
+**Translation Path Convention:**
+```
+services.security.page.penetrationTesting.hero.title
+services.security.page.penetrationTesting.stats.assessments.value
+services.security.page.penetrationTesting.whatYouGet.item1.title
+```
+
+---
+
+### WorldPosta Service Page (2025-12-25)
+
+**New Page:** `/services/worldposta`
+- Dedicated page for WorldPosta email partnership
+- Custom assets and imagery
+- Integration with mega menu
+- Full EN/AR translations
+
+---
+
+### SAP Services Page (2025-12-25)
+
+**New Page:** `/services/sap`
+- Bento Grid layout for SAP solutions
+- Modern card-based design
+- Updated images and assets
+- Full EN/AR translations
+
+---
+
+### SOC Solutions Page (2025-12-26)
+
+**New Page:** `/services/security/soc-solutions`
+- 24/7 Security Operations Center services
+- SOC command center aesthetic (scanning lines, status indicators, dark gradients)
+- Full content sections:
+  - Hero with status badge and dual CTA
+  - What You Get (5 outcomes)
+  - How It Works (6-step workflow with timeline)
+  - SOC Packages (5 tiers: Essential, Advanced, MDR, XDR, Threat Hunting)
+  - Threat Hunting & Integrations with partner logos
+  - Standards Alignment (NIST CSF, ISO 27001, MITRE ATT&CK, CIS Controls, NIST SP 800-61)
+  - Why Roaya differentiators
+  - CTA section with urgency badge and trust signals
+- Integration partner logos with dark mode support
+- Full EN/AR translations
+- GSAP scroll-triggered animations
+
+---
+
+### Penetration Testing Page Enhancements (2025-12-26)
+
+**Enhancements to:** `/services/security/penetration-testing`
+- **Animated Stats Counters:** GSAP-powered number animation with benchmarks
+- **Category Filters:** Filter services by network, application, advanced, compliance
+- **"Most Requested" Badges:** Highlight popular services
+- **Accessibility Improvements:**
+  - Improved dark mode contrast (glass card opacity increased to 0.85)
+  - Added aria-labels to external links
+  - Added aria-hidden to decorative icons
+  - Consistent focus indicators (3px white outline on dark sections)
+- **Trust Signals:** Certification badges (OSCP, PNPT, CEH, CISSP)
+- **Enhanced CTA:** Urgency badge, trust reassurances
+
+---
+
+### Security Partner Logos (2025-12-26)
+
+**Logo Assets Location:** `/src/assets/images/logos/partners/security/`
+
+| Partner | File |
+|---------|------|
+| Palo Alto Networks | `palo-alto.svg` |
+| IBM QRadar | `ibm-qradar.svg` |
+| Splunk | `splunk.svg` |
+| Elastic Security | `elastic.svg` |
+| CrowdStrike | `crowdstrike.svg` |
+| Fortinet/FortiGuard | `fortinet.svg` |
+| Kaspersky | `kaspersky.svg` |
+| Nessus | `nessus.svg` |
+| F5 | `f5.svg` |
+
+**Dark Mode Support:**
+- SVG logos use `fill="currentColor"` for text color inheritance
+- CSS filter applied: `dark:brightness-0 dark:invert` inverts logos for dark backgrounds
 
 ---
 
@@ -841,6 +975,94 @@ featuredServices = [
 - Applied to all API service calls in contact form and ROI calculator
 
 **Status:** Adopted (2025-12-06)
+
+---
+
+### ADR-012: Translation Path Structure Convention
+**Decision:** Use nested `.page.` segment for service sub-pages in translation keys
+**Rationale:**
+- Consistent hierarchical organization of translation keys
+- Clear distinction between service overview and service sub-pages
+- Prevents key collisions between parent and child pages
+- Easier navigation in JSON files
+
+**Implementation:**
+- Service overview: `services.security.page.hero.*`
+- Service sub-page: `services.security.page.penetrationTesting.*`
+- Mega menu items must match the page translation paths
+
+**Example:**
+```json
+{
+  "services": {
+    "security": {
+      "page": {
+        "hero": { ... },
+        "penetrationTesting": {
+          "title": "Penetration Testing",
+          "hero": { ... }
+        }
+      }
+    }
+  }
+}
+```
+
+**Status:** Adopted (2025-12-25)
+
+---
+
+### ADR-013: Icon Library Standardization
+**Decision:** Prefer Lucide icons over Font Awesome for new components
+**Rationale:**
+- Lucide is the primary icon library configured in the project
+- Consistent icon style across all components
+- Lucide icons are already properly imported in app.config.ts
+- Font Awesome icons may cause "icon not found" warnings if not imported
+
+**Implementation:**
+- Use Lucide icon names: `lucideMail`, `lucideCheckCircle2`, `lucideShield`, etc.
+- Only use Font Awesome when Lucide doesn't have a suitable alternative
+- When replacing Font Awesome with Lucide:
+  - `faEnvelopeRegular` → `lucideMail`
+  - `faCircleCheck` → `lucideCheckCircle2`
+
+**Status:** Adopted (2025-12-25)
+
+---
+
+### ADR-014: Mega Menu Expandable Sections
+**Decision:** Implement expandable/collapsible sections in mega menu for services with sub-pages
+**Rationale:**
+- Better organization of complex service hierarchies
+- Improved navigation UX for nested content
+- Consistent with modern mega menu patterns
+- Allows showing sub-services without leaving the menu
+
+**Implementation:**
+- Menu items can have `children` array for nested items
+- `isExpanded` state tracks open/closed state
+- Hover on parent expands nested menu
+- Arrow icon indicates expandable items
+- Nested items show title and description
+
+**Example:**
+```typescript
+{
+  title: 'navigation.solutions.security.title',
+  icon: 'lucideShield',
+  route: '/services/security',
+  children: [
+    {
+      title: 'services.security.page.penetrationTesting.title',
+      description: 'services.security.page.penetrationTesting.hero.subtitle',
+      route: '/services/security/penetration-testing'
+    }
+  ]
+}
+```
+
+**Status:** Adopted (2025-12-25)
 
 ---
 
@@ -1238,6 +1460,17 @@ The `/Users/mohamedatef/Downloads/roaya/memory-bank/` directory contains critica
 - **Solution:** Use proper null checks before accessing properties: `const post = this.post(); if (!post) return;`
 - **Avoid:** Using non-null assertion (`!`) on potentially null values
 
+**Issue:** Translation keys showing raw text instead of translated content
+- **Solution:** Verify the translation path matches the JSON structure exactly
+- **Common mistake:** Using `services.security.penetrationTesting.*` instead of `services.security.page.penetrationTesting.*`
+- **Debug:** Check browser console for missing translation warnings
+- **Verify:** Use `{{ 'key.path' | translate }}` in template and confirm key exists in both `en.json` and `ar.json`
+
+**Issue:** Icons not rendering (showing empty or console warnings)
+- **Solution:** Ensure icon is properly imported in `app.config.ts` under `provideNgIconsConfig()`
+- **Prefer:** Lucide icons (`lucideMail`, `lucideShield`) over Font Awesome (`faEnvelopeRegular`)
+- **Check:** Icon name matches exactly (case-sensitive)
+
 ---
 
 ## Contact & Resources
@@ -1269,6 +1502,9 @@ The `/Users/mohamedatef/Downloads/roaya/memory-bank/` directory contains critica
 | 1.2.0 | 2025-12-06 | Added comprehensive design system documentation section, design file references, Contact page as golden standard | Product Orchestrator |
 | 1.3.0 | 2025-12-06 | Phase 2.5 implementation: Blog system, Case studies showcase, Resources hub, Backend services (API, Analytics, SEO), Navigation updates, Phase status updates, ADR-008 & ADR-009 | Super Tech Lead |
 | 1.4.0 | 2025-12-06 | Build fixes: Resolved import path errors (relative paths), replaced deprecated toPromise() with firstValueFrom, fixed TypeScript type errors, removed "Roaya IT" text from navbar, build now succeeds | Super Tech Lead |
+| 1.5.0 | 2025-12-25 | Added SAP Services page with Bento Grid layout, WorldPosta service page, Cybersecurity Overview page, Penetration Testing page | Super Tech Lead |
+| 1.6.0 | 2025-12-25 | Mega menu expandable sections for Cybersecurity services, translation path standardization (ADR-012), icon library standardization (ADR-013), mega menu pattern (ADR-014), scroll progress indicator | Super Tech Lead |
+| 1.7.0 | 2025-12-26 | SOC Solutions page with full content and translations, Penetration Testing enhancements (animated counters, category filters, accessibility fixes), Security partner logos integration with dark mode support | Super Tech Lead |
 
 ---
 

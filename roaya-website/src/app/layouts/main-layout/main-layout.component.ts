@@ -13,6 +13,8 @@ import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
 import { CosmicLoaderComponent } from '../../shared/components/cosmic-loader/cosmic-loader.component';
 import { Subscription } from 'rxjs';
+import { fromEvent } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main-layout',
@@ -39,14 +41,17 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Scroll state signal
   isScrolled = signal<boolean>(false);
   private scrollThreshold = 50; // Threshold for navbar background change
+  private scrollSub?: Subscription; // RxJS subscription for throttled scroll events
 
   // Mobile menu expandable sections state
   private mobileServicesOpen = signal<boolean>(false);
   private mobileIndustriesOpen = signal<boolean>(false);
+  private mobileSecurityOpen = signal<boolean>(false);
 
   // Computed signals for mobile menu expandable sections
   isMobileServicesOpen = computed(() => this.mobileServicesOpen());
   isMobileIndustriesOpen = computed(() => this.mobileIndustriesOpen());
+  isMobileSecurityOpen = computed(() => this.mobileSecurityOpen());
 
   // News bar height (when navbar should stick to top)
   private newsBarHeight = 38;
@@ -80,7 +85,35 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       description: 'services.security.description',
       icon: '&#128274;',
       iconSvg: '/assets/images/icons/services/security.svg',
-      route: '/services/security'
+      route: '/services/security',
+      children: [
+        {
+          id: 'penetration-testing',
+          title: 'services.security.page.penetrationTesting.title',
+          description: 'services.security.page.penetrationTesting.hero.subtitle',
+          icon: '&#128737;',
+          faIcon: 'faSolidCrosshairs',
+          route: '/services/security/penetration-testing',
+          badge: 'New'
+        },
+        {
+          id: 'soc-solutions',
+          title: 'services.security.page.socSolutions.title',
+          description: 'services.security.page.socSolutions.hero.subtitle',
+          icon: '&#128065;',
+          route: '/services/security/soc-solutions',
+          badge: 'New'
+        },
+        {
+          id: 'pentest-v2',
+          title: 'services.security.page.pentestV2.title',
+          description: 'services.security.page.pentestV2.hero.subtitle1',
+          icon: '&#129302;',
+          iconSvg: '/assets/images/icons/services/penetration-testing.svg',
+          route: '/services/security/pentest-v2',
+          badge: 'AI'
+        }
+      ]
     },
     {
       id: 'email',
@@ -266,6 +299,16 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           ignoreMobileResize: true
         });
       }, 100);
+
+      // Setup throttled scroll listener using RxJS (more reliable than @HostListener with RAF)
+      this.scrollSub = fromEvent(window, 'scroll', { passive: true })
+        .pipe(throttleTime(16, undefined, { leading: true, trailing: true })) // ~60fps max
+        .subscribe(() => {
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:273',message:'Throttled scroll event',data:{timestamp:Date.now(),scrollY:window.scrollY},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'A'})}).catch(()=>{});
+          // #endregion
+          this.checkScroll();
+        });
     }
 
     // Ensure loader is visible on first paint
@@ -278,12 +321,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.scrollSmootherService.destroy();
     this.navigationSub?.unsubscribe();
     this.routeSub?.unsubscribe();
+    this.scrollSub?.unsubscribe();
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.checkScroll();
-  }
 
   @HostListener('window:keydown.escape', [])
   onEscapeKey(): void {
@@ -294,16 +334,39 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private checkScroll(): void {
     if (typeof window !== 'undefined') {
+      const startTime = performance.now();
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:295',message:'checkScroll entry',data:{timestamp:Date.now()},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
+      // #endregion
       // Use ScrollSmoother's scroll position if available, otherwise fallback to window
       const scrollY = this.scrollSmootherService.isReady()
         ? this.scrollSmootherService.scrollTop()
         : window.scrollY;
-      this.isScrolled.set(scrollY > this.scrollThreshold);
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:301',message:'Before DOM reads',data:{scrollY,scrollSmootherReady:this.scrollSmootherService.isReady()},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
+      // #endregion
+      // Only update signal if value actually changed (prevents unnecessary change detection)
+      const newIsScrolled = scrollY > this.scrollThreshold;
+      if (this.isScrolled() !== newIsScrolled) {
+        this.isScrolled.set(newIsScrolled);
+      }
 
       const doc = document.documentElement;
+      const beforeRead = performance.now();
       const max = doc.scrollHeight - doc.clientHeight;
+      const afterRead = performance.now();
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:304',message:'DOM read completed',data:{scrollHeight:doc.scrollHeight,clientHeight:doc.clientHeight,readTime:afterRead-beforeRead},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
+      // #endregion
       const progress = max > 0 ? Math.min(scrollY / max, 1) : 0;
-      this.scrollProgress = progress;
+      // Only update progress if value changed significantly (reduce unnecessary updates)
+      if (Math.abs(this.scrollProgress - progress) > 0.001) {
+        this.scrollProgress = progress;
+      }
+      const endTime = performance.now();
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:307',message:'checkScroll exit',data:{totalTime:endTime-startTime,progress},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
+      // #endregion
     }
   }
 
@@ -375,6 +438,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // Reset expandable sections when closing menu
     this.mobileServicesOpen.set(false);
     this.mobileIndustriesOpen.set(false);
+    this.mobileSecurityOpen.set(false);
   }
 
   toggleMobileServices(): void {
@@ -383,6 +447,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleMobileIndustries(): void {
     this.mobileIndustriesOpen.update(state => !state);
+  }
+
+  toggleMobileSecurity(): void {
+    this.mobileSecurityOpen.update(state => !state);
+  }
+
+  // Check if a service item has children (for mobile nested navigation)
+  hasChildren(item: { children?: unknown[] }): boolean {
+    return !!item.children && item.children.length > 0;
   }
 
   onBackdropClick(event: MouseEvent): void {

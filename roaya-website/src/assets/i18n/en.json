@@ -74,7 +74,8 @@
     "viewAll": "View all solutions",
     "viewAllServices": "View all solutions",
     "viewAllIndustries": "View all industries",
-    "viewAllResources": "View all resources"
+    "viewAllResources": "View all resources",
+    "overview": "Overview"
   },
   "services": {
     "page": {
@@ -420,6 +421,814 @@
           "benefit1": "Free security assessment consultation",
           "benefit2": "Custom proposal within 48 hours",
           "benefit3": "Flexible engagement models"
+        },
+        "penetrationTesting": {
+          "title": "Penetration Testing & Security Assessment",
+          "hero": {
+            "badge": "Security Testing Services",
+            "title": "Penetration Testing & Security Assessment Services",
+            "subtitle": "Attackers exploit misconfigurations, not what \"should\" happen. Real breaches exploit what's misconfigured, exposed, or inconsistently enforced. Reduce real risk fast with expert-led validation and AI-accelerated analysis.",
+            "cta": "Schedule Security Assessment",
+            "ctaSecondary": "View All Security Services",
+            "certifications": "Our team holds industry-recognized certifications"
+          },
+          "stats": {
+            "assessments": {
+              "value": "500+",
+              "label": "Security Assessments",
+              "description": "Completed across Egypt and MENA region"
+            },
+            "detection": {
+              "value": "99.8%",
+              "label": "Detection Rate",
+              "description": "Critical vulnerability identification accuracy"
+            },
+            "turnaround": {
+              "value": "48h",
+              "label": "Report Delivery",
+              "description": "Average turnaround for detailed reports"
+            },
+            "benchmark": "vs. industry avg"
+          },
+          "whyItMatters": {
+            "title": "Why Penetration Testing Matters",
+            "subtitle": "Understanding real-world security risks and the importance of proactive testing",
+            "p1": {
+              "before": "Attackers don't break in the way your policies expect — they break in the way your systems allow. Real breaches exploit what's ",
+              "bold1": "misconfigured",
+              "mid1": ", ",
+              "bold2": "exposed",
+              "mid2": ", or ",
+              "bold3": "inconsistently enforced",
+              "after": ", not what \"should\" happen."
+            },
+            "p2": {
+              "before": "That's not a theory. A joint CISA advisory warns that cyber actors ",
+              "bold1": "routinely exploit poor security configurations, weak controls, and poor cyber hygiene to gain initial access",
+              "mid1": ". Verizon's 2024 DBIR also shows the ",
+              "bold2": "human element was a component of 68% of breaches",
+              "after": " — including errors and credential-related issues that often trace back to everyday security practices."
+            },
+            "p3": {
+              "before": "Cybersecurity isn't just about having the best tools. It's about understanding ",
+              "bold": "how things fail",
+              "after": " — and fixing failure paths before attackers find them."
+            },
+            "p4": {
+              "before": "Roaya provides ",
+              "bold1": "penetration testing in Egypt",
+              "mid1": " and across the region with one goal: ",
+              "bold2": "reduce real risk fast",
+              "mid2": ". We combine proven methodologies, expert-led validation, and ",
+              "bold3": "AI-assisted analysis",
+              "mid3": " (human-led, AI-accelerated) to improve coverage and prioritize what to fix first. AI processing uses our own models on ",
+              "bold4": "our cloud infrastructure",
+              "after": " to help keep sensitive findings and evidence protected."
+            },
+            "sources": {
+              "title": "Research Sources",
+              "disclaimer": "Data cited from authoritative industry sources. Statistics may vary by report version."
+            }
+          },
+          "roayaApproach": {
+            "badge": "Our Approach",
+            "title": "Reduce Real Risk Fast",
+            "description": "Roaya provides penetration testing in Egypt and across the region with one goal: reduce real risk fast. We combine proven methodologies, expert-led validation, and AI-assisted analysis to improve coverage and prioritize what to fix first.",
+            "point1": "Proven methodologies",
+            "point2": "Expert-led validation",
+            "point3": "AI-assisted analysis",
+            "point4": "Secure cloud infrastructure"
+          },
+          "whatYouGet": {
+            "title": "What You Get",
+            "subtitle": "Whether you choose an assessment, a penetration test, or both, the output is designed for action — not noise.",
+            "validatedRisk": {
+              "title": "Validated Risk, Not Guesswork",
+              "description": "Confirm what's truly exploitable in your environment with expert-led testing and manual validation."
+            },
+            "prioritizedRemediation": {
+              "title": "Prioritized Remediation",
+              "description": "Ranked by business impact + exploitability, not just severity scores. Fix what matters most first."
+            },
+            "attackPath": {
+              "title": "Attack-Path Insight",
+              "description": "Understand how small issues chain together (identity → privilege → data) to create real breach scenarios."
+            },
+            "controlConfidence": {
+              "title": "Control Confidence",
+              "description": "Pressure-test MFA, segmentation, endpoint defenses, WAF rules, and logging to verify they work as intended."
+            },
+            "auditReady": {
+              "title": "Audit-Ready Documentation",
+              "description": "Reporting that supports governance and security programs with clear evidence and compliance mapping."
+            },
+            "optionalRetest": {
+              "title": "Optional Retesting",
+              "description": "Verify fixes and prove exposure reduction with post-remediation validation testing."
+            }
+          },
+          "servicesOverview": {
+            "title": "Choose Your Approach",
+            "subtitle": "Security Assessments for baseline hygiene, or Penetration Testing for real-world validation.",
+            "bestForLabel": "Best for",
+            "assessment": {
+              "title": "Security Assessments",
+              "description": "A structured vulnerability assessment + configuration review designed to catch weaknesses early — without simulating full attacker behavior end-to-end.",
+              "bestFor": "Establishing a baseline, improving cyber hygiene, preparing for audits, and reducing exposure in cloud, on-prem, or hybrid environments.",
+              "point1": "Vulnerabilities (unpatched software, outdated protocols, weak services)",
+              "point2": "Misconfigurations and exposed services",
+              "point3": "Identity and access control gaps",
+              "point4": "Logging/visibility gaps that reduce detection capability",
+              "point5": "Alignment to best practices and prioritized controls"
+            },
+            "pentest": {
+              "title": "Penetration Testing",
+              "description": "Authorized simulated attacks to find weaknesses before criminals do — and prove what an attacker can actually achieve with them.",
+              "bestFor": "Validating real-world impact, confirming exploitability, and prioritizing fixes where they matter most.",
+              "point1": "Controlled, scoped engagements aligned to NIST CSF, ISO/IEC 27001 & 27002, MITRE ATT&CK, and CIS Controls",
+              "point2": "Manual validation to reduce false positives and uncover issues tools miss",
+              "point3": "Not limited to any single toolset — tools selected based on your environment and risk profile",
+              "point4": "Results connect to governance as well as technical remediation",
+              "point5": "Delivers decision-ready reporting and practical remediation plans"
+            }
+          },
+          "howWeTest": {
+            "title": "How We Test",
+            "subtitle": "A proven 4-step methodology that combines expert-led validation with AI-accelerated analysis.",
+            "step1": {
+              "title": "Scope & Engagement",
+              "description": "Define in-scope targets (apps, IP ranges, cloud accounts, wireless sites, AD domains), constraints, testing windows, and escalation contacts. Choose realism level (external, internal, assumed breach)."
+            },
+            "step2": {
+              "title": "Test & Validate",
+              "description": "We simulate real attacker behavior with controlled techniques and tooling — then manually validate findings to reduce false positives. Activity mapped to MITRE ATT&CK for realism and coverage."
+            },
+            "step3": {
+              "title": "Prioritize (AI-Assisted)",
+              "description": "AI recognizes patterns, correlates misconfigurations into attack paths, prioritizes by business impact and exploitability, and standardizes remediation guidance. Every conclusion is human-reviewed."
+            },
+            "step4": {
+              "title": "Report, Remediate, Retest",
+              "description": "You receive decision-ready reporting and a practical remediation plan. Optional retesting verifies real risk reduction and proves fixes worked."
+            }
+          },
+          "pentestServices": {
+            "title": "Our Penetration Testing Services",
+            "subtitle": "Comprehensive security testing across 12 specialized domains, tailored for Enterprise, Government, and Banking sectors.",
+            "examplesLabel": "What We Test",
+            "mostRequested": "Most Requested",
+            "categories": {
+              "all": "All Services",
+              "network": "Network",
+              "application": "Application",
+              "advanced": "Advanced",
+              "compliance": "Compliance"
+            },
+            "packagesTitle": "Flexible Service Packages",
+            "packagesDescription": "We offer tailored penetration testing packages to meet your specific security requirements and compliance needs.",
+            "package1": "Basic Pen Testing (Network + Web)",
+            "package2": "Advanced Security Testing",
+            "package3": "Red Team as a Service",
+            "package4": "Regulatory Compliance Packs",
+            "package5": "Continuous Testing (Monthly/Quarterly)",
+            "networkPentest": {
+              "title": "Network Penetration Testing",
+              "scope": "Internal & External Infrastructure",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "External network penetration testing (internet-facing assets)",
+              "example2": "Internal network penetration testing (LAN, VLANs, segmentation)",
+              "example3": "Firewall & perimeter security testing",
+              "example4": "VPN & remote access testing",
+              "example5": "Zero Trust architecture validation",
+              "example6": "Network device testing (routers, switches, load balancers)"
+            },
+            "webAppPentest": {
+              "title": "Web Application Penetration Testing",
+              "scope": "Public & Internal Applications",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "OWASP Top 10 testing",
+              "example2": "Secure authentication & session management testing",
+              "example3": "API penetration testing (REST / GraphQL)",
+              "example4": "Web portals (customer portals, government portals)",
+              "example5": "Financial web applications (core banking interfaces)",
+              "example6": "Business logic vulnerability testing"
+            },
+            "mobilePentest": {
+              "title": "Mobile Application Penetration Testing",
+              "scope": "Android & iOS Applications",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "Android application security testing",
+              "example2": "iOS application security testing",
+              "example3": "Secure API communication validation",
+              "example4": "Local storage & encryption testing",
+              "example5": "Mobile banking app penetration testing",
+              "example6": "Runtime manipulation & reverse engineering tests"
+            },
+            "cloudPentest": {
+              "title": "Cloud & Virtual Infrastructure Testing",
+              "scope": "Public, Private & Hybrid Cloud",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "Cloud configuration and misconfiguration testing",
+              "example2": "Cloud IAM & privilege escalation testing",
+              "example3": "Virtual machine & hypervisor testing",
+              "example4": "Container & Kubernetes security testing",
+              "example5": "SaaS & PaaS penetration testing",
+              "example6": "Multi-cloud & hybrid-cloud security assessment"
+            },
+            "redTeam": {
+              "title": "Red Team / APT Simulation",
+              "scope": "Real-world Attack Simulation",
+              "typicalFor1": "Government",
+              "typicalFor2": "Banking",
+              "typicalFor3": "Large Enterprise",
+              "example1": "Full-scope red team exercises",
+              "example2": "Stealth attack simulations",
+              "example3": "Lateral movement testing",
+              "example4": "Data exfiltration simulation",
+              "example5": "Command-and-control (C2) simulation",
+              "example6": "Blue team & SOC response evaluation"
+            },
+            "socialEngineering": {
+              "title": "Social Engineering Testing",
+              "scope": "Human Layer Security",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "Phishing campaign simulations",
+              "example2": "Spear phishing (targeted attacks)",
+              "example3": "Vishing (voice phishing)",
+              "example4": "Smishing (SMS phishing)",
+              "example5": "Physical social engineering tests",
+              "example6": "Security awareness level assessment"
+            },
+            "physicalSecurity": {
+              "title": "Physical Security Testing",
+              "scope": "Facilities & On-Prem Infrastructure",
+              "typicalFor1": "Government",
+              "typicalFor2": "Banking",
+              "typicalFor3": "Critical Enterprise",
+              "example1": "Data center access testing",
+              "example2": "Office & branch security testing",
+              "example3": "Badge & access control bypass",
+              "example4": "CCTV & monitoring system testing",
+              "example5": "Insider threat simulation",
+              "example6": "Tailgating & social engineering entry"
+            },
+            "activeDirectory": {
+              "title": "Active Directory & Identity Testing",
+              "scope": "Identity & Access Management",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "Active Directory attack paths",
+              "example2": "Privilege escalation testing",
+              "example3": "Kerberos & NTLM attack testing",
+              "example4": "Password policy & credential hygiene testing",
+              "example5": "Identity federation testing (SSO, MFA, IAM)",
+              "example6": "Azure AD / Entra ID security testing"
+            },
+            "paymentSystems": {
+              "title": "Payment Systems & Financial Infrastructure",
+              "scope": "Financial & Transactional Systems",
+              "typicalFor1": "Banking",
+              "typicalFor2": "Financial Institutions",
+              "typicalFor3": "Government Finance",
+              "example1": "Core banking system testing",
+              "example2": "Payment gateway penetration testing",
+              "example3": "ATM & POS system testing",
+              "example4": "SWIFT infrastructure testing",
+              "example5": "Fraud & transaction manipulation testing",
+              "example6": "Card processing security validation"
+            },
+            "compliance": {
+              "title": "Compliance-Driven Penetration Testing",
+              "scope": "Regulatory & Audit Requirements",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "PCI DSS penetration testing",
+              "example2": "ISO 27001 technical testing",
+              "example3": "NCA / SAMA / NIST testing",
+              "example4": "GDPR technical security testing",
+              "example5": "SOC 2 security validation",
+              "example6": "Industry-specific compliance testing"
+            },
+            "iotOt": {
+              "title": "IoT & OT Penetration Testing",
+              "scope": "Industrial & Smart Systems",
+              "typicalFor1": "Government",
+              "typicalFor2": "Critical Infrastructure",
+              "typicalFor3": "Large Enterprise",
+              "example1": "SCADA & ICS penetration testing",
+              "example2": "Smart city infrastructure testing",
+              "example3": "Healthcare systems testing",
+              "example4": "Industrial IoT security testing",
+              "example5": "Energy & utilities systems testing",
+              "example6": "Building automation systems testing"
+            },
+            "postExploitation": {
+              "title": "Post-Exploitation & Hardening Review",
+              "scope": "Improvement & Risk Reduction",
+              "typicalFor1": "Enterprise",
+              "typicalFor2": "Government",
+              "typicalFor3": "Banking",
+              "example1": "Post-exploitation analysis",
+              "example2": "Attack path mapping",
+              "example3": "Risk scoring & prioritization",
+              "example4": "Security architecture improvement roadmap",
+              "example5": "Remediation validation testing",
+              "example6": "Security posture benchmarking"
+            }
+          },
+          "whatWeTest": {
+            "title": "What We Test",
+            "subtitle": "Each category is outcome-led. Tools listed are examples, not limits — we use additional specialized tools as needed.",
+            "toolsLabel": "Example tools",
+            "webApp": {
+              "title": "Web Application Pen Testing",
+              "goal": "Prevent account takeover, data exposure, and business logic abuse",
+              "tools": "Burp Suite Pro, OWASP ZAP"
+            },
+            "network": {
+              "title": "Network & Infrastructure",
+              "goal": "Expose weak segmentation, high-risk services, and lateral movement paths",
+              "tools": "Nmap, Nessus, Metasploit Pro, Cobalt Strike (controlled)"
+            },
+            "vulnManagement": {
+              "title": "Vulnerability Management Validation",
+              "goal": "Turn scanning into measurable risk reduction and reduce false positives",
+              "tools": "Tenable.io, Qualys, Rapid7 InsightVM"
+            },
+            "cloud": {
+              "title": "Cloud Security Testing",
+              "goal": "Reduce breach risk from cloud misconfigurations and identity issues",
+              "tools": "Prowler, ScoutSuite, Pacu"
+            },
+            "activeDirectory": {
+              "title": "Active Directory Assessment",
+              "goal": "Reduce identity-driven compromise and privilege escalation risk",
+              "tools": "BloodHound, Impacket, CrackMapExec, Mimikatz (controlled)"
+            },
+            "wireless": {
+              "title": "Wireless Security Testing",
+              "goal": "Prevent unauthorized access via Wi-Fi weaknesses and rogue AP risk",
+              "tools": "Aircrack-ng, WiFi Pineapple"
+            },
+            "socialEngineering": {
+              "title": "Social Engineering Simulation",
+              "goal": "Measure phishing-led risk and harden human + process controls",
+              "tools": "Gophish, SET"
+            },
+            "reporting": {
+              "title": "Reporting & Management",
+              "goal": "Track remediation and keep evidence organized",
+              "tools": "PlexTrac, AttackForge"
+            }
+          },
+          "reporting": {
+            "title": "Reporting That Drives Action",
+            "subtitle": "You shouldn't need to decode the report to reduce risk.",
+            "executiveSummary": {
+              "title": "Executive Summary",
+              "description": "Top risks, business impact, and priority actions in clear, non-technical language for leadership."
+            },
+            "technicalFindings": {
+              "title": "Technical Findings",
+              "description": "Evidence, reproduction steps, affected assets, and root cause analysis for remediation teams."
+            },
+            "remediationPlan": {
+              "title": "Remediation Plan",
+              "description": "Sequenced fixes with clear guidance, prioritized by business impact and exploitability."
+            },
+            "attackPathNarratives": {
+              "title": "Attack-Path Narratives",
+              "description": "How issues chain together (especially identity and cloud) to show realistic breach scenarios."
+            }
+          },
+          "standards": {
+            "title": "Standards Alignment",
+            "subtitle": "Results mapped to globally recognized frameworks so testing strengthens governance, not just tickets.",
+            "nistCsf": {
+              "name": "NIST CSF",
+              "description": "Structured outcomes across Identify, Protect, Detect, Respond, Recover."
+            },
+            "iso27001": {
+              "name": "ISO/IEC 27001 & 27002",
+              "description": "Control maturity and audit readiness for information security management."
+            },
+            "mitreAttack": {
+              "name": "MITRE ATT&CK",
+              "description": "Behavior-based realism and coverage mapped to adversarial tactics and techniques."
+            },
+            "cisControls": {
+              "name": "CIS Controls",
+              "description": "Prioritized security actions that reduce risk fastest with clear implementation guidance."
+            }
+          },
+          "whyRoaya": {
+            "title": "Why Roaya",
+            "subtitle": "Expert-led validation with AI-accelerated analysis for faster, more accurate results.",
+            "outcomeLed": {
+              "title": "Outcome-Led Approach",
+              "description": "Prioritized by exploitability + business impact, not volume. Fix what matters most first."
+            },
+            "expertLed": {
+              "title": "Expert-Led Delivery",
+              "description": "Validated results with clear evidence and practical fixes from certified security professionals."
+            },
+            "aiAccelerated": {
+              "title": "Human-Led, AI-Accelerated",
+              "description": "Faster correlation and prioritization with AI analysis — human-approved decisions every time."
+            },
+            "secureHandling": {
+              "title": "Secure Handling by Design",
+              "description": "Our AI runs on our cloud infrastructure to help keep sensitive data and evidence protected."
+            },
+            "crossDomain": {
+              "title": "Cross-Domain Coverage",
+              "description": "Web, network, cloud, AD, wireless, social engineering — tested as connected attack paths, not silos."
+            }
+          },
+          "cta": {
+            "title": "Talk to an Expert",
+            "description": "If you need ethical hacking or penetration testing services in Egypt, or a high-signal vulnerability assessment that produces prioritized, actionable remediation, Roaya is ready.",
+            "button": "Schedule Free Consultation",
+            "buttonSecondary": "View Pricing",
+            "urgencyBadge": "Limited slots available this month",
+            "trust1": "Free initial consultation",
+            "trust2": "Custom proposal in 48 hours",
+            "trust3": "No commitment required"
+          }
+        },
+        "socSolutions": {
+          "title": "24/7 Security Operations Center (SOC)",
+          "hero": {
+            "badge": "24/7 Security Operations Center",
+            "title": "Stop Chasing Alerts. Focus on Real Risks.",
+            "subtitle": "Roaya's 24/7 Security Operations Center services take continuous monitoring off your team, so you can focus on the business. We deliver 24/7 threat detection, investigation, and response aligned to NIST CSF, ISO 27001/27002, MITRE ATT&CK, and CIS Controls to help reduce cyber risk exposure.",
+            "cta": "Talk to an Expert",
+            "ctaSecondary": "Request a SOC Demo",
+            "certifications": "Trusted by enterprises across Egypt and MENA",
+            "statusBadge": "24/7 MONITORING ACTIVE"
+          },
+          "intro": {
+            "p1": "As a managed SOC provider in Egypt and across MENA, Roaya delivers SOC-as-a-Service with experts on watch 24/7 to catch incidents early and limit impact. We use AI-assisted detection and triage to reduce false alarms, correlate signals, and speed response — while keeping telemetry and incident data protected using our own AI models on our cloud infrastructure."
+          },
+          "whatYouGet": {
+            "title": "What You Get with Roaya SOC",
+            "subtitle": "Business outcomes first. Roaya's managed SOC translates security operations into measurable risk reduction:",
+            "continuousMonitoring": {
+              "title": "Continuous 24/7 Monitoring",
+              "description": "Analysts watch your environment day and night — including weekends and holidays — so threats can't slip through when internal teams are offline."
+            },
+            "fasterDetection": {
+              "title": "Faster Detection and Response",
+              "description": "We investigate and contain threats quickly to minimize downtime and loss, following NIST SP 800-61 escalation and incident handling from alert through recovery."
+            },
+            "reducedNoise": {
+              "title": "Reduced Noise, Real Threats Prioritized",
+              "description": "AI-driven correlation filters benign events and consolidates related alerts into fewer, higher-priority incidents — reducing alert fatigue and accelerating investigations."
+            },
+            "expertRemediation": {
+              "title": "Expert-Led Remediation",
+              "description": "We provide clear containment guidance and, in higher tiers, can execute response actions (based on pre-approved playbooks). Incidents are documented to support improvement and compliance needs."
+            },
+            "complianceSupport": {
+              "title": "Peace of Mind and Compliance Support",
+              "description": "Detailed reporting and evidence help demonstrate governance and satisfy monitoring/response requirements tied to standards like ISO 27001."
+            }
+          },
+          "howItWorks": {
+            "title": "How It Works: Ingest, Detect, Respond, Report",
+            "subtitle": "Roaya blends modern platforms (SIEM, XDR, SOAR) with analyst-led operations",
+            "note": "Throughout the workflow, AI accelerates correlation and prioritization, while humans stay in control. AI processing uses our models on our cloud infrastructure, keeping your data private and away from public AI services.",
+            "step1": {
+              "title": "Ingest & Monitor",
+              "description": "We ingest logs and telemetry across network, servers, cloud, endpoints, and applications into a SIEM foundation. If you already use Cortex XSIAM, Splunk, or Elastic Security, we integrate with them; if not, we provide a SIEM baseline."
+            },
+            "step2": {
+              "title": "Correlate & Analyze (AI-Assisted)",
+              "description": "Our Cortex-led approach correlates events and applies AI analytics to surface anomalies and attack patterns. Centralizing signals improves context and streamlines operations."
+            },
+            "step3": {
+              "title": "Triage & Prioritization",
+              "description": "Alerts are triaged quickly. Machine learning reduces noise by filtering benign events and consolidating alerts into incident tickets. Analysts validate severity and remove remaining false positives."
+            },
+            "step4": {
+              "title": "Investigate & Hunt",
+              "description": "Investigators dig deeper using threat intelligence such as Palo Alto Networks Unit 42. If enabled, threat hunting uses hypotheses and MITRE ATT&CK to uncover stealthy activity."
+            },
+            "step5": {
+              "title": "Respond & Contain",
+              "description": "Based on your tier, we provide containment guidance or take direct action (e.g., isolate endpoints, block malicious IPs, disable compromised accounts). Actions follow pre-approved playbooks aligned to NIST SP 800-61."
+            },
+            "step6": {
+              "title": "Report & Improve",
+              "description": "You receive incident reporting, post-incident review, and ongoing service reports (alerts, incidents, response times, trends). Reviews also drive tuning and continuous improvement."
+            }
+          },
+          "packages": {
+            "title": "SOC Packages at a Glance",
+            "subtitle": "All tiers include 24/7 monitoring and a SIEM foundation. Higher tiers add deeper coverage and response:",
+            "essential": {
+              "title": "SOC Essential",
+              "badge": "Foundational",
+              "bestFor": "Foundational 24/7 monitoring and alerting",
+              "description": "Includes SIEM monitoring, analyst triage, incident notification with guidance, and monthly reporting. Works with your existing SIEM (e.g., QRadar, Splunk, Elastic) or Roaya-managed SIEM.",
+              "feature1": "24/7 SIEM monitoring",
+              "feature2": "Analyst triage and incident notification",
+              "feature3": "Incident guidance and recommendations",
+              "feature4": "Monthly reporting and metrics",
+              "feature5": "Works with existing SIEM or Roaya-managed SIEM"
+            },
+            "advanced": {
+              "title": "SOC Advanced",
+              "badge": "Enhanced Visibility",
+              "bestFor": "Broader visibility and deeper investigations",
+              "description": "Adds additional log sources (cloud, AD, SaaS), behavior analytics, enriched threat intel (e.g., Unit 42, IBM, Kaspersky), deeper incident analysis, tuning, and enhanced reporting/portal access.",
+              "feature1": "All SOC Essential features",
+              "feature2": "Additional log sources (cloud, AD, SaaS)",
+              "feature3": "Behavior analytics and anomaly detection",
+              "feature4": "Enriched threat intelligence (Unit 42, IBM, Kaspersky)",
+              "feature5": "Deeper incident analysis and tuning",
+              "feature6": "Enhanced reporting and portal access"
+            },
+            "mdr": {
+              "title": "Managed Detection & Response (MDR)",
+              "badge": "Active Containment",
+              "bestFor": "Active containment, especially endpoint-led threats",
+              "description": "Adds managed EDR (Endpoint Detection & Response) with active response actions (e.g., isolate devices, kill malicious processes) using platforms like Palo Alto Cortex XDR or CrowdStrike, plus full incident lifecycle support and higher-touch reviews.",
+              "feature1": "All SOC Advanced features",
+              "feature2": "Managed EDR (Cortex XDR or CrowdStrike)",
+              "feature3": "Active response actions (isolate, kill processes, block)",
+              "feature4": "Full incident lifecycle support",
+              "feature5": "Higher-touch reviews and recommendations",
+              "feature6": "Pre-approved playbooks for automated response"
+            },
+            "xdr": {
+              "title": "Extended Detection & Response (XDR)",
+              "badge": "Unified Coverage",
+              "bestFor": "Unified detection and response across the entire environment",
+              "description": "Extends coverage across endpoints, network, cloud, and identity, and is built on Palo Alto Networks Cortex XSIAM (converged SIEM/SOAR/ASM/XDR with Precision AI). Includes automated response with human oversight, anomaly-driven analytics, and broader attack surface monitoring.",
+              "feature1": "All MDR features",
+              "feature2": "Unified coverage (endpoints, network, cloud, identity)",
+              "feature3": "Built on Cortex XSIAM (SIEM/SOAR/ASM/XDR)",
+              "feature4": "Automated response with human oversight",
+              "feature5": "Anomaly-driven analytics and Precision AI",
+              "feature6": "Broader attack surface monitoring (ASM)"
+            },
+            "threatHunting": {
+              "title": "Threat Hunting (Add-on)",
+              "badge": "Proactive",
+              "bestFor": "Proactive discovery of hidden threats",
+              "description": "Optional for any tier. Proactive, hypothesis-driven hunts mapped to MITRE ATT&CK, using your available data sources to uncover threats that evade standard detection.",
+              "feature1": "Hypothesis-driven threat hunting",
+              "feature2": "Mapped to MITRE ATT&CK framework",
+              "feature3": "Uses available data sources across environment",
+              "feature4": "Scheduled (monthly/quarterly) or on-demand",
+              "feature5": "Immediate escalation if evidence of compromise found",
+              "feature6": "Detailed hunt reports with IOCs"
+            },
+            "notSure": "Not sure what fits? Roaya can assess your environment and recommend the right level of coverage."
+          },
+          "integrations": {
+            "title": "Threat Hunting & Integrations",
+            "subtitle": "Roaya's SOC is vendor-agnostic and highly integrative. We work with your current stack and add capabilities where needed — without locking you into a single toolset.",
+            "description": "We commonly integrate with:",
+            "note": "These are common integrations — not limits. We use a broader set of tools and methods to ensure coverage and operational fit.",
+            "huntingNote": "Threat hunting can be scheduled (monthly/quarterly) or run on demand. If hunts uncover evidence of compromise, we escalate immediately through your SOC workflow.",
+            "partners": {
+              "paloAlto": "Palo Alto Networks (Cortex, Cortex XSIAM, Unit 42)",
+              "ibm": "IBM QRadar",
+              "splunk": "Splunk",
+              "elastic": "Elastic Security",
+              "crowdstrike": "CrowdStrike",
+              "fortiguard": "FortiGuard",
+              "kaspersky": "Kaspersky",
+              "nessus": "Vulnerability context from tools like Nessus"
+            }
+          },
+          "standards": {
+            "title": "Standards Alignment & Best Practices",
+            "subtitle": "Roaya aligns SOC operations to globally recognized frameworks to ensure consistent, auditable delivery:",
+            "nistCsf": {
+              "name": "NIST CSF",
+              "description": "Structured coverage across Identify, Protect, Detect, Respond, Recover"
+            },
+            "iso27001": {
+              "name": "ISO/IEC 27001 & 27002",
+              "description": "Practices that support ISMS controls and audit readiness"
+            },
+            "mitreAttack": {
+              "name": "MITRE ATT&CK",
+              "description": "Detection and hunting mapped to adversary tactics and techniques"
+            },
+            "cisControls": {
+              "name": "CIS Controls",
+              "description": "Prioritized security controls that reduce risk fastest"
+            },
+            "nistSp800": {
+              "name": "NIST SP 800-61",
+              "description": "Escalation and incident handling lifecycle (prep → detect/analyze → contain/eradicate/recover → post-incident)"
+            },
+            "alignmentNote": "This alignment helps you connect operational security outcomes to governance and compliance requirements."
+          },
+          "whyRoaya": {
+            "title": "Why Roaya",
+            "subtitle": "Proven expertise, AI-enhanced operations, and data protection by design",
+            "provenExpertise": {
+              "title": "Proven Expertise and Local Presence",
+              "description": "Experienced analysts and responders protecting organizations across Egypt and MENA, including finance, telecom, manufacturing, and government."
+            },
+            "aiEnhanced": {
+              "title": "AI-Enhanced, Human-Focused",
+              "description": "AI accelerates detection and triage, while analysts validate decisions and oversee actions."
+            },
+            "dataProtection": {
+              "title": "Data Protection by Design",
+              "description": "AI runs using our models on our cloud infrastructure; telemetry and incident data are handled under strict security controls and privacy-preserving workflows."
+            },
+            "customizedDelivery": {
+              "title": "Customized Delivery",
+              "description": "Tuned rules, playbooks, escalation paths, and reporting that fit your organization and operating model."
+            },
+            "continuousImprovement": {
+              "title": "Continuous Improvement",
+              "description": "Ongoing tuning, reviews, and operational reporting that keeps the SOC effective as threats evolve."
+            }
+          },
+          "cta": {
+            "title": "Ready to Stop Firefighting Alerts?",
+            "description": "Talk to an Expert to see how Roaya SOC can be tailored to your environment, your tools, and your risk priorities.",
+            "button": "Talk to an Expert",
+            "buttonSecondary": "Request a SOC Demo",
+            "urgencyBadge": "Limited availability for new SOC clients this quarter",
+            "trust1": "Free SOC assessment consultation",
+            "trust2": "Custom proposal within 48 hours",
+            "trust3": "No long-term commitment required"
+          }
+        },
+        "pentestV2": {
+          "title": "Penetration Testing & Security Assessment",
+          "hero": {
+            "badge": "AI-Assisted Enterprise Security Validation",
+            "title": "Penetration Testing & Security Assessment",
+            "subtitle1": "Serious organizations validate security with evidence — and they expect intelligence at every step.",
+            "subtitle2": "Modern enterprise environments are too complex for static testing or isolated findings. Security validation today requires expert judgment enhanced by intelligence, capable of correlating signals across identity, cloud, applications, mobile platforms, and infrastructure.",
+            "cta": "Talk to an Expert",
+            "ctaSecondary": "Request a Consultation"
+          },
+          "oneService": {
+            "title": "One Enterprise Service. Intelligent by Design.",
+            "subtitle": "Our service is delivered as one unified enterprise security validation engagement, where AI is embedded across the entire lifecycle — from scoping to prioritization and reporting.",
+            "description": "Whether your environment includes:",
+            "environments": {
+              "onPremise": "On-premise, hybrid, or cloud infrastructure",
+              "financial": "Core financial and transaction systems",
+              "government": "Government and public-sector core platforms",
+              "mobile": "Business-critical mobile applications",
+              "webApis": "Enterprise web applications and APIs",
+              "identity": "Identity-centric architectures and directory services",
+              "remoteWorkforce": "Remote workforce and third-party integrations"
+            },
+            "adapts": "Our approach adapts intelligently to your architecture, operating model, and risk profile."
+          },
+          "whatWeProvide": {
+            "title": "What We Provide",
+            "subtitle": "We deliver Security Assessments and Penetration Testing as a unified, AI-assisted service model.",
+            "assessment": {
+              "title": "Security Assessment",
+              "description": "AI-supported analysis enhances visibility into exposure, configuration posture, and control implementation across enterprise systems."
+            },
+            "pentest": {
+              "title": "Penetration Testing",
+              "description": "Expert-led, authorized attack simulation, with AI used to accelerate correlation, pattern recognition, and attack-path analysis."
+            },
+            "scopeNote": "Engagements are scoped based on business criticality, operational importance, and governance requirements — not predefined packages."
+          },
+          "aiValue": {
+            "badge": "AI-Assisted",
+            "title": "Where AI Adds Real Enterprise Value",
+            "subtitle1": "AI is not a replacement for expertise.",
+            "subtitle2": "It is a force multiplier applied where it delivers measurable benefit.",
+            "capabilities": {
+              "correlate": "Correlate findings across systems, identities, and environments",
+              "attackPaths": "Identify realistic attack paths that span multiple domains",
+              "reduceNoise": "Reduce noise and false positives through pattern analysis",
+              "prioritize": "Prioritize findings by impact and exploit feasibility",
+              "reporting": "Improve consistency, clarity, and speed of reporting",
+              "retesting": "Support repeatability and validation during retesting"
+            },
+            "expertReviewed": "All conclusions are expert-reviewed and approved.",
+            "accelerates": "AI accelerates insight — it does not make decisions alone."
+          },
+          "outcomes": {
+            "title": "What Enterprise Leaders Receive",
+            "subtitle": "Our output is designed for decision-makers, supported by intelligence.",
+            "evidenceBacked": {
+              "title": "Evidence-backed findings",
+              "description": "Validated issues supported by clear technical proof."
+            },
+            "aiPrioritization": {
+              "title": "AI-assisted prioritization",
+              "description": "Findings ranked using correlated impact, likelihood, and exposure paths."
+            },
+            "attackPath": {
+              "title": "Attack-path intelligence",
+              "description": "Clear narratives showing how conditions combine across identity, cloud, network, applications, and mobile platforms."
+            },
+            "controlValidation": {
+              "title": "Control performance validation",
+              "description": "Insight into how controls behave under realistic conditions."
+            },
+            "executiveReporting": {
+              "title": "Executive-ready reporting",
+              "description": "Clear summaries supported by intelligent analysis, suitable for leadership and governance."
+            },
+            "postRemediation": {
+              "title": "Optional post-remediation validation",
+              "description": "AI-assisted comparison confirms measurable risk reduction."
+            }
+          },
+          "howWeOperate": {
+            "title": "How We Operate",
+            "expertLed": {
+              "title": "Expert-led, AI-assisted delivery",
+              "description": "Every engagement is led by experienced security professionals. AI supports analysis, correlation, and prioritization — never replaces expertise."
+            },
+            "riskDriven": {
+              "title": "Risk-driven, not tool-driven",
+              "description": "We are not constrained by vendors or platforms. Each environment uses the right tools for the objective, selected dynamically."
+            },
+            "aiEnhanced": {
+              "title": "AI enhances intelligence",
+              "description": "AI improves how results are correlated, interpreted, and prioritized. All conclusions are expert-reviewed."
+            },
+            "frameworkAligned": {
+              "title": "Framework alignment enhanced by intelligence",
+              "description": "Findings mapped to NIST CSF, ISO 27001/27002, MITRE ATT&CK, and CIS Controls with improved accuracy and traceability."
+            },
+            "toolsIntro": "Examples of commonly used global platforms include (but are not limited to):",
+            "tools": {
+              "burpSuite": "Burp Suite Professional",
+              "tenableQualys": "Tenable, Qualys, Rapid7",
+              "nmapMetasploit": "Nmap, Metasploit (controlled use)",
+              "bloodhound": "BloodHound",
+              "scoutSuite": "ScoutSuite, Prowler",
+              "mobileApi": "Mobile and API security testing platforms"
+            },
+            "aiEnhances": "AI enhances how results from these tools are correlated, interpreted, and prioritized."
+          },
+          "frameworks": {
+            "title": "Framework Alignment — Enhanced by Intelligence",
+            "subtitle": "Findings and reporting can be mapped to globally recognized frameworks when required, including but not limited to:",
+            "nistCsf": {
+              "name": "NIST Cybersecurity Framework (CSF)"
+            },
+            "iso27001": {
+              "name": "ISO/IEC 27001 & 27002"
+            },
+            "mitreAttack": {
+              "name": "MITRE ATT&CK"
+            },
+            "cisControls": {
+              "name": "CIS Critical Security Controls"
+            },
+            "aiImproves": "AI improves mapping accuracy, consistency, and traceability, strengthening governance and audit readiness."
+          },
+          "whyUs": {
+            "title": "Why Enterprises Choose Us",
+            "aiInsight": "AI-assisted insight, not automated noise",
+            "expertJudgment": "Expert judgment at every decision point",
+            "fullSurface": "Intelligence applied across the full attack surface",
+            "noDependency": "No dependency on tools, vendors, or static checklists",
+            "secureHandling": "Secure handling of sensitive data and findings",
+            "defensibleOutcomes": "Clear, defensible outcomes leadership can trust",
+            "summary": "This is enterprise security validation, delivered with intelligence and discipline."
+          },
+          "cta": {
+            "title": "Talk to an Expert",
+            "subtitle": "Security validation at this level is a strategic engagement.",
+            "responsibleFor": "If you are responsible for:",
+            "responsibilities": {
+              "enterprise": "Enterprise infrastructure and platforms",
+              "financial": "Core financial or government systems",
+              "mobile": "Business-critical mobile or digital services",
+              "accountability": "Operational, regulatory, or executive accountability"
+            },
+            "speakDirectly": "Speak directly with our experts.",
+            "button": "Request a Consultation",
+            "buttonSecondary": "Talk to a Security Expert",
+            "scopePromise": "We will scope the engagement correctly and provide an AI-assisted, expert-led plan aligned with your organization's needs."
+          }
         }
       }
     },

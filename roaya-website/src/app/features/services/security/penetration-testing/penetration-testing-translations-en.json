@@ -1,0 +1,397 @@
+{
+  "services": {
+    "security": {
+      "page": {
+        "penetrationTesting": {
+        "title": "Penetration Testing & Security Assessment",
+        "hero": {
+          "badge": "AI-Assisted Enterprise Security Validation",
+          "title": "Penetration Testing & Security Assessment",
+          "subtitle": "Serious organizations validate security with evidence — and they expect intelligence at every step. We deliver AI-assisted, expert-led penetration testing and security assessment services designed for organizations that demand precision, accountability, and defensible results.",
+          "cta": "Talk to a Security Expert",
+          "ctaSecondary": "Request a Consultation",
+          "certifications": "Expert-led validation enhanced by intelligence"
+        },
+        "stats": {
+          "assessments": {
+            "value": "500+",
+            "label": "Security Validations",
+            "description": "Delivered across Egypt and MENA region"
+          },
+          "detection": {
+            "value": "AI-Enhanced",
+            "label": "Intelligence Layer",
+            "description": "Pattern recognition and attack-path correlation"
+          },
+          "turnaround": {
+            "value": "48h",
+            "label": "Report Delivery",
+            "description": "Expert analysis with AI-accelerated insights"
+          },
+          "benchmark": "Enterprise-grade"
+        },
+        "whyItMatters": {
+          "title": "One Enterprise Service. Intelligent by Design.",
+          "subtitle": "Modern enterprise environments are too complex for static testing or isolated findings",
+          "p1": {
+            "before": "Security validation today requires expert judgment enhanced by intelligence, capable of correlating signals across ",
+            "bold1": "identity",
+            "mid1": ", ",
+            "bold2": "cloud",
+            "mid2": ", ",
+            "bold3": "applications",
+            "after": ", mobile platforms, and infrastructure."
+          },
+          "p2": {
+            "before": "Our service is delivered as one ",
+            "bold1": "unified enterprise security validation engagement",
+            "mid1": ", where AI is embedded across the entire lifecycle — from ",
+            "bold2": "scoping to prioritization and reporting",
+            "after": "."
+          },
+          "p3": {
+            "before": "Whether your environment includes on-premise, hybrid, or cloud infrastructure; core financial and transaction systems; government platforms; business-critical mobile applications; or identity-centric architectures — ",
+            "bold": "our approach adapts intelligently",
+            "after": " to your architecture, operating model, and risk profile."
+          },
+          "sources": {
+            "title": "Enterprise Security Validation",
+            "disclaimer": "AI-assisted expert-led testing for organizations that demand defensible results."
+          }
+        },
+        "roayaApproach": {
+          "badge": "AI-Assisted",
+          "title": "Where AI Adds Real Enterprise Value",
+          "description": "AI is not a replacement for expertise. It is a force multiplier applied where it delivers measurable benefit.",
+          "point1": "Correlate findings across systems and environments",
+          "point2": "Identify realistic attack paths spanning multiple domains",
+          "point3": "Reduce noise and false positives through pattern analysis",
+          "point4": "Prioritize by impact and exploit feasibility"
+        },
+        "whatYouGet": {
+          "title": "What Enterprise Leaders Receive",
+          "subtitle": "Our output is designed for decision-makers, supported by intelligence",
+          "validatedRisk": {
+            "title": "Evidence-Backed Findings",
+            "description": "Validated issues supported by clear technical proof, not assumptions or tool output alone."
+          },
+          "prioritizedRemediation": {
+            "title": "AI-Assisted Prioritization",
+            "description": "Findings ranked using correlated impact, likelihood, and exposure paths across your environment."
+          },
+          "attackPath": {
+            "title": "Attack-Path Intelligence",
+            "description": "Clear narratives showing how conditions combine across identity, cloud, network, applications, and mobile platforms."
+          },
+          "controlConfidence": {
+            "title": "Control Performance Validation",
+            "description": "Insight into how controls behave under realistic conditions — not just whether they exist."
+          },
+          "auditReady": {
+            "title": "Executive-Ready Reporting",
+            "description": "Clear summaries supported by intelligent analysis, suitable for leadership and governance."
+          },
+          "optionalRetest": {
+            "title": "Post-Remediation Validation",
+            "description": "AI-assisted comparison confirms measurable risk reduction and validates fixes worked."
+          }
+        },
+        "servicesOverview": {
+          "title": "What We Provide",
+          "subtitle": "Security Assessments and Penetration Testing as a unified, AI-assisted service model",
+          "bestForLabel": "Scoped based on",
+          "assessment": {
+            "title": "Security Assessment",
+            "description": "AI-supported analysis enhances visibility into exposure, configuration posture, and control implementation across enterprise systems.",
+            "bestFor": "Business criticality, operational importance, and governance requirements — not predefined packages.",
+            "point1": "Enhanced visibility into exposure and configuration posture",
+            "point2": "AI-supported analysis of control implementation",
+            "point3": "Pattern recognition across enterprise systems",
+            "point4": "Governance and compliance mapping",
+            "point5": "Risk-driven scoping aligned to business impact"
+          },
+          "pentest": {
+            "title": "Penetration Testing",
+            "description": "Expert-led, authorized attack simulation, with AI used to accelerate correlation, pattern recognition, and attack-path analysis.",
+            "bestFor": "Organizations requiring validated proof of exploitability and measurable risk exposure.",
+            "point1": "Expert-led authorized attack simulation",
+            "point2": "AI-accelerated attack-path correlation",
+            "point3": "Multi-domain coverage (identity, cloud, applications, mobile)",
+            "point4": "Pattern recognition and noise reduction",
+            "point5": "Defensible, evidence-backed conclusions"
+          }
+        },
+        "howWeTest": {
+          "title": "How We Operate",
+          "subtitle": "Expert-led, AI-assisted delivery — never tool-driven",
+          "step1": {
+            "title": "Expert-Led, AI-Assisted Delivery",
+            "description": "Every engagement is led by experienced security professionals. AI supports analysis, correlation, and prioritization — never replaces expertise."
+          },
+          "step2": {
+            "title": "Risk-Driven, Not Tool-Driven",
+            "description": "We are not constrained by vendors or platforms. Each environment uses the right tools for the objective, selected dynamically."
+          },
+          "step3": {
+            "title": "AI Enhances Intelligence",
+            "description": "AI improves how results are correlated, interpreted, and prioritized. All conclusions are expert-reviewed and approved."
+          },
+          "step4": {
+            "title": "Framework Alignment Enhanced by Intelligence",
+            "description": "Findings mapped to NIST CSF, ISO 27001/27002, MITRE ATT&CK, and CIS Controls with AI-improved accuracy and traceability."
+          }
+        },
+        "pentestServices": {
+          "title": "Our Penetration Testing Services",
+          "subtitle": "Comprehensive security testing across 12 specialized domains, tailored for Enterprise, Government, and Banking sectors.",
+          "examplesLabel": "What We Test",
+          "mostRequested": "Most Requested",
+          "categories": {
+            "all": "All Services",
+            "network": "Network",
+            "application": "Application",
+            "advanced": "Advanced",
+            "compliance": "Compliance"
+          },
+          "packagesTitle": "Intelligent Service Delivery",
+          "packagesDescription": "Engagements are scoped based on business criticality, operational importance, and governance requirements — not predefined packages.",
+          "package1": "Infrastructure & Network Security",
+          "package2": "Application & API Security",
+          "package3": "Identity & Cloud Security",
+          "package4": "Mobile & Transaction Security",
+          "package5": "Continuous Validation Programs",
+          "networkPentest": {
+            "title": "Network Penetration Testing",
+            "scope": "Internal & External Infrastructure",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "External network penetration testing (internet-facing assets)",
+            "example2": "Internal network penetration testing (LAN, VLANs, segmentation)",
+            "example3": "Firewall & perimeter security testing",
+            "example4": "VPN & remote access testing",
+            "example5": "Zero Trust architecture validation",
+            "example6": "Network device testing (routers, switches, load balancers)"
+          },
+          "webAppPentest": {
+            "title": "Web Application Penetration Testing",
+            "scope": "Public & Internal Applications",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "OWASP Top 10 testing",
+            "example2": "Secure authentication & session management testing",
+            "example3": "API penetration testing (REST / GraphQL)",
+            "example4": "Web portals (customer portals, government portals)",
+            "example5": "Financial web applications (core banking interfaces)",
+            "example6": "Business logic vulnerability testing"
+          },
+          "mobilePentest": {
+            "title": "Mobile Application Penetration Testing",
+            "scope": "Android & iOS Applications",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "Android application security testing",
+            "example2": "iOS application security testing",
+            "example3": "Secure API communication validation",
+            "example4": "Local storage & encryption testing",
+            "example5": "Mobile banking app penetration testing",
+            "example6": "Runtime manipulation & reverse engineering tests"
+          },
+          "cloudPentest": {
+            "title": "Cloud & Virtual Infrastructure Testing",
+            "scope": "Public, Private & Hybrid Cloud",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "Cloud configuration and misconfiguration testing",
+            "example2": "Cloud IAM & privilege escalation testing",
+            "example3": "Virtual machine & hypervisor testing",
+            "example4": "Container & Kubernetes security testing",
+            "example5": "SaaS & PaaS penetration testing",
+            "example6": "Multi-cloud & hybrid-cloud security assessment"
+          },
+          "redTeam": {
+            "title": "Red Team / APT Simulation",
+            "scope": "Real-world Attack Simulation",
+            "typicalFor1": "Government",
+            "typicalFor2": "Banking",
+            "typicalFor3": "Large Enterprise",
+            "example1": "Full-scope red team exercises",
+            "example2": "Stealth attack simulations",
+            "example3": "Lateral movement testing",
+            "example4": "Data exfiltration simulation",
+            "example5": "Command-and-control (C2) simulation",
+            "example6": "Blue team & SOC response evaluation"
+          },
+          "socialEngineering": {
+            "title": "Social Engineering Testing",
+            "scope": "Human Layer Security",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "Phishing campaign simulations",
+            "example2": "Spear phishing (targeted attacks)",
+            "example3": "Vishing (voice phishing)",
+            "example4": "Smishing (SMS phishing)",
+            "example5": "Physical social engineering tests",
+            "example6": "Security awareness level assessment"
+          },
+          "physicalSecurity": {
+            "title": "Physical Security Testing",
+            "scope": "Facilities & On-Prem Infrastructure",
+            "typicalFor1": "Government",
+            "typicalFor2": "Banking",
+            "typicalFor3": "Critical Enterprise",
+            "example1": "Data center access testing",
+            "example2": "Office & branch security testing",
+            "example3": "Badge & access control bypass",
+            "example4": "CCTV & monitoring system testing",
+            "example5": "Insider threat simulation",
+            "example6": "Tailgating & social engineering entry"
+          },
+          "activeDirectory": {
+            "title": "Active Directory & Identity Testing",
+            "scope": "Identity & Access Management",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "Active Directory attack paths",
+            "example2": "Privilege escalation testing",
+            "example3": "Kerberos & NTLM attack testing",
+            "example4": "Password policy & credential hygiene testing",
+            "example5": "Identity federation testing (SSO, MFA, IAM)",
+            "example6": "Azure AD / Entra ID security testing"
+          },
+          "paymentSystems": {
+            "title": "Payment Systems & Financial Infrastructure",
+            "scope": "Financial & Transactional Systems",
+            "typicalFor1": "Banking",
+            "typicalFor2": "Financial Institutions",
+            "typicalFor3": "Government Finance",
+            "example1": "Core banking system testing",
+            "example2": "Payment gateway penetration testing",
+            "example3": "ATM & POS system testing",
+            "example4": "SWIFT infrastructure testing",
+            "example5": "Fraud & transaction manipulation testing",
+            "example6": "Card processing security validation"
+          },
+          "compliance": {
+            "title": "Compliance-Driven Penetration Testing",
+            "scope": "Regulatory & Audit Requirements",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "PCI DSS penetration testing",
+            "example2": "ISO 27001 technical testing",
+            "example3": "NCA / SAMA / NIST testing",
+            "example4": "GDPR technical security testing",
+            "example5": "SOC 2 security validation",
+            "example6": "Industry-specific compliance testing"
+          },
+          "iotOt": {
+            "title": "IoT & OT Penetration Testing",
+            "scope": "Industrial & Smart Systems",
+            "typicalFor1": "Government",
+            "typicalFor2": "Critical Infrastructure",
+            "typicalFor3": "Large Enterprise",
+            "example1": "SCADA & ICS penetration testing",
+            "example2": "Smart city infrastructure testing",
+            "example3": "Healthcare systems testing",
+            "example4": "Industrial IoT security testing",
+            "example5": "Energy & utilities systems testing",
+            "example6": "Building automation systems testing"
+          },
+          "postExploitation": {
+            "title": "Post-Exploitation & Hardening Review",
+            "scope": "Improvement & Risk Reduction",
+            "typicalFor1": "Enterprise",
+            "typicalFor2": "Government",
+            "typicalFor3": "Banking",
+            "example1": "Post-exploitation analysis",
+            "example2": "Attack path mapping",
+            "example3": "Risk scoring & prioritization",
+            "example4": "Security architecture improvement roadmap",
+            "example5": "Remediation validation testing",
+            "example6": "Security posture benchmarking"
+          }
+        },
+        "reporting": {
+          "title": "Executive-Ready Reporting",
+          "subtitle": "Clear summaries supported by intelligent analysis",
+          "executiveSummary": {
+            "title": "Executive Summary",
+            "description": "AI-assisted prioritization with clear business impact and recommended actions."
+          },
+          "technicalFindings": {
+            "title": "Evidence-Backed Findings",
+            "description": "Validated issues with technical proof, reproduction steps, and root cause analysis."
+          },
+          "remediationPlan": {
+            "title": "Prioritized Remediation Plan",
+            "description": "Ranked by correlated impact and exploit feasibility — fix what matters most first."
+          },
+          "attackPathNarratives": {
+            "title": "Attack-Path Intelligence",
+            "description": "Multi-domain correlation showing how conditions combine across identity, cloud, and applications."
+          }
+        },
+        "standards": {
+          "title": "Framework Alignment — Enhanced by Intelligence",
+          "subtitle": "Findings mapped to globally recognized frameworks with AI-improved accuracy and traceability",
+          "nistCsf": {
+            "name": "NIST CSF",
+            "description": "Cybersecurity Framework alignment for enterprise risk management."
+          },
+          "iso27001": {
+            "name": "ISO/IEC 27001 & 27002",
+            "description": "Information security management and control validation."
+          },
+          "mitreAttack": {
+            "name": "MITRE ATT&CK",
+            "description": "Adversarial tactics and techniques mapping for realistic validation."
+          },
+          "cisControls": {
+            "name": "CIS Critical Security Controls",
+            "description": "Prioritized controls for measurable risk reduction."
+          }
+        },
+        "whyRoaya": {
+          "title": "Why Enterprises Choose Us",
+          "subtitle": "Intelligence applied across the full attack surface",
+          "outcomeLed": {
+            "title": "AI-Assisted Insight, Not Automated Noise",
+            "description": "Intelligence applied where it delivers measurable benefit — correlation, prioritization, and pattern recognition."
+          },
+          "expertLed": {
+            "title": "Expert Judgment at Every Decision Point",
+            "description": "AI accelerates insight — it does not make decisions alone. All conclusions are expert-reviewed."
+          },
+          "aiAccelerated": {
+            "title": "Intelligence Across the Full Attack Surface",
+            "description": "Correlated findings across identity, cloud, network, applications, and mobile platforms."
+          },
+          "secureHandling": {
+            "title": "No Dependency on Tools or Vendors",
+            "description": "Not constrained by platforms or static checklists. Tools selected dynamically for each environment."
+          },
+          "crossDomain": {
+            "title": "Secure Handling of Sensitive Data",
+            "description": "AI processing uses our models on our cloud infrastructure, keeping findings and evidence protected."
+          }
+        },
+        "cta": {
+          "title": "Talk to an Expert",
+          "description": "Security validation at this level is a strategic engagement. If you are responsible for enterprise infrastructure, core financial systems, government platforms, or business-critical services — speak directly with our experts.",
+          "button": "Request a Consultation",
+          "urgencyBadge": "Strategic engagements",
+          "trust1": "AI-assisted expert-led validation",
+          "trust2": "Scoped to business criticality",
+          "trust3": "Defensible, evidence-backed results"
+        }
+      }
+      }
+    }
+  }
+}

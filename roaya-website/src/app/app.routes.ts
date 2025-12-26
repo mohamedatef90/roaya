@@ -57,6 +57,21 @@ export const routes: Routes = [
     title: 'Cybersecurity Solutions & Threat Protection - Roaya IT'
   },
   {
+    path: 'services/security/penetration-testing',
+    loadComponent: () => import('./features/services/security/penetration-testing/penetration-testing.component').then(m => m.PenetrationTestingComponent),
+    title: 'Penetration Testing & Security Assessment Services - Roaya IT'
+  },
+  {
+    path: 'services/security/soc-solutions',
+    loadComponent: () => import('./features/services/security/soc-solutions/soc-solutions.component').then(m => m.SocSolutionsComponent),
+    title: '24/7 Security Operations Center (SOC) Services - Roaya IT'
+  },
+  {
+    path: 'services/security/pentest-v2',
+    loadComponent: () => import('./features/services/security/pentest-v2/pentest-v2.component').then(m => m.PentestV2Component),
+    title: 'AI-Assisted Penetration Testing & Security Assessment - Roaya IT'
+  },
+  {
     path: 'services/worldposta',
     loadComponent: () => import('./features/services/worldposta/worldposta.component').then(m => m.WorldpostaComponent),
     title: 'WorldPosta Cloud Services - Business Email, Storage & Apps | Roaya IT'

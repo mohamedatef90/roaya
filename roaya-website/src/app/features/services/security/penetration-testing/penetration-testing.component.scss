@@ -1,0 +1,208 @@
+/**
+ * Penetration Testing Component Styles
+ * Roaya IT - Citation Cards & Sources Sidebar for Enterprise/Government Audience
+ */
+
+// ============================================
+// CSS Custom Properties
+// ============================================
+:host {
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: 12px;
+  --accent-navy: #3D5A80;
+  --accent-teal: #5DB7C2;
+}
+
+:host-context(.dark) {
+  --glass-bg: rgba(30, 41, 59, 0.85);
+  --glass-border: rgba(61, 90, 128, 0.5);
+}
+
+// ============================================
+// Citation Callout Cards
+// ============================================
+.citation-callout {
+  position: relative;
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  margin: 1.5rem 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  // Gradient accent bar on left
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--accent-navy) 0%, var(--accent-teal) 100%);
+    border-radius: 1rem 0 0 1rem;
+  }
+
+  // Hover effect
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  // Secondary variant (teal accent)
+  &--secondary::before {
+    background: linear-gradient(180deg, var(--accent-teal) 0%, var(--accent-navy) 100%);
+  }
+}
+
+// ============================================
+// Sources Sidebar
+// ============================================
+.sources-sidebar {
+  position: sticky;
+  top: 6rem;
+  width: 240px;
+  flex-shrink: 0;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  height: fit-content;
+
+  // Links
+  a {
+    transition: color 0.2s ease;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-teal);
+      outline-offset: 2px;
+      border-radius: 0.25rem;
+    }
+  }
+}
+
+// ============================================
+// RTL Support
+// ============================================
+[dir="rtl"] {
+  .citation-callout {
+    padding: 1.5rem 2rem 1.5rem 1.5rem;
+
+    &::before {
+      left: auto;
+      right: 0;
+      border-radius: 0 1rem 1rem 0;
+    }
+  }
+
+  .sources-sidebar {
+    // Sidebar stays on left in RTL
+  }
+}
+
+// ============================================
+// Reduced Motion Support
+// ============================================
+@media (prefers-reduced-motion: reduce) {
+  .citation-callout,
+  .sources-sidebar {
+    transition: none !important;
+  }
+
+  .why-matters-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+// ============================================
+// High Contrast Mode Support
+// ============================================
+@media (prefers-contrast: high) {
+  .citation-callout,
+  .sources-sidebar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--color-background, white);
+    border: 2px solid currentColor;
+  }
+
+  .citation-callout::before {
+    width: 6px;
+  }
+}
+
+// ============================================
+// Responsive Adjustments
+// ============================================
+@media (max-width: 1023px) {
+  .sources-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .citation-callout {
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+    margin: 1rem 0;
+
+    &::before {
+      width: 4px;
+    }
+  }
+}
+
+// ============================================
+// Focus States (Accessibility)
+// ============================================
+.penetration-testing-page {
+  // All interactive elements get consistent focus ring
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  // Cards get focus ring for keyboard users
+  .citation-callout:focus-within,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 2px;
+  }
+
+  // CTA buttons get enhanced focus
+  .hero-section a:focus-visible,
+  .cta-section a:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgba(93, 183, 194, 0.4);
+  }
+}
+
+// ============================================
+// Print Styles
+// ============================================
+@media print {
+  .citation-callout,
+  .sources-sidebar {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .citation-callout::before {
+    background: #333 !important;
+  }
+}
