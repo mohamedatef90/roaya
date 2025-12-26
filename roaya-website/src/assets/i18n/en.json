@@ -2311,6 +2311,7 @@
     "badge": "Blog",
     "title": "IT Insights & Updates",
     "description": "Stay informed with the latest IT trends, best practices, and updates from Roaya IT experts.",
+    "featuredPosts": "Featured Posts",
     "categories": {
       "all": "All Posts",
       "cloud": "Cloud",
@@ -2322,11 +2323,18 @@
     "search": {
       "placeholder": "Search blog posts..."
     },
+    "sortBy": "Sort by",
+    "sort": {
+      "latest": "Latest",
+      "featured": "Featured"
+    },
     "readingTime": "min read",
     "readMore": "Read More",
+    "loadMore": "Load More",
     "empty": {
       "title": "No posts found",
-      "description": "Try adjusting your filters or search query."
+      "description": "Try adjusting your filters or search query.",
+      "clearFilters": "Clear Filters"
     },
     "cta": {
       "title": "Want to Learn More?",
@@ -2338,6 +2346,7 @@
       "back": "Back to Blog",
       "tags": "Tags",
       "share": "Share this post",
+      "copyLink": "Copy Link",
       "related": "Related Posts",
       "notFound": {
         "title": "Post Not Found",
@@ -2349,6 +2358,24 @@
         "description": "Get in touch with our team to discuss your IT needs.",
         "button": "Contact Us"
       }
+    },
+    "author": {
+      "writtenBy": "Written by",
+      "aboutAuthor": "About the Author"
+    },
+    "toc": {
+      "title": "Table of Contents"
+    },
+    "newsletter": {
+      "title": "Subscribe to Our Newsletter",
+      "description": "Get the latest IT insights, tips, and updates delivered straight to your inbox.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe",
+      "subscribing": "Subscribing...",
+      "success": "Thank you for subscribing!",
+      "successMessage": "You'll receive our latest articles and insights.",
+      "error": "Something went wrong. Please try again.",
+      "privacy": "We respect your privacy. Unsubscribe at any time."
     }
   },
   "caseStudies": {
