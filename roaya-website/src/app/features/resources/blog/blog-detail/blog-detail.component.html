@@ -113,7 +113,7 @@
 
           <!-- Article Content -->
           <div
-            class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-neutral-900 dark:prose-headings:text-white prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-a:text-navy dark:prose-a:text-teal prose-strong:text-neutral-900 dark:prose-strong:text-white prose-ul:text-neutral-700 dark:prose-ul:text-neutral-300 prose-li:marker:text-navy dark:prose-li:marker:text-teal mb-12"
+            class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-neutral-900 dark:prose-headings:text-white prose-p:text-neutral-800 dark:prose-p:text-neutral-200 prose-p:leading-relaxed prose-a:text-navy dark:prose-a:text-teal prose-a:underline prose-a:decoration-2 prose-a:underline-offset-2 prose-a:decoration-navy/30 dark:prose-a:decoration-teal/30 hover:prose-a:decoration-navy dark:hover:prose-a:decoration-teal prose-strong:text-neutral-900 dark:prose-strong:text-white prose-ul:text-neutral-800 dark:prose-ul:text-neutral-200 prose-li:marker:text-navy dark:prose-li:marker:text-teal mb-12"
             [innerHTML]="processedContent()"
           ></div>
 
@@ -222,7 +222,7 @@
                       <h3 class="text-base font-bold mb-2 text-neutral-900 dark:text-white group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
                         {{ getRelatedPostTitle(relatedPost) }}
                       </h3>
-                      <p class="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                      <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-relaxed">
                         {{ getRelatedPostExcerpt(relatedPost) }}
                       </p>
                     </div>

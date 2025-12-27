@@ -118,7 +118,7 @@
 
         <!-- Sort Options -->
         <div class="flex items-center gap-2">
-          <span class="text-sm text-neutral-600 dark:text-neutral-400">
+          <span class="text-sm text-neutral-700 dark:text-neutral-300">
             {{ 'blog.sortBy' | translate }}:
           </span>
           @for (option of sortOptions; track option.id) {
@@ -130,8 +130,8 @@
               [class.text-navy]="sortBy() === option.id"
               [class.dark:text-teal]="sortBy() === option.id"
               [class.font-medium]="sortBy() === option.id"
-              [class.text-neutral-600]="sortBy() !== option.id"
-              [class.dark:text-neutral-400]="sortBy() !== option.id"
+              [class.text-neutral-700]="sortBy() !== option.id"
+              [class.dark:text-neutral-300]="sortBy() !== option.id"
               [class.hover:bg-neutral-100]="sortBy() !== option.id"
               [class.dark:hover:bg-neutral-800]="sortBy() !== option.id"
             >
@@ -194,7 +194,7 @@
 
             <!-- Content -->
             <div class="p-6">
-              <div class="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+              <div class="flex items-center gap-3 text-sm text-neutral-700 dark:text-neutral-300 mb-3">
                 <span>{{ post.publishedDate | date:'mediumDate' }}</span>
                 <span aria-hidden="true">•</span>
                 <span class="flex items-center gap-1">
@@ -207,12 +207,12 @@
                 {{ getPostTitle(post) }}
               </h2>
 
-              <p class="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
+              <p class="text-neutral-700 dark:text-neutral-300 mb-4 line-clamp-3 leading-relaxed">
                 {{ getPostExcerpt(post) }}
               </p>
 
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                <div class="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
                   <ng-icon name="lucideUser" size="16" aria-hidden="true"></ng-icon>
                   <span>{{ getAuthorName(post) }}</span>
                 </div>
@@ -252,7 +252,7 @@
         <h3 class="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
           {{ 'blog.empty.title' | translate }}
         </h3>
-        <p class="text-neutral-600 dark:text-neutral-400 mb-6">
+        <p class="text-neutral-700 dark:text-neutral-300 mb-6">
           {{ 'blog.empty.description' | translate }}
         </p>
         <button

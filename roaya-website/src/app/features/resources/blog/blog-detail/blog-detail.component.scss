@@ -3,36 +3,48 @@
 }
 
 .prose {
-  color: var(--foreground);
+  color: #262626; // neutral-800 for better contrast
   
   h1, h2, h3, h4, h5, h6 {
-    color: var(--foreground);
+    color: #171717; // neutral-900
     font-weight: bold;
     margin-top: 1.5em;
     margin-bottom: 0.5em;
+    line-height: 1.3;
   }
 
   p {
     margin-bottom: 1.25em;
     line-height: 1.75;
+    color: #262626; // neutral-800
   }
 
   a {
-    color: var(--color-primary-500);
+    color: #0f172a; // navy
     text-decoration: underline;
+    text-decoration-color: rgba(15, 23, 42, 0.3); // navy with opacity
+    text-underline-offset: 2px;
+    transition: all 0.2s ease;
     
     &:hover {
-      color: var(--color-primary-600);
+      color: #0c1220; // darker navy
+      text-decoration-color: #0f172a; // solid navy on hover
+    }
+
+    &:visited {
+      color: #0f172a; // navy
     }
   }
 
   ul, ol {
     margin-bottom: 1.25em;
     padding-left: 1.625em;
+    color: #262626; // neutral-800
   }
 
   li {
     margin-bottom: 0.5em;
+    line-height: 1.75;
   }
 
   img {
@@ -41,25 +53,96 @@
   }
 
   code {
-    background: var(--muted);
+    background: #f5f5f5; // neutral-100
+    color: #171717; // neutral-900
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
     font-size: 0.875em;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    border: 1px solid #e5e5e5; // neutral-200
   }
 
   pre {
-    background: var(--muted);
+    background: #f5f5f5; // neutral-100
+    color: #171717; // neutral-900
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
     margin: 1.5em 0;
+    border: 1px solid #e5e5e5; // neutral-200
+    line-height: 1.6;
+
+    code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      color: inherit;
+      font-size: 0.875em;
+    }
   }
 
   blockquote {
-    border-left: 4px solid var(--color-primary-500);
-    padding-left: 1rem;
+    border-left: 4px solid #0f172a; // navy
+    background: #fafafa; // neutral-50
+    padding: 1rem 1.5rem;
     margin: 1.5em 0;
     font-style: italic;
-    color: var(--muted-foreground);
+    color: #404040; // neutral-700
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+}
+
+// Dark mode styles (Tailwind uses .dark class on html/body)
+::ng-deep .dark .prose {
+  color: #e5e5e5; // neutral-200
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff; // white
+  }
+
+  p {
+    color: #e5e5e5; // neutral-200
+  }
+
+  a {
+    color: #14b8a6; // teal
+    text-decoration-color: rgba(20, 184, 166, 0.3); // teal with opacity
+    
+    &:hover {
+      color: #2dd4bf; // lighter teal
+      text-decoration-color: #14b8a6; // solid teal on hover
+    }
+
+    &:visited {
+      color: #14b8a6; // teal
+    }
+  }
+
+  ul, ol {
+    color: #e5e5e5; // neutral-200
+  }
+
+  code {
+    background: #262626; // neutral-800
+    color: #fafafa; // neutral-50
+    border-color: #404040; // neutral-700
+  }
+
+  pre {
+    background: #171717; // neutral-900
+    color: #fafafa; // neutral-50
+    border-color: #404040; // neutral-700
+
+    code {
+      background: transparent;
+      color: inherit;
+    }
+  }
+
+  blockquote {
+    border-left-color: #14b8a6; // teal
+    background: #262626; // neutral-800
+    color: #d4d4d4; // neutral-300
   }
 }
