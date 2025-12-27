@@ -105,6 +105,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           badge: 'New'
         },
         {
+          id: 'incident-response',
+          title: 'services.security.page.incidentResponse.title',
+          description: 'services.security.page.incidentResponse.hero.subtitle',
+          icon: '&#128737;',
+          route: '/services/security/incident-response',
+          badge: 'New'
+        },
+        {
           id: 'pentest-v2',
           title: 'services.security.page.pentestV2.title',
           description: 'services.security.page.pentestV2.hero.subtitle1',

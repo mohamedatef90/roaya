@@ -152,7 +152,7 @@ export class TableOfContentsComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       const element = document.getElementById(id);
       if (element) {
-        const offset = 100; // Account for sticky header
+        const offset = 112; // Account for sticky header (matches scroll-mt-28)
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.scrollY - offset;
 
@@ -174,7 +174,7 @@ export class TableOfContentsComponent implements OnInit, OnDestroy {
 
   private setupIntersectionObserver(): void {
     const options: IntersectionObserverInit = {
-      rootMargin: '-100px 0px -66%',
+      rootMargin: '-112px 0px -66%', // Trigger slightly after the offset to ensure active state
       threshold: 0
     };
 

@@ -67,6 +67,11 @@ export const routes: Routes = [
     title: '24/7 Security Operations Center (SOC) Services - Roaya IT'
   },
   {
+    path: 'services/security/incident-response',
+    loadComponent: () => import('./features/services/security/incident-response/incident-response.component').then(m => m.IncidentResponseComponent),
+    title: 'Incident Response & Digital Forensics - Roaya IT'
+  },
+  {
     path: 'services/security/pentest-v2',
     loadComponent: () => import('./features/services/security/pentest-v2/pentest-v2.component').then(m => m.PentestV2Component),
     title: 'AI-Assisted Penetration Testing & Security Assessment - Roaya IT'

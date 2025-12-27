@@ -22,7 +22,11 @@ import {
   lucideShare2,
   lucideLink,
   lucideArrowRight,
-  lucideChevronUp
+  lucideChevronUp,
+  lucideLinkedin,
+  lucideTwitter,
+  lucideFacebook,
+  lucideExternalLink
 } from '@ng-icons/lucide';
 import { AnalyticsService } from '../../../../core/services/analytics.service';
 import { BlogService } from '../../../../core/services/blog.service';
@@ -58,7 +62,11 @@ import { NewsletterSignupComponent } from '../../../../shared/components/newslet
       lucideShare2,
       lucideLink,
       lucideArrowRight,
-      lucideChevronUp
+      lucideChevronUp,
+      lucideLinkedin,
+      lucideTwitter,
+      lucideFacebook,
+      lucideExternalLink
     })
   ]
 })
@@ -72,6 +80,20 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   private readonly meta = inject(Meta);
   private readonly title = inject(Title);
   private readonly cdr = inject(ChangeDetectorRef);
+
+  // Constants for Sidebar
+  readonly sidebarServices = [
+    { id: 'cloud', title: 'services.cloud.title', route: '/services/cloud' },
+    { id: 'security', title: 'services.security.title', route: '/services/security' },
+    { id: 'sap', title: 'services.sap.title', route: '/services/sap' },
+    { id: 'managed', title: 'services.managed.title', route: '/services/managed' }
+  ];
+
+  readonly socialLinks = [
+    { id: 'linkedin', icon: 'lucideLinkedin', url: 'https://www.linkedin.com/company/19047659' },
+    { id: 'twitter', icon: 'lucideTwitter', url: 'https://twitter.com' },
+    { id: 'facebook', icon: 'lucideFacebook', url: 'https://www.facebook.com/RoayaIT' }
+  ];
 
   // State
   post = signal<BlogPost | null>(null);
@@ -176,11 +198,11 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
       // Headers with IDs for TOC linking
       .replace(/^### (.+)$/gm, (_, text) => {
         const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        return `<h3 id="${id}" class="scroll-mt-24">${text}</h3>`;
+        return `<h3 id="${id}" class="scroll-mt-28">${text}</h3>`;
       })
       .replace(/^## (.+)$/gm, (_, text) => {
         const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        return `<h2 id="${id}" class="scroll-mt-24">${text}</h2>`;
+        return `<h2 id="${id}" class="scroll-mt-28">${text}</h2>`;
       })
       // Bold
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')

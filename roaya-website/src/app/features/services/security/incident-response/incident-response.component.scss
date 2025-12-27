@@ -1,0 +1,483 @@
+/**
+ * Incident Response & Digital Forensics Component Styles
+ * Roaya IT - Emergency Response Aesthetic with Status Indicators
+ */
+
+// ============================================
+// IR Command Center Theme Variables
+// ============================================
+:host {
+  --ir-bg-dark: #0f172a;
+  --ir-bg-secondary: #1e293b;
+  --ir-status-active: #ef4444;
+  --ir-status-warning: #f59e0b;
+  --ir-status-ready: #10b981;
+  --ir-accent-red: #f87171;
+  --ir-accent-cyan: #22d3ee;
+  --ir-gradient-emergency: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+}
+
+// ============================================
+// Hero Section - Emergency Response Background
+// ============================================
+.ir-hero-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  position: relative;
+
+  // Subtle scanning lines effect
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(239, 68, 68, 0.03) 2px,
+      rgba(239, 68, 68, 0.03) 4px
+    );
+    pointer-events: none;
+  }
+}
+
+.ir-scan-lines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4px,
+    rgba(248, 113, 113, 0.02) 4px,
+    rgba(248, 113, 113, 0.02) 8px
+  );
+  animation: scanlines 10s linear infinite;
+}
+
+@keyframes scanlines {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(8px);
+  }
+}
+
+// ============================================
+// Status Badge - Pulsing Alert Indicator
+// ============================================
+.ir-status-badge {
+  animation: alertPulse 2s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes alertPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+  }
+}
+
+// ============================================
+// Engagement Cards - Alert-Style Borders
+// ============================================
+.engagement-card {
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// ============================================
+// Response Steps - Timeline Connector
+// ============================================
+.response-step {
+  position: relative;
+}
+
+// ============================================
+// Forensics Cards
+// ============================================
+.forensics-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+// ============================================
+// Stats Cards
+// ============================================
+.stat-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+// ============================================
+// AI Section - Futuristic Aesthetics
+// ============================================
+
+// Animated Gradient Background
+.ai-gradient-bg {
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e1b4b 25%,
+    #312e81 50%,
+    #1e1b4b 75%,
+    #0f172a 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// Neural Network Grid Pattern
+.ai-neural-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(34, 211, 238, 0.15) 0%, transparent 50%);
+  background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%;
+}
+
+// Floating Orbs
+.ai-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: orbFloat 20s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.ai-orb-1 {
+  width: 200px;
+  height: 200px;
+  background: rgba(34, 211, 238, 0.3);
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.ai-orb-2 {
+  width: 150px;
+  height: 150px;
+  background: rgba(168, 85, 247, 0.3);
+  top: 60%;
+  right: 15%;
+  animation-delay: -5s;
+}
+
+.ai-orb-3 {
+  width: 180px;
+  height: 180px;
+  background: rgba(236, 72, 153, 0.2);
+  bottom: 20%;
+  left: 20%;
+  animation-delay: -10s;
+}
+
+.ai-orb-4 {
+  width: 120px;
+  height: 120px;
+  background: rgba(34, 211, 238, 0.25);
+  top: 30%;
+  right: 30%;
+  animation-delay: -15s;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(15px, 10px) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+// Data Flow Lines
+.ai-data-lines {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 100px,
+    rgba(34, 211, 238, 0.05) 100px,
+    rgba(34, 211, 238, 0.05) 101px
+  );
+  animation: dataFlow 30s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes dataFlow {
+  from { transform: translateX(0); }
+  to { transform: translateX(100px); }
+}
+
+// AI Badge Glow
+.ai-badge {
+  animation: badgeGlow 3s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes badgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(168, 85, 247, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.4), 0 0 60px rgba(168, 85, 247, 0.2);
+  }
+}
+
+// Rotating Rings
+.ai-ring {
+  animation: ringRotate 20s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.ai-ring-2 {
+  animation: ringRotate 30s linear infinite reverse;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// Connection Lines Animation
+.ai-connection-line {
+  stroke-dasharray: 5 5;
+  animation: lineDash 2s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes lineDash {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 10; }
+}
+
+// AI Capability Cards Hover
+.ai-capability-card {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(34, 211, 238, 0.05) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  &:hover::before {
+    transform: translateX(100%);
+  }
+}
+
+// Orbit Icon Pulse
+.ai-orbit-icon {
+  animation: orbitPulse 4s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  &:nth-child(1) { animation-delay: 0s; }
+  &:nth-child(2) { animation-delay: 0.5s; }
+  &:nth-child(3) { animation-delay: 1s; }
+  &:nth-child(4) { animation-delay: 1.5s; }
+  &:nth-child(5) { animation-delay: 0s; }
+  &:nth-child(6) { animation-delay: 2s; }
+  &:nth-child(7) { animation-delay: 2.5s; }
+  &:nth-child(8) { animation-delay: 3s; }
+  &:nth-child(9) { animation-delay: 3.5s; }
+}
+
+@keyframes orbitPulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// Trigger Icon Styles
+.trigger-icon {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .group:hover &::after {
+    animation: iconGlow 1.5s ease-in-out infinite;
+    opacity: 1;
+  }
+}
+
+@keyframes iconGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px currentColor;
+    opacity: 0.3;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor;
+    opacity: 0.5;
+  }
+}
+
+// ============================================
+// Animations
+// ============================================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// ============================================
+// RTL Support
+// ============================================
+[dir="rtl"] {
+  .engagement-card:hover {
+    transform: translateX(-4px);
+  }
+}
+
+// ============================================
+// Reduced Motion Support
+// ============================================
+@media (prefers-reduced-motion: reduce) {
+  .ir-scan-lines,
+  .ir-status-badge,
+  .engagement-card,
+  .response-step,
+  .trigger-card,
+  .forensics-card,
+  .stat-card,
+  .standards-card,
+  .why-card,
+  .ai-card {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .engagement-card:hover {
+    transform: none;
+  }
+}
+
+// ============================================
+// High Contrast Mode Support
+// ============================================
+@media (prefers-contrast: high) {
+  .ir-hero-bg::before,
+  .ir-scan-lines {
+    display: none;
+  }
+
+  .engagement-card {
+    border-width: 2px;
+  }
+}
+
+// ============================================
+// Focus States (Accessibility)
+// ============================================
+.incident-response-page {
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--ir-accent-cyan);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  .engagement-card:focus-within {
+    outline: 2px solid var(--ir-accent-cyan);
+    outline-offset: 2px;
+  }
+
+  // High visibility focus for dark sections
+  .hero-section,
+  .ai-section,
+  .cta-section {
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid white;
+      outline-offset: 3px;
+    }
+  }
+}
+
+// ============================================
+// Print Styles
+// ============================================
+@media print {
+  .ir-hero-bg,
+  .ir-scan-lines {
+    background: white !important;
+  }
+
+  .ir-status-badge {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}

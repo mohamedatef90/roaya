@@ -1076,6 +1076,226 @@
             "trust3": "No long-term commitment required"
           }
         },
+        "incidentResponse": {
+          "title": "Incident Response & Digital Forensics",
+          "hero": {
+            "badge": "NIST SP 800-61 Aligned",
+            "title": "Incident Response & Digital Forensics",
+            "subtitle": "When every minute counts, we bring clarity. 24/7 Incident Response with NIST-aligned methodology and AI-assisted forensic analysis.",
+            "cta": "Talk to an Expert",
+            "ctaSecondary": "Set Up a Retainer",
+            "certifications": "Trusted by enterprises across Egypt and MENA"
+          },
+          "stats": {
+            "responseTime": {
+              "label": "Response Time",
+              "description": "Initial response within 1 hour of engagement"
+            },
+            "incidents": {
+              "label": "Incidents Handled",
+              "description": "Successfully resolved security incidents"
+            },
+            "nistAligned": {
+              "label": "NIST Aligned",
+              "description": "Full compliance with NIST SP 800-61"
+            }
+          },
+          "intro": {
+            "quote": "When an incident hits, the goal is simple: contain the impact, restore operations, and prevent it from happening again. Minutes matter — but panic doesn't help. We bring structure, disciplined evidence handling, and clear decision-making.",
+            "aiNoteTitle": "AI-Assisted Analysis",
+            "aiNote": "Roaya uses AI-assisted analysis to accelerate scoping, correlate signals across logs/endpoints/network data, and support timeline reconstruction while maintaining forensic rigor. AI assists; conclusions are expert-validated and documented. Roaya runs its AI models on our secure cloud infrastructure, so incident evidence and artifacts remain protected and under our control."
+          },
+          "whenToCall": {
+            "title": "When to Call",
+            "subtitle": "You don't need a confirmed \"breach\" to call. Reach out when the situation is unclear and the risk is real.",
+            "closingNote": "If you're unsure, we scope first, then act decisively.",
+            "ransomware": {
+              "title": "Ransomware or Encryption Event",
+              "description": "A sudden outage, ransomware encryption event, or ransom note demanding payment."
+            },
+            "accountActivity": {
+              "title": "Unusual Account Activity",
+              "description": "Mass lockouts, unexpected password resets, \"impossible travel,\" or access at unusual hours."
+            },
+            "dataExposure": {
+              "title": "Suspected Data Exposure",
+              "description": "Suspected sensitive data exposure including customer records, payroll, contracts, or source code."
+            },
+            "highSeverityAlerts": {
+              "title": "High-Severity Alerts",
+              "description": "Security tools firing high-severity alerts you can't quickly validate or understand."
+            },
+            "compromisedSystem": {
+              "title": "Compromised System",
+              "description": "A compromised laptop/server, suspicious remote access, or unknown new admin accounts appearing."
+            },
+            "thirdPartyNotif": {
+              "title": "Third-Party Notification",
+              "description": "Third-party notification that your credentials or data may have been exposed elsewhere."
+            },
+            "defensibleForensics": {
+              "title": "Defensible Forensics Needed",
+              "description": "Needing defensible forensics for internal, regulatory, or cyber insurance requirements."
+            }
+          },
+          "engagementOptions": {
+            "title": "Engagement Options",
+            "subtitle": "Choose the engagement model that fits your situation.",
+            "includedLabel": "What's Included:",
+            "onDemand": {
+              "title": "On-Demand Incident Response",
+              "bestFor": "Best for: A live incident or urgent suspicion that needs immediate triage and containment.",
+              "description": "Immediate engagement for active incidents requiring rapid mobilization, containment, and forensic investigation.",
+              "feature1": "24/7 availability and rapid mobilization",
+              "feature2": "Initial scoping and impact assessment",
+              "feature3": "Containment support to stop spread and limit downtime",
+              "feature4": "Forensic collection and analysis (endpoint, network, logs, cloud)",
+              "feature5": "Action-oriented eradication and recovery recommendations",
+              "feature6": "Post-incident report with root cause, lessons learned, and hardening priorities"
+            },
+            "retainer": {
+              "title": "Incident Response Retainer",
+              "bestFor": "Best for: Faster response and less friction when the next incident happens.",
+              "description": "Pre-agree terms, contacts, access methods, and runbooks so you're not negotiating during an outage. It's on-demand access with pre-negotiated terms for smoother, faster response.",
+              "feature1": "Priority 24/7 access to IR and forensics support",
+              "feature2": "Pre-incident readiness (escalation paths, evidence handling, communications plan)",
+              "feature3": "Faster onboarding during a real event (known systems, stakeholders, workflows)",
+              "feature4": "Optional tabletop exercises and response playbook tuning",
+              "feature5": "Retainer credits applied to incident response and proactive risk-reduction activities",
+              "feature6": "Dedicated account manager and priority SLA"
+            }
+          },
+          "howWeRespond": {
+            "title": "How We Respond",
+            "subtitle": "Roaya's approach is grounded in NIST SP 800-61 incident-handling concepts, mapped into clear operational steps.",
+            "prepare": {
+              "title": "1. Prepare",
+              "description": "Confirm contacts, access paths, evidence handling, and decision authority; validate logging/telemetry and preservation steps."
+            },
+            "detectAnalyze": {
+              "title": "2. Detect & Analyze",
+              "description": "Triage, confirm what's real vs. noise, scope affected users/systems/data/timeline; map behaviors using MITRE ATT&CK."
+            },
+            "containEradicateRecover": {
+              "title": "3. Contain, Eradicate & Recover",
+              "description": "Isolate affected systems, block malicious activity, stop lateral movement; remove persistence, reset credentials, patch root causes; restore services safely, validate integrity, and monitor for re-entry."
+            },
+            "postIncident": {
+              "title": "4. Post-Incident Activity",
+              "description": "Deliver a defensible report, root cause analysis, and prioritized recommendations; convert lessons learned into measurable improvements."
+            }
+          },
+          "aiAssisted": {
+            "badge": "AI-Assisted, Human-Led",
+            "title": "AI-Assisted, Human-Led Execution",
+            "description": "We use AI to move faster without compromising rigor. Every conclusion is reviewed and documented by experienced responders.",
+            "fasterScoping": "Faster scoping through clustering of alerts and artifacts",
+            "evidenceCorrelation": "Evidence correlation across endpoints, network traces, and logs",
+            "timelineReconstruction": "Timeline reconstruction to sequence attacker actions and impacted assets",
+            "repeatableContainment": "Support for repeatable containment actions (always human-approved)",
+            "disclaimer": "Roaya runs its AI models on our secure cloud infrastructure, so incident evidence and artifacts remain protected and under our control."
+          },
+          "forensics": {
+            "title": "Digital Forensics Capabilities",
+            "subtitle": "Digital forensics answers the questions that matter: What happened? How? What data was accessed? What should we do next?",
+            "description": "We collect and analyze evidence with a defensible chain-of-custody mindset.",
+            "memory": {
+              "title": "Memory Forensics",
+              "description": "Reveals running malware, injected code, and in-memory credentials; identifies active tooling not written to disk."
+            },
+            "disk": {
+              "title": "Disk and File Forensics",
+              "description": "Reconstructs file activity and persistence; supports root cause analysis and evidence preservation."
+            },
+            "log": {
+              "title": "Log and Endpoint Telemetry",
+              "description": "Speeds triage across logs and artifacts; helps identify escalation, suspicious execution, and persistence at scale."
+            },
+            "network": {
+              "title": "Network Forensics",
+              "description": "Identifies command-and-control and exfiltration patterns; adds context when endpoint logs are incomplete."
+            },
+            "rapidTriage": {
+              "title": "Rapid Triage & Artifact Collection",
+              "description": "Collects high-value artifacts fast to support early containment decisions and preserve evidence."
+            }
+          },
+          "integrations": {
+            "title": "Tools & Intelligence Ecosystem",
+            "subtitle": "Incidents don't live in one tool. Roaya connects the dots across your stack to shorten time-to-resolution.",
+            "description": "We integrate signals from:",
+            "note": "Tools listed are representative — we use a broader set of proven IR and forensic tools as needed to ensure complete coverage.",
+            "partners": {
+              "paloAlto": "Palo Alto Networks (Cortex, Unit 42)",
+              "splunk": "Splunk",
+              "elastic": "Elastic Security",
+              "f5": "F5",
+              "crowdstrike": "CrowdStrike",
+              "fortiguard": "FortiGuard",
+              "kaspersky": "Kaspersky",
+              "nessus": "Nessus"
+            }
+          },
+          "standards": {
+            "title": "Standards Alignment & Compliance",
+            "subtitle": "Roaya's IR and forensics work is designed to fit into your broader governance and audit posture.",
+            "alignmentNote": "Alignment matters because it creates consistency: during chaos, everyone knows what \"good\" looks like.",
+            "nistCsf": {
+              "name": "NIST CSF",
+              "description": "Ties response into an enterprise risk and resilience framework"
+            },
+            "iso27001": {
+              "name": "ISO/IEC 27001 & 27002",
+              "description": "Supports structured policies, controls, and repeatable processes"
+            },
+            "mitreAttack": {
+              "name": "MITRE ATT&CK",
+              "description": "Maps observed behaviors to known adversary techniques"
+            },
+            "cisControls": {
+              "name": "CIS Controls",
+              "description": "Converts lessons learned into prioritized control improvements"
+            },
+            "globalRegulations": {
+              "name": "Global Regulations",
+              "description": "Investigations conducted in compliance with GDPR and applicable local regulations"
+            }
+          },
+          "whyRoaya": {
+            "title": "Why Roaya",
+            "subtitle": "When every minute counts, choose a partner with the expertise and infrastructure to respond decisively.",
+            "availability24x7": {
+              "title": "24/7 Availability, Operational Discipline",
+              "description": "Fast response, clear communications, aligned stakeholders — we bring order to chaos."
+            },
+            "forensicsFirst": {
+              "title": "Forensics-First Mindset",
+              "description": "Disciplined evidence handling and defensible outputs that stand up to scrutiny."
+            },
+            "humanLedAiAccelerated": {
+              "title": "Human-Led, AI-Accelerated",
+              "description": "AI speeds correlation and timeline building; experts validate every conclusion."
+            },
+            "dataProtection": {
+              "title": "Data Protection by Design",
+              "description": "AI runs on our secure cloud infrastructure to protect incident artifacts and evidence."
+            },
+            "actionableOutcomes": {
+              "title": "Actionable Outcomes",
+              "description": "Containment support, recovery guidance, and a prioritized plan to prevent recurrence."
+            }
+          },
+          "cta": {
+            "urgencyBadge": "24/7 Emergency Response Available",
+            "title": "Need Incident Response Now?",
+            "description": "If you're handling a suspected incident — or want to be ready before the next one — Roaya can help.",
+            "button": "Talk to an Expert",
+            "buttonSecondary": "Set Up a Retainer",
+            "trust1": "Initial response within 1 hour",
+            "trust2": "NIST SP 800-61 aligned methodology",
+            "trust3": "Forensically sound evidence handling"
+          }
+        },
         "pentestV2": {
           "title": "Penetration Testing & Security Assessment",
           "hero": {
@@ -2340,6 +2560,15 @@
       "title": "Want to Learn More?",
       "description": "Contact our experts to discuss how we can help transform your IT infrastructure.",
       "button": "Get in Touch"
+    },
+    "sidebar": {
+      "resources": "Useful Resources",
+      "followUs": "Follow Us",
+      "social": {
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter",
+        "facebook": "Facebook"
+      }
     },
     "detail": {
       "loading": "Loading post...",
