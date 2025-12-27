@@ -2,147 +2,174 @@
   display: block;
 }
 
-.prose {
-  color: #262626; // neutral-800 for better contrast
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: #171717; // neutral-900
-    font-weight: bold;
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-    line-height: 1.3;
+// Use ::ng-deep to pierce view encapsulation and ensure styles apply
+// Also use !important to override Tailwind Typography plugin styles
+::ng-deep .prose {
+  color: #262626 !important; // neutral-800 for better contrast
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #171717 !important; // neutral-900
+    font-weight: bold !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 0.5em !important;
+    line-height: 1.3 !important;
   }
 
   p {
-    margin-bottom: 1.25em;
-    line-height: 1.75;
-    color: #262626; // neutral-800
+    margin-bottom: 1em !important;
+    line-height: 1.6 !important;
+    color: #262626 !important; // neutral-800
   }
 
   a {
-    color: #0f172a; // navy
-    text-decoration: underline;
-    text-decoration-color: rgba(15, 23, 42, 0.3); // navy with opacity
-    text-underline-offset: 2px;
-    transition: all 0.2s ease;
-    
+    color: #0f172a !important; // navy
+    text-decoration: underline !important;
+    text-decoration-color: rgba(15, 23, 42, 0.3) !important; // navy with opacity
+    text-underline-offset: 2px !important;
+    transition: all 0.2s ease !important;
+
     &:hover {
-      color: #0c1220; // darker navy
-      text-decoration-color: #0f172a; // solid navy on hover
+      color: #0c1220 !important; // darker navy
+      text-decoration-color: #0f172a !important; // solid navy on hover
     }
 
     &:visited {
-      color: #0f172a; // navy
+      color: #0f172a !important; // navy
     }
   }
 
-  ul, ol {
-    margin-bottom: 1.25em;
-    padding-left: 1.625em;
-    color: #262626; // neutral-800
+  ul,
+  ol {
+    margin-bottom: 1em !important;
+    padding-left: 1.625em !important;
+    color: #262626 !important; // neutral-800
   }
 
   li {
-    margin-bottom: 0.5em;
-    line-height: 1.75;
+    margin-bottom: 0.25em !important;
+    line-height: 1.6 !important;
+    color: #262626 !important; // neutral-800
   }
 
   img {
-    border-radius: 0.5rem;
-    margin: 1.5em 0;
+    border-radius: 0.5rem !important;
+    margin: 1.5em 0 !important;
   }
 
   code {
-    background: #f5f5f5; // neutral-100
-    color: #171717; // neutral-900
-    padding: 0.125rem 0.375rem;
-    border-radius: 0.25rem;
-    font-size: 0.875em;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-    border: 1px solid #e5e5e5; // neutral-200
+    background: #f5f5f5 !important; // neutral-100
+    color: #171717 !important; // neutral-900
+    padding: 0.125rem 0.375rem !important;
+    border-radius: 0.25rem !important;
+    font-size: 0.875em !important;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace !important;
+    border: 1px solid #e5e5e5 !important; // neutral-200
   }
 
   pre {
-    background: #f5f5f5; // neutral-100
-    color: #171717; // neutral-900
-    padding: 1rem;
-    border-radius: 0.5rem;
-    overflow-x: auto;
-    margin: 1.5em 0;
-    border: 1px solid #e5e5e5; // neutral-200
-    line-height: 1.6;
+    background: #f5f5f5 !important; // neutral-100
+    color: #171717 !important; // neutral-900
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+    overflow-x: auto !important;
+    margin: 1.5em 0 !important;
+    border: 1px solid #e5e5e5 !important; // neutral-200
+    line-height: 1.6 !important;
 
     code {
-      background: transparent;
-      padding: 0;
-      border: none;
-      color: inherit;
-      font-size: 0.875em;
+      background: transparent !important;
+      padding: 0 !important;
+      border: none !important;
+      color: inherit !important;
+      font-size: 0.875em !important;
     }
   }
 
   blockquote {
-    border-left: 4px solid #0f172a; // navy
-    background: #fafafa; // neutral-50
-    padding: 1rem 1.5rem;
-    margin: 1.5em 0;
-    font-style: italic;
-    color: #404040; // neutral-700
-    border-radius: 0 0.5rem 0.5rem 0;
+    border-left: 4px solid #0f172a !important; // navy
+    background: #fafafa !important; // neutral-50
+    padding: 1rem 1.5rem !important;
+    margin: 1.5em 0 !important;
+    font-style: italic !important;
+    color: #404040 !important; // neutral-700
+    border-radius: 0 0.5rem 0.5rem 0 !important;
   }
 
+  strong {
+    color: #171717 !important; // neutral-900
+    font-weight: 600 !important;
+  }
 }
 
 // Dark mode styles (Tailwind uses .dark class on html/body)
 ::ng-deep .dark .prose {
-  color: #e5e5e5; // neutral-200
+  color: #e5e5e5 !important; // neutral-200
 
-  h1, h2, h3, h4, h5, h6 {
-    color: #ffffff; // white
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #ffffff !important; // white
   }
 
   p {
-    color: #e5e5e5; // neutral-200
+    color: #e5e5e5 !important; // neutral-200
   }
 
   a {
-    color: #14b8a6; // teal
-    text-decoration-color: rgba(20, 184, 166, 0.3); // teal with opacity
-    
+    color: #14b8a6 !important; // teal
+    text-decoration-color: rgba(20, 184, 166, 0.3) !important; // teal with opacity
+
     &:hover {
-      color: #2dd4bf; // lighter teal
-      text-decoration-color: #14b8a6; // solid teal on hover
+      color: #2dd4bf !important; // lighter teal
+      text-decoration-color: #14b8a6 !important; // solid teal on hover
     }
 
     &:visited {
-      color: #14b8a6; // teal
+      color: #14b8a6 !important; // teal
     }
   }
 
-  ul, ol {
-    color: #e5e5e5; // neutral-200
+  ul,
+  ol {
+    color: #e5e5e5 !important; // neutral-200
+  }
+
+  li {
+    color: #e5e5e5 !important; // neutral-200
   }
 
   code {
-    background: #262626; // neutral-800
-    color: #fafafa; // neutral-50
-    border-color: #404040; // neutral-700
+    background: #262626 !important; // neutral-800
+    color: #fafafa !important; // neutral-50
+    border-color: #404040 !important; // neutral-700
   }
 
   pre {
-    background: #171717; // neutral-900
-    color: #fafafa; // neutral-50
-    border-color: #404040; // neutral-700
+    background: #171717 !important; // neutral-900
+    color: #fafafa !important; // neutral-50
+    border-color: #404040 !important; // neutral-700
 
     code {
-      background: transparent;
-      color: inherit;
+      background: transparent !important;
+      color: inherit !important;
     }
   }
 
   blockquote {
-    border-left-color: #14b8a6; // teal
-    background: #262626; // neutral-800
-    color: #d4d4d4; // neutral-300
+    border-left-color: #14b8a6 !important; // teal
+    background: #262626 !important; // neutral-800
+    color: #d4d4d4 !important; // neutral-300
+  }
+
+  strong {
+    color: #ffffff !important; // white
   }
 }

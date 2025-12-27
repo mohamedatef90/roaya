@@ -70,6 +70,9 @@ module.exports = {
           blue: '#4A90D9',
           purple: '#7C5BB2',
         },
+        // Brand Color Aliases
+        navy: '#3D5A80',
+        teal: '#5DB7C2',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

@@ -1,173 +1,428 @@
 {
+  "version": "2.0",
+  "last_updated": "2025-12-27",
+  "source": "/Users/mohamedatef/Downloads/roaya/.claude/agents/",
   "agents": {
     "product-orchestrator": {
-      "description": "Super-coordinator for strategic coordination across multiple domains",
+      "name": "Product Orchestrator",
+      "role": "Chief Brain / Super Coordinator",
+      "model": "sonnet",
+      "color": "blue",
+      "authority_level": "SUPREME",
+      "description": "Strategic coordinator that synthesizes business requirements, UX design, technical architecture, security considerations, and quality assurance into one coherent plan.",
       "use_cases": [
         "Starting a new feature or product",
         "Making architectural decisions spanning multiple domains",
         "Planning MVPs with trade-offs",
-        "Security-sensitive features",
-        "Complex stakeholder requests"
+        "Security-sensitive features (auth, payments, data handling)",
+        "Complex stakeholder requests needing breakdown"
       ],
-      "coordinates": ["business-analyst", "ux-engineer", "tech-lead", "security-reviewer", "qa-test-engineer"]
+      "team_roster": {
+        "strategy_planning": ["Business Analyst", "Project Manager"],
+        "design_content": ["Content Specialist", "UX Engineer", "Visual Inspiration Analyzer"],
+        "technical_leadership": ["Tech Lead", "Database Engineer", "AI Strategy Specialist"],
+        "implementation": ["Backend Engineer", "Frontend Engineer", "Flutter Engineer"],
+        "quality_security": ["QA/Test Engineer", "Code Reviewer", "Security Reviewer", "Design Reviewer"]
+      },
+      "decision_priority": ["Security", "Product Value", "Feasibility", "Quality", "Speed"],
+      "output_sections": [
+        "Executive Summary",
+        "Orchestration Plan",
+        "Consolidated Product Plan",
+        "Risks, Trade-offs & Security Considerations",
+        "Recommended Next Steps"
+      ]
+    },
+    "super-agent": {
+      "name": "Super Agent (Research Director)",
+      "role": "Multi-Brain Research System",
+      "model": "sonnet",
+      "color": "red",
+      "authority_level": "ELEVATED",
+      "description": "Comprehensive multi-perspective research on websites, APIs, technologies, or products using 6 specialized research personas.",
+      "use_cases": [
+        "Research websites comprehensively (content, design, functionality, tech stack)",
+        "Analyze and reverse-engineer APIs",
+        "Find and synthesize documentation",
+        "Perform competitive analysis",
+        "Understand how products are built",
+        "Research before building a similar solution"
+      ],
+      "trigger_phrases": ["research", "analyze website", "how does X work", "find documentation", "analyze API", "compare", "investigate", "deep dive", "reverse engineer", "what tech does X use"],
+      "research_brains": {
+        "brain_1_content_scout": "Senior Research Analyst - searches authoritative sources, ranks reliability, verifies claims",
+        "brain_2_design_analyst": "Senior UI/UX Researcher - extracts visual systems, components, layouts, interactions",
+        "brain_3_function_investigator": "Senior Product Analyst - maps features, user journeys, navigation, interactive elements",
+        "brain_4_documentation_hunter": "Documentation Specialist - discovers docs, assesses quality, synthesizes guides",
+        "brain_5_api_detective": "Senior API Analyst - monitors network requests, documents endpoints, analyzes auth methods",
+        "brain_6_tech_profiler": "Technical Architect Analyst - detects frontend/backend/infrastructure technologies"
+      },
+      "activation_by_request": {
+        "website_analysis": "All 6 brains",
+        "api_research": ["API Detective", "Doc Hunter", "Content Scout"],
+        "tech_stack_only": ["Tech Profiler", "Design Analyst"],
+        "competitive_analysis": "All 6 brains",
+        "documentation_search": ["Doc Hunter", "Content Scout", "API Detective"]
+      }
     },
     "super-business-analyst": {
-      "description": "Expert-level business analysis and requirements engineering",
+      "name": "Super Business Analyst",
+      "role": "Requirements & Business Engineering",
+      "model": "sonnet",
+      "color": "purple",
+      "authority_level": "ELEVATED",
+      "description": "Expert-level business analysis, requirements engineering, and strategic product thinking.",
       "use_cases": [
         "Problem discovery (5 Whys framework)",
-        "INVEST-compliant user stories",
+        "INVEST-compliant user stories with testable acceptance criteria",
         "Stakeholder analysis and alignment",
         "Business value quantification",
         "Requirements traceability matrices",
-        "Veto authority on poorly-defined requirements"
-      ]
+        "Business process modeling"
+      ],
+      "veto_authority": "Poorly-defined requirements",
+      "frameworks": ["5 Whys", "INVEST", "RACI", "MoSCoW", "Kano Model"]
     },
     "super-tech-lead": {
-      "description": "Expert technical architecture and engineering leadership",
+      "name": "Super Tech Lead",
+      "role": "Architecture & Technical Leadership",
+      "model": "sonnet",
+      "color": "green",
+      "authority_level": "ELEVATED",
+      "description": "World-class technical architect with expertise in system design, technology selection, scalability patterns, and engineering leadership.",
       "use_cases": [
         "System architecture design",
         "Technology selection and evaluation",
         "Scalability planning",
         "Technical debt management",
         "Coding standards and PR guidelines",
-        "Veto power over over-engineering"
-      ]
+        "Infrastructure and DevOps design",
+        "Security architecture"
+      ],
+      "veto_authority": ["Over-engineering", "Under-engineering", "Hype-driven development", "Undocumented architecture", "Ignored operations"],
+      "standards": {
+        "system_uptime": "99.95%+",
+        "p99_latency": "< 500ms",
+        "time_to_recovery": "< 15 min",
+        "deploy_frequency": "Multiple/day",
+        "change_failure_rate": "< 5%",
+        "tech_debt_ratio": "< 15%"
+      },
+      "technology_radar_categories": ["Adopt", "Trial", "Assess", "Hold"],
+      "tech_debt_classification": {
+        "critical": "Security vulnerabilities - address immediately",
+        "architectural": "Wrong technology choices - medium interest",
+        "design": "Tight coupling, missing patterns - medium interest",
+        "code": "Missing tests, poor naming - low interest"
+      },
+      "output_includes": ["Architecture Decision Records (ADRs)", "C4 Diagrams", "Technology Stack Tables", "Risk Assessments"]
     },
     "super-pm": {
-      "description": "Strategic product planning and scope management",
+      "name": "Super Project Manager",
+      "role": "Planning & Scope Management",
+      "model": "sonnet",
+      "color": "yellow",
+      "authority_level": "ELEVATED",
+      "description": "Strategic product planning, scope management, MVP definition, milestone planning, and stakeholder alignment.",
       "use_cases": [
         "MVP definition and milestone planning",
         "Roadmap creation",
         "Risk assessment",
-        "Scope creep management (veto power)",
+        "Scope creep management",
         "Prioritization (RICE, MoSCoW, Kano)",
         "Sprint planning",
-        "Stakeholder communication"
-      ]
+        "Stakeholder communication",
+        "Status reporting"
+      ],
+      "veto_authority": "Scope creep without proper assessment",
+      "frameworks": ["RICE Scoring", "MoSCoW", "Kano Model", "Value vs Effort Matrix"]
     },
     "super-frontend-engineer": {
-      "description": "Expert frontend implementation and performance optimization",
+      "name": "Super Frontend Engineer",
+      "role": "Implementation & Frontend Architecture",
+      "model": "sonnet",
+      "color": "cyan",
+      "authority_level": "ELEVATED",
+      "description": "World-class frontend architect with expertise in modern web development, responsive design, performance optimization, and pixel-perfect implementation.",
       "use_cases": [
         "Responsive design systems",
         "Performance optimization (Lighthouse)",
         "Component architecture",
         "Accessibility compliance (WCAG 2.1 AA)",
-        "Pixel-perfect implementations"
-      ]
-    },
-    "ai-strategy-specialist": {
-      "description": "AI/ML integration decisions and architecture",
-      "use_cases": [
-        "AI suitability evaluation",
-        "Model selection (GPT-4, Claude, etc.)",
-        "Prompt engineering",
-        "RAG system design",
-        "AI safety measures",
-        "Evaluation frameworks"
-      ]
-    },
-    "qa-test-engineer": {
-      "description": "Comprehensive test strategy and quality assurance",
-      "use_cases": [
-        "Test strategy design",
-        "Test case development",
-        "Regression testing plans",
-        "Bug report templates",
-        "E2E test automation (Playwright)",
-        "Risk-based test prioritization"
-      ]
-    },
-    "ux-engineer": {
-      "description": "User flows, information architecture, and interaction design",
-      "use_cases": [
-        "User flow design",
-        "Screen structures and wireframes",
-        "Interaction states (empty, error, loading)",
-        "Accessibility considerations",
-        "RTL layout support"
+        "Pixel-perfect implementations",
+        "Animation & micro-interactions"
       ],
-      "workflow_position": "After business requirements, before frontend implementation"
-    },
-    "content-terminology-specialist": {
-      "description": "Naming conventions, UX copy, and bilingual content",
-      "use_cases": [
-        "Domain glossaries",
-        "UX copy (buttons, errors, tooltips)",
-        "Bilingual content (EN/AR)",
-        "Voice and tone guidelines",
-        "Terminology consistency"
-      ],
-      "workflow_position": "After domain concepts defined, before frontend implementation"
-    },
-    "code-reviewer": {
-      "description": "Code review for correctness and best practices",
-      "use_cases": [
-        "Post-implementation code review",
-        "Correctness verification",
-        "Code quality assessment",
-        "Security issue detection",
-        "Best practices enforcement"
-      ],
-      "workflow_position": "After code written, before merging"
-    },
-    "design-reviewer": {
-      "description": "UI/UX implementation review for visual quality and accessibility",
-      "use_cases": [
-        "Visual quality review",
-        "Design system compliance",
-        "WCAG accessibility verification",
-        "Responsive behavior checking",
-        "Pre-launch design review"
-      ],
-      "workflow_position": "After UI implementation, before features go live"
-    },
-    "visual-inspiration-analyzer": {
-      "description": "Extract design patterns from reference URLs and images",
-      "use_cases": [
-        "Design system extraction",
-        "Color palette analysis",
-        "Typography scale extraction",
-        "Component pattern identification",
-        "Tailwind/Flutter config generation"
-      ]
+      "standards": {
+        "lighthouse_performance": "> 95",
+        "first_contentful_paint": "< 1.2s",
+        "time_to_interactive": "< 2.5s",
+        "cumulative_layout_shift": "< 0.1",
+        "accessibility_score": "100",
+        "bundle_size_initial": "< 100KB"
+      },
+      "breakpoints": {
+        "xs": "320px",
+        "sm": "480px",
+        "md": "768px",
+        "lg": "1024px",
+        "xl": "1280px",
+        "2xl": "1536px",
+        "3xl": "1920px"
+      },
+      "component_architecture": ["Primitives", "Composites", "Patterns", "Layouts"],
+      "tech_expertise": ["React", "Next.js", "Vue", "Angular", "Tailwind CSS", "Framer Motion", "GSAP", "Playwright"]
     },
     "ui-design-expert": {
-      "description": "Expert UI/UX design guidance with active web browsing for design inspiration",
+      "name": "UI Design Expert",
+      "role": "Senior UI/UX Designer & Creative Director",
+      "model": "sonnet",
+      "color": "cyan",
+      "authority_level": "ELEVATED",
+      "description": "Expert UI/UX design guidance with active web browsing for real-time design inspiration from Awwwards, Dribbble, and Mobbin.",
       "use_cases": [
         "Visual design specifications and concepts",
         "Color palette creation with accessibility compliance",
         "Typography recommendations and font pairing",
         "Component design with implementation-ready specs",
         "Design system architecture and guidelines",
-        "Active browsing of Awwwards, Dribbble, Mobbin for current trends",
+        "Active browsing for current trends",
         "Design critique and improvement recommendations",
         "Design handoff specifications for frontend developers"
       ],
-      "expertise": [
-        "Color theory and WCAG accessibility",
-        "Typography hierarchy and web fonts",
-        "Layout composition and grid systems",
-        "Multiple design styles (3D, minimalist, corporate, brutalist, etc.)",
-        "Tailwind CSS, Shadcn/UI, Material UI, Chakra UI",
-        "Animation libraries (Framer Motion, GSAP, Lottie)"
-      ],
-      "tools": ["WebFetch for browsing design websites", "Visual analysis", "Design specification generation"],
       "workflow_position": "After UX Engineer (flows), before Frontend implementation",
-      "authority": "Design decisions, visual consistency, design system standards"
+      "browsing_routine": {
+        "dashboard": ["dribbble.com/search/dashboard", "awwwards.com", "mobbin.com"],
+        "landing_page": ["awwwards.com", "lapa.ninja", "godly.website"],
+        "mobile_app": ["mobbin.com", "dribbble.com", "screenlane.com"],
+        "e_commerce": ["awwwards.com/websites/e-commerce", "dribbble.com", "behance.net"],
+        "portfolio": ["awwwards.com", "godly.website", "onepagelove.com"],
+        "saas": ["saaslandingpage.com", "lapa.ninja", "dribbble.com"]
+      },
+      "design_styles": ["3D & Immersive", "Sleek & Sexy", "Corporate & Professional", "Dashboard & Data", "Minimalist", "Brutalist", "Playful & Fun"],
+      "framework_knowledge": ["Tailwind CSS", "Shadcn/UI", "Bootstrap", "Material UI", "Chakra UI", "Framer Motion", "GSAP", "Lottie"]
+    },
+    "ux-engineer": {
+      "name": "UX Engineer",
+      "role": "User Experience & Interaction Design",
+      "model": "sonnet",
+      "color": "pink",
+      "authority_level": "STANDARD",
+      "description": "User flows, information architecture, screen structures, wireframes, and interaction design.",
+      "use_cases": [
+        "User flow design",
+        "Screen structures and wireframes",
+        "Interaction states (empty, error, loading)",
+        "Accessibility considerations",
+        "RTL layout support",
+        "Information architecture"
+      ],
+      "workflow_position": "After business requirements, before UI design and frontend implementation",
+      "deliverables": ["User Flow Diagrams", "Wireframes", "Interaction State Specs", "Accessibility Requirements"]
+    },
+    "content-terminology-specialist": {
+      "name": "Content & Terminology Specialist",
+      "role": "Bilingual Content & UX Copy",
+      "model": "sonnet",
+      "color": "teal",
+      "authority_level": "STANDARD",
+      "description": "Naming conventions, domain vocabulary, UX copy, and bilingual content (EN/AR).",
+      "use_cases": [
+        "Domain glossaries",
+        "UX copy (buttons, errors, tooltips, empty states)",
+        "Bilingual content (EN/AR with RTL)",
+        "Voice and tone guidelines",
+        "Terminology consistency",
+        "Reusable content patterns"
+      ],
+      "workflow_position": "After domain concepts defined by business analyst, before frontend implementation",
+      "deliverables": ["Domain Glossary", "UX Copy Specs", "Bilingual Translations", "Voice & Tone Guidelines"]
+    },
+    "ai-strategy-specialist": {
+      "name": "AI Strategy Specialist",
+      "role": "AI/ML Integration & Architecture",
+      "model": "sonnet",
+      "color": "violet",
+      "authority_level": "ELEVATED",
+      "description": "AI/ML integration decisions, model selection, prompt engineering, RAG system design, and AI safety measures.",
+      "use_cases": [
+        "AI suitability evaluation",
+        "Model selection (GPT-4, Claude, Gemini, etc.)",
+        "Prompt engineering",
+        "RAG system design",
+        "AI safety measures and guardrails",
+        "Evaluation frameworks",
+        "Cost optimization"
+      ],
+      "expertise_areas": ["LLM Selection", "Prompt Engineering", "RAG Architecture", "AI Safety", "Evaluation Metrics"]
+    },
+    "qa-test-engineer": {
+      "name": "QA / Test Engineer",
+      "role": "Quality Assurance & Test Strategy",
+      "model": "sonnet",
+      "color": "orange",
+      "authority_level": "STANDARD",
+      "description": "Comprehensive test strategy design, test case development, regression testing, and quality assurance planning.",
+      "use_cases": [
+        "Test strategy design",
+        "Test case development",
+        "Regression testing plans",
+        "Bug report templates",
+        "E2E test automation (Playwright)",
+        "Risk-based test prioritization",
+        "Release readiness checklists"
+      ],
+      "priority_framework": {
+        "P0_critical": "Core functionality, security-related, data integrity, blocking user flows",
+        "P1_high": "Important features, common user paths, error handling",
+        "P2_medium": "Edge cases, rare scenarios, non-critical UI",
+        "P3_low": "Cosmetic issues, nice-to-have, rare platforms"
+      },
+      "test_types": ["Functional", "Negative/Error", "Boundary/Edge", "Security", "Integration", "Performance"],
+      "tools": ["Playwright", "Cypress", "Jest", "Postman", "axe-core", "Lighthouse"]
+    },
+    "code-reviewer": {
+      "name": "Code Reviewer",
+      "role": "Code Quality & Best Practices",
+      "model": "sonnet",
+      "color": "gray",
+      "authority_level": "STANDARD",
+      "description": "Code review for correctness, clarity, maintainability, and adherence to best practices.",
+      "use_cases": [
+        "Post-implementation code review",
+        "Correctness verification",
+        "Code quality assessment",
+        "Security issue detection",
+        "Best practices enforcement",
+        "Performance issue identification"
+      ],
+      "workflow_position": "After code written, before merging",
+      "review_areas": ["Correctness", "Code Quality", "Security", "Performance", "Maintainability", "Testing Coverage"]
+    },
+    "design-reviewer": {
+      "name": "Design Reviewer",
+      "role": "Visual Quality & Accessibility Review",
+      "model": "sonnet",
+      "color": "indigo",
+      "authority_level": "STANDARD",
+      "description": "UI/UX implementation review for visual quality, design system compliance, and accessibility.",
+      "use_cases": [
+        "Visual quality review",
+        "Design system compliance",
+        "WCAG accessibility verification",
+        "Responsive behavior checking",
+        "Pre-launch design review",
+        "Brand adherence"
+      ],
+      "workflow_position": "After UI implementation, before features go live",
+      "review_areas": ["Visual Hierarchy", "Spacing & Typography", "Color Contrast", "Consistency", "Accessibility", "Responsive Behavior"]
+    },
+    "visual-inspiration-analyzer": {
+      "name": "Visual Inspiration Analyzer",
+      "role": "Design Pattern Extraction",
+      "model": "sonnet",
+      "color": "magenta",
+      "authority_level": "STANDARD",
+      "description": "Extract design patterns from reference URLs, screenshots, and inspiration images.",
+      "use_cases": [
+        "Design system extraction from references",
+        "Color palette analysis",
+        "Typography scale extraction",
+        "Component pattern identification",
+        "Layout specification extraction",
+        "Tailwind/Flutter config generation"
+      ],
+      "output_includes": ["Color Palette (hex codes)", "Typography Scales", "Spacing Systems", "Component Patterns", "Implementation-ready Code"]
     }
   },
   "workflow_sequence": [
-    "product-orchestrator (coordination)",
-    "super-business-analyst (requirements)",
-    "super-pm (planning & prioritization)",
-    "super-tech-lead (architecture)",
-    "ai-strategy-specialist (if AI involved)",
-    "ux-engineer (user flows & wireframes)",
-    "ui-design-expert (visual design & specs)",
-    "content-terminology-specialist (copy)",
-    "super-frontend-engineer (implementation)",
-    "code-reviewer (review)",
-    "qa-test-engineer (testing)",
-    "design-reviewer (final review)"
+    {
+      "step": 1,
+      "agent": "product-orchestrator",
+      "phase": "Coordination",
+      "description": "Assess request, activate relevant agents, define workflow"
+    },
+    {
+      "step": 2,
+      "agent": "super-business-analyst",
+      "phase": "Requirements",
+      "description": "Define problem, user stories, acceptance criteria"
+    },
+    {
+      "step": 3,
+      "agent": "super-pm",
+      "phase": "Planning",
+      "description": "Scope, prioritization, milestone planning"
+    },
+    {
+      "step": 4,
+      "agent": "super-tech-lead",
+      "phase": "Architecture",
+      "description": "System design, technology selection, ADRs"
+    },
+    {
+      "step": 5,
+      "agent": "ai-strategy-specialist",
+      "phase": "AI Design (if applicable)",
+      "description": "AI integration, model selection, prompt engineering"
+    },
+    {
+      "step": 6,
+      "agent": "ux-engineer",
+      "phase": "UX Design",
+      "description": "User flows, wireframes, interaction states"
+    },
+    {
+      "step": 7,
+      "agent": "ui-design-expert",
+      "phase": "Visual Design",
+      "description": "Visual specs, color palette, typography, component design"
+    },
+    {
+      "step": 8,
+      "agent": "content-terminology-specialist",
+      "phase": "Content",
+      "description": "UX copy, translations, terminology"
+    },
+    {
+      "step": 9,
+      "agent": "super-frontend-engineer",
+      "phase": "Implementation",
+      "description": "Frontend development, responsive design, accessibility"
+    },
+    {
+      "step": 10,
+      "agent": "code-reviewer",
+      "phase": "Code Review",
+      "description": "Code quality, best practices, security review"
+    },
+    {
+      "step": 11,
+      "agent": "qa-test-engineer",
+      "phase": "Testing",
+      "description": "Test strategy, test cases, E2E automation"
+    },
+    {
+      "step": 12,
+      "agent": "design-reviewer",
+      "phase": "Design Review",
+      "description": "Visual QA, accessibility audit, final approval"
+    }
+  ],
+  "agent_files_location": "/Users/mohamedatef/Downloads/roaya/.claude/agents/",
+  "available_agents": [
+    "product-orchestrator.md",
+    "super-agent.md",
+    "super-business-analyst.md",
+    "super-tech-lead.md",
+    "super-pm.md",
+    "super-frontend-engineer.md",
+    "ui-design-expert.md",
+    "ux-engineer.md",
+    "content-terminology-specialist.md",
+    "ai-strategy-specialist.md",
+    "qa-test-engineer.md",
+    "code-reviewer.md",
+    "design-reviewer.md",
+    "visual-inspiration-analyzer.md"
   ]
 }

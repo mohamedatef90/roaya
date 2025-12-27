@@ -3,264 +3,244 @@
 
 <!-- Loading State -->
 @if (isLoading()) {
-  <div class="py-20 text-center">
-    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
-    <p class="mt-4 text-neutral-600 dark:text-neutral-400">{{ 'blog.detail.loading' | translate }}</p>
-  </div>
+<div class="py-20 text-center">
+  <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+  <p class="mt-4 text-neutral-600 dark:text-neutral-400">{{ 'blog.detail.loading' | translate }}</p>
+</div>
 }
 
 <!-- Post Not Found -->
 @if (!isLoading() && !post()) {
-  <div class="py-20 text-center">
-    <h1 class="text-3xl font-bold mb-4 text-neutral-900 dark:text-white">
-      {{ 'blog.detail.notFound.title' | translate }}
-    </h1>
-    <p class="text-neutral-600 dark:text-neutral-400 mb-8">
-      {{ 'blog.detail.notFound.description' | translate }}
-    </p>
-    <a
-      routerLink="/resources/blog"
-      class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white rounded-lg hover:bg-navy/90 transition-colors focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2"
-    >
-      <ng-icon name="lucideArrowLeft" size="20" aria-hidden="true"></ng-icon>
-      {{ 'blog.detail.notFound.back' | translate }}
-    </a>
-  </div>
+<div class="py-20 text-center">
+  <h1 class="text-3xl font-bold mb-4 text-neutral-900 dark:text-white">
+    {{ 'blog.detail.notFound.title' | translate }}
+  </h1>
+  <p class="text-neutral-600 dark:text-neutral-400 mb-8">
+    {{ 'blog.detail.notFound.description' | translate }}
+  </p>
+  <a routerLink="/resources/blog"
+    class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white rounded-lg hover:bg-navy/90 transition-colors focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2">
+    <ng-icon name="lucideArrowLeft" size="20" aria-hidden="true"></ng-icon>
+    {{ 'blog.detail.notFound.back' | translate }}
+  </a>
+</div>
 }
 
 <!-- Post Content -->
 @if (!isLoading() && post()) {
-  <article class="bg-white dark:bg-neutral-950">
-    <!-- Hero Section -->
-    <section class="relative py-16 md:py-24 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white dark:from-navy dark:via-navy/90 dark:to-teal/80 overflow-hidden">
-      <div class="absolute inset-0">
-        <div class="absolute top-0 right-1/3 w-96 h-96 bg-navy/5 dark:bg-white/5 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-1/4 w-80 h-80 bg-teal/10 rounded-full blur-3xl"></div>
+<article class="bg-white dark:bg-neutral-950">
+  <!-- Hero Section -->
+  <section
+    class="relative py-16 md:py-24 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white dark:from-navy dark:via-navy/90 dark:to-teal/80 overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute top-0 right-1/3 w-96 h-96 bg-navy/5 dark:bg-white/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-1/4 w-80 h-80 bg-teal/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <!-- Back Link -->
+      <a routerLink="/resources/blog"
+        class="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-white/80 dark:hover:text-white mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy rounded-lg px-2 py-1 -mx-2 -my-1">
+        <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
+        {{ 'blog.detail.back' | translate }}
+      </a>
+
+      <!-- Category Badge -->
+      <div class="mb-4">
+        <span
+          class="px-4 py-1.5 bg-navy/10 dark:bg-white/10 backdrop-blur-sm text-navy dark:text-white/90 text-sm font-medium rounded-full">
+          {{ ('blog.categories.' + post()!.category) | translate }}
+        </span>
       </div>
 
-      <div class="container mx-auto px-4 relative z-10">
-        <!-- Back Link -->
-        <a
-          routerLink="/resources/blog"
-          class="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-white/80 dark:hover:text-white mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy rounded-lg px-2 py-1 -mx-2 -my-1"
-        >
-          <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
-          {{ 'blog.detail.back' | translate }}
-        </a>
+      <!-- Title -->
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-white mb-6 max-w-4xl">
+        {{ currentTitle() }}
+      </h1>
 
-        <!-- Category Badge -->
-        <div class="mb-4">
-          <span class="px-4 py-1.5 bg-navy/10 dark:bg-white/10 backdrop-blur-sm text-navy dark:text-white/90 text-sm font-medium rounded-full">
-            {{ ('blog.categories.' + post()!.category) | translate }}
-          </span>
+      <!-- Meta Info -->
+      <div class="flex flex-wrap items-center gap-4 md:gap-6 text-neutral-600 dark:text-white/80">
+        <div class="flex items-center gap-2">
+          <ng-icon name="lucideUser" size="18" aria-hidden="true"></ng-icon>
+          <span>{{ getAuthorName() }}</span>
         </div>
-
-        <!-- Title -->
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-white mb-6 max-w-4xl">
-          {{ currentTitle() }}
-        </h1>
-
-        <!-- Meta Info -->
-        <div class="flex flex-wrap items-center gap-4 md:gap-6 text-neutral-600 dark:text-white/80">
-          <div class="flex items-center gap-2">
-            <ng-icon name="lucideUser" size="18" aria-hidden="true"></ng-icon>
-            <span>{{ getAuthorName() }}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <ng-icon name="lucideCalendar" size="18" aria-hidden="true"></ng-icon>
-            <span>{{ post()!.publishedDate | date:'mediumDate' }}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <ng-icon name="lucideClock" size="18" aria-hidden="true"></ng-icon>
-            <span>{{ currentReadingTime() }} {{ 'blog.readingTime' | translate }}</span>
-          </div>
+        <div class="flex items-center gap-2">
+          <ng-icon name="lucideCalendar" size="18" aria-hidden="true"></ng-icon>
+          <span>{{ post()!.publishedDate | date:'mediumDate' }}</span>
         </div>
-      </div>
-    </section>
-
-    <!-- Main Content Area -->
-    <div class="container mx-auto px-4 py-12">
-      <div class="flex flex-col lg:flex-row gap-12">
-        <!-- Sidebar (TOC) - Desktop -->
-        <aside class="hidden lg:block lg:w-72 flex-shrink-0">
-          <div class="sticky top-24">
-            @if (tocItems().length > 0) {
-              <app-table-of-contents [items]="tocItems()"></app-table-of-contents>
-            }
-          </div>
-        </aside>
-
-        <!-- Main Content -->
-        <div class="flex-1 max-w-3xl">
-          <!-- Featured Image -->
-          @if (post()!.featuredImage) {
-            <div class="mb-10 rounded-2xl overflow-hidden shadow-lg">
-              <img
-                [src]="post()!.featuredImage"
-                [alt]="getFeaturedImageAlt()"
-                class="w-full h-auto"
-                loading="eager"
-              />
-            </div>
-          }
-
-          <!-- TOC Mobile -->
-          @if (tocItems().length > 0) {
-            <div class="lg:hidden mb-8">
-              <app-table-of-contents [items]="tocItems()"></app-table-of-contents>
-            </div>
-          }
-
-          <!-- Article Content -->
-          <div
-            class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-neutral-900 dark:prose-headings:text-white prose-p:text-neutral-800 dark:prose-p:text-neutral-200 prose-p:leading-relaxed prose-a:text-navy dark:prose-a:text-teal prose-a:underline prose-a:decoration-2 prose-a:underline-offset-2 prose-a:decoration-navy/30 dark:prose-a:decoration-teal/30 hover:prose-a:decoration-navy dark:hover:prose-a:decoration-teal prose-strong:text-neutral-900 dark:prose-strong:text-white prose-ul:text-neutral-800 dark:prose-ul:text-neutral-200 prose-li:marker:text-navy dark:prose-li:marker:text-teal mb-12"
-            [innerHTML]="processedContent()"
-          ></div>
-
-          <!-- Tags -->
-          @if (currentTags().length > 0) {
-            <div class="mb-10 pb-10 border-b border-neutral-200 dark:border-neutral-800">
-              <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
-                {{ 'blog.detail.tags' | translate }}
-              </h3>
-              <div class="flex flex-wrap gap-2">
-                @for (tag of currentTags(); track tag) {
-                  <span class="px-4 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-sm text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                    #{{ tag }}
-                  </span>
-                }
-              </div>
-            </div>
-          }
-
-          <!-- Share Buttons -->
-          <div class="mb-10 pb-10 border-b border-neutral-200 dark:border-neutral-800">
-            <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
-              {{ 'blog.detail.share' | translate }}
-            </h3>
-            <div class="flex flex-wrap gap-3">
-              <button
-                (click)="sharePost('twitter')"
-                class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                aria-label="Share on Twitter"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                </svg>
-                <span>Twitter</span>
-              </button>
-              <button
-                (click)="sharePost('linkedin')"
-                class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                aria-label="Share on LinkedIn"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                <span>LinkedIn</span>
-              </button>
-              <button
-                (click)="sharePost('facebook')"
-                class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                aria-label="Share on Facebook"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <span>Facebook</span>
-              </button>
-              <button
-                (click)="copyLink()"
-                class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-navy hover:text-white hover:border-navy transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                aria-label="Copy link to clipboard"
-              >
-                <ng-icon name="lucideLink" size="18" aria-hidden="true"></ng-icon>
-                <span>{{ 'blog.detail.copyLink' | translate }}</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Author Card -->
-          @if (post()!.author) {
-            <div class="mb-10">
-              <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
-                {{ 'blog.author.aboutAuthor' | translate }}
-              </h3>
-              <app-author-card [author]="post()!.author"></app-author-card>
-            </div>
-          }
-
-          <!-- Newsletter Signup -->
-          <div class="mb-10">
-            <app-newsletter-signup variant="card" source="blog"></app-newsletter-signup>
-          </div>
-
-          <!-- Related Posts -->
-          @if (relatedPosts().length > 0) {
-            <div class="mb-10">
-              <h2 class="text-2xl font-bold mb-8 text-neutral-900 dark:text-white">
-                {{ 'blog.detail.related' | translate }}
-              </h2>
-              <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @for (relatedPost of relatedPosts(); track relatedPost.id) {
-                  <article
-                    [routerLink]="['/resources/blog', relatedPost.slug]"
-                    class="group bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                    tabindex="0"
-                  >
-                    @if (relatedPost.featuredImage) {
-                      <div class="h-32 overflow-hidden">
-                        <img
-                          [src]="relatedPost.featuredImage"
-                          [alt]="getRelatedPostTitle(relatedPost)"
-                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
-                      </div>
-                    }
-                    <div class="p-4">
-                      <h3 class="text-base font-bold mb-2 text-neutral-900 dark:text-white group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
-                        {{ getRelatedPostTitle(relatedPost) }}
-                      </h3>
-                      <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-relaxed">
-                        {{ getRelatedPostExcerpt(relatedPost) }}
-                      </p>
-                    </div>
-                  </article>
-                }
-              </div>
-            </div>
-          }
-
-          <!-- CTA -->
-          <div class="bg-gradient-to-r from-navy to-teal rounded-2xl p-8 md:p-10 text-white text-center">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4">
-              {{ 'blog.detail.cta.title' | translate }}
-            </h2>
-            <p class="text-lg text-white/90 mb-8">
-              {{ 'blog.detail.cta.description' | translate }}
-            </p>
-            <a
-              routerLink="/contact"
-              class="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy rounded-xl font-semibold hover:bg-neutral-100 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal"
-            >
-              {{ 'blog.detail.cta.button' | translate }}
-              <ng-icon name="lucideArrowRight" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
-            </a>
-          </div>
+        <div class="flex items-center gap-2">
+          <ng-icon name="lucideClock" size="18" aria-hidden="true"></ng-icon>
+          <span>{{ currentReadingTime() }} {{ 'blog.readingTime' | translate }}</span>
         </div>
       </div>
     </div>
-  </article>
+  </section>
 
-  <!-- Scroll to Top Button -->
-  @if (showScrollTop()) {
-    <button
-      (click)="scrollToTop()"
-      class="fixed bottom-8 right-8 rtl:right-auto rtl:left-8 z-40 w-12 h-12 bg-navy text-white rounded-full shadow-lg hover:bg-navy/90 transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2"
-      aria-label="Scroll to top"
-    >
-      <ng-icon name="lucideChevronUp" size="24" aria-hidden="true"></ng-icon>
-    </button>
-  }
+  <!-- Main Content Area -->
+  <div class="container mx-auto px-4 py-12">
+    <div class="flex flex-col lg:flex-row gap-12">
+      <!-- Sidebar (TOC) - Desktop -->
+      <aside class="hidden lg:block lg:w-72 flex-shrink-0">
+        <div class="sticky top-24">
+          @if (tocItems().length > 0) {
+          <app-table-of-contents [items]="tocItems()"></app-table-of-contents>
+          }
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 max-w-3xl">
+        <!-- Featured Image -->
+        @if (post()!.featuredImage) {
+        <div class="mb-10 rounded-2xl overflow-hidden shadow-lg">
+          <img [src]="post()!.featuredImage" [alt]="getFeaturedImageAlt()" class="w-full h-auto" loading="eager" />
+        </div>
+        }
+
+        <!-- TOC Mobile -->
+        @if (tocItems().length > 0) {
+        <div class="lg:hidden mb-8">
+          <app-table-of-contents [items]="tocItems()"></app-table-of-contents>
+        </div>
+        }
+
+        <!-- Article Content -->
+        <div
+          class="prose dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-neutral-900 dark:prose-headings:text-white prose-p:text-neutral-800 dark:prose-p:text-neutral-200 prose-p:leading-normal prose-a:text-navy dark:prose-a:text-teal prose-a:underline prose-a:decoration-2 prose-a:underline-offset-2 prose-a:decoration-navy/30 dark:prose-a:decoration-teal/30 hover:prose-a:decoration-navy dark:hover:prose-a:decoration-teal prose-strong:text-neutral-900 dark:prose-strong:text-white prose-ul:text-neutral-800 dark:prose-ul:text-neutral-200 prose-li:marker:text-navy dark:prose-li:marker:text-teal mb-12"
+          [innerHTML]="processedContent()"></div>
+
+        <!-- Tags -->
+        @if (currentTags().length > 0) {
+        <div class="mb-10 pb-10 border-b border-neutral-200 dark:border-neutral-800">
+          <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+            {{ 'blog.detail.tags' | translate }}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            @for (tag of currentTags(); track tag) {
+            <span
+              class="px-4 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-sm text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+              #{{ tag }}
+            </span>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- Share Buttons -->
+        <div class="mb-10 pb-10 border-b border-neutral-200 dark:border-neutral-800">
+          <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+            {{ 'blog.detail.share' | translate }}
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <button (click)="sharePost('twitter')"
+              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              aria-label="Share on Twitter">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+              </svg>
+              <span>Twitter</span>
+            </button>
+            <button (click)="sharePost('linkedin')"
+              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              aria-label="Share on LinkedIn">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+              <span>LinkedIn</span>
+            </button>
+            <button (click)="sharePost('facebook')"
+              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              aria-label="Share on Facebook">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+              <span>Facebook</span>
+            </button>
+            <button (click)="copyLink()"
+              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-navy hover:text-white hover:border-navy transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              aria-label="Copy link to clipboard">
+              <ng-icon name="lucideLink" size="18" aria-hidden="true"></ng-icon>
+              <span>{{ 'blog.detail.copyLink' | translate }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Author Card -->
+        @if (post()!.author) {
+        <div class="mb-10">
+          <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+            {{ 'blog.author.aboutAuthor' | translate }}
+          </h3>
+          <app-author-card [author]="post()!.author"></app-author-card>
+        </div>
+        }
+
+        <!-- Newsletter Signup -->
+        <div class="mb-10">
+          <app-newsletter-signup variant="card" source="blog"></app-newsletter-signup>
+        </div>
+
+        <!-- Related Posts -->
+        @if (relatedPosts().length > 0) {
+        <div class="mb-10">
+          <h2 class="text-2xl font-bold mb-8 text-neutral-900 dark:text-white">
+            {{ 'blog.detail.related' | translate }}
+          </h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (relatedPost of relatedPosts(); track relatedPost.id) {
+            <article [routerLink]="['/resources/blog', relatedPost.slug]"
+              class="group bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              tabindex="0">
+              @if (relatedPost.featuredImage) {
+              <div class="h-32 overflow-hidden">
+                <img [src]="relatedPost.featuredImage" [alt]="getRelatedPostTitle(relatedPost)"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy" />
+              </div>
+              }
+              <div class="p-4">
+                <h3
+                  class="text-base font-bold mb-2 text-neutral-900 dark:text-white group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
+                  {{ getRelatedPostTitle(relatedPost) }}
+                </h3>
+                <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-relaxed">
+                  {{ getRelatedPostExcerpt(relatedPost) }}
+                </p>
+              </div>
+            </article>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- CTA -->
+        <div class="bg-gradient-to-r from-navy to-teal rounded-2xl p-8 md:p-10 text-white text-center">
+          <h2 class="text-2xl md:text-3xl font-bold mb-4">
+            {{ 'blog.detail.cta.title' | translate }}
+          </h2>
+          <p class="text-lg text-white/90 mb-8">
+            {{ 'blog.detail.cta.description' | translate }}
+          </p>
+          <a routerLink="/contact"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy rounded-xl font-semibold hover:bg-neutral-100 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal">
+            {{ 'blog.detail.cta.button' | translate }}
+            <ng-icon name="lucideArrowRight" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- Scroll to Top Button -->
+@if (showScrollTop()) {
+<button (click)="scrollToTop()"
+  class="fixed bottom-8 right-8 rtl:right-auto rtl:left-8 z-40 w-12 h-12 bg-navy text-white rounded-full shadow-lg hover:bg-navy/90 transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2"
+  aria-label="Scroll to top">
+  <ng-icon name="lucideChevronUp" size="24" aria-hidden="true"></ng-icon>
+</button>
+}
 }
