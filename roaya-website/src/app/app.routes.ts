@@ -37,6 +37,11 @@ export const routes: Routes = [
     title: 'IT Consulting & Digital Transformation - Roaya IT'
   },
   {
+    path: 'services/devops',
+    loadComponent: () => import('./features/services/devops/devops.component').then(m => m.DevopsComponent),
+    title: 'DevOps Services - CI/CD, Kubernetes, GitOps | Roaya IT'
+  },
+  {
     path: 'services/email',
     loadComponent: () => import('./features/services/email/email.component').then(m => m.EmailComponent),
     title: 'Email & Collaboration Solutions - Roaya IT'

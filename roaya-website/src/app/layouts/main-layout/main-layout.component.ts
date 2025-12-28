@@ -69,22 +69,55 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   isRTL = computed(() => this.languageService.isRTL());
   isMobileMenuOpen = computed(() => this.navigationService.mobileMenuOpen());
 
-  // Mega menu items for all 8 services (with SVG icons)
+  // Mega menu items for all services (with Font Awesome icons)
   megaMenuItems: MegaMenuItem[] = [
     {
       id: 'cloud',
       title: 'services.cloud.title',
       description: 'services.cloud.description',
       icon: '&#9729;',
-      iconSvg: '/assets/images/icons/services/cloud.svg',
+      faIcon: 'faSolidCloud',
       route: '/services/cloud'
+    },
+    {
+      id: 'sap',
+      title: 'services.sap.title',
+      description: 'services.sap.description',
+      icon: '&#128200;',
+      faIcon: 'faSolidDatabase',
+      route: '/services/sap',
+      badge: 'New'
+    },
+    {
+      id: 'managed',
+      title: 'services.managed.title',
+      description: 'services.managed.description',
+      icon: '&#9881;',
+      faIcon: 'faSolidGears',
+      route: '/services/managed'
+    },
+    {
+      id: 'email',
+      title: 'services.email.title',
+      description: 'services.email.description',
+      icon: '&#9993;',
+      faIcon: 'faSolidEnvelope',
+      route: '/services/email'
+    },
+    {
+      id: 'backup',
+      title: 'services.backup.title',
+      description: 'services.backup.description',
+      icon: '&#128190;',
+      faIcon: 'faSolidHardDrive',
+      route: '/services/backup'
     },
     {
       id: 'security',
       title: 'services.security.title',
       description: 'services.security.description',
       icon: '&#128274;',
-      iconSvg: '/assets/images/icons/services/security.svg',
+      faIcon: 'faSolidShieldHalved',
       route: '/services/security',
       children: [
         {
@@ -101,6 +134,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           title: 'services.security.page.socSolutions.title',
           description: 'services.security.page.socSolutions.hero.subtitle',
           icon: '&#128065;',
+          faIcon: 'faSolidEye',
           route: '/services/security/soc-solutions',
           badge: 'New'
         },
@@ -109,6 +143,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           title: 'services.security.page.incidentResponse.title',
           description: 'services.security.page.incidentResponse.hero.subtitle',
           icon: '&#128737;',
+          faIcon: 'faSolidUserShield',
           route: '/services/security/incident-response',
           badge: 'New'
         },
@@ -117,60 +152,36 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           title: 'services.security.page.pentestV2.title',
           description: 'services.security.page.pentestV2.hero.subtitle1',
           icon: '&#129302;',
-          iconSvg: '/assets/images/icons/services/penetration-testing.svg',
+          faIcon: 'faSolidMicrochip',
           route: '/services/security/pentest-v2',
           badge: 'AI'
         }
       ]
     },
     {
-      id: 'email',
-      title: 'services.email.title',
-      description: 'services.email.description',
-      icon: '&#9993;',
-      iconSvg: '/assets/images/icons/services/email.svg',
-      route: '/services/email'
-    },
-    {
-      id: 'managed',
-      title: 'services.managed.title',
-      description: 'services.managed.description',
-      icon: '&#9881;',
-      iconSvg: '/assets/images/icons/services/managed.svg',
-      route: '/services/managed'
-    },
-    {
-      id: 'backup',
-      title: 'services.backup.title',
-      description: 'services.backup.description',
-      icon: '&#128190;',
-      iconSvg: '/assets/images/icons/services/backup.svg',
-      route: '/services/backup'
+      id: 'automation',
+      title: 'services.automation.title',
+      description: 'services.automation.description',
+      icon: '&#9889;',
+      faIcon: 'faSolidRobot',
+      route: '/services/automation',
+      badge: 'New'
     },
     {
       id: 'consulting',
       title: 'services.consulting.title',
       description: 'services.consulting.description',
       icon: '&#128161;',
-      iconSvg: '/assets/images/icons/services/consulting.svg',
+      faIcon: 'faSolidLightbulb',
       route: '/services/consulting'
     },
     {
-      id: 'sap',
-      title: 'services.sap.title',
-      description: 'services.sap.description',
-      icon: '&#128200;',
-      iconSvg: '/assets/images/icons/services/sap.svg',
-      route: '/services/sap',
-      badge: 'New'
-    },
-    {
-      id: 'automation',
-      title: 'services.automation.title',
-      description: 'services.automation.description',
-      icon: '&#9889;',
-      iconSvg: '/assets/images/icons/services/automation.svg',
-      route: '/services/automation',
+      id: 'devops',
+      title: 'services.devops.title',
+      description: 'services.devops.description',
+      icon: '&#128736;',
+      faIcon: 'faSolidInfinity',
+      route: '/services/devops',
       badge: 'New'
     },
     {
@@ -186,14 +197,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
 
-  // Resources menu items (with outline SVG icons like services)
+  // Resources menu items (with Font Awesome icons)
   resourcesMenuItems: MegaMenuItem[] = [
     {
       id: 'blog',
       title: 'resources.types.blog.title',
       description: 'resources.types.blog.description',
       icon: '&#9998;',
-      iconSvg: '/assets/images/icons/resources/blog.svg',
+      faIcon: 'faSolidNewspaper',
       route: '/resources/blog'
     },
     {
@@ -201,7 +212,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'resources.types.caseStudies.title',
       description: 'resources.types.caseStudies.description',
       icon: '&#128202;',
-      iconSvg: '/assets/images/icons/resources/case-studies.svg',
+      faIcon: 'faSolidFolderOpen',
       route: '/resources/case-studies'
     },
     {
@@ -209,7 +220,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'resources.types.whitepapers.title',
       description: 'resources.types.whitepapers.description',
       icon: '&#128196;',
-      iconSvg: '/assets/images/icons/resources/whitepapers.svg',
+      faIcon: 'faSolidFileLines',
       route: '/resources/whitepapers'
     },
     {
@@ -217,43 +228,47 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'resources.types.documentation.title',
       description: 'resources.types.documentation.description',
       icon: '&#128214;',
-      iconSvg: '/assets/images/icons/resources/documentation.svg',
+      faIcon: 'faSolidBook',
       route: '/resources/documentation'
     }
   ];
 
-  // Mega menu items for all 6 industries (with SVG icons)
+  // Mega menu items for all 6 industries (with Font Awesome icons)
   industryMenuItems: MegaMenuItem[] = [
     {
       id: 'finance',
       title: 'industries.finance.title',
       description: 'industries.finance.description',
       icon: '🏦',
-      iconSvg: '/assets/images/icons/industries/finance.svg',
-      route: '/industries/finance'
+      faIcon: 'faSolidBuildingColumns',
+      route: '/industries/finance',
+      badge: 'Top Sector',
+      isFeatured: true
     },
     {
       id: 'healthcare',
       title: 'industries.healthcare.title',
       description: 'industries.healthcare.description',
       icon: '🏥',
-      iconSvg: '/assets/images/icons/industries/healthcare.svg',
-      route: '/industries/healthcare'
+      faIcon: 'faSolidHospital',
+      route: '/industries/healthcare',
+      badge: 'Growing'
     },
     {
       id: 'government',
       title: 'industries.government.title',
       description: 'industries.government.description',
       icon: '🏛️',
-      iconSvg: '/assets/images/icons/industries/government.svg',
-      route: '/industries/government'
+      faIcon: 'faSolidLandmarkDome',
+      route: '/industries/government',
+      badge: 'High Security'
     },
     {
       id: 'manufacturing',
       title: 'industries.manufacturing.title',
       description: 'industries.manufacturing.description',
       icon: '🏭',
-      iconSvg: '/assets/images/icons/industries/manufacturing.svg',
+      faIcon: 'faSolidIndustry',
       route: '/industries/manufacturing'
     },
     {
@@ -261,15 +276,16 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'industries.retail.title',
       description: 'industries.retail.description',
       icon: '🛒',
-      iconSvg: '/assets/images/icons/industries/retail.svg',
-      route: '/industries/retail'
+      faIcon: 'faSolidCartShopping',
+      route: '/industries/retail',
+      badge: 'Popular'
     },
     {
       id: 'education',
       title: 'industries.education.title',
       description: 'industries.education.description',
       icon: '🎓',
-      iconSvg: '/assets/images/icons/industries/education.svg',
+      faIcon: 'faSolidGraduationCap',
       route: '/industries/education'
     }
   ];
@@ -312,9 +328,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.scrollSub = fromEvent(window, 'scroll', { passive: true })
         .pipe(throttleTime(16, undefined, { leading: true, trailing: true })) // ~60fps max
         .subscribe(() => {
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:273',message:'Throttled scroll event',data:{timestamp:Date.now(),scrollY:window.scrollY},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'A'})}).catch(()=>{});
-          // #endregion
           this.checkScroll();
         });
     }
@@ -342,17 +355,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private checkScroll(): void {
     if (typeof window !== 'undefined') {
-      const startTime = performance.now();
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:295',message:'checkScroll entry',data:{timestamp:Date.now()},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
       // Use ScrollSmoother's scroll position if available, otherwise fallback to window
       const scrollY = this.scrollSmootherService.isReady()
         ? this.scrollSmootherService.scrollTop()
         : window.scrollY;
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:301',message:'Before DOM reads',data:{scrollY,scrollSmootherReady:this.scrollSmootherService.isReady()},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
+
       // Only update signal if value actually changed (prevents unnecessary change detection)
       const newIsScrolled = scrollY > this.scrollThreshold;
       if (this.isScrolled() !== newIsScrolled) {
@@ -360,21 +367,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       const doc = document.documentElement;
-      const beforeRead = performance.now();
       const max = doc.scrollHeight - doc.clientHeight;
-      const afterRead = performance.now();
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:304',message:'DOM read completed',data:{scrollHeight:doc.scrollHeight,clientHeight:doc.clientHeight,readTime:afterRead-beforeRead},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
       const progress = max > 0 ? Math.min(scrollY / max, 1) : 0;
+
       // Only update progress if value changed significantly (reduce unnecessary updates)
       if (Math.abs(this.scrollProgress - progress) > 0.001) {
         this.scrollProgress = progress;
       }
-      const endTime = performance.now();
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/9da7e5db-fa88-4678-9ed0-e6343df6afcb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main-layout.component.ts:307',message:'checkScroll exit',data:{totalTime:endTime-startTime,progress},sessionId:'debug-session',runId:'post-fix-v2',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
     }
   }
 

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor">
+  <!-- Left loop (DEV) -->
+  <path d="M32 18c-7.7 0-14 6.3-14 14s6.3 14 14 14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+  <!-- Left arrow -->
+  <path d="M18 42l-4 6 7 1" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Right loop (OPS) -->
+  <path d="M32 46c7.7 0 14-6.3 14-14s-6.3-14-14-14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+  <!-- Right arrow -->
+  <path d="M46 22l4-6-7-1" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- DEV text -->
+  <text x="14" y="35" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="currentColor">DEV</text>
+
+  <!-- OPS text -->
+  <text x="38" y="35" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="currentColor">OPS</text>
+</svg>

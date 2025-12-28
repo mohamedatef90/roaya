@@ -75,7 +75,8 @@
     "viewAllServices": "عرض جميع الحلول",
     "viewAllIndustries": "عرض جميع القطاعات",
     "viewAllResources": "عرض جميع الموارد",
-    "overview": "نظرة عامة"
+    "overview": "نظرة عامة",
+    "learnMore": "اعرف المزيد"
   },
   "services": {
     "page": {
@@ -1516,6 +1517,376 @@
         "workflow": "أتمتة سير العمل",
         "integration": "تكامل الأنظمة",
         "custom": "التطوير المخصص"
+      }
+    },
+    "devops": {
+      "title": "خدمات DevOps",
+      "description": "CI/CD، Kubernetes، GitOps للتسليم المستمر والموثوق",
+      "fullDescription": "خدمات DevOps للمؤسسات للتسليم المستمر والموثوق. أنابيب CI/CD، هندسة منصات Kubernetes، GitOps، وإمكانية الرصد SRE. انشر بأمان وقابلية توقع على نطاق واسع.",
+      "features": {
+        "cicd": "أنابيب CI/CD",
+        "kubernetes": "Kubernetes وإدارة الحاويات",
+        "gitops": "GitOps والتسليم المستمر",
+        "observability": "الرصد وSRE"
+      },
+      "page": {
+        "hero": {
+          "badge": "تسليم على مستوى المؤسسات",
+          "title": "تسليم بدون تعقيد أو مخاطر أو فوضى",
+          "subtitle": "خدمات DevOps مُهندسة للتسليم المستمر والموثوق",
+          "description": "أنابيب آلية، بنية تحتية قابلة للتكرار، تحكم واضح. أنشئ قدرات إصدار موثوقة يمكنها التوسع مع أعمالك دون مفاجآت.",
+          "primaryCta": "حدد موعداً لمراجعة DevOps",
+          "secondaryCta": "شاهد دراسات الحالة"
+        },
+        "statistics": {
+          "deployments": {
+            "value": "10x",
+            "label": "تكرار النشر",
+            "benchmark": "عملاء DORA Elite"
+          },
+          "uptime": {
+            "value": "99.9%",
+            "label": "وقت التشغيل",
+            "benchmark": "متوسط العملاء"
+          },
+          "recovery": {
+            "value": "<15",
+            "unit": "دقيقة",
+            "label": "وقت الاستعادة",
+            "benchmark": "معيار MTTR"
+          },
+          "leadTime": {
+            "value": "70%",
+            "label": "تقليل وقت التسليم",
+            "benchmark": "مقارنة بالقاعدة"
+          }
+        },
+        "problem": {
+          "badge": "تحدي DevOps",
+          "title": "DevOps لا يفشل بسبب الأدوات",
+          "subtitle": "إنه يفشل عندما لا توجد عمليات قابلة للتكرار لإدارتها.",
+          "description": "الفرق غارقة في الأدوات. الصيانة المستمرة، والتعقيد المتزايد، وتوقعات النشر بدون توقف كلها تتجاوز ما يمكن أن يقدمه الأفراد وحدهم.",
+          "items": {
+            "fragilePipelines": {
+              "title": "أنابيب هشة",
+              "description": "تتطلب إعادة صيانة مستمرة بعد كل تحديث"
+            },
+            "growingComplexity": {
+              "title": "تعقيد متزايد",
+              "description": "طبقات متداخلة تفتقر إلى توثيق"
+            },
+            "deploymentRisk": {
+              "title": "مخاطر النشر",
+              "description": "تبعيات غير واضحة تجعل كل إصدار مقامرة"
+            },
+            "lackVisibility": {
+              "title": "غياب الرؤية",
+              "description": "لا توجد مقاييس واضحة لصحة التسليم"
+            }
+          }
+        },
+        "production": {
+          "badge": "جاهز للإنتاج",
+          "title": "DevOps مُهندس لظروف الإنتاج الحقيقية",
+          "description": "نُهندس DevOps للمؤسسات التي:",
+          "items": {
+            "continuousReleases": "تحتاج إلى إصدارات مستمرة دون تعطيل التشغيل",
+            "highAvailability": "تتطلب توافراً عالياً عبر مناطق متعددة",
+            "regulatedEnvironments": "تعمل في بيئات منظمة مع متطلبات تدقيق",
+            "hybridMultiCloud": "تدير أعباء عمل سحابية هجينة أو متعددة السحابات",
+            "enterpriseGovernance": "تحتاج إلى حوكمة مؤسسية مع فصل واضح للواجبات"
+          }
+        },
+        "strategic": {
+          "badge": "ميزة استراتيجية",
+          "title": "DevOps كنظام تسليم استراتيجي",
+          "subtitle": "لسنا هنا لتقديم أداة أخرى. نحن هنا لبناء قدرة تسليم مستدامة.",
+          "description": "أنظمتنا مصممة لتقديم نتائج قابلة للقياس:",
+          "outcomes": {
+            "releaseFrequency": "زيادة تكرار الإصدارات بشكل جوهري دون المساس بالجودة",
+            "standardizeDelivery": "توحيد التسليم عبر جميع الفرق والتطبيقات",
+            "eliminateManual": "القضاء على نقاط الفشل اليدوية في أنابيب الإنتاج",
+            "improveUptime": "تحسين وقت التشغيل بموثوقية مثبتة وقابلة للاسترداد",
+            "embedSecurity": "تضمين الأمان في كل مرحلة دون إبطاء التسليم",
+            "provideMeasurable": "توفير مقاييس واضحة وقابلة للتنفيذ لصحة التسليم"
+          }
+        },
+        "enterprise": {
+          "badge": "خبرة المؤسسات",
+          "title": "تنفيذ منضبط عبر منصات المؤسسات",
+          "description": "أنابيب وبنية تحتية مُنشأة لتعمل بأدنى حد من الإشراف، مع بوابات واضحة، واستعادة، وتدقيق في كل مرحلة.",
+          "expertise": {
+            "github": {
+              "title": "GitHub Enterprise",
+              "description": "إدارة المستودعات وسير العمل"
+            },
+            "azure": {
+              "title": "Azure DevOps",
+              "description": "أنابيب CI/CD والإدارة"
+            },
+            "kubernetes": {
+              "title": "Kubernetes",
+              "description": "تنظيم وإدارة الحاويات"
+            },
+            "hybrid": {
+              "title": "السحابة الهجينة",
+              "description": "تكامل AWS و Azure و GCP"
+            },
+            "multiEnv": {
+              "title": "البيئات المتعددة",
+              "description": "التطوير، التجريب، الإنتاج"
+            }
+          }
+        },
+        "aiAutomation": {
+          "badge": "أتمتة مدعومة بالذكاء الاصطناعي",
+          "title": "أتمتة مدعومة بالذكاء الاصطناعي في كل مرحلة",
+          "description": "نستخدم الذكاء الاصطناعي لإزالة نقاط الاحتكاك وتحسين سرعة التسليم دون التضحية بالجودة.",
+          "capabilities": {
+            "intelligentDelivery": {
+              "title": "تسليم ذكي",
+              "items": {
+                "item1": "اختيار آلي لاستراتيجية النشر",
+                "item2": "إدارة الإصدارات التنبؤية",
+                "item3": "تحليل التأثير الذكي"
+              }
+            },
+            "qualityEnforcement": {
+              "title": "فرض الجودة",
+              "items": {
+                "item1": "كشف الانحدار آلياً",
+                "item2": "اقتراحات جودة الكود",
+                "item3": "ترتيب أولويات الاختبار الذكي"
+              }
+            },
+            "operationalExcellence": {
+              "title": "التميز التشغيلي",
+              "items": {
+                "item1": "تصنيف الحوادث الآلي",
+                "item2": "تحليل السبب الجذري التنبؤي",
+                "item3": "تسجيل دفتر التشغيل الذكي"
+              }
+            }
+          }
+        },
+        "offerings": {
+          "badge": "عروض الخدمة",
+          "title": "ماذا نقدم",
+          "description": "حلول DevOps شاملة مصممة لظروف الإنتاج الحقيقية",
+          "cicd": {
+            "title": "أتمتة CI/CD والإصدار",
+            "subtitle": "أنشئ أنابيب موثوقة ومؤتمتة للتسليم المستمر.",
+            "features": {
+              "automatedPipelines": "أنابيب آلية للبناء والاختبار والنشر",
+              "releaseGating": "بوابات الإصدار مع بوابات الموافقة",
+              "blueGreenCanary": "استراتيجيات نشر Blue-Green و Canary",
+              "auditApprovals": "مسارات تدقيق كاملة وموافقات مستندة إلى الأدوار",
+              "devSecOps": "فحص أمني متكامل (DevSecOps)",
+              "rollback": "قدرات استعادة آلية"
+            }
+          },
+          "cloudKubernetes": {
+            "title": "هندسة منصات السحابة و Kubernetes",
+            "subtitle": "أنشئ بنية تحتية مرنة وآمنة وقابلة للتوسع.",
+            "features": {
+              "terraform": "البنية التحتية كرمز (Terraform)",
+              "ansible": "إدارة التكوين (Ansible)",
+              "k8sDesign": "تصميم وإدارة عناقيد Kubernetes",
+              "helm": "إدارة حزم Helm",
+              "secretsManagement": "إدارة الأسرار والتكامل مع الخزائن",
+              "costOptimization": "تحسين التكاليف وحوكمة الموارد"
+            }
+          },
+          "gitops": {
+            "title": "GitOps والتسليم المستمر",
+            "subtitle": "مزامنة الإنتاج مع Git للسيطرة الكاملة وقابلية التدقيق.",
+            "features": {
+              "argocd": "Argo CD وإدارة Flux",
+              "gitSync": "التطبيقات والبيئات المتزامنة مع Git",
+              "controlledDeployments": "عمليات نشر متحكم بها من مصدر واحد للحقيقة",
+              "instantRollback": "استعادة فورية عبر عمليات إعادة Git"
+            }
+          },
+          "observability": {
+            "title": "الرصد و SRE",
+            "subtitle": "راقب، قس، وحسّن موثوقية أنظمتك.",
+            "features": {
+              "logsMetricsTraces": "تكامل السجلات والمقاييس والتتبع",
+              "businessAlerting": "تنبيهات مخصصة لمقاييس الأعمال",
+              "slos": "أهداف مستوى الخدمة (SLOs) وميزانيات الأخطاء",
+              "incidentRunbooks": "دفاتر تشغيل الحوادث والأتمتة",
+              "postIncident": "تحليل ما بعد الحادث وتتبع التحسين"
+            }
+          }
+        },
+        "automation": {
+          "badge": "قيمة الأتمتة",
+          "title": "الأتمتة التي تقلل المخاطر",
+          "description": "كل ما نبنيه يخضع لاختبارات آلية وتوثيق شامل.",
+          "benefits": {
+            "repeatableStandards": "معايير قابلة للتكرار عبر جميع البيئات",
+            "reduceHumanError": "تقليل الأخطاء البشرية في التكوين الحرج",
+            "improveAuditability": "تحسين قابلية التدقيق مع البنية التحتية المُنشأة كرمز",
+            "enableRollback": "تمكين الاستعادة دون وقت توقف",
+            "supportCompliance": "دعم الامتثال مع تدفقات عمل قابلة للتتبع"
+          }
+        },
+        "businessOutcomes": {
+          "badge": "نتائج الأعمال",
+          "title": "ما ستحققه",
+          "description": "نتائج قابلة للقياس وليس مجرد أدوات مُنفذة",
+          "outcomes": {
+            "fasterSaferReleases": "إصدارات أسرع وأكثر أماناً بوتيرة متوقعة",
+            "improvedUptime": "تحسين وقت التشغيل باستعادة قابلة للقياس",
+            "reducedMTTR": "تقليل متوسط وقت الاستعادة (MTTR)",
+            "deliveryVisibility": "رؤية كاملة لصحة ومقاييس التسليم",
+            "standardizedGovernance": "حوكمة موحدة للامتثال الداخلي والخارجي",
+            "strongerSecurity": "أمان أقوى مضمن في كل مرحلة نشر",
+            "controlledCost": "تكاليف سحابية متحكم بها من خلال الحوكمة والإشراف"
+          }
+        },
+        "howWeWork": {
+          "badge": "منهجيتنا",
+          "title": "كيف نعمل",
+          "description": "نهج منظم لبناء قدرات DevOps المستدامة",
+          "steps": {
+            "assessment": {
+              "title": "التقييم",
+              "description": "تقييم شامل لمستوى نضج DevOps الحالي، الأدوات، والعمليات"
+            },
+            "implementation": {
+              "title": "التنفيذ",
+              "description": "نشر مرحلي لقدرات CI/CD والبنية التحتية والرصد"
+            },
+            "documentation": {
+              "title": "التوثيق",
+              "description": "توثيق شامل، دفاتر التشغيل، ونقل المعرفة"
+            },
+            "improvement": {
+              "title": "التحسين",
+              "description": "دورات مراجعة مستمرة، تحسينات SLO، وتطور المنصة"
+            }
+          }
+        },
+        "frameworks": {
+          "badge": "المعايير والأطر",
+          "title": "مبني على أفضل الممارسات",
+          "description": "أنظمتنا تتبع معايير الصناعة الرائدة",
+          "items": {
+            "dora": {
+              "title": "مقاييس DORA",
+              "description": "تكرار النشر، وقت التسليم، معدل الفشل، MTTR"
+            },
+            "sre": {
+              "title": "مبادئ SRE",
+              "description": "ميزانيات الأخطاء، SLOs، هندسة الموثوقية"
+            },
+            "itil": {
+              "title": "إدارة التغيير ITIL",
+              "description": "سير عمل التغيير المعياري والحوكمة"
+            },
+            "cis": {
+              "title": "معايير CIS",
+              "description": "مقاييس أمنية للبنية التحتية والتكوين"
+            },
+            "nist": {
+              "title": "NIST CSF",
+              "description": "إطار الأمن السيبراني لعمليات DevOps"
+            }
+          }
+        },
+        "whyRoaya": {
+          "badge": "لماذا رؤية",
+          "title": "لماذا تثق المؤسسات بنا",
+          "description": "ما يميز نهجنا في DevOps",
+          "differentiators": {
+            "disciplinedExecution": {
+              "title": "تنفيذ منضبط",
+              "description": "التزام صارم بالعمليات والبوابات والتوثيق"
+            },
+            "enterpriseReliability": {
+              "title": "موثوقية المؤسسات",
+              "description": "مصمم لأعباء العمل والامتثال على مستوى الإنتاج"
+            },
+            "aiAssisted": {
+              "title": "مدعوم بالذكاء الاصطناعي",
+              "description": "أتمتة ذكية تتكيف مع سياقك"
+            },
+            "repeatableStandards": {
+              "title": "معايير قابلة للتكرار",
+              "description": "عمليات موثقة تعمل عبر الفرق"
+            },
+            "clearGovernance": {
+              "title": "حوكمة واضحة",
+              "description": "فصل واجبات محدد ومسارات تدقيق"
+            },
+            "vendorAgnostic": {
+              "title": "محايد للموردين",
+              "description": "نعمل مع أدواتك ومنصاتك الحالية"
+            }
+          }
+        },
+        "tooling": {
+          "badge": "نظام الأدوات البيئي",
+          "title": "الأدوات والتقنيات",
+          "description": "خبرة معتمدة عبر منصات المؤسسات الرائدة",
+          "ecosystems": {
+            "aws": {
+              "title": "نظام AWS البيئي",
+              "tools": ["Amazon EKS", "Amazon ECS", "AWS CloudFormation", "AWS CloudWatch", "AWS IAM/KMS"]
+            },
+            "azure": {
+              "title": "نظام Azure البيئي",
+              "tools": ["Azure Kubernetes Service (AKS)", "Azure DevOps Pipelines", "Azure Monitor", "Azure Key Vault"]
+            },
+            "gcp": {
+              "title": "نظام GCP البيئي",
+              "tools": ["Google Kubernetes Engine (GKE)", "Cloud Operations Suite", "Secret Manager"]
+            },
+            "cicdTools": {
+              "title": "أدوات CI/CD",
+              "tools": ["Jenkins", "GitHub Actions", "GitLab CI/CD", "Azure DevOps", "Argo CD", "Flux"]
+            },
+            "infrastructure": {
+              "title": "البنية التحتية",
+              "tools": ["Terraform", "Ansible", "Kubernetes", "Docker", "Helm", "Packer"]
+            },
+            "observability": {
+              "title": "الرصد",
+              "tools": ["Prometheus + Grafana", "ELK Stack", "OpenTelemetry", "Datadog", "Splunk", "SAST/DAST"]
+            }
+          }
+        },
+        "relatedServices": {
+          "badge": "خدمات ذات صلة",
+          "title": "استكشف الخدمات المكملة",
+          "description": "حلول تعمل جنباً إلى جنب مع خدمات DevOps",
+          "items": {
+            "cloud": {
+              "title": "حلول السحابة",
+              "description": "البنية التحتية السحابية والترحيل والتحسين"
+            },
+            "security": {
+              "title": "الأمن السيبراني",
+              "description": "أمان شامل وامتثال وحماية من التهديدات"
+            },
+            "automation": {
+              "title": "أتمتة تقنية المعلومات",
+              "description": "أتمتة مدعومة بالذكاء الاصطناعي لتوسيع العمليات"
+            }
+          }
+        },
+        "cta": {
+          "badge": "هل أنت مستعد للبدء؟",
+          "title": "تحدث مع خبير DevOps",
+          "description": "سواء كنت تبني أنابيب CI/CD من الصفر أو تحسّن منصة Kubernetes موجودة، فريقنا جاهز للمساعدة.",
+          "primaryCta": "حدد موعداً لمراجعة DevOps",
+          "secondaryCta": "شاهد دراسات الحالة",
+          "consultation": {
+            "free": "استشارة مجانية",
+            "duration": "مكالمة 30 دقيقة"
+          }
+        }
       }
     },
     "worldposta": {
