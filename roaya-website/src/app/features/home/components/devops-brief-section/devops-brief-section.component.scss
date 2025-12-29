@@ -481,6 +481,83 @@
 }
 
 // ============================================================
+// Icon Gradients (Light Mode Only)
+// ============================================================
+
+// Badge icon gradient (teal to violet)
+.devops-icon-gradient {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 40%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+// Dark mode: Keep original solid color
+.dark .devops-icon-gradient {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: #5eead4; // teal-300
+}
+
+// Highlight icon - black on gradient background in light mode
+.devops-highlight-icon {
+  color: black;
+}
+
+// Dark mode: Keep white for contrast
+.dark .devops-highlight-icon {
+  color: white;
+}
+
+// Stat icon gradient (teal to violet)
+.devops-stat-icon {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+// Dark mode: Keep original solid color
+.dark .devops-stat-icon {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: #5eead4; // teal-400
+}
+
+// Pipeline stage icons - Active state (black on gradient background in light mode)
+.devops-pipeline-icon-active {
+  color: black;
+}
+
+// Dark mode: Keep white for contrast
+.dark .devops-pipeline-icon-active {
+  color: white;
+}
+
+// Pipeline stage icons - Pending state (gradient in light mode)
+.devops-pipeline-icon-pending {
+  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Dark mode: Solid gray color
+.dark .devops-pipeline-icon-pending {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: #d1d5db; // gray-300
+}
+
+// ============================================================
 // Dark Mode Adjustments
 // ============================================================
 .dark .devops-brief-section {

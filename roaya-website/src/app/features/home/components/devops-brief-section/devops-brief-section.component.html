@@ -51,7 +51,7 @@
                    bg-gradient-to-r from-teal-500/20 to-violet-500/20 text-teal-700 dark:text-teal-300
                    backdrop-blur-sm border border-teal-500/30 dark:border-teal-400/30
                    shadow-lg shadow-teal-500/10">
-            <ng-icon name="lucideCloud" size="14" class="text-teal-600 dark:text-teal-400" />
+            <ng-icon name="lucideCloud" size="14" class="devops-icon-gradient" />
             {{ 'home.serviceBriefs.devops.badge' | translate }}
           </span>
         </div>
@@ -94,7 +94,7 @@
               <div class="flex-shrink-0">
                 <div
                   class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-violet-500 flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:shadow-violet-500/30 transition-shadow duration-300 group-hover:scale-110 transform">
-                  <ng-icon [name]="highlight.icon" class="text-white" size="22" />
+                  <ng-icon [name]="highlight.icon" class="devops-highlight-icon" size="22" />
                 </div>
               </div>
 
@@ -154,8 +154,8 @@
                     'bg-gray-200 dark:bg-slate-700': stage.status === 'pending'
                   }">
                   <ng-icon [name]="stage.icon" [ngClass]="{
-                      'text-white': stage.status === 'complete' || stage.status === 'active',
-                      'text-gray-500 dark:text-gray-300': stage.status === 'pending'
+                      'devops-pipeline-icon-active': stage.status === 'complete' || stage.status === 'active',
+                      'devops-pipeline-icon-pending': stage.status === 'pending'
                     }" size="24" />
                 </div>
                 <span class="text-xs font-medium text-gray-600 dark:text-gray-400">{{ stage.label }}</span>
@@ -186,7 +186,7 @@
                    shadow-lg shadow-teal-500/10 dark:shadow-teal-500/10
                    hover:shadow-xl hover:shadow-violet-500/15
                    transition-all duration-300 hover:-translate-y-1">
-            <ng-icon [name]="stat.icon" class="text-teal-600 dark:text-teal-400 mb-2" size="24" />
+            <ng-icon [name]="stat.icon" class="devops-stat-icon mb-2" size="24" />
             <div class="devops-stat-value text-2xl sm:text-3xl font-bold mb-1">
               {{ stat.value }}
             </div>
