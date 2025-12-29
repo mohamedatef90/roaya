@@ -1,0 +1,422 @@
+/**
+ * Security Brief Section Styles
+ * Theme: Protection & Monitoring
+ * Visual: Shield, Radar, Hexagonal Grid
+ */
+
+// ============================================================
+// Hexagonal Grid Background
+// ============================================================
+.security-grid-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.08'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .security-grid-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2306b6d4' fill-opacity='0.1'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+// ============================================================
+// Radar Effect
+// ============================================================
+.radar-container {
+  width: 500px;
+  height: 500px;
+  opacity: 0.6;
+
+  @media (max-width: 1024px) {
+    width: 350px;
+    height: 350px;
+    opacity: 0.3;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.radar-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 50%;
+  animation: radar-pulse 4s ease-out infinite;
+
+  &.radar-circle-1 {
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+  }
+
+  &.radar-circle-2 {
+    width: 300px;
+    height: 300px;
+    animation-delay: 1.3s;
+  }
+
+  &.radar-circle-3 {
+    width: 450px;
+    height: 450px;
+    animation-delay: 2.6s;
+  }
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 225px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(6, 182, 212, 0.8),
+    rgba(59, 130, 246, 0.6),
+    transparent
+  );
+  transform-origin: left center;
+  animation: radar-sweep 4s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+}
+
+@keyframes radar-pulse {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// ============================================================
+// Floating Particles
+// ============================================================
+.security-particles {
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: float-particle 8s ease-in-out infinite;
+
+    &.particle-1 {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    &.particle-2 {
+      top: 60%;
+      left: 15%;
+      animation-delay: 2s;
+    }
+
+    &.particle-3 {
+      top: 30%;
+      right: 20%;
+      animation-delay: 4s;
+    }
+
+    &.particle-4 {
+      top: 70%;
+      right: 10%;
+      animation-delay: 6s;
+    }
+  }
+}
+
+@keyframes float-particle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-30px) scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+// ============================================================
+// Shield Hero Container
+// ============================================================
+.shield-container {
+  perspective: 1000px;
+}
+
+.shield-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid;
+  animation: shield-ring-pulse 3s ease-in-out infinite;
+
+  &.shield-ring-outer {
+    width: 100%;
+    height: 100%;
+    border-color: rgba(59, 130, 246, 0.2);
+    animation-delay: 0s;
+  }
+
+  &.shield-ring-middle {
+    width: 80%;
+    height: 80%;
+    border-color: rgba(6, 182, 212, 0.3);
+    animation-delay: 0.5s;
+  }
+
+  &.shield-ring-inner {
+    width: 60%;
+    height: 60%;
+    border-color: rgba(139, 92, 246, 0.4);
+    animation-delay: 1s;
+  }
+}
+
+@keyframes shield-ring-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+}
+
+.shield-icon {
+  filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.4));
+  animation: shield-float 4s ease-in-out infinite;
+}
+
+@keyframes shield-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.shield-path {
+  animation: shield-glow 2s ease-in-out infinite;
+}
+
+@keyframes shield-glow {
+  0%, 100% {
+    filter: url(#shieldGlow) drop-shadow(0 0 5px rgba(6, 182, 212, 0.3));
+  }
+  50% {
+    filter: url(#shieldGlow) drop-shadow(0 0 15px rgba(6, 182, 212, 0.6));
+  }
+}
+
+.shield-check {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: check-draw 1s ease-out 0.5s forwards;
+}
+
+@keyframes check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+// ============================================================
+// Highlight Cards
+// ============================================================
+.security-highlight {
+  will-change: transform;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #06b6d4, #8b5cf6);
+    border-radius: 2xl 2xl 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+// ============================================================
+// Stats Cards
+// ============================================================
+.security-stat {
+  will-change: transform;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(6, 182, 212, 0.2);
+  }
+}
+
+.security-stat-value {
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg, #1e3a5f, #0e7490);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .security-stat-value {
+  background: linear-gradient(135deg, #67e8f9, #a5f3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// ============================================================
+// CTA Buttons
+// ============================================================
+.security-cta-primary,
+.security-cta-secondary {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+// ============================================================
+// RTL Support
+// ============================================================
+[dir='rtl'] {
+  .radar-container {
+    right: auto;
+    left: 0;
+    transform: translateY(-50%) translateX(-25%);
+  }
+
+  .radar-sweep {
+    transform-origin: right center;
+    animation: radar-sweep-rtl 4s linear infinite;
+  }
+
+  .security-cta-primary::before,
+  .security-cta-secondary::before {
+    left: auto;
+    right: -100%;
+  }
+
+  .security-cta-primary:hover::before,
+  .security-cta-secondary:hover::before {
+    right: 100%;
+    left: auto;
+  }
+}
+
+@keyframes radar-sweep-rtl {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+// ============================================================
+// Dark Mode Adjustments
+// ============================================================
+.dark .security-brief-section {
+  .security-highlight {
+    background: rgba(30, 41, 59, 0.8);
+  }
+
+  .security-stat {
+    background: rgba(30, 41, 59, 0.9);
+  }
+
+  .radar-circle {
+    border-color: rgba(6, 182, 212, 0.4);
+  }
+
+  .shield-ring {
+    &.shield-ring-outer {
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    &.shield-ring-middle {
+      border-color: rgba(6, 182, 212, 0.4);
+    }
+
+    &.shield-ring-inner {
+      border-color: rgba(139, 92, 246, 0.5);
+    }
+  }
+}
+
+// ============================================================
+// Reduced Motion
+// ============================================================
+@media (prefers-reduced-motion: reduce) {
+  .radar-circle,
+  .radar-sweep,
+  .particle,
+  .shield-ring,
+  .shield-icon,
+  .shield-path,
+  .shield-check {
+    animation: none !important;
+  }
+
+  .shield-check {
+    stroke-dashoffset: 0;
+  }
+
+  .security-highlight,
+  .security-stat,
+  .security-cta-primary,
+  .security-cta-secondary {
+    transition: none !important;
+
+    &::before {
+      display: none;
+    }
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

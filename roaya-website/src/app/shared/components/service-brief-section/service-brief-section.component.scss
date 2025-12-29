@@ -1,0 +1,323 @@
+/**
+ * Service Brief Section Component Styles
+ *
+ * Modern glassmorphism design with GSAP scroll animations
+ * Features: Dark mode, RTL support, reduced motion accessibility
+ */
+
+// ============================================================
+// CSS Custom Properties
+// ============================================================
+.service-brief-section {
+  // Spacing
+  --service-brief-section-padding-y: 6rem;
+  --service-brief-content-gap: 3rem;
+
+  // Glassmorphism
+  --service-brief-glass-bg: rgba(255, 255, 255, 0.6);
+  --service-brief-glass-bg-hover: rgba(255, 255, 255, 0.8);
+  --service-brief-glass-border: rgba(255, 255, 255, 0.5);
+  --service-brief-glass-blur: 12px;
+
+  // Shadows
+  --service-brief-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --service-brief-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --service-brief-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  // Transitions
+  --service-brief-transition-fast: 200ms ease-out;
+  --service-brief-transition-normal: 300ms ease-out;
+  --service-brief-transition-slow: 500ms ease-out;
+
+  @media (min-width: 768px) {
+    --service-brief-content-gap: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    --service-brief-section-padding-y: 8rem;
+    --service-brief-content-gap: 5rem;
+  }
+}
+
+// ============================================================
+// Section Container
+// ============================================================
+.service-brief-section {
+  position: relative;
+  padding-top: var(--service-brief-section-padding-y);
+  padding-bottom: var(--service-brief-section-padding-y);
+
+  // Ensure stacking context for z-index
+  isolation: isolate;
+}
+
+// ============================================================
+// Badge Component
+// ============================================================
+.service-brief__badge {
+  // Animation preparation (GSAP will animate from opacity: 0)
+  will-change: transform, opacity;
+
+  span {
+    transition: all var(--service-brief-transition-normal);
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ============================================================
+// Typography
+// ============================================================
+.service-brief__title {
+  will-change: transform, opacity;
+  letter-spacing: -0.02em;
+
+  // Gradient text effect (optional - comment out for solid text)
+  // background: linear-gradient(135deg, theme('colors.gray.900') 0%, theme('colors.gray.700') 100%);
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // background-clip: text;
+}
+
+.service-brief__subtitle,
+.service-brief__description {
+  will-change: transform, opacity;
+}
+
+// ============================================================
+// Highlights Grid
+// ============================================================
+.service-brief__highlight {
+  will-change: transform, opacity;
+  transition: all var(--service-brief-transition-normal);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--service-brief-shadow-md);
+  }
+
+  // Icon container
+  div:has(ng-icon) {
+    transition: all var(--service-brief-transition-fast);
+  }
+
+  &:hover div:has(ng-icon) {
+    transform: scale(1.1);
+  }
+}
+
+// ============================================================
+// CTA Buttons
+// ============================================================
+.service-brief__cta {
+  will-change: transform, opacity;
+  position: relative;
+  overflow: hidden;
+
+  // Shimmer effect on hover
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left var(--service-brief-transition-slow);
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+
+  // Focus ring with offset
+  &:focus {
+    outline: none;
+    ring-offset: 2px;
+  }
+
+  // Active state
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// ============================================================
+// Stats Display
+// ============================================================
+.service-brief__stat {
+  will-change: transform, opacity;
+  transition: all var(--service-brief-transition-normal);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--service-brief-shadow-lg);
+  }
+}
+
+.service-brief__stat-value {
+  // Number counter will be animated by GSAP
+  font-variant-numeric: tabular-nums;
+  transition: color var(--service-brief-transition-fast);
+}
+
+// ============================================================
+// Visual Elements
+// ============================================================
+.service-brief__illustration {
+  will-change: transform, opacity;
+
+  img {
+    transition: transform var(--service-brief-transition-slow);
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+.service-brief__icon-wrapper {
+  will-change: transform, opacity;
+  transition: all var(--service-brief-transition-normal);
+
+  img {
+    transition: transform var(--service-brief-transition-slow);
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+  }
+
+  &:hover {
+    transform: rotate(5deg) scale(1.05);
+
+    img {
+      transform: scale(1.1);
+    }
+  }
+}
+
+// ============================================================
+// Dark Mode Overrides
+// ============================================================
+.dark .service-brief-section,
+[data-theme='dark'] .service-brief-section {
+  --service-brief-glass-bg: rgba(30, 41, 59, 0.6);
+  --service-brief-glass-bg-hover: rgba(30, 41, 59, 0.8);
+  --service-brief-glass-border: rgba(255, 255, 255, 0.1);
+
+  --service-brief-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --service-brief-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --service-brief-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  // Decorative background elements - reduce opacity in dark mode
+  .absolute.bg-primary-500\/10,
+  .absolute.bg-secondary-500\/10 {
+    opacity: 0.15;
+  }
+}
+
+// ============================================================
+// RTL Support
+// ============================================================
+[dir='rtl'] {
+  .service-brief__highlight {
+    // Flip icon position
+    flex-direction: row-reverse;
+  }
+
+  .service-brief__cta {
+    // Shimmer effect direction
+    &::before {
+      left: auto;
+      right: -100%;
+    }
+
+    &:hover::before {
+      right: 100%;
+      left: auto;
+    }
+  }
+
+  .service-brief__icon-wrapper:hover {
+    transform: rotate(-5deg) scale(1.05);
+  }
+}
+
+// ============================================================
+// Accessibility: Reduced Motion
+// ============================================================
+@media (prefers-reduced-motion: reduce) {
+  .service-brief-section {
+    // Disable all animations
+    * {
+      animation: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  }
+
+  .service-brief__cta {
+    &::before {
+      display: none;
+    }
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .service-brief__highlight:hover,
+  .service-brief__stat:hover,
+  .service-brief__illustration:hover,
+  .service-brief__icon-wrapper:hover {
+    transform: none;
+  }
+}
+
+// ============================================================
+// Print Styles
+// ============================================================
+@media print {
+  .service-brief-section {
+    padding: 2rem 0;
+    page-break-inside: avoid;
+
+    // Remove decorative backgrounds
+    .absolute {
+      display: none;
+    }
+
+    // Simplify glassmorphism
+    .service-brief__highlight,
+    .service-brief__stat {
+      background: white;
+      border: 1px solid #e5e7eb;
+      backdrop-filter: none;
+    }
+
+    // Remove hover effects
+    .service-brief__cta::before {
+      display: none;
+    }
+  }
+}
+
+// ============================================================
+// High Contrast Mode Support
+// ============================================================
+@media (prefers-contrast: high) {
+  .service-brief__highlight,
+  .service-brief__stat {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+
+  .service-brief__cta {
+    border-width: 2px;
+  }
+}

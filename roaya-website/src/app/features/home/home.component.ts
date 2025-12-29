@@ -36,11 +36,19 @@ import {
   lucideChevronDown,
   lucideArrowRight,
   lucideQuote,
-  lucideStar
+  lucideStar,
+  lucideServer,
+  lucideCloud,
+  lucideUsers,
+  lucideClock,
+  lucideZap
 } from '@ng-icons/lucide';
 import { NavigationService } from '../../core/services/navigation.service';
 import { CardStackComponent } from '../../shared/components/card-stack';
 import type { StackCard } from '../../shared/components/card-stack';
+import { SecurityBriefSectionComponent } from './components/security-brief-section/security-brief-section.component';
+import { PentestBriefSectionComponent } from './components/pentest-brief-section/pentest-brief-section.component';
+import { DevopsBriefSectionComponent } from './components/devops-brief-section/devops-brief-section.component';
 
 interface Stat {
   value: number;
@@ -107,7 +115,7 @@ interface FAQ {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, CardStackComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, CardStackComponent, SecurityBriefSectionComponent, PentestBriefSectionComponent, DevopsBriefSectionComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   providers: [
@@ -135,7 +143,12 @@ interface FAQ {
       lucideChevronDown,
       lucideArrowRight,
       lucideQuote,
-      lucideStar
+      lucideStar,
+      lucideServer,
+      lucideCloud,
+      lucideUsers,
+      lucideClock,
+      lucideZap
     })
   ]
 })

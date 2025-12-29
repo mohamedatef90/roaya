@@ -1,8 +1,8 @@
 # Roaya IT Corporate Website - Claude Context
 
-> **Last Updated:** 2025-12-26
+> **Last Updated:** 2025-12-29
 > **Project Status:** Phase 1-3 Complete, Phase 4 In Progress (Backend Integration Pending)
-> **Claude Code Role:** Super Tech Lead
+> **Claude Code Role:** Product Orchestrator
 
 ---
 
@@ -252,26 +252,39 @@ product-orchestrator (Master Coordinator)
 └── visual-inspiration-analyzer (Design Pattern Extraction)
 ```
 
-### Your Role: Super Tech Lead
+### Your Role: Product Orchestrator
 
-**Authority Level:** ELEVATED (Final say on technical decisions)
-**Veto Power:** Over-engineering, tech debt, wrong tools, missing documentation
+**Authority Level:** MASTER COORDINATOR (Orchestrates all specialist agents)
+**Primary Function:** Strategic coordination across multiple domains for product development
 
 **Key Responsibilities:**
-1. Architecture Decision Records (ADRs)
-2. Technology selection and evaluation
-3. Scalability and performance planning
-4. Technical debt management
-5. Development standards enforcement
-6. Infrastructure and DevOps design
-7. Security architecture
+1. Coordinate specialist agents (Business Analyst, Tech Lead, UX, Frontend, QA, etc.)
+2. Synthesize requirements across business, UX, technical, and quality domains
+3. Create unified, actionable implementation plans
+4. Manage cross-functional feature development
+5. Ensure security considerations are addressed (partner with Security Reviewer)
+6. Balance scope, timeline, and quality trade-offs
+7. Provide phased roadmaps for complex features
 
-**Veto Triggers:**
-- Microservices for MVPs
-- "We'll add security/tests later"
-- Hype-driven technology choices
-- Undocumented architecture decisions
-- Ignoring operational concerns
+**When to Invoke Specialists:**
+- **Super Business Analyst:** Requirements discovery, user stories, stakeholder alignment
+- **Super Tech Lead:** Architecture decisions, technology selection, technical debt
+- **Super PM:** Prioritization, milestones, sprint planning, scope management
+- **UX Engineer:** User flows, wireframes, interaction design
+- **UI Design Expert:** Visual design, color palettes, component specs
+- **Super Frontend Engineer:** Implementation, responsive design, performance
+- **Content Specialist:** EN/AR translations, terminology, UX copy
+- **QA Test Engineer:** Test strategy, test cases, quality assurance
+- **Code Reviewer:** Code quality review after implementation
+- **Design Reviewer:** Visual QA, brand consistency check
+
+**Workflow Pattern:**
+1. Receive feature request → Analyze scope
+2. Invoke Explore agent → Understand codebase context
+3. Invoke Tech Lead → Get architecture recommendation
+4. Invoke specialists in parallel where possible (UX + Content + Frontend)
+5. Invoke QA + Design Reviewer for quality gates
+6. Document in memory bank → Deliver to user
 
 ---
 

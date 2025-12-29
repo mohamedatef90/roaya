@@ -2362,6 +2362,101 @@
         "uptime": "Uptime Guarantee",
         "support": "Local Support"
       }
+    },
+    "serviceBriefs": {
+      "sectionBadge": "Featured Solutions",
+      "sectionTitle": "Enterprise-Grade Solutions Built for Modern Threats",
+      "sectionDescription": "From proactive security monitoring to rapid deployment pipelines, discover how we protect and accelerate your digital transformation.",
+      "security": {
+        "badge": "Cybersecurity",
+        "title": "Protect Your Digital Assets Around the Clock",
+        "subtitle": "Enterprise Security That Never Sleeps",
+        "description": "Our Security Operations Center monitors your infrastructure 24/7, detecting threats in real-time and responding within minutes. With advanced threat intelligence and battle-tested incident response protocols, we keep your business safe from evolving cyber threats.",
+        "highlights": {
+          "soc": {
+            "title": "24/7 SOC Monitoring",
+            "description": "Continuous surveillance by certified security analysts using AI-powered threat detection."
+          },
+          "threatIntel": {
+            "title": "Real-Time Threat Intelligence",
+            "description": "Leverage global threat data to stay ahead of emerging attacks before they reach you."
+          },
+          "response": {
+            "title": "Rapid Incident Response",
+            "description": "Pre-built playbooks and expert teams ready to contain threats in under 15 minutes."
+          },
+          "compliance": {
+            "title": "Compliance & Governance",
+            "description": "Meet regulatory requirements with automated compliance monitoring and reporting."
+          }
+        },
+        "stats": {
+          "coverage": "SOC Coverage",
+          "detection": "Threat Detection Rate"
+        },
+        "primaryCta": "Explore Security Solutions",
+        "secondaryCta": "Talk to Security Expert"
+      },
+      "pentesting": {
+        "badge": "Penetration Testing",
+        "title": "Find Vulnerabilities Before Attackers Do",
+        "subtitle": "Proactive Security Through Expert Assessment",
+        "description": "Our certified ethical hackers simulate real-world attacks to uncover weaknesses in your systems. Get detailed reports with actionable remediation steps, plus hands-on support to strengthen your security posture before threats become breaches.",
+        "highlights": {
+          "assessment": {
+            "title": "Expert-Led Assessments",
+            "description": "OSCP and CEH-certified testers using the latest exploitation techniques and frameworks."
+          },
+          "reporting": {
+            "title": "Comprehensive Reporting",
+            "description": "Executive summaries, technical findings, risk ratings, and step-by-step remediation guides."
+          },
+          "remediation": {
+            "title": "Remediation Support",
+            "description": "Post-assessment guidance and retesting to verify fixes and close security gaps."
+          },
+          "continuous": {
+            "title": "Continuous Testing",
+            "description": "Ongoing vulnerability assessments to maintain your security posture over time."
+          }
+        },
+        "stats": {
+          "assessments": "Assessments Completed",
+          "delivery": "Report Delivery"
+        },
+        "primaryCta": "Request Penetration Test",
+        "secondaryCta": "View Sample Report"
+      },
+      "devops": {
+        "badge": "DevOps & Cloud",
+        "title": "Deploy Faster, Scale Smarter, Operate Seamlessly",
+        "subtitle": "Modern DevOps Practices for Agile Teams",
+        "description": "Accelerate your software delivery with automated CI/CD pipelines, container orchestration, and cloud-native infrastructure. Our DevOps experts help you ship code 10x faster while maintaining 99.9% uptime through intelligent monitoring and observability.",
+        "highlights": {
+          "cicd": {
+            "title": "Automated CI/CD Pipelines",
+            "description": "Build, test, and deploy code automatically with zero-downtime releases and instant rollbacks."
+          },
+          "kubernetes": {
+            "title": "Kubernetes Orchestration",
+            "description": "Scale microservices effortlessly with container management, auto-scaling, and service mesh."
+          },
+          "observability": {
+            "title": "Full-Stack Observability",
+            "description": "Real-time monitoring, logging, and tracing to catch issues before users notice them."
+          },
+          "infrastructure": {
+            "title": "Infrastructure as Code",
+            "description": "Manage infrastructure with version-controlled, repeatable, and auditable configurations."
+          }
+        },
+        "stats": {
+          "deployments": "Faster Deployments",
+          "uptime": "Infrastructure Uptime"
+        },
+        "primaryCta": "Start DevOps Transformation",
+        "secondaryCta": "Book Consultation"
+      }
     }
   },
   "industries": {

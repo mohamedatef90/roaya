@@ -1,0 +1,221 @@
+<section #sectionElement
+  class="devops-brief-section relative overflow-hidden py-12 md:py-16 lg:py-20 md:min-h-[80vh] flex items-center">
+  <!-- Gradient Background -->
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-violet-50 via-teal-50/50 to-blue-50 dark:from-slate-900 dark:via-violet-950/30 dark:to-slate-900"
+    aria-hidden="true"></div>
+
+  <!-- Flowing Lines Background -->
+  <div class="flow-lines absolute inset-0 pointer-events-none opacity-40 dark:opacity-20" aria-hidden="true">
+    <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 600">
+      <defs>
+        <linearGradient id="flowGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(139, 92, 246, 0)" />
+          <stop offset="50%" stop-color="rgba(20, 184, 166, 0.5)" />
+          <stop offset="100%" stop-color="rgba(59, 130, 246, 0)" />
+        </linearGradient>
+        <linearGradient id="flowGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(20, 184, 166, 0)" />
+          <stop offset="50%" stop-color="rgba(139, 92, 246, 0.4)" />
+          <stop offset="100%" stop-color="rgba(20, 184, 166, 0)" />
+        </linearGradient>
+      </defs>
+      <path class="flow-path flow-path-1" d="M0,150 Q300,100 600,150 T1200,100" fill="none" stroke="url(#flowGradient1)"
+        stroke-width="2" />
+      <path class="flow-path flow-path-2" d="M0,300 Q300,350 600,300 T1200,350" fill="none" stroke="url(#flowGradient2)"
+        stroke-width="2" />
+      <path class="flow-path flow-path-3" d="M0,450 Q300,400 600,450 T1200,400" fill="none" stroke="url(#flowGradient1)"
+        stroke-width="2" />
+    </svg>
+  </div>
+
+  <!-- Floating Containers -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="container-float container-1"></div>
+    <div class="container-float container-2"></div>
+    <div class="container-float container-3"></div>
+  </div>
+
+  <!-- Glowing Orbs -->
+  <div class="absolute top-10 right-1/4 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl" aria-hidden="true"></div>
+  <div class="absolute bottom-10 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
+
+      <!-- Content Column -->
+      <div class="devops-content lg:w-3/5 flex flex-col space-y-6 lg:space-y-0">
+        <!-- Badge with Cloud Icon -->
+        <div class="inline-flex items-center gap-2 self-start mb-6">
+          <span class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full
+                   bg-gradient-to-r from-teal-500/20 to-violet-500/20 text-teal-700 dark:text-teal-300
+                   backdrop-blur-sm border border-teal-500/30 dark:border-teal-400/30
+                   shadow-lg shadow-teal-500/10">
+            <ng-icon name="lucideCloud" size="14" class="text-teal-600 dark:text-teal-400" />
+            {{ 'home.serviceBriefs.devops.badge' | translate }}
+          </span>
+        </div>
+
+        <!-- Title with Gradient -->
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+          <span
+            class="bg-gradient-to-r from-violet-700 via-teal-600 to-blue-600 dark:from-violet-300 dark:via-teal-300 dark:to-blue-300 bg-clip-text text-transparent">
+            {{ 'home.serviceBriefs.devops.title' | translate }}
+          </span>
+        </h2>
+
+        <!-- Subtitle -->
+        <p class="text-xl text-teal-800/80 dark:text-teal-200/80 mb-4 font-medium">
+          {{ 'home.serviceBriefs.devops.subtitle' | translate }}
+        </p>
+
+        <!-- Description -->
+        <p class="text-base text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl">
+          {{ 'home.serviceBriefs.devops.description' | translate }}
+        </p>
+
+        <!-- Highlights Grid with Gradient Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+          <div *ngFor="let highlight of highlights; let i = index; trackBy: trackByIndex" class="mt-5 devops-highlight group relative p-5 rounded-2xl
+                   bg-white/80 dark:bg-slate-800/80 backdrop-blur-md
+                   border border-teal-200/50 dark:border-teal-500/20
+                   hover:border-violet-400/50 dark:hover:border-violet-400/40
+                   shadow-lg shadow-teal-500/5 dark:shadow-teal-500/10
+                   hover:shadow-xl hover:shadow-violet-500/10
+                   transition-all duration-300 transform hover:-translate-y-1
+                   overflow-hidden">
+            <!-- Gradient Border Animation -->
+            <div
+              class="gradient-border absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              aria-hidden="true"></div>
+
+            <div class="relative flex items-start gap-4">
+              <!-- Icon with Gradient Background -->
+              <div class="flex-shrink-0">
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-violet-500 flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:shadow-violet-500/30 transition-shadow duration-300 group-hover:scale-110 transform">
+                  <ng-icon [name]="highlight.icon" class="text-white" size="22" />
+                </div>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <h3
+                  class="text-base font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-violet-700 dark:group-hover:text-teal-300 transition-colors duration-300">
+                  {{ highlight.titleKey | translate }}
+                </h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {{ highlight.descriptionKey | translate }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTAs with DevOps Theme -->
+        <div class="flex flex-col sm:flex-row gap-4 mt-5">
+          <a routerLink="/services/devops" class="mt-5 devops-cta-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold
+                   bg-white/95 dark:bg-gradient-to-r dark:from-teal-600 dark:to-violet-600
+                   border-2 border-teal-500/50 dark:border-transparent
+                   hover:bg-gradient-to-r hover:from-teal-600 hover:to-violet-600 hover:border-transparent
+                   shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-violet-500/30
+                   transition-all duration-300 transform hover:scale-105
+                   focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+            <ng-icon name="lucideRocket" size="18" class="cta-icon-gradient" />
+            <span class="cta-text-gradient">{{ 'home.serviceBriefs.devops.primaryCta' | translate }}</span>
+            <ng-icon name="lucideArrowRight" size="18" class="cta-icon-gradient rtl:rotate-180" />
+          </a>
+
+          <a routerLink="/contact" class="mt-5 devops-cta-secondary inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold
+                   bg-white/90 dark:bg-slate-800/80 backdrop-blur-sm
+                   border-2 border-teal-600 dark:border-teal-500/40
+                   hover:bg-teal-50 dark:hover:bg-teal-900/30
+                   hover:border-violet-600 dark:hover:border-violet-400
+                   transition-all duration-300 transform hover:scale-105
+                   focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+            <ng-icon name="lucideUsers" size="18" class="cta-icon-secondary-gradient" />
+            <span class="cta-text-secondary-gradient">{{ 'home.serviceBriefs.devops.secondaryCta' | translate }}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Visual Column - Pipeline Visualization -->
+      <div class="devops-hero lg:w-2/5 flex flex-col items-center justify-center gap-8 w-full">
+        <!-- Pipeline Stages -->
+        <div class="pipeline-container w-full max-w-sm">
+          <div class="flex items-center justify-between">
+            <ng-container *ngFor="let stage of pipelineStages; let i = index; let last = last; trackBy: trackByIndex">
+              <!-- Stage Node -->
+              <div class="pipeline-stage flex flex-col items-center gap-2"
+                [class.stage-complete]="stage.status === 'complete'" [class.stage-active]="stage.status === 'active'">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300"
+                  [ngClass]="{
+                    'bg-gradient-to-br from-teal-500 to-teal-600 shadow-teal-500/30': stage.status === 'complete',
+                    'bg-gradient-to-br from-violet-500 to-violet-600 shadow-violet-500/40 animate-pulse': stage.status === 'active',
+                    'bg-gray-200 dark:bg-slate-700': stage.status === 'pending'
+                  }">
+                  <ng-icon [name]="stage.icon" [ngClass]="{
+                      'text-white': stage.status === 'complete' || stage.status === 'active',
+                      'text-gray-500 dark:text-gray-300': stage.status === 'pending'
+                    }" size="24" />
+                </div>
+                <span class="text-xs font-medium text-gray-600 dark:text-gray-400">{{ stage.label }}</span>
+              </div>
+
+              <!-- Connector -->
+              <div *ngIf="!last" class="pipeline-connector flex-1 h-1 mx-2 rounded-full relative overflow-hidden"
+                [ngClass]="{
+                  'bg-teal-500': i < 3,
+                  'bg-gradient-to-r from-teal-500 to-violet-500': i === 2
+                }">
+                <div class="connector-flow absolute inset-0" [class.flow-active]="i === 2"></div>
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- Pipeline Label -->
+          <div class="text-center mt-4">
+            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">CI/CD Pipeline</span>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="w-full grid grid-cols-2 gap-4 max-w-sm">
+          <div *ngFor="let stat of stats; trackBy: trackByIndex" class="devops-stat flex flex-col items-center justify-center p-5 rounded-2xl
+                   bg-white/90 dark:bg-slate-800/90 backdrop-blur-md
+                   border border-teal-200/50 dark:border-teal-500/20
+                   shadow-lg shadow-teal-500/10 dark:shadow-teal-500/10
+                   hover:shadow-xl hover:shadow-violet-500/15
+                   transition-all duration-300 hover:-translate-y-1">
+            <ng-icon [name]="stat.icon" class="text-teal-600 dark:text-teal-400 mb-2" size="24" />
+            <div class="devops-stat-value text-2xl sm:text-3xl font-bold mb-1">
+              {{ stat.value }}
+            </div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 text-center uppercase tracking-wide">
+              {{ stat.labelKey | translate }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployment Status Badges -->
+        <div class="flex flex-wrap justify-center gap-3">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-100 dark:bg-teal-900/30 border border-teal-600/30">
+            <div class="w-2 h-2 rounded-full bg-teal-600 animate-pulse"></div>
+            <span class="text-xs font-semibold text-teal-800 dark:text-teal-300">Auto-scaling</span>
+          </div>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-600/30">
+            <div class="w-2 h-2 rounded-full bg-violet-600 animate-pulse"></div>
+            <span class="text-xs font-semibold text-violet-800 dark:text-violet-300">Zero Downtime</span>
+          </div>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-600/30">
+            <div class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></div>
+            <span class="text-xs font-semibold text-blue-800 dark:text-blue-300">Real-time Logs</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
