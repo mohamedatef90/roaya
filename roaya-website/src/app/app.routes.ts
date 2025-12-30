@@ -37,6 +37,11 @@ export const routes: Routes = [
     title: 'IT Consulting & Digital Transformation - Roaya IT'
   },
   {
+    path: 'services/ai',
+    loadComponent: () => import('./features/services/ai/ai.component').then(m => m.AiComponent),
+    title: 'AI Services - Machine Learning, AI Agents, Analytics | Roaya IT'
+  },
+  {
     path: 'services/devops',
     loadComponent: () => import('./features/services/devops/devops.component').then(m => m.DevopsComponent),
     title: 'DevOps Services - CI/CD, Kubernetes, GitOps | Roaya IT'

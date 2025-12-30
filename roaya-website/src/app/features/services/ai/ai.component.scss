@@ -1,0 +1,2520 @@
+/**
+ * AI Services - 3D Space Journey Experience
+ * Cinematic Dark Theme | Problem → Solution Narrative
+ */
+
+// ============================================
+// CSS CUSTOM PROPERTIES (Space Journey Theme)
+// ============================================
+
+:host {
+  // Space Background Colors
+  --space-void: #000000;
+  --space-deep: #050510;
+  --space-dark: #0a0a1a;
+  --space-medium: #0f1020;
+
+  // Nebula Accent Colors
+  --nebula-cyan: #22d3ee;
+  --nebula-purple: #7c3aed;
+  --nebula-blue: #3b82f6;
+  --nebula-green: #10b981;
+
+  // Danger/Warning Colors (Problem Section)
+  --danger-red: #ef4444;
+  --danger-orange: #f97316;
+  --danger-amber: #f59e0b;
+
+  // Portal/Transition Colors
+  --portal-cyan: #06b6d4;
+  --portal-violet: #8b5cf6;
+
+  // Text Colors
+  --text-white: #ffffff;
+  --text-light: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  // Typography
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-primary: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  // Glows
+  --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.4),
+               0 0 40px rgba(34, 211, 238, 0.2),
+               0 0 60px rgba(34, 211, 238, 0.1);
+  --glow-purple: 0 0 20px rgba(124, 58, 237, 0.4),
+                 0 0 40px rgba(124, 58, 237, 0.2),
+                 0 0 60px rgba(124, 58, 237, 0.1);
+  --glow-danger: 0 0 20px rgba(239, 68, 68, 0.4),
+                 0 0 40px rgba(239, 68, 68, 0.2);
+}
+
+// ============================================
+// KEYFRAME ANIMATIONS
+// ============================================
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes pulse-danger {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+@keyframes portal-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes portal-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; filter: blur(40px); }
+  50% { opacity: 0.8; filter: blur(60px); }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+@keyframes asteroid-drift {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(30px) rotate(180deg); }
+}
+
+@keyframes nebula-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes star-glow {
+  0%, 100% { box-shadow: 0 0 3px rgba(255, 255, 255, 0.5); }
+  50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(34, 211, 238, 0.5); }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes planet-glow {
+  0%, 100% {
+    box-shadow: 0 0 60px rgba(34, 211, 238, 0.3),
+                0 0 120px rgba(124, 58, 237, 0.2),
+                inset 0 0 60px rgba(34, 211, 238, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 80px rgba(34, 211, 238, 0.5),
+                0 0 160px rgba(124, 58, 237, 0.3),
+                inset 0 0 80px rgba(34, 211, 238, 0.2);
+  }
+}
+
+// ============================================
+// MAIN CONTAINER
+// ============================================
+
+.space-journey {
+  background: var(--space-void);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  color: var(--text-light);
+}
+
+// ============================================
+// JOURNEY PROGRESS INDICATOR
+// ============================================
+
+.journey-progress {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  .progress-bar {
+    width: 4px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, var(--nebula-cyan), var(--nebula-purple));
+      height: var(--progress, 0%);
+      transition: height 0.3s ease;
+      border-radius: 4px;
+    }
+  }
+
+  .progress-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+// ============================================
+// STARFIELD BACKGROUND
+// ============================================
+
+.starfield-container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+}
+
+.stars-layer-1 {
+  // Distant stars - slow parallax
+  .star {
+    opacity: 0.4;
+  }
+}
+
+.stars-layer-2 {
+  // Medium stars
+  .star-twinkle {
+    animation: twinkle 3s ease-in-out infinite;
+    animation-delay: calc(var(--delay, 0) * 0.5s);
+  }
+}
+
+.stars-layer-3 {
+  // Close bright stars
+  .star-glow {
+    animation: star-glow 4s ease-in-out infinite;
+  }
+}
+
+// ============================================
+// SECTION BASE STYLES
+// ============================================
+
+.journey-section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem;
+  z-index: 10;
+
+  @media (min-width: 768px) {
+    padding: 8rem 2rem;
+  }
+}
+
+.section-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-white) 0%, var(--nebula-cyan) 50%, var(--text-white) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: nebula-flow 8s ease infinite;
+}
+
+.section-subtitle {
+  font-family: var(--font-primary);
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+}
+
+// ============================================
+// SECTION 1: ENTRY
+// ============================================
+
+.journey-entry {
+  background: radial-gradient(ellipse at center, var(--space-dark) 0%, var(--space-void) 70%);
+
+  .entry-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .entry-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--nebula-cyan);
+    backdrop-filter: blur(10px);
+  }
+
+  .entry-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg,
+      var(--text-white) 0%,
+      var(--nebula-cyan) 30%,
+      var(--nebula-purple) 60%,
+      var(--text-white) 100%
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: nebula-flow 10s ease infinite;
+    text-shadow: 0 0 80px rgba(34, 211, 238, 0.3);
+  }
+
+  .entry-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.7;
+  }
+
+  .hero-intro {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    line-height: 1.8;
+    text-align: center;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+
+      &.primary {
+        background: linear-gradient(135deg, var(--nebula-cyan) 0%, var(--nebula-purple) 100%);
+        color: var(--space-void);
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: var(--glow-cyan);
+        }
+      }
+
+      &.secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--text-light);
+
+        &:hover {
+          border-color: var(--nebula-cyan);
+          background: rgba(34, 211, 238, 0.1);
+        }
+      }
+    }
+  }
+
+  .scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+    color: var(--text-dim);
+    font-size: 0.875rem;
+    font-family: var(--font-mono);
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--nebula-cyan));
+    }
+
+    .scroll-arrow {
+      animation: scroll-bounce 2s ease-in-out infinite;
+      color: var(--nebula-cyan);
+    }
+  }
+
+  .entry-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle,
+      rgba(34, 211, 238, 0.15) 0%,
+      rgba(124, 58, 237, 0.1) 30%,
+      transparent 60%
+    );
+    animation: glow-pulse 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+// ============================================
+// SECTION 2: PROBLEM (The Void)
+// ============================================
+
+.journey-problem {
+  background: linear-gradient(180deg,
+    var(--space-void) 0%,
+    rgba(239, 68, 68, 0.05) 50%,
+    var(--space-void) 100%
+  );
+
+  .void-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center,
+      transparent 30%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    pointer-events: none;
+  }
+
+  .problem-title {
+    color: var(--danger-red);
+    background: linear-gradient(135deg, var(--danger-red) 0%, var(--danger-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .problem-intro {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+  }
+
+  .problem-intro-text {
+    text-align: center;
+    margin-bottom: 2.5rem;
+
+    .problem-lead {
+      font-size: 1.25rem;
+      color: var(--danger-red);
+      font-weight: 500;
+      line-height: 1.7;
+    }
+  }
+
+  .stakeholder-impact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(239, 68, 68, 0.05);
+    border-radius: 1rem;
+    border: 1px solid rgba(239, 68, 68, 0.1);
+
+    .impact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+
+      ng-icon {
+        color: var(--danger-orange);
+      }
+    }
+  }
+
+  .root-cause {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 1rem;
+    margin-top: 2rem;
+
+    p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.7;
+
+      &.highlight {
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--danger-red);
+        margin-top: 0.75rem;
+      }
+    }
+  }
+
+  .problem-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .problem-card {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba(239, 68, 68, 0.5);
+      transform: translateY(-4px);
+      box-shadow: var(--glow-danger);
+    }
+
+    .problem-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--danger-red);
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .danger-indicator {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+
+      .pulse {
+        display: block;
+        width: 8px;
+        height: 8px;
+        background: var(--danger-red);
+        border-radius: 50%;
+        animation: pulse-danger 2s ease-in-out infinite;
+      }
+    }
+
+    // Danger levels
+    &.danger-high {
+      border-color: rgba(239, 68, 68, 0.4);
+      .problem-icon { color: var(--danger-red); }
+    }
+
+    &.danger-medium {
+      border-color: rgba(249, 115, 22, 0.4);
+      .problem-icon { color: var(--danger-orange); }
+    }
+
+    &.danger-low {
+      border-color: rgba(245, 158, 11, 0.4);
+      .problem-icon { color: var(--danger-amber); }
+    }
+  }
+
+  .problem-consequence {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--danger-red);
+      margin: 0;
+    }
+  }
+
+  .danger-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle,
+      rgba(239, 68, 68, 0.1) 0%,
+      transparent 60%
+    );
+    animation: glow-pulse 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+// Asteroids
+.asteroids-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  .asteroid {
+    position: absolute;
+    background: linear-gradient(135deg,
+      rgba(100, 100, 100, 0.8) 0%,
+      rgba(50, 50, 50, 0.9) 100%
+    );
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    opacity: 0.6;
+    animation: asteroid-drift 8s ease-in-out infinite alternate;
+    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.5),
+                inset 5px 5px 15px rgba(255, 255, 255, 0.1);
+  }
+}
+
+// ============================================
+// SECTION 3: PORTAL (Wormhole Transition)
+// ============================================
+
+.journey-portal {
+  background: var(--space-void);
+  overflow: hidden;
+
+  .portal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+
+    @media (max-width: 640px) {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  .portal-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &.ring-1 {
+      width: 100%;
+      height: 100%;
+      border-color: rgba(34, 211, 238, 0.2);
+      animation: portal-spin 20s linear infinite;
+    }
+
+    &.ring-2 {
+      width: 80%;
+      height: 80%;
+      border-color: rgba(124, 58, 237, 0.3);
+      animation: portal-spin-reverse 15s linear infinite;
+    }
+
+    &.ring-3 {
+      width: 60%;
+      height: 60%;
+      border-color: rgba(34, 211, 238, 0.4);
+      animation: portal-spin 10s linear infinite;
+    }
+
+    &.ring-4 {
+      width: 40%;
+      height: 40%;
+      border-color: rgba(124, 58, 237, 0.5);
+      animation: portal-spin-reverse 8s linear infinite;
+    }
+
+    &.ring-5 {
+      width: 20%;
+      height: 20%;
+      border-color: rgba(34, 211, 238, 0.6);
+      animation: portal-spin 5s linear infinite;
+    }
+  }
+
+  .portal-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10%;
+    height: 10%;
+    background: radial-gradient(circle,
+      var(--nebula-cyan) 0%,
+      var(--nebula-purple) 50%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    box-shadow: var(--glow-cyan);
+  }
+
+  .portal-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .portal-text {
+    text-align: center;
+
+    .solution-badge {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--nebula-cyan);
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--nebula-cyan) 0%, var(--nebula-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+    }
+
+    .solution-desc {
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+  }
+
+  .wormhole-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle,
+      rgba(34, 211, 238, 0.2) 0%,
+      rgba(124, 58, 237, 0.1) 30%,
+      transparent 50%
+    );
+    animation: glow-pulse 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+// ============================================
+// SECTION 4: SOLUTION (The Galaxy)
+// ============================================
+
+.journey-solution {
+  background: linear-gradient(180deg,
+    var(--space-void) 0%,
+    var(--space-dark) 30%,
+    var(--space-medium) 50%,
+    var(--space-dark) 70%,
+    var(--space-void) 100%
+  );
+
+  .nebula-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .solution-title {
+    background: linear-gradient(135deg, var(--nebula-cyan) 0%, var(--nebula-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .solution-intro {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+  }
+
+  .production-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+
+    p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .outcome-problems {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 1rem;
+    margin-bottom: 2.5rem;
+
+    .outcome-intro {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .problem-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9375rem;
+        color: var(--danger-orange);
+
+        ng-icon {
+          color: var(--danger-red);
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+
+  .approach-text,
+  .vision-text {
+    text-align: center;
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+  }
+
+  .vision-text {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--nebula-cyan);
+  }
+
+  .solution-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .solution-card {
+    background: rgba(34, 211, 238, 0.05);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.5);
+      transform: translateY(-8px);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .solution-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--nebula-cyan);
+    }
+
+    h4 {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--nebula-cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover .card-glow {
+      opacity: 1;
+    }
+
+    // Glow variants
+    &.glow-cyan {
+      &:hover { box-shadow: var(--glow-cyan); }
+      .solution-icon { color: var(--nebula-cyan); }
+    }
+
+    &.glow-purple {
+      border-color: rgba(124, 58, 237, 0.2);
+      &:hover {
+        border-color: rgba(124, 58, 237, 0.5);
+        box-shadow: var(--glow-purple);
+      }
+      .solution-icon { color: var(--nebula-purple); }
+      .card-glow {
+        background: linear-gradient(90deg, transparent, var(--nebula-purple), transparent);
+      }
+    }
+
+    &.glow-green {
+      border-color: rgba(16, 185, 129, 0.2);
+      &:hover {
+        border-color: rgba(16, 185, 129, 0.5);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      }
+      .solution-icon { color: var(--nebula-green); }
+      .card-glow {
+        background: linear-gradient(90deg, transparent, var(--nebula-green), transparent);
+      }
+    }
+  }
+
+  .solution-promise {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+
+    ng-icon {
+      color: var(--nebula-cyan);
+    }
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// SECTION 5: CONSTELLATIONS (Services)
+// ============================================
+
+.journey-constellations {
+  background: var(--space-dark);
+
+  .constellations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .constellation-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+
+    &:hover,
+    &.active {
+      background: rgba(34, 211, 238, 0.05);
+      border-color: rgba(34, 211, 238, 0.3);
+      transform: translateY(-4px);
+    }
+
+    &.active {
+      box-shadow: var(--glow-cyan);
+    }
+
+    .star-pattern {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 4px;
+
+      .constellation-star {
+        width: 4px;
+        height: 4px;
+        background: var(--nebula-cyan);
+        border-radius: 50%;
+        opacity: 0.5;
+      }
+    }
+
+    .constellation-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--nebula-cyan);
+    }
+
+    h4 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 0.5rem;
+    }
+
+    .constellation-brief {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .constellation-features {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      animation: reveal-up 0.3s ease;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem 0;
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 0;
+          font-size: 0.875rem;
+          color: var(--text-light);
+
+          ng-icon {
+            color: var(--nebula-green);
+            flex-shrink: 0;
+          }
+        }
+      }
+
+      .constellation-outcome {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        background: rgba(124, 58, 237, 0.1);
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--nebula-purple);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// ============================================
+// SECTION 6: MILESTONES (Journey Path)
+// ============================================
+
+.journey-milestones {
+  background: linear-gradient(180deg, rgba(10, 10, 26, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+
+  // Blue nebula glow for methodology section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 25%, rgba(59, 130, 246, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 15% 75%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .orbital-path {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4rem 2rem;
+    margin-bottom: 3rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .orbit-line {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(34, 211, 238, 0.3) 20%,
+        rgba(124, 58, 237, 0.3) 50%,
+        rgba(34, 211, 238, 0.3) 80%,
+        transparent 100%
+      );
+      transform: translateY(-50%);
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  .milestone-planet {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover,
+    &.active {
+      transform: scale(1.1);
+    }
+
+    .planet-core {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--space-medium);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+
+      .planet-number {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-muted);
+      }
+    }
+
+    .planet-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80px;
+      height: 80px;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    .planet-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      white-space: nowrap;
+
+      ng-icon {
+        opacity: 0.7;
+      }
+    }
+
+    // Planet color variants
+    &.planet-cyan {
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: var(--nebula-cyan);
+          box-shadow: var(--glow-cyan);
+          .planet-number { color: var(--nebula-cyan); }
+        }
+        .planet-ring {
+          border-color: rgba(34, 211, 238, 0.3);
+        }
+        .planet-label {
+          color: var(--nebula-cyan);
+        }
+      }
+    }
+
+    &.planet-purple {
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: var(--nebula-purple);
+          box-shadow: var(--glow-purple);
+          .planet-number { color: var(--nebula-purple); }
+        }
+        .planet-ring {
+          border-color: rgba(124, 58, 237, 0.3);
+        }
+        .planet-label {
+          color: var(--nebula-purple);
+        }
+      }
+    }
+
+    &.planet-green {
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: var(--nebula-green);
+          box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+          .planet-number { color: var(--nebula-green); }
+        }
+        .planet-ring {
+          border-color: rgba(16, 185, 129, 0.3);
+        }
+        .planet-label {
+          color: var(--nebula-green);
+        }
+      }
+    }
+
+    &.planet-blue {
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: var(--nebula-blue);
+          box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+          .planet-number { color: var(--nebula-blue); }
+        }
+        .planet-ring {
+          border-color: rgba(59, 130, 246, 0.3);
+        }
+        .planet-label {
+          color: var(--nebula-blue);
+        }
+      }
+    }
+  }
+
+  .milestone-detail {
+    .detail-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      animation: reveal-up 0.3s ease;
+
+      .detail-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+
+        &.bg-cyan { background: linear-gradient(135deg, var(--nebula-cyan), var(--portal-cyan)); }
+        &.bg-purple { background: linear-gradient(135deg, var(--nebula-purple), var(--portal-violet)); }
+        &.bg-green { background: linear-gradient(135deg, var(--nebula-green), #059669); }
+        &.bg-blue { background: linear-gradient(135deg, var(--nebula-blue), #2563eb); }
+      }
+
+      h4 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-white);
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+    }
+  }
+}
+
+// ============================================
+// SECTION 7: DESTINATION (CTA)
+// ============================================
+
+.journey-destination {
+  background: var(--space-void);
+  overflow: hidden;
+
+  .destination-planet {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    pointer-events: none;
+
+    @media (max-width: 768px) {
+      width: 400px;
+      height: 400px;
+    }
+
+    .planet-surface {
+      position: absolute;
+      inset: 20%;
+      border-radius: 50%;
+      background: linear-gradient(135deg,
+        rgba(34, 211, 238, 0.3) 0%,
+        rgba(124, 58, 237, 0.2) 50%,
+        rgba(16, 185, 129, 0.1) 100%
+      );
+      animation: planet-glow 6s ease-in-out infinite;
+    }
+
+    .planet-atmosphere {
+      position: absolute;
+      inset: 15%;
+      border-radius: 50%;
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      animation: portal-spin 30s linear infinite;
+    }
+
+    .planet-rings {
+      position: absolute;
+      inset: 5%;
+      border-radius: 50%;
+      border: 1px solid rgba(124, 58, 237, 0.1);
+      transform: rotateX(70deg);
+    }
+  }
+
+  .destination-content {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  .destination-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg,
+      var(--text-white) 0%,
+      var(--nebula-cyan) 30%,
+      var(--nebula-purple) 70%,
+      var(--text-white) 100%
+    );
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: nebula-flow 8s ease infinite;
+    margin-bottom: 1rem;
+  }
+
+  .destination-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+
+  .destination-cta {
+    margin-bottom: 3rem;
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.25rem 2.5rem;
+      background: linear-gradient(135deg, var(--nebula-cyan) 0%, var(--nebula-purple) 100%);
+      border-radius: 1rem;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--space-void);
+      text-decoration: none;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+
+      &:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: var(--glow-cyan), var(--glow-purple);
+
+        &::before {
+          transform: translateX(100%);
+        }
+      }
+    }
+  }
+
+  .destination-rewards {
+    margin-bottom: 3rem;
+
+    h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .rewards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .reward-card {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      color: var(--text-light);
+      font-size: 0.9375rem;
+      transition: all 0.3s ease;
+
+      ng-icon {
+        color: var(--nebula-cyan);
+      }
+
+      &:hover {
+        border-color: rgba(34, 211, 238, 0.3);
+        background: rgba(34, 211, 238, 0.05);
+      }
+    }
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+
+    .signal {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+
+      ng-icon {
+        color: var(--nebula-green);
+      }
+    }
+  }
+
+  .destination-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 1000px;
+    background: radial-gradient(circle,
+      rgba(34, 211, 238, 0.1) 0%,
+      rgba(124, 58, 237, 0.05) 30%,
+      transparent 50%
+    );
+    animation: glow-pulse 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+// ============================================
+// SECTION 5: STRATEGIC OPERATING SYSTEM
+// ============================================
+
+.journey-strategic {
+  background: rgba(10, 10, 26, 0.75);
+
+  // Cyan nebula glow for strategic section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(34, 211, 238, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .strategic-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+
+    p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+
+      &.highlight {
+        font-family: var(--font-display);
+        font-weight: 500;
+        color: var(--nebula-cyan);
+      }
+    }
+  }
+
+  .maturity-intro {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .maturity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .maturity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: rgba(34, 211, 238, 0.05);
+    border: 1px solid rgba(34, 211, 238, 0.15);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+
+    ng-icon {
+      color: var(--nebula-cyan);
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.4);
+      background: rgba(34, 211, 238, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+
+  .strategic-tagline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 1rem;
+    text-align: center;
+
+    ng-icon {
+      color: var(--nebula-cyan);
+    }
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// SECTION 6: ENTERPRISE EXECUTION
+// ============================================
+
+.journey-enterprise {
+  background: linear-gradient(180deg, rgba(10, 10, 26, 0.8) 0%, rgba(15, 16, 32, 0.75) 50%, rgba(10, 10, 26, 0.8) 100%);
+
+  .nebula-glow.secondary {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(34, 211, 238, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .enterprise-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+
+    p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+
+      &.highlight {
+        font-family: var(--font-display);
+        font-weight: 500;
+        color: var(--nebula-purple);
+      }
+    }
+  }
+
+  .enterprise-desc {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .principle-box {
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    padding: 2rem;
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 1rem;
+
+    .principle-intro {
+      text-align: center;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .principle-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      @media (max-width: 640px) {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      ng-icon {
+        color: var(--nebula-purple);
+        flex-shrink: 0;
+      }
+
+      .principle-text {
+        p {
+          font-size: 1rem;
+          color: var(--text-light);
+          line-height: 1.7;
+          margin: 0 0 0.5rem 0;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .conclusion-text {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--nebula-purple);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// ============================================
+// SECTION 7: AGENTIC AUTOMATION
+// ============================================
+
+.journey-agentic {
+  background: rgba(10, 10, 26, 0.75);
+
+  // Green nebula glow for agentic section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 60% 30%, rgba(16, 185, 129, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .agentic-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+
+    p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+
+      &.warning {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 0.75rem;
+        color: var(--danger-orange);
+        font-size: 1rem;
+
+        ng-icon {
+          color: var(--danger-red);
+        }
+      }
+    }
+  }
+
+  .safe-intro {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .agentic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .agentic-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+
+    ng-icon {
+      color: var(--nebula-green);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    &:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+
+  .agentic-tagline {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 1rem;
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--nebula-green);
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// SECTION 8: SERVICES ACCORDION
+// ============================================
+
+.journey-constellations {
+  background: rgba(10, 10, 26, 0.75);
+
+  // Cyan/purple nebula glow for services section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 40% 20%, rgba(34, 211, 238, 0.1) 0%, transparent 55%),
+      radial-gradient(ellipse at 70% 75%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .service-accordion {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .accordion-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+    }
+
+    &.active {
+      border-color: rgba(34, 211, 238, 0.5);
+      background: rgba(34, 211, 238, 0.05);
+    }
+
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+
+      .accordion-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--nebula-cyan);
+        flex-shrink: 0;
+      }
+
+      .accordion-title {
+        flex: 1;
+
+        h3 {
+          font-family: var(--font-display);
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: var(--text-white);
+          margin: 0 0 0.25rem 0;
+        }
+
+        p {
+          font-size: 0.9375rem;
+          color: var(--text-muted);
+          margin: 0;
+        }
+      }
+
+      .accordion-toggle {
+        color: var(--text-muted);
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .accordion-content {
+      padding: 0 1.5rem 1.5rem;
+      animation: reveal-up 0.3s ease;
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 0.75rem;
+
+        li {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.5rem;
+          font-size: 0.9375rem;
+          color: var(--text-light);
+          line-height: 1.5;
+
+          ng-icon {
+            color: var(--nebula-green);
+            flex-shrink: 0;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      .service-outcome {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: rgba(124, 58, 237, 0.1);
+        border-radius: 0.75rem;
+        font-size: 0.9375rem;
+        color: var(--nebula-purple);
+        font-weight: 500;
+
+        ng-icon {
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+}
+
+// ============================================
+// SECTION 9: GOVERNANCE
+// ============================================
+
+.journey-governance {
+  background: linear-gradient(180deg, rgba(10, 10, 26, 0.8) 0%, rgba(15, 16, 32, 0.75) 100%);
+
+  // Purple nebula glow for governance section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 25% 50%, rgba(124, 58, 237, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 30%, rgba(34, 211, 238, 0.08) 0%, transparent 45%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .governance-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+
+    p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+
+      &.highlight {
+        color: var(--danger-orange);
+        font-weight: 500;
+      }
+    }
+  }
+
+  .governance-approach {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .governance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .governance-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.15);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    transition: all 0.3s ease;
+
+    ng-icon {
+      color: var(--nebula-purple);
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      border-color: rgba(124, 58, 237, 0.4);
+      background: rgba(124, 58, 237, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+
+  .governance-tagline {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 1rem;
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--nebula-purple);
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// SECTION 10: OUTCOMES
+// ============================================
+
+.journey-outcomes {
+  background: rgba(10, 10, 26, 0.75);
+  position: relative;
+
+  .nebula-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 70%, rgba(124, 58, 237, 0.1) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .outcome-card {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    ng-icon {
+      color: var(--nebula-cyan);
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(34, 211, 238, 0.05);
+      transform: translateY(-4px);
+    }
+  }
+
+  .outcomes-tagline {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 1rem;
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--nebula-cyan);
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// SECTION 12: FRAMEWORKS
+// ============================================
+
+.journey-frameworks {
+  background: rgba(15, 16, 32, 0.75);
+
+  // Blue/cyan nebula glow for frameworks section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 55%),
+      radial-gradient(ellipse at 25% 65%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .frameworks-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .framework-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    transition: all 0.3s ease;
+
+    ng-icon {
+      color: var(--nebula-blue);
+    }
+
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+
+  .frameworks-conclusion {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+}
+
+// ============================================
+// SECTION 13: WHY US
+// ============================================
+
+.journey-whyus {
+  background: linear-gradient(180deg, rgba(15, 16, 32, 0.75) 0%, rgba(10, 10, 26, 0.8) 100%);
+  position: relative;
+
+  .nebula-glow.secondary {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 70%, rgba(34, 211, 238, 0.1) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .whyus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .whyus-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    transition: all 0.3s ease;
+
+    ng-icon {
+      color: var(--nebula-cyan);
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(34, 211, 238, 0.05);
+      transform: translateY(-2px);
+    }
+  }
+
+  .whyus-tagline {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 1rem;
+
+    p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin: 0 0 0.75rem 0;
+      line-height: 1.7;
+
+      &.highlight {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-white);
+        margin: 0;
+      }
+    }
+  }
+}
+
+// ============================================
+// SECTION 14: DESTINATION CTA - USE CASES
+// ============================================
+
+.journey-destination {
+  .use-cases {
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+
+    .use-cases-intro {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .use-cases-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+
+      li {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1rem;
+        background: rgba(34, 211, 238, 0.05);
+        border: 1px solid rgba(34, 211, 238, 0.15);
+        border-radius: 0.5rem;
+        font-size: 0.9375rem;
+        color: var(--text-light);
+
+        ng-icon {
+          color: var(--nebula-green);
+        }
+      }
+    }
+  }
+}
+
+// ============================================
+// RELATED SERVICES
+// ============================================
+
+.journey-related {
+  background: rgba(5, 5, 16, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: auto;
+  padding: 4rem 1.5rem;
+
+  // Subtle cyan glow for related section
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(34, 211, 238, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .related-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .related-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    ng-icon:first-child {
+      color: var(--nebula-cyan);
+    }
+
+    ng-icon:last-child {
+      opacity: 0.5;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(34, 211, 238, 0.05);
+      transform: translateY(-2px);
+
+      ng-icon:last-child {
+        opacity: 1;
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// ============================================
+// ACCESSIBILITY & REDUCED MOTION
+// ============================================
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .portal-ring,
+  .asteroid,
+  .star-twinkle,
+  .star-glow,
+  .scroll-arrow {
+    animation: none !important;
+  }
+}
+
+// Focus states
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--nebula-cyan);
+  outline-offset: 3px;
+}
+
+// ============================================
+// RTL SUPPORT
+// ============================================
+
+:host-context([dir="rtl"]) {
+  .entry-content,
+  .problem-content,
+  .solution-content,
+  .destination-content {
+    text-align: right;
+  }
+
+  .related-link ng-icon:last-child {
+    transform: rotate(180deg);
+
+    &:hover {
+      transform: rotate(180deg) translateX(4px);
+    }
+  }
+
+  .journey-progress {
+    right: auto;
+    left: 2rem;
+  }
+}
+
+// ============================================
+// PRINT STYLES
+// ============================================
+
+@media print {
+  .starfield-container,
+  .journey-progress,
+  .asteroids-container,
+  .portal-container,
+  .destination-planet,
+  .entry-glow,
+  .danger-glow,
+  .wormhole-glow,
+  .nebula-glow,
+  .destination-glow {
+    display: none !important;
+  }
+
+  .journey-section {
+    background: white !important;
+    color: black !important;
+    min-height: auto;
+    page-break-inside: avoid;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+  }
+}

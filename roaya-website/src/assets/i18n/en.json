@@ -1519,6 +1519,466 @@
         "custom": "Custom Development"
       }
     },
+    "ai": {
+      "title": "AI Services",
+      "description": "Enterprise AI for intelligent operations at scale",
+      "fullDescription": "Design and deliver AI as an operational capability — enabling organizations to automate work, deploy intelligent agents, and generate measurable outcomes safely and repeatably.",
+      "features": {
+        "automation": "AI Automation & Workflow Orchestration",
+        "agents": "AI Agents & Copilots",
+        "models": "Custom Models & Machine Learning",
+        "analytics": "Advanced Analytics & Decision Intelligence",
+        "aiops": "AI for Operations (AIOps)"
+      },
+      "page": {
+        "journey": {
+          "entry": {
+            "badge": "Enterprise AI Journey",
+            "title": "Navigate to Intelligent Operations",
+            "subtitle": "From AI Chaos to Production-Ready Intelligence — A Guided Journey Through Enterprise AI Transformation",
+            "scroll": "Scroll to begin"
+          },
+          "problem": {
+            "title": "The Void of Failed AI Initiatives",
+            "intro": "Every organization is being pushed to 'use AI.' Yet many AI initiatives fail to deliver lasting value. Here's what teams actually encounter:",
+            "consequence": "The result? Wasted investment, frustrated teams, and AI that becomes a liability instead of an asset."
+          },
+          "portal": {
+            "title": "Entering the Transformation",
+            "subtitle": "There is a better way. Let us guide you through."
+          },
+          "solution": {
+            "title": "The Galaxy of Intelligent Solutions",
+            "intro": "We design and deliver AI as an operational capability — enabling organizations to automate work, deploy intelligent agents, and generate measurable outcomes safely and repeatably.",
+            "promise": "AI built to last. Production-ready from day one."
+          }
+        },
+        "hero": {
+          "badge": "Enterprise AI Services",
+          "title": "AI Services Built for Intelligent Operations",
+          "subtitle": "Without Fragile Pilots, Uncontrolled Risk, or Black Boxes",
+          "description": "We design and deliver AI as an operational capability — enabling organizations to automate work, deploy intelligent agents, and generate measurable outcomes safely and repeatably.",
+          "ctaPrimary": "Talk to an Expert",
+          "ctaSecondary": "View AI Solutions"
+        },
+        "statistics": {
+          "accuracy": {
+            "value": "94%",
+            "label": "Model Accuracy",
+            "description": "Average accuracy across deployed models"
+          },
+          "automation": {
+            "value": "60%",
+            "label": "Task Automation",
+            "description": "Reduction in manual processes"
+          },
+          "deployment": {
+            "value": "3x",
+            "label": "Faster Deployment",
+            "description": "Time to production vs. traditional approach"
+          },
+          "uptime": {
+            "value": "99.9%",
+            "label": "Model Uptime",
+            "description": "Enterprise-grade AI availability"
+          }
+        },
+        "problemStatement": {
+          "title": "Why AI Initiatives Fail to Deliver Lasting Value",
+          "description": "Every organization is being pushed to \"use AI.\" Efficiency targets rise. Service expectations grow. Data volumes explode.",
+          "items": {
+            "disconnectedPrototypes": {
+              "title": "Disconnected Prototypes",
+              "description": "Instead of automation, teams inherit disconnected prototypes that don't survive production."
+            },
+            "unpredictableBehavior": {
+              "title": "Unpredictable Behavior",
+              "description": "Instead of clarity, they face unpredictable model behavior and black-box decisions."
+            },
+            "operationalRisk": {
+              "title": "Operational Risk",
+              "description": "Instead of confidence, AI becomes another source of operational risk and compliance concerns."
+            }
+          },
+          "consequence": "Yet many AI initiatives fail to deliver lasting value.",
+          "stakeholderImpact": {
+            "business": "Business teams get demos that don't survive production.",
+            "it": "IT teams absorb new failure modes, integration debt, and security concerns.",
+            "leadership": "Leadership gets dashboards, not decision advantage."
+          },
+          "rootCause": {
+            "line1": "AI fails not because organizations lack tools.",
+            "line2": "AI fails because AI systems are deployed without governance, engineering discipline, and operational accountability."
+          }
+        },
+        "solution": {
+          "badge": "Our Solution",
+          "intro": "We solve this.",
+          "title": "AI is Not a Feature. It is an Operating Model.",
+          "description": "We design and deliver AI as an operational capability. This enables organizations to automate work, deploy intelligent agents, and generate measurable outcomes safely and repeatably."
+        },
+        "production": {
+          "title": "AI Engineered for Real Production Conditions",
+          "description": "We build AI systems designed for real-world operations, where governance, reliability, privacy, and performance are non-negotiable.",
+          "opening": "Many AI implementations are optimized for experimentation, not production.",
+          "problems": "Models are trained without lifecycle ownership. Agents are introduced without access control. Automation is launched without monitoring. Data pipelines silently drift over time.",
+          "outcomeIntro": "The outcome is familiar:",
+          "outcomes": {
+            "automationBreaks": "automation breaks when processes change",
+            "adoptionStalls": "adoption stalls because users don't trust outputs",
+            "complianceBlocks": "compliance and security teams block rollout",
+            "costsRise": "costs rise without a clear ROI path"
+          },
+          "approach": "We take a different approach.",
+          "vision": "We build AI systems designed for real-world operations, where governance, reliability, privacy, and performance are non-negotiable.",
+          "servicesIntro": "Our services support:",
+          "items": {
+            "stableAutomation": {
+              "title": "Stable Automation",
+              "description": "automation that remains stable as workflows evolve"
+            },
+            "safeAgents": {
+              "title": "Safe Agents",
+              "description": "agents that integrate safely with enterprise systems"
+            },
+            "betterAnalytics": {
+              "title": "Better Analytics",
+              "description": "analytics that improves decisions, not just reporting"
+            },
+            "aiops": {
+              "title": "AIOps",
+              "description": "AI for operations (AIOps) that reduces noise and accelerates response"
+            },
+            "controlledDeployment": {
+              "title": "Controlled Deployment",
+              "description": "controlled deployment across hybrid and cloud environments"
+            }
+          },
+          "tagline": "This is AI built to last."
+        },
+        "strategic": {
+          "title": "AI as a Strategic Operating System",
+          "opening": "AI is not a toolchain or a one-time initiative.",
+          "description": "It is a system. It is a repeatable way to turn data into action, and action into measurable improvement.",
+          "maturityIntro": "We help organizations establish AI maturity that allows them to:",
+          "items": {
+            "automateWork": {
+              "title": "Automate Work",
+              "description": "automate high-volume work without increasing operational risk"
+            },
+            "deployAgents": {
+              "title": "Deploy Agents",
+              "description": "deploy agents that assist teams, not replace accountability"
+            },
+            "buildModels": {
+              "title": "Build Models",
+              "description": "build custom models for business-specific decisions and workflows"
+            },
+            "improveForecast": {
+              "title": "Improve Forecasting",
+              "description": "improve forecasting, anomaly detection, and performance visibility"
+            },
+            "embedSecurity": {
+              "title": "Embed Security",
+              "description": "embed security and governance into the AI lifecycle"
+            },
+            "provideTransparency": {
+              "title": "Provide Transparency",
+              "description": "provide measurable transparency for leadership and audit stakeholders"
+            }
+          },
+          "tagline": "When AI is implemented correctly, speed and control reinforce each other."
+        },
+        "enterprise": {
+          "title": "Enterprise Execution Without AI Chaos",
+          "opening1": "Most organizations don't struggle with AI ideas.",
+          "opening2": "They struggle with operationalizing them.",
+          "description": "We specialize in large-scale AI execution, combining disciplined engineering, practical governance, and production integration to simplify adoption.",
+          "principleIntro": "Our work is built around a clear principle:",
+          "principle": "Enable teams to use AI daily — without managing models, prompts, infrastructure, or hidden risk.",
+          "principle1": "Enable teams to use AI daily.",
+          "principle2": "Do this without managing models, prompts, infrastructure, or hidden risk.",
+          "conclusion": "Complexity is absorbed by the platform and operating model. It is not pushed onto business users."
+        },
+        "agentic": {
+          "title": "Agentic Automation That Works Under Governance",
+          "description": "AI agents are shifting automation from scripted workflows to systems that can reason, plan, and execute tasks across tools and services.",
+          "riskWarning": "Agents also amplify risk. They interact with systems, trigger actions, and operate across sensitive data boundaries. Governance is not optional.",
+          "safeByDesignIntro": "We build agent capabilities that are safe by design:",
+          "items": {
+            "toolPermissions": {
+              "title": "Tool Permissions",
+              "description": "explicit tool permissions and scoped access"
+            },
+            "auditability": {
+              "title": "Auditability",
+              "description": "auditability of actions, decisions, and data usage"
+            },
+            "guardrails": {
+              "title": "Guardrails",
+              "description": "guardrails to prevent unsafe behavior and leakage"
+            },
+            "monitoring": {
+              "title": "Monitoring",
+              "description": "monitoring to detect drift, misuse, or unexpected outcomes"
+            },
+            "humanInLoop": {
+              "title": "Human-in-the-Loop",
+              "description": "human-in-the-loop controls where required"
+            }
+          },
+          "tagline": "This is how agentic automation scales without turning into chaos."
+        },
+        "deliver": {
+          "title": "What We Deliver",
+          "description": "We deploy production-ready AI capabilities that integrate with your existing systems and workflows.",
+          "outcomeLabel": "Outcome",
+          "services": {
+            "automation": {
+              "title": "AI Automation and Intelligent Workflow Orchestration",
+              "brief": "Reduce manual work while protecting process integrity",
+              "description": "We design automation that reduces manual work while protecting process integrity.",
+              "features": {
+                "aiAssistedAutomation": "AI-assisted process automation for high-volume workflows",
+                "documentUnderstanding": "Document understanding and structured extraction where relevant",
+                "decisionSupport": "Decision support embedded into business processes",
+                "exceptionHandling": "Exception handling and escalation logic",
+                "governanceControls": "Governance controls, including approvals, traceability, and rollback readiness",
+                "automationObservability": "Automation observability, including performance, failure patterns, and business impact"
+              },
+              "outcome": "Faster execution, fewer errors, measurable operational efficiency"
+            },
+            "agents": {
+              "title": "AI Agents, Copilots, and Internal Assistants",
+              "brief": "Intelligent agents connected to real systems",
+              "description": "We deploy intelligent agents that support teams across operations, service, and internal productivity. These are connected to real systems, not isolated chat tools.",
+              "features": {
+                "useCaseDriven": "Use-case-driven assistant design (employee, operations, IT, customer-facing)",
+                "integrationInternal": "Integration with internal tools (knowledge bases, ticketing, CRM/ERP layers, portals)",
+                "secureRetrieval": "Secure retrieval from approved sources with policy constraints",
+                "actionEnabled": "Action-enabled agents for controlled task execution",
+                "evaluationTesting": "Evaluation, testing, and continuous improvement loops",
+                "governanceBehavior": "Governance for agent behavior, permissions, and logging"
+              },
+              "outcome": "Faster resolution, higher throughput, improved experience, without compromising control"
+            },
+            "customModels": {
+              "title": "Custom Models and Applied Machine Learning",
+              "brief": "Business-specific ML models and intelligence",
+              "description": "When off-the-shelf models can't represent your business logic, risk profile, or data reality, we build what you actually need.",
+              "features": {
+                "customML": "Custom ML models for forecasting, scoring, classification, and anomaly detection",
+                "fineTuning": "Fine-tuning and adaptation strategies where appropriate",
+                "modelLifecycle": "Model lifecycle engineering (training, validation, deployment, monitoring)",
+                "driftDetection": "Drift detection and retraining pipelines",
+                "explainability": "Explainability and audit-ready reporting for sensitive decisions"
+              },
+              "outcome": "Higher accuracy, business-specific intelligence, measurable uplift"
+            },
+            "analytics": {
+              "title": "Advanced Analytics and Decision Intelligence",
+              "brief": "From reporting to prediction to action",
+              "description": "We move analytics from reporting to prediction, and from prediction to action.",
+              "features": {
+                "predictiveAnalytics": "Predictive analytics for demand, risk, and performance",
+                "anomalyDetection": "Anomaly detection for operations, fraud patterns, or service degradation",
+                "kpiIntelligence": "KPI intelligence — identifying drivers, not just describing trends",
+                "decisionModels": "Decision models integrated into operational workflows",
+                "dashboards": "Dashboards designed for leadership visibility and measurable outcomes"
+              },
+              "outcome": "Better decisions, earlier detection, stronger operational control"
+            },
+            "aiops": {
+              "title": "AI for Operations (AIOps) and Reliability Improvement",
+              "brief": "Reduce noise, detect issues earlier, accelerate response",
+              "description": "We apply AI to operational telemetry to reduce noise, detect issues earlier, and accelerate response — especially in complex environments.",
+              "features": {
+                "eventCorrelation": "Event correlation and alert noise reduction",
+                "infrastructureAnomaly": "Anomaly detection across infrastructure and application signals",
+                "incidentTriage": "Incident triage support and guided response",
+                "reliabilityInsights": "Reliability insights from logs, metrics, and traces",
+                "operationalFeedback": "Operational feedback loops that reduce repeat incidents"
+              },
+              "outcome": "Faster detection, faster recovery, fewer disruptions, measurable reliability gains"
+            }
+          }
+        },
+        "risk": {
+          "title": "Automation That Reduces Risk, Not Control",
+          "description": "In mature organizations, the biggest AI failures are not accuracy failures. They are governance failures.",
+          "opening1": "In mature organizations, the biggest AI failures are not accuracy failures.",
+          "opening2": "They are governance failures.",
+          "problems": "Uncontrolled access. Untracked data flows. Unmeasured outputs. Systems that can't be audited, or trusted.",
+          "disciplineIntro": "We use automation to enforce discipline:",
+          "items": {
+            "repeatableDeployment": {
+              "title": "Repeatable Deployment",
+              "description": "repeatable deployment and change control"
+            },
+            "policyEnforcement": {
+              "title": "Policy Enforcement",
+              "description": "consistent policy enforcement across environments"
+            },
+            "auditableDecisions": {
+              "title": "Auditable Decisions",
+              "description": "auditable decision trails for agents and models"
+            },
+            "secureData": {
+              "title": "Secure Data",
+              "description": "secure handling of sensitive data"
+            },
+            "monitoredCapability": {
+              "title": "Monitored Capability",
+              "description": "monitoring that turns AI into a managed capability"
+            }
+          },
+          "tagline": "This is how AI becomes reliable, not risky."
+        },
+        "outcomes": {
+          "title": "What Business and Technology Leaders Gain",
+          "description": "Our AI services deliver outcomes leaders can trust:",
+          "items": {
+            "automationGains": {
+              "title": "Automation Gains",
+              "description": "Measurable automation gains and throughput improvement"
+            },
+            "decisionQuality": {
+              "title": "Decision Quality",
+              "description": "Stronger decision quality with predictive insight"
+            },
+            "operationalPerformance": {
+              "title": "Operational Performance",
+              "description": "Improved operational performance and reduced disruption"
+            },
+            "controlledAdoption": {
+              "title": "Controlled Adoption",
+              "description": "Controlled AI adoption with clear governance"
+            },
+            "visibilityBehavior": {
+              "title": "Visibility",
+              "description": "Visibility into AI behavior, usage, and risk exposure"
+            },
+            "scalableFoundations": {
+              "title": "Scalable Foundations",
+              "description": "Scalable foundations that support long-term maturity"
+            },
+            "reducedFriction": {
+              "title": "Reduced Friction",
+              "description": "Reduced delivery friction through reusable AI patterns and operating standards"
+            }
+          },
+          "tagline": "This is AI that supports growth, not uncertainty."
+        },
+        "methodology": {
+          "title": "How We Work",
+          "description": "Our proven 5-step approach to implementing production-ready AI systems.",
+          "steps": {
+            "assessment": {
+              "title": "Assessment and Target State",
+              "description": "We identify priority use cases, data readiness, risk constraints, and success metrics — then define a measurable target state."
+            },
+            "design": {
+              "title": "Design and Architecture",
+              "description": "We design the operating model, including integrations, governance, security, lifecycle ownership, and performance requirements."
+            },
+            "build": {
+              "title": "Build and Integrate",
+              "description": "We implement agents, automation, models, and analytics — integrated into real workflows and systems, not isolated experiments."
+            },
+            "validation": {
+              "title": "Validation and Deployment",
+              "description": "We test for reliability, safety, and performance — with evaluation practices appropriate for agentic systems and applied models."
+            },
+            "operate": {
+              "title": "Operate and Improve",
+              "description": "We establish monitoring, drift management, and improvement loops so AI performance strengthens over time."
+            }
+          }
+        },
+        "frameworks": {
+          "title": "Built on Global Best Practices",
+          "description": "Our approach aligns with widely adopted governance and risk frameworks for trustworthy AI.",
+          "items": {
+            "nist": {
+              "title": "NIST AI Risk Management",
+              "description": "NIST AI risk management principles"
+            },
+            "iso": {
+              "title": "ISO-aligned Risk Guidance",
+              "description": "ISO-aligned risk guidance for AI systems"
+            },
+            "secureByDesign": {
+              "title": "Secure-by-Design Practices",
+              "description": "secure-by-design practices across access control, data handling, and auditability"
+            },
+            "securityLifecycle": {
+              "title": "Security Lifecycle Thinking",
+              "description": "security lifecycle thinking embedded into AI delivery and operations"
+            }
+          },
+          "closing": "This alignment enables scale, audit readiness, and operational confidence."
+        },
+        "trust": {
+          "title": "Why Organizations Trust Us",
+          "description": "Organizations choose us because we deliver:",
+          "items": {
+            "disciplinedExecution": {
+              "title": "Disciplined Execution",
+              "description": "Not experimentation — real production delivery"
+            },
+            "productionAccountability": {
+              "title": "Production Accountability",
+              "description": "Operational ownership that doesn't disappear after launch"
+            },
+            "governanceFirst": {
+              "title": "Governance-First Design",
+              "description": "Agents and automation built with control from day one"
+            },
+            "measurableOutcomes": {
+              "title": "Measurable Outcomes",
+              "description": "Transparent reporting tied to business results"
+            },
+            "realIntegration": {
+              "title": "Real Integration",
+              "description": "Connected to actual systems and workflows"
+            },
+            "scalableFoundations": {
+              "title": "Scalable Foundations",
+              "description": "Supporting long-term AI maturity, not one-off projects"
+            }
+          },
+          "closing1": "We don't sell AI tools.",
+          "closing2": "We build AI operating systems that perform under pressure."
+        },
+        "cta": {
+          "badge": "Strategic AI Engagement",
+          "title": "Talk to an Expert",
+          "description": "AI maturity at this level is a strategic engagement. It requires disciplined engineering, governance, and measurable outcomes — not pilots that fade after launch.",
+          "responsibilityIntro": "If you are responsible for:",
+          "responsibilities": {
+            "automatingWork": "automating work without increasing risk",
+            "deployingAgents": "deploying AI agents safely across the organization",
+            "improvingPerformance": "improving operational performance using AI",
+            "buildingModels": "building custom models for business-critical decisions",
+            "scalingAdoption": "scaling AI adoption with governance and visibility",
+            "movingToImpact": "moving from experimentation to real impact"
+          },
+          "button": "Talk to an Expert",
+          "closing": "We will assess your AI maturity and deliver a clear roadmap toward intelligent, reliable operations at scale.",
+          "trust1": "Free AI maturity assessment",
+          "trust2": "Clear roadmap delivery",
+          "trust3": "No obligations"
+        },
+        "related": {
+          "title": "Related Services",
+          "services": {
+            "automation": "IT Automation",
+            "security": "Cybersecurity",
+            "devops": "DevOps Services"
+          }
+        }
+      }
+    },
     "devops": {
       "title": "DevOps Services",
       "description": "Enterprise DevOps for continuous, reliable delivery",

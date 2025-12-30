@@ -1,0 +1,631 @@
+<!-- AI Services - 3D Space Journey Experience -->
+<!-- Cinematic Dark Theme | Full Content -->
+
+<div class="space-journey">
+  <!-- ============================================
+       STARFIELD BACKGROUND (All Sections)
+       ============================================ -->
+  <div class="starfield-container" aria-hidden="true">
+    <!-- Layer 1 - Distant Stars -->
+    <div class="stars-layer stars-layer-1">
+      @for (star of starsLayer1; track trackByStar($index, star)) {
+        <div class="star"
+             [style.left.%]="star.x"
+             [style.top.%]="star.y"
+             [style.width.px]="star.size"
+             [style.height.px]="star.size"
+             [style.opacity]="star.opacity">
+        </div>
+      }
+    </div>
+
+    <!-- Layer 2 - Medium Stars -->
+    <div class="stars-layer stars-layer-2">
+      @for (star of starsLayer2; track trackByStar($index, star)) {
+        <div class="star star-twinkle"
+             [style.left.%]="star.x"
+             [style.top.%]="star.y"
+             [style.width.px]="star.size"
+             [style.height.px]="star.size"
+             [style.opacity]="star.opacity">
+        </div>
+      }
+    </div>
+
+    <!-- Layer 3 - Close Bright Stars -->
+    <div class="stars-layer stars-layer-3">
+      @for (star of starsLayer3; track trackByStar($index, star)) {
+        <div class="star star-glow"
+             [style.left.%]="star.x"
+             [style.top.%]="star.y"
+             [style.width.px]="star.size"
+             [style.height.px]="star.size"
+             [style.opacity]="star.opacity">
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- ============================================
+       SECTION 1: HERO
+       ============================================ -->
+  <section class="journey-section journey-entry">
+    <div class="section-content entry-content">
+      <!-- Badge -->
+      <div class="entry-badge">
+        <ng-icon name="lucideBrain" size="20"></ng-icon>
+        <span>{{ 'services.ai.page.hero.badge' | translate }}</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="entry-title">
+        {{ 'services.ai.page.hero.title' | translate }}
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="entry-subtitle">
+        {{ 'services.ai.page.hero.subtitle' | translate }}
+      </p>
+
+      <!-- Intro Text -->
+      <p class="hero-intro">
+        {{ 'services.ai.page.problemStatement.description' | translate }}
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="hero-cta">
+        <a routerLink="/contact" class="cta-button primary">
+          <ng-icon name="lucideMessageSquare" size="20"></ng-icon>
+          <span>{{ 'services.ai.page.hero.ctaPrimary' | translate }}</span>
+        </a>
+        <a href="#services" class="cta-button secondary">
+          <ng-icon name="lucideArrowDown" size="20"></ng-icon>
+          <span>{{ 'services.ai.page.hero.ctaSecondary' | translate }}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Ambient Glow -->
+    <div class="entry-glow" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================
+       SECTION 2: PROBLEM STATEMENT
+       ============================================ -->
+  <section class="journey-section journey-problem">
+    <!-- Dark Void Overlay -->
+    <div class="void-overlay" aria-hidden="true"></div>
+
+    <!-- Problem Content -->
+    <div class="section-content problem-content">
+      <div class="problem-intro-text">
+        <p class="problem-lead">{{ 'services.ai.page.problemStatement.consequence' | translate }}</p>
+      </div>
+
+      <!-- Problem Cards -->
+      <div class="problem-cards">
+        @for (problem of problemItems; track problem.key) {
+          <div class="problem-card" [class]="'danger-' + problem.danger">
+            <div class="problem-icon">
+              <ng-icon [name]="problem.icon" size="32"></ng-icon>
+            </div>
+            <h3>{{ 'services.ai.page.problemStatement.items.' + problem.key + '.title' | translate }}</h3>
+            <p>{{ 'services.ai.page.problemStatement.items.' + problem.key + '.description' | translate }}</p>
+            <div class="danger-indicator" aria-hidden="true">
+              <span class="pulse"></span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Stakeholder Impact -->
+      <div class="stakeholder-impact">
+        <div class="impact-item">
+          <ng-icon name="lucideUsers" size="20"></ng-icon>
+          <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.business' | translate }}</span>
+        </div>
+        <div class="impact-item">
+          <ng-icon name="lucideServer" size="20"></ng-icon>
+          <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.it' | translate }}</span>
+        </div>
+        <div class="impact-item">
+          <ng-icon name="lucideBarChart3" size="20"></ng-icon>
+          <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.leadership' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Root Cause -->
+      <div class="root-cause">
+        <p>{{ 'services.ai.page.problemStatement.rootCause.line1' | translate }}</p>
+        <p class="highlight">{{ 'services.ai.page.problemStatement.rootCause.line2' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Red Warning Glow -->
+    <div class="danger-glow" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================
+       SECTION 3: SOLUTION INTRODUCTION
+       ============================================ -->
+  <section class="journey-section journey-portal">
+    <!-- Portal Rings -->
+    <div class="portal-container" aria-hidden="true">
+      <div class="portal-ring ring-1"></div>
+      <div class="portal-ring ring-2"></div>
+      <div class="portal-ring ring-3"></div>
+      <div class="portal-ring ring-4"></div>
+      <div class="portal-ring ring-5"></div>
+      <div class="portal-center"></div>
+    </div>
+
+    <!-- Solution Text -->
+    <div class="section-content portal-content">
+      <div class="portal-text">
+        <p class="solution-badge">{{ 'services.ai.page.solution.intro' | translate }}</p>
+        <h2>{{ 'services.ai.page.solution.title' | translate }}</h2>
+        <p class="solution-desc">{{ 'services.ai.page.solution.description' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Wormhole Glow -->
+    <div class="wormhole-glow" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================
+       SECTION 4: PRODUCTION-READY AI
+       ============================================ -->
+  <section class="journey-section journey-solution">
+    <!-- Nebula Background -->
+    <div class="nebula-glow" aria-hidden="true"></div>
+
+    <!-- Production Content -->
+    <div class="section-content solution-content">
+      <h2 class="solution-title section-title">
+        {{ 'services.ai.page.production.title' | translate }}
+      </h2>
+
+      <div class="production-intro">
+        <p>{{ 'services.ai.page.production.opening' | translate }}</p>
+        <p>{{ 'services.ai.page.production.problems' | translate }}</p>
+      </div>
+
+      <!-- Outcome Problems -->
+      <div class="outcome-problems">
+        <p class="outcome-intro">{{ 'services.ai.page.production.outcomeIntro' | translate }}</p>
+        <ul class="problem-list">
+          <li>
+            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
+            <span>{{ 'services.ai.page.production.outcomes.automationBreaks' | translate }}</span>
+          </li>
+          <li>
+            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
+            <span>{{ 'services.ai.page.production.outcomes.adoptionStalls' | translate }}</span>
+          </li>
+          <li>
+            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
+            <span>{{ 'services.ai.page.production.outcomes.complianceBlocks' | translate }}</span>
+          </li>
+          <li>
+            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
+            <span>{{ 'services.ai.page.production.outcomes.costsRise' | translate }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <p class="approach-text">{{ 'services.ai.page.production.approach' | translate }}</p>
+      <p class="vision-text">{{ 'services.ai.page.production.vision' | translate }}</p>
+
+      <!-- Solution Cards -->
+      <div class="solution-cards">
+        @for (solution of solutionCapabilities; track solution.key) {
+          <div class="solution-card" [class]="'glow-' + solution.glow">
+            <div class="solution-icon">
+              <ng-icon [name]="solution.icon" size="28"></ng-icon>
+            </div>
+            <h4>{{ 'services.ai.page.production.items.' + solution.key + '.title' | translate }}</h4>
+            <p>{{ 'services.ai.page.production.items.' + solution.key + '.description' | translate }}</p>
+            <div class="card-glow" aria-hidden="true"></div>
+          </div>
+        }
+      </div>
+
+      <!-- Tagline -->
+      <div class="solution-promise">
+        <ng-icon name="lucideSparkles" size="24"></ng-icon>
+        <p>{{ 'services.ai.page.production.tagline' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 5: STRATEGIC OPERATING SYSTEM
+       ============================================ -->
+  <section class="journey-section journey-strategic">
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.strategic.title' | translate }}</h2>
+
+      <div class="strategic-intro">
+        <p>{{ 'services.ai.page.strategic.opening' | translate }}</p>
+        <p class="highlight">{{ 'services.ai.page.strategic.description' | translate }}</p>
+      </div>
+
+      <p class="maturity-intro">{{ 'services.ai.page.strategic.maturityIntro' | translate }}</p>
+
+      <div class="maturity-grid">
+        @for (item of strategicItems; track item.key) {
+          <div class="maturity-item">
+            <ng-icon [name]="item.icon" size="24"></ng-icon>
+            <span>{{ 'services.ai.page.strategic.items.' + item.key + '.description' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="strategic-tagline">
+        <ng-icon name="lucideZap" size="24"></ng-icon>
+        <p>{{ 'services.ai.page.strategic.tagline' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 6: ENTERPRISE EXECUTION
+       ============================================ -->
+  <section class="journey-section journey-enterprise">
+    <div class="nebula-glow secondary" aria-hidden="true"></div>
+
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.enterprise.title' | translate }}</h2>
+
+      <div class="enterprise-intro">
+        <p>{{ 'services.ai.page.enterprise.opening1' | translate }}</p>
+        <p class="highlight">{{ 'services.ai.page.enterprise.opening2' | translate }}</p>
+      </div>
+
+      <p class="enterprise-desc">{{ 'services.ai.page.enterprise.description' | translate }}</p>
+
+      <div class="principle-box">
+        <p class="principle-intro">{{ 'services.ai.page.enterprise.principleIntro' | translate }}</p>
+        <div class="principle-content">
+          <ng-icon name="lucideTarget" size="32"></ng-icon>
+          <div class="principle-text">
+            <p>{{ 'services.ai.page.enterprise.principle1' | translate }}</p>
+            <p>{{ 'services.ai.page.enterprise.principle2' | translate }}</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="conclusion-text">{{ 'services.ai.page.enterprise.conclusion' | translate }}</p>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 7: AGENTIC AUTOMATION
+       ============================================ -->
+  <section class="journey-section journey-agentic">
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.agentic.title' | translate }}</h2>
+
+      <div class="agentic-intro">
+        <p>{{ 'services.ai.page.agentic.description' | translate }}</p>
+        <p class="warning">
+          <ng-icon name="lucideShieldAlert" size="20"></ng-icon>
+          {{ 'services.ai.page.agentic.riskWarning' | translate }}
+        </p>
+      </div>
+
+      <p class="safe-intro">{{ 'services.ai.page.agentic.safeByDesignIntro' | translate }}</p>
+
+      <div class="agentic-grid">
+        @for (item of agenticItems; track item.key) {
+          <div class="agentic-item">
+            <ng-icon [name]="item.icon" size="20"></ng-icon>
+            <span>{{ 'services.ai.page.agentic.items.' + item.key + '.description' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="agentic-tagline">
+        <p>{{ 'services.ai.page.agentic.tagline' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 8: WHAT WE DELIVER (Services)
+       ============================================ -->
+  <section id="services" class="journey-section journey-constellations">
+    <div class="section-content">
+      <h2 class="section-title">
+        {{ 'services.ai.page.deliver.title' | translate }}
+      </h2>
+      <p class="section-subtitle">
+        {{ 'services.ai.page.deliver.description' | translate }}
+      </p>
+
+      <!-- Service Accordion -->
+      <div class="service-accordion">
+        @for (constellation of serviceConstellations; track constellation.id; let i = $index) {
+          <div class="accordion-item"
+               [class.active]="activeConstellation === i"
+               (click)="toggleConstellation(i)"
+               (keydown.enter)="toggleConstellation(i)"
+               tabindex="0"
+               role="button"
+               [attr.aria-expanded]="activeConstellation === i">
+
+            <!-- Header -->
+            <div class="accordion-header">
+              <div class="accordion-icon">
+                <ng-icon [name]="constellation.icon" size="28"></ng-icon>
+              </div>
+              <div class="accordion-title">
+                <h3>{{ 'services.ai.page.deliver.services.' + constellation.id + '.title' | translate }}</h3>
+                <p>{{ 'services.ai.page.deliver.services.' + constellation.id + '.brief' | translate }}</p>
+              </div>
+              <div class="accordion-toggle">
+                <ng-icon [name]="activeConstellation === i ? 'lucideChevronUp' : 'lucideChevronDown'" size="24"></ng-icon>
+              </div>
+            </div>
+
+            <!-- Content -->
+            @if (activeConstellation === i) {
+              <div class="accordion-content">
+                <ul class="feature-list">
+                  @for (feature of constellation.features; track feature) {
+                    <li>
+                      <ng-icon name="lucideCheckCircle2" size="16"></ng-icon>
+                      <span>{{ 'services.ai.page.deliver.services.' + constellation.id + '.features.' + feature | translate }}</span>
+                    </li>
+                  }
+                </ul>
+                <div class="service-outcome">
+                  <ng-icon name="lucideTarget" size="18"></ng-icon>
+                  <span>{{ 'services.ai.page.deliver.outcomeLabel' | translate }}: {{ 'services.ai.page.deliver.services.' + constellation.id + '.outcome' | translate }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 9: RISK REDUCTION (GOVERNANCE)
+       ============================================ -->
+  <section class="journey-section journey-governance">
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.risk.title' | translate }}</h2>
+
+      <div class="governance-intro">
+        <p>{{ 'services.ai.page.risk.opening1' | translate }}</p>
+        <p class="highlight">{{ 'services.ai.page.risk.opening2' | translate }}</p>
+      </div>
+
+      <p class="governance-approach">{{ 'services.ai.page.risk.disciplineIntro' | translate }}</p>
+
+      <div class="governance-grid">
+        @for (item of governanceItems; track item.key) {
+          <div class="governance-item">
+            <ng-icon [name]="item.icon" size="20"></ng-icon>
+            <span>{{ 'services.ai.page.risk.items.' + item.key + '.description' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="governance-tagline">
+        <p>{{ 'services.ai.page.risk.tagline' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 10: OUTCOMES
+       ============================================ -->
+  <section class="journey-section journey-outcomes">
+    <div class="nebula-glow" aria-hidden="true"></div>
+
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.outcomes.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'services.ai.page.outcomes.description' | translate }}</p>
+
+      <div class="outcomes-grid">
+        @for (reward of destinationRewards; track reward.key) {
+          <div class="outcome-card">
+            <ng-icon [name]="reward.icon" size="28"></ng-icon>
+            <h4>{{ 'services.ai.page.outcomes.items.' + reward.key + '.title' | translate }}</h4>
+            <p>{{ 'services.ai.page.outcomes.items.' + reward.key + '.description' | translate }}</p>
+          </div>
+        }
+      </div>
+
+      <div class="outcomes-tagline">
+        <p>{{ 'services.ai.page.outcomes.tagline' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 11: METHODOLOGY
+       ============================================ -->
+  <section class="journey-section journey-milestones">
+    <div class="section-content">
+      <h2 class="section-title">
+        {{ 'services.ai.page.methodology.title' | translate }}
+      </h2>
+      <p class="section-subtitle">
+        {{ 'services.ai.page.methodology.description' | translate }}
+      </p>
+
+      <!-- Orbital Path -->
+      <div class="orbital-path">
+        <div class="orbit-line" aria-hidden="true"></div>
+
+        @for (milestone of journeyMilestones; track milestone.number) {
+          <div class="milestone-planet"
+               [class]="'planet-' + milestone.planet"
+               [class.active]="activeMilestone === milestone.number"
+               (click)="setActiveMilestone(milestone.number)"
+               (keydown.enter)="setActiveMilestone(milestone.number)"
+               tabindex="0"
+               role="button"
+               [attr.aria-pressed]="activeMilestone === milestone.number">
+            <div class="planet-core">
+              <span class="planet-number">{{ milestone.number }}</span>
+            </div>
+            <div class="planet-ring" aria-hidden="true"></div>
+            <div class="planet-label">
+              <ng-icon [name]="milestone.icon" size="18"></ng-icon>
+              <span>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.title' | translate }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Active Milestone Detail -->
+      <div class="milestone-detail">
+        @for (milestone of journeyMilestones; track milestone.number) {
+          @if (activeMilestone === milestone.number) {
+            <div class="detail-card">
+              <div class="detail-icon" [class]="'bg-' + milestone.planet">
+                <ng-icon [name]="milestone.icon" size="32"></ng-icon>
+              </div>
+              <h4>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.title' | translate }}</h4>
+              <p>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.description' | translate }}</p>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 12: FRAMEWORKS
+       ============================================ -->
+  <section class="journey-section journey-frameworks">
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.frameworks.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'services.ai.page.frameworks.description' | translate }}</p>
+
+      <div class="frameworks-grid">
+        @for (framework of frameworkItems; track framework.key) {
+          <div class="framework-badge">
+            <ng-icon [name]="framework.icon" size="24"></ng-icon>
+            <span>{{ 'services.ai.page.frameworks.items.' + framework.key + '.title' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <p class="frameworks-conclusion">{{ 'services.ai.page.frameworks.closing' | translate }}</p>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 13: WHY US (TRUST)
+       ============================================ -->
+  <section class="journey-section journey-whyus">
+    <div class="nebula-glow secondary" aria-hidden="true"></div>
+
+    <div class="section-content">
+      <h2 class="section-title">{{ 'services.ai.page.trust.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'services.ai.page.trust.description' | translate }}</p>
+
+      <div class="whyus-grid">
+        @for (item of whyUsItems; track item.key) {
+          <div class="whyus-item">
+            <ng-icon [name]="item.icon" size="24"></ng-icon>
+            <span>{{ 'services.ai.page.trust.items.' + item.key + '.description' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="whyus-tagline">
+        <p>{{ 'services.ai.page.trust.closing1' | translate }}</p>
+        <p class="highlight">{{ 'services.ai.page.trust.closing2' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 14: CTA
+       ============================================ -->
+  <section class="journey-section journey-destination">
+    <!-- Destination Planet -->
+    <div class="destination-planet" aria-hidden="true">
+      <div class="planet-surface"></div>
+      <div class="planet-atmosphere"></div>
+      <div class="planet-rings"></div>
+    </div>
+
+    <div class="section-content destination-content">
+      <h2 class="destination-title">
+        {{ 'services.ai.page.cta.title' | translate }}
+      </h2>
+
+      <p class="destination-subtitle">
+        {{ 'services.ai.page.cta.description' | translate }}
+      </p>
+
+      <!-- Use Cases -->
+      <div class="use-cases">
+        <p class="use-cases-intro">{{ 'services.ai.page.cta.responsibilityIntro' | translate }}</p>
+        <ul class="use-cases-list">
+          @for (useCase of ctaUseCases; track useCase) {
+            <li>
+              <ng-icon name="lucideCheckCircle2" size="16"></ng-icon>
+              <span>{{ 'services.ai.page.cta.responsibilities.' + useCase | translate }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="destination-cta">
+        <a routerLink="/contact" class="cta-button">
+          <ng-icon name="lucideMessageSquare" size="24"></ng-icon>
+          <span>{{ 'services.ai.page.cta.button' | translate }}</span>
+          <ng-icon name="lucideArrowRight" size="20" class="rtl:rotate-180"></ng-icon>
+        </a>
+      </div>
+
+      <!-- Trust Signals -->
+      <div class="trust-signals">
+        <div class="signal">
+          <ng-icon name="lucideCheckCircle2" size="18"></ng-icon>
+          <span>{{ 'services.ai.page.cta.trust1' | translate }}</span>
+        </div>
+        <div class="signal">
+          <ng-icon name="lucideCheckCircle2" size="18"></ng-icon>
+          <span>{{ 'services.ai.page.cta.trust2' | translate }}</span>
+        </div>
+        <div class="signal">
+          <ng-icon name="lucideCheckCircle2" size="18"></ng-icon>
+          <span>{{ 'services.ai.page.cta.trust3' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Destination Glow -->
+    <div class="destination-glow" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================
+       RELATED SERVICES
+       ============================================ -->
+  <section class="journey-section journey-related">
+    <div class="section-content">
+      <h3 class="related-title">{{ 'services.ai.page.related.title' | translate }}</h3>
+
+      <div class="related-links">
+        @for (service of relatedServices; track service.id) {
+          <a [routerLink]="service.route" class="related-link">
+            <ng-icon [name]="service.icon" size="24"></ng-icon>
+            <span>{{ 'services.ai.page.related.services.' + service.id | translate }}</span>
+            <ng-icon name="lucideArrowRight" size="18" class="rtl:rotate-180"></ng-icon>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+</div>
