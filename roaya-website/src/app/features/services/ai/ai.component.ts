@@ -47,6 +47,7 @@ import {
   lucideShieldAlert,
   lucideSettings,
   lucideGitBranch,
+  lucideNetwork,
   lucideScale,
   lucideCircleDot,
   lucideBuilding,
@@ -116,6 +117,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
       lucideShieldAlert,
       lucideSettings,
       lucideGitBranch,
+      lucideNetwork,
       lucideScale,
       lucideCircleDot,
       lucideBuilding,
@@ -138,13 +140,67 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
   // Current section for cinematic reveals
   currentSection = 'entry';
 
-  // Stars for parallax layers (generated)
-  starsLayer1: Array<{x: number, y: number, size: number, opacity: number}> = [];
-  starsLayer2: Array<{x: number, y: number, size: number, opacity: number}> = [];
-  starsLayer3: Array<{x: number, y: number, size: number, opacity: number}> = [];
+  // AI Elements for parallax layers (replacing stars)
+  aiChips: Array<{id: number, x: number, y: number, type: 'small' | 'medium' | 'processor', delay: number}> = [];
+  neuralNodes: Array<{id: number, x: number, y: number, size: number, delay: number}> = [];
+  dataParticles: Array<{id: number, x: number, y: number, speed: number, delay: number}> = [];
 
-  // Asteroids for problem section
-  asteroids: Array<{x: number, y: number, size: number, rotation: number, delay: number}> = [];
+  // Connection nodes for AI processor visualization (portal section)
+  processorNodes = [1, 2, 3, 4, 5, 6];
+
+  // Neural branches for AI brain visualization (CTA section)
+  neuralBranches = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  // Hero 3D ML Background - Neural Nodes
+  heroNeuralNodes: Array<{id: number, x: number, y: number, z: number, size: number, delay: number, active: boolean}> = [
+    { id: 1, x: 10, y: 20, z: 1, size: 8, delay: 0, active: true },
+    { id: 2, x: 25, y: 15, z: 2, size: 12, delay: 0.5, active: false },
+    { id: 3, x: 40, y: 30, z: 1.5, size: 10, delay: 1, active: true },
+    { id: 4, x: 55, y: 10, z: 1, size: 6, delay: 1.5, active: false },
+    { id: 5, x: 70, y: 25, z: 2, size: 14, delay: 2, active: true },
+    { id: 6, x: 85, y: 18, z: 1, size: 8, delay: 2.5, active: false },
+    { id: 7, x: 15, y: 60, z: 1.5, size: 10, delay: 0.3, active: true },
+    { id: 8, x: 30, y: 70, z: 2, size: 12, delay: 0.8, active: false },
+    { id: 9, x: 50, y: 55, z: 1, size: 16, delay: 1.3, active: true },
+    { id: 10, x: 65, y: 65, z: 1.5, size: 8, delay: 1.8, active: false },
+    { id: 11, x: 80, y: 50, z: 2, size: 10, delay: 2.3, active: true },
+    { id: 12, x: 90, y: 75, z: 1, size: 6, delay: 2.8, active: false },
+    { id: 13, x: 20, y: 85, z: 1.5, size: 12, delay: 0.6, active: true },
+    { id: 14, x: 45, y: 80, z: 2, size: 8, delay: 1.1, active: false },
+    { id: 15, x: 75, y: 88, z: 1, size: 10, delay: 1.6, active: true }
+  ];
+
+  // Hero 3D ML Background - Connection Lines
+  heroConnections: Array<{id: number, x1: number, y1: number, x2: number, y2: number, delay: number}> = [
+    { id: 1, x1: 10, y1: 20, x2: 25, y2: 15, delay: 0 },
+    { id: 2, x1: 25, y1: 15, x2: 40, y2: 30, delay: 0.3 },
+    { id: 3, x1: 40, y1: 30, x2: 55, y2: 10, delay: 0.6 },
+    { id: 4, x1: 55, y1: 10, x2: 70, y2: 25, delay: 0.9 },
+    { id: 5, x1: 70, y1: 25, x2: 85, y2: 18, delay: 1.2 },
+    { id: 6, x1: 15, y1: 60, x2: 30, y2: 70, delay: 0.2 },
+    { id: 7, x1: 30, y1: 70, x2: 50, y2: 55, delay: 0.5 },
+    { id: 8, x1: 50, y1: 55, x2: 65, y2: 65, delay: 0.8 },
+    { id: 9, x1: 65, y1: 65, x2: 80, y2: 50, delay: 1.1 },
+    { id: 10, x1: 40, y1: 30, x2: 50, y2: 55, delay: 0.4 },
+    { id: 11, x1: 70, y1: 25, x2: 65, y2: 65, delay: 0.7 },
+    { id: 12, x1: 20, y1: 85, x2: 45, y2: 80, delay: 1.0 },
+    { id: 13, x1: 45, y1: 80, x2: 75, y2: 88, delay: 1.3 },
+    { id: 14, x1: 50, y1: 55, x2: 45, y2: 80, delay: 1.5 }
+  ];
+
+  // Hero 3D ML Background - Data Particles
+  heroDataParticles: Array<{id: number, x: number, duration: number, delay: number, type: 'cyan' | 'purple' | 'white'}> = [
+    { id: 1, x: 5, duration: 8, delay: 0, type: 'cyan' },
+    { id: 2, x: 15, duration: 10, delay: 1, type: 'purple' },
+    { id: 3, x: 25, duration: 7, delay: 2, type: 'white' },
+    { id: 4, x: 35, duration: 9, delay: 0.5, type: 'cyan' },
+    { id: 5, x: 45, duration: 11, delay: 1.5, type: 'purple' },
+    { id: 6, x: 55, duration: 8, delay: 2.5, type: 'white' },
+    { id: 7, x: 65, duration: 10, delay: 0.8, type: 'cyan' },
+    { id: 8, x: 75, duration: 7, delay: 1.8, type: 'purple' },
+    { id: 9, x: 85, duration: 9, delay: 2.8, type: 'white' },
+    { id: 10, x: 95, duration: 11, delay: 0.3, type: 'cyan' }
+  ];
 
   // Problem items - The Void (chaos without AI)
   readonly problemItems = [
@@ -285,9 +341,8 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    // Generate stars for parallax layers
-    this.generateStars();
-    this.generateAsteroids();
+    // Generate AI elements for parallax layers
+    this.generateAIElements();
 
     // Set page title
     this.title.setTitle('AI Services - Journey to Intelligent Operations | Roaya IT');
@@ -309,46 +364,38 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
     this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
-  private generateStars(): void {
-    // Layer 1 - distant small stars (most)
-    for (let i = 0; i < 150; i++) {
-      this.starsLayer1.push({
+  private generateAIElements(): void {
+    // Generate AI Chips (25 total - mix of types)
+    const chipTypes: Array<'small' | 'medium' | 'processor'> = ['small', 'medium', 'processor'];
+    for (let i = 0; i < 25; i++) {
+      this.aiChips.push({
+        id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.5 + 0.3
+        type: chipTypes[Math.floor(Math.random() * 3)],
+        delay: Math.random() * 8
       });
     }
 
-    // Layer 2 - medium stars
-    for (let i = 0; i < 80; i++) {
-      this.starsLayer2.push({
+    // Generate Neural Network Nodes (40 total)
+    for (let i = 0; i < 40; i++) {
+      this.neuralNodes.push({
+        id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.6 + 0.4
-      });
-    }
-
-    // Layer 3 - close bright stars (few)
-    for (let i = 0; i < 30; i++) {
-      this.starsLayer3.push({
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 3 + 2,
-        opacity: Math.random() * 0.4 + 0.6
-      });
-    }
-  }
-
-  private generateAsteroids(): void {
-    for (let i = 0; i < 15; i++) {
-      this.asteroids.push({
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 60 + 20,
-        rotation: Math.random() * 360,
+        size: Math.random() * 4 + 4, // 4-8px
         delay: Math.random() * 5
+      });
+    }
+
+    // Generate Data Particles (30 total - subtle flowing dots)
+    for (let i = 0; i < 30; i++) {
+      this.dataParticles.push({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        speed: Math.random() * 10 + 8, // 8-18s animation duration
+        delay: Math.random() * 12
       });
     }
   }
@@ -375,23 +422,11 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
 
-        // === GLOBAL STARFIELD PARALLAX ===
-        // Creates depth perception as user scrolls through the journey
-        // Layer 1 (distant stars) moves slowest, Layer 3 (close stars) moves fastest
-
-        gsap.to('.stars-layer-1', {
-          y: '30%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.space-journey',
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.5
-          }
-        });
-
-        gsap.to('.stars-layer-2', {
-          y: '50%',
+        // === 3D AI SKULL ROTATION ON SCROLL ===
+        // Skull rotates in 3D as user scrolls through the page
+        gsap.to('.ai-skull .skull-svg', {
+          rotateY: 360,
+          rotateX: 15,
           ease: 'none',
           scrollTrigger: {
             trigger: '.space-journey',
@@ -401,14 +436,356 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
 
-        gsap.to('.stars-layer-3', {
-          y: '70%',
+        // Skull orbits speed up slightly as user scrolls deeper
+        gsap.to('.skull-orbit.orbit-1', {
+          rotation: 720,
           ease: 'none',
           scrollTrigger: {
             trigger: '.space-journey',
             start: 'top top',
             end: 'bottom bottom',
             scrub: 1
+          }
+        });
+
+        gsap.to('.skull-orbit.orbit-2', {
+          rotation: -540,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.2
+          }
+        });
+
+        // === GLOBAL AI ELEMENTS PARALLAX ===
+        // Creates depth perception as user scrolls through the journey
+        // Neural nodes move slowest, AI chips move medium, data particles move fastest
+
+        gsap.to('.neural-nodes-layer', {
+          y: '25%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.5
+          }
+        });
+
+        gsap.to('.ai-chips-layer', {
+          y: '40%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.8
+          }
+        });
+
+        gsap.to('.data-particles-layer', {
+          y: '60%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1
+          }
+        });
+
+        // === FLOATING 3D SHAPES PARALLAX ===
+        // Each shape has different parallax speed for depth effect
+        // Increased y values for more dramatic scroll spread
+        gsap.to('.shape-1', {
+          y: '450%',
+          rotate: 90,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.3
+          }
+        });
+
+        gsap.to('.shape-2', {
+          y: '600%',
+          rotate: -60,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.5
+          }
+        });
+
+        gsap.to('.shape-3', {
+          y: '350%',
+          rotate: 45,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.4
+          }
+        });
+
+        gsap.to('.shape-4', {
+          y: '550%',
+          rotate: -90,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.6
+          }
+        });
+
+        gsap.to('.shape-5', {
+          y: '300%',
+          rotate: 35,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.35
+          }
+        });
+
+        gsap.to('.shape-6', {
+          y: '700%',
+          rotate: -45,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.7
+          }
+        });
+
+        gsap.to('.shape-7', {
+          y: '480%',
+          rotate: 70,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.45
+          }
+        });
+
+        gsap.to('.shape-8', {
+          y: '280%',
+          rotate: -55,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.55
+          }
+        });
+
+        // Shapes 9-16: Additional parallax animations
+        gsap.to('.shape-9', {
+          y: '520%',
+          rotate: 80,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.4
+          }
+        });
+
+        gsap.to('.shape-10', {
+          y: '650%',
+          rotate: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.6
+          }
+        });
+
+        gsap.to('.shape-11', {
+          y: '380%',
+          rotate: 55,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.35
+          }
+        });
+
+        gsap.to('.shape-12', {
+          y: '580%',
+          rotate: -75,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.5
+          }
+        });
+
+        gsap.to('.shape-13', {
+          y: '420%',
+          rotate: 65,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.45
+          }
+        });
+
+        gsap.to('.shape-14', {
+          y: '500%',
+          rotate: -35,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.55
+          }
+        });
+
+        gsap.to('.shape-15', {
+          y: '750%',
+          rotate: 100,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.65
+          }
+        });
+
+        gsap.to('.shape-16', {
+          y: '320%',
+          rotate: -50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.4
+          }
+        });
+
+        // Edge shapes 17-24: Parallax animations
+        gsap.to('.shape-17', {
+          y: '550%',
+          rotate: 85,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.45
+          }
+        });
+
+        gsap.to('.shape-18', {
+          y: '620%',
+          rotate: -70,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.55
+          }
+        });
+
+        gsap.to('.shape-19', {
+          y: '400%',
+          rotate: 55,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.4
+          }
+        });
+
+        gsap.to('.shape-20', {
+          y: '680%',
+          rotate: -95,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.6
+          }
+        });
+
+        gsap.to('.shape-21', {
+          y: '350%',
+          rotate: 40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.35
+          }
+        });
+
+        gsap.to('.shape-22', {
+          y: '480%',
+          rotate: -60,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.5
+          }
+        });
+
+        gsap.to('.shape-23', {
+          y: '280%',
+          rotate: 75,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.45
+          }
+        });
+
+        gsap.to('.shape-24', {
+          y: '380%',
+          rotate: -45,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.space-journey',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.5
           }
         });
 
@@ -461,21 +838,77 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
 
-        // Asteroids float in
+        // Problem title animates in with scroll
         problemTl
-          .fromTo('.asteroid',
-            { scale: 0, opacity: 0, rotation: -180 },
-            { scale: 1, opacity: 1, rotation: 0, stagger: 0.1, duration: 1 }, 0)
           .fromTo('.problem-title',
             { opacity: 0, y: 100, scale: 1.2 },
             { opacity: 1, y: 0, scale: 1, duration: 1 }, 0.3)
-          .fromTo('.problem-card',
-            { opacity: 0, x: -100, rotateY: -45 },
-            { opacity: 1, x: 0, rotateY: 0, stagger: 0.2, duration: 0.8 }, 0.6)
           .to('.void-overlay', { opacity: 0.3 }, 1)
           .to('.problem-content', { opacity: 0, y: -100 }, 2);
 
-        // === PORTAL SECTION - The Wormhole Transition ===
+        // Problem cards - Auto-animate on scroll into view (not scrubbed)
+        gsap.utils.toArray('.problem-card').forEach((card: any, index: number) => {
+          gsap.fromTo(card,
+            {
+              opacity: 0,
+              y: 80,
+              scale: 0.85,
+              rotateX: -15
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              rotateX: 0,
+              duration: 0.8,
+              delay: index * 0.2,
+              ease: 'back.out(1.2)',
+              scrollTrigger: {
+                trigger: '.problem-cards',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Also animate the stakeholder impact items
+        gsap.utils.toArray('.impact-item').forEach((item: any, index: number) => {
+          gsap.fromTo(item,
+            { opacity: 0, x: -30 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.5,
+              delay: index * 0.15,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: '.stakeholder-impact',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Root cause text animation
+        gsap.fromTo('.root-cause p',
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.3,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.root-cause',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === PORTAL SECTION - AI Processor Transformation ===
         const portalTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.journey-portal',
@@ -493,15 +926,21 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         portalTl
-          .fromTo('.portal-ring',
+          .fromTo('.data-ring',
             { scale: 0, opacity: 0 },
             { scale: 1, opacity: 1, stagger: 0.1, duration: 1 }, 0)
-          .to('.portal-center', { scale: 50, opacity: 0, duration: 2 }, 0.5)
+          .fromTo('.processor-core',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.8 }, 0.2)
+          .fromTo('.connection-node',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, stagger: 0.08, duration: 0.5 }, 0.4)
           .fromTo('.portal-text',
             { opacity: 0, scale: 0.5 },
             { opacity: 1, scale: 1, duration: 0.5 }, 0.3)
-          .to('.portal-text', { opacity: 0, scale: 2 }, 1.5)
-          .to('.portal-ring', { scale: 20, opacity: 0, stagger: 0.05 }, 1.5);
+          .to('.portal-text', { opacity: 0, scale: 1.5 }, 1.5)
+          .to('.processor-core', { scale: 3, opacity: 0 }, 1.5)
+          .to('.data-ring', { scale: 5, opacity: 0, stagger: 0.05 }, 1.5);
 
         // === SOLUTION SECTION - The Galaxy ===
         const solutionTl = gsap.timeline({
@@ -527,10 +966,546 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           .fromTo('.solution-title',
             { opacity: 0, y: 100 },
             { opacity: 1, y: 0, duration: 0.8 }, 0.2)
-          .fromTo('.solution-card',
-            { opacity: 0, scale: 0.8, y: 50 },
-            { opacity: 1, scale: 1, y: 0, stagger: 0.15, duration: 0.6 }, 0.4)
           .to('.solution-cards', { y: -100, opacity: 0 }, 1.8);
+
+        // Solution cards - Auto-animate on scroll into view (not scrubbed)
+        gsap.utils.toArray('.solution-card').forEach((card: any, index: number) => {
+          gsap.fromTo(card,
+            {
+              opacity: 0,
+              y: 100,
+              scale: 0.8,
+              rotateY: -20
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              rotateY: 0,
+              duration: 0.9,
+              delay: index * 0.15,
+              ease: 'back.out(1.4)',
+              scrollTrigger: {
+                trigger: '.solution-cards',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Production Bento Grid cards animation
+        gsap.utils.toArray('.prod-card').forEach((card: any, index: number) => {
+          gsap.fromTo(card,
+            {
+              opacity: 0,
+              y: 30,
+              scale: 0.95
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.6,
+              delay: index * 0.08,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: '.production-bento-grid',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // Production intro text animation
+        gsap.fromTo('.production-intro p',
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.production-intro',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Approach & Vision text animation
+        gsap.fromTo('.approach-text, .vision-text',
+          { opacity: 0, x: -40 },
+          {
+            opacity: 1,
+            x: 0,
+            stagger: 0.2,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.approach-text',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // Solution promise animation
+        gsap.fromTo('.solution-promise',
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.solution-promise',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === STRATEGIC SECTION ===
+        gsap.fromTo('.strategic-intro p',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.strategic-intro',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.utils.toArray('.maturity-item').forEach((item: any, index: number) => {
+          gsap.fromTo(item,
+            { opacity: 0, y: 50, scale: 0.9 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: 'back.out(1.2)',
+              scrollTrigger: {
+                trigger: '.maturity-grid',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.strategic-tagline',
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.strategic-tagline',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === ENTERPRISE SECTION (Bento Grid) ===
+        gsap.fromTo('.bento-card',
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            stagger: 0.1,
+            duration: 0.6,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '.bento-grid',
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === AGENTIC SECTION ===
+        gsap.fromTo('.agentic-intro p',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.agentic-intro',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.utils.toArray('.agentic-item').forEach((item: any, index: number) => {
+          gsap.fromTo(item,
+            { opacity: 0, x: index % 2 === 0 ? -40 : 40, scale: 0.9 },
+            {
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: 'back.out(1.2)',
+              scrollTrigger: {
+                trigger: '.agentic-grid',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.agentic-tagline',
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.agentic-tagline',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === SERVICES/CONSTELLATIONS SECTION ===
+        gsap.utils.toArray('.accordion-item').forEach((item: any, index: number) => {
+          gsap.fromTo(item,
+            { opacity: 0, y: 60, scale: 0.95 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.7,
+              delay: index * 0.12,
+              ease: 'back.out(1.2)',
+              scrollTrigger: {
+                trigger: '.service-accordion',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // === GOVERNANCE SECTION ===
+        gsap.fromTo('.governance-intro p',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.governance-intro',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.utils.toArray('.governance-item').forEach((item: any, index: number) => {
+          gsap.fromTo(item,
+            { opacity: 0, y: 50, scale: 0.9 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: 'back.out(1.2)',
+              scrollTrigger: {
+                trigger: '.governance-grid',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.governance-tagline',
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.governance-tagline',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === OUTCOMES SECTION ===
+        gsap.utils.toArray('.outcome-card').forEach((card: any, index: number) => {
+          gsap.fromTo(card,
+            { opacity: 0, y: 80, scale: 0.85, rotateY: -15 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              rotateY: 0,
+              duration: 0.8,
+              delay: index * 0.12,
+              ease: 'back.out(1.3)',
+              scrollTrigger: {
+                trigger: '.outcomes-grid',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.outcomes-tagline',
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.outcomes-tagline',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === MILESTONES SECTION ===
+        gsap.utils.toArray('.milestone-planet').forEach((planet: any, index: number) => {
+          gsap.fromTo(planet,
+            { opacity: 0, scale: 0, y: 30 },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.6,
+              delay: index * 0.15,
+              ease: 'back.out(1.5)',
+              scrollTrigger: {
+                trigger: '.orbital-path',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.milestone-detail',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.milestone-detail',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === FRAMEWORKS SECTION ===
+        gsap.utils.toArray('.framework-badge').forEach((badge: any, index: number) => {
+          gsap.fromTo(badge,
+            { opacity: 0, scale: 0.8, y: 30 },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.5,
+              delay: index * 0.08,
+              ease: 'back.out(1.3)',
+              scrollTrigger: {
+                trigger: '.frameworks-grid',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.frameworks-conclusion',
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.frameworks-conclusion',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === WHY US SECTION ===
+        gsap.utils.toArray('.whyus-item').forEach((item: any, index: number) => {
+          gsap.fromTo(item,
+            { opacity: 0, x: index % 2 === 0 ? -50 : 50, scale: 0.9 },
+            {
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: 'back.out(1.2)',
+              scrollTrigger: {
+                trigger: '.whyus-grid',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.fromTo('.whyus-tagline p',
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.whyus-tagline',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        // === CTA/DESTINATION SECTION ===
+        gsap.fromTo('.destination-title',
+          { opacity: 0, y: 60, scale: 1.1 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.destination-content',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.fromTo('.destination-subtitle',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            delay: 0.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.destination-content',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.fromTo('.use-cases',
+          { opacity: 0, y: 50, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.2)',
+            scrollTrigger: {
+              trigger: '.use-cases',
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.fromTo('.destination-cta',
+          { opacity: 0, y: 40, scale: 0.9 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(1.3)',
+            scrollTrigger: {
+              trigger: '.destination-cta',
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+
+        gsap.utils.toArray('.trust-signals .signal').forEach((signal: any, index: number) => {
+          gsap.fromTo(signal,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              delay: index * 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: '.trust-signals',
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // === RELATED SERVICES SECTION ===
+        gsap.utils.toArray('.related-link').forEach((link: any, index: number) => {
+          gsap.fromTo(link,
+            { opacity: 0, x: -40 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: '.related-links',
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
 
         // === CONSTELLATION SECTION - Services ===
         gsap.fromTo('.constellation-card',
@@ -567,7 +1542,7 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         );
 
-        // === DESTINATION SECTION - CTA ===
+        // === DESTINATION SECTION - AI Brain CTA ===
         const destinationTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.journey-destination',
@@ -577,9 +1552,15 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         destinationTl
-          .fromTo('.destination-planet',
+          .fromTo('.ai-brain-container',
             { scale: 0, opacity: 0 },
             { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.5)' }, 0)
+          .fromTo('.brain-core',
+            { scale: 0 },
+            { scale: 1, duration: 0.8 }, 0.2)
+          .fromTo('.neural-branch',
+            { opacity: 0, scale: 0 },
+            { opacity: 1, scale: 1, stagger: 0.08, duration: 0.4 }, 0.4)
           .fromTo('.destination-title',
             { opacity: 0, y: 50 },
             { opacity: 1, y: 0, duration: 0.6 }, 0.3)
@@ -623,7 +1604,13 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
     return item.number;
   }
 
-  trackByStar(index: number, star: {x: number, y: number}): string {
-    return `${star.x}-${star.y}`;
+  // Track AI elements by ID
+  trackByAIElement(index: number, item: {id: number}): number {
+    return item.id;
+  }
+
+  // Track simple number arrays
+  trackByIndex(index: number, item: number): number {
+    return index;
   }
 }

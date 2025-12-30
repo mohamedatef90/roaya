@@ -1690,15 +1690,25 @@
           "tagline": "When AI is implemented correctly, speed and control reinforce each other."
         },
         "enterprise": {
-          "title": "Enterprise Execution Without AI Chaos",
-          "opening1": "Most organizations don't struggle with AI ideas.",
-          "opening2": "They struggle with operationalizing them.",
-          "description": "We specialize in large-scale AI execution, combining disciplined engineering, practical governance, and production integration to simplify adoption.",
-          "principleIntro": "Our work is built around a clear principle:",
-          "principle": "Enable teams to use AI daily — without managing models, prompts, infrastructure, or hidden risk.",
-          "principle1": "Enable teams to use AI daily.",
-          "principle2": "Do this without managing models, prompts, infrastructure, or hidden risk.",
-          "conclusion": "Complexity is absorbed by the platform and operating model. It is not pushed onto business users."
+          "title": "AI Engineered for Real Production Conditions",
+          "problemIntro": "Many AI implementations are optimized for experimentation, not production.",
+          "problemDetails": "Models are trained without lifecycle ownership. Agents are introduced without access control. Automation is launched without monitoring. Data pipelines silently drift over time.",
+          "painPoints": {
+            "automation": "Automation breaks when processes change",
+            "adoption": "Adoption stalls because users don't trust outputs",
+            "compliance": "Compliance and security teams block rollout",
+            "costs": "Costs rise without a clear ROI path"
+          },
+          "transition": "We take a different approach.",
+          "approach": "We build AI systems designed for real-world operations, where governance, reliability, privacy, and performance are non-negotiable.",
+          "services": {
+            "automation": "Automation that remains stable as workflows evolve",
+            "agents": "Agents that integrate safely with enterprise systems",
+            "analytics": "Analytics that improves decisions, not just reporting",
+            "aiops": "AI for operations (AIOps) that reduces noise and accelerates response",
+            "deployment": "Controlled deployment across hybrid and cloud environments"
+          },
+          "tagline": "This is AI built to last."
         },
         "agentic": {
           "title": "Agentic Automation That Works Under Governance",

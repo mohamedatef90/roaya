@@ -3,46 +3,735 @@
 
 <div class="space-journey">
   <!-- ============================================
-       STARFIELD BACKGROUND (All Sections)
+       JOURNEY PROGRESS INDICATOR
        ============================================ -->
-  <div class="starfield-container" aria-hidden="true">
-    <!-- Layer 1 - Distant Stars -->
-    <div class="stars-layer stars-layer-1">
-      @for (star of starsLayer1; track trackByStar($index, star)) {
-        <div class="star"
-             [style.left.%]="star.x"
-             [style.top.%]="star.y"
-             [style.width.px]="star.size"
-             [style.height.px]="star.size"
-             [style.opacity]="star.opacity">
+  <div class="journey-progress" aria-hidden="true">
+    <div class="progress-bar" [style.--progress]="journeyProgress + '%'"></div>
+    <span class="progress-label">{{ journeyProgress }}%</span>
+  </div>
+
+  <!-- ============================================
+       3D AI THINKING SKULL (Fixed Position)
+       ============================================ -->
+  <div class="ai-skull-container" aria-hidden="true">
+    <div class="ai-skull">
+      <!-- Outer wireframe skull/brain shell -->
+      <svg class="skull-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Iridescent gradient for skull -->
+          <linearGradient id="skull-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:0.8">
+              <animate attributeName="stop-color" values="#22d3ee;#7c3aed;#ec4899;#22d3ee" dur="6s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:0.6">
+              <animate attributeName="stop-color" values="#7c3aed;#ec4899;#22d3ee;#7c3aed" dur="6s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#ec4899;stop-opacity:0.8">
+              <animate attributeName="stop-color" values="#ec4899;#22d3ee;#7c3aed;#ec4899" dur="6s" repeatCount="indefinite"/>
+            </stop>
+          </linearGradient>
+          <!-- Glow filter -->
+          <filter id="skull-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <!-- Inner glow for brain -->
+          <radialGradient id="brain-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:0.4"/>
+            <stop offset="70%" style="stop-color:#7c3aed;stop-opacity:0.1"/>
+            <stop offset="100%" style="stop-color:transparent;stop-opacity:0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Skull wireframe outline -->
+        <g class="skull-wireframe" fill="none" stroke="url(#skull-gradient)" stroke-width="1.5" filter="url(#skull-glow)">
+          <!-- Cranium top curve -->
+          <path d="M40,100 Q40,40 100,35 Q160,40 160,100" class="skull-line"/>
+          <!-- Side curves -->
+          <path d="M40,100 Q35,130 45,155" class="skull-line"/>
+          <path d="M160,100 Q165,130 155,155" class="skull-line"/>
+          <!-- Jaw lines -->
+          <path d="M45,155 Q60,175 100,180 Q140,175 155,155" class="skull-line"/>
+          <!-- Inner brain convolutions -->
+          <path d="M55,70 Q70,55 100,50 Q130,55 145,70" class="brain-line"/>
+          <path d="M50,90 Q75,75 100,72 Q125,75 150,90" class="brain-line"/>
+          <path d="M48,110 Q80,95 100,92 Q120,95 152,110" class="brain-line"/>
+          <!-- Neural pathways -->
+          <path d="M70,60 L80,80 L70,100 L85,120" class="neural-path"/>
+          <path d="M130,60 L120,80 L130,100 L115,120" class="neural-path"/>
+          <path d="M100,50 L100,75 L95,95 L100,115 L105,135" class="neural-path"/>
+          <!-- Cross connections -->
+          <path d="M60,85 Q100,70 140,85" class="neural-path"/>
+          <path d="M65,105 Q100,90 135,105" class="neural-path"/>
+        </g>
+
+        <!-- Central brain core (pulsing) -->
+        <circle cx="100" cy="95" r="25" fill="url(#brain-glow)" class="brain-core"/>
+
+        <!-- Neural activity dots -->
+        <g class="neural-dots">
+          <circle cx="70" cy="65" r="2" fill="#22d3ee" class="neuron-dot"/>
+          <circle cx="130" cy="65" r="2" fill="#ec4899" class="neuron-dot"/>
+          <circle cx="100" cy="55" r="2.5" fill="#7c3aed" class="neuron-dot"/>
+          <circle cx="85" cy="85" r="1.5" fill="#22d3ee" class="neuron-dot"/>
+          <circle cx="115" cy="85" r="1.5" fill="#22d3ee" class="neuron-dot"/>
+          <circle cx="100" cy="100" r="3" fill="#22d3ee" class="neuron-dot center"/>
+          <circle cx="75" cy="110" r="1.5" fill="#ec4899" class="neuron-dot"/>
+          <circle cx="125" cy="110" r="1.5" fill="#ec4899" class="neuron-dot"/>
+        </g>
+
+        <!-- Thinking indicator rays -->
+        <g class="thinking-rays" stroke="url(#skull-gradient)" stroke-width="1" opacity="0.5">
+          <line x1="100" y1="30" x2="100" y2="15" class="ray"/>
+          <line x1="70" y1="40" x2="55" y2="25" class="ray"/>
+          <line x1="130" y1="40" x2="145" y2="25" class="ray"/>
+          <line x1="50" y1="70" x2="30" y2="60" class="ray"/>
+          <line x1="150" y1="70" x2="170" y2="60" class="ray"/>
+        </g>
+      </svg>
+
+      <!-- Orbiting data particles -->
+      <div class="skull-orbit orbit-1">
+        <div class="orbit-particle"></div>
+      </div>
+      <div class="skull-orbit orbit-2">
+        <div class="orbit-particle"></div>
+      </div>
+      <div class="skull-orbit orbit-3">
+        <div class="orbit-particle"></div>
+      </div>
+    </div>
+
+    <!-- "AI THINKING" label -->
+    <div class="skull-label">
+      <span class="label-dot"></span>
+      <span class="label-text">AI PROCESSING</span>
+    </div>
+  </div>
+
+  <!-- ============================================
+       AI ELEMENTS BACKGROUND (All Sections)
+       ============================================ -->
+  <div class="ai-elements-container" aria-hidden="true">
+    <!-- Layer 1 - Neural Network Nodes (slowest parallax) -->
+    <div class="neural-nodes-layer">
+      @for (node of neuralNodes; track trackByAIElement($index, node)) {
+        <div class="neural-node"
+             [style.left.%]="node.x"
+             [style.top.%]="node.y"
+             [style.width.px]="node.size"
+             [style.height.px]="node.size"
+             [style.animationDelay.s]="node.delay">
+          <div class="node-core"></div>
+          <div class="node-pulse"></div>
         </div>
       }
     </div>
 
-    <!-- Layer 2 - Medium Stars -->
-    <div class="stars-layer stars-layer-2">
-      @for (star of starsLayer2; track trackByStar($index, star)) {
-        <div class="star star-twinkle"
-             [style.left.%]="star.x"
-             [style.top.%]="star.y"
-             [style.width.px]="star.size"
-             [style.height.px]="star.size"
-             [style.opacity]="star.opacity">
+    <!-- Layer 2 - AI Chips (medium parallax) -->
+    <div class="ai-chips-layer">
+      @for (chip of aiChips; track trackByAIElement($index, chip)) {
+        <div class="ai-chip"
+             [class]="'chip-' + chip.type"
+             [style.left.%]="chip.x"
+             [style.top.%]="chip.y"
+             [style.animationDelay.s]="chip.delay">
         </div>
       }
     </div>
 
-    <!-- Layer 3 - Close Bright Stars -->
-    <div class="stars-layer stars-layer-3">
-      @for (star of starsLayer3; track trackByStar($index, star)) {
-        <div class="star star-glow"
-             [style.left.%]="star.x"
-             [style.top.%]="star.y"
-             [style.width.px]="star.size"
-             [style.height.px]="star.size"
-             [style.opacity]="star.opacity">
+    <!-- Layer 3 - Data Particles (fastest parallax) -->
+    <div class="data-particles-layer">
+      @for (particle of dataParticles; track trackByAIElement($index, particle)) {
+        <div class="data-particle"
+             [style.left.%]="particle.x"
+             [style.top.%]="particle.y"
+             [style.animationDuration.s]="particle.speed"
+             [style.animationDelay.s]="particle.delay">
         </div>
       }
+    </div>
+
+    <!-- Circuit Traces SVG (background decoration) -->
+    <svg class="circuit-traces-layer" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+      <!-- Horizontal traces -->
+      <path d="M0,200 Q400,180 800,220 T1920,200" />
+      <path d="M0,400 Q600,420 1200,380 T1920,400" />
+      <path d="M0,600 Q300,580 900,620 T1920,600" />
+      <path d="M0,800 Q500,820 1100,780 T1920,800" />
+      <!-- Vertical traces -->
+      <path d="M200,0 Q180,300 220,600 T200,1080" />
+      <path d="M600,0 Q620,400 580,800 T600,1080" />
+      <path d="M1000,0 Q980,350 1020,700 T1000,1080" />
+      <path d="M1400,0 Q1420,250 1380,750 T1400,1080" />
+      <!-- Connection nodes -->
+      <circle cx="200" cy="200" r="3" class="trace-node" />
+      <circle cx="600" cy="400" r="3" class="trace-node" />
+      <circle cx="1000" cy="600" r="3" class="trace-node" />
+      <circle cx="1400" cy="800" r="3" class="trace-node" />
+      <circle cx="400" cy="300" r="2" class="trace-node" />
+      <circle cx="800" cy="500" r="2" class="trace-node" />
+      <circle cx="1200" cy="700" r="2" class="trace-node" />
+    </svg>
+
+    <!-- Layer 5 - Floating 3D Shapes (parallax) -->
+    <div class="floating-shapes-layer">
+      <!-- Shape 1: Iridescent Cross (top-left area) -->
+      <div class="floating-shape shape-cross shape-1">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.9" />
+              <stop offset="30%" style="stop-color:#22d3ee;stop-opacity:0.8" />
+              <stop offset="60%" style="stop-color:#ec4899;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.9" />
+            </linearGradient>
+            <linearGradient id="shine1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:white;stop-opacity:0" />
+              <stop offset="50%" style="stop-color:white;stop-opacity:0.3" />
+              <stop offset="100%" style="stop-color:white;stop-opacity:0" />
+            </linearGradient>
+            <filter id="glow1" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Cross shape with rounded ends -->
+          <path d="M80,30 Q100,30 100,50 L100,80 L130,80 Q150,80 150,100 Q150,120 130,120 L100,120 L100,150 Q100,170 80,170 Q60,170 60,150 L60,120 L30,120 Q10,120 10,100 Q10,80 30,80 L60,80 L60,50 Q60,30 80,30 Z"
+                fill="url(#iridescent1)" filter="url(#glow1)" transform="rotate(45 100 100)"/>
+          <path d="M80,35 Q95,35 95,50 L95,85 L130,85 Q145,85 145,100 Q145,115 130,115 L95,115 L95,150 Q95,165 80,165"
+                fill="none" stroke="url(#shine1)" stroke-width="2" transform="rotate(45 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 2: Iridescent Torus/Ring (right side) -->
+      <div class="floating-shape shape-torus shape-2">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:0.85" />
+              <stop offset="40%" style="stop-color:#7c3aed;stop-opacity:0.8" />
+              <stop offset="70%" style="stop-color:#f472b6;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Torus/donut shape -->
+          <ellipse cx="100" cy="100" rx="70" ry="25" fill="none" stroke="url(#iridescent2)" stroke-width="20" filter="url(#glow2)" transform="rotate(-20 100 100)"/>
+          <ellipse cx="100" cy="100" rx="68" ry="23" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" transform="rotate(-20 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 3: Iridescent Sphere/Blob (center-left) -->
+      <div class="floating-shape shape-sphere shape-3">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="iridescent3" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" style="stop-color:#f0abfc;stop-opacity:0.9" />
+              <stop offset="40%" style="stop-color:#7c3aed;stop-opacity:0.8" />
+              <stop offset="80%" style="stop-color:#22d3ee;stop-opacity:0.7" />
+              <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:0.9" />
+            </radialGradient>
+            <filter id="glow3" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Organic blob shape -->
+          <path d="M100,20 C140,20 170,50 175,90 C180,130 160,170 120,180 C80,190 40,160 30,120 C20,80 50,20 100,20 Z"
+                fill="url(#iridescent3)" filter="url(#glow3)"/>
+          <ellipse cx="70" cy="60" rx="25" ry="15" fill="rgba(255,255,255,0.15)" transform="rotate(-30 70 60)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 4: Small Cross (middle area) -->
+      <div class="floating-shape shape-cross-sm shape-4">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent4" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.85" />
+              <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.85" />
+            </linearGradient>
+            <filter id="glow4" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M85,40 Q100,40 100,55 L100,85 L130,85 Q145,85 145,100 Q145,115 130,115 L100,115 L100,145 Q100,160 85,160 Q70,160 70,145 L70,115 L40,115 Q25,115 25,100 Q25,85 40,85 L70,85 L70,55 Q70,40 85,40 Z"
+                fill="url(#iridescent4)" filter="url(#glow4)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 5: Iridescent Ring (bottom area) -->
+      <div class="floating-shape shape-ring shape-5">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent5" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.9" />
+              <stop offset="35%" style="stop-color:#a855f7;stop-opacity:0.85" />
+              <stop offset="70%" style="stop-color:#ec4899;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow5" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="60" fill="none" stroke="url(#iridescent5)" stroke-width="15" filter="url(#glow5)"/>
+          <circle cx="100" cy="100" r="58" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- Shape 6: Abstract Curved Form (far right) -->
+      <div class="floating-shape shape-curve shape-6">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent6" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.9" />
+              <stop offset="50%" style="stop-color:#f472b6;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.8" />
+            </linearGradient>
+            <filter id="glow6" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- S-curve tube shape -->
+          <path d="M30,50 Q80,50 100,100 Q120,150 170,150" fill="none" stroke="url(#iridescent6)" stroke-width="25" stroke-linecap="round" filter="url(#glow6)"/>
+          <path d="M32,48 Q80,48 100,98" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Shape 7: Small Sphere (scattered) -->
+      <div class="floating-shape shape-sphere-sm shape-7">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="iridescent7" cx="35%" cy="35%" r="65%">
+              <stop offset="0%" style="stop-color:#c4b5fd;stop-opacity:0.95" />
+              <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:0.9" />
+            </radialGradient>
+            <filter id="glow7" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="50" cy="50" r="35" fill="url(#iridescent7)" filter="url(#glow7)"/>
+          <ellipse cx="40" cy="38" rx="12" ry="8" fill="rgba(255,255,255,0.2)" transform="rotate(-25 40 38)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 8: Small Torus (scattered) -->
+      <div class="floating-shape shape-torus-sm shape-8">
+        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent8" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f472b6;stop-opacity:0.85" />
+              <stop offset="50%" style="stop-color:#22d3ee;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#a855f7;stop-opacity:0.85" />
+            </linearGradient>
+            <filter id="glow8" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <ellipse cx="75" cy="75" rx="45" ry="18" fill="none" stroke="url(#iridescent8)" stroke-width="12" filter="url(#glow8)" transform="rotate(30 75 75)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 9: Large Glossy Cross (middle-left) -->
+      <div class="floating-shape shape-cross shape-9">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent9" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#f0abfc;stop-opacity:0.92" />
+              <stop offset="25%" style="stop-color:#7c3aed;stop-opacity:0.88" />
+              <stop offset="50%" style="stop-color:#22d3ee;stop-opacity:0.85" />
+              <stop offset="75%" style="stop-color:#ec4899;stop-opacity:0.88" />
+              <stop offset="100%" style="stop-color:#c084fc;stop-opacity:0.92" />
+            </linearGradient>
+            <filter id="glow9" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M80,30 Q100,30 100,50 L100,80 L130,80 Q150,80 150,100 Q150,120 130,120 L100,120 L100,150 Q100,170 80,170 Q60,170 60,150 L60,120 L30,120 Q10,120 10,100 Q10,80 30,80 L60,80 L60,50 Q60,30 80,30 Z"
+                fill="url(#iridescent9)" filter="url(#glow9)" transform="rotate(22 100 100)"/>
+          <ellipse cx="75" cy="55" rx="18" ry="10" fill="rgba(255,255,255,0.25)" transform="rotate(22 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 10: Large Iridescent Sphere (top-right) -->
+      <div class="floating-shape shape-sphere shape-10">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="iridescent10" cx="25%" cy="25%" r="75%">
+              <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
+              <stop offset="20%" style="stop-color:#f0abfc;stop-opacity:0.85" />
+              <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:0.8" />
+              <stop offset="80%" style="stop-color:#06b6d4;stop-opacity:0.75" />
+              <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:0.95" />
+            </radialGradient>
+            <filter id="glow10" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="70" fill="url(#iridescent10)" filter="url(#glow10)"/>
+          <ellipse cx="70" cy="65" rx="28" ry="18" fill="rgba(255,255,255,0.2)" transform="rotate(-30 70 65)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 11: Medium Torus Ring (bottom-left) -->
+      <div class="floating-shape shape-torus shape-11">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent11" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.9" />
+              <stop offset="30%" style="stop-color:#ec4899;stop-opacity:0.85" />
+              <stop offset="60%" style="stop-color:#a855f7;stop-opacity:0.88" />
+              <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow11" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <ellipse cx="100" cy="100" rx="65" ry="22" fill="none" stroke="url(#iridescent11)" stroke-width="18" filter="url(#glow11)" transform="rotate(40 100 100)"/>
+          <ellipse cx="100" cy="100" rx="63" ry="20" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3" transform="rotate(40 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 12: Twisted Helix (center-right) -->
+      <div class="floating-shape shape-helix shape-12">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent12" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#c084fc;stop-opacity:0.9" />
+              <stop offset="40%" style="stop-color:#22d3ee;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#f472b6;stop-opacity:0.88" />
+            </linearGradient>
+            <filter id="glow12" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M40,30 Q90,60 100,100 Q110,140 160,170" fill="none" stroke="url(#iridescent12)" stroke-width="22" stroke-linecap="round" filter="url(#glow12)"/>
+          <path d="M42,28 Q90,58 100,98" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Shape 13: Diamond Crystal -->
+      <div class="floating-shape shape-diamond shape-13">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent13" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.5" />
+              <stop offset="30%" style="stop-color:#a5f3fc;stop-opacity:0.8" />
+              <stop offset="60%" style="stop-color:#c4b5fd;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow13" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <polygon points="100,20 160,80 100,180 40,80" fill="url(#iridescent13)" filter="url(#glow13)"/>
+          <polygon points="100,25 155,80 100,170" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- Shape 14: Pill/Capsule Shape -->
+      <div class="floating-shape shape-pill shape-14">
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent14" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f472b6;stop-opacity:0.9" />
+              <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.88" />
+            </linearGradient>
+            <filter id="glow14" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect x="30" y="20" width="140" height="60" rx="30" ry="30" fill="url(#iridescent14)" filter="url(#glow14)"/>
+          <ellipse cx="60" cy="35" rx="20" ry="10" fill="rgba(255,255,255,0.2)" transform="rotate(-15 60 35)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 15: Small Cross (far top) -->
+      <div class="floating-shape shape-cross-sm shape-15">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent15" x1="100%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:0.88" />
+              <stop offset="50%" style="stop-color:#f0abfc;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow15" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M85,40 Q100,40 100,55 L100,85 L130,85 Q145,85 145,100 Q145,115 130,115 L100,115 L100,145 Q100,160 85,160 Q70,160 70,145 L70,115 L40,115 Q25,115 25,100 Q25,85 40,85 L70,85 L70,55 Q70,40 85,40 Z"
+                fill="url(#iridescent15)" filter="url(#glow15)" transform="rotate(-30 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 16: Large Ring (far bottom) -->
+      <div class="floating-shape shape-ring shape-16">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent16" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.9" />
+              <stop offset="35%" style="stop-color:#06b6d4;stop-opacity:0.85" />
+              <stop offset="65%" style="stop-color:#a855f7;stop-opacity:0.88" />
+              <stop offset="100%" style="stop-color:#f472b6;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow16" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="url(#iridescent16)" stroke-width="18" filter="url(#glow16)"/>
+          <circle cx="100" cy="100" r="68" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <!-- ===== EDGE SHAPES (17-24) ===== -->
+
+      <!-- Shape 17: Left Edge - Large Cross -->
+      <div class="floating-shape shape-cross shape-17 edge-left">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent17" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#c084fc;stop-opacity:0.9" />
+              <stop offset="40%" style="stop-color:#22d3ee;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#f472b6;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow17" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M80,30 Q100,30 100,50 L100,80 L130,80 Q150,80 150,100 Q150,120 130,120 L100,120 L100,150 Q100,170 80,170 Q60,170 60,150 L60,120 L30,120 Q10,120 10,100 Q10,80 30,80 L60,80 L60,50 Q60,30 80,30 Z"
+                fill="url(#iridescent17)" filter="url(#glow17)" transform="rotate(15 100 100)"/>
+          <ellipse cx="70" cy="50" rx="15" ry="8" fill="rgba(255,255,255,0.2)" transform="rotate(15 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 18: Right Edge - Torus -->
+      <div class="floating-shape shape-torus shape-18 edge-right">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent18" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.9" />
+              <stop offset="50%" style="stop-color:#a855f7;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#ec4899;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow18" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <ellipse cx="100" cy="100" rx="70" ry="25" fill="none" stroke="url(#iridescent18)" stroke-width="20" filter="url(#glow18)" transform="rotate(-35 100 100)"/>
+          <ellipse cx="100" cy="100" rx="68" ry="23" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3" transform="rotate(-35 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 19: Left Edge - Sphere (lower) -->
+      <div class="floating-shape shape-sphere shape-19 edge-left">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="iridescent19" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.35" />
+              <stop offset="30%" style="stop-color:#f0abfc;stop-opacity:0.85" />
+              <stop offset="70%" style="stop-color:#7c3aed;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:0.95" />
+            </radialGradient>
+            <filter id="glow19" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="65" fill="url(#iridescent19)" filter="url(#glow19)"/>
+          <ellipse cx="70" cy="65" rx="25" ry="15" fill="rgba(255,255,255,0.18)" transform="rotate(-25 70 65)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 20: Right Edge - Cross (upper) -->
+      <div class="floating-shape shape-cross shape-20 edge-right">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent20" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.9" />
+              <stop offset="50%" style="stop-color:#06b6d4;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow20" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M80,30 Q100,30 100,50 L100,80 L130,80 Q150,80 150,100 Q150,120 130,120 L100,120 L100,150 Q100,170 80,170 Q60,170 60,150 L60,120 L30,120 Q10,120 10,100 Q10,80 30,80 L60,80 L60,50 Q60,30 80,30 Z"
+                fill="url(#iridescent20)" filter="url(#glow20)" transform="rotate(-45 100 100)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 21: Far Left - Small Ring -->
+      <div class="floating-shape shape-ring shape-21 edge-left">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent21" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f472b6;stop-opacity:0.88" />
+              <stop offset="50%" style="stop-color:#22d3ee;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#a855f7;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow21" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="55" fill="none" stroke="url(#iridescent21)" stroke-width="14" filter="url(#glow21)"/>
+        </svg>
+      </div>
+
+      <!-- Shape 22: Far Right - Helix Curve -->
+      <div class="floating-shape shape-helix shape-22 edge-right">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent22" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.9" />
+              <stop offset="50%" style="stop-color:#f0abfc;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.88" />
+            </linearGradient>
+            <filter id="glow22" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path d="M30,40 Q80,60 100,100 Q120,140 170,160" fill="none" stroke="url(#iridescent22)" stroke-width="20" stroke-linecap="round" filter="url(#glow22)"/>
+          <path d="M32,38 Q80,58 100,98" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Shape 23: Left Edge - Diamond (bottom) -->
+      <div class="floating-shape shape-diamond shape-23 edge-left">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent23" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" style="stop-color:#a5f3fc;stop-opacity:0.5" />
+              <stop offset="40%" style="stop-color:#c4b5fd;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#ec4899;stop-opacity:0.9" />
+            </linearGradient>
+            <filter id="glow23" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <polygon points="100,25 155,75 100,175 45,75" fill="url(#iridescent23)" filter="url(#glow23)"/>
+          <polygon points="100,30 150,75 100,165" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- Shape 24: Right Edge - Pill (bottom) -->
+      <div class="floating-shape shape-pill shape-24 edge-right">
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="iridescent24" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.9" />
+              <stop offset="50%" style="stop-color:#a855f7;stop-opacity:0.85" />
+              <stop offset="100%" style="stop-color:#f472b6;stop-opacity:0.88" />
+            </linearGradient>
+            <filter id="glow24" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect x="25" y="18" width="150" height="64" rx="32" ry="32" fill="url(#iridescent24)" filter="url(#glow24)"/>
+          <ellipse cx="55" cy="32" rx="22" ry="12" fill="rgba(255,255,255,0.18)" transform="rotate(-12 55 32)"/>
+        </svg>
+      </div>
     </div>
   </div>
 
@@ -50,6 +739,70 @@
        SECTION 1: HERO
        ============================================ -->
   <section class="journey-section journey-entry">
+    <!-- 3D Machine Learning Background -->
+    <div class="ml-background" aria-hidden="true">
+      <!-- Neural Network Layer -->
+      <div class="neural-network-3d">
+        <!-- Neural Nodes -->
+        @for (node of heroNeuralNodes; track node.id) {
+          <div class="neural-node-3d"
+               [style.left.%]="node.x"
+               [style.top.%]="node.y"
+               [style.--z]="node.z"
+               [style.--size]="node.size + 'px'"
+               [style.--delay]="node.delay + 's'"
+               [class.node-active]="node.active">
+            <div class="node-core"></div>
+            <div class="node-ring"></div>
+            <div class="node-pulse"></div>
+          </div>
+        }
+
+        <!-- Connection Lines (SVG) -->
+        <svg class="neural-connections-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          @for (connection of heroConnections; track connection.id) {
+            <line class="neural-line"
+                  [attr.x1]="connection.x1"
+                  [attr.y1]="connection.y1"
+                  [attr.x2]="connection.x2"
+                  [attr.y2]="connection.y2"
+                  [style.--delay]="connection.delay + 's'" />
+          }
+        </svg>
+      </div>
+
+      <!-- Data Flow Particles -->
+      <div class="data-flow-layer">
+        @for (particle of heroDataParticles; track particle.id) {
+          <div class="data-particle-3d"
+               [style.left.%]="particle.x"
+               [style.--duration]="particle.duration + 's'"
+               [style.--delay]="particle.delay + 's'"
+               [class]="'particle-' + particle.type">
+          </div>
+        }
+      </div>
+
+      <!-- Floating ML Icons -->
+      <div class="ml-icons-layer">
+        <div class="ml-icon ml-icon-1">
+          <ng-icon name="lucideBrain" size="32"></ng-icon>
+        </div>
+        <div class="ml-icon ml-icon-2">
+          <ng-icon name="lucideCpu" size="28"></ng-icon>
+        </div>
+        <div class="ml-icon ml-icon-3">
+          <ng-icon name="lucideNetwork" size="26"></ng-icon>
+        </div>
+        <div class="ml-icon ml-icon-4">
+          <ng-icon name="lucideGitBranch" size="24"></ng-icon>
+        </div>
+      </div>
+
+      <!-- 3D Depth Gradient -->
+      <div class="ml-depth-gradient"></div>
+    </div>
+
     <div class="section-content entry-content">
       <!-- Badge -->
       <div class="entry-badge">
@@ -149,14 +902,25 @@
        SECTION 3: SOLUTION INTRODUCTION
        ============================================ -->
   <section class="journey-section journey-portal">
-    <!-- Portal Rings -->
-    <div class="portal-container" aria-hidden="true">
-      <div class="portal-ring ring-1"></div>
-      <div class="portal-ring ring-2"></div>
-      <div class="portal-ring ring-3"></div>
-      <div class="portal-ring ring-4"></div>
-      <div class="portal-ring ring-5"></div>
-      <div class="portal-center"></div>
+    <!-- AI Processor Visualization -->
+    <div class="ai-processor-container" aria-hidden="true">
+      <!-- Hexagonal AI Core -->
+      <div class="processor-core">
+        <div class="core-hexagon"></div>
+        <div class="core-inner"></div>
+      </div>
+
+      <!-- Data Processing Rings -->
+      <div class="data-ring data-ring-1"></div>
+      <div class="data-ring data-ring-2"></div>
+      <div class="data-ring data-ring-3"></div>
+
+      <!-- Connection Nodes -->
+      <div class="connection-nodes">
+        @for (i of processorNodes; track trackByIndex($index, i)) {
+          <div class="connection-node" [style.--index]="i"></div>
+        }
+      </div>
     </div>
 
     <!-- Solution Text -->
@@ -168,72 +932,98 @@
       </div>
     </div>
 
-    <!-- Wormhole Glow -->
-    <div class="wormhole-glow" aria-hidden="true"></div>
+    <!-- Processor Glow -->
+    <div class="processor-glow" aria-hidden="true"></div>
   </section>
 
   <!-- ============================================
-       SECTION 4: PRODUCTION-READY AI
+       SECTION 4: PRODUCTION-READY AI (Bento Grid)
        ============================================ -->
   <section class="journey-section journey-solution">
     <!-- Nebula Background -->
     <div class="nebula-glow" aria-hidden="true"></div>
 
-    <!-- Production Content -->
-    <div class="section-content solution-content">
-      <h2 class="solution-title section-title">
-        {{ 'services.ai.page.production.title' | translate }}
-      </h2>
+    <!-- Production Content - Bento Grid -->
+    <div class="section-content">
+      <div class="production-bento-grid">
+        <!-- Title Card - Full Width -->
+        <div class="prod-card prod-title">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideCpu" size="36" class="title-icon"></ng-icon>
+          <h2>{{ 'services.ai.page.production.title' | translate }}</h2>
+        </div>
 
-      <div class="production-intro">
-        <p>{{ 'services.ai.page.production.opening' | translate }}</p>
-        <p>{{ 'services.ai.page.production.problems' | translate }}</p>
-      </div>
+        <!-- Problem Card - Large -->
+        <div class="prod-card prod-problem">
+          <div class="card-glow"></div>
+          <div class="card-label">
+            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
+            <span>The Reality</span>
+          </div>
+          <p class="problem-main">{{ 'services.ai.page.production.opening' | translate }}</p>
+          <p class="problem-detail">{{ 'services.ai.page.production.problems' | translate }}</p>
+        </div>
 
-      <!-- Outcome Problems -->
-      <div class="outcome-problems">
-        <p class="outcome-intro">{{ 'services.ai.page.production.outcomeIntro' | translate }}</p>
-        <ul class="problem-list">
-          <li>
-            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
-            <span>{{ 'services.ai.page.production.outcomes.automationBreaks' | translate }}</span>
-          </li>
-          <li>
-            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
-            <span>{{ 'services.ai.page.production.outcomes.adoptionStalls' | translate }}</span>
-          </li>
-          <li>
-            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
-            <span>{{ 'services.ai.page.production.outcomes.complianceBlocks' | translate }}</span>
-          </li>
-          <li>
-            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
-            <span>{{ 'services.ai.page.production.outcomes.costsRise' | translate }}</span>
-          </li>
-        </ul>
-      </div>
-
-      <p class="approach-text">{{ 'services.ai.page.production.approach' | translate }}</p>
-      <p class="vision-text">{{ 'services.ai.page.production.vision' | translate }}</p>
-
-      <!-- Solution Cards -->
-      <div class="solution-cards">
-        @for (solution of solutionCapabilities; track solution.key) {
-          <div class="solution-card" [class]="'glow-' + solution.glow">
-            <div class="solution-icon">
-              <ng-icon [name]="solution.icon" size="28"></ng-icon>
+        <!-- Outcomes Card -->
+        <div class="prod-card prod-outcomes">
+          <div class="card-glow"></div>
+          <div class="card-label">
+            <ng-icon name="lucideXCircle" size="16"></ng-icon>
+            <span>{{ 'services.ai.page.production.outcomeIntro' | translate }}</span>
+          </div>
+          <div class="outcome-list">
+            <div class="outcome-item">
+              <ng-icon name="lucideX" size="14"></ng-icon>
+              <span>{{ 'services.ai.page.production.outcomes.automationBreaks' | translate }}</span>
             </div>
+            <div class="outcome-item">
+              <ng-icon name="lucideX" size="14"></ng-icon>
+              <span>{{ 'services.ai.page.production.outcomes.adoptionStalls' | translate }}</span>
+            </div>
+            <div class="outcome-item">
+              <ng-icon name="lucideX" size="14"></ng-icon>
+              <span>{{ 'services.ai.page.production.outcomes.complianceBlocks' | translate }}</span>
+            </div>
+            <div class="outcome-item">
+              <ng-icon name="lucideX" size="14"></ng-icon>
+              <span>{{ 'services.ai.page.production.outcomes.costsRise' | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transition Card -->
+        <div class="prod-card prod-transition">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideArrowRight" size="28" class="transition-arrow"></ng-icon>
+          <p>{{ 'services.ai.page.production.approach' | translate }}</p>
+        </div>
+
+        <!-- Vision Card -->
+        <div class="prod-card prod-vision">
+          <div class="card-glow"></div>
+          <div class="card-label">
+            <ng-icon name="lucideSparkles" size="16"></ng-icon>
+            <span>Our Approach</span>
+          </div>
+          <p>{{ 'services.ai.page.production.vision' | translate }}</p>
+        </div>
+
+        <!-- Solution Cards - 5 items -->
+        @for (solution of solutionCapabilities; track solution.key) {
+          <div class="prod-card prod-solution" [class]="'accent-' + solution.glow">
+            <div class="card-glow"></div>
+            <ng-icon [name]="solution.icon" size="24"></ng-icon>
             <h4>{{ 'services.ai.page.production.items.' + solution.key + '.title' | translate }}</h4>
             <p>{{ 'services.ai.page.production.items.' + solution.key + '.description' | translate }}</p>
-            <div class="card-glow" aria-hidden="true"></div>
           </div>
         }
-      </div>
 
-      <!-- Tagline -->
-      <div class="solution-promise">
-        <ng-icon name="lucideSparkles" size="24"></ng-icon>
-        <p>{{ 'services.ai.page.production.tagline' | translate }}</p>
+        <!-- Tagline Card - Full Width -->
+        <div class="prod-card prod-tagline">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideShield" size="24"></ng-icon>
+          <p>{{ 'services.ai.page.production.tagline' | translate }}</p>
+        </div>
       </div>
     </div>
   </section>
@@ -269,33 +1059,114 @@
   </section>
 
   <!-- ============================================
-       SECTION 6: ENTERPRISE EXECUTION
+       SECTION 6: ENTERPRISE EXECUTION (Bento Grid)
        ============================================ -->
   <section class="journey-section journey-enterprise">
     <div class="nebula-glow secondary" aria-hidden="true"></div>
 
     <div class="section-content">
-      <h2 class="section-title">{{ 'services.ai.page.enterprise.title' | translate }}</h2>
+      <!-- Bento Grid Layout -->
+      <div class="bento-grid">
+        <!-- Title Card - Full Width -->
+        <div class="bento-card bento-title">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideBrain" size="40" class="title-icon"></ng-icon>
+          <h2>{{ 'services.ai.page.enterprise.title' | translate }}</h2>
+        </div>
 
-      <div class="enterprise-intro">
-        <p>{{ 'services.ai.page.enterprise.opening1' | translate }}</p>
-        <p class="highlight">{{ 'services.ai.page.enterprise.opening2' | translate }}</p>
-      </div>
+        <!-- Problem Intro Card -->
+        <div class="bento-card bento-problem-intro">
+          <div class="card-glow"></div>
+          <div class="card-label">
+            <ng-icon name="lucideAlertTriangle" size="16"></ng-icon>
+            <span>The Reality</span>
+          </div>
+          <p class="card-text-large">{{ 'services.ai.page.enterprise.problemIntro' | translate }}</p>
+          <p class="card-text-muted">{{ 'services.ai.page.enterprise.problemDetails' | translate }}</p>
+        </div>
 
-      <p class="enterprise-desc">{{ 'services.ai.page.enterprise.description' | translate }}</p>
-
-      <div class="principle-box">
-        <p class="principle-intro">{{ 'services.ai.page.enterprise.principleIntro' | translate }}</p>
-        <div class="principle-content">
-          <ng-icon name="lucideTarget" size="32"></ng-icon>
-          <div class="principle-text">
-            <p>{{ 'services.ai.page.enterprise.principle1' | translate }}</p>
-            <p>{{ 'services.ai.page.enterprise.principle2' | translate }}</p>
+        <!-- Pain Points Card -->
+        <div class="bento-card bento-pain-points">
+          <div class="card-glow"></div>
+          <div class="card-label">
+            <ng-icon name="lucideXCircle" size="16"></ng-icon>
+            <span>The Outcome</span>
+          </div>
+          <div class="pain-list">
+            <div class="pain-item">
+              <ng-icon name="lucideX" size="16"></ng-icon>
+              <span>{{ 'services.ai.page.enterprise.painPoints.automation' | translate }}</span>
+            </div>
+            <div class="pain-item">
+              <ng-icon name="lucideX" size="16"></ng-icon>
+              <span>{{ 'services.ai.page.enterprise.painPoints.adoption' | translate }}</span>
+            </div>
+            <div class="pain-item">
+              <ng-icon name="lucideX" size="16"></ng-icon>
+              <span>{{ 'services.ai.page.enterprise.painPoints.compliance' | translate }}</span>
+            </div>
+            <div class="pain-item">
+              <ng-icon name="lucideX" size="16"></ng-icon>
+              <span>{{ 'services.ai.page.enterprise.painPoints.costs' | translate }}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <p class="conclusion-text">{{ 'services.ai.page.enterprise.conclusion' | translate }}</p>
+        <!-- Transition Card -->
+        <div class="bento-card bento-transition">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideArrowRight" size="32" class="transition-icon"></ng-icon>
+          <p class="transition-text">{{ 'services.ai.page.enterprise.transition' | translate }}</p>
+        </div>
+
+        <!-- Approach Card -->
+        <div class="bento-card bento-approach">
+          <div class="card-glow"></div>
+          <div class="card-label">
+            <ng-icon name="lucideSparkles" size="16"></ng-icon>
+            <span>Our Approach</span>
+          </div>
+          <p class="card-text">{{ 'services.ai.page.enterprise.approach' | translate }}</p>
+        </div>
+
+        <!-- Services Grid - 5 items -->
+        <div class="bento-card bento-service">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideSettings" size="28"></ng-icon>
+          <span>{{ 'services.ai.page.enterprise.services.automation' | translate }}</span>
+        </div>
+
+        <div class="bento-card bento-service">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideBot" size="28"></ng-icon>
+          <span>{{ 'services.ai.page.enterprise.services.agents' | translate }}</span>
+        </div>
+
+        <div class="bento-card bento-service">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideBarChart3" size="28"></ng-icon>
+          <span>{{ 'services.ai.page.enterprise.services.analytics' | translate }}</span>
+        </div>
+
+        <div class="bento-card bento-service">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideActivity" size="28"></ng-icon>
+          <span>{{ 'services.ai.page.enterprise.services.aiops' | translate }}</span>
+        </div>
+
+        <div class="bento-card bento-service">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideCloud" size="28"></ng-icon>
+          <span>{{ 'services.ai.page.enterprise.services.deployment' | translate }}</span>
+        </div>
+
+        <!-- Tagline Card - Full Width -->
+        <div class="bento-card bento-tagline">
+          <div class="card-glow"></div>
+          <ng-icon name="lucideShield" size="28"></ng-icon>
+          <p>{{ 'services.ai.page.enterprise.tagline' | translate }}</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -551,11 +1422,27 @@
        SECTION 14: CTA
        ============================================ -->
   <section class="journey-section journey-destination">
-    <!-- Destination Planet -->
-    <div class="destination-planet" aria-hidden="true">
-      <div class="planet-surface"></div>
-      <div class="planet-atmosphere"></div>
-      <div class="planet-rings"></div>
+    <!-- AI Brain Core Visualization -->
+    <div class="ai-brain-container" aria-hidden="true">
+      <!-- Neural Core -->
+      <div class="brain-core">
+        <div class="core-glow"></div>
+      </div>
+
+      <!-- Neural Connections (radiating) -->
+      <div class="neural-connections">
+        @for (i of neuralBranches; track trackByIndex($index, i)) {
+          <div class="neural-branch" [style.--index]="i">
+            <div class="branch-node"></div>
+            <div class="branch-line"></div>
+          </div>
+        }
+      </div>
+
+      <!-- Orbiting Data -->
+      <div class="data-orbit">
+        <div class="orbit-particle"></div>
+      </div>
     </div>
 
     <div class="section-content destination-content">

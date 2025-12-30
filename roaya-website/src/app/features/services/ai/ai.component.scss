@@ -55,11 +55,6 @@
 // KEYFRAME ANIMATIONS
 // ============================================
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(5deg); }
@@ -73,16 +68,6 @@
 @keyframes portal-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-@keyframes portal-spin-reverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
 }
 
 @keyframes glow-pulse {
@@ -105,11 +90,6 @@
   50% { background-position: 100% 50%; }
 }
 
-@keyframes star-glow {
-  0%, 100% { box-shadow: 0 0 3px rgba(255, 255, 255, 0.5); }
-  50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(34, 211, 238, 0.5); }
-}
-
 @keyframes reveal-up {
   from { opacity: 0; transform: translateY(50px); }
   to { opacity: 1; transform: translateY(0); }
@@ -125,6 +105,132 @@
     box-shadow: 0 0 80px rgba(34, 211, 238, 0.5),
                 0 0 160px rgba(124, 58, 237, 0.3),
                 inset 0 0 80px rgba(34, 211, 238, 0.2);
+  }
+}
+
+// AI Element Animations (Subtle Ambient)
+@keyframes chip-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+  50% { transform: translateY(-8px) rotate(2deg); opacity: 0.7; }
+}
+
+@keyframes node-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.4); opacity: 0.1; }
+}
+
+@keyframes particle-drift {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+@keyframes data-ring-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes data-ring-spin-reverse {
+  from { transform: translate(-50%, -50%) rotate(360deg); }
+  to { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes branch-pulse {
+  0%, 100% { opacity: 0.3; transform: scaleX(1); }
+  50% { opacity: 0.6; transform: scaleX(1.05); }
+}
+
+@keyframes core-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.4),
+                0 0 60px rgba(124, 58, 237, 0.3),
+                inset 0 0 20px rgba(34, 211, 238, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(34, 211, 238, 0.6),
+                0 0 100px rgba(124, 58, 237, 0.4),
+                inset 0 0 40px rgba(34, 211, 238, 0.3);
+  }
+}
+
+@keyframes orbit-data {
+  from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+// 3D Machine Learning Background Animations
+@keyframes node-float-3d {
+  0%, 100% {
+    transform: translateY(0) translateZ(calc(var(--z, 1) * 50px));
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-15px) translateZ(calc(var(--z, 1) * 60px));
+    opacity: 0.9;
+  }
+}
+
+@keyframes node-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes node-pulse-expand {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes neural-line-draw {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.3;
+  }
+}
+
+@keyframes particle-rise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(10px);
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(-5px);
+    opacity: 0;
+  }
+}
+
+@keyframes ml-icon-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(-2deg);
   }
 }
 
@@ -190,10 +296,243 @@
 }
 
 // ============================================
-// STARFIELD BACKGROUND
+// 3D AI THINKING SKULL (Fixed Position)
 // ============================================
 
-.starfield-container {
+.ai-skull-container {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  pointer-events: none;
+
+  @media (max-width: 1024px) {
+    left: 1rem;
+    transform: translateY(-50%) scale(0.8);
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.ai-skull {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 500px;
+
+  .skull-svg {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+
+    .skull-line {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: draw-skull 3s ease forwards;
+    }
+
+    .brain-line {
+      stroke-dasharray: 150;
+      stroke-dashoffset: 150;
+      animation: draw-skull 2.5s ease forwards 0.5s;
+      opacity: 0.7;
+    }
+
+    .neural-path {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: draw-skull 2s ease forwards 1s;
+      opacity: 0.5;
+    }
+
+    .brain-core {
+      animation: brain-pulse 3s ease-in-out infinite;
+    }
+
+    .neuron-dot {
+      animation: neuron-blink 2s ease-in-out infinite;
+      &:nth-child(2) { animation-delay: 0.3s; }
+      &:nth-child(3) { animation-delay: 0.6s; }
+      &:nth-child(4) { animation-delay: 0.9s; }
+      &:nth-child(5) { animation-delay: 1.2s; }
+      &:nth-child(6) { animation-delay: 1.5s; }
+      &:nth-child(7) { animation-delay: 1.8s; }
+      &:nth-child(8) { animation-delay: 2.1s; }
+
+      &.center {
+        animation: neuron-center-pulse 1.5s ease-in-out infinite;
+      }
+    }
+
+    .ray {
+      stroke-dasharray: 20;
+      animation: ray-pulse 2s ease-in-out infinite;
+      &:nth-child(2) { animation-delay: 0.4s; }
+      &:nth-child(3) { animation-delay: 0.8s; }
+      &:nth-child(4) { animation-delay: 1.2s; }
+      &:nth-child(5) { animation-delay: 1.6s; }
+    }
+  }
+}
+
+// Orbiting particles around the skull
+.skull-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+
+  &.orbit-1 {
+    width: 140px;
+    height: 140px;
+    animation: orbit-spin 8s linear infinite;
+
+    .orbit-particle {
+      width: 6px;
+      height: 6px;
+      background: var(--nebula-cyan);
+      border-radius: 50%;
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px var(--nebula-cyan);
+    }
+  }
+
+  &.orbit-2 {
+    width: 160px;
+    height: 160px;
+    animation: orbit-spin 12s linear infinite reverse;
+    border-color: rgba(124, 58, 237, 0.15);
+
+    .orbit-particle {
+      width: 4px;
+      height: 4px;
+      background: var(--nebula-purple);
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      right: -2px;
+      transform: translateY(-50%);
+      box-shadow: 0 0 8px var(--nebula-purple);
+    }
+  }
+
+  &.orbit-3 {
+    width: 180px;
+    height: 180px;
+    animation: orbit-spin 15s linear infinite;
+    border-color: rgba(236, 72, 153, 0.1);
+
+    .orbit-particle {
+      width: 3px;
+      height: 3px;
+      background: #ec4899;
+      border-radius: 50%;
+      position: absolute;
+      bottom: -1.5px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 6px #ec4899;
+    }
+  }
+}
+
+// AI Processing label
+.skull-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  justify-content: center;
+
+  .label-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--nebula-cyan);
+    border-radius: 50%;
+    animation: label-pulse 1.5s ease-in-out infinite;
+  }
+
+  .label-text {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+}
+
+// Skull-specific keyframes
+@keyframes draw-skull {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes brain-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes neuron-blink {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+@keyframes neuron-center-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    r: 3;
+    filter: drop-shadow(0 0 4px var(--nebula-cyan));
+  }
+  50% {
+    opacity: 1;
+    r: 4;
+    filter: drop-shadow(0 0 10px var(--nebula-cyan));
+  }
+}
+
+@keyframes ray-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.8;
+    stroke-dashoffset: 10;
+  }
+}
+
+@keyframes orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes label-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+// ============================================
+// AI ELEMENTS BACKGROUND
+// ============================================
+
+.ai-elements-container {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -201,37 +540,668 @@
   overflow: hidden;
 }
 
-.stars-layer {
+// Neural Network Nodes Layer
+.neural-nodes-layer {
   position: absolute;
   inset: 0;
   will-change: transform;
+}
 
-  .star {
-    position: absolute;
-    background: white;
+.neural-node {
+  position: absolute;
+
+  .node-core {
+    width: 100%;
+    height: 100%;
+    background: var(--nebula-cyan);
     border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .node-pulse {
+    position: absolute;
+    inset: -4px;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 50%;
+    animation: node-pulse 3s ease-in-out infinite;
   }
 }
 
-.stars-layer-1 {
-  // Distant stars - slow parallax
-  .star {
-    opacity: 0.4;
+// AI Chips Layer
+.ai-chips-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.ai-chip {
+  position: absolute;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  border-radius: 3px;
+  animation: chip-float 8s ease-in-out infinite;
+
+  &.chip-small {
+    width: 10px;
+    height: 6px;
+  }
+
+  &.chip-medium {
+    width: 16px;
+    height: 10px;
+
+    // Chip pins
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 1px;
+      background: rgba(34, 211, 238, 0.4);
+    }
+
+    &::before {
+      top: -1px;
+      left: 3px;
+    }
+
+    &::after {
+      bottom: -1px;
+      right: 3px;
+    }
+  }
+
+  &.chip-processor {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background:
+      linear-gradient(135deg, rgba(34, 211, 238, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%),
+      linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 100% 100%, 4px 4px, 4px 4px;
   }
 }
 
-.stars-layer-2 {
-  // Medium stars
-  .star-twinkle {
-    animation: twinkle 3s ease-in-out infinite;
-    animation-delay: calc(var(--delay, 0) * 0.5s);
+// Data Particles Layer
+.data-particles-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.data-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--nebula-cyan);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particle-drift linear infinite;
+}
+
+// Circuit Traces Layer (SVG)
+.circuit-traces-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.12;
+
+  path {
+    fill: none;
+    stroke: var(--nebula-cyan);
+    stroke-width: 1;
+  }
+
+  .trace-node {
+    fill: var(--nebula-cyan);
+    opacity: 0.6;
   }
 }
 
-.stars-layer-3 {
-  // Close bright stars
-  .star-glow {
-    animation: star-glow 4s ease-in-out infinite;
+// ============================================
+// FLOATING 3D SHAPES LAYER
+// ============================================
+
+// Floating shape keyframes - Base float animation
+@keyframes shape-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+}
+
+@keyframes shape-float-alt {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translateY(-12px) rotate(-2deg) scale(1.02);
+  }
+  66% {
+    transform: translateY(-18px) rotate(3deg) scale(0.98);
+  }
+}
+
+// NEW: Continuous looping drift animations for shapes
+@keyframes shape-drift-diagonal {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(30px, -40px) rotate(15deg);
+  }
+  50% {
+    transform: translate(60px, 0) rotate(0deg);
+  }
+  75% {
+    transform: translate(30px, 40px) rotate(-15deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes shape-drift-circular {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate(40px, -30px) rotate(90deg) scale(1.05);
+  }
+  50% {
+    transform: translate(0, -50px) rotate(180deg) scale(1);
+  }
+  75% {
+    transform: translate(-40px, -30px) rotate(270deg) scale(0.95);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg) scale(1);
+  }
+}
+
+@keyframes shape-drift-wave {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotateZ(0deg);
+  }
+  25% {
+    transform: translateX(50px) translateY(-20px) rotateZ(10deg);
+  }
+  50% {
+    transform: translateX(0) translateY(-40px) rotateZ(0deg);
+  }
+  75% {
+    transform: translateX(-50px) translateY(-20px) rotateZ(-10deg);
+  }
+}
+
+@keyframes shape-drift-vertical {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-80px) rotate(180deg) scale(1.1);
+    opacity: 0.95;
+  }
+}
+
+@keyframes shape-3d-rotate {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg);
+  }
+}
+
+@keyframes shape-pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.3));
+    opacity: 0.7;
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(124, 58, 237, 0.5));
+    opacity: 0.95;
+  }
+}
+
+@keyframes shape-rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes iridescent-shift {
+  0%, 100% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  50% {
+    filter: hue-rotate(30deg) brightness(1.1);
+  }
+}
+
+.floating-shapes-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-shape {
+  position: absolute;
+  will-change: transform;
+  opacity: 0.85;
+  animation: shape-float 12s ease-in-out infinite;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  // Iridescent color shift animation
+  &:hover {
+    animation: iridescent-shift 3s ease-in-out infinite;
+  }
+}
+
+// Shape 1: Large Cross (top-left) - Diagonal drift
+.shape-1 {
+  width: 120px;
+  height: 120px;
+  top: 8%;
+  left: 5%;
+  animation: shape-drift-diagonal 20s ease-in-out infinite, shape-pulse-glow 8s ease-in-out infinite;
+  animation-delay: 0s, 0s;
+
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+    top: 5%;
+    left: 2%;
+  }
+}
+
+// Shape 2: Torus (right side, upper) - Circular drift
+.shape-2 {
+  width: 140px;
+  height: 140px;
+  top: 15%;
+  right: 8%;
+  animation: shape-drift-circular 25s ease-in-out infinite, shape-pulse-glow 10s ease-in-out infinite;
+  animation-delay: 2s, 1s;
+
+  @media (max-width: 768px) {
+    width: 90px;
+    height: 90px;
+    right: 3%;
+  }
+}
+
+// Shape 3: Sphere/Blob (center-left) - Wave drift
+.shape-3 {
+  width: 100px;
+  height: 100px;
+  top: 35%;
+  left: 3%;
+  animation: shape-drift-wave 22s ease-in-out infinite, shape-pulse-glow 12s ease-in-out infinite;
+  animation-delay: 4s, 2s;
+
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+    top: 28%;
+  }
+}
+
+// Shape 4: Small Cross (middle area) - Vertical drift
+.shape-4 {
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  right: 12%;
+  animation: shape-drift-vertical 18s ease-in-out infinite, shape-pulse-glow 7s ease-in-out infinite;
+  animation-delay: 1s, 3s;
+
+  @media (max-width: 768px) {
+    width: 50px;
+    height: 50px;
+    right: 5%;
+  }
+}
+
+// Shape 5: Ring (lower area) - Diagonal drift (reverse)
+.shape-5 {
+  width: 110px;
+  height: 110px;
+  top: 65%;
+  left: 8%;
+  animation: shape-drift-diagonal 24s ease-in-out infinite reverse, shape-pulse-glow 9s ease-in-out infinite;
+  animation-delay: 3s, 4s;
+
+  @media (max-width: 768px) {
+    width: 75px;
+    height: 75px;
+    left: 3%;
+  }
+}
+
+// Shape 6: Curved form (far right, middle) - Circular drift (reverse)
+.shape-6 {
+  width: 130px;
+  height: 130px;
+  top: 45%;
+  right: 3%;
+  animation: shape-drift-circular 28s ease-in-out infinite reverse, shape-pulse-glow 11s ease-in-out infinite;
+  animation-delay: 5s, 0s;
+
+  @media (max-width: 768px) {
+    width: 85px;
+    height: 85px;
+  }
+}
+
+// Shape 7: Small Sphere (scattered - upper middle) - Wave drift
+.shape-7 {
+  width: 60px;
+  height: 60px;
+  top: 22%;
+  left: 35%;
+  animation: shape-drift-wave 16s ease-in-out infinite, shape-pulse-glow 6s ease-in-out infinite;
+  animation-delay: 2.5s, 5s;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    left: 25%;
+  }
+}
+
+// Shape 8: Small Torus (scattered - lower right) - Vertical drift
+.shape-8 {
+  width: 90px;
+  height: 90px;
+  top: 78%;
+  right: 15%;
+  animation: shape-drift-vertical 21s ease-in-out infinite reverse, shape-pulse-glow 8s ease-in-out infinite;
+  animation-delay: 6s, 2s;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+    right: 8%;
+  }
+}
+
+// Shape 9: Large Glossy Cross (middle-left) - Circular drift
+.shape-9 {
+  width: 150px;
+  height: 150px;
+  top: 35%;
+  left: 3%;
+  animation: shape-drift-circular 26s ease-in-out infinite, shape-pulse-glow 9s ease-in-out infinite;
+  animation-delay: 0.5s, 1s;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    left: 2%;
+  }
+}
+
+// Shape 10: Large Iridescent Sphere (top-right) - Diagonal drift
+.shape-10 {
+  width: 160px;
+  height: 160px;
+  top: 5%;
+  right: 12%;
+  animation: shape-drift-diagonal 22s ease-in-out infinite reverse, shape-pulse-glow 11s ease-in-out infinite;
+  animation-delay: 2s, 3s;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    right: 5%;
+  }
+}
+
+// Shape 11: Medium Torus Ring (bottom-left) - Wave drift
+.shape-11 {
+  width: 130px;
+  height: 130px;
+  top: 65%;
+  left: 8%;
+  animation: shape-drift-wave 19s ease-in-out infinite, shape-pulse-glow 8s ease-in-out infinite;
+  animation-delay: 3.5s, 2s;
+
+  @media (max-width: 768px) {
+    width: 85px;
+    height: 85px;
+    left: 3%;
+  }
+}
+
+// Shape 12: Twisted Helix (center-right) - Vertical drift
+.shape-12 {
+  width: 120px;
+  height: 120px;
+  top: 48%;
+  right: 5%;
+  animation: shape-drift-vertical 17s ease-in-out infinite, shape-pulse-glow 7s ease-in-out infinite;
+  animation-delay: 1.5s, 4s;
+
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+    right: 2%;
+  }
+}
+
+// Shape 13: Diamond Crystal - Circular drift reverse
+.shape-13 {
+  width: 100px;
+  height: 140px;
+  top: 22%;
+  left: 18%;
+  animation: shape-drift-circular 23s ease-in-out infinite reverse, shape-pulse-glow 10s ease-in-out infinite;
+  animation-delay: 4s, 0s;
+
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 95px;
+    left: 10%;
+  }
+}
+
+// Shape 14: Pill/Capsule Shape - Wave drift reverse
+.shape-14 {
+  width: 140px;
+  height: 70px;
+  top: 55%;
+  right: 20%;
+  animation: shape-drift-wave 20s ease-in-out infinite reverse, shape-pulse-glow 9s ease-in-out infinite;
+  animation-delay: 5s, 1s;
+
+  @media (max-width: 768px) {
+    width: 90px;
+    height: 45px;
+    right: 10%;
+  }
+}
+
+// Shape 15: Small Cross (far top) - Diagonal drift
+.shape-15 {
+  width: 80px;
+  height: 80px;
+  top: 2%;
+  left: 40%;
+  animation: shape-drift-diagonal 15s ease-in-out infinite, shape-pulse-glow 6s ease-in-out infinite;
+  animation-delay: 2.5s, 3s;
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+    left: 30%;
+  }
+}
+
+// Shape 16: Large Ring (far bottom) - Circular drift
+.shape-16 {
+  width: 170px;
+  height: 170px;
+  top: 85%;
+  left: 25%;
+  animation: shape-drift-circular 30s ease-in-out infinite, shape-pulse-glow 12s ease-in-out infinite;
+  animation-delay: 7s, 5s;
+
+  @media (max-width: 768px) {
+    width: 110px;
+    height: 110px;
+    left: 15%;
+  }
+}
+
+// ===== EDGE SHAPES (17-24) - Continuous looping =====
+
+// Shape 17: Left Edge - Large Cross - Vertical drift
+.shape-17 {
+  width: 140px;
+  height: 140px;
+  top: 12%;
+  left: -2%;
+  animation: shape-drift-vertical 24s ease-in-out infinite, shape-pulse-glow 8s ease-in-out infinite;
+  animation-delay: 1s, 2s;
+
+  @media (max-width: 768px) {
+    width: 90px;
+    height: 90px;
+    left: -5%;
+  }
+}
+
+// Shape 18: Right Edge - Torus - Circular drift
+.shape-18 {
+  width: 160px;
+  height: 160px;
+  top: 28%;
+  right: -3%;
+  animation: shape-drift-circular 28s ease-in-out infinite reverse, shape-pulse-glow 10s ease-in-out infinite;
+  animation-delay: 2.5s, 0s;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    right: -6%;
+  }
+}
+
+// Shape 19: Left Edge - Sphere (lower) - Wave drift
+.shape-19 {
+  width: 130px;
+  height: 130px;
+  top: 45%;
+  left: -1%;
+  animation: shape-drift-wave 21s ease-in-out infinite, shape-pulse-glow 9s ease-in-out infinite;
+  animation-delay: 4s, 3s;
+
+  @media (max-width: 768px) {
+    width: 85px;
+    height: 85px;
+    left: -4%;
+  }
+}
+
+// Shape 20: Right Edge - Cross (upper) - Diagonal drift
+.shape-20 {
+  width: 120px;
+  height: 120px;
+  top: 8%;
+  right: -1%;
+  animation: shape-drift-diagonal 19s ease-in-out infinite, shape-pulse-glow 7s ease-in-out infinite;
+  animation-delay: 0.5s, 1s;
+
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+    right: -4%;
+  }
+}
+
+// Shape 21: Far Left - Small Ring - Circular drift
+.shape-21 {
+  width: 100px;
+  height: 100px;
+  top: 62%;
+  left: -3%;
+  animation: shape-drift-circular 17s ease-in-out infinite, shape-pulse-glow 6s ease-in-out infinite;
+  animation-delay: 5.5s, 4s;
+
+  @media (max-width: 768px) {
+    width: 65px;
+    height: 65px;
+    left: -6%;
+  }
+}
+
+// Shape 22: Far Right - Helix Curve - Vertical drift reverse
+.shape-22 {
+  width: 110px;
+  height: 110px;
+  top: 52%;
+  right: -2%;
+  animation: shape-drift-vertical 20s ease-in-out infinite reverse, shape-pulse-glow 8s ease-in-out infinite;
+  animation-delay: 3.5s, 2s;
+
+  @media (max-width: 768px) {
+    width: 75px;
+    height: 75px;
+    right: -5%;
+  }
+}
+
+// Shape 23: Left Edge - Diamond (bottom) - Wave drift reverse
+.shape-23 {
+  width: 95px;
+  height: 130px;
+  top: 78%;
+  left: -1%;
+  animation: shape-drift-wave 23s ease-in-out infinite reverse, shape-pulse-glow 10s ease-in-out infinite;
+  animation-delay: 6.5s, 5s;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 85px;
+    left: -4%;
+  }
+}
+
+// Shape 24: Right Edge - Pill (bottom) - Diagonal drift reverse
+.shape-24 {
+  width: 130px;
+  height: 65px;
+  top: 72%;
+  right: -2%;
+  animation: shape-drift-diagonal 18s ease-in-out infinite reverse, shape-pulse-glow 7s ease-in-out infinite;
+  animation-delay: 7.5s, 3s;
+
+  @media (max-width: 768px) {
+    width: 85px;
+    height: 42px;
+    right: -5%;
   }
 }
 
@@ -291,6 +1261,186 @@
 
 .journey-entry {
   background: radial-gradient(ellipse at center, var(--space-dark) 0%, var(--space-void) 70%);
+  position: relative;
+  overflow: hidden;
+
+  // === 3D Machine Learning Background ===
+  .ml-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    perspective: 1000px;
+  }
+
+  // Neural Network 3D Layer
+  .neural-network-3d {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  // Neural Nodes with 3D effect
+  .neural-node-3d {
+    position: absolute;
+    width: var(--size, 10px);
+    height: var(--size, 10px);
+    transform: translateZ(calc(var(--z, 1) * 50px));
+    animation: node-float-3d 6s ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+
+    .node-core {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, var(--nebula-cyan) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    .node-ring {
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 50%;
+      animation: node-ring-spin 8s linear infinite;
+    }
+
+    .node-pulse {
+      position: absolute;
+      inset: -8px;
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      border-radius: 50%;
+      animation: node-pulse-expand 3s ease-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    &.node-active {
+      .node-core {
+        background: radial-gradient(circle, var(--nebula-purple) 0%, var(--nebula-cyan) 50%, transparent 70%);
+        opacity: 1;
+      }
+      .node-ring {
+        border-color: rgba(124, 58, 237, 0.5);
+      }
+    }
+  }
+
+  // Neural Connection Lines SVG
+  .neural-connections-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .neural-line {
+    stroke: rgba(34, 211, 238, 0.2);
+    stroke-width: 0.15;
+    fill: none;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: neural-line-draw 4s ease forwards;
+    animation-delay: var(--delay, 0s);
+
+    &:nth-child(odd) {
+      stroke: rgba(124, 58, 237, 0.15);
+    }
+  }
+
+  // Data Flow Particles Layer
+  .data-flow-layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .data-particle-3d {
+    position: absolute;
+    bottom: 0;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    animation: particle-rise var(--duration, 8s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+
+    &.particle-cyan {
+      background: var(--nebula-cyan);
+      box-shadow: 0 0 10px var(--nebula-cyan), 0 0 20px rgba(34, 211, 238, 0.5);
+    }
+
+    &.particle-purple {
+      background: var(--nebula-purple);
+      box-shadow: 0 0 10px var(--nebula-purple), 0 0 20px rgba(124, 58, 237, 0.5);
+    }
+
+    &.particle-white {
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  // Floating ML Icons Layer
+  .ml-icons-layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .ml-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 12px;
+    padding: 0.75rem;
+    color: var(--nebula-cyan);
+    backdrop-filter: blur(4px);
+    animation: ml-icon-float 10s ease-in-out infinite;
+    opacity: 0.6;
+
+    &.ml-icon-1 {
+      top: 15%;
+      left: 8%;
+      animation-delay: 0s;
+    }
+
+    &.ml-icon-2 {
+      top: 25%;
+      right: 10%;
+      animation-delay: 2s;
+      color: var(--nebula-purple);
+      border-color: rgba(124, 58, 237, 0.2);
+      background: rgba(124, 58, 237, 0.08);
+    }
+
+    &.ml-icon-3 {
+      bottom: 30%;
+      left: 12%;
+      animation-delay: 4s;
+    }
+
+    &.ml-icon-4 {
+      bottom: 20%;
+      right: 15%;
+      animation-delay: 6s;
+      color: var(--nebula-purple);
+      border-color: rgba(124, 58, 237, 0.2);
+      background: rgba(124, 58, 237, 0.08);
+    }
+  }
+
+  // 3D Depth Gradient Overlay
+  .ml-depth-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 50%,
+      transparent 0%,
+      rgba(10, 10, 35, 0.4) 50%,
+      rgba(10, 10, 35, 0.8) 100%
+    );
+    pointer-events: none;
+  }
 
   .entry-content {
     text-align: center;
@@ -497,6 +1647,9 @@
       gap: 0.5rem;
       color: var(--text-muted);
       font-size: 0.9375rem;
+      // Initial state for GSAP animation
+      opacity: 0;
+      transform: translateX(-30px);
 
       ng-icon {
         color: var(--danger-orange);
@@ -517,6 +1670,9 @@
       color: var(--text-muted);
       margin: 0;
       line-height: 1.7;
+      // Initial state for GSAP animation
+      opacity: 0;
+      transform: translateY(20px);
 
       &.highlight {
         font-family: var(--font-display);
@@ -543,7 +1699,17 @@
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(60px) scale(0.9);
+
+    // Animated state (set by GSAP)
+    &.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
 
     &:hover {
       border-color: rgba(239, 68, 68, 0.5);
@@ -664,85 +1830,115 @@
 }
 
 // ============================================
-// SECTION 3: PORTAL (Wormhole Transition)
+// SECTION 3: PORTAL (AI Processor Transition)
 // ============================================
 
 .journey-portal {
   background: var(--space-void);
   overflow: hidden;
 
-  .portal-container {
+  // AI Processor Container (replacing portal)
+  .ai-processor-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
 
     @media (max-width: 640px) {
-      width: 300px;
-      height: 300px;
+      width: 280px;
+      height: 280px;
     }
   }
 
-  .portal-ring {
+  // Hexagonal AI Core
+  .processor-core {
     position: absolute;
-    border-radius: 50%;
-    border: 2px solid;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
 
-    &.ring-1 {
-      width: 100%;
-      height: 100%;
+    .core-hexagon {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      border: 1px solid rgba(34, 211, 238, 0.4);
+    }
+
+    .core-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle, var(--nebula-cyan) 0%, var(--nebula-purple) 100%);
+      border-radius: 4px;
+      box-shadow: var(--glow-cyan);
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+  }
+
+  // Data Processing Rings
+  .data-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px dashed;
+
+    &.data-ring-1 {
+      width: 180px;
+      height: 180px;
+      border-color: rgba(34, 211, 238, 0.3);
+      animation: data-ring-spin 20s linear infinite;
+    }
+
+    &.data-ring-2 {
+      width: 260px;
+      height: 260px;
+      border-color: rgba(124, 58, 237, 0.25);
+      animation: data-ring-spin-reverse 25s linear infinite;
+    }
+
+    &.data-ring-3 {
+      width: 340px;
+      height: 340px;
       border-color: rgba(34, 211, 238, 0.2);
-      animation: portal-spin 20s linear infinite;
-    }
-
-    &.ring-2 {
-      width: 80%;
-      height: 80%;
-      border-color: rgba(124, 58, 237, 0.3);
-      animation: portal-spin-reverse 15s linear infinite;
-    }
-
-    &.ring-3 {
-      width: 60%;
-      height: 60%;
-      border-color: rgba(34, 211, 238, 0.4);
-      animation: portal-spin 10s linear infinite;
-    }
-
-    &.ring-4 {
-      width: 40%;
-      height: 40%;
-      border-color: rgba(124, 58, 237, 0.5);
-      animation: portal-spin-reverse 8s linear infinite;
-    }
-
-    &.ring-5 {
-      width: 20%;
-      height: 20%;
-      border-color: rgba(34, 211, 238, 0.6);
-      animation: portal-spin 5s linear infinite;
+      animation: data-ring-spin 30s linear infinite;
     }
   }
 
-  .portal-center {
+  // Connection Nodes
+  .connection-nodes {
     position: absolute;
+    inset: 0;
+  }
+
+  .connection-node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--nebula-cyan);
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+
+    // Position nodes around the center
+    $radius: 130px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10%;
-    height: 10%;
-    background: radial-gradient(circle,
-      var(--nebula-cyan) 0%,
-      var(--nebula-purple) 50%,
-      transparent 70%
-    );
-    border-radius: 50%;
-    box-shadow: var(--glow-cyan);
+
+    &:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-$radius); }
+    &:nth-child(2) { transform: translate(-50%, -50%) rotate(60deg) translateY(-$radius); }
+    &:nth-child(3) { transform: translate(-50%, -50%) rotate(120deg) translateY(-$radius); }
+    &:nth-child(4) { transform: translate(-50%, -50%) rotate(180deg) translateY(-$radius); }
+    &:nth-child(5) { transform: translate(-50%, -50%) rotate(240deg) translateY(-$radius); }
+    &:nth-child(6) { transform: translate(-50%, -50%) rotate(300deg) translateY(-$radius); }
   }
 
   .portal-content {
@@ -788,7 +1984,7 @@
     }
   }
 
-  .wormhole-glow {
+  .processor-glow {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -796,7 +1992,7 @@
     width: 800px;
     height: 800px;
     background: radial-gradient(circle,
-      rgba(34, 211, 238, 0.2) 0%,
+      rgba(34, 211, 238, 0.15) 0%,
       rgba(124, 58, 237, 0.1) 30%,
       transparent 50%
     );
@@ -806,10 +2002,17 @@
 }
 
 // ============================================
-// SECTION 4: SOLUTION (The Galaxy)
+// SECTION 4: PRODUCTION-READY AI (Bento Grid)
 // ============================================
 
 .journey-solution {
+  min-height: auto;
+  padding: 4rem 1.5rem;
+
+  @media (min-width: 768px) {
+    padding: 5rem 2rem;
+  }
+
   background: linear-gradient(180deg,
     var(--space-void) 0%,
     var(--space-dark) 30%,
@@ -828,204 +2031,283 @@
     pointer-events: none;
   }
 
-  .solution-title {
-    background: linear-gradient(135deg, var(--nebula-cyan) 0%, var(--nebula-green) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  // ===== PRODUCTION BENTO GRID =====
+  .production-bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
 
-  .solution-intro {
-    font-size: 1.125rem;
-    color: var(--text-muted);
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 3rem;
-    line-height: 1.7;
-  }
-
-  .production-intro {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 2.5rem;
-
-    p {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      margin-bottom: 1rem;
-    }
-  }
-
-  .outcome-problems {
-    text-align: center;
-    padding: 2rem;
-    background: rgba(239, 68, 68, 0.05);
-    border: 1px solid rgba(239, 68, 68, 0.15);
-    border-radius: 1rem;
-    margin-bottom: 2.5rem;
-
-    .outcome-intro {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .problem-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(6, 1fr);
       gap: 1rem;
+    }
+  }
 
-      li {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9375rem;
-        color: var(--danger-orange);
+  .prod-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 
-        ng-icon {
-          color: var(--danger-red);
-          flex-shrink: 0;
-        }
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34, 211, 238, 0.3);
+
+      .card-glow { opacity: 1; }
+    }
+
+    .card-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--nebula-cyan);
+      margin-bottom: 0.75rem;
+
+      ng-icon { opacity: 0.8; }
+    }
+  }
+
+  // Title Card
+  .prod-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+    border-color: rgba(34, 211, 238, 0.2);
+
+    .title-icon { color: var(--nebula-cyan); }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin: 0;
+      text-align: center;
+      background: linear-gradient(135deg, var(--nebula-cyan) 0%, var(--nebula-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+
+      @media (min-width: 768px) { font-size: 1.5rem; }
+    }
+  }
+
+  // Problem Card
+  .prod-problem {
+    @media (min-width: 768px) { grid-column: span 4; }
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(249, 115, 22, 0.03) 100%);
+    border-color: rgba(239, 68, 68, 0.15);
+
+    .card-label { color: var(--danger-orange); }
+
+    .problem-main {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin: 0 0 0.75rem;
+    }
+
+    .problem-detail {
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+
+  // Outcomes Card
+  .prod-outcomes {
+    @media (min-width: 768px) { grid-column: span 2; }
+    background: rgba(239, 68, 68, 0.03);
+    border-color: rgba(239, 68, 68, 0.12);
+
+    .card-label { color: var(--danger-red); }
+
+    .outcome-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+
+      ng-icon {
+        color: var(--danger-red);
+        flex-shrink: 0;
+        margin-top: 2px;
+        opacity: 0.7;
+      }
+
+      span {
+        font-size: 0.8125rem;
+        color: var(--text-muted);
+        line-height: 1.4;
       }
     }
   }
 
-  .approach-text,
-  .vision-text {
+  // Transition Card
+  .prod-transition {
+    @media (min-width: 768px) { grid-column: span 2; }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    font-size: 1.125rem;
-    color: var(--text-muted);
-    max-width: 800px;
-    margin: 0 auto 2rem;
-    line-height: 1.8;
-  }
-
-  .vision-text {
-    font-family: var(--font-display);
-    font-weight: 500;
-    color: var(--nebula-cyan);
-  }
-
-  .solution-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .solution-card {
-    background: rgba(34, 211, 238, 0.05);
-    border: 1px solid rgba(34, 211, 238, 0.2);
-    border-radius: 1rem;
     padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    transition: all 0.4s ease;
+    background: linear-gradient(180deg, rgba(124, 58, 237, 0.08) 0%, rgba(34, 211, 238, 0.05) 100%);
+    border-color: rgba(124, 58, 237, 0.2);
 
-    &:hover {
-      border-color: rgba(34, 211, 238, 0.5);
-      transform: translateY(-8px);
-      box-shadow: var(--glow-cyan);
-    }
-
-    .solution-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-      color: var(--nebula-cyan);
-    }
-
-    h4 {
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--text-white);
+    .transition-arrow {
+      color: var(--nebula-purple);
       margin-bottom: 0.5rem;
+      animation: pulse-arrow 2s ease-in-out infinite;
     }
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--nebula-purple);
+      margin: 0;
+    }
+  }
+
+  // Vision Card
+  .prod-vision {
+    @media (min-width: 768px) { grid-column: span 4; }
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.05) 0%, rgba(16, 185, 129, 0.03) 100%);
+    border-color: rgba(34, 211, 238, 0.15);
 
     p {
       font-size: 0.875rem;
       color: var(--text-muted);
       line-height: 1.6;
-    }
-
-    .card-glow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--nebula-cyan), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    &:hover .card-glow {
-      opacity: 1;
-    }
-
-    // Glow variants
-    &.glow-cyan {
-      &:hover { box-shadow: var(--glow-cyan); }
-      .solution-icon { color: var(--nebula-cyan); }
-    }
-
-    &.glow-purple {
-      border-color: rgba(124, 58, 237, 0.2);
-      &:hover {
-        border-color: rgba(124, 58, 237, 0.5);
-        box-shadow: var(--glow-purple);
-      }
-      .solution-icon { color: var(--nebula-purple); }
-      .card-glow {
-        background: linear-gradient(90deg, transparent, var(--nebula-purple), transparent);
-      }
-    }
-
-    &.glow-green {
-      border-color: rgba(16, 185, 129, 0.2);
-      &:hover {
-        border-color: rgba(16, 185, 129, 0.5);
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-      }
-      .solution-icon { color: var(--nebula-green); }
-      .card-glow {
-        background: linear-gradient(90deg, transparent, var(--nebula-green), transparent);
-      }
+      margin: 0;
     }
   }
 
-  .solution-promise {
+  // Solution Cards
+  .prod-solution {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
-    border: 1px solid rgba(34, 211, 238, 0.2);
-    border-radius: 1rem;
-    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 1.25rem;
+    min-height: 140px;
+
+    @media (min-width: 768px) { grid-column: span 2; }
 
     ng-icon {
       color: var(--nebula-cyan);
+      margin-bottom: 0.75rem;
+    }
+
+    h4 {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin: 0 0 0.5rem;
+    }
+
+    p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    // Accent color variants
+    &.accent-cyan {
+      background: rgba(34, 211, 238, 0.04);
+      border-color: rgba(34, 211, 238, 0.12);
+      ng-icon { color: var(--nebula-cyan); }
+      &:hover { border-color: rgba(34, 211, 238, 0.3); }
+    }
+
+    &.accent-purple {
+      background: rgba(124, 58, 237, 0.04);
+      border-color: rgba(124, 58, 237, 0.12);
+      ng-icon { color: var(--nebula-purple); }
+      &:hover { border-color: rgba(124, 58, 237, 0.3); }
+    }
+
+    &.accent-blue {
+      background: rgba(59, 130, 246, 0.04);
+      border-color: rgba(59, 130, 246, 0.12);
+      ng-icon { color: var(--nebula-blue); }
+      &:hover { border-color: rgba(59, 130, 246, 0.3); }
+    }
+
+    &.accent-green {
+      background: rgba(16, 185, 129, 0.04);
+      border-color: rgba(16, 185, 129, 0.12);
+      ng-icon { color: var(--nebula-green); }
+      &:hover { border-color: rgba(16, 185, 129, 0.3); }
+    }
+
+    &.accent-orange {
+      background: rgba(249, 115, 22, 0.04);
+      border-color: rgba(249, 115, 22, 0.12);
+      ng-icon { color: var(--danger-orange); }
+      &:hover { border-color: rgba(249, 115, 22, 0.3); }
+    }
+  }
+
+  // Tagline Card
+  .prod-tagline {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(34, 211, 238, 0.08) 100%);
+    border-color: rgba(16, 185, 129, 0.2);
+    text-align: center;
+
+    ng-icon {
+      color: var(--nebula-green);
+      flex-shrink: 0;
     }
 
     p {
       font-family: var(--font-display);
       font-size: 1.125rem;
       font-weight: 600;
-      color: var(--text-white);
+      color: var(--text-light);
       margin: 0;
+
+      @media (min-width: 768px) { font-size: 1.25rem; }
     }
   }
 }
@@ -1209,6 +2491,10 @@
     cursor: pointer;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+
     &:hover,
     &.active {
       transform: scale(1.1);
@@ -1330,6 +2616,10 @@
   }
 
   .milestone-detail {
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px);
+
     .detail-card {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1381,46 +2671,117 @@
   background: var(--space-void);
   overflow: hidden;
 
-  .destination-planet {
+  // AI Brain Container (replacing destination planet)
+  .ai-brain-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
-    height: 600px;
+    width: 400px;
+    height: 400px;
     pointer-events: none;
 
     @media (max-width: 768px) {
-      width: 400px;
-      height: 400px;
+      width: 300px;
+      height: 300px;
     }
+  }
 
-    .planet-surface {
+  // Neural Core (Brain Center)
+  .brain-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+      rgba(34, 211, 238, 0.3) 0%,
+      rgba(124, 58, 237, 0.25) 50%,
+      rgba(16, 185, 129, 0.2) 100%
+    );
+    animation: core-glow-pulse 4s ease-in-out infinite;
+
+    .core-glow {
       position: absolute;
-      inset: 20%;
+      inset: -20px;
       border-radius: 50%;
-      background: linear-gradient(135deg,
-        rgba(34, 211, 238, 0.3) 0%,
-        rgba(124, 58, 237, 0.2) 50%,
-        rgba(16, 185, 129, 0.1) 100%
+      background: radial-gradient(circle,
+        rgba(34, 211, 238, 0.2) 0%,
+        transparent 70%
       );
-      animation: planet-glow 6s ease-in-out infinite;
+    }
+  }
+
+  // Neural Connections (radiating branches)
+  .neural-connections {
+    position: absolute;
+    inset: 0;
+  }
+
+  .neural-branch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    animation: branch-pulse 4s ease-in-out infinite;
+    animation-delay: calc(var(--index, 0) * 0.3s);
+
+    // Position branches around the center
+    &:nth-child(1) { transform: rotate(0deg); }
+    &:nth-child(2) { transform: rotate(45deg); }
+    &:nth-child(3) { transform: rotate(90deg); }
+    &:nth-child(4) { transform: rotate(135deg); }
+    &:nth-child(5) { transform: rotate(180deg); }
+    &:nth-child(6) { transform: rotate(225deg); }
+    &:nth-child(7) { transform: rotate(270deg); }
+    &:nth-child(8) { transform: rotate(315deg); }
+
+    .branch-line {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        rgba(34, 211, 238, 0.5) 0%,
+        rgba(34, 211, 238, 0.1) 100%
+      );
+      margin-left: 60px;
     }
 
-    .planet-atmosphere {
+    .branch-node {
       position: absolute;
-      inset: 15%;
+      left: 140px;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      background: var(--nebula-cyan);
       border-radius: 50%;
-      border: 1px solid rgba(34, 211, 238, 0.2);
-      animation: portal-spin 30s linear infinite;
+      opacity: 0.6;
+      box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
     }
+  }
 
-    .planet-rings {
+  // Orbiting Data
+  .data-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border: 1px dashed rgba(124, 58, 237, 0.2);
+    border-radius: 50%;
+
+    .orbit-particle {
       position: absolute;
-      inset: 5%;
+      width: 6px;
+      height: 6px;
+      background: var(--nebula-purple);
       border-radius: 50%;
-      border: 1px solid rgba(124, 58, 237, 0.1);
-      transform: rotateX(70deg);
+      top: 50%;
+      left: 50%;
+      animation: orbit-data 10s linear infinite;
+      box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
     }
   }
 
@@ -1446,6 +2807,10 @@
     background-clip: text;
     animation: nebula-flow 8s ease infinite;
     margin-bottom: 1rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
   }
 
   .destination-subtitle {
@@ -1454,10 +2819,18 @@
     max-width: 600px;
     margin: 0 auto 2rem;
     line-height: 1.7;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px);
   }
 
   .destination-cta {
     margin-bottom: 3rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
 
     .cta-button {
       display: inline-flex;
@@ -1543,6 +2916,10 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(20px);
 
     .signal {
       display: flex;
@@ -1639,6 +3016,10 @@
     line-height: 1.6;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+
     ng-icon {
       color: var(--nebula-cyan);
       flex-shrink: 0;
@@ -1681,6 +3062,13 @@
 // ============================================
 
 .journey-enterprise {
+  min-height: auto;
+  padding: 4rem 1.5rem;
+
+  @media (min-width: 768px) {
+    padding: 5rem 2rem;
+  }
+
   background: linear-gradient(180deg, rgba(10, 10, 26, 0.8) 0%, rgba(15, 16, 32, 0.75) 50%, rgba(10, 10, 26, 0.8) 100%);
 
   .nebula-glow.secondary {
@@ -1692,79 +3080,273 @@
     pointer-events: none;
   }
 
-  .enterprise-intro {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 2rem;
+  // ===== BENTO GRID LAYOUT =====
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
 
-    p {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      margin-bottom: 1rem;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+    }
+  }
 
-      &.highlight {
-        font-family: var(--font-display);
-        font-weight: 500;
-        color: var(--nebula-purple);
+  .bento-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34, 211, 238, 0.3);
+
+      .card-glow {
+        opacity: 1;
       }
     }
-  }
 
-  .enterprise-desc {
-    text-align: center;
-    font-size: 1rem;
-    color: var(--text-muted);
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
-  }
-
-  .principle-box {
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-    padding: 2rem;
-    background: rgba(124, 58, 237, 0.05);
-    border: 1px solid rgba(124, 58, 237, 0.2);
-    border-radius: 1rem;
-
-    .principle-intro {
-      text-align: center;
-      font-size: 0.9375rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
+    .card-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
-    .principle-content {
+    .card-label {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 0.5rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--nebula-cyan);
+      margin-bottom: 0.75rem;
 
-      @media (max-width: 640px) {
-        flex-direction: column;
-        text-align: center;
-      }
+      ng-icon { opacity: 0.8; }
+    }
+
+    .card-text {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .card-text-large {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin: 0 0 0.75rem;
+    }
+
+    .card-text-muted {
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+
+  // Title Card - Full Width
+  .bento-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+    border-color: rgba(124, 58, 237, 0.2);
+
+    .title-icon { color: var(--nebula-purple); }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin: 0;
+      text-align: center;
+
+      @media (min-width: 768px) { font-size: 1.5rem; }
+    }
+  }
+
+  // Problem Intro Card
+  .bento-problem-intro {
+    @media (min-width: 768px) { grid-column: span 4; }
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(249, 115, 22, 0.03) 100%);
+    border-color: rgba(239, 68, 68, 0.15);
+
+    .card-label { color: var(--danger-orange); }
+  }
+
+  // Pain Points Card
+  .bento-pain-points {
+    @media (min-width: 768px) { grid-column: span 2; }
+    background: rgba(239, 68, 68, 0.03);
+    border-color: rgba(239, 68, 68, 0.12);
+
+    .card-label { color: var(--danger-red); }
+
+    .pain-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .pain-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
 
       ng-icon {
-        color: var(--nebula-purple);
+        color: var(--danger-red);
         flex-shrink: 0;
+        margin-top: 2px;
+        opacity: 0.7;
       }
 
-      .principle-text {
-        p {
-          font-size: 1rem;
-          color: var(--text-light);
-          line-height: 1.7;
-          margin: 0 0 0.5rem 0;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
+      span {
+        font-size: 0.8125rem;
+        color: var(--text-muted);
+        line-height: 1.4;
       }
     }
   }
 
+  // Transition Card
+  .bento-transition {
+    @media (min-width: 768px) { grid-column: span 2; }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(180deg, rgba(124, 58, 237, 0.08) 0%, rgba(34, 211, 238, 0.05) 100%);
+    border-color: rgba(124, 58, 237, 0.2);
+
+    .transition-icon {
+      color: var(--nebula-purple);
+      margin-bottom: 0.75rem;
+      animation: pulse-arrow 2s ease-in-out infinite;
+    }
+
+    .transition-text {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--nebula-purple);
+      margin: 0;
+    }
+  }
+
+  @keyframes pulse-arrow {
+    0%, 100% { transform: translateX(0); opacity: 0.7; }
+    50% { transform: translateX(5px); opacity: 1; }
+  }
+
+  // Approach Card
+  .bento-approach {
+    @media (min-width: 768px) { grid-column: span 4; }
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.05) 0%, rgba(16, 185, 129, 0.03) 100%);
+    border-color: rgba(34, 211, 238, 0.15);
+  }
+
+  // Service Cards
+  .bento-service {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.25rem 1rem;
+    min-height: 120px;
+    background: rgba(34, 211, 238, 0.03);
+    border-color: rgba(34, 211, 238, 0.1);
+
+    @media (min-width: 768px) {
+      grid-column: span 2;
+
+      &:nth-of-type(6) { grid-column: 2 / span 2; }
+      &:nth-of-type(7) { grid-column: 4 / span 2; }
+    }
+
+    @media (min-width: 1024px) {
+      &:nth-of-type(5),
+      &:nth-of-type(6),
+      &:nth-of-type(7) {
+        grid-column: auto;
+      }
+      &:nth-of-type(5) { grid-column: span 2; }
+      &:nth-of-type(6) { grid-column: span 2; }
+      &:nth-of-type(7) { grid-column: span 2; }
+    }
+
+    ng-icon {
+      color: var(--nebula-cyan);
+      margin-bottom: 0.75rem;
+    }
+
+    span {
+      font-size: 0.8125rem;
+      color: var(--text-light);
+      line-height: 1.4;
+    }
+
+    &:hover {
+      background: rgba(34, 211, 238, 0.06);
+      border-color: rgba(34, 211, 238, 0.25);
+
+      ng-icon { color: var(--nebula-green); }
+    }
+  }
+
+  // Tagline Card - Full Width
+  .bento-tagline {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(34, 211, 238, 0.08) 100%);
+    border-color: rgba(16, 185, 129, 0.2);
+    text-align: center;
+
+    ng-icon {
+      color: var(--nebula-green);
+      flex-shrink: 0;
+    }
+
+    p {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin: 0;
+
+      @media (min-width: 768px) { font-size: 1.25rem; }
+    }
+  }
+
+  // Legacy styles (can be removed if not used elsewhere)
   .conclusion-text {
     text-align: center;
     font-family: var(--font-display);
@@ -1773,6 +3355,10 @@
     color: var(--nebula-purple);
     max-width: 600px;
     margin: 0 auto;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px);
   }
 }
 
@@ -1852,6 +3438,10 @@
     line-height: 1.6;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateX(-30px);
+
     ng-icon {
       color: var(--nebula-green);
       flex-shrink: 0;
@@ -1871,6 +3461,10 @@
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
     border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 1rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
 
     p {
       font-family: var(--font-display);
@@ -1916,6 +3510,10 @@
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
 
     &:hover {
       border-color: rgba(34, 211, 238, 0.3);
@@ -2080,6 +3678,10 @@
     font-size: 0.9375rem;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateX(30px);
+
     ng-icon {
       color: var(--nebula-purple);
       flex-shrink: 0;
@@ -2098,6 +3700,10 @@
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
     border: 1px solid rgba(124, 58, 237, 0.2);
     border-radius: 1rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
 
     p {
       font-family: var(--font-display);
@@ -2141,6 +3747,10 @@
     text-align: center;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(60px) scale(0.85);
+
     ng-icon {
       color: var(--nebula-cyan);
       margin-bottom: 1rem;
@@ -2174,6 +3784,10 @@
     background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
     border: 1px solid rgba(34, 211, 238, 0.2);
     border-radius: 1rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
 
     p {
       font-family: var(--font-display);
@@ -2224,6 +3838,10 @@
     font-size: 0.9375rem;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: scale(0.8);
+
     ng-icon {
       color: var(--nebula-blue);
     }
@@ -2242,6 +3860,10 @@
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.7;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px);
   }
 }
 
@@ -2281,6 +3903,10 @@
     font-size: 0.9375rem;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+
     ng-icon {
       color: var(--nebula-cyan);
       flex-shrink: 0;
@@ -2299,6 +3925,10 @@
     background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
     border: 1px solid rgba(34, 211, 238, 0.2);
     border-radius: 1rem;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
 
     p {
       font-size: 1rem;
@@ -2326,6 +3956,10 @@
     max-width: 700px;
     margin: 0 auto 2.5rem;
     text-align: center;
+
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(40px);
 
     .use-cases-intro {
       font-size: 1rem;
@@ -2409,6 +4043,10 @@
     text-decoration: none;
     transition: all 0.3s ease;
 
+    // Initial state for GSAP animation
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+
     ng-icon:first-child {
       color: var(--nebula-cyan);
     }
@@ -2444,10 +4082,17 @@
     transition-duration: 0.01ms !important;
   }
 
-  .portal-ring,
+  .neural-node,
+  .ai-chip,
+  .data-particle,
+  .data-ring,
+  .connection-node,
+  .processor-core,
+  .brain-core,
+  .neural-branch,
+  .orbit-particle,
+  .floating-shape,
   .asteroid,
-  .star-twinkle,
-  .star-glow,
   .scroll-arrow {
     animation: none !important;
   }
@@ -2492,14 +4137,15 @@ button:focus-visible,
 // ============================================
 
 @media print {
-  .starfield-container,
+  .ai-elements-container,
+  .floating-shapes-layer,
   .journey-progress,
   .asteroids-container,
-  .portal-container,
-  .destination-planet,
+  .ai-processor-container,
+  .ai-brain-container,
   .entry-glow,
   .danger-glow,
-  .wormhole-glow,
+  .processor-glow,
   .nebula-glow,
   .destination-glow {
     display: none !important;
