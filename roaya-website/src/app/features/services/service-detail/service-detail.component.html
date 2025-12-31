@@ -182,24 +182,15 @@
               [style.animation-delay]="i * 100 + 'ms'">
               <h3 class="text-xl font-bold mb-4 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">{{ tier.name }}</h3>
               <div class="mb-6">
-                @if (tier.price === 'Custom') {
-                  <div class="text-3xl font-bold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]">
-                    {{ 'pricing.custom' | translate }}
-                  </div>
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                    {{ 'pricing.contactUs' | translate }}
-                  </p>
-                } @else {
-                  <div class="text-3xl font-bold bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-secondary-600)] bg-clip-text text-transparent">
-                    {{ tier.price }} <span class="text-lg font-normal text-gray-600 dark:text-gray-400">EGP</span>
-                  </div>
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                    {{ 'pricing.perMonth' | translate }}
-                  </p>
-                }
+                <div class="text-2xl font-bold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]">
+                  Get Your Custom Quote
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                  Tailored to your needs
+                </p>
               </div>
               <button
-                [routerLink]="['/pricing']"
+                [routerLink]="['/contact']"
                 class="w-full px-6 py-3 bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-700)] text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300">
                 {{ 'common.learnMore' | translate }}
               </button>
@@ -210,7 +201,7 @@
         <!-- View Full Pricing Link -->
         <div class="text-center mt-8 animate-fade-in-up" style="animation-delay: 300ms">
           <a
-            [routerLink]="['/pricing']"
+            [routerLink]="['/contact']"
             class="group inline-flex items-center gap-2 text-[var(--color-primary-600)] hover:text-[var(--color-primary-700)] dark:text-[var(--color-primary-400)] dark:hover:text-[var(--color-primary-300)] font-semibold transition-all">
             {{ 'services.detail.pricing.viewFullPricing' | translate }}
             <svg class="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,7 +281,7 @@
             {{ 'common.contact' | translate }}
           </button>
           <button
-            [routerLink]="['/pricing']"
+            [routerLink]="['/contact']"
             class="group px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 inline-flex items-center justify-center gap-2">
             <ng-icon name="faCreditCard" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
             {{ 'common.pricing' | translate }}

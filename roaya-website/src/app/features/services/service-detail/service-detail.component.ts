@@ -141,10 +141,10 @@ export class ServiceDetailComponent implements OnInit {
   }
 
   /**
-   * Navigate to pricing page
+   * Navigate to contact page (for pricing inquiries)
    */
   goToPricing(): void {
-    this.router.navigate(['/pricing']);
+    this.router.navigate(['/contact']);
   }
 
   /**

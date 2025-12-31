@@ -83,15 +83,6 @@
           [viewAllLabel]="'megaMenu.viewAllResources'"
         />
 
-        <!-- Pricing -->
-        <a
-          routerLink="/pricing"
-          routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
-          class="px-3 py-1.5 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
-        >
-          {{ 'common.pricing' | translate }}
-        </a>
-
         <!-- About -->
         <a
           routerLink="/about"
@@ -416,16 +407,6 @@
           {{ 'common.resources' | translate }}
         </a>
 
-        <!-- Pricing -->
-        <a
-          routerLink="/pricing"
-          (click)="closeMobileMenu()"
-          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
-          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
-        >
-          {{ 'common.pricing' | translate }}
-        </a>
-
         <!-- About -->
         <a
           routerLink="/about"
@@ -603,11 +584,6 @@
           <li>
             <a routerLink="/industries" class="text-neutral-300 hover:text-white transition-colors">
               {{ 'common.industries' | translate }}
-            </a>
-          </li>
-          <li>
-            <a routerLink="/pricing" class="text-neutral-300 hover:text-white transition-colors">
-              {{ 'common.pricing' | translate }}
             </a>
           </li>
           <li>

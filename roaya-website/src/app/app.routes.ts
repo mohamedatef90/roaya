@@ -109,8 +109,8 @@ export const routes: Routes = [
   },
   {
     path: 'pricing',
-    loadComponent: () => import('./features/pricing/pricing.component').then(m => m.PricingComponent),
-    title: 'Pricing - Roaya IT'
+    redirectTo: 'contact',
+    pathMatch: 'full'
   },
   {
     path: 'about',

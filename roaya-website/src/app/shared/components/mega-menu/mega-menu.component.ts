@@ -25,6 +25,7 @@ import {
   faSolidEye,
   faSolidUserShield,
   faSolidMicrochip,
+  faSolidBrain,
   // Resources icons
   faSolidNewspaper,
   faSolidFolderOpen,
@@ -83,6 +84,7 @@ export interface MegaMenuGroup {
     faSolidEye,
     faSolidUserShield,
     faSolidMicrochip,
+    faSolidBrain,
     faSolidNewspaper,
     faSolidFolderOpen,
     faSolidFileLines,
@@ -97,6 +99,7 @@ export interface MegaMenuGroup {
     >
       <!-- Trigger Button -->
       <button
+        #triggerButton
         type="button"
         class="px-4 py-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring flex items-center gap-1.5"
         [class.text-primary-500]="isOpen()"
@@ -123,7 +126,7 @@ export interface MegaMenuGroup {
         #menuPanel
         *ngIf="isOpen() || isClosing()"
         [id]="menuId"
-        class="mega-menu-container absolute top-full left-0 rtl:left-auto rtl:right-0 mt-2 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-sm"
+        class="mega-menu-container fixed inset-x-0 mx-auto top-[75px] rounded-2xl shadow-2xl overflow-hidden backdrop-blur-sm z-50"
         [style.width]="getMenuWidth()"
         [style.max-width]="'95vw'"
         role="menu"
@@ -133,7 +136,7 @@ export interface MegaMenuGroup {
         <div class="p-6 bg-white/90 dark:bg-neutral-900/90 rounded-t-[23px]">
           <div class="flex gap-6">
             <!-- Column 1: First 5 services -->
-            <div class="w-56 flex-shrink-0">
+            <div class="w-72 flex-shrink-0">
               <div class="space-y-1">
                 <div
                   *ngFor="let item of getFirstColumnItems()"
@@ -190,7 +193,7 @@ export interface MegaMenuGroup {
             </div>
 
             <!-- Column 2: Next 5 services -->
-            <div class="w-56 flex-shrink-0 border-l rtl:border-l-0 rtl:border-r border-white/20 dark:border-white/10 pl-6 rtl:pl-0 rtl:pr-6">
+            <div class="w-72 flex-shrink-0 border-l rtl:border-l-0 rtl:border-r border-white/20 dark:border-white/10 pl-6 rtl:pl-0 rtl:pr-6">
               <div class="space-y-1">
                 <div
                   *ngFor="let item of getSecondColumnItems()"
@@ -471,6 +474,7 @@ export class MegaMenuComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('menuPanel') menuPanel?: ElementRef<HTMLDivElement>;
   @ViewChild('nestedColumn') nestedColumn?: ElementRef<HTMLDivElement>;
+  @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
 
   isOpen = signal(false);
   isClosing = signal(false);
@@ -658,11 +662,20 @@ export class MegaMenuComponent implements AfterViewInit, OnDestroy {
     return items.slice(splitAt);
   }
 
+  // Get top position for centered mega menu (below navbar)
+  getMenuTopPosition(): number {
+    if (this.triggerButton) {
+      const rect = this.triggerButton.nativeElement.getBoundingClientRect();
+      return rect.bottom + 8; // 8px margin below the trigger button
+    }
+    return 80; // Default fallback (approximate navbar height)
+  }
+
   // Get static menu width (2 columns + featured, nested column expands on hover)
   getMenuWidth(): string {
-    const col1Width = 224; // w-56 = 14rem = 224px
-    const col2Width = 224; // w-56 = 14rem = 224px
-    const featuredWidth = 200; // Featured card width
+    const col1Width = 288; // w-72 = 18rem = 288px
+    const col2Width = 288; // w-72 = 18rem = 288px
+    const featuredWidth = 220; // Featured card width
     const gap = 24; // gap-6 = 1.5rem = 24px
     const padding = 48; // p-6 on both sides = 24 * 2
 
@@ -777,10 +790,10 @@ export class MegaMenuComponent implements AfterViewInit, OnDestroy {
     if (!this.menuPanel) return;
 
     const element = this.menuPanel.nativeElement;
-    const col1Width = 224;
-    const col2Width = 224;
-    const featuredWidth = 200;
-    const nestedWidth = 256; // w-64 for nested column
+    const col1Width = 288;
+    const col2Width = 288;
+    const featuredWidth = 220;
+    const nestedWidth = 280; // nested column width
     const gap = 24;
     const padding = 48;
 
@@ -811,9 +824,9 @@ export class MegaMenuComponent implements AfterViewInit, OnDestroy {
     if (!this.menuPanel) return;
 
     const element = this.menuPanel.nativeElement;
-    const col1Width = 224;
-    const col2Width = 224;
-    const featuredWidth = 200;
+    const col1Width = 288;
+    const col2Width = 288;
+    const featuredWidth = 220;
     const gap = 24;
     const padding = 48;
 

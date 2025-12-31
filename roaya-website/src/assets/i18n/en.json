@@ -2474,12 +2474,13 @@
       "promo3": "Egyptian Support 24/7 - 15-Minute Response Guaranteed"
     },
     "hero": {
-      "badge": "Trusted by 150+ Egyptian Companies",
+      "badge": "Trusted by 1500+ Companies",
       "title": "IT Services That Deliver Results",
       "subtitle": "Guaranteed.",
       "description": "Egypt's first IT provider with transparent pricing and guaranteed ROI. Enterprise-grade security and 24/7 Egyptian support.",
       "cta": "Start Your Journey",
       "secondaryCta": "View Pricing",
+      "secondaryCtaContact": "Contact Us",
       "scrollDown": "Scroll to explore",
       "trust": {
         "noHiddenFees": "Zero Hidden Fees",
@@ -2579,9 +2580,15 @@
       "title": "Ready to Transform Your IT?",
       "description": "Let's discuss how Roaya IT can help your business achieve its technology goals with security, trust, and transparency.",
       "button": "Schedule a Consultation",
-      "secondaryButton": "View Our Pricing"
+      "secondaryButton": "View Our Pricing",
+      "secondaryButtonContact": "Get a Quote"
     },
     "trustedBy": "Trusted by leading Egyptian companies",
+    "sectorsWeServe": {
+      "badge": "Sectors We Serve",
+      "title": "Trusted Across Key Industries",
+      "description": "From universities and banks to government ministries, we deliver enterprise IT solutions to Egypt's most critical sectors."
+    },
     "process": {
       "badge": "Simple Process",
       "title": "How We Work",
@@ -2808,6 +2815,24 @@
       "cancelAnytime": "Cancel anytime",
       "moneyBack": "30-day money-back guarantee",
       "cta": "View All Pricing"
+    },
+    "customQuote": {
+      "badge": "Tailored Solutions",
+      "title": "Get Your Custom Quote",
+      "subtitle": "Every business is unique. Let us create a tailored IT solution that fits your specific needs and budget.",
+      "feature1": {
+        "title": "Free Consultation",
+        "description": "No obligation assessment of your IT needs"
+      },
+      "feature2": {
+        "title": "Fast Response",
+        "description": "Get your custom quote within 24 hours"
+      },
+      "feature3": {
+        "title": "Expert Advice",
+        "description": "Speak directly with our solution architects"
+      },
+      "cta": "Get Your Quote"
     },
     "localExpertise": {
       "badge": "Local Expertise, Global Standards",

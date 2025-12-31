@@ -52,7 +52,6 @@ export class NavigationService {
     { label: 'common.home', route: '/' },
     { label: 'common.industries', route: '/industries' },
     { label: 'common.resources', route: '/resources' },
-    { label: 'common.pricing', route: '/pricing' },
     { label: 'common.about', route: '/about' },
     { label: 'common.contact', route: '/contact' }
   ];

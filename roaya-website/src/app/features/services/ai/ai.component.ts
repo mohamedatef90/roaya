@@ -821,59 +821,121 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           .to('.entry-glow', { scale: 1.5, opacity: 0 }, 0);
         // Note: Star parallax is now handled globally for full-page effect
 
-        // === PROBLEM SECTION - The Void ===
-        const problemTl = gsap.timeline({
+        // === TRANSFORMATION SECTION - Problem → Solution ===
+        // Unified scroll-driven cross-fade between problem and solution
+        const transformationTl = gsap.timeline({
           scrollTrigger: {
-            trigger: '.journey-problem',
+            trigger: '.journey-transformation',
             start: 'top top',
-            end: '+=80%',
+            end: '+=200%', // Extended scroll for smooth transition
             scrub: 1,
             pin: true,
             onEnter: () => {
               this.ngZone.run(() => {
-                this.currentSection = 'problem';
+                this.currentSection = 'transformation';
                 this.cdr.markForCheck();
               });
             }
           }
         });
 
-        // Problem title animates in with scroll
-        problemTl
-          .fromTo('.problem-title',
-            { opacity: 0, y: 100, scale: 1.2 },
-            { opacity: 1, y: 0, scale: 1, duration: 1 }, 0.3)
-          .to('.void-overlay', { opacity: 0.3 }, 1)
-          .to('.problem-content', { opacity: 0, y: -100 }, 2);
+        // Phase 1 (0-40%): Problem content visible
+        // Phase 2 (40-70%): Cross-fade transition
+        // Phase 3 (70-100%): Solution content visible
 
-        // Problem cards - Auto-animate on scroll into view (not scrubbed)
-        gsap.utils.toArray('.problem-card').forEach((card: any, index: number) => {
+        transformationTl
+          // Problem layer fades out and moves up
+          .to('.problem-layer', {
+            opacity: 0,
+            y: -150,
+            scale: 0.9,
+            duration: 0.4
+          }, 0.35)
+
+          // Danger glow fades out
+          .to('.danger-glow', {
+            opacity: 0,
+            duration: 0.3
+          }, 0.35)
+
+          // Void overlay fades out
+          .to('.void-overlay', {
+            opacity: 0,
+            duration: 0.3
+          }, 0.4)
+
+          // Solution layer fades in
+          .to('.solution-layer', {
+            opacity: 1,
+            duration: 0.3
+          }, 0.45)
+
+          // AI Processor container scales in
+          .to('.solution-layer .ai-processor-container', {
+            scale: 1,
+            duration: 0.4,
+            ease: 'back.out(1.2)'
+          }, 0.45)
+
+          // Data rings appear with stagger
+          .fromTo('.solution-layer .data-ring',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, stagger: 0.08, duration: 0.3 }, 0.5)
+
+          // Processor core appears
+          .fromTo('.solution-layer .processor-core',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.25 }, 0.55)
+
+          // Connection nodes appear
+          .fromTo('.solution-layer .connection-node',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, stagger: 0.05, duration: 0.2 }, 0.6)
+
+          // Processor glow fades in
+          .to('.processor-glow', {
+            opacity: 0.6,
+            duration: 0.3
+          }, 0.55)
+
+          // Portal content (text) fades in
+          .to('.solution-layer .portal-content', {
+            opacity: 1,
+            y: 0,
+            duration: 0.3
+          }, 0.65)
+
+          // Portal text scales in beautifully
+          .fromTo('.solution-layer .portal-text',
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.25 }, 0.7);
+
+        // Problem cards - Auto-animate on scroll into view (before transformation starts)
+        gsap.utils.toArray('.journey-transformation .problem-card').forEach((card: any, index: number) => {
           gsap.fromTo(card,
             {
               opacity: 0,
               y: 80,
-              scale: 0.85,
-              rotateX: -15
+              scale: 0.85
             },
             {
               opacity: 1,
               y: 0,
               scale: 1,
-              rotateX: 0,
               duration: 0.8,
               delay: index * 0.2,
               ease: 'back.out(1.2)',
               scrollTrigger: {
-                trigger: '.problem-cards',
-                start: 'top 80%',
+                trigger: '.journey-transformation .problem-cards',
+                start: 'top 85%',
                 toggleActions: 'play none none reverse'
               }
             }
           );
         });
 
-        // Also animate the stakeholder impact items
-        gsap.utils.toArray('.impact-item').forEach((item: any, index: number) => {
+        // Stakeholder impact items animation
+        gsap.utils.toArray('.journey-transformation .impact-item').forEach((item: any, index: number) => {
           gsap.fromTo(item,
             { opacity: 0, x: -30 },
             {
@@ -883,8 +945,8 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
               delay: index * 0.15,
               ease: 'power2.out',
               scrollTrigger: {
-                trigger: '.stakeholder-impact',
-                start: 'top 85%',
+                trigger: '.journey-transformation .stakeholder-impact',
+                start: 'top 90%',
                 toggleActions: 'play none none reverse'
               }
             }
@@ -892,7 +954,7 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Root cause text animation
-        gsap.fromTo('.root-cause p',
+        gsap.fromTo('.journey-transformation .root-cause p',
           { opacity: 0, y: 20 },
           {
             opacity: 1,
@@ -901,46 +963,12 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
             duration: 0.6,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: '.root-cause',
-              start: 'top 85%',
+              trigger: '.journey-transformation .root-cause',
+              start: 'top 90%',
               toggleActions: 'play none none reverse'
             }
           }
         );
-
-        // === PORTAL SECTION - AI Processor Transformation ===
-        const portalTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: '.journey-portal',
-            start: 'top top',
-            end: '+=120%',
-            scrub: 1,
-            pin: true,
-            onEnter: () => {
-              this.ngZone.run(() => {
-                this.currentSection = 'portal';
-                this.cdr.markForCheck();
-              });
-            }
-          }
-        });
-
-        portalTl
-          .fromTo('.data-ring',
-            { scale: 0, opacity: 0 },
-            { scale: 1, opacity: 1, stagger: 0.1, duration: 1 }, 0)
-          .fromTo('.processor-core',
-            { scale: 0, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.8 }, 0.2)
-          .fromTo('.connection-node',
-            { scale: 0, opacity: 0 },
-            { scale: 1, opacity: 1, stagger: 0.08, duration: 0.5 }, 0.4)
-          .fromTo('.portal-text',
-            { opacity: 0, scale: 0.5 },
-            { opacity: 1, scale: 1, duration: 0.5 }, 0.3)
-          .to('.portal-text', { opacity: 0, scale: 1.5 }, 1.5)
-          .to('.processor-core', { scale: 3, opacity: 0 }, 1.5)
-          .to('.data-ring', { scale: 5, opacity: 0, stagger: 0.05 }, 1.5);
 
         // === SOLUTION SECTION - The Galaxy ===
         const solutionTl = gsap.timeline({

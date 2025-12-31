@@ -70,7 +70,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   isMobileMenuOpen = computed(() => this.navigationService.mobileMenuOpen());
 
   // Mega menu items for all services (with Font Awesome icons)
+  // Order: Left column (1-5), Right column (6-10), Featured (WorldPosta)
   megaMenuItems: MegaMenuItem[] = [
+    // === LEFT COLUMN ===
     {
       id: 'cloud',
       title: 'services.cloud.title',
@@ -89,6 +91,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       badge: 'New'
     },
     {
+      id: 'ai',
+      title: 'services.ai.title',
+      description: 'services.ai.description',
+      icon: '&#129302;',
+      faIcon: 'faSolidBrain',
+      route: '/services/ai',
+      badge: 'New'
+    },
+    {
       id: 'managed',
       title: 'services.managed.title',
       description: 'services.managed.description',
@@ -97,21 +108,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       route: '/services/managed'
     },
     {
-      id: 'email',
-      title: 'services.email.title',
-      description: 'services.email.description',
-      icon: '&#9993;',
-      faIcon: 'faSolidEnvelope',
-      route: '/services/email'
+      id: 'devops',
+      title: 'services.devops.title',
+      description: 'services.devops.description',
+      icon: '&#128736;',
+      faIcon: 'faSolidInfinity',
+      route: '/services/devops',
+      badge: 'New'
     },
-    {
-      id: 'backup',
-      title: 'services.backup.title',
-      description: 'services.backup.description',
-      icon: '&#128190;',
-      faIcon: 'faSolidHardDrive',
-      route: '/services/backup'
-    },
+    // === RIGHT COLUMN ===
     {
       id: 'security',
       title: 'services.security.title',
@@ -159,6 +164,22 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
+      id: 'email',
+      title: 'services.email.title',
+      description: 'services.email.description',
+      icon: '&#9993;',
+      faIcon: 'faSolidEnvelope',
+      route: '/services/email'
+    },
+    {
+      id: 'backup',
+      title: 'services.backup.title',
+      description: 'services.backup.description',
+      icon: '&#128190;',
+      faIcon: 'faSolidHardDrive',
+      route: '/services/backup'
+    },
+    {
       id: 'automation',
       title: 'services.automation.title',
       description: 'services.automation.description',
@@ -175,15 +196,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       faIcon: 'faSolidLightbulb',
       route: '/services/consulting'
     },
-    {
-      id: 'devops',
-      title: 'services.devops.title',
-      description: 'services.devops.description',
-      icon: '&#128736;',
-      faIcon: 'faSolidInfinity',
-      route: '/services/devops',
-      badge: 'New'
-    },
+    // === FEATURED (Right side card) ===
     {
       id: 'worldposta',
       title: 'services.worldposta.title',

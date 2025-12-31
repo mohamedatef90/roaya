@@ -843,97 +843,96 @@
   </section>
 
   <!-- ============================================
-       SECTION 2: PROBLEM STATEMENT
+       SECTION 2-3: PROBLEM → SOLUTION TRANSFORMATION
+       Unified scroll-driven transition
        ============================================ -->
-  <section class="journey-section journey-problem">
-    <!-- Dark Void Overlay -->
+  <section class="journey-section journey-transformation">
+    <!-- Background Layers -->
     <div class="void-overlay" aria-hidden="true"></div>
-
-    <!-- Problem Content -->
-    <div class="section-content problem-content">
-      <div class="problem-intro-text">
-        <p class="problem-lead">{{ 'services.ai.page.problemStatement.consequence' | translate }}</p>
-      </div>
-
-      <!-- Problem Cards -->
-      <div class="problem-cards">
-        @for (problem of problemItems; track problem.key) {
-          <div class="problem-card" [class]="'danger-' + problem.danger">
-            <div class="problem-icon">
-              <ng-icon [name]="problem.icon" size="32"></ng-icon>
-            </div>
-            <h3>{{ 'services.ai.page.problemStatement.items.' + problem.key + '.title' | translate }}</h3>
-            <p>{{ 'services.ai.page.problemStatement.items.' + problem.key + '.description' | translate }}</p>
-            <div class="danger-indicator" aria-hidden="true">
-              <span class="pulse"></span>
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Stakeholder Impact -->
-      <div class="stakeholder-impact">
-        <div class="impact-item">
-          <ng-icon name="lucideUsers" size="20"></ng-icon>
-          <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.business' | translate }}</span>
-        </div>
-        <div class="impact-item">
-          <ng-icon name="lucideServer" size="20"></ng-icon>
-          <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.it' | translate }}</span>
-        </div>
-        <div class="impact-item">
-          <ng-icon name="lucideBarChart3" size="20"></ng-icon>
-          <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.leadership' | translate }}</span>
-        </div>
-      </div>
-
-      <!-- Root Cause -->
-      <div class="root-cause">
-        <p>{{ 'services.ai.page.problemStatement.rootCause.line1' | translate }}</p>
-        <p class="highlight">{{ 'services.ai.page.problemStatement.rootCause.line2' | translate }}</p>
-      </div>
-    </div>
-
-    <!-- Red Warning Glow -->
-    <div class="danger-glow" aria-hidden="true"></div>
-  </section>
-
-  <!-- ============================================
-       SECTION 3: SOLUTION INTRODUCTION
-       ============================================ -->
-  <section class="journey-section journey-portal">
-    <!-- AI Processor Visualization -->
-    <div class="ai-processor-container" aria-hidden="true">
-      <!-- Hexagonal AI Core -->
-      <div class="processor-core">
-        <div class="core-hexagon"></div>
-        <div class="core-inner"></div>
-      </div>
-
-      <!-- Data Processing Rings -->
-      <div class="data-ring data-ring-1"></div>
-      <div class="data-ring data-ring-2"></div>
-      <div class="data-ring data-ring-3"></div>
-
-      <!-- Connection Nodes -->
-      <div class="connection-nodes">
-        @for (i of processorNodes; track trackByIndex($index, i)) {
-          <div class="connection-node" [style.--index]="i"></div>
-        }
-      </div>
-    </div>
-
-    <!-- Solution Text -->
-    <div class="section-content portal-content">
-      <div class="portal-text">
-        <p class="solution-badge">{{ 'services.ai.page.solution.intro' | translate }}</p>
-        <h2>{{ 'services.ai.page.solution.title' | translate }}</h2>
-        <p class="solution-desc">{{ 'services.ai.page.solution.description' | translate }}</p>
-      </div>
-    </div>
-
-    <!-- Processor Glow -->
     <div class="processor-glow" aria-hidden="true"></div>
+
+    <!-- PROBLEM LAYER (Fades out while scrolling) -->
+    <div class="transformation-layer problem-layer">
+      <div class="section-content problem-content">
+        <div class="problem-intro-text">
+          <p class="problem-lead">{{ 'services.ai.page.problemStatement.consequence' | translate }}</p>
+        </div>
+
+        <!-- Problem Cards -->
+        <div class="problem-cards">
+          @for (problem of problemItems; track problem.key) {
+            <div class="problem-card" [class]="'danger-' + problem.danger">
+              <div class="problem-icon">
+                <ng-icon [name]="problem.icon" size="32"></ng-icon>
+              </div>
+              <h3>{{ 'services.ai.page.problemStatement.items.' + problem.key + '.title' | translate }}</h3>
+              <p>{{ 'services.ai.page.problemStatement.items.' + problem.key + '.description' | translate }}</p>
+              <div class="danger-indicator" aria-hidden="true">
+                <span class="pulse"></span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Stakeholder Impact -->
+        <div class="stakeholder-impact">
+          <div class="impact-item">
+            <ng-icon name="lucideUsers" size="20"></ng-icon>
+            <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.business' | translate }}</span>
+          </div>
+          <div class="impact-item">
+            <ng-icon name="lucideServer" size="20"></ng-icon>
+            <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.it' | translate }}</span>
+          </div>
+          <div class="impact-item">
+            <ng-icon name="lucideBarChart3" size="20"></ng-icon>
+            <span>{{ 'services.ai.page.problemStatement.stakeholderImpact.leadership' | translate }}</span>
+          </div>
+        </div>
+
+        <!-- Root Cause -->
+        <div class="root-cause">
+          <p>{{ 'services.ai.page.problemStatement.rootCause.line1' | translate }}</p>
+          <p class="highlight">{{ 'services.ai.page.problemStatement.rootCause.line2' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOLUTION LAYER (Fades in while scrolling) -->
+    <div class="transformation-layer solution-layer">
+      <!-- AI Processor Visualization -->
+      <div class="ai-processor-container" aria-hidden="true">
+        <!-- Hexagonal AI Core -->
+        <div class="processor-core">
+          <div class="core-hexagon"></div>
+          <div class="core-inner"></div>
+        </div>
+
+        <!-- Data Processing Rings -->
+        <div class="data-ring data-ring-1"></div>
+        <div class="data-ring data-ring-2"></div>
+        <div class="data-ring data-ring-3"></div>
+
+        <!-- Connection Nodes -->
+        <div class="connection-nodes">
+          @for (i of processorNodes; track trackByIndex($index, i)) {
+            <div class="connection-node" [style.--index]="i"></div>
+          }
+        </div>
+      </div>
+
+      <!-- Solution Text -->
+      <div class="section-content portal-content">
+        <div class="portal-text">
+          <p class="solution-badge">{{ 'services.ai.page.solution.intro' | translate }}</p>
+          <h2>{{ 'services.ai.page.solution.title' | translate }}</h2>
+          <p class="solution-desc">{{ 'services.ai.page.solution.description' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Danger Glow (for problem state) -->
+    <div class="danger-glow" aria-hidden="true"></div>
   </section>
 
   <!-- ============================================

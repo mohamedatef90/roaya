@@ -172,11 +172,79 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Stats with animated counters
   stats = signal<Stat[]>([
-    { value: 150, suffix: '+', label: 'home.stats.clients', current: 0 },
+    { value: 1500, suffix: '+', label: 'home.stats.clients', current: 0 },
     { value: 99.9, suffix: '%', label: 'home.stats.uptime', current: 0 },
     { value: 24, suffix: '/7', label: 'home.stats.support', current: 0 },
     { value: 10, suffix: '+', label: 'home.stats.experience', current: 0 }
   ]);
+
+  // Sector logos - Ministries, Banks, Universities
+  sectorLogos = [
+    // Ministries & Government
+    {
+      name: 'Ministry of Health',
+      logo: '/assets/images/logos/factors/شعار وزارة الصحة المصرية.png',
+      nameAr: 'وزارة الصحة المصرية'
+    },
+    {
+      name: 'Ministry of Agriculture',
+      logo: '/assets/images/logos/factors/ministry-of-agriculture.png',
+      nameAr: 'وزارة الزراعة واستصلاح الأراضي'
+    },
+    {
+      name: 'NPPA',
+      logo: '/assets/images/logos/factors/NPPA-1-300x300.png',
+      nameAr: 'الهيئة القومية للتأمينات'
+    },
+    // Banks
+    {
+      name: 'Banque Misr',
+      logo: '/assets/images/logos/factors/بنك مصر.png',
+      nameAr: 'بنك مصر'
+    },
+    {
+      name: 'Banque du Caire',
+      logo: '/assets/images/logos/factors/Banque_du_caire_Logo.png',
+      nameAr: 'بنك القاهرة'
+    },
+    {
+      name: 'Bank of Alexandria',
+      logo: '/assets/images/logos/factors/بنك الاسكندرية.png',
+      nameAr: 'بنك الإسكندرية',
+      scale: 'scale-150'
+    },
+    {
+      name: 'Agricultural Bank of Egypt',
+      logo: '/assets/images/logos/factors/البنك الزراعي المصري.png',
+      nameAr: 'البنك الزراعي المصري'
+    },
+    // Universities
+    {
+      name: 'Cairo University',
+      logo: '/assets/images/logos/factors/جامعة القاهرة.png',
+      nameAr: 'جامعة القاهرة'
+    },
+    {
+      name: 'Ain Shams University',
+      logo: '/assets/images/logos/factors/شعار جامعة عين شمس.png',
+      nameAr: 'جامعة عين شمس'
+    },
+    {
+      name: 'Helwan University',
+      logo: '/assets/images/logos/factors/جامعة حلوان.png',
+      nameAr: 'جامعة حلوان'
+    },
+    {
+      name: 'Alexandria University',
+      logo: '/assets/images/logos/factors/Alexandria-University.svg',
+      nameAr: 'جامعة الإسكندرية'
+    },
+    {
+      name: 'Misr International University',
+      logo: '/assets/images/logos/factors/شعار_جامعة_مصر_الدولية.png',
+      nameAr: 'جامعة مصر الدولية'
+    }
+  ];
 
   // Trusted by logos - Real client logos
   trustedLogos = [

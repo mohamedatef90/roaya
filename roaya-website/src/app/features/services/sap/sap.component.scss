@@ -253,15 +253,128 @@ $sap-navy-dark: #1E3A5F;
     padding: 2rem;
   }
 
-  // Neutral Card (No background color)
+  // Neutral Card - Soft gradient in light mode
   &.sap-card-neutral {
-    background: rgba(255, 255, 255, 0.8);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba($sap-blue-light, 0.4) 30%,
+      rgba($sap-teal-light, 0.3) 60%,
+      rgba($sap-purple-light, 0.2) 100%
+    );
     backdrop-filter: blur(10px);
-    border-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba($sap-blue, 0.1);
 
     &:hover {
-      border-color: rgba(0, 0, 0, 0.15);
-      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba($sap-blue, 0.2);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba($sap-blue-light, 0.5) 30%,
+        rgba($sap-teal-light, 0.4) 60%,
+        rgba($sap-purple-light, 0.3) 100%
+      );
+    }
+  }
+
+  // Variant gradients for different cards (light mode)
+  &.sap-card-neutral-gold {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba($sap-gold-light, 0.5) 40%,
+      rgba($sap-gold-soft, 0.3) 100%
+    );
+    border-color: rgba($sap-gold, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-gold, 0.25);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba($sap-gold-light, 0.6) 40%,
+        rgba($sap-gold-soft, 0.4) 100%
+      );
+    }
+  }
+
+  &.sap-card-neutral-blue {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba($sap-blue-light, 0.5) 40%,
+      rgba($sap-blue-soft, 0.3) 100%
+    );
+    border-color: rgba($sap-blue, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-blue, 0.25);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba($sap-blue-light, 0.6) 40%,
+        rgba($sap-blue-soft, 0.4) 100%
+      );
+    }
+  }
+
+  &.sap-card-neutral-teal {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba($sap-teal-light, 0.5) 40%,
+      rgba($sap-teal-soft, 0.3) 100%
+      );
+    border-color: rgba($sap-teal, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-teal, 0.25);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba($sap-teal-light, 0.6) 40%,
+        rgba($sap-teal-soft, 0.4) 100%
+      );
+    }
+  }
+
+  &.sap-card-neutral-purple {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba($sap-purple-light, 0.5) 40%,
+      rgba($sap-purple-soft, 0.3) 100%
+    );
+    border-color: rgba($sap-purple, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-purple, 0.25);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba($sap-purple-light, 0.6) 40%,
+        rgba($sap-purple-soft, 0.4) 100%
+      );
+    }
+  }
+
+  &.sap-card-neutral-navy {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba($sap-navy-light, 0.5) 40%,
+      rgba($sap-navy-soft, 0.3) 100%
+    );
+    border-color: rgba($sap-navy, 0.15);
+
+    &:hover {
+      border-color: rgba($sap-navy, 0.25);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba($sap-navy-light, 0.6) 40%,
+        rgba($sap-navy-soft, 0.4) 100%
+      );
     }
   }
 
@@ -320,12 +433,53 @@ $sap-navy-dark: #1E3A5F;
 [data-theme="dark"] {
   .sap-card-inner {
     &.sap-card-neutral {
-      background: rgba(30, 41, 59, 0.6);
-      border-color: rgba(255, 255, 255, 0.08);
+      background: linear-gradient(
+        135deg,
+        rgba($sap-navy-dark, 0.4) 0%,
+        rgba($sap-blue-dark, 0.2) 40%,
+        rgba($sap-purple-dark, 0.15) 70%,
+        rgba($sap-teal-dark, 0.1) 100%
+      );
+      border-color: rgba($sap-blue, 0.15);
+      backdrop-filter: blur(12px);
 
       &:hover {
-        border-color: rgba(255, 255, 255, 0.15);
-        background: rgba(30, 41, 59, 0.8);
+        border-color: rgba($sap-blue, 0.3);
+        background: linear-gradient(
+          135deg,
+          rgba($sap-navy-dark, 0.5) 0%,
+          rgba($sap-blue-dark, 0.25) 40%,
+          rgba($sap-purple-dark, 0.2) 70%,
+          rgba($sap-teal-dark, 0.15) 100%
+        );
+      }
+    }
+
+    // Dark mode for neutral variants - all use similar dark gradient
+    &.sap-card-neutral-gold,
+    &.sap-card-neutral-blue,
+    &.sap-card-neutral-teal,
+    &.sap-card-neutral-purple,
+    &.sap-card-neutral-navy {
+      background: linear-gradient(
+        135deg,
+        rgba($sap-navy-dark, 0.4) 0%,
+        rgba($sap-blue-dark, 0.2) 40%,
+        rgba($sap-purple-dark, 0.15) 70%,
+        rgba($sap-teal-dark, 0.1) 100%
+      );
+      border-color: rgba($sap-blue, 0.15);
+      backdrop-filter: blur(12px);
+
+      &:hover {
+        border-color: rgba($sap-blue, 0.3);
+        background: linear-gradient(
+          135deg,
+          rgba($sap-navy-dark, 0.5) 0%,
+          rgba($sap-blue-dark, 0.25) 40%,
+          rgba($sap-purple-dark, 0.2) 70%,
+          rgba($sap-teal-dark, 0.15) 100%
+        );
       }
     }
 
