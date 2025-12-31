@@ -33,8 +33,12 @@
         <div class="p-6 border-b border-border">
           <div class="flex items-start justify-between mb-4">
             <div class="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center text-white text-2xl group-hover:scale-110 transition-transform overflow-hidden">
-              <img *ngIf="service.iconSvg" [src]="service.iconSvg" [alt]="service.title | translate" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
-              <span *ngIf="!service.iconSvg" [innerHTML]="service.icon"></span>
+              <!-- Font Awesome Icon -->
+              <ng-icon *ngIf="service.faIcon" [name]="service.faIcon" class="text-3xl"></ng-icon>
+              <!-- Logo Image (for SAP) -->
+              <img *ngIf="service.logoImage" [src]="service.logoImage" [alt]="service.title | translate" class="w-10 h-10 object-contain" loading="lazy" />
+              <!-- Fallback HTML entity icon -->
+              <span *ngIf="!service.faIcon && !service.logoImage" [innerHTML]="service.icon"></span>
             </div>
             <span
               *ngIf="service.badge"

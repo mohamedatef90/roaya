@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="incidentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EF4444"/>
+      <stop offset="100%" style="stop-color:#6B4C9A"/>
+    </linearGradient>
+  </defs>
+  <!-- Alert triangle -->
+  <path d="M32 8L6 54h52L32 8z" stroke="url(#incidentGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Exclamation mark -->
+  <path d="M32 24v14" stroke="url(#incidentGrad)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="32" cy="46" r="3" fill="url(#incidentGrad)"/>
+  <!-- Response arrows -->
+  <path d="M16 20l-6-6M48 20l6-6M16 20l6 0M48 20l-6 0M16 20l0 6M48 20l0 6" stroke="url(#incidentGrad)" stroke-width="2" stroke-linecap="round"/>
+</svg>
