@@ -4507,6 +4507,75 @@ button:focus-visible,
 }
 
 // ============================================
+// MOBILE PERFORMANCE OPTIMIZATIONS
+// ============================================
+// Disable heavy animations on mobile to prevent scroll lag
+
+@media (max-width: 768px) {
+  // Hide decorative elements that cause performance issues
+  .ai-elements-container,
+  .floating-shapes-layer,
+  .ai-skull-container {
+    display: none !important;
+  }
+
+  // Disable all continuous CSS animations
+  .neural-node,
+  .ai-chip,
+  .data-particle,
+  .neural-node-3d,
+  .data-particle-3d,
+  .ml-icon,
+  .skull-orbit,
+  .orbit-particle,
+  .brain-core,
+  .neuron-dot,
+  .thinking-rays,
+  .data-ring,
+  .neural-branch,
+  .branch-node,
+  .data-orbit {
+    animation: none !important;
+  }
+
+  // Remove complex filters and effects
+  .nebula-glow,
+  .entry-glow,
+  .danger-glow,
+  .processor-glow,
+  .destination-glow,
+  .card-glow {
+    filter: none !important;
+    animation: none !important;
+  }
+
+  // Simplify transforms - avoid 3D
+  .ai-processor-container,
+  .ai-brain-container {
+    transform: none !important;
+    perspective: none !important;
+  }
+
+  // Remove box-shadow animations
+  * {
+    box-shadow: initial;
+  }
+}
+
+// Also apply to users who prefer reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .ai-elements-container,
+  .floating-shapes-layer {
+    display: none !important;
+  }
+
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+// ============================================
 // PRINT STYLES
 // ============================================
 

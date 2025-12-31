@@ -409,6 +409,14 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) return;
 
+        // Skip heavy animations on mobile devices to prevent scroll lag
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          // Only initialize essential section animations on mobile, skip parallax
+          this.initMobileAnimations();
+          return;
+        }
+
         // Journey progress tracker
         ScrollTrigger.create({
           trigger: '.space-journey',
@@ -1600,6 +1608,67 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
             { opacity: 1, y: 0, stagger: 0.1, duration: 0.3 }, 0.6);
       });
     }
+  }
+
+  /**
+   * Lightweight animations for mobile devices
+   * No parallax, no continuous scroll updates, no 3D transforms
+   * Only simple fade-in reveals on scroll
+   */
+  private initMobileAnimations(): void {
+    // Simple fade-in animations for sections - no parallax, no scrub
+    const sections = [
+      '.journey-entry',
+      '.journey-transformation',
+      '.journey-solution',
+      '.journey-strategic',
+      '.journey-enterprise',
+      '.journey-agentic',
+      '.journey-constellations',
+      '.journey-governance',
+      '.journey-outcomes',
+      '.journey-milestones',
+      '.journey-frameworks',
+      '.journey-whyus',
+      '.journey-destination'
+    ];
+
+    sections.forEach((section) => {
+      gsap.fromTo(section,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 90%',
+            toggleActions: 'play none none none', // Only play once, no reverse
+            once: true // Don't re-trigger
+          }
+        }
+      );
+    });
+
+    // Simple card reveals without stagger delays
+    gsap.utils.toArray('.problem-card, .solution-card, .prod-card, .bento-card, .outcome-card').forEach((card: any) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 95%',
+            toggleActions: 'play none none none',
+            once: true
+          }
+        }
+      );
+    });
   }
 
   ngOnDestroy(): void {
