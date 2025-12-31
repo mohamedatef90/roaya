@@ -826,7 +826,7 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           scrollTrigger: {
             trigger: '.journey-problem',
             start: 'top top',
-            end: '+=150%',
+            end: '+=80%',
             scrub: 1,
             pin: true,
             onEnter: () => {
@@ -913,7 +913,7 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           scrollTrigger: {
             trigger: '.journey-portal',
             start: 'top top',
-            end: '+=200%',
+            end: '+=120%',
             scrub: 1,
             pin: true,
             onEnter: () => {
