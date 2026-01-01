@@ -264,8 +264,11 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
     { number: 5, key: 'operate', icon: 'lucidePlay', planet: 'blue' }
   ];
 
-  // Active milestone
+  // Active milestone (desktop)
   activeMilestone = 1;
+
+  // Expanded milestone for mobile accordion (null = all collapsed)
+  expandedMilestone: number | null = 1;
 
   // Outcomes as destination rewards
   readonly destinationRewards = [
@@ -1744,9 +1747,16 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeConstellation = this.activeConstellation === index ? -1 : index;
   }
 
-  // Set active milestone
+  // Set active milestone (desktop)
   setActiveMilestone(milestone: number): void {
     this.activeMilestone = milestone;
+  }
+
+  // Toggle mobile accordion card
+  toggleMobileCard(milestone: number): void {
+    // Toggle: if already expanded, collapse it; otherwise expand this one
+    this.expandedMilestone = this.expandedMilestone === milestone ? null : milestone;
+    this.cdr.markForCheck();
   }
 
   // Track by functions

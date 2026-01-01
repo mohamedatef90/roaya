@@ -1498,7 +1498,7 @@
         }
       </div>
 
-      <!-- Active Milestone Detail - HUD Style -->
+      <!-- Active Milestone Detail - HUD Style (Desktop) -->
       <div class="milestone-detail">
         @for (milestone of journeyMilestones; track milestone.number) {
           @if (activeMilestone === milestone.number) {
@@ -1558,6 +1558,54 @@
               </div>
             </div>
           }
+        }
+      </div>
+
+      <!-- Mobile Timeline - Vertical Accordion (hidden on desktop) -->
+      <div class="mobile-timeline" role="list" aria-label="Methodology steps">
+        @for (milestone of journeyMilestones; track milestone.number) {
+          <div class="mobile-timeline-item"
+               [class.active]="expandedMilestone === milestone.number"
+               role="listitem">
+            <!-- Timeline Dot -->
+            <div class="timeline-dot"
+                 [class]="'dot-' + milestone.planet"
+                 [class.active]="expandedMilestone === milestone.number"
+                 (click)="toggleMobileCard(milestone.number)"
+                 (keydown.enter)="toggleMobileCard(milestone.number)"
+                 (keydown.space)="toggleMobileCard(milestone.number)"
+                 tabindex="0"
+                 role="button"
+                 [attr.aria-expanded]="expandedMilestone === milestone.number"
+                 [attr.aria-controls]="'mobile-card-' + milestone.number">
+              <span class="dot-number">{{ milestone.number }}</span>
+            </div>
+
+            <!-- Expandable Card -->
+            <div class="timeline-card"
+                 [class]="'card-' + milestone.planet"
+                 [class.expanded]="expandedMilestone === milestone.number"
+                 [id]="'mobile-card-' + milestone.number">
+              <div class="card-header"
+                   (click)="toggleMobileCard(milestone.number)"
+                   (keydown.enter)="toggleMobileCard(milestone.number)"
+                   (keydown.space)="toggleMobileCard(milestone.number)"
+                   tabindex="0"
+                   role="button"
+                   [attr.aria-expanded]="expandedMilestone === milestone.number">
+                <div class="header-content">
+                  <ng-icon [name]="milestone.icon" size="20"></ng-icon>
+                  <h4 class="step-title">{{ 'services.ai.page.methodology.steps.' + milestone.key + '.title' | translate }}</h4>
+                </div>
+                <ng-icon name="lucideChevronDown" size="20" class="expand-icon"></ng-icon>
+              </div>
+              <div class="card-content">
+                <div class="content-inner">
+                  <p>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.description' | translate }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         }
       </div>
     </div>

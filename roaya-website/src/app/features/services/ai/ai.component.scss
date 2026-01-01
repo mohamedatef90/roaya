@@ -5674,6 +5674,347 @@
 }
 
 // ============================================
+// MOBILE METHODOLOGY SECTION - Vertical Timeline
+// ============================================
+
+@media (max-width: 1023px) {
+  .journey-milestones {
+    // Hide desktop orbital path on mobile
+    .orbital-path {
+      display: none !important;
+    }
+
+    // Show mobile timeline instead
+    .mobile-timeline {
+      display: flex !important;
+      flex-direction: column;
+      position: relative;
+      padding: 0 1rem;
+      max-width: 100%;
+
+      // RTL support
+      [dir="rtl"] & {
+        direction: rtl;
+      }
+    }
+
+    // Milestone detail adjustments for mobile
+    .milestone-detail {
+      margin-top: 0;
+      display: none !important; // Hide desktop detail on mobile
+
+      .hud-card {
+        max-width: 100%;
+      }
+
+      .hud-frame {
+        padding: 1.25rem;
+        min-height: auto;
+
+        // Simplified clip-path for mobile
+        clip-path: polygon(
+          10px 0,
+          calc(100% - 10px) 0,
+          100% 10px,
+          100% calc(100% - 20px),
+          calc(100% - 30px) calc(100% - 20px),
+          calc(100% - 30px) calc(100% - 10px),
+          calc(100% - 40px) 100%,
+          0 100%,
+          0 10px
+        );
+      }
+
+      .hud-content {
+        .detail-icon {
+          width: 48px;
+          height: 48px;
+        }
+
+        h4 {
+          font-size: 1.125rem;
+        }
+
+        p {
+          font-size: 0.875rem;
+        }
+      }
+
+      // Hide some HUD decorative elements on mobile for simplicity
+      .hud-stripes,
+      .hud-projection {
+        display: none;
+      }
+    }
+  }
+
+  // Mobile Timeline Container
+  .mobile-timeline {
+    display: none; // Hidden by default on desktop, shown via media query above
+    position: relative;
+    padding: 1.5rem 0;
+
+    // Vertical gradient timeline line
+    &::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(
+        180deg,
+        #ef4444 0%,
+        #f97316 25%,
+        #eab308 50%,
+        #10b981 75%,
+        #3b82f6 100%
+      );
+      border-radius: 2px;
+
+      // RTL support - move line to right
+      [dir="rtl"] & {
+        left: auto;
+        right: 23px;
+      }
+    }
+  }
+
+  // Mobile Timeline Item
+  .mobile-timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+
+    // RTL support
+    [dir="rtl"] & {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // Timeline Dot (Touch Target)
+  .timeline-dot {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--space-dark);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+
+    // Touch feedback
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+
+    .dot-number {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+
+    // Focus state for accessibility
+    &:focus-visible {
+      outline: 3px solid var(--nebula-cyan);
+      outline-offset: 2px;
+    }
+
+    // Color variants
+    &.dot-red {
+      &:hover, &.active {
+        border-color: #ef4444;
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        .dot-number { color: #ef4444; }
+      }
+    }
+
+    &.dot-orange {
+      &:hover, &.active {
+        border-color: #f97316;
+        box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+        .dot-number { color: #f97316; }
+      }
+    }
+
+    &.dot-yellow {
+      &:hover, &.active {
+        border-color: #eab308;
+        box-shadow: 0 0 15px rgba(234, 179, 8, 0.5);
+        .dot-number { color: #eab308; }
+      }
+    }
+
+    &.dot-green {
+      &:hover, &.active {
+        border-color: #10b981;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        .dot-number { color: #10b981; }
+      }
+    }
+
+    &.dot-blue {
+      &:hover, &.active {
+        border-color: #3b82f6;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        .dot-number { color: #3b82f6; }
+      }
+    }
+  }
+
+  // Timeline Card (Accordion Style)
+  .timeline-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    // Card Header (Clickable)
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      // Touch feedback
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        ng-icon {
+          color: var(--text-muted);
+          transition: color 0.3s ease;
+        }
+
+        .step-title {
+          font-family: var(--font-display);
+          font-size: 0.9375rem;
+          font-weight: 600;
+          color: var(--text-light);
+          margin: 0;
+        }
+      }
+
+      .expand-icon {
+        color: var(--text-muted);
+        transition: transform 0.3s ease;
+      }
+    }
+
+    // Card Content (Expandable)
+    .card-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+
+      .content-inner {
+        padding: 0 1rem 1rem;
+
+        p {
+          font-size: 0.875rem;
+          color: var(--text-muted);
+          line-height: 1.6;
+          margin: 0;
+        }
+      }
+    }
+
+    // Expanded State
+    &.expanded {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(34, 211, 238, 0.03);
+
+      .card-header {
+        .expand-icon {
+          transform: rotate(180deg);
+        }
+      }
+
+      .card-content {
+        max-height: 200px;
+      }
+    }
+
+    // Color-specific expanded states
+    &.expanded.card-red {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.03);
+      .card-header .header-content ng-icon { color: #ef4444; }
+    }
+
+    &.expanded.card-orange {
+      border-color: rgba(249, 115, 22, 0.3);
+      background: rgba(249, 115, 22, 0.03);
+      .card-header .header-content ng-icon { color: #f97316; }
+    }
+
+    &.expanded.card-yellow {
+      border-color: rgba(234, 179, 8, 0.3);
+      background: rgba(234, 179, 8, 0.03);
+      .card-header .header-content ng-icon { color: #eab308; }
+    }
+
+    &.expanded.card-green {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.03);
+      .card-header .header-content ng-icon { color: #10b981; }
+    }
+
+    &.expanded.card-blue {
+      border-color: rgba(59, 130, 246, 0.3);
+      background: rgba(59, 130, 246, 0.03);
+      .card-header .header-content ng-icon { color: #3b82f6; }
+    }
+  }
+
+  // Active timeline item styling
+  .mobile-timeline-item.active {
+    .timeline-dot {
+      transform: scale(1.1);
+    }
+
+    .timeline-card {
+      transform: translateX(4px);
+
+      [dir="rtl"] & {
+        transform: translateX(-4px);
+      }
+    }
+  }
+}
+
+// Desktop: ensure mobile timeline is hidden
+@media (min-width: 1024px) {
+  .mobile-timeline {
+    display: none !important;
+  }
+}
+
+// ============================================
 // ACCESSIBILITY & REDUCED MOTION
 // ============================================
 
