@@ -299,6 +299,12 @@
 // Primary CTA - Tech Gradient Text & Icons (Teal to Violet)
 // ============================================================
 .devops-cta-primary {
+  // Smooth transition for background
+  transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s ease,
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+
   // Light mode default: Tech gradient (teal to violet)
   .cta-text-gradient {
     background: linear-gradient(135deg, #0d9488 0%, #14b8a6 40%, #7c3aed 100%);
@@ -318,8 +324,12 @@
     transition: all 0.3s ease;
   }
 
-  // Hover: White text/icons (on gradient background)
+  // Hover: Brand gradient background with white text/icons
   &:hover {
+    // Brand gradient: Navy to Teal (from CLAUDE.md)
+    background: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%) !important;
+    border-color: transparent !important;
+
     .cta-text-gradient {
       background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 50%, #faf5ff 100%);
       -webkit-background-clip: text;
@@ -353,6 +363,9 @@
   }
 
   &:hover {
+    // Brand gradient background for dark mode too (Navy to Teal)
+    background: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%) !important;
+
     .cta-text-gradient {
       background: linear-gradient(135deg, #ffffff 0%, #99f6e4 50%, #ddd6fe 100%);
       -webkit-background-clip: text;

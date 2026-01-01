@@ -1619,7 +1619,6 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
     // Simple fade-in animations for sections - no parallax, no scrub
     const sections = [
       '.journey-entry',
-      '.journey-transformation',
       '.journey-solution',
       '.journey-strategic',
       '.journey-enterprise',
@@ -1651,8 +1650,70 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     });
 
+    // === MOBILE TRANSFORMATION SECTION ===
+    // Simplified scroll-based transition without pinning
+    // Problem fades out → Solution fades in
+    const mobileTransformationTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.journey-transformation',
+        start: 'top 60%',
+        end: 'top 20%',
+        scrub: 0.5, // Lightweight scrub for mobile
+        onEnter: () => {
+          this.ngZone.run(() => {
+            this.currentSection = 'transformation';
+            this.cdr.markForCheck();
+          });
+        }
+      }
+    });
+
+    mobileTransformationTl
+      // Fade out problem layer
+      .to('.problem-layer', {
+        opacity: 0,
+        y: -50,
+        duration: 0.5
+      }, 0)
+      // Fade in solution layer
+      .to('.solution-layer', {
+        opacity: 1,
+        duration: 0.5
+      }, 0.3)
+      // Show processor core (no complex scale, just opacity)
+      .to('.solution-layer .processor-core', {
+        opacity: 1,
+        duration: 0.4
+      }, 0.4)
+      // Show portal content
+      .to('.solution-layer .portal-content', {
+        opacity: 1,
+        y: 0,
+        duration: 0.4
+      }, 0.5);
+
+    // Problem cards - simple fade in
+    gsap.utils.toArray('.journey-transformation .problem-card').forEach((card: any, index: number) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          delay: index * 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.journey-transformation',
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            once: true
+          }
+        }
+      );
+    });
+
     // Simple card reveals without stagger delays
-    gsap.utils.toArray('.problem-card, .solution-card, .prod-card, .bento-card, .outcome-card').forEach((card: any) => {
+    gsap.utils.toArray('.solution-card, .prod-card, .bento-card, .outcome-card').forEach((card: any) => {
       gsap.fromTo(card,
         { opacity: 0, y: 20 },
         {

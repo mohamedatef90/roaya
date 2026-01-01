@@ -927,6 +927,73 @@
           <p class="solution-badge">{{ 'services.ai.page.solution.intro' | translate }}</p>
           <h2>{{ 'services.ai.page.solution.title' | translate }}</h2>
           <p class="solution-desc">{{ 'services.ai.page.solution.description' | translate }}</p>
+
+          <!-- Code Window Display -->
+          <div class="code-window" aria-hidden="true">
+            <!-- Window Header -->
+            <div class="window-header">
+              <div class="window-controls">
+                <span class="control-dot dot-red"></span>
+                <span class="control-dot dot-yellow"></span>
+                <span class="control-dot dot-green"></span>
+              </div>
+              <div class="window-title">ai-solution.config</div>
+            </div>
+
+            <!-- Code Content -->
+            <div class="window-content">
+              <div class="code-line">
+                <span class="line-number">1</span>
+                <span class="code-syntax">
+                  <span class="syntax-keyword">const</span>
+                  <span class="syntax-variable"> solution</span>
+                  <span class="syntax-operator"> =</span>
+                  <span class="syntax-punctuation"> {{ '{' }}</span>
+                </span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="code-syntax">
+                  <span class="syntax-property">  approach</span>
+                  <span class="syntax-punctuation">:</span>
+                  <span class="syntax-string"> "Production-Grade AI"</span>
+                  <span class="syntax-punctuation">,</span>
+                </span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="code-syntax">
+                  <span class="syntax-property">  stability</span>
+                  <span class="syntax-punctuation">:</span>
+                  <span class="syntax-boolean"> true</span>
+                  <span class="syntax-punctuation">,</span>
+                </span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="code-syntax">
+                  <span class="syntax-property">  governance</span>
+                  <span class="syntax-punctuation">:</span>
+                  <span class="syntax-string"> "Built-In"</span>
+                  <span class="syntax-punctuation">,</span>
+                </span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="code-syntax">
+                  <span class="syntax-property">  deployment</span>
+                  <span class="syntax-punctuation">:</span>
+                  <span class="syntax-string"> "Controlled"</span>
+                </span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="code-syntax">
+                  <span class="syntax-punctuation">{{ '}' }};</span>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -941,6 +1008,84 @@
   <section class="journey-section journey-solution">
     <!-- Nebula Background -->
     <div class="nebula-glow" aria-hidden="true"></div>
+
+    <!-- CPU Chip Background Visual -->
+    <div class="cpu-chip-container" aria-hidden="true">
+      <!-- Central Processor Core -->
+      <div class="cpu-core">
+        <div class="core-grid"></div>
+        <div class="core-center"></div>
+      </div>
+
+      <!-- Circuit Traces extending outward -->
+      <svg class="cpu-traces" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+        <!-- Horizontal traces (left) -->
+        <line x1="50" y1="180" x2="160" y2="180" class="trace-line" />
+        <line x1="50" y1="200" x2="160" y2="200" class="trace-line" />
+        <line x1="50" y1="220" x2="160" y2="220" class="trace-line" />
+
+        <!-- Horizontal traces (right) -->
+        <line x1="240" y1="180" x2="350" y2="180" class="trace-line" />
+        <line x1="240" y1="200" x2="350" y2="200" class="trace-line" />
+        <line x1="240" y1="220" x2="350" y2="220" class="trace-line" />
+
+        <!-- Vertical traces (top) -->
+        <line x1="180" y1="50" x2="180" y2="160" class="trace-line" />
+        <line x1="200" y1="50" x2="200" y2="160" class="trace-line" />
+        <line x1="220" y1="50" x2="220" y2="160" class="trace-line" />
+
+        <!-- Vertical traces (bottom) -->
+        <line x1="180" y1="240" x2="180" y2="350" class="trace-line" />
+        <line x1="200" y1="240" x2="200" y2="350" class="trace-line" />
+        <line x1="220" y1="240" x2="220" y2="350" class="trace-line" />
+
+        <!-- Connection pads at trace endpoints -->
+        <circle cx="50" cy="180" r="3" class="trace-pad" />
+        <circle cx="50" cy="200" r="3" class="trace-pad" />
+        <circle cx="50" cy="220" r="3" class="trace-pad" />
+        <circle cx="350" cy="180" r="3" class="trace-pad" />
+        <circle cx="350" cy="200" r="3" class="trace-pad" />
+        <circle cx="350" cy="220" r="3" class="trace-pad" />
+        <circle cx="180" cy="50" r="3" class="trace-pad" />
+        <circle cx="200" cy="50" r="3" class="trace-pad" />
+        <circle cx="220" cy="50" r="3" class="trace-pad" />
+        <circle cx="180" cy="350" r="3" class="trace-pad" />
+        <circle cx="200" cy="350" r="3" class="trace-pad" />
+        <circle cx="220" cy="350" r="3" class="trace-pad" />
+      </svg>
+
+      <!-- Pin connections around edges -->
+      <div class="cpu-pins">
+        <!-- Left pins -->
+        <div class="pin-group pin-left">
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+        </div>
+        <!-- Right pins -->
+        <div class="pin-group pin-right">
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+        </div>
+        <!-- Top pins -->
+        <div class="pin-group pin-top">
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+        </div>
+        <!-- Bottom pins -->
+        <div class="pin-group pin-bottom">
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Production Content - Bento Grid -->
     <div class="section-content">
@@ -1353,16 +1498,64 @@
         }
       </div>
 
-      <!-- Active Milestone Detail -->
+      <!-- Active Milestone Detail - HUD Style -->
       <div class="milestone-detail">
         @for (milestone of journeyMilestones; track milestone.number) {
           @if (activeMilestone === milestone.number) {
-            <div class="detail-card">
-              <div class="detail-icon" [class]="'bg-' + milestone.planet">
-                <ng-icon [name]="milestone.icon" size="32"></ng-icon>
+            <div class="hud-card">
+              <!-- HUD Frame -->
+              <div class="hud-frame">
+                <!-- Corner Cuts -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <!-- Edge Glows -->
+                <div class="hud-edge-glow top"></div>
+                <div class="hud-edge-glow bottom"></div>
+
+                <!-- Grid Pattern -->
+                <div class="hud-grid" aria-hidden="true"></div>
+
+                <!-- Scan Line Effect -->
+                <div class="hud-scanline" aria-hidden="true"></div>
+
+                <!-- Data Label (top right) -->
+                <div class="hud-data-label">
+                  <span class="data-id">{{ milestone.number | number:'3.0-0' }}/AI{{ milestone.number }}0{{ milestone.number }}</span>
+                  <div class="data-bars">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar short"></span>
+                  </div>
+                </div>
+
+                <!-- Hazard Stripes (top left decoration) -->
+                <div class="hud-stripes" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <!-- Content -->
+                <div class="hud-content">
+                  <div class="detail-icon" [class]="'bg-' + milestone.planet">
+                    <ng-icon [name]="milestone.icon" size="32"></ng-icon>
+                  </div>
+                  <h4>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.title' | translate }}</h4>
+                  <p>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.description' | translate }}</p>
+                </div>
+
+                <!-- Bottom Bar -->
+                <div class="hud-bottom-bar">
+                  <div class="bar-cut"></div>
+                </div>
               </div>
-              <h4>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.title' | translate }}</h4>
-              <p>{{ 'services.ai.page.methodology.steps.' + milestone.key + '.description' | translate }}</p>
+
+              <!-- Holographic Projection Effect -->
+              <div class="hud-projection" aria-hidden="true">
+                <div class="projection-rays"></div>
+                <div class="projection-base"></div>
+              </div>
             </div>
           }
         }

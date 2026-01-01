@@ -42,13 +42,13 @@
 
   // Glows
   --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.4),
-               0 0 40px rgba(34, 211, 238, 0.2),
-               0 0 60px rgba(34, 211, 238, 0.1);
+    0 0 40px rgba(34, 211, 238, 0.2),
+    0 0 60px rgba(34, 211, 238, 0.1);
   --glow-purple: 0 0 20px rgba(124, 58, 237, 0.4),
-                 0 0 40px rgba(124, 58, 237, 0.2),
-                 0 0 60px rgba(124, 58, 237, 0.1);
+    0 0 40px rgba(124, 58, 237, 0.2),
+    0 0 60px rgba(124, 58, 237, 0.1);
   --glow-danger: 0 0 20px rgba(239, 68, 68, 0.4),
-                 0 0 40px rgba(239, 68, 68, 0.2);
+    0 0 40px rgba(239, 68, 68, 0.2);
 }
 
 // ============================================
@@ -56,115 +56,235 @@
 // ============================================
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
 }
 
 @keyframes pulse-danger {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.5); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
 }
 
 @keyframes portal-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.5; filter: blur(40px); }
-  50% { opacity: 0.8; filter: blur(60px); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: blur(40px);
+  }
+
+  50% {
+    opacity: 0.8;
+    filter: blur(60px);
+  }
 }
 
 @keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
 }
 
 @keyframes asteroid-drift {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(30px) rotate(180deg); }
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(30px) rotate(180deg);
+  }
 }
 
 @keyframes nebula-flow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @keyframes reveal-up {
-  from { opacity: 0; transform: translateY(50px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes planet-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 60px rgba(34, 211, 238, 0.3),
-                0 0 120px rgba(124, 58, 237, 0.2),
-                inset 0 0 60px rgba(34, 211, 238, 0.1);
+      0 0 120px rgba(124, 58, 237, 0.2),
+      inset 0 0 60px rgba(34, 211, 238, 0.1);
   }
+
   50% {
     box-shadow: 0 0 80px rgba(34, 211, 238, 0.5),
-                0 0 160px rgba(124, 58, 237, 0.3),
-                inset 0 0 80px rgba(34, 211, 238, 0.2);
+      0 0 160px rgba(124, 58, 237, 0.3),
+      inset 0 0 80px rgba(34, 211, 238, 0.2);
   }
 }
 
 // AI Element Animations (Subtle Ambient)
 @keyframes chip-float {
-  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-  50% { transform: translateY(-8px) rotate(2deg); opacity: 0.7; }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+    opacity: 0.7;
+  }
 }
 
 @keyframes node-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.4); opacity: 0.1; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.1;
+  }
 }
 
 @keyframes particle-drift {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 0.4; }
-  90% { opacity: 0.4; }
-  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.4;
+  }
+
+  90% {
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(20px);
+    opacity: 0;
+  }
 }
 
 @keyframes data-ring-spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 @keyframes data-ring-spin-reverse {
-  from { transform: translate(-50%, -50%) rotate(360deg); }
-  to { transform: translate(-50%, -50%) rotate(0deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 }
 
 @keyframes branch-pulse {
-  0%, 100% { opacity: 0.3; transform: scaleX(1); }
-  50% { opacity: 0.6; transform: scaleX(1.05); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleX(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scaleX(1.05);
+  }
 }
 
 @keyframes core-glow-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 30px rgba(34, 211, 238, 0.4),
-                0 0 60px rgba(124, 58, 237, 0.3),
-                inset 0 0 20px rgba(34, 211, 238, 0.2);
+      0 0 60px rgba(124, 58, 237, 0.3),
+      inset 0 0 20px rgba(34, 211, 238, 0.2);
   }
+
   50% {
     box-shadow: 0 0 50px rgba(34, 211, 238, 0.6),
-                0 0 100px rgba(124, 58, 237, 0.4),
-                inset 0 0 40px rgba(34, 211, 238, 0.3);
+      0 0 100px rgba(124, 58, 237, 0.4),
+      inset 0 0 40px rgba(34, 211, 238, 0.3);
   }
 }
 
 @keyframes orbit-data {
-  from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+  from {
+    transform: rotate(0deg) translateX(60px) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(60px) rotate(-360deg);
+  }
 }
 
 // 3D Machine Learning Background Animations
 @keyframes node-float-3d {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) translateZ(calc(var(--z, 1) * 50px));
     opacity: 0.6;
   }
+
   50% {
     transform: translateY(-15px) translateZ(calc(var(--z, 1) * 60px));
     opacity: 0.9;
@@ -172,8 +292,13 @@
 }
 
 @keyframes node-ring-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes node-pulse-expand {
@@ -181,6 +306,7 @@
     transform: scale(1);
     opacity: 0.4;
   }
+
   100% {
     transform: scale(2);
     opacity: 0;
@@ -192,9 +318,11 @@
     stroke-dashoffset: 100;
     opacity: 0;
   }
+
   50% {
     opacity: 0.6;
   }
+
   100% {
     stroke-dashoffset: 0;
     opacity: 0.3;
@@ -206,16 +334,20 @@
     transform: translateY(0) translateX(0);
     opacity: 0;
   }
+
   10% {
     opacity: 0.8;
   }
+
   50% {
     transform: translateY(-50vh) translateX(10px);
     opacity: 0.6;
   }
+
   90% {
     opacity: 0.3;
   }
+
   100% {
     transform: translateY(-100vh) translateX(-5px);
     opacity: 0;
@@ -223,12 +355,16 @@
 }
 
 @keyframes ml-icon-float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   25% {
     transform: translateY(-10px) rotate(3deg);
   }
+
   75% {
     transform: translateY(5px) rotate(-2deg);
   }
@@ -356,13 +492,34 @@
 
     .neuron-dot {
       animation: neuron-blink 2s ease-in-out infinite;
-      &:nth-child(2) { animation-delay: 0.3s; }
-      &:nth-child(3) { animation-delay: 0.6s; }
-      &:nth-child(4) { animation-delay: 0.9s; }
-      &:nth-child(5) { animation-delay: 1.2s; }
-      &:nth-child(6) { animation-delay: 1.5s; }
-      &:nth-child(7) { animation-delay: 1.8s; }
-      &:nth-child(8) { animation-delay: 2.1s; }
+
+      &:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      &:nth-child(4) {
+        animation-delay: 0.9s;
+      }
+
+      &:nth-child(5) {
+        animation-delay: 1.2s;
+      }
+
+      &:nth-child(6) {
+        animation-delay: 1.5s;
+      }
+
+      &:nth-child(7) {
+        animation-delay: 1.8s;
+      }
+
+      &:nth-child(8) {
+        animation-delay: 2.1s;
+      }
 
       &.center {
         animation: neuron-center-pulse 1.5s ease-in-out infinite;
@@ -372,10 +529,22 @@
     .ray {
       stroke-dasharray: 20;
       animation: ray-pulse 2s ease-in-out infinite;
-      &:nth-child(2) { animation-delay: 0.4s; }
-      &:nth-child(3) { animation-delay: 0.8s; }
-      &:nth-child(4) { animation-delay: 1.2s; }
-      &:nth-child(5) { animation-delay: 1.6s; }
+
+      &:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0.8s;
+      }
+
+      &:nth-child(4) {
+        animation-delay: 1.2s;
+      }
+
+      &:nth-child(5) {
+        animation-delay: 1.6s;
+      }
     }
   }
 }
@@ -479,10 +648,13 @@
 }
 
 @keyframes brain-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.1);
@@ -490,16 +662,28 @@
 }
 
 @keyframes neuron-blink {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.3); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
 }
 
 @keyframes neuron-center-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.8;
     r: 3;
     filter: drop-shadow(0 0 4px var(--nebula-cyan));
   }
+
   50% {
     opacity: 1;
     r: 4;
@@ -508,10 +692,13 @@
 }
 
 @keyframes ray-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.3;
     stroke-dashoffset: 0;
   }
+
   50% {
     opacity: 0.8;
     stroke-dashoffset: 10;
@@ -519,13 +706,27 @@
 }
 
 @keyframes orbit-spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 @keyframes label-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 // ============================================
@@ -666,27 +867,36 @@
 
 // Floating shape keyframes - Base float animation
 @keyframes shape-float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   25% {
     transform: translateY(-15px) rotate(2deg);
   }
+
   50% {
     transform: translateY(-8px) rotate(-1deg);
   }
+
   75% {
     transform: translateY(-20px) rotate(1deg);
   }
 }
 
 @keyframes shape-float-alt {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg) scale(1);
   }
+
   33% {
     transform: translateY(-12px) rotate(-2deg) scale(1.02);
   }
+
   66% {
     transform: translateY(-18px) rotate(3deg) scale(0.98);
   }
@@ -697,15 +907,19 @@
   0% {
     transform: translate(0, 0) rotate(0deg);
   }
+
   25% {
     transform: translate(30px, -40px) rotate(15deg);
   }
+
   50% {
     transform: translate(60px, 0) rotate(0deg);
   }
+
   75% {
     transform: translate(30px, 40px) rotate(-15deg);
   }
+
   100% {
     transform: translate(0, 0) rotate(0deg);
   }
@@ -715,40 +929,52 @@
   0% {
     transform: translate(0, 0) rotate(0deg) scale(1);
   }
+
   25% {
     transform: translate(40px, -30px) rotate(90deg) scale(1.05);
   }
+
   50% {
     transform: translate(0, -50px) rotate(180deg) scale(1);
   }
+
   75% {
     transform: translate(-40px, -30px) rotate(270deg) scale(0.95);
   }
+
   100% {
     transform: translate(0, 0) rotate(360deg) scale(1);
   }
 }
 
 @keyframes shape-drift-wave {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(0) translateY(0) rotateZ(0deg);
   }
+
   25% {
     transform: translateX(50px) translateY(-20px) rotateZ(10deg);
   }
+
   50% {
     transform: translateX(0) translateY(-40px) rotateZ(0deg);
   }
+
   75% {
     transform: translateX(-50px) translateY(-20px) rotateZ(-10deg);
   }
 }
 
 @keyframes shape-drift-vertical {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg) scale(1);
     opacity: 0.85;
   }
+
   50% {
     transform: translateY(-80px) rotate(180deg) scale(1.1);
     opacity: 0.95;
@@ -759,16 +985,20 @@
   0% {
     transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
+
   100% {
     transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg);
   }
 }
 
 @keyframes shape-pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.3));
     opacity: 0.7;
   }
+
   50% {
     filter: drop-shadow(0 0 25px rgba(124, 58, 237, 0.5));
     opacity: 0.95;
@@ -779,15 +1009,19 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 @keyframes iridescent-shift {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: hue-rotate(0deg) brightness(1);
   }
+
   50% {
     filter: hue-rotate(30deg) brightness(1.1);
   }
@@ -816,6 +1050,39 @@
   // Iridescent color shift animation
   &:hover {
     animation: iridescent-shift 3s ease-in-out infinite;
+  }
+}
+
+// Mobile: Hide most shapes to reduce visual clutter and improve performance
+// Only show shapes 1, 2, 10, 16 (4 shapes spread across the viewport)
+@media (max-width: 768px) {
+
+  .shape-3,
+  .shape-4,
+  .shape-5,
+  .shape-6,
+  .shape-7,
+  .shape-8,
+  .shape-9,
+  .shape-11,
+  .shape-12,
+  .shape-13,
+  .shape-14,
+  .shape-15,
+  .shape-17,
+  .shape-18,
+  .shape-19,
+  .shape-20,
+  .shape-21,
+  .shape-22,
+  .shape-23,
+  .shape-24 {
+    display: none !important;
+  }
+
+  // Make remaining shapes smaller and less intrusive
+  .floating-shape {
+    opacity: 0.5;
   }
 }
 
@@ -1319,6 +1586,7 @@
         background: radial-gradient(circle, var(--nebula-purple) 0%, var(--nebula-cyan) 50%, transparent 70%);
         opacity: 1;
       }
+
       .node-ring {
         border-color: rgba(124, 58, 237, 0.5);
       }
@@ -1433,12 +1701,10 @@
   .ml-depth-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      ellipse 80% 60% at 50% 50%,
-      transparent 0%,
-      rgba(10, 10, 35, 0.4) 50%,
-      rgba(10, 10, 35, 0.8) 100%
-    );
+    background: radial-gradient(ellipse 80% 60% at 50% 50%,
+        transparent 0%,
+        rgba(10, 10, 35, 0.4) 50%,
+        rgba(10, 10, 35, 0.8) 100%);
     pointer-events: none;
   }
 
@@ -1471,11 +1737,10 @@
     line-height: 1.1;
     letter-spacing: -0.02em;
     background: linear-gradient(135deg,
-      var(--text-white) 0%,
-      var(--nebula-cyan) 30%,
-      var(--nebula-purple) 60%,
-      var(--text-white) 100%
-    );
+        var(--text-white) 0%,
+        var(--nebula-cyan) 30%,
+        var(--nebula-purple) 60%,
+        var(--text-white) 100%);
     background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1571,10 +1836,9 @@
     width: 800px;
     height: 800px;
     background: radial-gradient(circle,
-      rgba(34, 211, 238, 0.15) 0%,
-      rgba(124, 58, 237, 0.1) 30%,
-      transparent 60%
-    );
+        rgba(34, 211, 238, 0.15) 0%,
+        rgba(124, 58, 237, 0.1) 30%,
+        transparent 60%);
     animation: glow-pulse 6s ease-in-out infinite;
     pointer-events: none;
   }
@@ -1586,18 +1850,16 @@
 
 .journey-problem {
   background: linear-gradient(180deg,
-    var(--space-void) 0%,
-    rgba(239, 68, 68, 0.05) 50%,
-    var(--space-void) 100%
-  );
+      var(--space-void) 0%,
+      rgba(239, 68, 68, 0.05) 50%,
+      var(--space-void) 100%);
 
   .void-overlay {
     position: absolute;
     inset: 0;
     background: radial-gradient(ellipse at center,
-      transparent 30%,
-      rgba(0, 0, 0, 0.8) 100%
-    );
+        transparent 30%,
+        rgba(0, 0, 0, 0.8) 100%);
     pointer-events: none;
   }
 
@@ -1647,12 +1909,24 @@
       gap: 0.5rem;
       color: var(--text-muted);
       font-size: 0.9375rem;
-      // Initial state for GSAP animation
+      // Initial state for GSAP animation (desktop only)
       opacity: 0;
       transform: translateX(-30px);
 
+      // Mobile: reset GSAP initial state
+      @media (max-width: 768px) {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
       ng-icon {
         color: var(--danger-orange);
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -1701,9 +1975,15 @@
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 
-    // Initial state for GSAP animation
+    // Initial state for GSAP animation (desktop)
     opacity: 0;
     transform: translateY(60px) scale(0.9);
+
+    // Mobile: visible by default (no animation dependency)
+    @media (max-width: 768px) {
+      opacity: 1;
+      transform: none;
+    }
 
     // Animated state (set by GSAP)
     &.is-visible {
@@ -1761,17 +2041,26 @@
     // Danger levels
     &.danger-high {
       border-color: rgba(239, 68, 68, 0.4);
-      .problem-icon { color: var(--danger-red); }
+
+      .problem-icon {
+        color: var(--danger-red);
+      }
     }
 
     &.danger-medium {
       border-color: rgba(249, 115, 22, 0.4);
-      .problem-icon { color: var(--danger-orange); }
+
+      .problem-icon {
+        color: var(--danger-orange);
+      }
     }
 
     &.danger-low {
       border-color: rgba(245, 158, 11, 0.4);
-      .problem-icon { color: var(--danger-amber); }
+
+      .problem-icon {
+        color: var(--danger-amber);
+      }
     }
   }
 
@@ -1800,9 +2089,8 @@
     width: 600px;
     height: 600px;
     background: radial-gradient(circle,
-      rgba(239, 68, 68, 0.1) 0%,
-      transparent 60%
-    );
+        rgba(239, 68, 68, 0.1) 0%,
+        transparent 60%);
     animation: glow-pulse 4s ease-in-out infinite;
     pointer-events: none;
   }
@@ -1818,14 +2106,13 @@
   .asteroid {
     position: absolute;
     background: linear-gradient(135deg,
-      rgba(100, 100, 100, 0.8) 0%,
-      rgba(50, 50, 50, 0.9) 100%
-    );
+        rgba(100, 100, 100, 0.8) 0%,
+        rgba(50, 50, 50, 0.9) 100%);
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     opacity: 0.6;
     animation: asteroid-drift 8s ease-in-out infinite alternate;
     box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.5),
-                inset 5px 5px 15px rgba(255, 255, 255, 0.1);
+      inset 5px 5px 15px rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -1933,12 +2220,29 @@
     top: 50%;
     left: 50%;
 
-    &:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-$radius); }
-    &:nth-child(2) { transform: translate(-50%, -50%) rotate(60deg) translateY(-$radius); }
-    &:nth-child(3) { transform: translate(-50%, -50%) rotate(120deg) translateY(-$radius); }
-    &:nth-child(4) { transform: translate(-50%, -50%) rotate(180deg) translateY(-$radius); }
-    &:nth-child(5) { transform: translate(-50%, -50%) rotate(240deg) translateY(-$radius); }
-    &:nth-child(6) { transform: translate(-50%, -50%) rotate(300deg) translateY(-$radius); }
+    &:nth-child(1) {
+      transform: translate(-50%, -50%) rotate(0deg) translateY(-$radius);
+    }
+
+    &:nth-child(2) {
+      transform: translate(-50%, -50%) rotate(60deg) translateY(-$radius);
+    }
+
+    &:nth-child(3) {
+      transform: translate(-50%, -50%) rotate(120deg) translateY(-$radius);
+    }
+
+    &:nth-child(4) {
+      transform: translate(-50%, -50%) rotate(180deg) translateY(-$radius);
+    }
+
+    &:nth-child(5) {
+      transform: translate(-50%, -50%) rotate(240deg) translateY(-$radius);
+    }
+
+    &:nth-child(6) {
+      transform: translate(-50%, -50%) rotate(300deg) translateY(-$radius);
+    }
   }
 
   .portal-content {
@@ -1992,10 +2296,9 @@
     width: 800px;
     height: 800px;
     background: radial-gradient(circle,
-      rgba(34, 211, 238, 0.15) 0%,
-      rgba(124, 58, 237, 0.1) 30%,
-      transparent 50%
-    );
+        rgba(34, 211, 238, 0.15) 0%,
+        rgba(124, 58, 237, 0.1) 30%,
+        transparent 50%);
     animation: glow-pulse 4s ease-in-out infinite;
     pointer-events: none;
   }
@@ -2012,14 +2315,21 @@
   background: var(--space-void);
   overflow: hidden;
 
+  // Mobile: stack layers vertically
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    min-height: auto; // Let content determine height
+    overflow: visible; // Allow content to flow naturally
+  }
+
   // Void overlay (for problem state - starts visible)
   .void-overlay {
     position: absolute;
     inset: 0;
     background: radial-gradient(ellipse at center,
-      transparent 30%,
-      rgba(0, 0, 0, 0.8) 100%
-    );
+        transparent 30%,
+        rgba(0, 0, 0, 0.8) 100%);
     pointer-events: none;
     z-index: 1;
   }
@@ -2033,10 +2343,9 @@
     width: 800px;
     height: 800px;
     background: radial-gradient(circle,
-      rgba(34, 211, 238, 0.15) 0%,
-      rgba(124, 58, 237, 0.1) 30%,
-      transparent 50%
-    );
+        rgba(34, 211, 238, 0.15) 0%,
+        rgba(124, 58, 237, 0.1) 30%,
+        transparent 50%);
     animation: glow-pulse 4s ease-in-out infinite;
     pointer-events: none;
     opacity: 0; // Hidden initially, GSAP will fade in
@@ -2052,9 +2361,8 @@
     width: 600px;
     height: 600px;
     background: radial-gradient(circle,
-      rgba(239, 68, 68, 0.1) 0%,
-      transparent 60%
-    );
+        rgba(239, 68, 68, 0.1) 0%,
+        transparent 60%);
     animation: glow-pulse 4s ease-in-out infinite;
     pointer-events: none;
     z-index: 1;
@@ -2070,7 +2378,14 @@
     padding: 2rem;
 
     @media (max-width: 768px) {
-      padding: 1rem;
+      padding: 1.5rem;
+      // Mobile: stack layers vertically (no absolute positioning)
+      position: relative;
+      inset: auto; // Reset inset
+      width: 100%;
+      min-height: auto; // Let content determine height
+      flex-direction: column;
+      align-items: stretch;
     }
   }
 
@@ -2081,6 +2396,12 @@
     .section-content {
       width: 100%;
       max-width: 1100px;
+    }
+
+    @media (max-width: 768px) {
+      // Mobile: problem layer is in document flow and VISIBLE
+      position: relative;
+      opacity: 1 !important; // Override GSAP-set opacity for mobile
     }
   }
 
@@ -2097,9 +2418,9 @@
       width: 400px;
       height: 400px;
 
-      @media (max-width: 640px) {
-        width: 280px;
-        height: 280px;
+      @media (max-width: 768px) {
+        // Mobile: hide complex processor visualization
+        display: none;
       }
     }
 
@@ -2108,6 +2429,19 @@
       z-index: 10;
       opacity: 0;
       transform: translateY(30px);
+
+      @media (max-width: 768px) {
+        // Mobile: visible by default, stack vertically
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      // Mobile: solution layer visible and in document flow
+      opacity: 1 !important; // Override for mobile - must be visible
+      position: relative;
+      margin-top: 2rem;
     }
   }
 
@@ -2146,8 +2480,20 @@
       color: var(--text-muted);
       font-size: 0.9375rem;
 
+      // Mobile: ensure visibility and reset transforms (override GSAP initial state)
+      @media (max-width: 768px) {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
       ng-icon {
         color: var(--danger-orange);
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -2165,6 +2511,11 @@
       color: var(--text-muted);
       margin: 0;
       line-height: 1.7;
+
+      // Mobile: ensure visibility (override GSAP initial state)
+      @media (max-width: 768px) {
+        opacity: 1 !important;
+      }
 
       &.highlight {
         font-family: var(--font-display);
@@ -2242,12 +2593,18 @@
 
     &.danger-high {
       border-color: rgba(239, 68, 68, 0.4);
-      .problem-icon { color: var(--danger-red); }
+
+      .problem-icon {
+        color: var(--danger-red);
+      }
     }
 
     &.danger-medium {
       border-color: rgba(249, 115, 22, 0.4);
-      .problem-icon { color: var(--danger-orange); }
+
+      .problem-icon {
+        color: var(--danger-orange);
+      }
     }
   }
 
@@ -2328,12 +2685,29 @@
     top: 50%;
     left: 50%;
 
-    &:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-$radius); }
-    &:nth-child(2) { transform: translate(-50%, -50%) rotate(60deg) translateY(-$radius); }
-    &:nth-child(3) { transform: translate(-50%, -50%) rotate(120deg) translateY(-$radius); }
-    &:nth-child(4) { transform: translate(-50%, -50%) rotate(180deg) translateY(-$radius); }
-    &:nth-child(5) { transform: translate(-50%, -50%) rotate(240deg) translateY(-$radius); }
-    &:nth-child(6) { transform: translate(-50%, -50%) rotate(300deg) translateY(-$radius); }
+    &:nth-child(1) {
+      transform: translate(-50%, -50%) rotate(0deg) translateY(-$radius);
+    }
+
+    &:nth-child(2) {
+      transform: translate(-50%, -50%) rotate(60deg) translateY(-$radius);
+    }
+
+    &:nth-child(3) {
+      transform: translate(-50%, -50%) rotate(120deg) translateY(-$radius);
+    }
+
+    &:nth-child(4) {
+      transform: translate(-50%, -50%) rotate(180deg) translateY(-$radius);
+    }
+
+    &:nth-child(5) {
+      transform: translate(-50%, -50%) rotate(240deg) translateY(-$radius);
+    }
+
+    &:nth-child(6) {
+      transform: translate(-50%, -50%) rotate(300deg) translateY(-$radius);
+    }
   }
 
   .portal-text {
@@ -2371,6 +2745,129 @@
       max-width: 600px;
       margin: 0 auto;
       line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    // ===== CODE WINDOW DISPLAY =====
+    .code-window {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(15, 16, 32, 0.9);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow:
+        0 0 30px rgba(34, 211, 238, 0.1),
+        0 10px 40px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+
+      @media (max-width: 768px) {
+        max-width: 100%;
+      }
+
+      .window-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: rgba(10, 10, 26, 0.95);
+        border-bottom: 1px solid rgba(34, 211, 238, 0.15);
+
+        .window-controls {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .control-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+
+          &.dot-red {
+            background: #ef4444;
+          }
+
+          &.dot-yellow {
+            background: #f59e0b;
+          }
+
+          &.dot-green {
+            background: #10b981;
+          }
+        }
+
+        .window-title {
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          color: var(--text-muted);
+          flex: 1;
+          text-align: center;
+        }
+      }
+
+      .window-content {
+        padding: 1.25rem;
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        line-height: 1.8;
+        overflow-x: auto;
+
+        @media (max-width: 768px) {
+          font-size: 0.75rem;
+          padding: 1rem;
+        }
+
+        .code-line {
+          display: flex;
+          gap: 1.5rem;
+          min-height: 1.8em;
+
+          &:hover {
+            background: rgba(34, 211, 238, 0.05);
+          }
+
+          .line-number {
+            color: rgba(148, 163, 184, 0.4);
+            user-select: none;
+            text-align: right;
+            min-width: 1.5rem;
+          }
+
+          .code-syntax {
+            flex: 1;
+
+            .syntax-keyword {
+              color: #c678dd; // Purple
+              font-weight: 600;
+            }
+
+            .syntax-variable {
+              color: #e06c75; // Red
+            }
+
+            .syntax-operator {
+              color: #56b6c2; // Cyan
+            }
+
+            .syntax-property {
+              color: #61afef; // Blue
+            }
+
+            .syntax-string {
+              color: #98c379; // Green
+            }
+
+            .syntax-boolean {
+              color: #d19a66; // Orange
+            }
+
+            .syntax-punctuation {
+              color: #abb2bf; // Light gray
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -2392,8 +2889,7 @@
     var(--space-dark) 30%,
     var(--space-medium) 50%,
     var(--space-dark) 70%,
-    var(--space-void) 100%
-  );
+    var(--space-void) 100%);
 
   .nebula-glow {
     position: absolute;
@@ -2403,6 +2899,174 @@
       radial-gradient(ellipse at 80% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
       radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
     pointer-events: none;
+  }
+
+  // ===== CPU CHIP BACKGROUND VISUAL =====
+  .cpu-chip-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(400px, 90vw);
+    height: min(400px, 90vw);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
+
+    @media (max-width: 768px) {
+      opacity: 0.08;
+    }
+
+    // Central CPU Core
+    .cpu-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 2px solid rgba(34, 211, 238, 0.4);
+      border-radius: 4px;
+      box-shadow:
+        0 0 20px rgba(34, 211, 238, 0.2),
+        inset 0 0 30px rgba(34, 211, 238, 0.1);
+
+      // Grid pattern inside core
+      .core-grid {
+        position: absolute;
+        inset: 8px;
+        background-image:
+          linear-gradient(rgba(34, 211, 238, 0.2) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(34, 211, 238, 0.2) 1px, transparent 1px);
+        background-size: 12px 12px;
+        border-radius: 2px;
+      }
+
+      // Center indicator
+      .core-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background: radial-gradient(circle, var(--nebula-cyan) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: core-pulse-glow 2s ease-in-out infinite;
+      }
+    }
+
+    // Circuit traces (SVG)
+    .cpu-traces {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+
+      .trace-line {
+        stroke: var(--nebula-cyan);
+        stroke-width: 2;
+        opacity: 0.6;
+        stroke-dasharray: 5, 5;
+        animation: trace-flow 3s linear infinite;
+      }
+
+      .trace-pad {
+        fill: var(--nebula-cyan);
+        opacity: 0.8;
+        animation: pad-pulse 2s ease-in-out infinite;
+
+        &:nth-child(odd) {
+          animation-delay: 1s;
+        }
+      }
+    }
+
+    // Pin connections
+    .cpu-pins {
+      .pin-group {
+        position: absolute;
+        display: flex;
+
+        &.pin-left {
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        &.pin-right {
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        &.pin-top {
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          flex-direction: row;
+          gap: 12px;
+        }
+
+        &.pin-bottom {
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          flex-direction: row;
+          gap: 12px;
+        }
+
+        .pin {
+          width: 4px;
+          height: 16px;
+          background: linear-gradient(to right, rgba(34, 211, 238, 0.4), rgba(34, 211, 238, 0.8));
+          border-radius: 1px;
+
+          .pin-top &,
+          .pin-bottom & {
+            width: 16px;
+            height: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  // CPU Chip Animations
+  @keyframes core-pulse-glow {
+    0%, 100% {
+      opacity: 0.5;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+
+  @keyframes trace-flow {
+    0% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: 10;
+    }
+  }
+
+  @keyframes pad-pulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.3);
+    }
   }
 
   // ===== PRODUCTION BENTO GRID =====
@@ -2436,7 +3100,9 @@
       transform: translateY(-3px);
       border-color: rgba(34, 211, 238, 0.3);
 
-      .card-glow { opacity: 1; }
+      .card-glow {
+        opacity: 1;
+      }
     }
 
     .card-glow {
@@ -2459,7 +3125,9 @@
       color: var(--nebula-cyan);
       margin-bottom: 0.75rem;
 
-      ng-icon { opacity: 0.8; }
+      ng-icon {
+        opacity: 0.8;
+      }
     }
   }
 
@@ -2474,7 +3142,9 @@
     background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
     border-color: rgba(34, 211, 238, 0.2);
 
-    .title-icon { color: var(--nebula-cyan); }
+    .title-icon {
+      color: var(--nebula-cyan);
+    }
 
     h2 {
       font-family: var(--font-display);
@@ -2488,17 +3158,24 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
 
-      @media (min-width: 768px) { font-size: 1.5rem; }
+      @media (min-width: 768px) {
+        font-size: 1.5rem;
+      }
     }
   }
 
   // Problem Card
   .prod-problem {
-    @media (min-width: 768px) { grid-column: span 4; }
+    @media (min-width: 768px) {
+      grid-column: span 4;
+    }
+
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(249, 115, 22, 0.03) 100%);
     border-color: rgba(239, 68, 68, 0.15);
 
-    .card-label { color: var(--danger-orange); }
+    .card-label {
+      color: var(--danger-orange);
+    }
 
     .problem-main {
       font-size: 1rem;
@@ -2518,11 +3195,16 @@
 
   // Outcomes Card
   .prod-outcomes {
-    @media (min-width: 768px) { grid-column: span 2; }
+    @media (min-width: 768px) {
+      grid-column: span 2;
+    }
+
     background: rgba(239, 68, 68, 0.03);
     border-color: rgba(239, 68, 68, 0.12);
 
-    .card-label { color: var(--danger-red); }
+    .card-label {
+      color: var(--danger-red);
+    }
 
     .outcome-list {
       display: flex;
@@ -2552,7 +3234,10 @@
 
   // Transition Card
   .prod-transition {
-    @media (min-width: 768px) { grid-column: span 2; }
+    @media (min-width: 768px) {
+      grid-column: span 2;
+    }
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2579,7 +3264,10 @@
 
   // Vision Card
   .prod-vision {
-    @media (min-width: 768px) { grid-column: span 4; }
+    @media (min-width: 768px) {
+      grid-column: span 4;
+    }
+
     background: linear-gradient(135deg, rgba(34, 211, 238, 0.05) 0%, rgba(16, 185, 129, 0.03) 100%);
     border-color: rgba(34, 211, 238, 0.15);
 
@@ -2598,7 +3286,9 @@
     padding: 1.25rem;
     min-height: 140px;
 
-    @media (min-width: 768px) { grid-column: span 2; }
+    @media (min-width: 768px) {
+      grid-column: span 2;
+    }
 
     ng-icon {
       color: var(--nebula-cyan);
@@ -2624,36 +3314,66 @@
     &.accent-cyan {
       background: rgba(34, 211, 238, 0.04);
       border-color: rgba(34, 211, 238, 0.12);
-      ng-icon { color: var(--nebula-cyan); }
-      &:hover { border-color: rgba(34, 211, 238, 0.3); }
+
+      ng-icon {
+        color: var(--nebula-cyan);
+      }
+
+      &:hover {
+        border-color: rgba(34, 211, 238, 0.3);
+      }
     }
 
     &.accent-purple {
       background: rgba(124, 58, 237, 0.04);
       border-color: rgba(124, 58, 237, 0.12);
-      ng-icon { color: var(--nebula-purple); }
-      &:hover { border-color: rgba(124, 58, 237, 0.3); }
+
+      ng-icon {
+        color: var(--nebula-purple);
+      }
+
+      &:hover {
+        border-color: rgba(124, 58, 237, 0.3);
+      }
     }
 
     &.accent-blue {
       background: rgba(59, 130, 246, 0.04);
       border-color: rgba(59, 130, 246, 0.12);
-      ng-icon { color: var(--nebula-blue); }
-      &:hover { border-color: rgba(59, 130, 246, 0.3); }
+
+      ng-icon {
+        color: var(--nebula-blue);
+      }
+
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.3);
+      }
     }
 
     &.accent-green {
       background: rgba(16, 185, 129, 0.04);
       border-color: rgba(16, 185, 129, 0.12);
-      ng-icon { color: var(--nebula-green); }
-      &:hover { border-color: rgba(16, 185, 129, 0.3); }
+
+      ng-icon {
+        color: var(--nebula-green);
+      }
+
+      &:hover {
+        border-color: rgba(16, 185, 129, 0.3);
+      }
     }
 
     &.accent-orange {
       background: rgba(249, 115, 22, 0.04);
       border-color: rgba(249, 115, 22, 0.12);
-      ng-icon { color: var(--danger-orange); }
-      &:hover { border-color: rgba(249, 115, 22, 0.3); }
+
+      ng-icon {
+        color: var(--danger-orange);
+      }
+
+      &:hover {
+        border-color: rgba(249, 115, 22, 0.3);
+      }
     }
   }
 
@@ -2681,7 +3401,9 @@
       color: var(--text-light);
       margin: 0;
 
-      @media (min-width: 768px) { font-size: 1.25rem; }
+      @media (min-width: 768px) {
+        font-size: 1.25rem;
+      }
     }
   }
 }
@@ -2843,12 +3565,11 @@
       right: 10%;
       height: 2px;
       background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(34, 211, 238, 0.3) 20%,
-        rgba(124, 58, 237, 0.3) 50%,
-        rgba(34, 211, 238, 0.3) 80%,
-        transparent 100%
-      );
+          transparent 0%,
+          rgba(34, 211, 238, 0.3) 20%,
+          rgba(124, 58, 237, 0.3) 50%,
+          rgba(34, 211, 238, 0.3) 80%,
+          transparent 100%);
       transform: translateY(-50%);
 
       @media (max-width: 768px) {
@@ -2869,9 +3590,29 @@
     opacity: 0;
     transform: translateY(40px) scale(0.8);
 
+    // Floating animation for all planets
+    animation: planet-float 3s ease-in-out infinite;
+
+    // Stagger the animation for each planet
+    &:nth-child(2) { animation-delay: 0s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+    &:nth-child(4) { animation-delay: 0.6s; }
+    &:nth-child(5) { animation-delay: 0.9s; }
+    &:nth-child(6) { animation-delay: 1.2s; }
+
     &:hover,
     &.active {
       transform: scale(1.1);
+      animation-play-state: paused;
+    }
+
+    @keyframes planet-float {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-12px) scale(1.02);
+      }
     }
 
     .planet-core {
@@ -2921,16 +3662,22 @@
 
     // Planet color variants
     &.planet-cyan {
+
       &.active,
       &:hover {
         .planet-core {
           border-color: var(--nebula-cyan);
           box-shadow: var(--glow-cyan);
-          .planet-number { color: var(--nebula-cyan); }
+
+          .planet-number {
+            color: var(--nebula-cyan);
+          }
         }
+
         .planet-ring {
           border-color: rgba(34, 211, 238, 0.3);
         }
+
         .planet-label {
           color: var(--nebula-cyan);
         }
@@ -2938,16 +3685,22 @@
     }
 
     &.planet-purple {
+
       &.active,
       &:hover {
         .planet-core {
           border-color: var(--nebula-purple);
           box-shadow: var(--glow-purple);
-          .planet-number { color: var(--nebula-purple); }
+
+          .planet-number {
+            color: var(--nebula-purple);
+          }
         }
+
         .planet-ring {
           border-color: rgba(124, 58, 237, 0.3);
         }
+
         .planet-label {
           color: var(--nebula-purple);
         }
@@ -2955,16 +3708,22 @@
     }
 
     &.planet-green {
+
       &.active,
       &:hover {
         .planet-core {
           border-color: var(--nebula-green);
           box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-          .planet-number { color: var(--nebula-green); }
+
+          .planet-number {
+            color: var(--nebula-green);
+          }
         }
+
         .planet-ring {
           border-color: rgba(16, 185, 129, 0.3);
         }
+
         .planet-label {
           color: var(--nebula-green);
         }
@@ -2972,18 +3731,96 @@
     }
 
     &.planet-blue {
+
       &.active,
       &:hover {
         .planet-core {
           border-color: var(--nebula-blue);
           box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-          .planet-number { color: var(--nebula-blue); }
+
+          .planet-number {
+            color: var(--nebula-blue);
+          }
         }
+
         .planet-ring {
           border-color: rgba(59, 130, 246, 0.3);
         }
+
         .planet-label {
           color: var(--nebula-blue);
+        }
+      }
+    }
+
+    // Red planet (Step 1)
+    &.planet-red {
+
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: #ef4444;
+          box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+
+          .planet-number {
+            color: #ef4444;
+          }
+        }
+
+        .planet-ring {
+          border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .planet-label {
+          color: #ef4444;
+        }
+      }
+    }
+
+    // Orange planet (Step 2)
+    &.planet-orange {
+
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: #f97316;
+          box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+
+          .planet-number {
+            color: #f97316;
+          }
+        }
+
+        .planet-ring {
+          border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .planet-label {
+          color: #f97316;
+        }
+      }
+    }
+
+    // Yellow planet (Step 3)
+    &.planet-yellow {
+
+      &.active,
+      &:hover {
+        .planet-core {
+          border-color: #eab308;
+          box-shadow: 0 0 20px rgba(234, 179, 8, 0.5);
+
+          .planet-number {
+            color: #eab308;
+          }
+        }
+
+        .planet-ring {
+          border-color: rgba(234, 179, 8, 0.3);
+        }
+
+        .planet-label {
+          color: #eab308;
         }
       }
     }
@@ -2994,44 +3831,369 @@
     opacity: 0;
     transform: translateY(30px);
 
-    .detail-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      padding: 2rem;
-      text-align: center;
-      max-width: 600px;
+    // ===== HUD CARD STYLES =====
+    .hud-card {
+      position: relative;
+      max-width: 650px;
       margin: 0 auto;
       animation: reveal-up 0.3s ease;
+    }
+
+    .hud-frame {
+      position: relative;
+      background: linear-gradient(180deg,
+        rgba(45, 65, 75, 0.85) 0%,
+        rgba(35, 55, 65, 0.9) 50%,
+        rgba(25, 40, 50, 0.95) 100%);
+      border: 1px solid rgba(120, 180, 200, 0.4);
+      padding: 2.5rem;
+      min-height: 280px;
+
+      // Chamfered corners effect using clip-path
+      clip-path: polygon(
+        20px 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% calc(100% - 40px),
+        calc(100% - 60px) calc(100% - 40px),
+        calc(100% - 60px) calc(100% - 20px),
+        calc(100% - 80px) 100%,
+        0 100%,
+        0 20px
+      );
+
+      @media (max-width: 768px) {
+        padding: 1.5rem;
+        min-height: 220px;
+        clip-path: polygon(
+          15px 0,
+          calc(100% - 15px) 0,
+          100% 15px,
+          100% calc(100% - 30px),
+          calc(100% - 40px) calc(100% - 30px),
+          calc(100% - 40px) calc(100% - 15px),
+          calc(100% - 55px) 100%,
+          0 100%,
+          0 15px
+        );
+      }
+    }
+
+    // HUD Corner decorations
+    .hud-corner {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      pointer-events: none;
+
+      &.top-left {
+        top: 0;
+        left: 0;
+        border-top: 2px solid rgba(180, 220, 240, 0.8);
+        border-left: 2px solid rgba(180, 220, 240, 0.8);
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+      }
+
+      &.top-right {
+        top: 0;
+        right: 0;
+        border-top: 2px solid rgba(180, 220, 240, 0.8);
+        border-right: 2px solid rgba(180, 220, 240, 0.8);
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+      }
+
+      &.bottom-left {
+        bottom: 0;
+        left: 0;
+        border-bottom: 2px solid rgba(180, 220, 240, 0.5);
+        border-left: 2px solid rgba(180, 220, 240, 0.5);
+      }
+
+      &.bottom-right {
+        bottom: 40px;
+        right: 60px;
+        border-bottom: 2px solid rgba(180, 220, 240, 0.5);
+        border-right: 2px solid rgba(180, 220, 240, 0.5);
+      }
+    }
+
+    // Edge glows
+    .hud-edge-glow {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(200, 240, 255, 0.8) 20%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(200, 240, 255, 0.8) 80%,
+        transparent 100%);
+      box-shadow: 0 0 15px rgba(200, 240, 255, 0.6);
+
+      &.top {
+        top: -1px;
+      }
+
+      &.bottom {
+        bottom: -1px;
+        width: 40%;
+        left: 30%;
+        transform: none;
+      }
+    }
+
+    // Grid pattern
+    .hud-grid {
+      position: absolute;
+      inset: 15px;
+      background-image:
+        linear-gradient(rgba(100, 150, 170, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 150, 170, 0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    // Scan line effect
+    .hud-scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(100, 200, 220, 0.3) 50%,
+        transparent 100%);
+      animation: hud-scan 4s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes hud-scan {
+      0% { top: 0; opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { top: calc(100% - 3px); opacity: 0; }
+    }
+
+    // Data label (top right)
+    .hud-data-label {
+      position: absolute;
+      top: -30px;
+      right: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+
+      .data-id {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: rgba(200, 220, 240, 0.9);
+        letter-spacing: 1px;
+      }
+
+      .data-bars {
+        display: flex;
+        gap: 3px;
+
+        .bar {
+          width: 25px;
+          height: 3px;
+          background: rgba(200, 220, 240, 0.7);
+
+          &.short {
+            width: 15px;
+          }
+        }
+      }
+
+      // Connection line to card
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: 0;
+        width: 1px;
+        height: 10px;
+        background: rgba(200, 220, 240, 0.5);
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        border: 1px solid rgba(200, 220, 240, 0.7);
+        border-radius: 50%;
+        background: rgba(10, 20, 30, 0.8);
+      }
+    }
+
+    // Hazard stripes decoration
+    .hud-stripes {
+      position: absolute;
+      top: 8px;
+      left: 25px;
+      display: flex;
+      gap: 4px;
+      transform: skewX(-15deg);
+
+      span {
+        width: 8px;
+        height: 20px;
+        background: repeating-linear-gradient(
+          -45deg,
+          rgba(200, 180, 100, 0.6),
+          rgba(200, 180, 100, 0.6) 2px,
+          rgba(40, 40, 40, 0.8) 2px,
+          rgba(40, 40, 40, 0.8) 4px
+        );
+      }
+    }
+
+    // Content area
+    .hud-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding-top: 1rem;
 
       .detail-icon {
         width: 72px;
         height: 72px;
-        border-radius: 1rem;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 1.5rem;
         color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 
-        &.bg-cyan { background: linear-gradient(135deg, var(--nebula-cyan), var(--portal-cyan)); }
-        &.bg-purple { background: linear-gradient(135deg, var(--nebula-purple), var(--portal-violet)); }
-        &.bg-green { background: linear-gradient(135deg, var(--nebula-green), #059669); }
-        &.bg-blue { background: linear-gradient(135deg, var(--nebula-blue), #2563eb); }
+        &.bg-cyan {
+          background: linear-gradient(135deg, rgba(34, 211, 238, 0.3), rgba(34, 211, 238, 0.1));
+          border-color: rgba(34, 211, 238, 0.5);
+          box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
+        }
+
+        &.bg-purple {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(124, 58, 237, 0.1));
+          border-color: rgba(124, 58, 237, 0.5);
+          box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+        }
+
+        &.bg-green {
+          background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1));
+          border-color: rgba(16, 185, 129, 0.5);
+          box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+
+        &.bg-blue {
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+          border-color: rgba(59, 130, 246, 0.5);
+          box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
       }
 
       h4 {
         font-family: var(--font-display);
         font-size: 1.5rem;
         font-weight: 600;
-        color: var(--text-white);
+        color: rgba(220, 240, 255, 0.95);
         margin-bottom: 1rem;
+        text-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
       }
 
       p {
         font-size: 1rem;
-        color: var(--text-muted);
+        color: rgba(180, 200, 220, 0.85);
         line-height: 1.7;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+
+    // Bottom bar (chamfered section)
+    .hud-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 180px;
+      height: 50px;
+      background: rgba(20, 35, 45, 0.9);
+      border-top: 1px solid rgba(120, 180, 200, 0.3);
+      border-left: 1px solid rgba(120, 180, 200, 0.3);
+      clip-path: polygon(40px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
+
+      .bar-cut {
+        position: absolute;
+        bottom: 8px;
+        right: 10px;
+        width: 50px;
+        height: 4px;
+        background: rgba(200, 220, 240, 0.4);
+      }
+    }
+
+    // Holographic projection effect
+    .hud-projection {
+      position: relative;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -10px;
+
+      .projection-rays {
+        width: 200px;
+        height: 60px;
+        background: linear-gradient(180deg,
+          rgba(100, 200, 220, 0.15) 0%,
+          rgba(100, 200, 220, 0.05) 50%,
+          transparent 100%);
+        clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+        animation: projection-pulse 2s ease-in-out infinite;
+      }
+
+      .projection-base {
+        width: 120px;
+        height: 8px;
+        background: radial-gradient(ellipse at center,
+          rgba(100, 220, 240, 0.6) 0%,
+          rgba(100, 220, 240, 0.3) 40%,
+          transparent 70%);
+        border-radius: 50%;
+        box-shadow:
+          0 0 20px rgba(100, 220, 240, 0.4),
+          0 0 40px rgba(100, 220, 240, 0.2);
+        animation: projection-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes projection-pulse {
+        0%, 100% {
+          opacity: 0.6;
+          transform: scaleX(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scaleX(1.05);
+        }
+      }
+
+      @keyframes projection-glow {
+        0%, 100% {
+          opacity: 0.7;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
       }
     }
   }
@@ -3071,10 +4233,9 @@
     height: 100px;
     border-radius: 50%;
     background: linear-gradient(135deg,
-      rgba(34, 211, 238, 0.3) 0%,
-      rgba(124, 58, 237, 0.25) 50%,
-      rgba(16, 185, 129, 0.2) 100%
-    );
+        rgba(34, 211, 238, 0.3) 0%,
+        rgba(124, 58, 237, 0.25) 50%,
+        rgba(16, 185, 129, 0.2) 100%);
     animation: core-glow-pulse 4s ease-in-out infinite;
 
     .core-glow {
@@ -3082,9 +4243,8 @@
       inset: -20px;
       border-radius: 50%;
       background: radial-gradient(circle,
-        rgba(34, 211, 238, 0.2) 0%,
-        transparent 70%
-      );
+          rgba(34, 211, 238, 0.2) 0%,
+          transparent 70%);
     }
   }
 
@@ -3103,22 +4263,44 @@
     animation-delay: calc(var(--index, 0) * 0.3s);
 
     // Position branches around the center
-    &:nth-child(1) { transform: rotate(0deg); }
-    &:nth-child(2) { transform: rotate(45deg); }
-    &:nth-child(3) { transform: rotate(90deg); }
-    &:nth-child(4) { transform: rotate(135deg); }
-    &:nth-child(5) { transform: rotate(180deg); }
-    &:nth-child(6) { transform: rotate(225deg); }
-    &:nth-child(7) { transform: rotate(270deg); }
-    &:nth-child(8) { transform: rotate(315deg); }
+    &:nth-child(1) {
+      transform: rotate(0deg);
+    }
+
+    &:nth-child(2) {
+      transform: rotate(45deg);
+    }
+
+    &:nth-child(3) {
+      transform: rotate(90deg);
+    }
+
+    &:nth-child(4) {
+      transform: rotate(135deg);
+    }
+
+    &:nth-child(5) {
+      transform: rotate(180deg);
+    }
+
+    &:nth-child(6) {
+      transform: rotate(225deg);
+    }
+
+    &:nth-child(7) {
+      transform: rotate(270deg);
+    }
+
+    &:nth-child(8) {
+      transform: rotate(315deg);
+    }
 
     .branch-line {
       width: 80px;
       height: 1px;
       background: linear-gradient(90deg,
-        rgba(34, 211, 238, 0.5) 0%,
-        rgba(34, 211, 238, 0.1) 100%
-      );
+          rgba(34, 211, 238, 0.5) 0%,
+          rgba(34, 211, 238, 0.1) 100%);
       margin-left: 60px;
     }
 
@@ -3170,11 +4352,10 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 700;
     background: linear-gradient(135deg,
-      var(--text-white) 0%,
-      var(--nebula-cyan) 30%,
-      var(--nebula-purple) 70%,
-      var(--text-white) 100%
-    );
+        var(--text-white) 0%,
+        var(--nebula-cyan) 30%,
+        var(--nebula-purple) 70%,
+        var(--text-white) 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -3316,10 +4497,9 @@
     width: 1000px;
     height: 1000px;
     background: radial-gradient(circle,
-      rgba(34, 211, 238, 0.1) 0%,
-      rgba(124, 58, 237, 0.05) 30%,
-      transparent 50%
-    );
+        rgba(34, 211, 238, 0.1) 0%,
+        rgba(124, 58, 237, 0.05) 30%,
+        transparent 50%);
     animation: glow-pulse 6s ease-in-out infinite;
     pointer-events: none;
   }
@@ -3510,7 +4690,9 @@
       color: var(--nebula-cyan);
       margin-bottom: 0.75rem;
 
-      ng-icon { opacity: 0.8; }
+      ng-icon {
+        opacity: 0.8;
+      }
     }
 
     .card-text {
@@ -3547,7 +4729,9 @@
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
     border-color: rgba(124, 58, 237, 0.2);
 
-    .title-icon { color: var(--nebula-purple); }
+    .title-icon {
+      color: var(--nebula-purple);
+    }
 
     h2 {
       font-family: var(--font-display);
@@ -3557,26 +4741,38 @@
       margin: 0;
       text-align: center;
 
-      @media (min-width: 768px) { font-size: 1.5rem; }
+      @media (min-width: 768px) {
+        font-size: 1.5rem;
+      }
     }
   }
 
   // Problem Intro Card
   .bento-problem-intro {
-    @media (min-width: 768px) { grid-column: span 4; }
+    @media (min-width: 768px) {
+      grid-column: span 4;
+    }
+
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(249, 115, 22, 0.03) 100%);
     border-color: rgba(239, 68, 68, 0.15);
 
-    .card-label { color: var(--danger-orange); }
+    .card-label {
+      color: var(--danger-orange);
+    }
   }
 
   // Pain Points Card
   .bento-pain-points {
-    @media (min-width: 768px) { grid-column: span 2; }
+    @media (min-width: 768px) {
+      grid-column: span 2;
+    }
+
     background: rgba(239, 68, 68, 0.03);
     border-color: rgba(239, 68, 68, 0.12);
 
-    .card-label { color: var(--danger-red); }
+    .card-label {
+      color: var(--danger-red);
+    }
 
     .pain-list {
       display: flex;
@@ -3606,7 +4802,10 @@
 
   // Transition Card
   .bento-transition {
-    @media (min-width: 768px) { grid-column: span 2; }
+    @media (min-width: 768px) {
+      grid-column: span 2;
+    }
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3632,13 +4831,25 @@
   }
 
   @keyframes pulse-arrow {
-    0%, 100% { transform: translateX(0); opacity: 0.7; }
-    50% { transform: translateX(5px); opacity: 1; }
+
+    0%,
+    100% {
+      transform: translateX(0);
+      opacity: 0.7;
+    }
+
+    50% {
+      transform: translateX(5px);
+      opacity: 1;
+    }
   }
 
   // Approach Card
   .bento-approach {
-    @media (min-width: 768px) { grid-column: span 4; }
+    @media (min-width: 768px) {
+      grid-column: span 4;
+    }
+
     background: linear-gradient(135deg, rgba(34, 211, 238, 0.05) 0%, rgba(16, 185, 129, 0.03) 100%);
     border-color: rgba(34, 211, 238, 0.15);
   }
@@ -3658,19 +4869,34 @@
     @media (min-width: 768px) {
       grid-column: span 2;
 
-      &:nth-of-type(6) { grid-column: 2 / span 2; }
-      &:nth-of-type(7) { grid-column: 4 / span 2; }
+      &:nth-of-type(6) {
+        grid-column: 2 / span 2;
+      }
+
+      &:nth-of-type(7) {
+        grid-column: 4 / span 2;
+      }
     }
 
     @media (min-width: 1024px) {
+
       &:nth-of-type(5),
       &:nth-of-type(6),
       &:nth-of-type(7) {
         grid-column: auto;
       }
-      &:nth-of-type(5) { grid-column: span 2; }
-      &:nth-of-type(6) { grid-column: span 2; }
-      &:nth-of-type(7) { grid-column: span 2; }
+
+      &:nth-of-type(5) {
+        grid-column: span 2;
+      }
+
+      &:nth-of-type(6) {
+        grid-column: span 2;
+      }
+
+      &:nth-of-type(7) {
+        grid-column: span 2;
+      }
     }
 
     ng-icon {
@@ -3688,7 +4914,9 @@
       background: rgba(34, 211, 238, 0.06);
       border-color: rgba(34, 211, 238, 0.25);
 
-      ng-icon { color: var(--nebula-green); }
+      ng-icon {
+        color: var(--nebula-green);
+      }
     }
   }
 
@@ -3716,7 +4944,9 @@
       color: var(--text-light);
       margin: 0;
 
-      @media (min-width: 768px) { font-size: 1.25rem; }
+      @media (min-width: 768px) {
+        font-size: 1.25rem;
+      }
     }
   }
 
@@ -4448,6 +5678,7 @@
 // ============================================
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -4485,6 +5716,7 @@ button:focus-visible,
 // ============================================
 
 :host-context([dir="rtl"]) {
+
   .entry-content,
   .problem-content,
   .solution-content,
@@ -4512,6 +5744,7 @@ button:focus-visible,
 // Disable heavy animations on mobile to prevent scroll lag
 
 @media (max-width: 768px) {
+
   // Hide decorative elements that cause performance issues
   .ai-elements-container,
   .floating-shapes-layer,
@@ -4528,10 +5761,8 @@ button:focus-visible,
   .ml-icon,
   .skull-orbit,
   .orbit-particle,
-  .brain-core,
   .neuron-dot,
   .thinking-rays,
-  .data-ring,
   .neural-branch,
   .branch-node,
   .data-orbit {
@@ -4541,19 +5772,70 @@ button:focus-visible,
   // Remove complex filters and effects
   .nebula-glow,
   .entry-glow,
-  .danger-glow,
-  .processor-glow,
   .destination-glow,
   .card-glow {
     filter: none !important;
     animation: none !important;
   }
 
-  // Simplify transforms - avoid 3D
-  .ai-processor-container,
+  // === MOBILE TRANSFORMATION SECTION FIX ===
+  // Allow GSAP to control transformation animations, but simplify CSS
+  .journey-transformation {
+
+    // Keep glows visible but simpler (no animation)
+    .danger-glow,
+    .processor-glow {
+      animation: none !important;
+      filter: blur(40px); // Static blur, no pulsing
+    }
+
+    // Allow GSAP to animate processor container
+    .ai-processor-container {
+      // Remove perspective but KEEP transform for GSAP
+      perspective: none;
+      // Don't override transform - let GSAP handle it
+      // Static visibility on mobile (no scale animation)
+      position: relative;
+      transform: none; // Reset 3D transforms
+
+      // Simplify processor visualization for mobile
+      .processor-core {
+        opacity: 0; // Let GSAP fade in
+
+        .core-hexagon,
+        .core-inner {
+          animation: none; // No complex animations
+        }
+      }
+
+      // Hide data rings on mobile (too complex)
+      .data-ring {
+        display: none;
+      }
+
+      // Hide connection nodes on mobile
+      .connection-nodes {
+        display: none;
+      }
+    }
+
+    // Note: .solution-layer and .problem-layer initial states are set by CSS
+    // GSAP will handle opacity and transform animations
+  }
+
+  // Simplify AI brain for destination section
   .ai-brain-container {
-    transform: none !important;
     perspective: none !important;
+
+    // Static center position
+    position: relative;
+    transform: none;
+
+    .brain-core,
+    .neural-branch,
+    .data-orbit {
+      animation: none !important;
+    }
   }
 
   // Remove box-shadow animations
@@ -4564,6 +5846,7 @@ button:focus-visible,
 
 // Also apply to users who prefer reduced motion
 @media (prefers-reduced-motion: reduce) {
+
   .ai-elements-container,
   .floating-shapes-layer {
     display: none !important;
@@ -4580,6 +5863,7 @@ button:focus-visible,
 // ============================================
 
 @media print {
+
   .ai-elements-container,
   .floating-shapes-layer,
   .journey-progress,
@@ -4605,5 +5889,514 @@ button:focus-visible,
     box-shadow: none !important;
     text-shadow: none !important;
     animation: none !important;
+  }
+}
+
+// ============================================
+// MOBILE SPACING FIXES
+// ============================================
+// Fix excessive gaps and spacing on mobile devices
+
+@media (max-width: 768px) {
+
+  // ============================================
+  // CRITICAL: Force all journey sections to be visible
+  // GSAP sets opacity: 0 via inline styles, we must override
+  // ============================================
+  .journey-section {
+    min-height: auto !important;
+    padding: 3rem 1rem !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Target all specific journey sections that GSAP hides
+  .journey-entry,
+  .journey-transformation,
+  .journey-solution,
+  .journey-strategic,
+  .journey-enterprise,
+  .journey-agentic,
+  .journey-constellations,
+  .journey-governance,
+  .journey-outcomes,
+  .journey-milestones,
+  .journey-frameworks,
+  .journey-whyus,
+  .journey-destination,
+  .journey-related {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Hero section - reduce top padding
+  .journey-entry {
+    padding-top: 5rem !important;
+    padding-bottom: 3rem !important;
+    min-height: auto !important;
+
+    .entry-content {
+      gap: 1rem;
+    }
+  }
+
+  // Problem section - reduce gaps
+  .journey-problem {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .problem-cards {
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stakeholder-impact {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    .root-cause {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+    }
+  }
+
+  // Transformation/Solution intro section - fix massive gap
+  .journey-transformation {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+    min-height: auto !important;
+
+    .transformation-layer {
+      padding: 2rem 1rem !important;
+      min-height: auto !important;
+    }
+
+    .solution-intro {
+      padding: 2rem 1rem;
+    }
+  }
+
+  // Solution section - reduce spacing
+  .journey-solution {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .solution-grid {
+      gap: 1.5rem;
+    }
+  }
+
+  // Services/What We Deliver section
+  .journey-services,
+  .services-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .services-accordion {
+      gap: 0.75rem;
+    }
+  }
+
+  // Governance/Automation section
+  .journey-governance,
+  .governance-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  // Leaders section
+  .journey-leaders,
+  .leaders-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .benefits-grid {
+      gap: 1rem;
+    }
+  }
+
+  // How We Work section
+  .journey-process,
+  .process-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  // Best Practices section
+  .journey-standards,
+  .standards-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .standards-grid {
+      gap: 1rem;
+    }
+  }
+
+  // Trust/Why Us section
+  .journey-trust,
+  .trust-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .trust-points {
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  // CTA section
+  .journey-cta,
+  .cta-section {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  // Related services section
+  .related-services {
+    padding: 2rem 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  // Generic section content spacing
+  .section-content {
+    padding: 0;
+  }
+
+  // Reduce heading margins on mobile
+  .section-title,
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    margin-bottom: 2rem;
+  }
+
+  // Reduce gaps between feature cards/items
+  .features-grid,
+  .cards-grid,
+  .benefits-grid,
+  .outcomes-grid {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  // Agentic section specific
+  .agentic-section,
+  .journey-agentic {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+
+    .capabilities-list {
+      gap: 0.75rem;
+    }
+  }
+
+  // Strategic section
+  .strategic-section,
+  .journey-strategic {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  // Production section
+  .production-section,
+  .journey-production {
+    padding: 3rem 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  // ============================================
+  // MOBILE OPACITY FIXES FOR GSAP ANIMATED ELEMENTS
+  // ============================================
+  // Reset opacity for elements that have opacity: 0 for GSAP animations
+
+  .governance-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .outcome-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .benefit-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .trust-item,
+  .trust-point {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .process-step {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .standard-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cta-item,
+  .responsibility-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .service-accordion-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .maturity-item,
+  .capability-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  // ============================================
+  // UNIVERSAL MOBILE VISIBILITY FIX
+  // ============================================
+  // Force all animated/hidden elements to be visible on mobile
+
+  // All section content should be visible
+  .section-content,
+  .entry-content,
+  .problem-content,
+  .solution-content,
+  .transformation-content {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // All cards and items should be visible
+  [class*="-card"],
+  [class*="-item"],
+  [class*="-point"],
+  [class*="-step"] {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // All grids and lists should be visible
+  [class*="-grid"],
+  [class*="-list"],
+  [class*="accordion"] {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // All intro, approach, tagline elements
+  [class*="-intro"],
+  [class*="-approach"],
+  [class*="-tagline"],
+  [class*="-highlight"],
+  [class*="-badge"],
+  [class*="framework"],
+  [class*="outcome"],
+  [class*="benefit"],
+  [class*="trust"] {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Ensure all paragraphs and headings are visible
+  .journey-section p,
+  .journey-section h2,
+  .journey-section h3,
+  .journey-section h4,
+  .journey-section span {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Ensure transformation layers display correctly
+  .transformation-layer,
+  .problem-layer,
+  .solution-layer {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Additional hidden elements that need to be visible
+  .milestone-detail,
+  .use-cases,
+  .destination-cta,
+  .related-link,
+  .milestone-planet {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Hide decorative glow effects on mobile for performance
+  .processor-glow,
+  .card-glow {
+    display: none !important;
+  }
+
+  // ============================================
+  // ADDITIONAL MOBILE GAP FIXES
+  // ============================================
+  // Target specific elements that may still have gaps or be hidden
+
+  // Fix root-cause section visibility
+  .root-cause,
+  .root-cause p,
+  .root-cause .highlight {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Fix stakeholder-impact items
+  .stakeholder-impact,
+  .stakeholder-impact .impact-item {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Fix portal-content visibility
+  .portal-content,
+  .portal-text,
+  .solution-badge,
+  .solution-desc {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Hide decorative background layers that take space but are invisible
+  .void-overlay,
+  .danger-glow,
+  .nebula-glow,
+  .entry-glow,
+  .destination-glow {
+    display: none !important;
+  }
+
+  // Fix ai-processor-container - hide completely to prevent space
+  .ai-processor-container {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  // Reduce gap between problem and solution layers
+  .journey-transformation {
+    gap: 0 !important;
+
+    .problem-layer {
+      margin-bottom: 1rem !important;
+    }
+
+    .solution-layer {
+      margin-top: 0 !important;
+      padding-top: 1rem !important;
+    }
+  }
+
+  // Fix production bento grid gaps
+  .production-bento-grid {
+    gap: 1rem !important;
+  }
+
+  .prod-card {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Fix constellation/service accordion visibility
+  .constellation-content,
+  .constellation-features,
+  .service-features {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    max-height: none !important;
+  }
+
+  // Fix bento-card visibility
+  .bento-card,
+  .bento-grid {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Ensure all outcome cards are visible
+  .outcome-card,
+  .outcome-item,
+  .outcome-list {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Fix why-us items
+  .whyus-grid,
+  .whyus-item,
+  .trust-container {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Fix framework items
+  .framework-item,
+  .frameworks-grid {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  // Reduce all section padding for tighter mobile layout
+  .journey-section .section-content {
+    padding: 0 !important;
+  }
+
+  // Hide the floating shapes layer completely on mobile
+  .floating-shapes-layer {
+    display: none !important;
+  }
+
+  // Hide AI elements container on mobile for performance
+  .ai-elements-container {
+    display: none !important;
+  }
+
+  // Hide the AI skull container on mobile
+  .ai-skull-container {
+    display: none !important;
+  }
+
+  // Fix hero ML background
+  .ml-background {
+    display: none !important;
   }
 }
