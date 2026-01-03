@@ -1,0 +1,146 @@
+<div class="coming-soon-container relative min-h-screen flex items-center justify-center overflow-hidden">
+
+  <!-- Background Layer: Gradient Orbs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+
+  <!-- Background Layer: Circuit Grid -->
+  <div class="absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none" aria-hidden="true">
+    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <pattern id="circuit-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path class="circuit-grid" d="M 60 0 L 0 0 0 60" fill="none" stroke-width="0.5"/>
+          <circle class="circuit-dot" cx="0" cy="0" r="1.5"/>
+          <circle class="circuit-dot" cx="60" cy="0" r="1.5"/>
+          <circle class="circuit-dot" cx="0" cy="60" r="1.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#circuit-grid)" />
+    </svg>
+    <!-- Scanning Line -->
+    <div class="scan-line absolute left-0 right-0 h-px"></div>
+  </div>
+
+  <!-- Particles Container -->
+  <div id="particles-container" class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+  <!-- Main Content: Glassmorphism Card -->
+  <div class="glass-card relative z-10 max-w-2xl mx-4 sm:mx-auto text-center" data-animate="fade-in">
+
+    <!-- Corner Dots -->
+    <div class="corner-dot absolute -top-3 -left-3 w-2 h-2 rounded-full bg-teal-500 dark:bg-teal-400" aria-hidden="true"></div>
+    <div class="corner-dot absolute -top-3 -right-3 w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400" aria-hidden="true"></div>
+    <div class="corner-dot absolute -bottom-3 -left-3 w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400" aria-hidden="true"></div>
+    <div class="corner-dot absolute -bottom-3 -right-3 w-2 h-2 rounded-full bg-teal-500 dark:bg-teal-400" aria-hidden="true"></div>
+
+    <!-- Badge with Icon -->
+    <div class="badge inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6">
+      <ng-icon [name]="iconName" class="text-teal-600 dark:text-teal-400" size="18" aria-hidden="true"></ng-icon>
+      <span class="text-sm font-medium text-teal-600 dark:text-teal-400 tracking-wide uppercase">
+        {{ translationPrefix + '.hero.badge' | translate }}
+      </span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold mb-4 gradient-text">
+      {{ translationPrefix + '.hero.title' | translate }}
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-xl sm:text-2xl text-secondary mb-3">
+      {{ translationPrefix + '.hero.subtitle' | translate }}
+    </p>
+
+    <!-- Description -->
+    <p class="text-base sm:text-lg text-muted mb-10 max-w-xl mx-auto leading-relaxed">
+      {{ translationPrefix + '.description' | translate }}
+    </p>
+
+    <!-- Email Subscription Form -->
+    @if (!subscribed()) {
+      <div class="email-form max-w-md mx-auto">
+        <p class="text-sm text-muted mb-4">
+          {{ translationPrefix + '.subscription.label' | translate }}
+        </p>
+
+        <form (ngSubmit)="handleSubscribe()" class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <ng-icon
+              name="lucideMail"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500"
+              size="18"
+              aria-hidden="true"
+            ></ng-icon>
+            <input
+              type="email"
+              [value]="email()"
+              (input)="email.set($any($event.target).value)"
+              [placeholder]="translationPrefix + '.subscription.emailPlaceholder' | translate"
+              class="glass-input w-full pl-12 pr-4 py-3.5 rounded-full text-sm
+                     focus:outline-none focus:ring-2 focus:ring-teal-400/50
+                     transition-all duration-300"
+              required
+              [attr.aria-label]="translationPrefix + '.subscription.emailPlaceholder' | translate"
+            />
+          </div>
+          <button
+            type="submit"
+            [disabled]="submitting()"
+            class="submit-button px-6 py-3.5 rounded-full font-semibold text-sm
+                   hover:scale-105 active:scale-95
+                   disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+            @if (submitting()) {
+              {{ translationPrefix + '.subscription.submitting' | translate }}
+            } @else {
+              {{ translationPrefix + '.subscription.submitButton' | translate }}
+            }
+          </button>
+        </form>
+
+        @if (error()) {
+          <p class="mt-4 text-sm text-red-500 dark:text-red-400">
+            {{ translationPrefix + '.subscription.error.description' | translate }}
+          </p>
+        }
+      </div>
+    } @else {
+      <!-- Success State -->
+      <div class="success-message flex flex-col items-center gap-3">
+        <div class="success-icon-bg w-16 h-16 rounded-full flex items-center justify-center">
+          <ng-icon name="lucideCheckCircle2" class="text-teal-600 dark:text-teal-400" size="32"></ng-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-primary">
+          {{ translationPrefix + '.subscription.success.title' | translate }}
+        </h3>
+        <p class="text-muted max-w-sm">
+          {{ translationPrefix + '.subscription.success.description' | translate }}
+        </p>
+      </div>
+    }
+
+    <!-- Launch Timeline -->
+    <div class="mt-10 pt-6 divider border-t">
+      <div class="inline-flex items-center gap-2 text-sm text-muted">
+        <ng-icon name="lucideSparkles" size="14" class="text-purple-500 dark:text-purple-400" aria-hidden="true"></ng-icon>
+        <span>{{ translationPrefix + '.launch.hint' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources Link -->
+  <a
+    routerLink="/resources"
+    class="back-link absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-sm group"
+  >
+    <ng-icon
+      name="lucideArrowLeft"
+      size="16"
+      class="transition-transform duration-300 group-hover:-translate-x-1 rtl:rotate-180 rtl:group-hover:translate-x-1"
+      aria-hidden="true"
+    ></ng-icon>
+    <span>{{ 'common.back' | translate }} {{ 'common.resources' | translate }}</span>
+  </a>
+</div>

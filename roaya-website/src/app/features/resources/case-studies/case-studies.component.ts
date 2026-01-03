@@ -7,6 +7,8 @@ import { AnalyticsService } from '../../../core/services/analytics.service';
 export interface CaseStudy {
   id: string;
   slug: string;
+  /** Translation key prefix for full content (e.g., 'resources.caseStudies.banking') */
+  translationPrefix: string;
   title: string;
   excerpt: string;
   content?: string;
@@ -21,6 +23,10 @@ export interface CaseStudy {
   featuredImage?: string;
   logo?: string;
   publishedDate: Date;
+  /** Project duration for display */
+  duration?: string;
+  /** Location/region of client */
+  location?: string;
 }
 
 @Component({
@@ -77,76 +83,91 @@ export class CaseStudiesComponent implements OnInit {
     const caseStudies: CaseStudy[] = [
       {
         id: '1',
-        slug: 'major-egyptian-bank-cost-reduction',
-        title: 'Major Egyptian Bank Achieves 40% Cost Reduction with Zero-Downtime Cloud Migration',
-        excerpt: 'One of Egypt\'s leading retail banks reduced infrastructure costs by 40% while achieving 99.97% uptime through phased cloud migration on Egypt-hosted infrastructure, fully compliant with CBE regulations.',
+        slug: 'bank-cloud-migration',
+        translationPrefix: 'resources.caseStudies.banking',
+        title: 'Major Egyptian Bank Achieves 42% Cost Reduction with Zero-Downtime Cloud Migration',
+        excerpt: 'One of Egypt\'s leading retail banks reduced infrastructure costs by 42% while achieving 99.94% uptime through phased cloud migration on Egypt-hosted infrastructure, fully compliant with CBE regulations.',
         industry: 'finance',
         services: ['cloud', 'migration', 'security'],
-        companySize: '2500+',
+        companySize: '500+',
+        duration: '8 months',
+        location: 'Egypt',
         keyResults: [
-          { metric: '40%', value: 'Cost Reduction', description: 'Annual infrastructure savings' },
-          { metric: '99.97%', value: 'Uptime', description: 'Zero critical outages' },
-          { metric: '100%', value: 'CBE Compliance', description: 'Full regulatory alignment' }
+          { metric: '42%', value: 'Cost Reduction', description: 'Annual infrastructure savings' },
+          { metric: '99.94%', value: 'Uptime', description: 'Zero critical outages' },
+          { metric: '60%', value: 'Faster Deployment', description: 'Time to launch new services' }
         ],
         publishedDate: new Date('2024-01-15')
       },
       {
         id: '2',
-        slug: 'hospital-network-zero-breaches-soc',
+        slug: 'healthcare-soc-implementation',
+        translationPrefix: 'resources.caseStudies.healthcare',
         title: 'Leading Hospital Network Achieves Zero Breaches with 24/7 SOC Implementation',
-        excerpt: 'Egypt\'s fastest-growing private hospital network eliminated security threats with comprehensive Security Operations Center solution, achieving 85% faster incident response and HIPAA-aligned security controls.',
+        excerpt: 'Egypt\'s fastest-growing private hospital network eliminated security threats with comprehensive Security Operations Center solution, achieving 85% faster threat detection and HIPAA-aligned security controls.',
         industry: 'healthcare',
         services: ['security'],
-        companySize: '1200+',
+        companySize: '350',
+        duration: '6 months',
+        location: 'Greater Cairo',
         keyResults: [
-          { metric: '0', value: 'Breaches', description: 'Zero security incidents' },
-          { metric: '85%', value: 'Faster Response', description: 'Incident detection time' },
-          { metric: '247', value: 'Threats Blocked', description: 'Automated prevention' }
+          { metric: '0', value: 'Breaches', description: 'Zero security incidents in 18 months' },
+          { metric: '85%', value: 'Faster Detection', description: 'Threat detection time improvement' },
+          { metric: '24/7', value: 'Monitoring', description: 'Continuous SOC coverage' }
         ],
         publishedDate: new Date('2024-02-20')
       },
       {
         id: '3',
-        slug: 'government-agency-digital-transformation',
+        slug: 'government-digital-transformation',
+        translationPrefix: 'resources.caseStudies.government',
         title: 'Egyptian Government Agency Reduces Citizen Service Processing Time by 60%',
         excerpt: 'Major government agency transformed citizen services with cloud infrastructure and workflow automation, reducing processing times from 18-22 days to 7-8 days while ensuring 100% data sovereignty.',
         industry: 'government',
         services: ['cloud', 'automation', 'security'],
         companySize: '800+',
+        duration: '8 months',
+        location: 'Egypt',
         keyResults: [
-          { metric: '60%', value: 'Faster Processing', description: 'Time reduction' },
+          { metric: '60%', value: 'Faster Processing', description: 'Service delivery improvement' },
           { metric: '100%', value: 'Data Sovereignty', description: 'Egypt-hosted infrastructure' },
-          { metric: '99.95%', value: 'Uptime', description: 'Infrastructure reliability' }
+          { metric: '70%', value: 'Process Automation', description: 'Workflow digitization' }
         ],
         publishedDate: new Date('2024-03-10')
       },
       {
         id: '4',
-        slug: 'manufacturer-sap-optimization',
-        title: 'Egyptian Manufacturer Saves 2.5M EGP Annually with SAP Optimization',
-        excerpt: 'Leading manufacturing company achieved 99.99% SAP uptime and 2.5M EGP annual savings through cloud migration and 24/7 SAP Basis managed services, eliminating production delays.',
+        slug: 'manufacturing-sap-implementation',
+        translationPrefix: 'resources.caseStudies.manufacturing',
+        title: '35% Inventory Optimization Through SAP S/4HANA Implementation',
+        excerpt: 'Leading Egyptian manufacturing company transformed operations with SAP S/4HANA, achieving 35% inventory optimization, 25% production efficiency improvement, and real-time operational visibility.',
         industry: 'manufacturing',
         services: ['sap', 'cloud'],
-        companySize: '650+',
+        companySize: '380',
+        duration: '10 months',
+        location: '10th of Ramadan City, Egypt',
         keyResults: [
-          { metric: '99.99%', value: 'Uptime', description: 'SAP availability' },
-          { metric: '2.5M EGP', value: 'Annual Savings', description: 'Cost reduction' },
-          { metric: '0', value: 'Production Delays', description: 'Zero SAP outages' }
+          { metric: '35%', value: 'Inventory Optimization', description: 'Reduced carrying costs' },
+          { metric: '25%', value: 'Production Efficiency', description: 'OEE improvement' },
+          { metric: 'Real-Time', value: 'Visibility', description: 'Operational dashboards' }
         ],
         publishedDate: new Date('2024-04-05')
       },
       {
         id: '5',
-        slug: 'ecommerce-black-friday-success',
+        slug: 'ecommerce-auto-scaling',
+        translationPrefix: 'resources.caseStudies.ecommerce',
         title: 'E-commerce Platform Handles 300% Traffic Surge with Zero Downtime',
-        excerpt: 'Egypt\'s fastest-growing e-commerce platform processed 47,500 orders during Black Friday 2024 with zero downtime, using auto-scaling cloud infrastructure and PCI DSS compliant payment processing.',
+        excerpt: 'Egypt\'s fastest-growing e-commerce platform scaled from 10K to 30K concurrent users during Black Friday with zero downtime, using auto-scaling cloud infrastructure and 40% cost optimization.',
         industry: 'retail',
         services: ['cloud', 'security'],
-        companySize: '280',
+        companySize: '50-200',
+        duration: '4 months',
+        location: 'Egypt',
         keyResults: [
-          { metric: '300%', value: 'Traffic Surge', description: 'Handled successfully' },
-          { metric: '0', value: 'Downtime', description: 'Zero outages' },
-          { metric: '99.98%', value: 'Uptime', description: 'Year-round reliability' }
+          { metric: '300%', value: 'Traffic Capacity', description: 'Scaling capability increase' },
+          { metric: '99.99%', value: 'Uptime', description: 'During sales events' },
+          { metric: '40%', value: 'Cost Savings', description: 'Pay-as-you-scale model' }
         ],
         publishedDate: new Date('2024-11-25')
       }

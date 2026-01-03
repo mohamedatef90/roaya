@@ -153,6 +153,16 @@ export const routes: Routes = [
     title: 'Case Study - Roaya IT'
   },
   {
+    path: 'resources/whitepapers',
+    loadComponent: () => import('./features/resources/whitepapers/whitepapers.component').then(m => m.WhitepapersComponent),
+    title: 'Whitepapers Coming Soon - Roaya IT'
+  },
+  {
+    path: 'resources/documentation',
+    loadComponent: () => import('./features/resources/documentation/documentation.component').then(m => m.DocumentationComponent),
+    title: 'Documentation Coming Soon - Roaya IT'
+  },
+  {
     path: 'privacy',
     loadComponent: () => import('./features/legal/privacy/privacy.component').then(m => m.PrivacyComponent),
     title: 'Privacy Policy - Roaya IT'

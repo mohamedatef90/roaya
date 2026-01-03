@@ -3553,6 +3553,10 @@
     "detail": {
       "loading": "Loading case study...",
       "back": "Back to Case Studies",
+      "client": "Client",
+      "location": "Location",
+      "duration": "Duration",
+      "companySize": "Company Size",
       "keyResults": "Key Results",
       "services": "Services Used",
       "download": "Download PDF",
@@ -3567,6 +3571,651 @@
         "description": "Get in touch with our team to discuss your IT transformation needs.",
         "button": "Contact Us",
         "calculator": "Calculate Your ROI"
+      }
+    },
+    "banking": {
+      "meta": {
+        "title": "Bank Cloud Migration Case Study | 42% Cost Reduction - Roaya IT",
+        "description": "Learn how a major Egyptian bank achieved 42% infrastructure cost reduction with zero-downtime cloud migration while maintaining CBE compliance."
+      },
+      "hero": {
+        "badge": "Finance & Banking",
+        "title": "Major Egyptian Bank Achieves 42% Cost Reduction with Zero-Downtime Cloud Migration",
+        "subtitle": "8-month transformation to Egypt-hosted cloud infrastructure with full CBE compliance"
+      },
+      "overview": {
+        "title": "Project Overview",
+        "client": "Leading Egyptian Retail Bank",
+        "industry": "Finance & Banking",
+        "location": "Egypt",
+        "duration": "8 months",
+        "companySize": "500+ employees",
+        "description": "One of Egypt's top retail banks needed to modernize legacy infrastructure while maintaining strict Central Bank of Egypt (CBE) regulatory compliance and ensuring zero service disruption for millions of customers."
+      },
+      "challenge": {
+        "title": "The Challenge",
+        "description": "The bank faced mounting pressure from rising infrastructure costs, aging on-premise systems, and increasing customer expectations for digital services.",
+        "items": {
+          "item1": {
+            "title": "Legacy Infrastructure Costs",
+            "description": "Annual infrastructure spending exceeded budget by 35%, with aging hardware requiring frequent maintenance"
+          },
+          "item2": {
+            "title": "CBE Compliance Requirements",
+            "description": "All data must remain within Egypt's borders with strict audit trails and security controls"
+          },
+          "item3": {
+            "title": "Zero Downtime Mandate",
+            "description": "Core banking services could not tolerate any service interruption during migration"
+          },
+          "item4": {
+            "title": "Slow Time-to-Market",
+            "description": "Launching new digital services took 6-8 weeks due to infrastructure provisioning delays"
+          }
+        }
+      },
+      "solution": {
+        "title": "Our Solution",
+        "description": "Roaya IT designed a phased cloud migration strategy that prioritized security, compliance, and business continuity.",
+        "items": {
+          "item1": {
+            "title": "Egypt-Hosted Cloud Infrastructure",
+            "description": "Deployed on certified Egypt-based data centers ensuring 100% data sovereignty and CBE compliance"
+          },
+          "item2": {
+            "title": "Phased Migration Approach",
+            "description": "5-phase migration plan with rollback capabilities, starting with non-critical systems"
+          },
+          "item3": {
+            "title": "Hybrid Architecture Design",
+            "description": "Seamless integration between legacy core banking and modern cloud services"
+          },
+          "item4": {
+            "title": "24/7 Security Monitoring",
+            "description": "Implemented SOC services with real-time threat detection and automated incident response"
+          }
+        }
+      },
+      "results": {
+        "title": "The Results",
+        "description": "The transformation delivered measurable business impact within the first 6 months post-migration.",
+        "metrics": {
+          "metric1": {
+            "value": "42%",
+            "label": "Cost Reduction",
+            "description": "Annual infrastructure savings through optimized cloud resources"
+          },
+          "metric2": {
+            "value": "99.94%",
+            "label": "Uptime Achieved",
+            "description": "Zero critical outages since migration completion"
+          },
+          "metric3": {
+            "value": "60%",
+            "label": "Faster Deployment",
+            "description": "New services launched in days instead of weeks"
+          },
+          "metric4": {
+            "value": "100%",
+            "label": "CBE Compliant",
+            "description": "Full regulatory compliance maintained throughout"
+          }
+        }
+      },
+      "testimonial": {
+        "quote": "Roaya IT understood our unique regulatory requirements and delivered a transformation that exceeded our expectations. The zero-downtime migration was remarkable.",
+        "author": "Chief Technology Officer",
+        "company": "Leading Egyptian Retail Bank"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "phases": {
+          "phase1": {
+            "title": "Phase 1: Assessment & Planning",
+            "duration": "6 weeks",
+            "description": "Infrastructure audit, compliance mapping, and migration strategy development"
+          },
+          "phase2": {
+            "title": "Phase 2: Foundation Setup",
+            "duration": "4 weeks",
+            "description": "Cloud environment provisioning, security controls, and network configuration"
+          },
+          "phase3": {
+            "title": "Phase 3: Non-Critical Migration",
+            "duration": "8 weeks",
+            "description": "Development, testing, and reporting systems migrated with validation"
+          },
+          "phase4": {
+            "title": "Phase 4: Core Systems Migration",
+            "duration": "10 weeks",
+            "description": "Core banking applications migrated with zero-downtime cutover"
+          },
+          "phase5": {
+            "title": "Phase 5: Optimization & Handover",
+            "duration": "4 weeks",
+            "description": "Performance tuning, documentation, and team training"
+          }
+        }
+      },
+      "services": {
+        "title": "Services Delivered",
+        "items": ["Cloud Infrastructure", "Cloud Migration", "Security Operations", "Compliance Consulting"]
+      }
+    },
+    "healthcare": {
+      "meta": {
+        "title": "Healthcare SOC Implementation Case Study | Zero Breaches - Roaya IT",
+        "description": "Discover how Egypt's leading hospital network eliminated security threats with 24/7 SOC implementation and achieved HIPAA-aligned security controls."
+      },
+      "hero": {
+        "badge": "Healthcare",
+        "title": "Leading Hospital Network Achieves Zero Breaches with 24/7 SOC Implementation",
+        "subtitle": "6-month security transformation protecting sensitive patient data across multiple facilities"
+      },
+      "overview": {
+        "title": "Project Overview",
+        "client": "Private Hospital Network",
+        "industry": "Healthcare",
+        "location": "Greater Cairo",
+        "duration": "6 months",
+        "companySize": "350 employees",
+        "description": "Egypt's fastest-growing private hospital network needed enterprise-grade security to protect electronic health records (EHR) across 5 facilities while meeting international healthcare security standards."
+      },
+      "challenge": {
+        "title": "The Challenge",
+        "description": "The hospital network faced increasing cyber threats targeting healthcare organizations, with patient data at risk.",
+        "items": {
+          "item1": {
+            "title": "Rising Cyber Threats",
+            "description": "Healthcare sector seeing 300% increase in targeted attacks on patient data"
+          },
+          "item2": {
+            "title": "Fragmented Security",
+            "description": "Each facility had different security tools with no centralized visibility"
+          },
+          "item3": {
+            "title": "Compliance Gaps",
+            "description": "International partners required HIPAA-aligned security controls"
+          },
+          "item4": {
+            "title": "Limited IT Security Staff",
+            "description": "No dedicated security team to monitor threats 24/7"
+          }
+        }
+      },
+      "solution": {
+        "title": "Our Solution",
+        "description": "Roaya IT deployed a comprehensive Security Operations Center with healthcare-specific threat intelligence.",
+        "items": {
+          "item1": {
+            "title": "24/7 SOC Monitoring",
+            "description": "Round-the-clock security monitoring by certified analysts with healthcare expertise"
+          },
+          "item2": {
+            "title": "SIEM Integration",
+            "description": "Centralized log collection and correlation across all 5 hospital facilities"
+          },
+          "item3": {
+            "title": "Threat Intelligence",
+            "description": "Healthcare-specific threat feeds and automated threat hunting"
+          },
+          "item4": {
+            "title": "Incident Response",
+            "description": "Defined playbooks and automated response for common attack patterns"
+          }
+        }
+      },
+      "results": {
+        "title": "The Results",
+        "description": "The security transformation delivered immediate protection and long-term peace of mind.",
+        "metrics": {
+          "metric1": {
+            "value": "0",
+            "label": "Security Breaches",
+            "description": "Zero data breaches in 18 months since implementation"
+          },
+          "metric2": {
+            "value": "85%",
+            "label": "Faster Detection",
+            "description": "Threat detection time reduced from hours to minutes"
+          },
+          "metric3": {
+            "value": "24/7",
+            "label": "Continuous Monitoring",
+            "description": "Round-the-clock SOC coverage protecting patient data"
+          },
+          "metric4": {
+            "value": "100%",
+            "label": "HIPAA-Aligned",
+            "description": "Security controls meeting international healthcare standards"
+          }
+        }
+      },
+      "testimonial": {
+        "quote": "Patient data security is non-negotiable. Roaya IT's SOC gives us confidence that our systems are protected around the clock by experts who understand healthcare.",
+        "author": "Chief Information Security Officer",
+        "company": "Private Hospital Network"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "phases": {
+          "phase1": {
+            "title": "Phase 1: Security Assessment",
+            "duration": "3 weeks",
+            "description": "Vulnerability assessment, penetration testing, and gap analysis"
+          },
+          "phase2": {
+            "title": "Phase 2: SIEM Deployment",
+            "duration": "4 weeks",
+            "description": "Log collection agents, SIEM platform, and correlation rules"
+          },
+          "phase3": {
+            "title": "Phase 3: SOC Activation",
+            "duration": "6 weeks",
+            "description": "Analyst onboarding, playbook development, and monitoring go-live"
+          },
+          "phase4": {
+            "title": "Phase 4: Threat Hunting",
+            "duration": "8 weeks",
+            "description": "Proactive threat hunting and security posture optimization"
+          },
+          "phase5": {
+            "title": "Phase 5: Compliance Validation",
+            "duration": "3 weeks",
+            "description": "HIPAA alignment validation and documentation"
+          }
+        }
+      },
+      "services": {
+        "title": "Services Delivered",
+        "items": ["SOC Services", "SIEM Implementation", "Threat Intelligence", "Compliance Consulting"]
+      }
+    },
+    "government": {
+      "meta": {
+        "title": "Government Digital Transformation Case Study | 60% Faster Processing - Roaya IT",
+        "description": "See how a major Egyptian government agency reduced citizen service processing time by 60% through cloud infrastructure and workflow automation."
+      },
+      "hero": {
+        "badge": "Government & Public Sector",
+        "title": "Egyptian Government Agency Reduces Citizen Service Processing Time by 60%",
+        "subtitle": "8-month digital transformation ensuring 100% data sovereignty on Egypt-hosted infrastructure"
+      },
+      "overview": {
+        "title": "Project Overview",
+        "client": "Major Government Agency",
+        "industry": "Government & Public Sector",
+        "location": "Egypt",
+        "duration": "8 months",
+        "companySize": "800+ employees",
+        "description": "A major Egyptian government agency serving millions of citizens needed to digitize paper-based processes while ensuring complete data sovereignty and security for sensitive citizen information."
+      },
+      "challenge": {
+        "title": "The Challenge",
+        "description": "The agency struggled with manual processes, long processing times, and citizen dissatisfaction.",
+        "items": {
+          "item1": {
+            "title": "Paper-Based Workflows",
+            "description": "Over 70% of citizen requests processed through manual paper forms"
+          },
+          "item2": {
+            "title": "Long Processing Times",
+            "description": "Average service delivery took 18-22 days, frustrating citizens"
+          },
+          "item3": {
+            "title": "Data Sovereignty Requirements",
+            "description": "All citizen data must remain within Egypt's borders with government oversight"
+          },
+          "item4": {
+            "title": "Legacy System Integration",
+            "description": "New systems must integrate with existing government databases"
+          }
+        }
+      },
+      "solution": {
+        "title": "Our Solution",
+        "description": "Roaya IT implemented Egypt-hosted cloud infrastructure with comprehensive workflow automation.",
+        "items": {
+          "item1": {
+            "title": "Egypt-Hosted Cloud Platform",
+            "description": "Sovereign cloud infrastructure deployed on certified Egyptian government data centers"
+          },
+          "item2": {
+            "title": "Workflow Automation",
+            "description": "Digital forms, automated routing, and approval workflows for 15 citizen services"
+          },
+          "item3": {
+            "title": "Citizen Portal",
+            "description": "Self-service portal for application submission and status tracking"
+          },
+          "item4": {
+            "title": "System Integration",
+            "description": "Secure APIs connecting new platform with existing government databases"
+          }
+        }
+      },
+      "results": {
+        "title": "The Results",
+        "description": "The digital transformation dramatically improved citizen services and operational efficiency.",
+        "metrics": {
+          "metric1": {
+            "value": "60%",
+            "label": "Faster Processing",
+            "description": "Service delivery reduced from 18-22 days to 7-8 days"
+          },
+          "metric2": {
+            "value": "100%",
+            "label": "Data Sovereignty",
+            "description": "All citizen data hosted within Egypt's borders"
+          },
+          "metric3": {
+            "value": "70%",
+            "label": "Process Automation",
+            "description": "Paper-based workflows digitized and automated"
+          },
+          "metric4": {
+            "value": "92%",
+            "label": "Citizen Satisfaction",
+            "description": "Post-implementation citizen satisfaction score"
+          }
+        }
+      },
+      "testimonial": {
+        "quote": "Roaya IT delivered a transformation that serves our citizens better while keeping their data secure within Egypt. The improvement in processing times has been remarkable.",
+        "author": "Director of Digital Services",
+        "company": "Major Government Agency"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "phases": {
+          "phase1": {
+            "title": "Phase 1: Requirements & Design",
+            "duration": "6 weeks",
+            "description": "Process mapping, requirements gathering, and solution design"
+          },
+          "phase2": {
+            "title": "Phase 2: Infrastructure Setup",
+            "duration": "4 weeks",
+            "description": "Sovereign cloud deployment and security configuration"
+          },
+          "phase3": {
+            "title": "Phase 3: Platform Development",
+            "duration": "12 weeks",
+            "description": "Workflow automation and citizen portal development"
+          },
+          "phase4": {
+            "title": "Phase 4: Integration & Testing",
+            "duration": "6 weeks",
+            "description": "Legacy system integration and comprehensive testing"
+          },
+          "phase5": {
+            "title": "Phase 5: Rollout & Training",
+            "duration": "4 weeks",
+            "description": "Phased rollout and staff training across departments"
+          }
+        }
+      },
+      "services": {
+        "title": "Services Delivered",
+        "items": ["Cloud Infrastructure", "Workflow Automation", "System Integration", "Security Implementation"]
+      }
+    },
+    "manufacturing": {
+      "meta": {
+        "title": "Manufacturing SAP Implementation Case Study | 35% Inventory Optimization - Roaya IT",
+        "description": "Learn how a leading Egyptian manufacturer achieved 35% inventory optimization and 25% production efficiency improvement through SAP S/4HANA implementation."
+      },
+      "hero": {
+        "badge": "Manufacturing & Logistics",
+        "title": "35% Inventory Optimization Through SAP S/4HANA Implementation",
+        "subtitle": "10-month transformation achieving real-time operational visibility across production facilities"
+      },
+      "overview": {
+        "title": "Project Overview",
+        "client": "Leading Egyptian Manufacturer",
+        "industry": "Manufacturing & Logistics",
+        "location": "10th of Ramadan City, Egypt",
+        "duration": "10 months",
+        "companySize": "380 employees",
+        "description": "A leading Egyptian manufacturing company with multiple production lines needed to modernize operations with integrated ERP to improve efficiency and reduce inventory costs."
+      },
+      "challenge": {
+        "title": "The Challenge",
+        "description": "The manufacturer struggled with disconnected systems, high inventory costs, and limited operational visibility.",
+        "items": {
+          "item1": {
+            "title": "Excess Inventory Costs",
+            "description": "Carrying costs exceeded budget by 40% due to poor demand forecasting"
+          },
+          "item2": {
+            "title": "Disconnected Systems",
+            "description": "Production, inventory, and finance operated on separate legacy systems"
+          },
+          "item3": {
+            "title": "Manual Reporting",
+            "description": "Management reports took 2-3 days to compile from multiple sources"
+          },
+          "item4": {
+            "title": "Production Inefficiencies",
+            "description": "Overall equipment effectiveness (OEE) below industry benchmarks"
+          }
+        }
+      },
+      "solution": {
+        "title": "Our Solution",
+        "description": "Roaya IT implemented SAP S/4HANA with industry-specific customizations for Egyptian manufacturing.",
+        "items": {
+          "item1": {
+            "title": "SAP S/4HANA Implementation",
+            "description": "Full ERP deployment covering finance, production, inventory, and quality"
+          },
+          "item2": {
+            "title": "Demand Planning Module",
+            "description": "Advanced forecasting with machine learning for optimal inventory levels"
+          },
+          "item3": {
+            "title": "Production Scheduling",
+            "description": "Optimized scheduling algorithms maximizing equipment utilization"
+          },
+          "item4": {
+            "title": "Real-Time Dashboards",
+            "description": "Executive dashboards with live production and financial KPIs"
+          }
+        }
+      },
+      "results": {
+        "title": "The Results",
+        "description": "The SAP transformation delivered significant operational and financial improvements.",
+        "metrics": {
+          "metric1": {
+            "value": "35%",
+            "label": "Inventory Optimization",
+            "description": "Reduced carrying costs through better demand forecasting"
+          },
+          "metric2": {
+            "value": "25%",
+            "label": "Production Efficiency",
+            "description": "OEE improvement through optimized scheduling"
+          },
+          "metric3": {
+            "value": "Real-Time",
+            "label": "Operational Visibility",
+            "description": "Live dashboards replacing 2-3 day manual reports"
+          },
+          "metric4": {
+            "value": "18%",
+            "label": "Revenue Growth",
+            "description": "First-year revenue increase from improved capacity"
+          }
+        }
+      },
+      "testimonial": {
+        "quote": "The SAP implementation by Roaya IT transformed how we run our factory. We now have real-time visibility into every aspect of production and inventory.",
+        "author": "Chief Operating Officer",
+        "company": "Leading Egyptian Manufacturer"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "phases": {
+          "phase1": {
+            "title": "Phase 1: Discovery & Blueprint",
+            "duration": "6 weeks",
+            "description": "Business process analysis and SAP solution design"
+          },
+          "phase2": {
+            "title": "Phase 2: Core Configuration",
+            "duration": "10 weeks",
+            "description": "SAP S/4HANA configuration and customization"
+          },
+          "phase3": {
+            "title": "Phase 3: Data Migration",
+            "duration": "6 weeks",
+            "description": "Master data cleansing and migration from legacy systems"
+          },
+          "phase4": {
+            "title": "Phase 4: Integration & Testing",
+            "duration": "8 weeks",
+            "description": "System integration, UAT, and performance testing"
+          },
+          "phase5": {
+            "title": "Phase 5: Go-Live & Support",
+            "duration": "10 weeks",
+            "description": "Production cutover, hypercare, and knowledge transfer"
+          }
+        }
+      },
+      "services": {
+        "title": "Services Delivered",
+        "items": ["SAP S/4HANA Implementation", "Business Process Consulting", "Data Migration", "Training & Support"]
+      }
+    },
+    "ecommerce": {
+      "meta": {
+        "title": "E-commerce Auto-Scaling Case Study | 300% Traffic Capacity - Roaya IT",
+        "description": "Discover how Egypt's fastest-growing e-commerce platform scaled to handle 300% traffic surge during Black Friday with zero downtime."
+      },
+      "hero": {
+        "badge": "Retail & E-commerce",
+        "title": "E-commerce Platform Handles 300% Traffic Surge with Zero Downtime",
+        "subtitle": "4-month infrastructure transformation enabling limitless scalability and 40% cost savings"
+      },
+      "overview": {
+        "title": "Project Overview",
+        "client": "Egyptian E-commerce Platform",
+        "industry": "Retail & E-commerce",
+        "location": "Egypt",
+        "duration": "4 months",
+        "companySize": "50-200 employees",
+        "description": "Egypt's fastest-growing e-commerce platform needed infrastructure that could scale instantly during sales events while optimizing costs during normal operations."
+      },
+      "challenge": {
+        "title": "The Challenge",
+        "description": "The platform faced infrastructure limitations that threatened growth during peak shopping events.",
+        "items": {
+          "item1": {
+            "title": "Traffic Spikes",
+            "description": "Black Friday and Ramadan sales caused 3-5x traffic surges, crashing the site"
+          },
+          "item2": {
+            "title": "Fixed Infrastructure Costs",
+            "description": "Paying for peak capacity year-round, even during low-traffic periods"
+          },
+          "item3": {
+            "title": "Manual Scaling",
+            "description": "Scaling required 24-48 hours notice, missing sudden traffic opportunities"
+          },
+          "item4": {
+            "title": "Performance Issues",
+            "description": "Page load times exceeded 4 seconds during high traffic, losing sales"
+          }
+        }
+      },
+      "solution": {
+        "title": "Our Solution",
+        "description": "Roaya IT designed a cloud-native architecture with automatic scaling and performance optimization.",
+        "items": {
+          "item1": {
+            "title": "Auto-Scaling Architecture",
+            "description": "Infrastructure automatically scales from 10K to 100K+ concurrent users"
+          },
+          "item2": {
+            "title": "CDN Integration",
+            "description": "Global content delivery network with Middle East edge locations"
+          },
+          "item3": {
+            "title": "Database Optimization",
+            "description": "Read replicas, caching layers, and query optimization"
+          },
+          "item4": {
+            "title": "Pay-As-You-Scale",
+            "description": "Cost-optimized infrastructure billing based on actual usage"
+          }
+        }
+      },
+      "results": {
+        "title": "The Results",
+        "description": "The infrastructure transformation enabled unlimited growth while reducing costs.",
+        "metrics": {
+          "metric1": {
+            "value": "300%",
+            "label": "Traffic Capacity",
+            "description": "Scaled from 10K to 30K concurrent users during Black Friday"
+          },
+          "metric2": {
+            "value": "99.99%",
+            "label": "Uptime",
+            "description": "Zero downtime during all sales events since implementation"
+          },
+          "metric3": {
+            "value": "40%",
+            "label": "Cost Savings",
+            "description": "Infrastructure costs reduced through pay-as-you-scale model"
+          },
+          "metric4": {
+            "value": "1.8s",
+            "label": "Page Load Time",
+            "description": "Average load time reduced from 4+ seconds to under 2 seconds"
+          }
+        }
+      },
+      "testimonial": {
+        "quote": "Black Friday used to be our nightmare. Now it's our biggest opportunity. Roaya IT's infrastructure handles any traffic we throw at it.",
+        "author": "Chief Technology Officer",
+        "company": "Egyptian E-commerce Platform"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "phases": {
+          "phase1": {
+            "title": "Phase 1: Architecture Design",
+            "duration": "2 weeks",
+            "description": "Performance analysis and cloud-native architecture design"
+          },
+          "phase2": {
+            "title": "Phase 2: Infrastructure Setup",
+            "duration": "4 weeks",
+            "description": "Cloud deployment, CDN configuration, and auto-scaling rules"
+          },
+          "phase3": {
+            "title": "Phase 3: Application Migration",
+            "duration": "6 weeks",
+            "description": "Application refactoring and database optimization"
+          },
+          "phase4": {
+            "title": "Phase 4: Load Testing",
+            "duration": "2 weeks",
+            "description": "Stress testing simulating 5x expected peak traffic"
+          },
+          "phase5": {
+            "title": "Phase 5: Cutover & Monitoring",
+            "duration": "2 weeks",
+            "description": "Production cutover with 24/7 monitoring during first sales event"
+          }
+        }
+      },
+      "services": {
+        "title": "Services Delivered",
+        "items": ["Cloud Infrastructure", "Auto-Scaling Architecture", "Performance Optimization", "CDN Implementation"]
       }
     }
   },
@@ -3597,6 +4246,70 @@
       "title": "Need Expert Guidance?",
       "description": "Our IT experts can help you navigate your digital transformation journey.",
       "button": "Talk to an Expert"
+    },
+    "whitepapers": {
+      "comingSoon": {
+        "meta": {
+          "title": "Whitepapers Coming Soon | IT Resources - Roaya IT",
+          "description": "Get notified when our comprehensive whitepapers on cloud architecture, cybersecurity, and digital transformation launch. Expert insights for Egyptian enterprises.",
+          "ogTitle": "IT Whitepapers Coming Soon - Roaya IT"
+        },
+        "hero": {
+          "badge": "Whitepapers",
+          "title": "Coming Soon",
+          "subtitle": "In-Depth Technical Resources & Guides"
+        },
+        "description": "We're preparing comprehensive whitepapers covering cloud architecture, cybersecurity best practices, and digital transformation strategies. Get expert insights and technical guidance tailored for Egyptian enterprises.",
+        "subscription": {
+          "label": "Get notified when we launch",
+          "emailPlaceholder": "Enter your email address",
+          "submitButton": "Notify me",
+          "submitting": "Subscribing...",
+          "success": {
+            "title": "You're on the list!",
+            "description": "We'll notify you when whitepapers are available. Check your inbox for confirmation."
+          },
+          "error": {
+            "title": "Subscription failed",
+            "description": "We couldn't subscribe your email. Please try again or contact us at info@roaya.co"
+          }
+        },
+        "launch": {
+          "hint": "Launching Q2 2025"
+        }
+      }
+    },
+    "documentation": {
+      "comingSoon": {
+        "meta": {
+          "title": "Documentation Coming Soon | Developer Resources - Roaya IT",
+          "description": "Get notified when our technical documentation portal launches. API references, integration guides, and tutorials for developers and IT teams.",
+          "ogTitle": "Technical Documentation Coming Soon - Roaya IT"
+        },
+        "hero": {
+          "badge": "Documentation",
+          "title": "Coming Soon",
+          "subtitle": "Technical Documentation & API References"
+        },
+        "description": "We're building a comprehensive documentation portal with API references, integration guides, and step-by-step tutorials. Everything you need to integrate and optimize our solutions for your infrastructure.",
+        "subscription": {
+          "label": "Get notified when we launch",
+          "emailPlaceholder": "Enter your email address",
+          "submitButton": "Notify me",
+          "submitting": "Subscribing...",
+          "success": {
+            "title": "You're on the list!",
+            "description": "We'll notify you when documentation is available. Check your inbox for confirmation."
+          },
+          "error": {
+            "title": "Subscription failed",
+            "description": "We couldn't subscribe your email. Please try again or contact us at info@roaya.co"
+          }
+        },
+        "launch": {
+          "hint": "Launching Q1 2025"
+        }
+      }
     }
   },
   "legal": {
