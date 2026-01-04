@@ -151,15 +151,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           faIcon: 'faSolidUserShield',
           route: '/services/security/incident-response',
           badge: 'New'
-        },
-        {
-          id: 'pentest-v2',
-          title: 'services.security.page.pentestV2.title',
-          description: 'services.security.page.pentestV2.hero.subtitle1',
-          icon: '&#129302;',
-          faIcon: 'faSolidMicrochip',
-          route: '/services/security/pentest-v2',
-          badge: 'AI'
         }
       ]
     },

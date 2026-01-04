@@ -216,7 +216,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     {
       name: 'Agricultural Bank of Egypt',
       logo: '/assets/images/logos/factors/البنك الزراعي المصري.png',
-      nameAr: 'البنك الزراعي المصري'
+      nameAr: 'البنك الزراعي المصري',
+      scale: 'scale-150'
     },
     // Universities
     {
@@ -237,7 +238,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     {
       name: 'Alexandria University',
       logo: '/assets/images/logos/factors/Alexandria-University.svg',
-      nameAr: 'جامعة الإسكندرية'
+      nameAr: 'جامعة الإسكندرية',
+      scale: 'scale-150'
     },
     {
       name: 'Misr International University',
