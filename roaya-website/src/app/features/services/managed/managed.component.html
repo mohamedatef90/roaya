@@ -220,12 +220,12 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         @for (diff of differentiators; track diff.title; let i = $index) {
           <div
-            class="group relative rounded-xl overflow-hidden animate-fade-in-up"
+            class="group relative rounded-xl overflow-visible animate-fade-in-up"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Hover glow -->
             <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-8 h-full flex flex-col pt-12 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
               <!-- Highlight Badge -->
               <div class="absolute top-4 right-4 rtl:right-auto rtl:left-4 px-3 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-xs font-semibold rounded-full">
                 {{ diff.highlight }}
@@ -256,7 +256,7 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
         @for (tier of pricingTiers; track tier.name; let i = $index) {
           <div
             class="group relative rounded-xl animate-fade-in-up overflow-hidden"
@@ -267,7 +267,7 @@
               <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
             }
 
-            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2"
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl p-8 h-full flex flex-col pt-12 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2"
                  [ngClass]="tier.popular ? 'border-2 border-primary-500 dark:border-primary-400' : 'border border-white/60 dark:border-primary-700/40'">
 
               <!-- Popular Badge -->
@@ -295,7 +295,7 @@
               </div>
 
               <!-- Features -->
-              <ul class="space-y-3 mb-8">
+              <ul class="space-y-3 mb-8 flex-grow">
                 @for (feature of tier.features; track feature) {
                   <li class="flex items-start gap-2">
                     <svg class="w-4 h-4 text-green-600 dark:text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -309,7 +309,7 @@
               <!-- CTA Button -->
               <a
                 routerLink="/contact"
-                class="block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
+                class="mt-auto block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
                 [ngClass]="tier.popular ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:shadow-lg hover:scale-105' : 'bg-gray-100 dark:bg-gray-700 text-primary-600 dark:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-600'">
                 {{ tier.cta }}
               </a>

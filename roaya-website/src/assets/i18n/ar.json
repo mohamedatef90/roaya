@@ -15,6 +15,7 @@
     "error": "خطأ",
     "success": "نجح",
     "back": "رجوع",
+    "backToResources": "العودة للموارد",
     "next": "التالي",
     "previous": "السابق",
     "close": "إغلاق",
@@ -3489,7 +3490,6 @@
       "followUs": "تابعنا على",
       "social": {
         "linkedin": "لينكد إن",
-        "twitter": "تويتر",
         "facebook": "فيسبوك"
       }
     },

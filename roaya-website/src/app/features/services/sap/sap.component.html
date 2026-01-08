@@ -391,10 +391,10 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
         @for (tier of pricingTiers; track tier.name; let i = $index) {
           <div
-            class="group relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 animate-fade-in-up hover:-translate-y-2 overflow-hidden"
+            class="group relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 animate-fade-in-up overflow-visible"
             [ngClass]="tier.popular ? 'border-primary-500 dark:border-primary-400' : 'border-white/60 dark:border-primary-700/40 hover:border-primary-500 dark:hover:border-primary-400'"
             [style.animation-delay]="i * 100 + 'ms'">
 
@@ -403,10 +403,10 @@
               <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-20 blur transition-opacity duration-500 rounded-2xl"></div>
             }
 
-            <div class="relative">
+            <div class="relative h-full flex flex-col p-8 pt-12 group-hover:-translate-y-2 transition-transform duration-300">
               <!-- Popular Badge -->
               @if (tier.popular) {
-                <div class="absolute -top-8 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-sm font-semibold rounded-full shadow-lg">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-sm font-semibold rounded-full shadow-lg z-10">
                   Most Popular
                 </div>
               }
@@ -429,7 +429,7 @@
               </div>
 
               <!-- Features -->
-              <ul class="space-y-3 mb-8">
+              <ul class="space-y-3 mb-8 flex-grow">
                 @for (feature of tier.features; track feature) {
                   <li class="flex items-start gap-2">
                     <ng-icon name="faCircleCheck" class="text-green-600 dark:text-green-400 mt-1 flex-shrink-0" size="16"></ng-icon>
@@ -441,7 +441,7 @@
               <!-- CTA Button -->
               <a
                 routerLink="/contact"
-                class="block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
+                class="mt-auto block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
                 [ngClass]="tier.popular ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:shadow-lg hover:scale-105' : 'bg-white/50 dark:bg-primary-800/50 backdrop-blur-sm border border-white/60 dark:border-primary-700/40 text-primary-600 dark:text-primary-400 hover:bg-white/80 dark:hover:bg-primary-800/80'">
                 {{ tier.cta }}
               </a>
@@ -480,24 +480,24 @@
         @for (service of relatedServices; track service.id; let i = $index) {
           <a
             [routerLink]="service.route"
-            class="group relative block p-6 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-white/60 dark:border-primary-700/40 hover:border-primary-500 dark:hover:border-primary-400 hover:-translate-y-2 animate-fade-in-up overflow-hidden"
+            class="group relative block rounded-xl animate-fade-in-up overflow-hidden"
             [style.animation-delay]="i * 100 + 'ms'">
-            <!-- Hover glow effect -->
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+            <!-- Hover glow -->
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-            <div class="relative">
+            <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
               <!-- Service Icon -->
-              <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden shadow-lg">
+              <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
                 <img [src]="service.iconSvg" [alt]="service.title" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
               </div>
 
               <!-- Service Title -->
-              <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ service.title }}
               </h3>
 
               <!-- Service Description -->
-              <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4 leading-relaxed">
+              <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
                 {{ service.description }}
               </p>
 

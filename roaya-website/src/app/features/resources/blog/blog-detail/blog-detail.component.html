@@ -60,10 +60,13 @@
 
       <!-- Meta Info -->
       <div class="flex flex-wrap items-center gap-4 md:gap-6 text-neutral-600 dark:text-white/80">
+        <!-- Author info hidden -->
+        @if (false) {
         <div class="flex items-center gap-2">
           <ng-icon name="lucideUser" size="18" aria-hidden="true"></ng-icon>
           <span>{{ getAuthorName() }}</span>
         </div>
+        }
         <div class="flex items-center gap-2">
           <ng-icon name="lucideCalendar" size="18" aria-hidden="true"></ng-icon>
           <span>{{ post()!.publishedDate | date:'mediumDate' }}</span>
@@ -78,61 +81,25 @@
 
   <!-- Main Content Area -->
   <div class="container mx-auto px-4 py-12">
-    <div class="flex flex-col lg:flex-row gap-12">
-      <!-- Sidebar (TOC) - Desktop -->
-      <aside class="hidden lg:block lg:w-72 flex-shrink-0">
-        <div class="sticky top-24 flex flex-col gap-8">
-          @if (tocItems().length > 0) {
-          <app-table-of-contents [items]="tocItems()"></app-table-of-contents>
-          }
-
-          <!-- Useful Resources -->
-          <div
-            class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-800">
-            <h3
-              class="text-sm font-semibold mb-4 text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-              <span class="w-1 h-4 bg-navy dark:bg-teal rounded-full"></span>
-              {{ 'blog.sidebar.resources' | translate }}
-            </h3>
-            <ul class="space-y-3">
-              @for (service of sidebarServices; track service.id) {
-              <li>
-                <a [routerLink]="service.route"
-                  class="group flex items-center justify-between text-neutral-600 dark:text-neutral-400 hover:text-navy dark:hover:text-teal transition-colors text-sm">
-                  <span>{{ service.title | translate }}</span>
-                  <ng-icon name="lucideArrowRight" size="14"
-                    class="opacity-0 group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0 rtl:rotate-180"></ng-icon>
-                </a>
-              </li>
-              }
-            </ul>
-          </div>
-
-          <!-- Follow Us -->
-          <div class="bg-navy dark:bg-neutral-900 rounded-2xl p-6 text-white">
-            <h3 class="text-sm font-semibold mb-4 text-white uppercase tracking-wider">
-              {{ 'blog.sidebar.followUs' | translate }}
-            </h3>
-            <div class="flex gap-4">
-              @for (social of socialLinks; track social.id) {
-              <a [href]="social.url" target="_blank" rel="noopener noreferrer"
-                class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"
-                [attr.aria-label]="'blog.sidebar.social.' + social.id | translate">
-                <ng-icon [name]="social.icon" size="20"></ng-icon>
-              </a>
-              }
-            </div>
+    <div class="flex flex-col lg:flex-row gap-10 lg:gap-12">
+      <!-- Left Sidebar (TOC) - Desktop -->
+      <aside class="hidden lg:block lg:w-56 flex-shrink-0 order-1">
+        <div class="sticky top-28">
+          <div class="max-h-[calc(100vh-8rem)] overflow-y-auto">
+            @if (tocItems().length > 0) {
+            <app-table-of-contents [items]="tocItems()"></app-table-of-contents>
+            }
           </div>
         </div>
       </aside>
 
       <!-- Main Content -->
-      <div class="flex-1 max-w-3xl">
+      <article class="flex-1 min-w-0 max-w-2xl mx-auto order-2 lg:order-2">
         <!-- Featured Image -->
         @if (post()!.featuredImage) {
-        <div class="mb-10 rounded-2xl overflow-hidden shadow-lg">
+        <figure class="mb-10 rounded-2xl overflow-hidden shadow-lg">
           <img [src]="post()!.featuredImage" [alt]="getFeaturedImageAlt()" class="w-full h-auto" loading="eager" />
-        </div>
+        </figure>
         }
 
         <!-- TOC Mobile -->
@@ -142,9 +109,21 @@
         </div>
         }
 
-        <!-- Article Content -->
+        <!-- Article Content - Enhanced Typography -->
         <div
-          class="prose dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-neutral-900 dark:prose-headings:text-white prose-p:text-neutral-800 dark:prose-p:text-neutral-200 prose-p:leading-normal prose-a:text-navy dark:prose-a:text-teal prose-a:underline prose-a:decoration-2 prose-a:underline-offset-2 prose-a:decoration-navy/30 dark:prose-a:decoration-teal/30 hover:prose-a:decoration-navy dark:hover:prose-a:decoration-teal prose-strong:text-neutral-900 dark:prose-strong:text-white prose-ul:text-neutral-800 dark:prose-ul:text-neutral-200 prose-li:marker:text-navy dark:prose-li:marker:text-teal mb-12"
+          class="article-content prose prose-lg dark:prose-invert max-w-none
+                 prose-headings:font-bold prose-headings:tracking-tight
+                 prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-neutral-900 dark:prose-h2:text-white prose-h2:border-b prose-h2:border-neutral-200 dark:prose-h2:border-neutral-700 prose-h2:pb-3
+                 prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-neutral-800 dark:prose-h3:text-neutral-100
+                 prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-p:text-base prose-p:md:text-lg prose-p:leading-relaxed prose-p:mb-6
+                 prose-a:text-navy dark:prose-a:text-teal prose-a:font-medium prose-a:no-underline prose-a:border-b-2 prose-a:border-navy/30 dark:prose-a:border-teal/30 hover:prose-a:border-navy dark:hover:prose-a:border-teal prose-a:transition-colors
+                 prose-strong:text-neutral-900 dark:prose-strong:text-white prose-strong:font-semibold
+                 prose-ul:my-6 prose-ul:text-neutral-700 dark:prose-ul:text-neutral-300
+                 prose-ol:my-6 prose-ol:text-neutral-700 dark:prose-ol:text-neutral-300
+                 prose-li:text-base prose-li:md:text-lg prose-li:leading-relaxed prose-li:mb-2 prose-li:marker:text-navy dark:prose-li:marker:text-teal
+                 prose-blockquote:border-l-4 prose-blockquote:border-navy dark:prose-blockquote:border-teal prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-neutral-600 dark:prose-blockquote:text-neutral-400
+                 prose-code:text-navy dark:prose-code:text-teal prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                 mb-12"
           [innerHTML]="processedContent()"></div>
 
         <!-- Tags -->
@@ -170,15 +149,6 @@
             {{ 'blog.detail.share' | translate }}
           </h3>
           <div class="flex flex-wrap gap-3">
-            <button (click)="sharePost('twitter')"
-              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-              aria-label="Share on Twitter">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-              </svg>
-              <span>Twitter</span>
-            </button>
             <button (click)="sharePost('linkedin')"
               class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               aria-label="Share on LinkedIn">
@@ -206,7 +176,8 @@
           </div>
         </div>
 
-        <!-- Author Card -->
+        <!-- Author Card - Hidden -->
+        @if (false) {
         @if (post()!.author) {
         <div class="mb-10">
           <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
@@ -214,6 +185,7 @@
           </h3>
           <app-author-card [author]="post()!.author"></app-author-card>
         </div>
+        }
         }
 
         <!-- Newsletter Signup -->
@@ -229,26 +201,28 @@
           </h2>
           <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @for (relatedPost of relatedPosts(); track relatedPost.id) {
-            <article [routerLink]="['/resources/blog', relatedPost.slug]"
-              class="group bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-              tabindex="0">
-              @if (relatedPost.featuredImage) {
-              <div class="h-32 overflow-hidden">
-                <img [src]="relatedPost.featuredImage" [alt]="getRelatedPostTitle(relatedPost)"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy" />
-              </div>
-              }
-              <div class="p-4">
-                <h3
-                  class="text-base font-bold mb-2 text-neutral-900 dark:text-white group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
-                  {{ getRelatedPostTitle(relatedPost) }}
-                </h3>
-                <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-relaxed">
-                  {{ getRelatedPostExcerpt(relatedPost) }}
-                </p>
-              </div>
-            </article>
+            <a [routerLink]="['/resources/blog', relatedPost.slug]"
+              class="group block bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              [attr.aria-label]="'Read article: ' + getRelatedPostTitle(relatedPost)">
+              <article class="h-full flex flex-col">
+                @if (relatedPost.featuredImage) {
+                <div class="h-32 overflow-hidden flex-shrink-0">
+                  <img [src]="relatedPost.featuredImage" [alt]="getRelatedPostTitle(relatedPost)"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy" />
+                </div>
+                }
+                <div class="p-4 flex-1 flex flex-col">
+                  <h3
+                    class="text-base font-bold mb-2 text-neutral-900 dark:text-white group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
+                    {{ getRelatedPostTitle(relatedPost) }}
+                  </h3>
+                  <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-relaxed">
+                    {{ getRelatedPostExcerpt(relatedPost) }}
+                  </p>
+                </div>
+              </article>
+            </a>
             }
           </div>
         </div>
@@ -268,7 +242,52 @@
             <ng-icon name="lucideArrowRight" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
           </a>
         </div>
-      </div>
+      </article>
+
+      <!-- Right Sidebar - Desktop -->
+      <aside class="hidden lg:block lg:w-56 flex-shrink-0 order-3">
+        <div class="sticky top-28">
+          <div class="max-h-[calc(100vh-8rem)] overflow-y-auto flex flex-col gap-6">
+            <!-- Useful Resources -->
+          <div
+            class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-5 border border-neutral-200 dark:border-neutral-800">
+            <h3
+              class="text-xs font-semibold mb-4 text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+              <span class="w-1 h-4 bg-navy dark:bg-teal rounded-full"></span>
+              {{ 'blog.sidebar.resources' | translate }}
+            </h3>
+            <ul class="space-y-2.5">
+              @for (service of sidebarServices; track service.id) {
+              <li>
+                <a [routerLink]="service.route"
+                  class="group flex items-center justify-between text-neutral-600 dark:text-neutral-400 hover:text-navy dark:hover:text-teal transition-colors text-sm">
+                  <span>{{ service.title | translate }}</span>
+                  <ng-icon name="lucideArrowRight" size="14"
+                    class="opacity-0 group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0 rtl:rotate-180"></ng-icon>
+                </a>
+              </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Follow Us -->
+          <div class="bg-navy dark:bg-neutral-900 rounded-2xl p-5 text-white">
+            <h3 class="text-xs font-semibold mb-4 text-white uppercase tracking-wider">
+              {{ 'blog.sidebar.followUs' | translate }}
+            </h3>
+            <div class="flex gap-3">
+              @for (social of socialLinks; track social.id) {
+              <a [href]="social.url" target="_blank" rel="noopener noreferrer"
+                class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"
+                [attr.aria-label]="'blog.sidebar.social.' + social.id | translate">
+                <ng-icon [name]="social.icon" size="18"></ng-icon>
+              </a>
+              }
+            </div>
+          </div>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </article>

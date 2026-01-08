@@ -92,8 +92,7 @@ import { TocItem } from '../../../core/interfaces/blog.interface';
   `,
   styles: [`
     .toc-container {
-      position: sticky;
-      top: 6rem;
+      /* Sticky positioning handled by parent wrapper in blog-detail */
     }
 
     .toc-link {
@@ -133,8 +132,9 @@ export class TableOfContentsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Delay observer setup to ensure DOM is ready
-      setTimeout(() => this.setupIntersectionObserver(), 100);
+      // Delay observer setup to ensure DOM is ready and content is rendered
+      // Increased delay to ensure innerHTML has been fully parsed
+      setTimeout(() => this.setupIntersectionObserver(), 1000);
     }
   }
 
@@ -148,31 +148,61 @@ export class TableOfContentsComponent implements OnInit, OnDestroy {
 
   scrollToSection(event: Event, id: string): void {
     event.preventDefault();
+    console.log(`[TOC] Click handler triggered for ID: "${id}"`);
 
     if (isPlatformBrowser(this.platformId)) {
-      const element = document.getElementById(id);
-      if (element) {
-        const offset = 112; // Account for sticky header (matches scroll-mt-28)
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-
-        // Update active state
-        this.activeId.set(id);
-
-        // Collapse on mobile after selection
-        if (window.innerWidth < 1024) {
-          this.isCollapsed.set(true);
-        }
-      }
+      this.attemptScroll(id, 0);
     }
   }
 
+  private attemptScroll(id: string, attempt: number): void {
+    const element = document.getElementById(id);
+    const maxAttempts = 5;
+
+    console.log(`[TOC] Attempt ${attempt + 1}/${maxAttempts} - Looking for element with ID: "${id}"`);
+
+    if (element) {
+      console.log(`[TOC] ✅ Element found!`, element);
+      console.log(`[TOC] Element tag: ${element.tagName}, text: "${element.textContent}"`);
+
+      const offset = 112; // Account for sticky header (matches scroll-mt-28 = 7rem = 112px)
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - offset;
+
+      console.log(`[TOC] Scrolling to position: ${offsetPosition}px (element at ${elementPosition}px, offset ${offset}px)`);
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // Update active state
+      this.activeId.set(id);
+      console.log(`[TOC] Active ID set to: "${id}"`);
+
+      // Collapse on mobile after selection
+      if (window.innerWidth < 1024) {
+        this.isCollapsed.set(true);
+        console.log('[TOC] Collapsed mobile menu');
+      }
+    } else if (attempt < maxAttempts) {
+      console.warn(`[TOC] ⚠️ Element not found yet, retrying in ${(attempt + 1) * 100}ms...`);
+      // Retry after increasing delay to allow innerHTML to finish rendering
+      setTimeout(() => this.attemptScroll(id, attempt + 1), (attempt + 1) * 100);
+    } else {
+      console.error(`[TOC] ❌ Failed to find heading element with ID "${id}" after ${maxAttempts} attempts.`);
+      console.error('[TOC] Available heading IDs in page:', this.getAllHeadingIds());
+    }
+  }
+
+  private getAllHeadingIds(): string[] {
+    const headings = document.querySelectorAll('h2[id], h3[id]');
+    return Array.from(headings).map(h => h.id);
+  }
+
   private setupIntersectionObserver(): void {
+    console.log('[TOC] Setting up IntersectionObserver for', this.items.length, 'items');
+
     const options: IntersectionObserverInit = {
       rootMargin: '-112px 0px -66%', // Trigger slightly after the offset to ensure active state
       threshold: 0
@@ -181,17 +211,31 @@ export class TableOfContentsComponent implements OnInit, OnDestroy {
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          console.log(`[TOC] Section "${entry.target.id}" is now visible`);
           this.activeId.set(entry.target.id);
         }
       });
     }, options);
 
     // Observe all heading elements
+    let observedCount = 0;
     this.items.forEach(item => {
       const element = document.getElementById(item.id);
       if (element) {
         this.observer?.observe(element);
+        observedCount++;
+        console.log(`[TOC] ✅ Observing element with ID: "${item.id}"`);
+      } else {
+        console.warn(`[TOC] ⚠️ Element with id "${item.id}" not found in DOM`);
       }
     });
+
+    console.log(`[TOC] Setup complete - Observing ${observedCount}/${this.items.length} elements`);
+
+    if (observedCount === 0 && this.items.length > 0) {
+      console.error('[TOC] ❌ No heading elements found. Content may not be rendered yet.');
+      console.error('[TOC] Available heading IDs in page:', this.getAllHeadingIds());
+      console.error('[TOC] Expected IDs from TOC items:', this.items.map(i => i.id));
+    }
   }
 }

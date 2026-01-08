@@ -24,10 +24,10 @@
 <!-- Industries Grid -->
 <section class="py-20 bg-background">
   <div class="container-custom">
-    <div class="industries-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="industries-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
       <div
         *ngFor="let industry of industries"
-        class="group bg-surface rounded-2xl border border-border overflow-hidden hover:shadow-hard transition-all duration-300 hover:-translate-y-1"
+        class="group bg-surface rounded-2xl border border-border overflow-hidden hover:shadow-hard transition-all duration-300 hover:-translate-y-1 h-full flex flex-col"
       >
         <!-- Industry Header -->
         <div class="p-6 border-b border-border">
@@ -50,7 +50,7 @@
         </div>
 
         <!-- Solutions List -->
-        <div class="p-6">
+        <div class="p-6 flex-grow">
           <h3 class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
             {{ 'industries.solutions' | translate }}
           </h3>
@@ -67,7 +67,7 @@
         </div>
 
         <!-- CTA -->
-        <div class="px-6 pb-6">
+        <div class="px-6 pb-6 mt-auto">
           <a
             [routerLink]="['/industries', industry.id]"
             class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-secondary-50 dark:bg-secondary-900/30 text-secondary-600 dark:text-secondary-400 rounded-xl font-semibold hover:bg-secondary-100 dark:hover:bg-secondary-900/50 transition-colors"

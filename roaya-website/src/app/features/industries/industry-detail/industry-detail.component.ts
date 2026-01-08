@@ -21,6 +21,7 @@ interface IndustryDetail {
     iconPath: string;
     titleKey: string;
     descriptionKey: string;
+    route: string;
   }[];
   useCases: {
     titleKey: string;
@@ -82,17 +83,20 @@ export class IndustryDetailComponent implements OnInit {
         {
           iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
           titleKey: 'services.security.title',
-          descriptionKey: 'services.security.description'
+          descriptionKey: 'services.security.description',
+          route: '/services/security'
         },
         {
           iconPath: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
           titleKey: 'services.cloud.title',
-          descriptionKey: 'services.cloud.description'
+          descriptionKey: 'services.cloud.description',
+          route: '/services/cloud'
         },
         {
           iconPath: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4',
           titleKey: 'services.backup.title',
-          descriptionKey: 'services.backup.description'
+          descriptionKey: 'services.backup.description',
+          route: '/services/backup'
         }
       ],
       useCases: [
@@ -124,17 +128,20 @@ export class IndustryDetailComponent implements OnInit {
         {
           iconPath: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
           titleKey: 'services.email.title',
-          descriptionKey: 'services.email.description'
+          descriptionKey: 'services.email.description',
+          route: '/services/worldposta'
         },
         {
           iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
           titleKey: 'services.security.title',
-          descriptionKey: 'services.security.description'
+          descriptionKey: 'services.security.description',
+          route: '/services/security'
         },
         {
           iconPath: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4',
           titleKey: 'services.backup.title',
-          descriptionKey: 'services.backup.description'
+          descriptionKey: 'services.backup.description',
+          route: '/services/backup'
         }
       ],
       useCases: [
@@ -166,17 +173,20 @@ export class IndustryDetailComponent implements OnInit {
         {
           iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
           titleKey: 'services.security.title',
-          descriptionKey: 'services.security.description'
+          descriptionKey: 'services.security.description',
+          route: '/services/security'
         },
         {
           iconPath: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
           titleKey: 'services.cloud.title',
-          descriptionKey: 'services.cloud.description'
+          descriptionKey: 'services.cloud.description',
+          route: '/services/cloud'
         },
         {
           iconPath: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
           titleKey: 'services.managed.title',
-          descriptionKey: 'services.managed.description'
+          descriptionKey: 'services.managed.description',
+          route: '/services/managed'
         }
       ],
       useCases: []
@@ -198,17 +208,20 @@ export class IndustryDetailComponent implements OnInit {
         {
           iconPath: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
           titleKey: 'services.cloud.title',
-          descriptionKey: 'services.cloud.description'
+          descriptionKey: 'services.cloud.description',
+          route: '/services/cloud'
         },
         {
           iconPath: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
           titleKey: 'services.managed.title',
-          descriptionKey: 'services.managed.description'
+          descriptionKey: 'services.managed.description',
+          route: '/services/managed'
         },
         {
           iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
           titleKey: 'services.security.title',
-          descriptionKey: 'services.security.description'
+          descriptionKey: 'services.security.description',
+          route: '/services/security'
         }
       ],
       useCases: []
@@ -230,17 +243,20 @@ export class IndustryDetailComponent implements OnInit {
         {
           iconPath: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
           titleKey: 'services.cloud.title',
-          descriptionKey: 'services.cloud.description'
+          descriptionKey: 'services.cloud.description',
+          route: '/services/cloud'
         },
         {
           iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
           titleKey: 'services.security.title',
-          descriptionKey: 'services.security.description'
+          descriptionKey: 'services.security.description',
+          route: '/services/security'
         },
         {
           iconPath: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
           titleKey: 'services.email.title',
-          descriptionKey: 'services.email.description'
+          descriptionKey: 'services.email.description',
+          route: '/services/worldposta'
         }
       ],
       useCases: []
@@ -262,17 +278,20 @@ export class IndustryDetailComponent implements OnInit {
         {
           iconPath: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
           titleKey: 'services.cloud.title',
-          descriptionKey: 'services.cloud.description'
+          descriptionKey: 'services.cloud.description',
+          route: '/services/cloud'
         },
         {
           iconPath: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
           titleKey: 'services.email.title',
-          descriptionKey: 'services.email.description'
+          descriptionKey: 'services.email.description',
+          route: '/services/worldposta'
         },
         {
           iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
           titleKey: 'services.security.title',
-          descriptionKey: 'services.security.description'
+          descriptionKey: 'services.security.description',
+          route: '/services/security'
         }
       ],
       useCases: []

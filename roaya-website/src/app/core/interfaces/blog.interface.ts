@@ -15,7 +15,6 @@ export interface Author {
   bio: string;
   bioAr: string;
   linkedin?: string;
-  twitter?: string;
 }
 
 export interface TocItem {

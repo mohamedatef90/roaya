@@ -7,7 +7,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideLinkedin, lucideTwitter } from '@ng-icons/lucide';
+import { lucideLinkedin } from '@ng-icons/lucide';
 import { Author } from '../../../core/interfaces/blog.interface';
 import { LanguageService } from '../../../core/services/language.service';
 
@@ -20,7 +20,7 @@ import { LanguageService } from '../../../core/services/language.service';
   standalone: true,
   imports: [CommonModule, TranslateModule, NgIcon],
   providers: [
-    provideIcons({ lucideLinkedin, lucideTwitter })
+    provideIcons({ lucideLinkedin })
   ],
   template: `
     @if (author) {
@@ -29,13 +29,24 @@ import { LanguageService } from '../../../core/services/language.service';
         <div class="flex items-center gap-4 mb-4">
           <!-- Avatar -->
           <div class="flex-shrink-0">
-            <img
-              [src]="author.avatar"
-              [alt]="currentName"
-              class="w-16 h-16 rounded-full object-cover ring-2 ring-neutral-200 dark:ring-neutral-700"
-              loading="lazy"
-              (error)="onImageError($event)"
-            />
+            @if (imageError) {
+              <!-- Initials Fallback -->
+              <div
+                class="w-16 h-16 rounded-full flex items-center justify-center text-white font-semibold text-xl bg-gradient-to-br from-navy to-teal ring-2 ring-neutral-200 dark:ring-neutral-700"
+                [attr.aria-label]="'Avatar for ' + currentName"
+              >
+                {{ initials }}
+              </div>
+            } @else {
+              <!-- Avatar Image -->
+              <img
+                [src]="author.avatar"
+                [alt]="currentName"
+                class="w-16 h-16 rounded-full object-cover ring-2 ring-neutral-200 dark:ring-neutral-700"
+                loading="lazy"
+                (error)="onImageError($event)"
+              />
+            }
           </div>
 
           <!-- Name and Role -->
@@ -58,32 +69,18 @@ import { LanguageService } from '../../../core/services/language.service';
         </p>
 
         <!-- Social Links -->
-        @if (author.linkedin || author.twitter) {
+        @if (author.linkedin) {
           <div class="flex items-center gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-            @if (author.linkedin) {
-              <a
-                [href]="author.linkedin"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-black/70 dark:text-neutral-400 hover:text-navy dark:hover:text-teal hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                [attr.aria-label]="'LinkedIn profile of ' + currentName"
-              >
-                <ng-icon name="lucideLinkedin" size="18" aria-hidden="true"></ng-icon>
-                <span>LinkedIn</span>
-              </a>
-            }
-            @if (author.twitter) {
-              <a
-                [href]="author.twitter"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-black/70 dark:text-neutral-400 hover:text-navy dark:hover:text-teal hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
-                [attr.aria-label]="'Twitter profile of ' + currentName"
-              >
-                <ng-icon name="lucideTwitter" size="18" aria-hidden="true"></ng-icon>
-                <span>Twitter</span>
-              </a>
-            }
+            <a
+              [href]="author.linkedin"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-black/70 dark:text-neutral-400 hover:text-navy dark:hover:text-teal hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              [attr.aria-label]="'LinkedIn profile of ' + currentName"
+            >
+              <ng-icon name="lucideLinkedin" size="18" aria-hidden="true"></ng-icon>
+              <span>LinkedIn</span>
+            </a>
           </div>
         }
       </div>
@@ -108,6 +105,7 @@ export class AuthorCardComponent {
   private readonly languageService = inject(LanguageService);
 
   @Input() author: Author | null = null;
+  imageError = false;
 
   get currentName(): string {
     if (!this.author) return '';
@@ -130,8 +128,23 @@ export class AuthorCardComponent {
       : this.author.bio;
   }
 
+  get initials(): string {
+    if (!this.author) return '';
+    const name = this.currentName;
+    const parts = name.split(' ');
+
+    if (parts.length >= 2) {
+      // Get first letter of first name and first letter of last name
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    } else if (parts.length === 1 && parts[0].length >= 2) {
+      // Get first two letters of single name
+      return parts[0].substring(0, 2).toUpperCase();
+    }
+
+    return name.substring(0, 2).toUpperCase();
+  }
+
   onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.src = '/assets/images/placeholder-avatar.svg';
+    this.imageError = true;
   }
 }

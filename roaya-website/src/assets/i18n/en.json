@@ -15,6 +15,7 @@
     "error": "Error",
     "success": "Success",
     "back": "Back",
+    "backToResources": "Back to Resources",
     "next": "Next",
     "previous": "Previous",
     "close": "Close",
@@ -3470,7 +3471,6 @@
       "followUs": "Follow Us",
       "social": {
         "linkedin": "LinkedIn",
-        "twitter": "Twitter",
         "facebook": "Facebook"
       }
     },

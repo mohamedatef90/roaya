@@ -1,188 +1,50 @@
 // ============================================
-// Coming Soon Component - Theme-Aware Styles
+// Coming Soon Component - Clean Theme-Aware Styles
 // Supports both light and dark modes
 // ============================================
 
 // CSS Custom Properties - Light Mode Defaults
 :host {
-  --cs-bg-start: #f8fafc;
-  --cs-bg-mid: #e2e8f0;
-  --cs-bg-end: #cbd5e1;
-
-  --cs-glass-bg: rgba(255, 255, 255, 0.85);
-  --cs-glass-border: rgba(61, 90, 128, 0.2);
-  --cs-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --cs-glass-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-
+  --cs-bg: #f8fafc;
+  --cs-card-bg: #ffffff;
+  --cs-card-border: rgba(61, 90, 128, 0.15);
+  --cs-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --cs-text-primary: #1f2937;
   --cs-text-secondary: #4b5563;
   --cs-text-muted: #6b7280;
-
-  --cs-input-bg: rgba(0, 0, 0, 0.03);
-  --cs-input-border: rgba(0, 0, 0, 0.1);
-  --cs-input-focus-bg: rgba(0, 0, 0, 0.05);
-
-  --cs-orb-purple: rgba(107, 76, 154, 0.15);
-  --cs-orb-teal: rgba(93, 183, 194, 0.12);
-  --cs-orb-navy: rgba(61, 90, 128, 0.1);
-
-  --cs-circuit-color: rgba(61, 90, 128, 0.15);
-  --cs-circuit-dot: rgba(61, 90, 128, 0.2);
-  --cs-scan-line: rgba(93, 183, 194, 0.4);
-
-  --cs-particle-color: rgba(61, 90, 128, 0.3);
-  --cs-dot-glow: rgba(93, 183, 194, 0.5);
+  --cs-input-bg: #f3f4f6;
+  --cs-input-border: #e5e7eb;
+  --cs-input-focus-border: #5DB7C2;
 }
 
 // CSS Custom Properties - Dark Mode
 :host-context(.dark) {
-  --cs-bg-start: #0f1a28;
-  --cs-bg-mid: #192532;
-  --cs-bg-end: #203047;
-
-  --cs-glass-bg: rgba(32, 48, 71, 0.8);
-  --cs-glass-border: rgba(93, 183, 194, 0.15);
-  --cs-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 40px rgba(107, 76, 154, 0.1);
-  --cs-glass-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(107, 76, 154, 0.15);
-
-  --cs-text-primary: #ffffff;
-  --cs-text-secondary: #d1d5db;
-  --cs-text-muted: #9ca3af;
-
-  --cs-input-bg: rgba(255, 255, 255, 0.03);
-  --cs-input-border: rgba(255, 255, 255, 0.08);
-  --cs-input-focus-bg: rgba(255, 255, 255, 0.06);
-
-  --cs-orb-purple: rgba(107, 76, 154, 0.35);
-  --cs-orb-teal: rgba(93, 183, 194, 0.25);
-  --cs-orb-navy: rgba(61, 90, 128, 0.2);
-
-  --cs-circuit-color: rgba(93, 183, 194, 0.2);
-  --cs-circuit-dot: rgba(93, 183, 194, 0.3);
-  --cs-scan-line: rgba(93, 183, 194, 0.5);
-
-  --cs-particle-color: rgba(93, 183, 194, 0.4);
-  --cs-dot-glow: rgba(93, 183, 194, 0.8);
+  --cs-bg: #0f172a;
+  --cs-card-bg: #1e293b;
+  --cs-card-border: rgba(93, 183, 194, 0.2);
+  --cs-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --cs-text-primary: #f1f5f9;
+  --cs-text-secondary: #cbd5e1;
+  --cs-text-muted: #94a3b8;
+  --cs-input-bg: #334155;
+  --cs-input-border: #475569;
+  --cs-input-focus-border: #5DB7C2;
 }
 
 .coming-soon-container {
   min-height: 100vh;
-  background: linear-gradient(
-    180deg,
-    var(--cs-bg-start) 0%,
-    var(--cs-bg-mid) 50%,
-    var(--cs-bg-end) 100%
-  );
-  transition: background 0.3s ease;
+  background: var(--cs-bg);
 
-  // Gradient Orbs for Glassmorphism Background
-  .gradient-orb {
-    position: absolute;
-    filter: blur(100px);
-    animation: float 25s ease-in-out infinite;
-    will-change: transform;
-    transition: background 0.3s ease;
-
-    &.orb-1 {
-      width: 500px;
-      height: 500px;
-      top: 5%;
-      left: 5%;
-      background: radial-gradient(circle, var(--cs-orb-purple) 0%, transparent 70%);
-      animation-delay: 0s;
-    }
-
-    &.orb-2 {
-      width: 600px;
-      height: 600px;
-      bottom: 5%;
-      right: 5%;
-      background: radial-gradient(circle, var(--cs-orb-teal) 0%, transparent 70%);
-      animation-delay: 8s;
-    }
-
-    &.orb-3 {
-      width: 400px;
-      height: 400px;
-      top: 40%;
-      left: 40%;
-      background: radial-gradient(circle, var(--cs-orb-navy) 0%, transparent 70%);
-      animation-delay: 16s;
-    }
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-    }
-    25% {
-      transform: translate(20px, -20px) scale(1.05);
-    }
-    50% {
-      transform: translate(-15px, 15px) scale(0.95);
-    }
-    75% {
-      transform: translate(25px, 10px) scale(1.02);
-    }
-  }
-
-  // Circuit Grid Pattern
-  .circuit-grid {
-    stroke: var(--cs-circuit-color);
-    transition: stroke 0.3s ease;
-  }
-
-  .circuit-dot {
-    fill: var(--cs-circuit-dot);
-    transition: fill 0.3s ease;
-  }
-
-  // Glassmorphism Card
-  .glass-card {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background: var(--cs-glass-bg);
-    border: 1px solid var(--cs-glass-border);
-    box-shadow: var(--cs-glass-shadow);
+  // Clean Card
+  .card {
+    background: var(--cs-card-bg);
+    border: 1px solid var(--cs-card-border);
+    box-shadow: var(--cs-card-shadow);
     border-radius: 24px;
     padding: 3rem 2rem;
-    transition: all 0.3s ease;
 
     @media (min-width: 640px) {
       padding: 4rem 3rem;
-    }
-
-    &:hover {
-      box-shadow: var(--cs-glass-hover-shadow);
-      border-color: rgba(93, 183, 194, 0.3);
-    }
-  }
-
-  // Corner Dots
-  .corner-dot {
-    box-shadow: 0 0 12px var(--cs-dot-glow);
-    animation: pulse-glow 2.5s ease-in-out infinite;
-    transition: box-shadow 0.3s ease;
-
-    &:nth-child(2) {
-      animation-delay: 0.5s;
-    }
-    &:nth-child(3) {
-      animation-delay: 1s;
-    }
-    &:nth-child(4) {
-      animation-delay: 1.5s;
-    }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% {
-      opacity: 0.6;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.2);
     }
   }
 
@@ -218,19 +80,16 @@
     color: var(--cs-text-muted);
   }
 
-  // Glass Input
+  // Clean Input (no blur effects)
   .glass-input {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     background: var(--cs-input-bg);
     border: 1px solid var(--cs-input-border);
     color: var(--cs-text-primary);
     transition: all 0.3s ease;
 
     &:focus {
-      background: var(--cs-input-focus-bg);
-      border-color: rgba(93, 183, 194, 0.4);
-      box-shadow: 0 0 20px rgba(93, 183, 194, 0.2);
+      border-color: var(--cs-input-focus-border);
+      box-shadow: 0 0 0 3px rgba(93, 183, 194, 0.15);
     }
 
     &::placeholder {
@@ -253,36 +112,23 @@
   }
 
   // Success Message
+  .success-message {
+    animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   .success-icon-bg {
     background: rgba(93, 183, 194, 0.15);
-  }
-
-  // Scan Line Animation
-  .scan-line {
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--cs-scan-line),
-      transparent
-    );
-    animation: scan 5s linear infinite;
-  }
-
-  @keyframes scan {
-    0% {
-      transform: translateY(-100vh);
-      opacity: 0;
-    }
-    10% {
-      opacity: 0.5;
-    }
-    90% {
-      opacity: 0.5;
-    }
-    100% {
-      transform: translateY(100vh);
-      opacity: 0;
-    }
   }
 
   // Back Link
@@ -307,34 +153,12 @@
   }
 }
 
-// RTL Support
-[dir="rtl"] {
-  .coming-soon-container {
-    .gradient-orb.orb-1 {
-      left: auto;
-      right: 5%;
-    }
-    .gradient-orb.orb-2 {
-      right: auto;
-      left: 5%;
-    }
-  }
-}
-
 // Reduced Motion Support
 @media (prefers-reduced-motion: reduce) {
   .coming-soon-container {
-    .gradient-orb,
-    .corner-dot,
     .gradient-text,
-    .scan-line {
+    .success-message {
       animation: none !important;
-    }
-
-    .glass-card,
-    .submit-button,
-    .glass-input {
-      transition: none !important;
     }
   }
 }

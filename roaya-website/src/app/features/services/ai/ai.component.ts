@@ -405,23 +405,35 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.ngZone.runOutsideAngular(() => {
-        gsap.registerPlugin(ScrollTrigger);
+      // Initialize animations immediately
+      this.initAllAnimations();
+    }
+  }
 
-        // Check for reduced motion
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) return;
+  /**
+   * Initialize all GSAP animations
+   */
+  private initAllAnimations(): void {
+    this.ngZone.runOutsideAngular(() => {
+      gsap.registerPlugin(ScrollTrigger);
 
-        // Skip heavy animations on mobile devices to prevent scroll lag
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile) {
-          // Only initialize essential section animations on mobile, skip parallax
-          this.initMobileAnimations();
-          return;
-        }
+      // Check for reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
 
-        // Journey progress tracker
-        ScrollTrigger.create({
+      // Skip heavy animations on mobile devices to prevent scroll lag
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        // Only initialize essential section animations on mobile, skip parallax
+        this.initMobileAnimations();
+        return;
+      }
+
+      // Refresh ScrollTrigger after DOM is ready
+      ScrollTrigger.refresh();
+
+      // Journey progress tracker
+      ScrollTrigger.create({
           trigger: '.space-journey',
           start: 'top top',
           end: 'bottom bottom',
@@ -1609,8 +1621,7 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
           .fromTo('.reward-card',
             { opacity: 0, y: 20 },
             { opacity: 1, y: 0, stagger: 0.1, duration: 0.3 }, 0.6);
-      });
-    }
+    });
   }
 
   /**

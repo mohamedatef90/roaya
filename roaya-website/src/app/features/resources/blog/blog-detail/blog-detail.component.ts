@@ -12,7 +12,7 @@ import {
 import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { Meta, Title, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideArrowLeft,
@@ -24,7 +24,6 @@ import {
   lucideArrowRight,
   lucideChevronUp,
   lucideLinkedin,
-  lucideTwitter,
   lucideFacebook,
   lucideExternalLink
 } from '@ng-icons/lucide';
@@ -64,7 +63,6 @@ import { NewsletterSignupComponent } from '../../../../shared/components/newslet
       lucideArrowRight,
       lucideChevronUp,
       lucideLinkedin,
-      lucideTwitter,
       lucideFacebook,
       lucideExternalLink
     })
@@ -80,6 +78,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   private readonly meta = inject(Meta);
   private readonly title = inject(Title);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly sanitizer = inject(DomSanitizer);
 
   // Constants for Sidebar
   readonly sidebarServices = [
@@ -91,7 +90,6 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
   readonly socialLinks = [
     { id: 'linkedin', icon: 'lucideLinkedin', url: 'https://www.linkedin.com/company/19047659' },
-    { id: 'twitter', icon: 'lucideTwitter', url: 'https://twitter.com' },
     { id: 'facebook', icon: 'lucideFacebook', url: 'https://www.facebook.com/RoayaIT' }
   ];
 
@@ -101,7 +99,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   isLoading = signal(true);
   tocItems = signal<TocItem[]>([]);
   showScrollTop = signal(false);
-  processedContent = signal<string>('');
+  processedContent = signal<SafeHtml>('');
 
   // Computed values
   currentTitle = computed(() => {
@@ -137,13 +135,20 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   private scrollListener: (() => void) | null = null;
 
   ngOnInit(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
+    // Subscribe to route parameter changes to handle navigation between blog posts
+    this.route.paramMap.subscribe(params => {
+      const slug = params.get('slug');
 
-    if (slug) {
-      this.loadPost(slug);
-    } else {
-      this.isLoading.set(false);
-    }
+      if (slug) {
+        this.loadPost(slug);
+        // Scroll to top when navigating to a new blog post
+        if (isPlatformBrowser(this.platformId)) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } else {
+        this.isLoading.set(false);
+      }
+    });
 
     if (isPlatformBrowser(this.platformId)) {
       this.initScrollListener();
@@ -188,20 +193,40 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     this.tocItems.set(toc);
 
     // Convert markdown-style content to HTML with IDs for TOC
+    // Use bypassSecurityTrustHtml to preserve id attributes on headings
     const processed = this.convertToHtml(rawContent);
-    this.processedContent.set(processed);
+    this.processedContent.set(this.sanitizer.bypassSecurityTrustHtml(processed));
   }
 
   private convertToHtml(content: string): string {
+    // Helper function to generate clean IDs from text (supports Arabic and English)
+    const generateId = (text: string): string => {
+      // For TOC compatibility, we need the EXACT same ID generation as BlogService.generateToc()
+      return text
+        .toLowerCase()
+        .trim()
+        // First replace spaces and punctuation with dashes
+        .replace(/[\s\u00A0]+/g, '-')  // Replace spaces (including non-breaking spaces)
+        .replace(/[^\w\u0600-\u06FF-]+/g, '-')  // Replace non-word chars except Arabic and dashes
+        // Clean up multiple dashes and leading/trailing dashes
+        .replace(/-+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    };
+
+    console.log('[Blog Detail] Converting markdown to HTML...');
+
     // Simple markdown to HTML conversion
     let html = content
-      // Headers with IDs for TOC linking
+      // Headers with IDs for TOC linking (### H3)
       .replace(/^### (.+)$/gm, (_, text) => {
-        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const id = generateId(text);
+        console.log(`[Blog Detail] Generated H3 ID: "${id}" for text: "${text}"`);
         return `<h3 id="${id}" class="scroll-mt-28">${text}</h3>`;
       })
+      // Headers with IDs for TOC linking (## H2)
       .replace(/^## (.+)$/gm, (_, text) => {
-        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const id = generateId(text);
+        console.log(`[Blog Detail] Generated H2 ID: "${id}" for text: "${text}"`);
         return `<h2 id="${id}" class="scroll-mt-28">${text}</h2>`;
       })
       // Bold
@@ -225,6 +250,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     html = html.replace(/<p><br>/g, '<p>');
     html = html.replace(/<br><\/p>/g, '</p>');
 
+    console.log('[Blog Detail] HTML conversion complete');
     return html;
   }
 

@@ -569,16 +569,16 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
         @for (tier of pricingTiers; track tier.key; let i = $index) {
-        <div class="group relative rounded-xl animate-fade-in-up overflow-hidden"
+        <div class="group relative rounded-xl animate-fade-in-up overflow-visible"
           [style.animation-delay]="i * 100 + 'ms'">
           <div
-            class="relative bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1"
+            class="relative h-full flex flex-col bg-white dark:bg-gray-800 rounded-xl p-8 pt-12 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1"
             [ngClass]="tier.popular ? 'border-2 border-primary-500 dark:border-primary-400' : 'border border-gray-200 dark:border-gray-700'">
             @if (tier.popular) {
             <div
-              class="absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-sm font-semibold rounded-full shadow-lg">
+              class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-sm font-semibold rounded-full shadow-lg z-10">
               {{ 'services.security.page.pricing.advanced.popular' | translate }}
             </div>
             }
@@ -600,7 +600,7 @@
               </p>
             </div>
 
-            <ul class="space-y-3 mb-8">
+            <ul class="space-y-3 mb-8 flex-grow">
               @for (featureNum of tier.features; track featureNum) {
               <li class="flex items-start gap-2">
                 <ng-icon name="faCircleCheck" class="text-green-600 dark:text-green-400 mt-1 flex-shrink-0"
@@ -613,7 +613,7 @@
             </ul>
 
             <a routerLink="/contact"
-              class="block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
+              class="mt-auto block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
               [ngClass]="tier.popular ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:shadow-lg hover:scale-105' : 'bg-gray-100 dark:bg-gray-700 text-primary-600 dark:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-600'">
               {{ 'services.security.page.pricing.' + tier.key + '.cta' | translate }}
             </a>
@@ -650,23 +650,23 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (service of relatedServices; track service.id; let i = $index) {
-        <a [routerLink]="service.route" class="related-parallax group relative block rounded-xl overflow-hidden">
-          <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
-            <div
-              class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
-              <img [src]="service.iconSvg" [alt]="service.id" class="w-8 h-8 object-contain brightness-0 invert"
-                loading="lazy" />
+        <a [routerLink]="service.route"
+           class="group relative block rounded-xl animate-fade-in-up overflow-hidden"
+           [style.animation-delay]="i * 100 + 'ms'">
+          <!-- Hover glow -->
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
+
+          <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+            <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
+              <img [src]="service.iconSvg" [alt]="service.id" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
             </div>
-            <h3
-              class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
+            <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.security.page.relatedServices.' + service.id + '.title' | translate }}
             </h3>
             <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
               {{ 'services.security.page.relatedServices.' + service.id + '.description' | translate }}
             </p>
-            <div
-              class="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">
+            <div class="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">
               {{ 'common.learnMore' | translate }}
               <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

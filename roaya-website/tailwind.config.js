@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: [
     "./src/**/*.{html,ts}",
@@ -7,6 +9,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Import default Tailwind colors for industry gradients
+        blue: colors.blue,
+        indigo: colors.indigo,
+        green: colors.green,
+        teal: colors.teal,
+        cyan: colors.cyan,
+        purple: colors.purple,
+        orange: colors.orange,
+        red: colors.red,
+        emerald: colors.emerald,
+
         // Brand Colors from Roaya Logo
         primary: {
           50: '#f0f4f8',

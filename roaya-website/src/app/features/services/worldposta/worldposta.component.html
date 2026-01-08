@@ -608,24 +608,20 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (service of relatedServices; track service.id; let i = $index) {
-        <a [routerLink]="service.route" class="related-parallax group relative block rounded-xl overflow-hidden">
+        <a [routerLink]="service.route"
+           class="group relative block rounded-xl animate-fade-in-up overflow-hidden"
+           [style.animation-delay]="i * 100 + 'ms'">
           <!-- Hover glow -->
-          <div
-            class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">
-          </div>
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl"></div>
 
-          <div
-            class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
+          <div class="relative bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
             <!-- Service Icon -->
-            <div
-              class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-worldposta-green to-worldposta-green-dark flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
-              <img [src]="service.iconSvg" [alt]="service.title" class="w-8 h-8 object-contain brightness-0 invert"
-                loading="lazy" />
+            <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden shadow-lg">
+              <img [src]="service.iconSvg" [alt]="service.title" class="w-8 h-8 object-contain brightness-0 invert" loading="lazy" />
             </div>
 
             <!-- Service Title -->
-            <h3
-              class="text-xl font-bold mb-3 group-hover:text-worldposta-green dark:group-hover:text-worldposta-green-light transition-colors">
+            <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ service.title }}
             </h3>
 
@@ -635,8 +631,7 @@
             </p>
 
             <!-- Learn More Link -->
-            <div
-              class="flex items-center gap-2 text-worldposta-green dark:text-worldposta-green-light font-semibold text-sm group-hover:gap-3 transition-all">
+            <div class="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">
               Learn More
               <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

@@ -43,10 +43,10 @@
 <!-- Pricing Cards -->
 <section class="py-20 bg-background -mt-8">
   <div class="container-custom">
-    <div class="pricing-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div class="pricing-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
       <div
         *ngFor="let plan of plans"
-        class="relative bg-surface rounded-2xl border transition-all duration-300"
+        class="relative bg-surface rounded-2xl border transition-all duration-300 h-full flex flex-col"
         [ngClass]="plan.highlighted
           ? 'border-primary-500 shadow-hard scale-105 z-10'
           : 'border-border hover:border-primary-200 dark:hover:border-primary-800 hover:shadow-lg'"
@@ -59,7 +59,7 @@
           {{ plan.badge | translate }}
         </div>
 
-        <div class="p-8">
+        <div class="p-8 flex flex-col flex-grow">
           <!-- Plan Header -->
           <div class="text-center mb-8">
             <h2 class="text-2xl font-bold mb-2">{{ plan.name | translate }}</h2>
@@ -89,7 +89,7 @@
           </div>
 
           <!-- Features -->
-          <ul class="space-y-4 mb-8">
+          <ul class="space-y-4 mb-8 flex-grow">
             <li *ngFor="let feature of plan.features" class="flex items-start gap-3">
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -101,7 +101,7 @@
           <!-- CTA -->
           <a
             routerLink="/contact"
-            class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition-all"
+            class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition-all mt-auto"
             [ngClass]="plan.highlighted
               ? 'bg-gradient-primary text-white hover:shadow-lg'
               : 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 hover:bg-primary-100 dark:hover:bg-primary-900/50'"

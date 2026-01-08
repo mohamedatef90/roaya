@@ -175,13 +175,13 @@
         </div>
 
         <!-- Pricing Tiers Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           @for (tier of pricingTiers(); track tier.name; let i = $index) {
             <div
-              class="group bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-1 animate-fade-in-up"
+              class="group h-full flex flex-col bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-1 animate-fade-in-up"
               [style.animation-delay]="i * 100 + 'ms'">
               <h3 class="text-xl font-bold mb-4 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">{{ tier.name }}</h3>
-              <div class="mb-6">
+              <div class="mb-6 flex-grow">
                 <div class="text-2xl font-bold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]">
                   Get Your Custom Quote
                 </div>
@@ -191,7 +191,7 @@
               </div>
               <button
                 [routerLink]="['/contact']"
-                class="w-full px-6 py-3 bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-700)] text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300">
+                class="mt-auto w-full px-6 py-3 bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-700)] text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300">
                 {{ 'common.learnMore' | translate }}
               </button>
             </div>

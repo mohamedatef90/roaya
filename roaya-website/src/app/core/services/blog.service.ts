@@ -1712,11 +1712,24 @@ IT infrastructure modernization is a strategic imperative that requires careful 
     while ((match = headingRegex.exec(content)) !== null) {
       const level = match[0].indexOf(' ');
       const text = match[1].trim();
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
+      // Generate ID that supports both Arabic and English text
+      // CRITICAL: This MUST match the generateId() function in blog-detail.component.ts
+      const id = text
+        .toLowerCase()
+        .trim()
+        // First replace spaces and punctuation with dashes
+        .replace(/[\s\u00A0]+/g, '-')  // Replace spaces (including non-breaking spaces)
+        .replace(/[^\w\u0600-\u06FF-]+/g, '-')  // Replace non-word chars except Arabic and dashes
+        // Clean up multiple dashes and leading/trailing dashes
+        .replace(/-+/g, '-')
+        .replace(/(^-|-$)/g, '');
+
+      console.log(`[Blog Service] Generated TOC item - ID: "${id}", Text: "${text}", Level: ${level}`);
       toc.push({ id, text, level });
     }
 
+    console.log(`[Blog Service] Generated ${toc.length} TOC items:`, toc);
     return toc;
   }
 
