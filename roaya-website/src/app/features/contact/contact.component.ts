@@ -82,8 +82,8 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
       iconBg: 'from-primary-500 to-primary-600',
       iconColor: 'text-white',
       title: 'contact.info.phone.title',
-      value: '+20 2 7469708',
-      link: 'tel:+20227469708'
+      value: '+201096274996',
+      link: 'tel:+201096274996'
     },
     {
       icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
