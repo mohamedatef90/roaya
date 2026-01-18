@@ -171,9 +171,17 @@
         <nav aria-label="Breadcrumb" class="mb-6 text-sm opacity-90">
           <ol class="flex items-center justify-center gap-2 flex-wrap">
             <li><a routerLink="/" class="hover:underline">{{ 'common.home' | translate }}</a></li>
-            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li aria-hidden="true">
+              <svg class="w-4 h-4 rtl:rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </li>
             <li><a routerLink="/services" class="hover:underline">{{ 'common.services' | translate }}</a></li>
-            <li aria-hidden="true" class="rtl:rotate-180">/</li>
+            <li aria-hidden="true">
+              <svg class="w-4 h-4 rtl:rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </li>
             <li aria-current="page" class="font-semibold">{{ 'services.devops.title' | translate }}</li>
           </ol>
         </nav>
@@ -1113,6 +1121,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (service of relatedServices; track service.id; let i = $index) {
         <a [routerLink]="service.route"
+           [attr.aria-label]="('services.devops.page.relatedServices.' + service.id + '.title' | translate)"
            class="group relative block rounded-xl animate-fade-in-up overflow-hidden"
            [style.animation-delay]="i * 100 + 'ms'">
           <!-- Hover glow -->

@@ -872,42 +872,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   private initAnimations(): void {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero section animations
-    const heroTimeline = gsap.timeline({
-      defaults: { ease: 'power3.out' }
-    });
-
-    heroTimeline
-      .from('.hero-badge', {
-        opacity: 0,
-        y: 20,
-        duration: 0.6
-      })
-      .from('.hero-title', {
-        opacity: 0,
-        y: 30,
-        duration: 0.8
-      }, '-=0.3')
-      .from('.hero-description', {
-        opacity: 0,
-        y: 20,
-        duration: 0.6
-      }, '-=0.4')
-      .from('.hero-cta', {
-        opacity: 0,
-        y: 20,
-        duration: 0.6
-      }, '-=0.3')
-      .from('.hero-trust', {
-        opacity: 0,
-        y: 15,
-        duration: 0.5
-      }, '-=0.3')
-      .from('.hero-visual', {
-        opacity: 0,
-        scale: 0.9,
-        duration: 1
-      }, '-=0.8');
+    // Hero section animations - cinematic text reveal
+    this.initHeroAnimations();
 
     // Floating animation for 3D elements
     gsap.to('.float-element', {
@@ -1129,6 +1095,129 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       once: true
     });
     this.scrollTriggers.push(faqTrigger);
+  }
+
+  /**
+   * Initialize hero section text animations with cinematic reveal effect
+   */
+  private initHeroAnimations(): void {
+    // Set initial states - override CSS animations for GSAP control
+    gsap.set('.hero-badge-cinematic', { opacity: 0, y: 30 });
+    gsap.set('.hero-headline-cinematic', { opacity: 0 });
+    gsap.set('.hero-word', { opacity: 0, y: 50, rotateX: -20 });
+    gsap.set('.hero-accent-line', { opacity: 0, y: 30 });
+    gsap.set('.hero-accent-word', { opacity: 0, y: 20 });
+    gsap.set('.hero-description-cinematic', { opacity: 0, y: 30 });
+    gsap.set('.hero-cta-cinematic', { opacity: 0, y: 30 });
+    gsap.set('.hero-trust-badges', { opacity: 0, y: 20 });
+    gsap.set('.hero-scroll-indicator', { opacity: 0 });
+
+    // Create the main hero timeline
+    const heroTimeline = gsap.timeline({
+      defaults: {
+        ease: 'power4.out'
+      },
+      delay: 0.2 // Small delay for page load
+    });
+
+    // Badge entrance with blur effect
+    heroTimeline
+      .to('.hero-badge-cinematic', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      })
+
+      // Main headline container fade in
+      .to('.hero-headline-cinematic', {
+        opacity: 1,
+        duration: 0.1
+      }, '-=0.4')
+
+      // Hero word reveal with 3D rotation
+      .to('.hero-word', {
+        opacity: 1,
+        y: 0,
+        rotateX: 0,
+        duration: 1,
+        ease: 'power4.out',
+        stagger: {
+          each: 0.08,
+          from: 'start'
+        }
+      }, '-=0.3')
+
+      // Accent line (subtitle) entrance
+      .to('.hero-accent-line', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: 'power3.out'
+      }, '-=0.5')
+
+      // Accent words stagger
+      .to('.hero-accent-word', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.05,
+        ease: 'power3.out'
+      }, '-=0.4')
+
+      // Description text entrance with typewriter feel
+      .to('.hero-description-cinematic', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      }, '-=0.3')
+
+      // CTA buttons entrance with bounce
+      .to('.hero-cta-cinematic', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'back.out(1.2)'
+      }, '-=0.4')
+
+      // Trust badges fade in
+      .to('.hero-trust-badges', {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out'
+      }, '-=0.2')
+
+      // Scroll indicator fade in
+      .to('.hero-scroll-indicator', {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+      }, '-=0.2');
+
+    // Add subtle floating animation to badge after entrance
+    heroTimeline.add(() => {
+      gsap.to('.hero-badge-cinematic', {
+        y: -5,
+        duration: 2,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+    });
+
+    // Add text shimmer effect to headline (optional subtle animation)
+    heroTimeline.add(() => {
+      // Subtle glow pulse on the headline
+      gsap.to('.hero-headline-cinematic', {
+        textShadow: '0 0 40px rgba(93, 183, 194, 0.3)',
+        duration: 2,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+    }, '-=0.5');
   }
 
   private animateStatsCounters(): void {

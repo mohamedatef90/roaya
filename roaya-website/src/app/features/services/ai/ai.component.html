@@ -1746,7 +1746,7 @@
 
       <div class="related-links">
         @for (service of relatedServices; track service.id) {
-          <a [routerLink]="service.route" class="related-link">
+          <a [routerLink]="service.route" [attr.aria-label]="'services.ai.page.related.services.' + service.id | translate" class="related-link">
             <ng-icon [name]="service.icon" size="24"></ng-icon>
             <span>{{ 'services.ai.page.related.services.' + service.id | translate }}</span>
             <ng-icon name="lucideArrowRight" size="18" class="rtl:rotate-180"></ng-icon>

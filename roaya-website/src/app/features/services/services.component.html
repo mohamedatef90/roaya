@@ -80,6 +80,7 @@
         <div class="px-6 pb-6 mt-auto">
           <a
             [routerLink]="service.route"
+            [attr.aria-label]="('common.learnMore' | translate) + ' ' + (service.title | translate)"
             class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 rounded-xl font-semibold hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
           >
             {{ 'common.learnMore' | translate }}

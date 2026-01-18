@@ -141,8 +141,8 @@
       <!-- Visual Column - Pipeline Visualization -->
       <div class="devops-hero lg:w-2/5 flex flex-col items-center justify-center gap-8 w-full">
         <!-- Pipeline Stages -->
-        <div class="pipeline-container w-full max-w-sm overflow-x-auto pb-4">
-          <div class="flex items-center justify-between min-w-[360px]">
+        <div class="pipeline-container w-full max-w-sm pb-4">
+          <div class="flex items-center justify-between">
             <ng-container *ngFor="let stage of pipelineStages; let i = index; let last = last; trackBy: trackByIndex">
               <!-- Stage Node -->
               <div class="pipeline-stage flex flex-col items-center gap-2"

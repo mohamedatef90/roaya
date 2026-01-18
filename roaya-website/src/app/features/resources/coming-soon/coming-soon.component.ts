@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   lucideCheckCircle2,
@@ -44,6 +44,7 @@ export class ComingSoonComponent implements OnInit {
 
   private readonly analytics = inject(AnalyticsService);
   private readonly seo = inject(SEOService);
+  private readonly translate = inject(TranslateService);
 
   // State signals
   email = signal('');
@@ -57,10 +58,13 @@ export class ComingSoonComponent implements OnInit {
     // Track page view
     this.analytics.trackPageView(`/resources/${pageType}`);
 
-    // Set SEO meta tags
+    // Set SEO meta tags with translated values
+    const titleKey = `resources.${pageType}.comingSoon.meta.title`;
+    const descriptionKey = `resources.${pageType}.comingSoon.meta.description`;
+
     this.seo.updateSEO({
-      title: `resources.${pageType}.comingSoon.meta.title`,
-      description: `resources.${pageType}.comingSoon.meta.description`
+      title: this.translate.instant(titleKey),
+      description: this.translate.instant(descriptionKey)
     });
   }
 

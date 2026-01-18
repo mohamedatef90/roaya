@@ -2,6 +2,7 @@ import { Injectable, signal, inject, DestroyRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ScrollSmootherService } from './scroll-smoother.service';
 
 export interface NavItem {
   label: string;
@@ -40,6 +41,7 @@ export interface IndustryItem {
 export class NavigationService {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly scrollSmootherService = inject(ScrollSmootherService);
 
   // Signal for mobile menu state
   mobileMenuOpen = signal<boolean>(false);
@@ -188,6 +190,8 @@ export class NavigationService {
         this.currentRoute.set(event.urlAfterRedirects);
         // Close mobile menu on navigation
         this.closeMobileMenu();
+        // Reset scroll position to top for GSAP ScrollSmoother
+        this.resetScrollPosition();
       },
       error: (error) => {
         console.error('Navigation error:', error);
@@ -214,6 +218,22 @@ export class NavigationService {
    */
   closeMobileMenu(): void {
     this.mobileMenuOpen.set(false);
+  }
+
+  /**
+   * Reset scroll position to top
+   * Handles both native scroll and GSAP ScrollSmoother
+   */
+  private resetScrollPosition(): void {
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      // Reset GSAP ScrollSmoother if initialized
+      if (this.scrollSmootherService.isReady()) {
+        this.scrollSmootherService.scrollTo(0, false);
+      }
+      // Also reset native scroll as fallback
+      window.scrollTo(0, 0);
+    });
   }
 
   /**

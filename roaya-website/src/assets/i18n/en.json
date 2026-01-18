@@ -25,7 +25,10 @@
     "edit": "Edit",
     "search": "Search",
     "filter": "Filter",
-    "sort": "Sort"
+    "sort": "Sort",
+    "of": "of",
+    "goToTestimonial": "Go to testimonial",
+    "contactForPricing": "Contact for Pricing"
   },
   "header": {
     "logo": "Roaya IT",
@@ -127,7 +130,7 @@
             "description": "70% faster than industry average"
           },
           "responseSLA": {
-            "value": "<15 min",
+            "value": "Under 15 min",
             "label": "Response SLA",
             "description": "Initial incident response time"
           },
@@ -1644,7 +1647,7 @@
             },
             "betterAnalytics": {
               "title": "Better Analytics",
-              "description": "analytics that improves decisions, not just reporting"
+              "description": "Analytics that improve decisions, not just reporting."
             },
             "aiops": {
               "title": "AIOps",
@@ -2392,7 +2395,7 @@
       },
       "benefit3": {
         "title": "Dedicated Support Team",
-        "description": "Egyptian support team available 24/7 in your timezone and language."
+        "description": "Egyptian support team available 24/7 in your time zone and language."
       }
     },
     "stats": {
@@ -2420,7 +2423,7 @@
         },
         "support": {
           "title": "24/7 Expert Support",
-          "description": "Egyptian support team available around the clock in your timezone"
+          "description": "Egyptian support team available around the clock in your time zone."
         },
         "scalable": {
           "title": "Infinitely Scalable",
@@ -2512,7 +2515,7 @@
       },
       "local": {
         "title": "Local Excellence",
-        "description": "Egyptian team with global expertise. Support in your timezone."
+        "description": "Egyptian team with global expertise. Support in your time zone."
       },
       "sla": {
         "title": "One SLA Model",
@@ -2623,7 +2626,7 @@
       "viewAll": "View All Industries",
       "finance": {
         "name": "Finance & Banking",
-        "description": "Secure, compliant infrastructure meeting CBE regulations with 24/7 monitoring.",
+        "description": "Secure, compliant infrastructure meeting Central Bank of Egypt (CBE) regulations with 24/7 monitoring.",
         "clients": "30+ clients"
       },
       "healthcare": {
