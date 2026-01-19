@@ -1,6 +1,6 @@
 # Roaya IT Corporate Website - Claude Context
 
-> **Last Updated:** 2025-12-29
+> **Last Updated:** 2026-01-19
 > **Project Status:** Phase 1-3 Complete, Phase 4 In Progress (Backend Integration Pending)
 > **Claude Code Role:** Product Orchestrator
 
@@ -24,26 +24,26 @@
 
 ```bash
 # Primary Workspace
-PROJECT_ROOT=/Users/mohamedatef/Downloads/roaya/roaya-website/
+PROJECT_ROOT=/Users/roaya/Roaya-files/Development/roaya/roaya-website/
 
 # Memory Bank (Documentation & Specs)
-MEMORY_BANK=/Users/mohamedatef/Downloads/roaya/memory-bank/
+MEMORY_BANK=/Users/roaya/Roaya-files/Development/roaya/memory-bank/
 ```
 
 ### Critical File Paths
 
 | Purpose | Path |
 |---------|------|
-| **Agent Configuration** | `/Users/mohamedatef/Downloads/roaya/memory-bank/agents/agent-map.json` |
-| **UX Specifications** | `/Users/mohamedatef/Downloads/roaya/memory-bank/ux/ux-specifications.md` |
-| **Design System** | `/Users/mohamedatef/Downloads/roaya/memory-bank/design/README.md` |
-| **Animation Patterns** | `/Users/mohamedatef/Downloads/roaya/memory-bank/design/patterns/animation-patterns.md` |
-| **Component Library** | `/Users/mohamedatef/Downloads/roaya/memory-bank/design/components/component-library.md` |
-| **Glassmorphism Guide** | `/Users/mohamedatef/Downloads/roaya/memory-bank/design/patterns/glassmorphism-guide.md` |
-| **Technical Architecture** | `/Users/mohamedatef/Downloads/roaya/memory-bank/architecture/TECHNICAL_ARCHITECTURE.md` |
-| **Content Strategy** | `/Users/mohamedatef/Downloads/roaya/memory-bank/content/bilingual-website-content-strategy.md` |
-| **Translation Files (EN)** | `/Users/mohamedatef/Downloads/roaya/roaya-website/src/assets/i18n/en.json` |
-| **Translation Files (AR)** | `/Users/mohamedatef/Downloads/roaya/roaya-website/src/assets/i18n/ar.json` |
+| **Design System (Consolidated)** | `/Users/roaya/Roaya-files/Development/roaya/roaya-website/DESIGN-SYSTEM.md` |
+| **UX Specifications** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/ux/ux-specifications.md` |
+| **Design System Overview** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/design/README.md` |
+| **Animation Patterns** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/design/patterns/animation-patterns.md` |
+| **Component Library** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/design/components/component-library.md` |
+| **Glassmorphism Guide** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/design/patterns/glassmorphism-guide.md` |
+| **Technical Architecture** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/architecture/TECHNICAL_ARCHITECTURE.md` |
+| **Content Strategy** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/content/bilingual-website-content-strategy.md` |
+| **Translation Files (EN)** | `/Users/roaya/Roaya-files/Development/roaya/roaya-website/src/assets/i18n/en.json` |
+| **Translation Files (AR)** | `/Users/roaya/Roaya-files/Development/roaya/roaya-website/src/assets/i18n/ar.json` |
 
 ---
 
@@ -367,7 +367,7 @@ product-orchestrator (Master Coordinator)
 
 ```bash
 # Navigation
-cd /Users/mohamedatef/Downloads/roaya/roaya-website
+cd /Users/roaya/Roaya-files/Development/roaya/roaya-website
 
 # Development
 npm install              # Install dependencies
@@ -551,7 +551,7 @@ npm run typecheck       # TypeScript type checking
 
 The comprehensive design system documentation is located in the memory bank:
 
-**Base Path:** `/Users/mohamedatef/Downloads/roaya/memory-bank/design/`
+**Base Path:** `/Users/roaya/Roaya-files/Development/roaya/memory-bank/design/`
 
 ### Key Design Documentation
 
@@ -1354,7 +1354,7 @@ NG_APP_API_URL=https://api.roaya.co
 
 ## Memory Bank Integration
 
-The `/Users/mohamedatef/Downloads/roaya/memory-bank/` directory contains critical documentation that should be referenced before making major decisions:
+The `/Users/roaya/Roaya-files/Development/roaya/memory-bank/` directory contains critical documentation that should be referenced before making major decisions:
 
 ### Architecture Documents
 - `architecture/TECHNICAL_ARCHITECTURE.md` - System design and technology stack
@@ -1366,9 +1366,6 @@ The `/Users/mohamedatef/Downloads/roaya/memory-bank/` directory contains critica
 ### Content & Translations
 - `content/bilingual-website-content-strategy.md` - Content strategy, tone of voice, SEO
 - `content/translations/` - Master translation files (future)
-
-### Agent Configuration
-- `agents/agent-map.json` - Agent roles, responsibilities, and communication protocols
 
 ### Planning Documents
 - `planning/project-plan.md` - Milestones, sprints, deliverables
@@ -1502,7 +1499,7 @@ The `/Users/mohamedatef/Downloads/roaya/memory-bank/` directory contains critica
 
 ### Company Resources
 - **Website:** www.roaya.co (to be deployed)
-- **Memory Bank:** `/Users/mohamedatef/Downloads/roaya/memory-bank/`
+- **Memory Bank:** `/Users/roaya/Roaya-files/Development/roaya/memory-bank/`
 
 ---
 
@@ -1518,6 +1515,7 @@ The `/Users/mohamedatef/Downloads/roaya/memory-bank/` directory contains critica
 | 1.5.0 | 2025-12-25 | Added SAP Services page with Bento Grid layout, WorldPosta service page, Cybersecurity Overview page, Penetration Testing page | Super Tech Lead |
 | 1.6.0 | 2025-12-25 | Mega menu expandable sections for Cybersecurity services, translation path standardization (ADR-012), icon library standardization (ADR-013), mega menu pattern (ADR-014), scroll progress indicator | Super Tech Lead |
 | 1.7.0 | 2025-12-26 | SOC Solutions page with full content and translations, Penetration Testing enhancements (animated counters, category filters, accessibility fixes), Security partner logos integration with dark mode support | Super Tech Lead |
+| 1.8.0 | 2026-01-19 | Memory bank cleanup (removed obsolete archive logs, AI services fix summaries, duplicate security docs), updated all paths to new project location, removed outdated agent-map.json reference, added consolidated DESIGN-SYSTEM.md reference | Product Orchestrator |
 
 ---
 
@@ -1528,7 +1526,7 @@ When starting a new Claude Code session:
 1. **Read this file first** to understand project context
 2. **Check current phase** in Project Phases section
 3. **Review relevant memory bank documents** for detailed specs
-4. **Verify working directory** is `/Users/mohamedatef/Downloads/roaya/roaya-website/`
+4. **Verify working directory** is `/Users/roaya/Roaya-files/Development/roaya/roaya-website/`
 5. **Check git status** to see uncommitted changes
 6. **Run `npm run dev`** to verify development environment
 7. **Review recent commits** to understand latest progress
