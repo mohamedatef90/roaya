@@ -30,6 +30,18 @@
     "goToTestimonial": "Go to testimonial",
     "contactForPricing": "Contact for Pricing"
   },
+  "cta": {
+    "freeAssessment": "Get Free IT Assessment",
+    "talkToExpert": "Talk to an Expert",
+    "requestSavingsAnalysis": "Request Savings Analysis",
+    "getSuccessPlan": "Get Your Success Plan",
+    "seeHowMuchSave": "See How Much You Can Save",
+    "getSecurityAssessment": "Get Free Security Assessment",
+    "getMigrationQuote": "Get Migration Quote",
+    "getCustomQuote": "Get Custom Quote",
+    "requestRoiAnalysis": "Request Free ROI Analysis",
+    "scheduleConsultation": "Schedule Consultation"
+  },
   "header": {
     "logo": "Roaya IT",
     "tagline": "Enterprise IT solutions with security, trust, and transparency."
@@ -3107,6 +3119,34 @@
       "title": "Simple, Predictable Pricing",
       "description": "No hidden fees. No surprises. Choose the plan that fits your business and scale as you grow."
     },
+    "leadCapture": {
+      "badge": "Enterprise Solutions",
+      "title": "Tailored Solutions for Your Business",
+      "subtitle": "Every business is unique. Let us create a custom package that fits your needs and budget.",
+      "form": {
+        "companyName": "Company Name",
+        "companyPlaceholder": "Enter your company name",
+        "industry": "Industry",
+        "industryPlaceholder": "Select your industry",
+        "employees": "Number of Employees",
+        "employeesPlaceholder": "Select range",
+        "employeeRanges": {
+          "small": "1-50 employees",
+          "medium": "51-200 employees",
+          "large": "201-500 employees",
+          "enterprise": "500+ employees"
+        },
+        "servicesInterested": "Services Interested In",
+        "requirements": "Your Requirements",
+        "requirementsPlaceholder": "Tell us about your IT needs and challenges...",
+        "submit": "Get Custom Quote"
+      },
+      "trust": {
+        "response": "Response within 24 hours",
+        "noObligation": "No obligation",
+        "transparent": "Transparent pricing after discovery"
+      }
+    },
     "monthly": "Monthly",
     "yearly": "Yearly",
     "save": "Save",
@@ -3338,6 +3378,7 @@
         "email": "Email & Collaboration",
         "managed": "Managed IT Services",
         "backup": "Backup & Recovery",
+        "sap": "SAP Solutions",
         "consulting": "IT Consulting",
         "other": "Other"
       },
@@ -3371,6 +3412,42 @@
     "badge": "ROI Calculator",
     "title": "Calculate Your Savings",
     "subtitle": "See how much you can save with Roaya IT services. Get instant estimates based on your current infrastructure.",
+    "leadCapture": {
+      "badge": "Free Analysis",
+      "title": "Discover Your IT Savings Potential",
+      "subtitle": "Our experts will analyze your current infrastructure and provide a detailed ROI report within 48 hours.",
+      "form": {
+        "companyName": "Company Name",
+        "companyPlaceholder": "Enter your company name",
+        "currentSpend": "Current Monthly IT Spend",
+        "currentSpendPlaceholder": "Select range",
+        "spendRanges": {
+          "under10k": "Under 10,000 EGP",
+          "10to50k": "10,000 - 50,000 EGP",
+          "50to100k": "50,000 - 100,000 EGP",
+          "over100k": "Over 100,000 EGP",
+          "preferNotSay": "Prefer not to say"
+        },
+        "painPoints": "Main Pain Points",
+        "painPointOptions": {
+          "highCosts": "High IT costs",
+          "security": "Security concerns",
+          "downtime": "Frequent downtime",
+          "scalability": "Scalability issues",
+          "compliance": "Compliance requirements",
+          "management": "Complex IT management"
+        },
+        "submit": "Request Free ROI Analysis"
+      },
+      "benefits": {
+        "title": "What You'll Receive",
+        "item1": "Personalized cost-benefit analysis",
+        "item2": "Comparison with industry benchmarks",
+        "item3": "Specific recommendations for your business",
+        "item4": "No obligation consultation"
+      },
+      "socialProof": "150+ businesses have saved an average of 40% on IT costs"
+    },
     "tabs": {
       "cloud": "Cloud Infrastructure",
       "email": "Email Services",

@@ -109,8 +109,8 @@ export const routes: Routes = [
   },
   {
     path: 'pricing',
-    redirectTo: 'contact',
-    pathMatch: 'full'
+    loadComponent: () => import('./features/pricing/pricing.component').then(m => m.PricingComponent),
+    title: 'Get Custom Quote - Roaya IT'
   },
   {
     path: 'about',
