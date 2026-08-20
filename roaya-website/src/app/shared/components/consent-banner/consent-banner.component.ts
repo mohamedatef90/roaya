@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
     @if (showBanner()) {
-      <div class="fixed bottom-0 inset-x-0 z-50 p-4 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 shadow-2xl">
+      <div class="fixed bottom-0 inset-x-0 z-50 p-4 bg-surface-elevated border-t border-edge-subtle shadow-2xl">
         <div class="container mx-auto max-w-5xl">
           <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
             <!-- Icon & Message -->
@@ -24,7 +24,7 @@ import { RouterLink } from '@angular/router';
                 <path d="m9 12 2 2 4-4"/>
               </svg>
               <div class="flex-1">
-                <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                <p class="text-sm text-content-secondary leading-relaxed">
                   We use cookies and analytics to improve your experience. This includes visitor tracking and session recordings to enhance our services.
                   <a [routerLink]="['/privacy']" class="text-[#3D5A80] dark:text-[#5DB7C2] underline hover:no-underline">Learn more</a>
                 </p>
@@ -33,9 +33,9 @@ import { RouterLink } from '@angular/router';
                   <input
                     type="checkbox"
                     [(ngModel)]="allowRecording"
-                    class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-[#3D5A80] dark:text-[#5DB7C2] focus:ring-[#5DB7C2] dark:focus:ring-[#3D5A80]"
+                    class="w-4 h-4 rounded border-edge-strong text-[#3D5A80] dark:text-[#5DB7C2] focus:ring-[#5DB7C2] dark:focus:ring-[#3D5A80]"
                   />
-                  <span class="text-sm text-neutral-600 dark:text-neutral-400">
+                  <span class="text-sm text-content-secondary">
                     Allow session recording (helps us improve UX)
                   </span>
                 </label>
@@ -46,7 +46,7 @@ import { RouterLink } from '@angular/router';
             <div class="flex items-center gap-3 w-full md:w-auto">
               <button
                 (click)="decline()"
-                class="flex-1 md:flex-initial px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                class="flex-1 md:flex-initial px-4 py-2 text-sm font-medium text-content-secondary bg-surface-secondary rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
               >
                 Decline
               </button>

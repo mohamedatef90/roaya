@@ -59,12 +59,12 @@ interface SessionRecording {
   template: `
     <div class="p-6 min-h-screen">
       <!-- Page Header -->
-      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8 pb-6 border-b border-neutral-200 dark:border-neutral-700">
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8 pb-6 border-b border-edge-subtle">
         <div>
           <h1 class="text-2xl font-bold bg-gradient-to-r from-[#3D5A80] via-[#5DB7C2] to-[#6B4C9A] bg-clip-text text-transparent">
             Session Recordings
           </h1>
-          <p class="text-neutral-500 dark:text-neutral-400 mt-1">
+          <p class="text-content-muted mt-1">
             Watch how users interact with your website
           </p>
         </div>
@@ -77,7 +77,7 @@ interface SessionRecording {
           <div class="relative">
             <button
               (click)="showExportMenu = !showExportMenu"
-              class="inline-flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-all shadow-sm"
+              class="inline-flex items-center gap-2 px-4 py-2.5 bg-surface-elevated border border-edge-subtle rounded-xl text-sm font-medium text-content-secondary hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-all shadow-sm"
               type="button"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -91,10 +91,10 @@ interface SessionRecording {
               </svg>
             </button>
             @if (showExportMenu) {
-              <div class="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-lg overflow-hidden z-50 animate-slideDown">
+              <div class="absolute top-full right-0 mt-2 w-48 bg-surface-elevated border border-edge-subtle rounded-xl shadow-lg overflow-hidden z-50 animate-slideDown">
                 <button
                   (click)="exportRecordings('csv')"
-                  class="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
+                  class="w-full flex items-center gap-3 px-4 py-3 text-sm text-content-secondary hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
                   type="button"
                 >
                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -108,7 +108,7 @@ interface SessionRecording {
                 </button>
                 <button
                   (click)="exportRecordings('json')"
-                  class="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors border-t border-neutral-100 dark:border-neutral-700"
+                  class="w-full flex items-center gap-3 px-4 py-3 text-sm text-content-secondary hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors border-t border-edge-subtle"
                   type="button"
                 >
                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -128,7 +128,7 @@ interface SessionRecording {
       <!-- Stats Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <!-- Total Recordings -->
-        <div class="relative overflow-hidden bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+        <div class="relative overflow-hidden bg-surface-elevated rounded-2xl border border-edge-subtle p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2]"></div>
           <div class="flex items-start gap-4">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3D5A80] to-[#5DB7C2] flex items-center justify-center shadow-lg">
@@ -137,14 +137,14 @@ interface SessionRecording {
               </svg>
             </div>
             <div class="flex-1">
-              <p class="text-3xl font-bold text-neutral-900 dark:text-white">{{ totalRecordings() }}</p>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400">Total Recordings</p>
+              <p class="text-3xl font-bold text-content-primary">{{ totalRecordings() }}</p>
+              <p class="text-sm text-content-muted">Total Recordings</p>
             </div>
           </div>
         </div>
 
         <!-- Live Sessions -->
-        <div class="relative overflow-hidden bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+        <div class="relative overflow-hidden bg-surface-elevated rounded-2xl border border-edge-subtle p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
           <div class="flex items-start gap-4">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg">
@@ -155,7 +155,7 @@ interface SessionRecording {
             </div>
             <div class="flex-1">
               <p class="text-3xl font-bold text-red-500">{{ liveSessionsCount() }}</p>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400">Live Sessions</p>
+              <p class="text-sm text-content-muted">Live Sessions</p>
               <div class="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-red-50 dark:bg-red-900/30 rounded-full text-xs font-semibold text-red-600 dark:text-red-400">
                 <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                 Active now
@@ -165,7 +165,7 @@ interface SessionRecording {
         </div>
 
         <!-- Unwatched -->
-        <div class="relative overflow-hidden bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+        <div class="relative overflow-hidden bg-surface-elevated rounded-2xl border border-edge-subtle p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-yellow-500"></div>
           <div class="flex items-start gap-4">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-lg">
@@ -175,8 +175,8 @@ interface SessionRecording {
               </svg>
             </div>
             <div class="flex-1">
-              <p class="text-3xl font-bold text-neutral-900 dark:text-white">{{ unwatchedCount() }}</p>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400">Unwatched</p>
+              <p class="text-3xl font-bold text-content-primary">{{ unwatchedCount() }}</p>
+              <p class="text-sm text-content-muted">Unwatched</p>
               <div class="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-amber-50 dark:bg-amber-900/30 rounded-full text-xs font-semibold text-amber-600 dark:text-amber-400">
                 Need review
               </div>
@@ -185,7 +185,7 @@ interface SessionRecording {
         </div>
 
         <!-- Avg Duration -->
-        <div class="relative overflow-hidden bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+        <div class="relative overflow-hidden bg-surface-elevated rounded-2xl border border-edge-subtle p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#6B4C9A] to-purple-500"></div>
           <div class="flex items-start gap-4">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#6B4C9A] to-purple-500 flex items-center justify-center shadow-lg">
@@ -195,15 +195,15 @@ interface SessionRecording {
               </svg>
             </div>
             <div class="flex-1">
-              <p class="text-3xl font-bold text-neutral-900 dark:text-white">{{ formatDuration(avgDuration()) }}</p>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400">Avg. Duration</p>
+              <p class="text-3xl font-bold text-content-primary">{{ formatDuration(avgDuration()) }}</p>
+              <p class="text-sm text-content-muted">Avg. Duration</p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Filters Section -->
-      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 p-5 mb-6 shadow-sm">
+      <div class="bg-surface-elevated rounded-2xl border border-edge-subtle p-5 mb-6 shadow-sm">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <!-- Search -->
           <div class="md:col-span-2">
@@ -216,7 +216,7 @@ interface SessionRecording {
                 [(ngModel)]="searchQuery"
                 (ngModelChange)="applyFilters()"
                 placeholder="Filter by page URL (e.g., /pricing, /about)..."
-                class="w-full h-11 pl-11 pr-4 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] focus:border-transparent transition-all"
+                class="w-full h-11 pl-11 pr-4 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-surface-secondary text-content-primary placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -248,41 +248,41 @@ interface SessionRecording {
       </div>
 
       <!-- Recordings Table -->
-      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 shadow-sm overflow-hidden">
+      <div class="bg-surface-elevated rounded-2xl border border-edge-subtle shadow-sm overflow-hidden">
         <!-- Table Header -->
-        <div class="flex items-center justify-between px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900/50">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-edge-subtle bg-neutral-50 dark:bg-neutral-900/50">
           <div class="flex items-center gap-2">
             <svg class="h-5 w-5 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
             </svg>
-            <h3 class="font-semibold text-neutral-900 dark:text-white">Recent Recordings</h3>
+            <h3 class="font-semibold text-content-primary">Recent Recordings</h3>
           </div>
-          <span class="text-sm text-neutral-500 dark:text-neutral-400">{{ filteredRecordings().length }} recordings</span>
+          <span class="text-sm text-content-muted">{{ filteredRecordings().length }} recordings</span>
         </div>
 
         <!-- Loading -->
         @if (loading()) {
           <div class="flex flex-col items-center justify-center py-20">
             <ui-spinner size="lg" variant="default"></ui-spinner>
-            <p class="mt-4 text-neutral-500 dark:text-neutral-400">Loading recordings...</p>
+            <p class="mt-4 text-content-muted">Loading recordings...</p>
           </div>
         } @else if (paginatedRecordings().length === 0) {
           <!-- Empty State -->
           <div class="flex flex-col items-center justify-center py-20">
-            <div class="w-20 h-20 rounded-full bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center mb-4">
+            <div class="w-20 h-20 rounded-full bg-surface-secondary flex items-center justify-center mb-4">
               <svg class="h-10 w-10 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
               </svg>
             </div>
-            <h4 class="text-lg font-semibold text-neutral-900 dark:text-white mb-2">No recordings found</h4>
-            <p class="text-neutral-500 dark:text-neutral-400">Try adjusting your filters</p>
+            <h4 class="text-lg font-semibold text-content-primary mb-2">No recordings found</h4>
+            <p class="text-content-muted">Try adjusting your filters</p>
           </div>
         } @else {
           <!-- Table -->
           <div class="overflow-x-auto">
             <table class="w-full">
               <thead>
-                <tr class="text-left text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider border-b border-neutral-200 dark:border-neutral-700">
+                <tr class="text-left text-xs font-semibold text-content-muted uppercase tracking-wider border-b border-edge-subtle">
                   <th class="px-6 py-4">Status</th>
                   <th class="px-6 py-4">Session</th>
                   <th class="px-6 py-4">Started</th>
@@ -320,7 +320,7 @@ interface SessionRecording {
                           New
                         </span>
                       } @else {
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-surface-secondary text-content-muted">
                           Watched
                         </span>
                       }
@@ -336,8 +336,8 @@ interface SessionRecording {
                           </svg>
                         </div>
                         <div>
-                          <p class="font-mono font-semibold text-neutral-900 dark:text-white">{{ recording.sessionId }}</p>
-                          <p class="text-xs text-neutral-500 dark:text-neutral-400 flex items-center gap-1">
+                          <p class="font-mono font-semibold text-content-primary">{{ recording.sessionId }}</p>
+                          <p class="text-xs text-content-muted flex items-center gap-1">
                             <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <circle cx="12" cy="12" r="10"/>
                               <circle cx="12" cy="12" r="4"/>
@@ -353,8 +353,8 @@ interface SessionRecording {
 
                     <!-- Started -->
                     <td class="px-6 py-4">
-                      <p class="font-medium text-neutral-900 dark:text-white">{{ formatDate(recording.startTime) }}</p>
-                      <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ formatTime(recording.startTime) }}</p>
+                      <p class="font-medium text-content-primary">{{ formatDate(recording.startTime) }}</p>
+                      <p class="text-xs text-content-muted">{{ formatTime(recording.startTime) }}</p>
                     </td>
 
                     <!-- Duration -->
@@ -381,8 +381,8 @@ interface SessionRecording {
 
                     <!-- Pages -->
                     <td class="px-6 py-4">
-                      <p class="font-semibold text-neutral-900 dark:text-white">{{ recording.pageCount }} pages</p>
-                      <p class="text-xs text-neutral-500 dark:text-neutral-400 max-w-[140px] truncate" [title]="recording.pages.join(' → ')">
+                      <p class="font-semibold text-content-primary">{{ recording.pageCount }} pages</p>
+                      <p class="text-xs text-content-muted max-w-[140px] truncate" [title]="recording.pages.join(' → ')">
                         {{ recording.pages.slice(0, 2).join(' → ') }}
                       </p>
                     </td>
@@ -390,8 +390,8 @@ interface SessionRecording {
                     <!-- Device -->
                     <td class="px-6 py-4">
                       <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center text-[#5DB7C2]" [innerHTML]="getDeviceIconSvg(recording.deviceType)"></div>
-                        <span class="text-neutral-700 dark:text-neutral-300">{{ recording.deviceType | titlecase }}</span>
+                        <div class="w-8 h-8 rounded-lg bg-surface-secondary flex items-center justify-center text-[#5DB7C2]" [innerHTML]="getDeviceIconSvg(recording.deviceType)"></div>
+                        <span class="text-content-secondary">{{ recording.deviceType | titlecase }}</span>
                       </div>
                     </td>
 
@@ -399,7 +399,7 @@ interface SessionRecording {
                     <td class="px-6 py-4">
                       <div class="flex items-center gap-2">
                         <span class="text-xl">{{ getCountryFlag(recording.country) }}</span>
-                        <span class="text-neutral-700 dark:text-neutral-300">{{ recording.country }}</span>
+                        <span class="text-content-secondary">{{ recording.country }}</span>
                       </div>
                     </td>
 
@@ -417,7 +417,7 @@ interface SessionRecording {
                         </button>
                         <button
                           (click)="downloadRecording(recording); $event.stopPropagation()"
-                          class="w-9 h-9 rounded-xl border border-neutral-200 dark:border-neutral-600 text-neutral-500 dark:text-neutral-400 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-700 hover:text-neutral-700 dark:hover:text-neutral-300 transition-all"
+                          class="w-9 h-9 rounded-xl border border-neutral-200 dark:border-neutral-600 text-content-muted flex items-center justify-center hover:bg-surface-hover hover:text-neutral-700 dark:hover:text-neutral-300 transition-all"
                           title="Download"
                         >
                           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -428,7 +428,7 @@ interface SessionRecording {
                         </button>
                         <button
                           (click)="confirmDelete(recording); $event.stopPropagation()"
-                          class="w-9 h-9 rounded-xl border border-neutral-200 dark:border-neutral-600 text-neutral-500 dark:text-neutral-400 flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/30 hover:border-red-200 dark:hover:border-red-800 hover:text-red-500 transition-all"
+                          class="w-9 h-9 rounded-xl border border-neutral-200 dark:border-neutral-600 text-content-muted flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/30 hover:border-red-200 dark:hover:border-red-800 hover:text-red-500 transition-all"
                           title="Delete"
                         >
                           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -446,7 +446,7 @@ interface SessionRecording {
 
           <!-- Pagination -->
           @if (filteredRecordings().length > pageSize) {
-            <div class="px-6 py-4 border-t border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900/50">
+            <div class="px-6 py-4 border-t border-edge-subtle bg-neutral-50 dark:bg-neutral-900/50">
               <ui-pagination
                 [totalRecords]="filteredRecordings().length"
                 [rows]="pageSize"
@@ -471,7 +471,7 @@ interface SessionRecording {
           </div>
           <div>
             <span class="font-mono font-semibold">Session Replay</span>
-            <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 font-normal mt-0.5">
+            <div class="flex items-center gap-2 text-xs text-content-muted font-normal mt-0.5">
               <span>{{ selectedRecording()?.sessionId }}</span>
             </div>
           </div>
@@ -485,22 +485,22 @@ interface SessionRecording {
             @if (recordingLoading()) {
               <div class="flex flex-col items-center justify-center py-16">
                 <ui-spinner size="lg" variant="default"></ui-spinner>
-                <p class="mt-4 text-neutral-500 dark:text-neutral-400">Loading session recording...</p>
+                <p class="mt-4 text-content-muted">Loading session recording...</p>
               </div>
             } @else if (recordingEvents().length === 0) {
-              <div class="flex items-center gap-3 p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
+              <div class="flex items-center gap-3 p-4 bg-surface-secondary rounded-xl border border-edge-subtle">
                 <svg class="h-5 w-5 text-neutral-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
                 </svg>
                 <div>
-                  <p class="font-semibold text-neutral-700 dark:text-neutral-300 text-sm">No Recording Available</p>
-                  <p class="text-xs text-neutral-500 dark:text-neutral-400">This session was recorded before rrweb was enabled, or no events were captured.</p>
+                  <p class="font-semibold text-content-secondary text-sm">No Recording Available</p>
+                  <p class="text-xs text-content-muted">This session was recorded before rrweb was enabled, or no events were captured.</p>
                 </div>
               </div>
             } @else {
               <!-- Speed Controls -->
-              <div class="flex items-center justify-between mb-4 p-3 bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Playback Speed</span>
+              <div class="flex items-center justify-between mb-4 p-3 bg-surface-secondary rounded-xl border border-edge-subtle">
+                <span class="text-sm font-semibold text-content-secondary">Playback Speed</span>
                 <div class="flex items-center gap-1">
                   @for (speed of availableSpeeds; track speed) {
                     <button
@@ -523,48 +523,48 @@ interface SessionRecording {
                   }
                 </div>
               </div>
-              <div #rrwebPlayerContainer class="rrweb-player-wrapper rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-700"></div>
+              <div #rrwebPlayerContainer class="rrweb-player-wrapper rounded-xl overflow-hidden border border-edge-subtle"></div>
             }
 
             <!-- Session Info Grid -->
             <div class="grid grid-cols-2 gap-4">
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">Started</p>
-                <p class="font-semibold text-neutral-900 dark:text-white">{{ formatDate(selectedRecording()?.startTime || '') }} {{ formatTime(selectedRecording()?.startTime || '') }}</p>
+              <div class="p-4 bg-surface-secondary rounded-xl">
+                <p class="text-xs text-content-muted uppercase font-semibold mb-1">Started</p>
+                <p class="font-semibold text-content-primary">{{ formatDate(selectedRecording()?.startTime || '') }} {{ formatTime(selectedRecording()?.startTime || '') }}</p>
               </div>
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">Duration</p>
-                <p class="font-semibold text-neutral-900 dark:text-white">{{ formatDuration(selectedRecording()?.duration || 0) }}</p>
+              <div class="p-4 bg-surface-secondary rounded-xl">
+                <p class="text-xs text-content-muted uppercase font-semibold mb-1">Duration</p>
+                <p class="font-semibold text-content-primary">{{ formatDuration(selectedRecording()?.duration || 0) }}</p>
               </div>
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">Device</p>
-                <p class="font-semibold text-neutral-900 dark:text-white">{{ selectedRecording()?.deviceType | titlecase }}</p>
+              <div class="p-4 bg-surface-secondary rounded-xl">
+                <p class="text-xs text-content-muted uppercase font-semibold mb-1">Device</p>
+                <p class="font-semibold text-content-primary">{{ selectedRecording()?.deviceType | titlecase }}</p>
               </div>
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">Browser</p>
-                <p class="font-semibold text-neutral-900 dark:text-white">{{ selectedRecording()?.browser }}</p>
+              <div class="p-4 bg-surface-secondary rounded-xl">
+                <p class="text-xs text-content-muted uppercase font-semibold mb-1">Browser</p>
+                <p class="font-semibold text-content-primary">{{ selectedRecording()?.browser }}</p>
               </div>
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">Location</p>
-                <p class="font-semibold text-neutral-900 dark:text-white">{{ selectedRecording()?.country || 'Unknown' }}</p>
+              <div class="p-4 bg-surface-secondary rounded-xl">
+                <p class="text-xs text-content-muted uppercase font-semibold mb-1">Location</p>
+                <p class="font-semibold text-content-primary">{{ selectedRecording()?.country || 'Unknown' }}</p>
               </div>
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">Pages Viewed</p>
-                <p class="font-semibold text-neutral-900 dark:text-white">{{ selectedRecording()?.pageCount }}</p>
+              <div class="p-4 bg-surface-secondary rounded-xl">
+                <p class="text-xs text-content-muted uppercase font-semibold mb-1">Pages Viewed</p>
+                <p class="font-semibold text-content-primary">{{ selectedRecording()?.pageCount }}</p>
               </div>
             </div>
 
             <!-- Pages Visited -->
             @if (selectedRecording()?.pages && selectedRecording()!.pages.length > 0) {
               <div>
-                <h4 class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">Pages Visited</h4>
+                <h4 class="text-xs font-semibold text-content-muted uppercase tracking-wider mb-3">Pages Visited</h4>
                 <div class="flex flex-wrap gap-2">
                   @for (page of selectedRecording()?.pages; track page; let i = $index) {
-                    <span class="flex items-center gap-2 px-3 py-2 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
+                    <span class="flex items-center gap-2 px-3 py-2 bg-surface-secondary rounded-xl">
                       <span class="w-6 h-6 rounded-full bg-gradient-to-r from-[#5DB7C2] to-[#6B4C9A] text-white text-xs font-bold flex items-center justify-center">
                         {{ i + 1 }}
                       </span>
-                      <span class="text-sm text-neutral-700 dark:text-neutral-200 max-w-[160px] truncate">{{ page }}</span>
+                      <span class="text-sm text-content-secondary max-w-[160px] truncate">{{ page }}</span>
                     </span>
                   }
                 </div>

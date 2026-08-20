@@ -28,7 +28,7 @@ import { TocItem } from '../../../core/interfaces/blog.interface';
     >
       <!-- Mobile Toggle -->
       <button
-        class="toc-toggle lg:hidden flex items-center justify-between w-full p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+        class="toc-toggle lg:hidden flex items-center justify-between w-full p-4 bg-surface-secondary rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
         (click)="toggleCollapse()"
         [attr.aria-expanded]="!isCollapsed()"
         aria-controls="toc-list"

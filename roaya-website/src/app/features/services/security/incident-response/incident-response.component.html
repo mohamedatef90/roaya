@@ -80,16 +80,16 @@
         @for (stat of stats; track stat.key) {
         <div class="stat-card group relative text-center rounded-xl overflow-hidden h-full">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
             <!-- Animated Counter Value -->
             <div
               class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
               {{ animatedStats[stat.key] }}{{ stat.suffix }}
             </div>
-            <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+            <div class="text-lg font-semibold text-content-secondary mb-2">
               {{ 'services.security.page.incidentResponse.stats.' + stat.key + '.label' | translate }}
             </div>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.security.page.incidentResponse.stats.' + stat.key + '.description' | translate }}
             </p>
           </div>
@@ -103,7 +103,7 @@
   <section class="intro-section py-12 bg-surface">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
-        <blockquote class="text-xl md:text-2xl text-neutral-700 dark:text-neutral-300 leading-relaxed text-center italic border-l-4 border-primary-500 pl-6 py-4">
+        <blockquote class="text-xl md:text-2xl text-content-secondary leading-relaxed text-center italic border-l-4 border-primary-500 pl-6 py-4">
           {{ 'services.security.page.incidentResponse.intro.quote' | translate }}
         </blockquote>
 
@@ -117,7 +117,7 @@
               <h3 class="text-lg font-bold text-primary-900 dark:text-primary-100 mb-2">
                 {{ 'services.security.page.incidentResponse.intro.aiNoteTitle' | translate }}
               </h3>
-              <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+              <p class="text-content-secondary leading-relaxed">
                 {{ 'services.security.page.incidentResponse.intro.aiNote' | translate }}
               </p>
             </div>
@@ -134,7 +134,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.whenToCall.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.incidentResponse.whenToCall.subtitle' | translate }}
         </p>
       </div>
@@ -142,7 +142,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         @for (trigger of triggers; track trigger.key; let i = $index) {
         <div
-          class="trigger-card group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          class="trigger-card group relative p-6 rounded-2xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
           <!-- Icon with amber/cyan gradient for alert feel -->
           <div
             class="trigger-icon w-14 h-14 mb-4 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform relative overflow-hidden"
@@ -161,7 +161,7 @@
             class="text-lg font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ 'services.security.page.incidentResponse.whenToCall.' + trigger.key + '.title' | translate }}
           </h3>
-          <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+          <p class="text-content-secondary text-sm leading-relaxed">
             {{ 'services.security.page.incidentResponse.whenToCall.' + trigger.key + '.description' | translate }}
           </p>
         </div>
@@ -170,7 +170,7 @@
 
       <!-- Closing Note -->
       <div class="mt-12 text-center">
-        <p class="text-neutral-600 dark:text-neutral-400 italic text-lg">
+        <p class="text-content-secondary italic text-lg">
           {{ 'services.security.page.incidentResponse.whenToCall.closingNote' | translate }}
         </p>
       </div>
@@ -184,7 +184,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.engagementOptions.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.incidentResponse.engagementOptions.subtitle' | translate }}
         </p>
       </div>
@@ -192,7 +192,7 @@
       <div class="max-w-4xl mx-auto space-y-6">
         @for (option of engagementOptions; track option.id) {
         <div
-          class="engagement-card rounded-2xl bg-white dark:bg-gray-800 border-2 transition-all duration-300 overflow-hidden"
+          class="engagement-card rounded-2xl bg-surface-elevated border-2 transition-all duration-300 overflow-hidden"
           [class.border-red-500]="option.color === 'red'"
           [class.border-blue-500]="option.color === 'blue'"
           [class.ring-2]="activeEngagement === option.id"
@@ -233,7 +233,7 @@
                 <p class="text-sm text-secondary-600 dark:text-secondary-400 font-medium mb-3">
                   {{ 'services.security.page.incidentResponse.engagementOptions.' + option.id + '.bestFor' | translate }}
                 </p>
-                <p class="text-neutral-700 dark:text-neutral-300">
+                <p class="text-content-secondary">
                   {{ 'services.security.page.incidentResponse.engagementOptions.' + option.id + '.description' | translate }}
                 </p>
               </div>
@@ -241,7 +241,7 @@
               <!-- Expand Icon -->
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center transition-transform duration-300"
                    [class.rotate-180]="activeEngagement === option.id">
-                <svg class="w-5 h-5 text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-content-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </div>
@@ -251,12 +251,12 @@
           <!-- Expanded Content -->
           @if (activeEngagement === option.id) {
           <div class="px-6 pb-6 border-t border-gray-100 dark:border-gray-700 pt-4 animate-fadeIn">
-            <h4 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
+            <h4 class="text-sm font-semibold text-content-secondary mb-3">
               {{ 'services.security.page.incidentResponse.engagementOptions.includedLabel' | translate }}
             </h4>
             <ul class="space-y-2">
               @for (featureNum of [1, 2, 3, 4, 5, 6]; track featureNum) {
-              <li class="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+              <li class="flex items-start gap-2 text-sm text-content-secondary">
                 <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -279,7 +279,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.howWeRespond.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.incidentResponse.howWeRespond.subtitle' | translate }}
         </p>
       </div>
@@ -304,7 +304,7 @@
                 <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
                   {{ 'services.security.page.incidentResponse.howWeRespond.' + step.key + '.title' | translate }}
                 </h3>
-                <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                <p class="text-content-secondary text-sm leading-relaxed">
                   {{ 'services.security.page.incidentResponse.howWeRespond.' + step.key + '.description' | translate }}
                 </p>
               </div>
@@ -329,7 +329,7 @@
             <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
               {{ 'services.security.page.incidentResponse.howWeRespond.' + step.key + '.title' | translate }}
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+            <p class="text-content-secondary text-sm leading-relaxed">
               {{ 'services.security.page.incidentResponse.howWeRespond.' + step.key + '.description' | translate }}
             </p>
           </div>
@@ -490,10 +490,10 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.forensics.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-4">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto mb-4">
           {{ 'services.security.page.incidentResponse.forensics.subtitle' | translate }}
         </p>
-        <p class="text-base text-neutral-700 dark:text-neutral-300 max-w-2xl mx-auto">
+        <p class="text-base text-content-secondary max-w-2xl mx-auto">
           {{ 'services.security.page.incidentResponse.forensics.description' | translate }}
         </p>
       </div>
@@ -501,7 +501,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         @for (forensic of forensicsTypes; track forensic.key) {
         <div
-          class="forensics-card group p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          class="forensics-card group p-6 rounded-2xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
           <div
             class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 transition-transform">
             <ng-icon [name]="forensic.icon" size="28"></ng-icon>
@@ -510,7 +510,7 @@
             class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ 'services.security.page.incidentResponse.forensics.' + forensic.key + '.title' | translate }}
           </h3>
-          <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed mb-4">
+          <p class="text-content-secondary text-sm leading-relaxed mb-4">
             {{ 'services.security.page.incidentResponse.forensics.' + forensic.key + '.description' | translate }}
           </p>
 
@@ -535,10 +535,10 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.integrations.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-6">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto mb-6">
           {{ 'services.security.page.incidentResponse.integrations.subtitle' | translate }}
         </p>
-        <p class="text-base font-medium text-neutral-700 dark:text-neutral-300 mb-4">
+        <p class="text-base font-medium text-content-secondary mb-4">
           {{ 'services.security.page.incidentResponse.integrations.description' | translate }}
         </p>
       </div>
@@ -546,15 +546,15 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
         @for (partner of integrationPartners; track partner.key) {
         <div
-          class="group p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          class="group p-6 rounded-xl bg-surface-elevated border border-edge-subtle text-center hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
           <div class="h-10 mb-3 flex items-center justify-center">
             <img
               [src]="partner.logo"
               [alt]="('services.security.page.incidentResponse.integrations.partners.' + partner.key | translate)"
-              class="max-h-10 max-w-full object-contain filter dark:brightness-0 dark:invert opacity-70 group-hover:opacity-100 transition-opacity"
+              class="max-h-10 max-w-full object-contain logo-adaptive opacity-70 group-hover:opacity-100 transition-opacity"
             />
           </div>
-          <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          <p class="text-xs font-medium text-content-muted group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
             {{ 'services.security.page.incidentResponse.integrations.partners.' + partner.key | translate }}
           </p>
         </div>
@@ -562,7 +562,7 @@
       </div>
 
       <div class="max-w-3xl mx-auto text-center">
-        <p class="text-sm text-neutral-500 dark:text-neutral-500 italic">
+        <p class="text-sm text-content-muted italic">
           {{ 'services.security.page.incidentResponse.integrations.note' | translate }}
         </p>
       </div>
@@ -576,7 +576,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.standards.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.incidentResponse.standards.subtitle' | translate }}
         </p>
       </div>
@@ -584,7 +584,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
         @for (standard of standards; track standard.key) {
         <div
-          class="standards-card p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 text-center">
+          class="standards-card p-6 rounded-xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 text-center">
           <div
             class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
             <ng-icon [name]="standard.icon" size="24" class="text-white"></ng-icon>
@@ -592,14 +592,14 @@
           <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
             {{ 'services.security.page.incidentResponse.standards.' + standard.key + '.name' | translate }}
           </h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-200">
+          <p class="text-sm text-content-secondary">
             {{ 'services.security.page.incidentResponse.standards.' + standard.key + '.description' | translate }}
           </p>
         </div>
         }
       </div>
 
-      <p class="text-center text-sm text-neutral-500 dark:text-neutral-500 italic max-w-3xl mx-auto">
+      <p class="text-center text-sm text-content-muted italic max-w-3xl mx-auto">
         {{ 'services.security.page.incidentResponse.standards.alignmentNote' | translate }}
       </p>
     </div>
@@ -612,7 +612,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.incidentResponse.whyRoaya.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.incidentResponse.whyRoaya.subtitle' | translate }}
         </p>
       </div>
@@ -620,14 +620,14 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         @for (diff of differentiators; track diff.key) {
         <div
-          class="why-card p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          class="why-card p-6 rounded-xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
           <div class="w-12 h-12 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
             <ng-icon [name]="diff.icon" size="24" class="text-white"></ng-icon>
           </div>
           <h3 class="text-xl font-bold mb-3 text-primary-900 dark:text-primary-100">
             {{ 'services.security.page.incidentResponse.whyRoaya.' + diff.key + '.title' | translate }}
           </h3>
-          <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed">
+          <p class="text-content-secondary leading-relaxed">
             {{ 'services.security.page.incidentResponse.whyRoaya.' + diff.key + '.description' | translate }}
           </p>
         </div>

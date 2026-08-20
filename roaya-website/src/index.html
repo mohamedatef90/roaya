@@ -7,6 +7,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="Roaya IT provides enterprise-grade IT solutions including cloud infrastructure, cybersecurity, email services, and managed IT support in Egypt.">
 
+  <!--
+    Theme bootstrap — must stay inline, synchronous, and ahead of the
+    stylesheets.
+
+    ThemeService is the source of truth, but it only runs once Angular has
+    booted. Until then the document carried no data-theme, so light.css's
+    :root fallback applied and a dark-mode visitor got a full white flash for
+    the whole bootstrap — including the loading screen. This resolves the same
+    stored preference ThemeService reads, before first paint.
+
+    Keep the storage keys and the mirrored `.dark` class in step with
+    core/services/theme.service.ts.
+  -->
+  <script>
+    (function () {
+      /* Open every load at the top of the page.
+         The browser's default is scrollRestoration === 'auto', which restores
+         the previous window offset on reload. GSAP ScrollSmoother drives the
+         page by transforming #smooth-content while the window scroll is only a
+         proxy for it, so a restored offset dropped the visitor into the middle
+         of the page — the hero never appeared. The router already handles
+         in-app navigation (scrollPositionRestoration: 'top'); this covers
+         reloads and back/forward, and must run before first paint.
+
+         A deep link to an anchor is left alone — that offset is intentional. */
+      if ('scrollRestoration' in history && !window.location.hash) {
+        history.scrollRestoration = 'manual';
+      }
+
+      var THEME_KEY = 'roaya-theme';
+      var DIRECTION_KEY = 'roaya-direction';
+      var root = document.documentElement;
+      var theme, direction;
+
+      try {
+        theme = localStorage.getItem(THEME_KEY);
+        direction = localStorage.getItem(DIRECTION_KEY);
+      } catch (e) {
+        /* Storage can throw in private mode or with third-party cookies
+           blocked. Fall through to the system preference. */
+      }
+
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
+
+      root.setAttribute('data-theme', theme);
+      root.classList.toggle('dark', theme === 'dark');
+
+      /* Direction too, for the same reason: an RTL visitor would otherwise
+         see the first paint laid out LTR and then flip. */
+      if (direction !== 'ltr' && direction !== 'rtl') {
+        var lang = navigator.language || '';
+        direction = /^(ar|he|fa|ur)/.test(lang) ? 'rtl' : 'ltr';
+      }
+      root.setAttribute('dir', direction);
+    })();
+  </script>
+
   <!-- Preconnect to external domains for faster resource loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -227,7 +227,7 @@ export class DropdownMenuComponent {
     <button
       type="button"
       role="menuitem"
-      class="relative flex w-full cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:bg-neutral-100 dark:focus:bg-neutral-800"
+      class="relative flex w-full cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors hover:bg-surface-hover focus:bg-neutral-100 dark:focus:bg-neutral-800"
       [class.text-red-600]="danger"
       [class.dark:text-red-400]="danger"
       [class.opacity-50]="disabled"
@@ -267,7 +267,7 @@ export class DropdownMenuSeparatorComponent {}
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="px-2 py-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400">
+    <div class="px-2 py-1.5 text-xs font-semibold text-content-muted">
       <ng-content></ng-content>
     </div>
   `,

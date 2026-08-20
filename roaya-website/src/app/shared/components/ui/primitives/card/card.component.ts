@@ -138,7 +138,7 @@ export class CardTitleComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <p class="text-sm text-neutral-500 dark:text-neutral-400" [class]="customClass">
+    <p class="text-sm text-content-muted" [class]="customClass">
       <ng-content></ng-content>
     </p>
   `,

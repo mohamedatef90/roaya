@@ -51,10 +51,10 @@ import {
   template: `
     <div class="packages-page p-6">
       <!-- Page Header -->
-      <div class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="mb-6 pb-6 border-b border-edge-subtle">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 class="flex items-center gap-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-content-primary">
               <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m7.5 4.27 9 5.15"/>
                 <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
@@ -63,7 +63,7 @@ import {
               </svg>
               {{ 'Service Packages' | translate }}
             </h1>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-sm text-content-muted mt-1">
               {{ 'Manage pricing packages and service tiers' | translate }}
             </p>
           </div>
@@ -83,7 +83,7 @@ import {
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-16">
           <ui-spinner size="lg" variant="default"></ui-spinner>
-          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">Loading packages...</p>
+          <p class="mt-4 text-sm text-content-muted">Loading packages...</p>
         </div>
       } @else {
         <!-- Packages Grid -->
@@ -91,7 +91,7 @@ import {
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             @for (pkg of packages(); track pkg.id; let i = $index) {
               <div
-                class="group relative rounded-xl border bg-white dark:bg-neutral-900 overflow-hidden transition-all hover:shadow-lg"
+                class="group relative rounded-xl border bg-surface-elevated overflow-hidden transition-all hover:shadow-lg"
                 [class.border-primary-400]="pkg.isFeatured"
                 [class.ring-2]="pkg.isFeatured"
                 [class.ring-primary-400/20]="pkg.isFeatured"
@@ -114,10 +114,10 @@ import {
                   <!-- Header -->
                   <div class="flex items-start justify-between mb-4">
                     <div>
-                      <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                      <h3 class="text-lg font-semibold text-content-primary">
                         {{ pkg.nameEn }}
                       </h3>
-                      <p class="text-sm text-neutral-500 dark:text-neutral-400" dir="rtl">
+                      <p class="text-sm text-content-muted" dir="rtl">
                         {{ pkg.nameAr }}
                       </p>
                     </div>
@@ -135,16 +135,16 @@ import {
                       <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">
                         Custom Pricing
                       </div>
-                      <p class="text-sm text-neutral-500 dark:text-neutral-400">Contact for quote</p>
+                      <p class="text-sm text-content-muted">Contact for quote</p>
                     } @else {
                       @if (pkg.priceMonthly) {
-                        <div class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                        <div class="text-3xl font-bold text-content-primary">
                           {{ formatCurrency(pkg.priceMonthly, pkg.currency) }}
-                          <span class="text-sm font-normal text-neutral-500 dark:text-neutral-400">/month</span>
+                          <span class="text-sm font-normal text-content-muted">/month</span>
                         </div>
                       }
                       @if (pkg.priceYearly) {
-                        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+                        <p class="text-sm text-content-muted">
                           or {{ formatCurrency(pkg.priceYearly, pkg.currency) }}/year
                         </p>
                       }
@@ -154,10 +154,10 @@ import {
                   <!-- Features Preview -->
                   @if (getFeatures(pkg).length > 0) {
                     <div class="mb-6">
-                      <p class="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Features:</p>
+                      <p class="text-sm font-medium text-content-secondary mb-2">Features:</p>
                       <ul class="space-y-2">
                         @for (feature of getFeatures(pkg); track feature) {
-                          <li class="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                          <li class="flex items-start gap-2 text-sm text-content-secondary">
                             <svg class="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <polyline points="20 6 9 17 4 12"/>
                             </svg>
@@ -174,8 +174,8 @@ import {
                   }
 
                   <!-- Actions -->
-                  <div class="flex items-center justify-between pt-4 border-t border-neutral-100 dark:border-neutral-800">
-                    <div class="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+                  <div class="flex items-center justify-between pt-4 border-t border-edge-subtle">
+                    <div class="flex items-center gap-2 text-sm text-content-muted">
                       <span>Order: {{ pkg.order }}</span>
                       @if (pkg.isFeatured) {
                         <span class="inline-flex items-center gap-1 text-primary-600 dark:text-primary-400">
@@ -236,7 +236,7 @@ import {
         } @else {
           <!-- Empty State -->
           <div class="flex flex-col items-center justify-center py-16 text-center">
-            <div class="w-20 h-20 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
+            <div class="w-20 h-20 rounded-full bg-surface-secondary flex items-center justify-center mb-4">
               <svg class="h-10 w-10 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m7.5 4.27 9 5.15"/>
                 <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
@@ -244,15 +244,15 @@ import {
                 <path d="M12 22V12"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+            <h3 class="text-lg font-semibold text-content-primary mb-2">
               No Packages
             </h3>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6 max-w-sm">
+            <p class="text-sm text-content-muted mb-6 max-w-sm">
               Create your first service package to display pricing options to your customers.
             </p>
             <button
               (click)="openCreateDialog()"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-edge-subtle text-content-secondary hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="M12 5v14"/>
@@ -375,7 +375,7 @@ import {
                   type="color"
                   [value]="packageForm.get('badgeColor')?.value || '#3D5A80'"
                   (input)="onColorChange($event)"
-                  class="h-10 w-10 rounded-lg border border-neutral-300 dark:border-neutral-700 cursor-pointer"
+                  class="h-10 w-10 rounded-lg border border-edge-strong cursor-pointer"
                 />
               </div>
             </div>
@@ -389,7 +389,7 @@ import {
               formControlName="isFeatured"
               class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
             />
-            <label for="isFeatured" class="text-sm text-neutral-700 dark:text-neutral-300">
+            <label for="isFeatured" class="text-sm text-content-secondary">
               Featured Package (highlighted in pricing table)
             </label>
           </div>
@@ -399,7 +399,7 @@ import {
       <ui-dialog-footer>
         <button
           (click)="closeDialog()"
-          class="px-4 py-2 rounded-lg text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>

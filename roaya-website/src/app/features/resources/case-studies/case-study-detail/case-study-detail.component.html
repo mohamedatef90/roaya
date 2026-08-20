@@ -3,7 +3,7 @@
   <div class="min-h-screen flex items-center justify-center bg-background">
     <div class="text-center">
       <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-      <p class="mt-4 text-neutral-600 dark:text-neutral-400">{{ 'caseStudies.detail.loading' | translate }}</p>
+      <p class="mt-4 text-content-secondary">{{ 'caseStudies.detail.loading' | translate }}</p>
     </div>
   </div>
 }
@@ -12,13 +12,13 @@
 @if (!isLoading() && notFound()) {
   <div class="min-h-screen flex items-center justify-center bg-background">
     <div class="text-center max-w-md mx-auto px-4">
-      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface-secondary flex items-center justify-center">
         <svg class="w-10 h-10 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </div>
       <h1 class="text-3xl font-bold mb-4">{{ 'caseStudies.detail.notFound.title' | translate }}</h1>
-      <p class="text-neutral-600 dark:text-neutral-400 mb-8">{{ 'caseStudies.detail.notFound.description' | translate }}</p>
+      <p class="text-content-secondary mb-8">{{ 'caseStudies.detail.notFound.description' | translate }}</p>
       <a routerLink="/resources/case-studies" class="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
         <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180"></ng-icon>
         {{ 'caseStudies.detail.notFound.back' | translate }}
@@ -92,7 +92,7 @@
                   <ng-icon name="lucideBuilding2" size="20" class="text-primary-600 dark:text-primary-400"></ng-icon>
                 </div>
                 <div>
-                  <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ 'caseStudies.detail.client' | translate }}</p>
+                  <p class="text-sm text-content-muted">{{ 'caseStudies.detail.client' | translate }}</p>
                   <p class="font-semibold">{{ translationPrefix() + '.overview.client' | translate }}</p>
                 </div>
               </div>
@@ -102,7 +102,7 @@
                   <ng-icon name="lucideMapPin" size="20" class="text-primary-600 dark:text-primary-400"></ng-icon>
                 </div>
                 <div>
-                  <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ 'caseStudies.detail.location' | translate }}</p>
+                  <p class="text-sm text-content-muted">{{ 'caseStudies.detail.location' | translate }}</p>
                   <p class="font-semibold">{{ translationPrefix() + '.overview.location' | translate }}</p>
                 </div>
               </div>
@@ -112,7 +112,7 @@
                   <ng-icon name="lucideClock" size="20" class="text-primary-600 dark:text-primary-400"></ng-icon>
                 </div>
                 <div>
-                  <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ 'caseStudies.detail.duration' | translate }}</p>
+                  <p class="text-sm text-content-muted">{{ 'caseStudies.detail.duration' | translate }}</p>
                   <p class="font-semibold">{{ translationPrefix() + '.overview.duration' | translate }}</p>
                 </div>
               </div>
@@ -122,7 +122,7 @@
                   <ng-icon name="lucideUsers" size="20" class="text-primary-600 dark:text-primary-400"></ng-icon>
                 </div>
                 <div>
-                  <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ 'caseStudies.detail.companySize' | translate }}</p>
+                  <p class="text-sm text-content-muted">{{ 'caseStudies.detail.companySize' | translate }}</p>
                   <p class="font-semibold">{{ translationPrefix() + '.overview.companySize' | translate }}</p>
                 </div>
               </div>
@@ -130,7 +130,7 @@
 
             <!-- Overview Description -->
             <div>
-              <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+              <p class="text-lg text-content-secondary leading-relaxed">
                 {{ translationPrefix() + '.overview.description' | translate }}
               </p>
             </div>
@@ -150,7 +150,7 @@
             <h2 class="text-2xl font-bold">{{ translationPrefix() + '.challenge.title' | translate }}</h2>
           </div>
 
-          <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 max-w-3xl">
+          <p class="text-lg text-content-secondary mb-8 max-w-3xl">
             {{ translationPrefix() + '.challenge.description' | translate }}
           </p>
 
@@ -160,7 +160,7 @@
                 <h3 class="text-lg font-semibold mb-2">
                   {{ translationPrefix() + '.challenge.items.' + item + '.title' | translate }}
                 </h3>
-                <p class="text-neutral-600 dark:text-neutral-400">
+                <p class="text-content-secondary">
                   {{ translationPrefix() + '.challenge.items.' + item + '.description' | translate }}
                 </p>
               </div>
@@ -181,7 +181,7 @@
             <h2 class="text-2xl font-bold">{{ translationPrefix() + '.solution.title' | translate }}</h2>
           </div>
 
-          <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 max-w-3xl">
+          <p class="text-lg text-content-secondary mb-8 max-w-3xl">
             {{ translationPrefix() + '.solution.description' | translate }}
           </p>
 
@@ -196,7 +196,7 @@
                     <h3 class="text-lg font-semibold mb-2">
                       {{ translationPrefix() + '.solution.items.' + item + '.title' | translate }}
                     </h3>
-                    <p class="text-neutral-600 dark:text-neutral-400">
+                    <p class="text-content-secondary">
                       {{ translationPrefix() + '.solution.items.' + item + '.description' | translate }}
                     </p>
                   </div>
@@ -254,7 +254,7 @@
               </div>
             </div>
 
-            <blockquote class="text-xl md:text-2xl font-medium text-neutral-800 dark:text-neutral-200 mb-8 leading-relaxed pt-4">
+            <blockquote class="text-xl md:text-2xl font-medium text-content-primary mb-8 leading-relaxed pt-4">
               "{{ translationPrefix() + '.testimonial.quote' | translate }}"
             </blockquote>
 
@@ -264,7 +264,7 @@
               </div>
               <div>
                 <p class="font-semibold text-lg">{{ translationPrefix() + '.testimonial.author' | translate }}</p>
-                <p class="text-neutral-500 dark:text-neutral-400">{{ translationPrefix() + '.testimonial.company' | translate }}</p>
+                <p class="text-content-muted">{{ translationPrefix() + '.testimonial.company' | translate }}</p>
               </div>
             </div>
           </div>
@@ -305,7 +305,7 @@
                         {{ translationPrefix() + '.timeline.phases.' + phase + '.duration' | translate }}
                       </span>
                     </div>
-                    <p class="text-neutral-600 dark:text-neutral-400">
+                    <p class="text-content-secondary">
                       {{ translationPrefix() + '.timeline.phases.' + phase + '.description' | translate }}
                     </p>
                   </div>
@@ -347,7 +347,7 @@
 
           <button
             (click)="shareCaseStudy('linkedin')"
-            class="flex items-center gap-2 px-6 py-3 bg-surface border border-border rounded-xl font-semibold hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+            class="flex items-center gap-2 px-6 py-3 bg-surface border border-border rounded-xl font-semibold hover:bg-surface-hover transition-colors"
           >
             <ng-icon name="lucideShare2" size="20"></ng-icon>
             Share on LinkedIn
@@ -355,7 +355,7 @@
 
           <button
             (click)="shareCaseStudy('twitter')"
-            class="flex items-center gap-2 px-6 py-3 bg-surface border border-border rounded-xl font-semibold hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+            class="flex items-center gap-2 px-6 py-3 bg-surface border border-border rounded-xl font-semibold hover:bg-surface-hover transition-colors"
           >
             Share on X
           </button>
@@ -384,7 +384,7 @@
                       <h3 class="text-lg font-bold mb-2 group-hover:text-primary-500 transition-colors">
                         {{ related.translationKey + '.hero.title' | translate }}
                       </h3>
-                      <p class="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                      <p class="text-sm text-content-secondary line-clamp-2">
                         {{ related.translationKey + '.hero.subtitle' | translate }}
                       </p>
                     </div>

@@ -81,14 +81,14 @@ type SelectVariants = VariantProps<typeof selectVariants>;
       <!-- Dropdown -->
       <div
         *ngIf="isOpen()"
-        class="absolute z-[9999] mt-2 w-full rounded-xl border border-neutral-200 bg-white py-1 shadow-xl dark:border-neutral-700 dark:bg-neutral-900"
+        class="absolute z-[9999] mt-2 w-full rounded-xl border border-edge-subtle bg-surface-elevated py-1 shadow-xl"
         role="listbox"
         [attr.aria-label]="ariaLabel || 'Options'"
       >
         <div class="max-h-60 overflow-auto">
           <div
             *ngFor="let option of options; let i = index"
-            class="relative flex cursor-pointer select-none items-center px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            class="relative flex cursor-pointer select-none items-center px-3 py-2 text-sm hover:bg-surface-hover"
             [class.bg-primary-50]="option.value === value()"
             [class.dark:bg-primary-900/20]="option.value === value()"
             [class.text-primary-600]="option.value === value()"

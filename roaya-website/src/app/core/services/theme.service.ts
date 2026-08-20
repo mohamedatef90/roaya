@@ -98,6 +98,16 @@ export class ThemeService {
   private applyTheme(theme: Theme): void {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
+
+    // Mirror the attribute as a `.dark` class. Two separate consumers still
+    // select on the class rather than the attribute, and neither worked while
+    // nothing set it:
+    //   - SCSS partials (admin-theme, _helpers, _typography, _reset)
+    //   - the `.dark` half of the darkMode variant in tailwind.config.js
+    // The attribute stays the source of truth; this is a mirror, not a
+    // second switch.
+    root.classList.toggle('dark', theme === 'dark');
+
     localStorage.setItem(this.THEME_KEY, theme);
   }
 

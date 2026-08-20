@@ -50,14 +50,14 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
   template: `
     <aside [class]="sidebarClass">
       <!-- Header -->
-      <div class="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="flex items-center justify-between p-4 border-b border-edge-subtle">
         <div *ngIf="!collapsed()" class="flex items-center gap-2">
           <ng-content select="[sidebarLogo]"></ng-content>
         </div>
         <button
           *ngIf="collapsible"
           type="button"
-          class="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          class="p-2 rounded-lg hover:bg-surface-hover transition-colors"
           (click)="toggleCollapse()"
           [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
         >
@@ -84,7 +84,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
           <!-- Section title -->
           <div
             *ngIf="section.title && !collapsed()"
-            class="px-3 py-2 text-xs font-semibold uppercase text-neutral-500 dark:text-neutral-400"
+            class="px-3 py-2 text-xs font-semibold uppercase text-content-muted"
           >
             {{ section.title }}
           </div>
@@ -98,7 +98,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                   *ngIf="item.route; else buttonItem"
                   [routerLink]="item.route"
                   routerLinkActive="bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400"
-                  class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                  class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-content-secondary transition-colors hover:bg-surface-hover"
                   [class.justify-center]="collapsed()"
                   [class.opacity-50]="item.disabled"
                   [class.pointer-events-none]="item.disabled"
@@ -118,7 +118,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                 <ng-template #buttonItem>
                   <button
                     type="button"
-                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-content-secondary transition-colors hover:bg-surface-hover"
                     [class.justify-center]="collapsed()"
                     [class.opacity-50]="item.disabled"
                     [disabled]="item.disabled"
@@ -143,7 +143,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                 <div>
                   <button
                     type="button"
-                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-content-secondary transition-colors hover:bg-surface-hover"
                     [class.justify-center]="collapsed()"
                     [attr.title]="collapsed() ? item.label : null"
                     (click)="toggleExpand(item.id)"
@@ -169,14 +169,14 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                   <!-- Children -->
                   <ul
                     *ngIf="isExpanded(item.id) && !collapsed()"
-                    class="ml-4 mt-1 space-y-1 border-l border-neutral-200 pl-4 dark:border-neutral-700"
+                    class="ml-4 mt-1 space-y-1 border-l border-edge-subtle pl-4"
                   >
                     <li *ngFor="let child of item.children">
                       <a
                         *ngIf="child.route; else childButton"
                         [routerLink]="child.route"
                         routerLinkActive="text-primary-600 dark:text-primary-400"
-                        class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-600 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
+                        class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-content-secondary transition-colors hover:bg-surface-hover"
                         [class.opacity-50]="child.disabled"
                         [class.pointer-events-none]="child.disabled"
                       >
@@ -185,7 +185,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                       <ng-template #childButton>
                         <button
                           type="button"
-                          class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-600 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
+                          class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-content-secondary transition-colors hover:bg-surface-hover"
                           [class.opacity-50]="child.disabled"
                           [disabled]="child.disabled"
                           (click)="onItemClick(child)"
@@ -203,7 +203,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
       </nav>
 
       <!-- Footer -->
-      <div class="border-t border-neutral-200 p-4 dark:border-neutral-800">
+      <div class="border-t border-edge-subtle p-4">
         <ng-content select="[sidebarFooter]"></ng-content>
       </div>
     </aside>

@@ -34,12 +34,19 @@
     aria-label="Main navigation"
   >
     <div class="flex items-center justify-between h-12 lg:h-14 px-4 lg:px-6">
-      <!-- Logo -->
-      <a routerLink="/" class="flex items-center gap-3 focus-ring rounded-lg group">
+      <!-- Logo — also the site's only Home link, so it carries the accessible
+           name for that destination. The separate "Home" nav item was removed
+           as a duplicate: it pointed at the same route as the logo. -->
+      <a
+        routerLink="/"
+        [attr.aria-label]="'common.home' | translate"
+        class="flex items-center gap-3 focus-ring rounded-lg group"
+      >
         <img
           src="/assets/images/roaya-logo.png"
-          alt="Enterprise IT Solutions"
-          class="h-9 w-auto transition-all group-hover:scale-105 dark:brightness-0 dark:invert"
+          alt=""
+          aria-hidden="true"
+          class="h-9 w-auto transition-all group-hover:scale-105 logo-adaptive"
           loading="eager"
           fetchpriority="high"
           width="36"
@@ -49,16 +56,6 @@
 
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center gap-2">
-        <!-- Home -->
-        <a
-          routerLink="/"
-          routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
-          [routerLinkActiveOptions]="{exact: true}"
-          class="px-3 py-1.5 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
-        >
-          {{ 'common.home' | translate }}
-        </a>
-
         <!-- Solutions (Mega Menu) -->
         <app-mega-menu
           [triggerLabel]="'common.services'"
@@ -87,7 +84,7 @@
         <a
           routerLink="/about"
           routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
-          class="px-3 py-1.5 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
+          class="px-3 py-1.5 rounded-full text-content-secondary hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
         >
           {{ 'common.about' | translate }}
         </a>
@@ -96,7 +93,7 @@
         <a
           routerLink="/contact"
           routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
-          class="px-3 py-1.5 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
+          class="px-3 py-1.5 rounded-full text-content-secondary hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
         >
           {{ 'common.contact' | translate }}
         </a>
@@ -117,7 +114,7 @@
         <!-- Mobile Menu Toggle -->
         <button
           (click)="toggleMobileMenu()"
-          class="lg:hidden p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
+          class="lg:hidden p-2 rounded-full hover:bg-surface-hover transition-colors focus-ring"
           [attr.aria-label]="isMobileMenuOpen() ? 'Close menu' : 'Open menu'"
           [attr.aria-expanded]="isMobileMenuOpen()"
           aria-controls="mobile-menu"
@@ -182,11 +179,17 @@
     <!-- Menu Header -->
     <div class="flex items-center justify-between p-4 border-b border-border">
       <!-- Logo -->
-      <a routerLink="/" (click)="closeMobileMenu()" class="flex items-center gap-3">
+      <a
+        routerLink="/"
+        (click)="closeMobileMenu()"
+        [attr.aria-label]="'common.home' | translate"
+        class="flex items-center gap-3"
+      >
         <img
           src="/assets/images/roaya-logo.png"
-          alt="Roaya IT"
-          class="h-8 w-auto dark:brightness-0 dark:invert"
+          alt=""
+          aria-hidden="true"
+          class="h-8 w-auto logo-adaptive"
           width="32"
           height="32"
         />
@@ -195,7 +198,7 @@
       <!-- Close Button -->
       <button
         (click)="closeMobileMenu()"
-        class="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
+        class="p-2 rounded-full hover:bg-surface-hover transition-colors focus-ring"
         aria-label="Close menu"
         type="button"
       >
@@ -217,22 +220,13 @@
     <!-- Menu Navigation -->
     <nav class="flex-1 overflow-y-auto p-4" aria-label="Mobile navigation">
       <div class="flex flex-col gap-1">
-        <!-- Home -->
-        <a
-          routerLink="/"
-          (click)="closeMobileMenu()"
-          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
-          [routerLinkActiveOptions]="{exact: true}"
-          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
-        >
-          {{ 'common.home' | translate }}
-        </a>
+        <!-- "Home" removed: the logo in the drawer header already links to "/". -->
 
         <!-- Solutions/Services (Expandable) -->
         <div class="flex flex-col">
           <button
             (click)="toggleMobileServices()"
-            class="flex items-center justify-between px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium w-full text-start text-lg"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium w-full text-start text-lg"
             [attr.aria-expanded]="isMobileServicesOpen()"
             aria-controls="mobile-services-menu"
           >
@@ -259,7 +253,7 @@
               (click)="closeMobileMenu()"
               routerLinkActive="text-primary-500 dark:text-secondary-400"
               [routerLinkActiveOptions]="{exact: true}"
-              class="px-4 py-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              class="px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors"
             >
               {{ 'megaMenu.viewAllServices' | translate }}
             </a>
@@ -270,7 +264,7 @@
               <div *ngIf="hasChildren(service)" class="flex flex-col">
                 <button
                   (click)="toggleMobileSecurity()"
-                  class="flex items-center justify-between px-4 py-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors w-full text-start"
+                  class="flex items-center justify-between px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors w-full text-start"
                   [attr.aria-expanded]="isMobileSecurityOpen()"
                 >
                   <span class="flex items-center gap-2">
@@ -302,7 +296,7 @@
                     (click)="closeMobileMenu()"
                     routerLinkActive="text-primary-500 dark:text-secondary-400"
                     [routerLinkActiveOptions]="{exact: true}"
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-neutral-500 dark:text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-content-muted hover:bg-surface-hover transition-colors text-sm"
                   >
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -316,7 +310,7 @@
                     [routerLink]="child.route"
                     (click)="closeMobileMenu()"
                     routerLinkActive="text-primary-500 dark:text-secondary-400"
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-neutral-500 dark:text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-content-muted hover:bg-surface-hover transition-colors text-sm"
                   >
                     <svg class="w-4 h-4 text-primary-500 dark:text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <circle cx="12" cy="12" r="10" />
@@ -339,7 +333,7 @@
                 [routerLink]="service.route"
                 (click)="closeMobileMenu()"
                 routerLinkActive="text-primary-500 dark:text-secondary-400"
-                class="flex items-center gap-2 px-4 py-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                class="flex items-center gap-2 px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors"
               >
                 <span>{{ service.title | translate }}</span>
                 <span *ngIf="service.badge" class="px-1.5 py-0.5 text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full">
@@ -354,7 +348,7 @@
         <div class="flex flex-col">
           <button
             (click)="toggleMobileIndustries()"
-            class="flex items-center justify-between px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium w-full text-start text-lg"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium w-full text-start text-lg"
             [attr.aria-expanded]="isMobileIndustriesOpen()"
             aria-controls="mobile-industries-menu"
           >
@@ -381,7 +375,7 @@
               (click)="closeMobileMenu()"
               routerLinkActive="text-primary-500 dark:text-secondary-400"
               [routerLinkActiveOptions]="{exact: true}"
-              class="px-4 py-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              class="px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors"
             >
               {{ 'megaMenu.viewAllIndustries' | translate }}
             </a>
@@ -390,7 +384,7 @@
               [routerLink]="industry.route"
               (click)="closeMobileMenu()"
               routerLinkActive="text-primary-500 dark:text-secondary-400"
-              class="px-4 py-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              class="px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors"
             >
               {{ industry.title | translate }}
             </a>
@@ -402,7 +396,7 @@
           routerLink="/resources"
           (click)="closeMobileMenu()"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
-          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
+          class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
         >
           {{ 'common.resources' | translate }}
         </a>
@@ -412,7 +406,7 @@
           routerLink="/about"
           (click)="closeMobileMenu()"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
-          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
+          class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
         >
           {{ 'common.about' | translate }}
         </a>
@@ -422,7 +416,7 @@
           routerLink="/contact"
           (click)="closeMobileMenu()"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
-          class="px-4 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium text-lg"
+          class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
         >
           {{ 'common.contact' | translate }}
         </a>
@@ -452,7 +446,7 @@
           href="https://www.linkedin.com/company/19047659"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-3 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
+          class="p-3 rounded-full hover:bg-surface-hover transition-colors text-neutral-500 hover:text-primary-500"
           aria-label="LinkedIn"
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -463,7 +457,7 @@
           href="https://www.facebook.com/RoayaIT"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-3 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-primary-500"
+          class="p-3 rounded-full hover:bg-surface-hover transition-colors text-neutral-500 hover:text-primary-500"
           aria-label="Facebook"
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -487,7 +481,7 @@
     <app-scroll-indicator />
 
     <!-- Footer -->
-    <footer class="bg-neutral-900 text-white" role="contentinfo">
+    <footer class="site-footer" role="contentinfo">
   <!-- Main Footer -->
   <div class="container-custom py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -497,29 +491,29 @@
           <img
             src="/assets/images/roaya-logo.png"
             alt="Enterprise IT Solutions"
-            class="h-10 w-auto brightness-0 invert"
+            class="h-10 w-auto logo-on-footer"
             loading="lazy"
             fetchpriority="low"
             width="40"
             height="40"
           />
         </a>
-        <p class="text-neutral-300 mb-6 leading-relaxed">
+        <p class="footer-link mb-6 leading-relaxed">
           {{ 'header.tagline' | translate }}
         </p>
         <!-- Trust badges -->
         <div class="flex flex-wrap gap-3">
-          <div class="flex items-center gap-2 px-3 py-1.5 bg-neutral-800 rounded-full text-sm">
+          <div class="flex items-center gap-2 px-3 py-1.5 footer-chip rounded-full text-sm">
             <svg class="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-neutral-300">{{ 'footer.securityFirst' | translate }}</span>
+            <span class="footer-link">{{ 'footer.securityFirst' | translate }}</span>
           </div>
-          <div class="flex items-center gap-2 px-3 py-1.5 bg-neutral-800 rounded-full text-sm">
+          <div class="flex items-center gap-2 px-3 py-1.5 footer-chip rounded-full text-sm">
             <svg class="h-4 w-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-neutral-300">{{ 'footer.certified' | translate }}</span>
+            <span class="footer-link">{{ 'footer.certified' | translate }}</span>
           </div>
         </div>
       </div>
@@ -529,32 +523,32 @@
         <h3 class="font-semibold text-lg mb-6">{{ 'footer.solutions' | translate }}</h3>
         <ul class="space-y-3">
           <li>
-            <a routerLink="/services/cloud" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/services/cloud" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.cloud.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/security" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/services/security" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.security.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/email" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/services/email" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.email.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/managed" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/services/managed" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.managed.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/backup" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/services/backup" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.backup.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/consulting" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/services/consulting" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.consulting.title' | translate }}
             </a>
           </li>
@@ -566,17 +560,17 @@
         <h3 class="font-semibold text-lg mb-6">{{ 'footer.company' | translate }}</h3>
         <ul class="space-y-3">
           <li>
-            <a routerLink="/about" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/about" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.about' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/industries" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/industries" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.industries' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/contact" class="text-neutral-300 hover:text-white transition-colors">
+            <a routerLink="/contact" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.contact' | translate }}
             </a>
           </li>
@@ -592,7 +586,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            <span class="text-neutral-300">
+            <span class="footer-link">
               {{ 'footer.address' | translate }}
             </span>
           </li>
@@ -600,7 +594,7 @@
             <svg class="h-5 w-5 text-secondary-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
-            <a href="mailto:info@roaya.co" class="text-neutral-300 hover:text-white transition-colors">
+            <a href="mailto:info@roaya.co" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               info&#64;roaya.co
             </a>
           </li>
@@ -608,7 +602,7 @@
             <svg class="h-5 w-5 text-secondary-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
             </svg>
-            <a href="tel:+20227469708" class="text-neutral-300 hover:text-white transition-colors">
+            <a href="tel:+20227469708" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               +20 2 7469708
             </a>
           </li>
@@ -620,7 +614,7 @@
             href="https://www.linkedin.com/company/19047659"
             target="_blank"
             rel="noopener noreferrer"
-            class="p-2.5 rounded-lg bg-neutral-800 hover:bg-primary-500 transition-colors"
+            class="p-2.5 rounded-lg footer-chip hover:bg-primary-500 transition-colors"
             aria-label="LinkedIn"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -631,7 +625,7 @@
             href="https://www.facebook.com/RoayaIT"
             target="_blank"
             rel="noopener noreferrer"
-            class="p-2.5 rounded-lg bg-neutral-800 hover:bg-primary-500 transition-colors"
+            class="p-2.5 rounded-lg footer-chip hover:bg-primary-500 transition-colors"
             aria-label="Facebook"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -644,20 +638,20 @@
   </div>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-neutral-800">
+  <div class="border-t footer-divider">
     <div class="container-custom py-6">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-neutral-500 text-sm">
+        <p class="footer-muted text-sm">
           © {{ currentYear }} {{ 'footer.allRightsReserved' | translate }}
         </p>
         <div class="flex items-center gap-6 text-sm">
-          <a routerLink="/privacy" class="text-neutral-500 hover:text-white transition-colors">
+          <a routerLink="/privacy" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
             {{ 'footer.privacyPolicy' | translate }}
           </a>
-          <a routerLink="/terms" class="text-neutral-500 hover:text-white transition-colors">
+          <a routerLink="/terms" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
             {{ 'footer.termsOfService' | translate }}
           </a>
-          <a routerLink="/cookies" class="text-neutral-500 hover:text-white transition-colors">
+          <a routerLink="/cookies" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
             {{ 'footer.cookiePolicy' | translate }}
           </a>
         </div>

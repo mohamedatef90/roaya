@@ -5,17 +5,17 @@
 @if (isLoading()) {
 <div class="py-20 text-center">
   <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
-  <p class="mt-4 text-neutral-600 dark:text-neutral-400">{{ 'blog.detail.loading' | translate }}</p>
+  <p class="mt-4 text-content-secondary">{{ 'blog.detail.loading' | translate }}</p>
 </div>
 }
 
 <!-- Post Not Found -->
 @if (!isLoading() && !post()) {
 <div class="py-20 text-center">
-  <h1 class="text-3xl font-bold mb-4 text-neutral-900 dark:text-white">
+  <h1 class="text-3xl font-bold mb-4 text-content-primary">
     {{ 'blog.detail.notFound.title' | translate }}
   </h1>
-  <p class="text-neutral-600 dark:text-neutral-400 mb-8">
+  <p class="text-content-secondary mb-8">
     {{ 'blog.detail.notFound.description' | translate }}
   </p>
   <a routerLink="/resources/blog"
@@ -28,7 +28,7 @@
 
 <!-- Post Content -->
 @if (!isLoading() && post()) {
-<article class="bg-white dark:bg-neutral-950">
+<article class="bg-surface-elevated">
   <!-- Hero Section -->
   <section
     class="relative py-16 md:py-24 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white dark:from-navy dark:via-navy/90 dark:to-teal/80 overflow-hidden">
@@ -40,7 +40,7 @@
     <div class="container-custom relative z-10">
       <!-- Back Link -->
       <a routerLink="/resources/blog"
-        class="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-white/80 dark:hover:text-white mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy rounded-lg px-2 py-1 -mx-2 -my-1">
+        class="inline-flex items-center gap-2 text-neutral-600 hover:text-content-primary dark:text-white/80 mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy rounded-lg px-2 py-1 -mx-2 -my-1">
         <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
         {{ 'blog.detail.back' | translate }}
       </a>
@@ -54,7 +54,7 @@
       </div>
 
       <!-- Title -->
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-white mb-6 max-w-4xl">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-content-primary mb-6 max-w-4xl">
         {{ currentTitle() }}
       </h1>
 
@@ -130,14 +130,14 @@
 
         <!-- Tags -->
         @if (currentTags().length > 0) {
-        <div class="mb-10 pb-10 border-b border-neutral-200 dark:border-neutral-800">
-          <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+        <div class="mb-10 pb-10 border-b border-edge-subtle">
+          <h3 class="text-sm font-semibold mb-4 text-content-muted uppercase tracking-wider">
             {{ 'blog.detail.tags' | translate }}
           </h3>
           <div class="flex flex-wrap gap-2">
             @for (tag of currentTags(); track tag) {
             <span
-              class="px-4 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-sm text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+              class="px-4 py-1.5 bg-surface-secondary border border-edge-subtle rounded-full text-sm text-content-secondary hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
               #{{ tag }}
             </span>
             }
@@ -146,13 +146,13 @@
         }
 
         <!-- Share Buttons -->
-        <div class="mb-10 pb-10 border-b border-neutral-200 dark:border-neutral-800">
-          <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+        <div class="mb-10 pb-10 border-b border-edge-subtle">
+          <h3 class="text-sm font-semibold mb-4 text-content-muted uppercase tracking-wider">
             {{ 'blog.detail.share' | translate }}
           </h3>
           <div class="flex flex-wrap gap-3">
             <button (click)="sharePost('linkedin')"
-              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              class="flex items-center gap-2 px-4 py-2.5 bg-surface-secondary border border-edge-subtle rounded-lg hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               aria-label="Share on LinkedIn">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -161,7 +161,7 @@
               <span>LinkedIn</span>
             </button>
             <button (click)="sharePost('facebook')"
-              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              class="flex items-center gap-2 px-4 py-2.5 bg-surface-secondary border border-edge-subtle rounded-lg hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               aria-label="Share on Facebook">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -170,7 +170,7 @@
               <span>Facebook</span>
             </button>
             <button (click)="copyLink()"
-              class="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-navy hover:text-white hover:border-navy transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              class="flex items-center gap-2 px-4 py-2.5 bg-surface-secondary border border-edge-subtle rounded-lg hover:bg-navy hover:text-white hover:border-navy transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               aria-label="Copy link to clipboard">
               <ng-icon name="lucideLink" size="18" aria-hidden="true"></ng-icon>
               <span>{{ 'blog.detail.copyLink' | translate }}</span>
@@ -182,7 +182,7 @@
         @if (false) {
         @if (post()!.author) {
         <div class="mb-10">
-          <h3 class="text-sm font-semibold mb-4 text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+          <h3 class="text-sm font-semibold mb-4 text-content-muted uppercase tracking-wider">
             {{ 'blog.author.aboutAuthor' | translate }}
           </h3>
           <app-author-card [author]="post()!.author"></app-author-card>
@@ -198,13 +198,13 @@
         <!-- Related Posts -->
         @if (relatedPosts().length > 0) {
         <div class="mb-10">
-          <h2 class="text-2xl font-bold mb-8 text-neutral-900 dark:text-white">
+          <h2 class="text-2xl font-bold mb-8 text-content-primary">
             {{ 'blog.detail.related' | translate }}
           </h2>
           <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
             @for (relatedPost of relatedPosts(); track relatedPost.id) {
             <a [routerLink]="['/resources/blog', relatedPost.slug]"
-              class="group block bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              class="group block bg-surface-secondary rounded-xl border border-edge-subtle overflow-hidden hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               [attr.aria-label]="'Read article: ' + getRelatedPostTitle(relatedPost)">
               <article class="h-full flex flex-col">
                 @if (relatedPost.featuredImage) {
@@ -216,10 +216,10 @@
                 }
                 <div class="p-4 flex-1 flex flex-col">
                   <h3
-                    class="text-base font-bold mb-2 text-neutral-900 dark:text-white group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
+                    class="text-base font-bold mb-2 text-content-primary group-hover:text-navy dark:group-hover:text-teal transition-colors line-clamp-2">
                     {{ getRelatedPostTitle(relatedPost) }}
                   </h3>
-                  <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-relaxed">
+                  <p class="text-sm text-content-secondary line-clamp-2 leading-relaxed">
                     {{ getRelatedPostExcerpt(relatedPost) }}
                   </p>
                 </div>
@@ -252,9 +252,9 @@
           <div class="max-h-[calc(100vh-8rem)] overflow-y-auto flex flex-col gap-6">
             <!-- Useful Resources -->
           <div
-            class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-5 border border-neutral-200 dark:border-neutral-800">
+            class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-5 border border-edge-subtle">
             <h3
-              class="text-xs font-semibold mb-4 text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+              class="text-xs font-semibold mb-4 text-content-primary uppercase tracking-wider flex items-center gap-2">
               <span class="w-1 h-4 bg-navy dark:bg-teal rounded-full"></span>
               {{ 'blog.sidebar.resources' | translate }}
             </h3>
@@ -262,7 +262,7 @@
               @for (service of sidebarServices; track service.id) {
               <li>
                 <a [routerLink]="service.route"
-                  class="group flex items-center justify-between text-neutral-600 dark:text-neutral-400 hover:text-navy dark:hover:text-teal transition-colors text-sm">
+                  class="group flex items-center justify-between text-content-secondary hover:text-navy dark:hover:text-teal transition-colors text-sm">
                   <span>{{ service.title | translate }}</span>
                   <ng-icon name="lucideArrowRight" size="14"
                     class="opacity-0 group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0 rtl:rotate-180"></ng-icon>

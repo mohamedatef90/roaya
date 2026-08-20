@@ -68,7 +68,7 @@ import { AnalyticsService } from '../../../core/services/analytics.service';
               [(ngModel)]="email"
               name="email"
               [placeholder]="'blog.newsletter.placeholder' | translate"
-              class="w-full px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:border-transparent transition-all"
+              class="w-full px-4 py-3 rounded-lg border border-edge-strong bg-surface-elevated text-content-primary placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:border-transparent transition-all"
               [disabled]="isLoading()"
               required
               autocomplete="email"

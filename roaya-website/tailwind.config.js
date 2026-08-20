@@ -5,15 +5,114 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
   ],
-  darkMode: 'class',
+  // Dark mode resolves from EITHER selector so every styling strategy in the
+  // codebase switches from the single ThemeService toggle:
+  //   [data-theme="dark"] - semantic attribute (source of truth)
+  //   .dark               - mirrored class, kept for existing utilities/SCSS
+  darkMode: [
+    'variant',
+    [
+      '&:where([data-theme="dark"], [data-theme="dark"] *)',
+      '&:where(.dark, .dark *)',
+    ],
+  ],
   theme: {
     extend: {
       colors: {
+        // ------------------------------------------------------------------
+        // Semantic theme colors
+        // ------------------------------------------------------------------
+        // These are read from the custom properties in styles/themes/*.css,
+        // so every utility built on them follows [data-theme] automatically —
+        // no `dark:` counterpart needed at the call site.
+        //
+        // They are declared here rather than as hand-written classes for two
+        // reasons. `text-foreground` (28 uses) and `text-muted-foreground`
+        // (24 uses) had no definition anywhere and were generating no CSS at
+        // all, so muted body copy rendered at full strength and the intended
+        // hierarchy was flat in both themes. And a hand-written class cannot
+        // support the opacity modifier — `border-border/50` was already in the
+        // templates and silently doing nothing.
+        //
+        // The rgb() + <alpha-value> form is what makes `/50` work, which is
+        // why the theme files carry `--color-*-channels` triplets beside
+        // each hex value. Keep the two in step.
+        background: 'rgb(var(--color-background-channels) / <alpha-value>)',
+        'background-secondary': 'rgb(var(--color-background-secondary-channels) / <alpha-value>)',
+        border: 'rgb(var(--color-border-channels) / <alpha-value>)',
+        'border-strong': 'rgb(var(--color-border-strong-channels) / <alpha-value>)',
+        foreground: 'rgb(var(--color-text-primary-channels) / <alpha-value>)',
+        'muted-foreground': 'rgb(var(--color-text-tertiary-channels) / <alpha-value>)',
+        'subtle-foreground': 'rgb(var(--color-text-secondary-channels) / <alpha-value>)',
+        // Used both ways in the templates: `text-muted` (3 sites) needs a text
+        // colour, `bg-muted/30` (1 site) a wash. One key cannot be both, so it
+        // resolves to the muted TEXT colour — that keeps the text legible, and
+        // a 30% tint of it still reads as the intended subtle grey wash. The
+        // reverse mapping would have rendered `text-muted` invisible.
+        muted: 'rgb(var(--color-text-tertiary-channels) / <alpha-value>)',
+
+        // ------------------------------------------------------------------
+        // content / surface / edge — the semantic families the templates use
+        // ------------------------------------------------------------------
+        // These three names carry the bulk of the site's theming: roughly
+        // 1,650 call sites across ~90 files use `text-content-secondary`,
+        // `border-edge-subtle`, `bg-surface-secondary` and their siblings.
+        //
+        // None of them were defined. Every one of those classes compiled to
+        // nothing, which is why theming looked broken in both modes: text
+        // fell back to whatever it inherited (so the primary/secondary/muted
+        // hierarchy was flat), card and input borders were absent, and filled
+        // plates and table headers had no background at all — most visible in
+        // dark mode, where a missing surface leaves the page ground showing
+        // through what should be a raised element.
+        //
+        // Defining them here rather than as hand-written classes is what
+        // makes `dark:` unnecessary at the call site and the opacity modifier
+        // work. See the channel-triplet note above.
+        content: {
+          DEFAULT: 'rgb(var(--color-text-primary-channels) / <alpha-value>)',
+          primary: 'rgb(var(--color-text-primary-channels) / <alpha-value>)',
+          secondary: 'rgb(var(--color-text-secondary-channels) / <alpha-value>)',
+          muted: 'rgb(var(--color-text-tertiary-channels) / <alpha-value>)',
+        },
+        edge: {
+          DEFAULT: 'rgb(var(--color-border-channels) / <alpha-value>)',
+          subtle: 'rgb(var(--color-border-channels) / <alpha-value>)',
+          // Meaningful boundaries — input outlines, control edges. Clears the
+          // 3:1 that WCAG 1.4.11 asks of UI component boundaries, which the
+          // subtle border deliberately does not.
+          strong: 'rgb(var(--color-border-strong-channels) / <alpha-value>)',
+        },
+        surface: {
+          DEFAULT: 'rgb(var(--color-surface-channels) / <alpha-value>)',
+          elevated: 'rgb(var(--color-surface-elevated-channels) / <alpha-value>)',
+          // A four-step ladder, each rung lighter than the last in dark mode
+          // and darker in light. `secondary` is the resting fill for plates,
+          // chips and table headers; `hover` is deliberately one step further
+          // so a hover state stays visible even on a `secondary` element.
+          secondary: 'rgb(var(--color-surface-hover-channels) / <alpha-value>)',
+          hover: 'rgb(var(--color-surface-active-channels) / <alpha-value>)',
+          // Numeric steps come from the PrimeNG-era neutral ramp in
+          // styles/theme.scss, which is already per-theme. Those are plain hex
+          // custom properties rather than channel triplets, so the opacity
+          // modifier does NOT work on these steps — no call site uses one.
+          50: 'var(--surface-50)',
+          100: 'var(--surface-100)',
+          200: 'var(--surface-200)',
+          300: 'var(--surface-300)',
+          400: 'var(--surface-400)',
+          500: 'var(--surface-500)',
+          600: 'var(--surface-600)',
+          700: 'var(--surface-700)',
+          800: 'var(--surface-800)',
+          900: 'var(--surface-900)',
+        },
+
         // Import default Tailwind colors for industry gradients
         blue: colors.blue,
         indigo: colors.indigo,
         green: colors.green,
-        teal: colors.teal,
+        // teal: see the Brand Color Aliases block below — the ramp is merged there
         cyan: colors.cyan,
         purple: colors.purple,
         orange: colors.orange,
@@ -85,7 +184,13 @@ module.exports = {
         },
         // Brand Color Aliases
         navy: '#3D5A80',
-        teal: '#5DB7C2',
+        // `teal` was declared twice in this object — once as `colors.teal`
+        // above and again here as the flat brand hex. The later key wins, so
+        // the imported ramp was discarded and every `teal-{step}` utility
+        // (~50 call sites: text-teal-400, from-teal-500, border-teal-500/20,
+        // shadow-teal-500/10 …) compiled to nothing. Keeping the ramp with the
+        // brand hex as DEFAULT preserves both `text-teal` and `text-teal-400`.
+        teal: { ...colors.teal, DEFAULT: '#5DB7C2' },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
@@ -121,9 +226,29 @@ module.exports = {
         '4xl': '2rem',
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 30px -5px rgba(0, 0, 0, 0.04)',
-        'hard': '0 10px 40px -10px rgba(0, 0, 0, 0.2)',
+        // ------------------------------------------------------------------
+        // Theme-driven elevation
+        // ------------------------------------------------------------------
+        // Tailwind's stock shadows are fixed black at light-mode alpha, so on
+        // the #0F1B2A dark ground `shadow-lg` was effectively invisible on the
+        // 250+ elements that use it. Reading the theme tokens instead means one
+        // class carries the right depth in both modes.
+        //
+        // The token names sit one step below Tailwind's, which is why the
+        // mapping looks offset: --shadow-xs holds Tailwind's `shadow-sm` value
+        // and --shadow-sm holds its default `shadow`. Mapped this way, light
+        // mode renders identically to the stock scale and only dark mode
+        // changes.
+        'sm': 'var(--shadow-xs)',
+        DEFAULT: 'var(--shadow-sm)',
+        'md': 'var(--shadow-md)',
+        'lg': 'var(--shadow-lg)',
+        'xl': 'var(--shadow-xl)',
+        '2xl': 'var(--shadow-2xl)',
+        'soft': 'var(--shadow-soft)',
+        'medium': 'var(--shadow-medium)',
+        'hard': 'var(--shadow-hard)',
+        'brand': 'var(--shadow-brand)',
         // Card stack shadows
         'card-sm': '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06)',
         'card-md': '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',

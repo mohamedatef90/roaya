@@ -81,7 +81,7 @@ interface SpeedDialAction {
           ></div>
 
           <!-- Content -->
-          <div class="fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 shadow-lg rounded-xl">
+          <div class="fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-surface-elevated dark:border-neutral-800 p-6 shadow-lg rounded-xl">
             <!-- Close button -->
             <button
               type="button"
@@ -96,28 +96,28 @@ interface SpeedDialAction {
             </button>
 
             <!-- Header -->
-            <h2 class="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">{{ dialogTitle }}</h2>
+            <h2 class="text-lg font-semibold mb-4 text-content-primary">{{ dialogTitle }}</h2>
 
             <div class="flex flex-col gap-4">
               <!-- Activity type indicator -->
-              <div class="flex items-center gap-3 p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+              <div class="flex items-center gap-3 p-3 bg-surface-secondary rounded-lg">
                 <div
                   [style.background-color]="currentActivityColor"
                   class="flex items-center justify-center w-10 h-10 rounded-full text-white"
                 >
                   <span [innerHTML]="getActionSvg(currentActivityIcon)"></span>
                 </div>
-                <span class="font-medium text-neutral-900 dark:text-neutral-100">{{ currentActivityLabel }}</span>
+                <span class="font-medium text-content-primary">{{ currentActivityLabel }}</span>
               </div>
 
               <!-- Description -->
               <div>
-                <label class="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">Description / Notes</label>
+                <label class="block text-sm font-medium mb-2 text-content-secondary">Description / Notes</label>
                 <textarea
                   name="activityDescription"
                   [(ngModel)]="formData.description"
                   [rows]="4"
-                  class="flex min-h-[80px] w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                  class="flex min-h-[80px] w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                   [placeholder]="descriptionPlaceholder"
                 ></textarea>
               </div>
@@ -125,12 +125,12 @@ interface SpeedDialAction {
               <!-- Scheduled time (for meetings/follow-ups) -->
               @if (showScheduledTime) {
                 <div>
-                  <label class="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">Scheduled Time</label>
+                  <label class="block text-sm font-medium mb-2 text-content-secondary">Scheduled Time</label>
                   <input
                     type="datetime-local"
                     name="scheduledAt"
                     [(ngModel)]="formData.scheduledAt"
-                    class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                    class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                   />
                 </div>
               }
@@ -141,7 +141,7 @@ interface SpeedDialAction {
               <button
                 (click)="closeDialog()"
                 [disabled]="saving()"
-                class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 transition-colors"
+                class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover disabled:opacity-50 transition-colors"
               >
                 Cancel
               </button>

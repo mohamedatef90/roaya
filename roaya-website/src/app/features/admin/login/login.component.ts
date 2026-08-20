@@ -110,7 +110,7 @@ import { AuthService } from '../../../core/services/auth.service';
       </div>
 
       <!-- Right Panel - Login Form -->
-      <div class="w-full lg:w-1/2 xl:w-[45%] flex items-center justify-center p-6 sm:p-12 bg-white dark:bg-neutral-900">
+      <div class="w-full lg:w-1/2 xl:w-[45%] flex items-center justify-center p-6 sm:p-12 bg-surface-elevated">
         <div class="w-full max-w-md space-y-8 animate-fade-in">
           <!-- Logo (shown on right panel for all screens) -->
           <div class="text-center lg:text-left">
@@ -123,10 +123,10 @@ import { AuthService } from '../../../core/services/auth.service';
 
           <!-- Header -->
           <div class="text-center lg:text-left">
-            <h2 class="text-3xl font-bold text-neutral-900 dark:text-white">
+            <h2 class="text-3xl font-bold text-content-primary">
               Welcome back
             </h2>
-            <p class="mt-2 text-neutral-500 dark:text-neutral-400">
+            <p class="mt-2 text-content-muted">
               Sign in to your admin dashboard
             </p>
           </div>
@@ -158,7 +158,7 @@ import { AuthService } from '../../../core/services/auth.service';
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
             <!-- Email Field -->
             <div class="space-y-2">
-              <label for="email" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              <label for="email" class="block text-sm font-medium text-content-secondary">
                 Email address
                 <span class="text-red-500 ml-0.5">*</span>
               </label>
@@ -175,7 +175,7 @@ import { AuthService } from '../../../core/services/auth.service';
                   formControlName="email"
                   placeholder="admin@roaya.ai"
                   autocomplete="email"
-                  class="w-full h-12 pl-12 pr-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] focus:border-transparent transition-all"
+                  class="w-full h-12 pl-12 pr-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] focus:border-transparent transition-all"
                   [class.border-red-500]="isFieldInvalid('email')"
                   [class.focus:ring-red-500]="isFieldInvalid('email')"
                 />
@@ -193,7 +193,7 @@ import { AuthService } from '../../../core/services/auth.service';
 
             <!-- Password Field -->
             <div class="space-y-2">
-              <label for="password" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              <label for="password" class="block text-sm font-medium text-content-secondary">
                 Password
                 <span class="text-red-500 ml-0.5">*</span>
               </label>
@@ -210,7 +210,7 @@ import { AuthService } from '../../../core/services/auth.service';
                   formControlName="password"
                   placeholder="Enter your password"
                   autocomplete="current-password"
-                  class="w-full h-12 pl-12 pr-12 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] focus:border-transparent transition-all"
+                  class="w-full h-12 pl-12 pr-12 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] focus:border-transparent transition-all"
                   [class.border-red-500]="isFieldInvalid('password')"
                   [class.focus:ring-red-500]="isFieldInvalid('password')"
                 />
@@ -252,7 +252,7 @@ import { AuthService } from '../../../core/services/auth.service';
                     formControlName="rememberMe"
                     class="peer sr-only"
                   />
-                  <div class="w-5 h-5 rounded-md border-2 border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 peer-checked:bg-[#5DB7C2] peer-checked:border-[#5DB7C2] transition-all flex items-center justify-center group-hover:border-[#5DB7C2]">
+                  <div class="w-5 h-5 rounded-md border-2 border-edge-strong bg-surface-elevated peer-checked:bg-[#5DB7C2] peer-checked:border-[#5DB7C2] transition-all flex items-center justify-center group-hover:border-[#5DB7C2]">
                     <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
@@ -261,7 +261,7 @@ import { AuthService } from '../../../core/services/auth.service';
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
-                <span class="text-sm text-neutral-600 dark:text-neutral-400">Remember me</span>
+                <span class="text-sm text-content-secondary">Remember me</span>
               </label>
               <a
                 routerLink="/admin/forgot-password"
@@ -294,7 +294,7 @@ import { AuthService } from '../../../core/services/auth.service';
           </form>
 
           <!-- Footer -->
-          <p class="text-center text-sm text-neutral-400 dark:text-neutral-500">
+          <p class="text-center text-sm text-content-muted">
             © 2026 Roaya IT. All rights reserved.
           </p>
         </div>

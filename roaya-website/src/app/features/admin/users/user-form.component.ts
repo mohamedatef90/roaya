@@ -66,19 +66,19 @@ function passwordComplexityValidator(control: AbstractControl): ValidationErrors
         <button
           type="button"
           [routerLink]="['/admin/users']"
-          class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-colors dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-white"
+          class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-edge-subtle bg-surface-elevated text-content-secondary hover:bg-neutral-50 hover:text-content-primary transition-colors dark:hover:bg-neutral-700"
           aria-label="Back to users"
         >
           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
         <div>
-          <h1 class="text-xl font-semibold text-neutral-900 dark:text-white">
+          <h1 class="text-xl font-semibold text-content-primary">
             {{ isEditMode() ? 'Edit User' : 'Create New User' }}
           </h1>
-          <p class="text-sm text-neutral-500 dark:text-neutral-400" *ngIf="isEditMode() && user()">
+          <p class="text-sm text-content-muted" *ngIf="isEditMode() && user()">
             {{ user()!.email }}
           </p>
-          <p class="text-sm text-neutral-500 dark:text-neutral-400" *ngIf="!isEditMode()">
+          <p class="text-sm text-content-muted" *ngIf="!isEditMode()">
             Add a new admin panel user
           </p>
         </div>
@@ -230,20 +230,20 @@ function passwordComplexityValidator(control: AbstractControl): ValidationErrors
                 label="Active"
                 id="isActive"
               ></ui-checkbox>
-              <p class="text-xs text-neutral-500 dark:text-neutral-400 ml-6">
+              <p class="text-xs text-content-muted ml-6">
                 Inactive users cannot log in to the admin panel
               </p>
             </div>
 
             <!-- Divider -->
-            <div class="border-t border-neutral-200 dark:border-neutral-700"></div>
+            <div class="border-t border-edge-subtle"></div>
 
             <!-- Actions -->
             <div class="flex items-center justify-end gap-3">
               <button
                 type="button"
                 [routerLink]="['/admin/users']"
-                class="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-neutral-200 bg-white text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+                class="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-edge-subtle bg-surface-elevated text-sm font-medium text-content-secondary hover:bg-neutral-50 transition-colors dark:hover:bg-neutral-700"
               >
                 Cancel
               </button>

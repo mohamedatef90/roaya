@@ -9,7 +9,7 @@
     <span class="inline-block px-4 py-1.5 rounded-full bg-navy/10 dark:bg-white/10 backdrop-blur-sm text-navy dark:text-white/90 text-sm font-medium mb-6">
       {{ 'blog.badge' | translate }}
     </span>
-    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-white mb-4">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-content-primary mb-4">
       {{ 'blog.title' | translate }}
     </h1>
     <p class="text-lg md:text-xl text-neutral-600 dark:text-white/80 max-w-2xl mx-auto">
@@ -20,11 +20,11 @@
 
 <!-- Featured Posts Section -->
 @if (featuredPosts().length > 0) {
-  <section class="py-12 bg-neutral-50 dark:bg-neutral-900">
+  <section class="py-12 bg-surface-secondary">
     <div class="container-custom">
       <div class="flex items-center gap-3 mb-8">
         <ng-icon name="lucideStar" size="24" class="text-amber-500" aria-hidden="true"></ng-icon>
-        <h2 class="text-2xl font-bold text-neutral-900 dark:text-white">
+        <h2 class="text-2xl font-bold text-content-primary">
           {{ 'blog.featuredPosts' | translate }}
         </h2>
       </div>
@@ -70,7 +70,7 @@
 }
 
 <!-- Blog Content -->
-<section class="py-12 md:py-16 bg-white dark:bg-neutral-950">
+<section class="py-12 md:py-16 bg-surface-elevated">
   <div class="container-custom">
     <!-- Search and Filters -->
     <div class="mb-12">
@@ -88,7 +88,7 @@
             [value]="searchQuery()"
             (input)="onSearchChange(($any($event.target)).value)"
             [placeholder]="'blog.search.placeholder' | translate"
-            class="w-full px-6 py-4 ps-12 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:border-transparent transition-all"
+            class="w-full px-6 py-4 ps-12 rounded-xl border border-edge-subtle bg-surface-elevated text-content-primary focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:border-transparent transition-all"
           />
         </div>
       </div>
@@ -118,7 +118,7 @@
 
         <!-- Sort Options -->
         <div class="flex items-center gap-2">
-          <span class="text-sm text-neutral-700 dark:text-neutral-300">
+          <span class="text-sm text-content-secondary">
             {{ 'blog.sortBy' | translate }}:
           </span>
           @for (option of sortOptions; track option.id) {
@@ -149,7 +149,7 @@
         @for (i of [1, 2, 3, 4, 5, 6]; track i) {
           <div class="animate-pulse">
             <div class="h-48 bg-neutral-200 dark:bg-neutral-800 rounded-t-xl"></div>
-            <div class="p-6 bg-neutral-100 dark:bg-neutral-900 rounded-b-xl">
+            <div class="p-6 bg-surface-secondary rounded-b-xl">
               <div class="h-4 bg-neutral-200 dark:bg-neutral-800 rounded w-1/4 mb-3"></div>
               <div class="h-6 bg-neutral-200 dark:bg-neutral-800 rounded w-3/4 mb-3"></div>
               <div class="h-4 bg-neutral-200 dark:bg-neutral-800 rounded w-full mb-2"></div>
@@ -167,7 +167,7 @@
           <article
             (click)="trackPostClick(post.id)"
             [routerLink]="['/resources/blog', post.slug]"
-            class="group bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-xl hover:shadow-neutral-200/50 dark:hover:shadow-neutral-900/50 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+            class="group bg-surface-elevated rounded-xl border border-edge-subtle overflow-hidden hover:shadow-xl hover:shadow-neutral-200/50 dark:hover:shadow-neutral-900/50 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
             tabindex="0"
           >
             <!-- Featured Image -->
@@ -194,7 +194,7 @@
 
             <!-- Content -->
             <div class="p-6">
-              <div class="flex items-center gap-3 text-sm text-neutral-700 dark:text-neutral-300 mb-3">
+              <div class="flex items-center gap-3 text-sm text-content-secondary mb-3">
                 <span>{{ post.publishedDate | date:'mediumDate' }}</span>
                 <span aria-hidden="true">•</span>
                 <span class="flex items-center gap-1">
@@ -203,16 +203,16 @@
                 </span>
               </div>
 
-              <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-3 line-clamp-2 group-hover:text-navy dark:group-hover:text-teal transition-colors">
+              <h2 class="text-xl font-bold text-content-primary mb-3 line-clamp-2 group-hover:text-navy dark:group-hover:text-teal transition-colors">
                 {{ getPostTitle(post) }}
               </h2>
 
-              <p class="text-neutral-700 dark:text-neutral-300 mb-4 line-clamp-3 leading-relaxed">
+              <p class="text-content-secondary mb-4 line-clamp-3 leading-relaxed">
                 {{ getPostExcerpt(post) }}
               </p>
 
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+                <div class="flex items-center gap-2 text-sm text-content-secondary">
                   <ng-icon name="lucideUser" size="16" aria-hidden="true"></ng-icon>
                   <span>{{ getAuthorName(post) }}</span>
                 </div>
@@ -232,7 +232,7 @@
         <div class="mt-12 text-center">
           <button
             (click)="loadMore()"
-            class="inline-flex items-center gap-2 px-8 py-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-xl font-medium hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+            class="inline-flex items-center gap-2 px-8 py-3 bg-surface-secondary text-content-secondary rounded-xl font-medium hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
           >
             {{ 'blog.loadMore' | translate }}
             <span class="px-2 py-0.5 bg-neutral-200 dark:bg-neutral-700 rounded-full text-sm">
@@ -246,13 +246,13 @@
     <!-- Empty State -->
     @if (!isLoading() && displayedPosts().length === 0) {
       <div class="text-center py-16">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
-          <ng-icon name="lucideSearch" size="32" class="text-neutral-500 dark:text-neutral-400" aria-hidden="true"></ng-icon>
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-surface-secondary flex items-center justify-center">
+          <ng-icon name="lucideSearch" size="32" class="text-content-muted" aria-hidden="true"></ng-icon>
         </div>
-        <h3 class="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
+        <h3 class="text-2xl font-bold text-content-primary mb-2">
           {{ 'blog.empty.title' | translate }}
         </h3>
-        <p class="text-neutral-700 dark:text-neutral-300 mb-6">
+        <p class="text-content-secondary mb-6">
           {{ 'blog.empty.description' | translate }}
         </p>
         <button
@@ -267,7 +267,7 @@
 </section>
 
 <!-- Newsletter Section -->
-<section class="py-12 bg-neutral-50 dark:bg-neutral-900">
+<section class="py-12 bg-surface-secondary">
   <div class="container-custom">
     <div class="max-w-2xl mx-auto">
       <app-newsletter-signup variant="card" source="blog"></app-newsletter-signup>
@@ -276,7 +276,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-16 bg-white dark:bg-neutral-950">
+<section class="py-16 bg-surface-elevated">
   <div class="container-custom">
     <div class="max-w-4xl mx-auto bg-gradient-to-r from-navy to-teal rounded-3xl p-8 md:p-12 text-white text-center">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">

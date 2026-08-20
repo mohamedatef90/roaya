@@ -20,14 +20,14 @@ interface LanguageOption {
         (click)="toggleDropdown()"
         [attr.aria-expanded]="isOpen()"
         aria-haspopup="listbox"
-        class="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 focus-ring"
+        class="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-surface-hover transition-all duration-200 focus-ring"
         type="button"
       >
         <!-- Current Flag -->
         <span class="text-lg leading-none">{{ currentLanguage().flag }}</span>
 
         <!-- Language Code -->
-        <span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+        <span class="text-sm font-medium text-content-secondary">
           {{ currentLanguage().code.toUpperCase() }}
         </span>
 
@@ -46,7 +46,7 @@ interface LanguageOption {
       <!-- Dropdown Panel -->
       @if (isOpen()) {
         <div
-          class="absolute top-full mt-2 py-1 bg-white dark:bg-neutral-900 rounded-xl shadow-lg ring-1 ring-neutral-200 dark:ring-neutral-700 min-w-[160px] z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+          class="absolute top-full mt-2 py-1 bg-surface-elevated rounded-xl shadow-lg ring-1 ring-neutral-200 dark:ring-neutral-700 min-w-[160px] z-50 animate-in fade-in slide-in-from-top-2 duration-200"
           [class.end-0]="languageService.isRTL()"
           [class.start-0]="!languageService.isRTL()"
           role="listbox"
@@ -57,7 +57,7 @@ interface LanguageOption {
               [id]="'lang-' + lang.code"
               (click)="selectLanguage(lang.code)"
               (keydown)="onKeyDown($event, lang.code)"
-              class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
+              class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-hover transition-colors focus-ring"
               [class.bg-primary-50]="lang.code === currentLanguage().code"
               [class.dark:bg-primary-900/20]="lang.code === currentLanguage().code"
               role="option"
@@ -69,10 +69,10 @@ interface LanguageOption {
 
               <!-- Language Info -->
               <div class="flex flex-col items-start">
-                <span class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                <span class="text-sm font-medium text-content-primary">
                   {{ lang.nativeName }}
                 </span>
-                <span class="text-xs text-neutral-500 dark:text-neutral-400">
+                <span class="text-xs text-content-muted">
                   {{ lang.name }}
                 </span>
               </div>

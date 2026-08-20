@@ -29,7 +29,7 @@
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
         {{ 'pricing.page.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto mb-8">
+      <p class="text-lg text-content-secondary max-w-2xl mx-auto mb-8">
         {{ 'pricing.page.description' | translate }}
       </p>
 
@@ -77,7 +77,7 @@
           <h3 class="text-xl font-bold mb-2">
             {{ currentLang === 'ar' ? pkg.nameAr : pkg.nameEn }}
           </h3>
-          <p *ngIf="pkg.descriptionEn || pkg.descriptionAr" class="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+          <p *ngIf="pkg.descriptionEn || pkg.descriptionAr" class="text-sm text-content-secondary mb-4">
             {{ currentLang === 'ar' ? (pkg.descriptionAr || pkg.descriptionEn) : (pkg.descriptionEn || pkg.descriptionAr) }}
           </p>
 
@@ -137,7 +137,7 @@
             </svg>
           </div>
           <h2 class="text-2xl font-bold mb-2">{{ 'contact.form.success.title' | translate }}</h2>
-          <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ 'contact.form.success.description' | translate }}</p>
+          <p class="text-content-secondary mb-6">{{ 'contact.form.success.description' | translate }}</p>
           <button
             (click)="resetForm()"
             class="inline-flex items-center gap-2 px-6 py-3 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 rounded-xl font-medium hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
@@ -152,7 +152,7 @@
           <!-- Form Header -->
           <div class="text-center mb-8">
             <h2 class="text-2xl font-bold mb-2">{{ 'cta.getCustomQuote' | translate }}</h2>
-            <p class="text-neutral-600 dark:text-neutral-400">{{ 'pricing.leadCapture.trust.response' | translate }}</p>
+            <p class="text-content-secondary">{{ 'pricing.leadCapture.trust.response' | translate }}</p>
           </div>
 
           <div class="grid md:grid-cols-2 gap-6">
@@ -310,7 +310,7 @@
           </svg>
         </div>
         <h3 class="font-semibold mb-1">{{ 'pricing.leadCapture.trust.response' | translate }}</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.noHiddenDesc' | translate }}</p>
+        <p class="text-sm text-content-secondary">{{ 'pricing.trust.noHiddenDesc' | translate }}</p>
       </div>
       <div>
         <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
@@ -319,7 +319,7 @@
           </svg>
         </div>
         <h3 class="font-semibold mb-1">{{ 'pricing.leadCapture.trust.noObligation' | translate }}</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.cancelDesc' | translate }}</p>
+        <p class="text-sm text-content-secondary">{{ 'pricing.trust.cancelDesc' | translate }}</p>
       </div>
       <div>
         <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
@@ -328,7 +328,7 @@
           </svg>
         </div>
         <h3 class="font-semibold mb-1">{{ 'pricing.leadCapture.trust.transparent' | translate }}</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ 'pricing.trust.supportDesc' | translate }}</p>
+        <p class="text-sm text-content-secondary">{{ 'pricing.trust.supportDesc' | translate }}</p>
       </div>
     </div>
   </div>
@@ -344,7 +344,7 @@
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
         {{ 'pricing.faq.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-600 dark:text-neutral-400">
+      <p class="text-lg text-content-secondary">
         {{ 'pricing.faq.description' | translate }}
       </p>
     </div>
@@ -374,7 +374,7 @@
           class="overflow-hidden transition-all duration-300"
           [ngClass]="expandedFAQ() === i ? 'max-h-96' : 'max-h-0'"
         >
-          <div class="px-6 pb-4 text-neutral-600 dark:text-neutral-400">
+          <div class="px-6 pb-4 text-content-secondary">
             {{ faq.answer | translate }}
           </div>
         </div>

@@ -182,7 +182,7 @@ export class DialogTitleComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <p [id]="id" class="text-sm text-neutral-500 dark:text-neutral-400">
+    <p [id]="id" class="text-sm text-content-muted">
       <ng-content></ng-content>
     </p>
   `,

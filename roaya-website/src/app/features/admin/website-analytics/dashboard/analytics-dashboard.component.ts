@@ -68,7 +68,7 @@ interface TopPageRow {
       <div class="page-header">
         <div>
           <h1>Website Analytics</h1>
-          <p class="text-slate-500 dark:text-slate-400">
+          <p class="text-content-muted">
             Monitor website traffic, user behavior, and engagement metrics
           </p>
         </div>

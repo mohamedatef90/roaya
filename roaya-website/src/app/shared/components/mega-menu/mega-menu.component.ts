@@ -101,7 +101,7 @@ export interface MegaMenuGroup {
       <button
         #triggerButton
         type="button"
-        class="px-4 py-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring flex items-center gap-1.5"
+        class="px-4 py-2 rounded-lg text-content-secondary hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring flex items-center gap-1.5"
         [class.text-primary-500]="isOpen()"
         [class.dark:text-secondary-400]="isOpen()"
         [attr.aria-expanded]="isOpen()"
@@ -162,7 +162,7 @@ export interface MegaMenuGroup {
                     <!-- Content -->
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-1.5">
-                        <h4 class="font-semibold text-sm text-neutral-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
+                        <h4 class="font-semibold text-sm text-content-primary group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
                           {{ item.title | translate }}
                         </h4>
                         <span
@@ -183,7 +183,7 @@ export interface MegaMenuGroup {
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
-                      <p class="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-1 mt-0.5">
+                      <p class="text-xs text-content-secondary line-clamp-1 mt-0.5">
                         {{ item.description | translate }}
                       </p>
                     </div>
@@ -219,7 +219,7 @@ export interface MegaMenuGroup {
                     <!-- Content -->
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-1.5">
-                        <h4 class="font-semibold text-sm text-neutral-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
+                        <h4 class="font-semibold text-sm text-content-primary group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
                           {{ item.title | translate }}
                         </h4>
                         <span
@@ -240,7 +240,7 @@ export interface MegaMenuGroup {
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
-                      <p class="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-1 mt-0.5">
+                      <p class="text-xs text-content-secondary line-clamp-1 mt-0.5">
                         {{ item.description | translate }}
                       </p>
                     </div>
@@ -267,7 +267,7 @@ export interface MegaMenuGroup {
                 <svg class="w-4 h-4 text-primary-500 dark:text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                <span class="font-semibold text-sm text-neutral-900 dark:text-white">{{ nestedItem.title | translate }} {{ 'megaMenu.overview' | translate }}</span>
+                <span class="font-semibold text-sm text-content-primary">{{ nestedItem.title | translate }} {{ 'megaMenu.overview' | translate }}</span>
               </a>
 
               <!-- Child Services -->
@@ -288,7 +288,7 @@ export interface MegaMenuGroup {
                   <!-- Content -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-1.5">
-                      <h5 class="font-semibold text-xs text-neutral-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
+                      <h5 class="font-semibold text-xs text-content-primary group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
                         {{ child.title | translate }}
                       </h5>
                       <span
@@ -298,7 +298,7 @@ export interface MegaMenuGroup {
                         {{ child.badge }}
                       </span>
                     </div>
-                    <p class="text-[11px] text-neutral-500 dark:text-neutral-400 line-clamp-1 mt-0.5">
+                    <p class="text-[11px] text-content-muted line-clamp-1 mt-0.5">
                       {{ child.description | translate }}
                     </p>
                   </div>

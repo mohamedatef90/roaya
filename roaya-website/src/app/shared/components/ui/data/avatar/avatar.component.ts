@@ -42,7 +42,7 @@ type AvatarVariants = VariantProps<typeof avatarVariants>;
       <!-- Fallback with initials -->
       <div
         *ngIf="!src || imageError()"
-        class="flex h-full w-full items-center justify-center bg-neutral-200 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300 font-medium"
+        class="flex h-full w-full items-center justify-center bg-neutral-200 text-content-secondary dark:bg-neutral-700 font-medium"
         [style.backgroundColor]="fallbackColor"
         [style.color]="'white'"
       >
@@ -152,7 +152,7 @@ export class AvatarComponent {
       <!-- Overflow count -->
       <div
         *ngIf="overflowCount > 0"
-        class="flex items-center justify-center rounded-full bg-neutral-200 text-neutral-600 ring-2 ring-white dark:bg-neutral-700 dark:text-neutral-300 dark:ring-neutral-900 font-medium"
+        class="flex items-center justify-center rounded-full bg-neutral-200 text-content-secondary ring-2 ring-white dark:bg-neutral-700 dark:ring-neutral-900 font-medium"
         [class]="overflowClass"
       >
         +{{ overflowCount }}

@@ -9,53 +9,21 @@
 @import './styles/theme.scss';
 
 /* ========================================
-   CSS Custom Properties (Theme Variables)
-   ======================================== */
-:root {
-  /* Brand Colors */
-  --color-navy: #3D5A80;
-  --color-teal: #5DB7C2;
-  --color-purple: #6B4C9A;
+   Theme Variables
+   ========================================
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%);
-  --gradient-accent: linear-gradient(135deg, #6B4C9A 0%, #5DB7C2 100%);
+   The light/dark palette is NOT defined here any more. It lives in the
+   token layer, loaded ahead of this file via angular.json > styles:
 
-  /* Light Mode (default) - WCAG AA Compliant */
-  --color-background: #ffffff;
-  --color-surface: #f8fafc;
-  --color-surface-elevated: #ffffff;
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #475569; /* Darkened from #64748b for 4.5:1 contrast */
-  --color-text-tertiary: #64748b; /* Darkened from #94a3b8 for 4.5:1 contrast */
-  --color-border: #e2e8f0;
-  --color-border-light: #f1f5f9;
+     src/styles/tokens.css        theme-agnostic (radii, z-index, brand ramps)
+     src/styles/themes/light.css  [data-theme="light"]
+     src/styles/themes/dark.css   [data-theme="dark"]
 
-  /* Header */
-  --header-height: 80px;
-  --header-height-scrolled: 64px;
-
-  /* Z-indexes */
-  --z-dropdown: 100;
-  --z-sticky: 200;
-  --z-fixed: 300;
-  --z-modal-backdrop: 400;
-  --z-modal: 500;
-  --z-popover: 600;
-  --z-tooltip: 700;
-}
-
-.dark {
-  /* Dark Mode - WCAG AA Compliant */
-  --color-background: #0f172a;
-  --color-surface: #1e293b;
-  --color-surface-elevated: #334155;
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #cbd5e1; /* Lightened from #94a3b8 for 4.5:1 contrast */
-  --color-text-tertiary: #94a3b8; /* Lightened from #64748b for 4.5:1 contrast */
-  --color-border: #334155;
-  --color-border-light: #1e293b;
-}
+   A duplicate :root/.dark palette used to sit here and shadowed those
+   files. Worse, its dark half was keyed to `.dark`, a class nothing ever
+   set — ThemeService only writes [data-theme]. Every var-driven dark
+   colour was therefore dead. Add new tokens to the theme files, never
+   here. */
 
 /* ========================================
    Base Styles
@@ -80,6 +48,61 @@
   /* Focus ring utility */
   .focus-ring:focus-visible {
     @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
+  }
+
+  /* ========================================
+     Browser-painted surfaces
+     ========================================
+
+     Selection, the text caret and the scrollbar are drawn by the browser, and
+     until now they shipped UA defaults in both themes — a blue highlight and a
+     light scrollbar sitting inside a navy dark mode. They read as the most
+     obvious sign the theme stops where our CSS stops.
+
+     `color-scheme` in the theme files handles the rest of the UA chrome (form
+     controls, the canvas behind the page); these cover what it does not. */
+  ::selection {
+    background-color: var(--color-selection-bg);
+    color: var(--color-selection-text);
+  }
+
+  :where(input, textarea, [contenteditable]) {
+    caret-color: var(--color-caret);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+  }
+
+  /* WebKit / Blink. Scoped away from .scrollbar-hide, which hides its own. */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-scrollbar-thumb);
+    border: 3px solid transparent;
+    border-radius: var(--radius-pill);
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-scrollbar-thumb-hover);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--color-scrollbar-track);
+  }
+
+  /* Accent for the controls the browser still owns outright */
+  :where(input[type='checkbox'], input[type='radio'], input[type='range'], progress) {
+    accent-color: var(--color-primary);
   }
 
 }
@@ -126,6 +149,36 @@ body.mega-menu-open header {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
+  /* The site's cinematic background ramp.
+     Global because more than one feature section uses it as their light-mode
+     ground: the home page's "Why Choose Us" and its penetration-testing brief
+     both sat under a near-black wash that read as an unrelated slab in light
+     mode. Pair it with a bg-black/20 veil to match the hero exactly.
+
+     The hero itself keeps its own animated copy of these stops in
+     features/home/home.component.scss (.hero-animated-gradient) because it
+     adds background-size + a 20s background-position animation. If you change
+     the ramp, change it in both places. */
+  .cinematic-ramp {
+    background: linear-gradient(
+      -45deg,
+      #0f172a,
+      #1e3a5f,
+      #0c4a6e,
+      #164e63,
+      #134e4a,
+      #1e3a5f,
+      #312e81,
+      #1e1b4b,
+      #0f172a
+    );
+    /* Both consumers layer this over something — a photo in "Why Choose Us",
+       the slate ground in the pentest brief — and the hero's animated copy
+       carries the same value over its own image. Letting a little of the layer
+       beneath show through is what keeps the ramp from reading as flat paint. */
+    opacity: 0.85;
+  }
+
   /* Flexbox utilities */
   .flex-center {
     @apply flex items-center justify-center;
@@ -135,18 +188,11 @@ body.mega-menu-open header {
     @apply flex items-center justify-between;
   }
 
-  /* Background colors using CSS variables */
-  .bg-background {
-    background-color: var(--color-background);
-  }
-
-  .bg-surface {
-    background-color: var(--color-surface);
-  }
-
-  .bg-surface-elevated {
-    background-color: var(--color-surface-elevated);
-  }
+  /* bg-background, bg-surface, bg-surface-elevated, border-border and the
+     foreground colors are generated by Tailwind now — see the semantic colors
+     block in tailwind.config.js. Hand-written classes were duplicating them
+     without opacity-modifier support, so `bg-surface/60` and `border-border/50`
+     were dead in the templates. Do not re-add them here. */
 
   /* Text colors using CSS variables */
   .text-primary {
@@ -159,11 +205,6 @@ body.mega-menu-open header {
 
   .text-tertiary {
     color: var(--color-text-tertiary);
-  }
-
-  /* Border colors */
-  .border-border {
-    border-color: var(--color-border);
   }
 
   /* Header styles */

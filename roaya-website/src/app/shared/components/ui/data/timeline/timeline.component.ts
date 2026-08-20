@@ -78,19 +78,19 @@ export interface TimelineEvent {
             [class.pl-4]="!alternate || i % 2 === 1"
           >
             <div class="flex items-center gap-2 mb-1" [class.flex-row-reverse]="alternate && i % 2 === 1">
-              <p class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+              <p class="text-sm font-semibold text-content-primary">
                 {{ event.title }}
               </p>
               <time
                 *ngIf="event.date"
-                class="text-xs text-neutral-500 dark:text-neutral-400"
+                class="text-xs text-content-muted"
               >
                 {{ formatDate(event.date) }}
               </time>
             </div>
             <p
               *ngIf="event.description"
-              class="text-sm text-neutral-600 dark:text-neutral-400"
+              class="text-sm text-content-secondary"
             >
               {{ event.description }}
             </p>
@@ -106,7 +106,7 @@ export interface TimelineEvent {
       <!-- Empty state -->
       <div
         *ngIf="events.length === 0"
-        class="text-center py-8 text-neutral-500 dark:text-neutral-400"
+        class="text-center py-8 text-content-muted"
       >
         {{ emptyMessage }}
       </div>

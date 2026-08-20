@@ -1,13 +1,27 @@
 /**
  * Dark Theme
  *
- * CSS Custom Properties for Roaya IT Website - Dark Mode
- * All color values are adjusted for optimal dark mode readability
+ * Applied when [data-theme="dark"] is set on the document element.
  *
- * Usage: Applied when [data-theme="dark"] attribute is set on document
+ * Colour-only, mirroring light.css. Geometry, spacing, typography,
+ * transitions, z-index and container widths are theme-agnostic and live in
+ * styles/tokens.css — do not re-declare them here.
+ *
+ * The neutral ladder is one navy family throughout, darkest to lightest:
+ *   background-secondary #0A1420
+ *   background           #0F1B2A
+ *   surface              #1A2332
+ *   surface-elevated     #253449
+ * `surface-elevated` used to be slate #334155, which sat outside that
+ * family and dropped tertiary text to 4.04:1 on top of it.
  */
 
 [data-theme="dark"] {
+  /* Switches the browser's own surfaces — form controls, scrollbars, the
+     canvas behind the page — to their dark variants. Without it the UA
+     paints light chrome into a dark page. */
+  color-scheme: dark;
+
   /* ===========================
    * Brand Colors - Primary
    * =========================== */
@@ -39,6 +53,23 @@
   --color-accent-lightest: #4B2C7A;
 
   /* ===========================
+   * Readable-on-surface variants
+   * ===========================
+   *
+   * Dark mode inverts which brand steps are legible. --color-primary
+   * (#4A6A94) is only 2.84:1 on a card and --color-accent 2.97:1 — both
+   * fail even the 3:1 asked of non-text UI. Use these for text, icons and
+   * thin strokes; keep the fill tokens above for buttons and plates.
+   * Ratios quoted against --color-surface. */
+  --color-primary-on-surface: #93B4D8;    /* 7.34:1 on surface, 4.81:1 on elevated */
+  --color-secondary-on-surface: #6DC7D2;  /* 8.08:1 on surface */
+  --color-accent-on-surface: #B9A2D5;     /* 6.91:1 on surface, 4.53:1 on elevated */
+  --color-success-on-surface: #34D399;    /* 8.21:1 on surface */
+  --color-warning-on-surface: #FBBF24;    /* 9.46:1 on surface */
+  --color-error-on-surface: #F87171;      /* 5.71:1 on surface */
+  --color-info-on-surface: #60A5FA;       /* 6.21:1 on surface */
+
+  /* ===========================
    * Neutral Colors - Backgrounds
    * =========================== */
   --color-background: #0F1B2A;
@@ -46,22 +77,26 @@
   --color-surface: #1A2332;
   --color-surface-hover: #243041;
   --color-surface-active: #2E3D50;
+  --color-surface-elevated: #253449;
   --color-overlay: rgba(0, 0, 0, 0.7);
 
   /* ===========================
    * Neutral Colors - Borders
    * =========================== */
-  --color-border: #2E3D50;
+  --color-border: #374A61;
   --color-border-light: #243041;
-  --color-border-dark: #384A5F;
-  --color-border-focus: var(--color-primary);
+  --color-border-dark: #455C7A;
+  /* For boundaries that carry meaning rather than decorate — input
+     outlines, control edges, selected state. Clears WCAG 1.4.11's 3:1. */
+  --color-border-strong: #6480A1;         /* 4.25:1 on bg, 3.87:1 on surface */
+  --color-border-focus: var(--color-primary-on-surface);
 
   /* ===========================
    * Text Colors (WCAG AA Compliant - 4.5:1 minimum)
    * =========================== */
-  --color-text-primary: #F1F5F9;      /* 15.17:1 on dark bg */
-  --color-text-secondary: #CBD5E1;    /* 11.23:1 on dark bg - matches styles.scss */
-  --color-text-tertiary: #94A3B8;     /* 6.78:1 on dark bg - matches styles.scss */
+  --color-text-primary: #F1F5F9;      /* 15.84:1 on bg */
+  --color-text-secondary: #CBD5E1;    /* 11.68:1 on bg */
+  --color-text-tertiary: #A3B2C4;     /* 8.03:1 on bg, 5.84:1 on elevated */
   --color-text-disabled: #475569;
   --color-text-inverse: #1E293B;
   --color-text-on-primary: #FFFFFF;
@@ -101,108 +136,52 @@
   --color-info-text: #BFDBFE;
 
   /* ===========================
-   * Shadows
+   * Channel triplets
+   * SPACE-separated — see the note in light.css. Keep in step with the hex
+   * values above; Tailwind reads these to support `bg-surface/60`,
+   * `border-border/50` and friends.
    * =========================== */
+  --color-background-channels: 15 27 42;
+  --color-background-secondary-channels: 10 20 32;
+  --color-surface-channels: 26 35 50;
+  --color-surface-elevated-channels: 37 52 73;
+  --color-surface-hover-channels: 36 48 65;
+  --color-surface-active-channels: 46 61 80;
+  --color-border-channels: 55 74 97;
+  --color-border-strong-channels: 100 128 161;
+  --color-text-primary-channels: 241 245 249;
+  --color-text-secondary-channels: 203 213 225;
+  --color-text-tertiary-channels: 163 178 196;
+
+  /* ===========================
+   * Browser-painted surfaces
+   * =========================== */
+  --color-selection-bg: rgba(109, 199, 210, 0.32);
+  --color-selection-text: #EAF7F9;
+  --color-caret: #6DC7D2;
+  --color-scrollbar-thumb: #33455C;
+  --color-scrollbar-thumb-hover: #465974;
+  --color-scrollbar-track: transparent;
+
+  /* ===========================
+   * Shadows
+   * ===========================
+   *
+   * Black at light-mode alpha is invisible on a #0F1B2A ground, so every
+   * step is deepened and kept two-layer. Tailwind's boxShadow scale reads
+   * these, which is what gives `shadow-lg` real elevation in dark mode. */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.6);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.7);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-  --shadow-focus: 0 0 0 3px rgba(74, 106, 148, 0.4);
+  --shadow-focus: 0 0 0 3px rgba(147, 180, 216, 0.45);
 
-  /* ===========================
-   * Typography
-   * =========================== */
-  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-arabic: 'Tajawal', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-mono: 'Fira Code', 'Courier New', monospace;
-
-  /* Font Sizes */
-  --font-size-xs: 0.75rem;      /* 12px */
-  --font-size-sm: 0.875rem;     /* 14px */
-  --font-size-base: 1rem;       /* 16px */
-  --font-size-lg: 1.125rem;     /* 18px */
-  --font-size-xl: 1.25rem;      /* 20px */
-  --font-size-2xl: 1.5rem;      /* 24px */
-  --font-size-3xl: 1.875rem;    /* 30px */
-  --font-size-4xl: 2.25rem;     /* 36px */
-  --font-size-5xl: 3rem;        /* 48px */
-  --font-size-6xl: 3.75rem;     /* 60px */
-  --font-size-7xl: 4.5rem;      /* 72px */
-
-  /* Font Weights */
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-
-  /* Line Heights */
-  --line-height-tight: 1.25;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
-
-  /* ===========================
-   * Spacing Scale
-   * =========================== */
-  --spacing-0: 0;
-  --spacing-1: 0.25rem;   /* 4px */
-  --spacing-2: 0.5rem;    /* 8px */
-  --spacing-3: 0.75rem;   /* 12px */
-  --spacing-4: 1rem;      /* 16px */
-  --spacing-5: 1.25rem;   /* 20px */
-  --spacing-6: 1.5rem;    /* 24px */
-  --spacing-7: 1.75rem;   /* 28px */
-  --spacing-8: 2rem;      /* 32px */
-  --spacing-10: 2.5rem;   /* 40px */
-  --spacing-12: 3rem;     /* 48px */
-  --spacing-16: 4rem;     /* 64px */
-  --spacing-20: 5rem;     /* 80px */
-  --spacing-24: 6rem;     /* 96px */
-  --spacing-32: 8rem;     /* 128px */
-
-  /* ===========================
-   * Border Radius
-   * =========================== */
-  --radius-none: 0;
-  --radius-sm: 0.125rem;  /* 2px */
-  --radius-base: 0.25rem; /* 4px */
-  --radius-md: 0.375rem;  /* 6px */
-  --radius-lg: 0.5rem;    /* 8px */
-  --radius-xl: 0.75rem;   /* 12px */
-  --radius-2xl: 1rem;     /* 16px */
-  --radius-3xl: 1.5rem;   /* 24px */
-  --radius-full: 9999px;
-
-  /* ===========================
-   * Transitions
-   * =========================== */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* ===========================
-   * Z-Index Scale
-   * =========================== */
-  --z-index-dropdown: 1000;
-  --z-index-sticky: 1020;
-  --z-index-fixed: 1030;
-  --z-index-modal-backdrop: 1040;
-  --z-index-modal: 1050;
-  --z-index-popover: 1060;
-  --z-index-tooltip: 1070;
-
-  /* ===========================
-   * Container Widths
-   * =========================== */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
-  --container-2xl: 1536px;
+  /* Named elevations the templates reach for directly (shadow-soft /
+     -medium / -hard), deepened to register against the dark ground. */
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.45), 0 10px 20px -2px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 25px -5px rgba(0, 0, 0, 0.55), 0 10px 30px -5px rgba(0, 0, 0, 0.35);
+  --shadow-hard: 0 10px 40px -10px rgba(0, 0, 0, 0.75);
+  --shadow-brand: 0 4px 14px 0 rgba(109, 199, 210, 0.3);
 }

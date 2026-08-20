@@ -70,7 +70,7 @@
   </section>
 
   <!-- Statistics Section -->
-  <section class="py-12 md:py-16 bg-white dark:bg-gray-900 -mt-1">
+  <section class="py-12 md:py-16 bg-surface-elevated -mt-1">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (stat of statistics; track stat.label; let i = $index) {
@@ -84,10 +84,10 @@
               <div class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
                 {{ stat.value }}
               </div>
-              <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              <div class="text-lg font-semibold text-content-secondary mb-2">
                 {{ stat.label }}
               </div>
-              <p class="text-sm text-neutral-600 dark:text-neutral-200">
+              <p class="text-sm text-content-secondary">
                 {{ stat.description }}
               </p>
             </div>
@@ -104,7 +104,7 @@
         <h2 class="text-5xl md:text-7xl font-black mb-6 text-primary-900 dark:text-primary-100 tracking-tight">
           Comprehensive Managed IT Services
         </h2>
-        <p class="text-xl md:text-2xl text-neutral-700 dark:text-neutral-300 max-w-4xl font-light leading-relaxed">
+        <p class="text-xl md:text-2xl text-content-secondary max-w-4xl font-light leading-relaxed">
           Five specialized service categories to handle all aspects of your IT infrastructure
         </p>
       </div>
@@ -112,7 +112,7 @@
       <div class="space-y-16 md:space-y-24 max-w-7xl mx-auto">
         @for (category of serviceCategories; track category.id; let i = $index) {
           <div
-            class="animate-fade-in-up border-b-2 border-neutral-200 dark:border-neutral-800 pb-16 md:pb-24 last:border-b-0"
+            class="animate-fade-in-up border-b-2 border-edge-subtle pb-16 md:pb-24 last:border-b-0"
             [style.animation-delay]="i * 100 + 'ms'">
             <div class="flex flex-col gap-8">
               <!-- Header -->
@@ -121,7 +121,7 @@
                   <h3 class="text-4xl md:text-6xl font-black mb-4 text-primary-900 dark:text-primary-100 tracking-tight leading-none">
                     {{ category.title }}
                   </h3>
-                  <p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-3xl">
+                  <p class="text-lg md:text-xl text-content-secondary font-normal leading-relaxed max-w-3xl">
                     {{ category.description }}
                   </p>
                 </div>
@@ -136,7 +136,7 @@
                 @for (feature of category.features; track feature) {
                   <div class="flex items-start gap-3">
                     <span class="text-primary-600 dark:text-primary-400 font-bold text-lg mt-0.5">—</span>
-                    <span class="text-base md:text-lg text-neutral-700 dark:text-neutral-300 font-medium">{{ feature }}</span>
+                    <span class="text-base md:text-lg text-content-secondary font-medium">{{ feature }}</span>
                   </div>
                 }
               </div>
@@ -154,7 +154,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Why Choose Our Managed IT Services
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Six compelling reasons to partner with us for your IT operations
         </p>
       </div>
@@ -178,7 +178,7 @@
               </h3>
 
               <!-- Description -->
-              <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+              <p class="text-content-secondary text-sm leading-relaxed">
                 {{ benefit.description }}
               </p>
             </div>
@@ -195,7 +195,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Industries We Serve
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Specialized managed IT services tailored for multiple sectors
         </p>
       </div>
@@ -203,7 +203,7 @@
       <div class="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
         @for (industry of industries; track industry.id; let i = $index) {
           <div
-            class="group px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full font-medium hover:border-primary-500 dark:hover:border-primary-400 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 dark:hover:from-primary-900 dark:hover:to-secondary-900 transition-all duration-300 cursor-default animate-fade-in-up hover:shadow-md"
+            class="group px-6 py-3 bg-surface-elevated border-2 border-edge-subtle rounded-full font-medium hover:border-primary-500 dark:hover:border-primary-400 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 dark:hover:from-primary-900 dark:hover:to-secondary-900 transition-all duration-300 cursor-default animate-fade-in-up hover:shadow-md"
             [style.animation-delay]="i * 50 + 'ms'">
             <ng-icon [name]="industry.icon" class="inline-block mr-2 rtl:ml-2 rtl:mr-0 group-hover:scale-110 transition-transform" size="16"></ng-icon>
             {{ industry.name }}
@@ -220,7 +220,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           What Sets Us Apart
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Our unique approach to managed IT services
         </p>
       </div>
@@ -242,7 +242,7 @@
               <h3 class="text-xl font-bold mb-3 pr-24 rtl:pr-0 rtl:pl-24 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ diff.title }}
               </h3>
-              <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed">
+              <p class="text-content-secondary leading-relaxed">
                 {{ diff.description }}
               </p>
             </div>
@@ -259,7 +259,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Transparent Managed IT Pricing
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Flexible pricing plans designed to match your business size and support requirements
         </p>
       </div>
@@ -289,7 +289,7 @@
                 {{ tier.name }}
               </h3>
 
-              <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-6">
+              <p class="text-sm text-content-secondary mb-6">
                 {{ tier.description }}
               </p>
 
@@ -297,7 +297,7 @@
                 <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">
                   Get Your Custom Quote
                 </div>
-                <p class="text-sm text-neutral-600 dark:text-neutral-300 mt-2">
+                <p class="text-sm text-content-secondary mt-2">
                   Tailored to your needs
                 </p>
               </div>
@@ -309,7 +309,7 @@
                     <svg class="w-4 h-4 text-green-600 dark:text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    <span class="text-sm text-neutral-700 dark:text-neutral-300">{{ feature }}</span>
+                    <span class="text-sm text-content-secondary">{{ feature }}</span>
                   </li>
                 }
               </ul>
@@ -347,7 +347,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Complementary Services
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Enhance your IT environment with these related solutions
         </p>
       </div>
@@ -374,7 +374,7 @@
               </h3>
 
               <!-- Service Description -->
-              <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
+              <p class="text-content-secondary text-sm mb-4 leading-relaxed">
                 {{ service.description }}
               </p>
 

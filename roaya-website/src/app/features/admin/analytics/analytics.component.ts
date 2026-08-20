@@ -43,17 +43,17 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
   template: `
     <div class="analytics-page p-6">
       <!-- Page Header -->
-      <div class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="mb-6 pb-6 border-b border-edge-subtle">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 class="flex items-center gap-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-content-primary">
               <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 3v18h18"/>
                 <path d="m19 9-5 5-4-4-3 3"/>
               </svg>
               {{ 'Analytics Dashboard' | translate }}
             </h1>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-sm text-content-muted mt-1">
               {{ 'Track your sales performance and lead metrics' | translate }}
             </p>
           </div>
@@ -65,7 +65,7 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
             />
             <button
               (click)="exportData()"
-              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border border-edge-subtle text-content-secondary hover:bg-surface-hover transition-colors"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -82,7 +82,7 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-16">
           <ui-spinner size="lg" variant="default"></ui-spinner>
-          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">Loading analytics...</p>
+          <p class="mt-4 text-sm text-content-muted">Loading analytics...</p>
         </div>
       } @else {
         <!-- KPI Cards -->
@@ -91,8 +91,8 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
           <div class="kpi-card">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Total Leads</p>
-                <h2 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                <p class="text-sm text-content-muted mb-1">Total Leads</p>
+                <h2 class="text-3xl font-bold text-content-primary">
                   {{ overview()?.totalLeads || 0 }}
                 </h2>
               </div>
@@ -132,8 +132,8 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
           <div class="kpi-card">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-1">New This Month</p>
-                <h2 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                <p class="text-sm text-content-muted mb-1">New This Month</p>
+                <h2 class="text-3xl font-bold text-content-primary">
                   {{ overview()?.newLeadsThisMonth || 0 }}
                 </h2>
               </div>
@@ -149,8 +149,8 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
           <div class="kpi-card">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Conversion Rate</p>
-                <h2 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                <p class="text-sm text-content-muted mb-1">Conversion Rate</p>
+                <h2 class="text-3xl font-bold text-content-primary">
                   {{ overview()?.conversionRate || 0 }}%
                 </h2>
               </div>
@@ -168,8 +168,8 @@ import { DateRangePickerComponent } from './components/date-range-picker.compone
           <div class="kpi-card">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Total Revenue</p>
-                <h2 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                <p class="text-sm text-content-muted mb-1">Total Revenue</p>
+                <h2 class="text-3xl font-bold text-content-primary">
                   {{ formatCurrency(overview()?.totalRevenue || 0) }}
                 </h2>
               </div>

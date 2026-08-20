@@ -81,7 +81,7 @@ export class SpinnerComponent {
   template: `
     <div class="flex items-center gap-2">
       <ui-spinner [variant]="variant" [size]="size"></ui-spinner>
-      <span class="text-sm text-neutral-600 dark:text-neutral-400">{{ text }}</span>
+      <span class="text-sm text-content-secondary">{{ text }}</span>
     </div>
   `,
 })
@@ -103,9 +103,9 @@ export class SpinnerWithTextComponent {
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       [attr.aria-hidden]="!visible"
     >
-      <div class="flex flex-col items-center gap-4 rounded-xl bg-white p-8 shadow-xl dark:bg-neutral-900">
+      <div class="flex flex-col items-center gap-4 rounded-xl bg-surface-elevated p-8 shadow-xl">
         <ui-spinner size="xl" [variant]="variant"></ui-spinner>
-        <span *ngIf="text" class="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+        <span *ngIf="text" class="text-sm font-medium text-content-secondary">
           {{ text }}
         </span>
       </div>

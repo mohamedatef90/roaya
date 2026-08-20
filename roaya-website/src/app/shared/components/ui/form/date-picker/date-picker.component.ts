@@ -58,7 +58,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
         />
         <button
           type="button"
-          class="flex items-center justify-center text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+          class="flex items-center justify-center text-content-muted hover:text-neutral-700 dark:hover:text-neutral-200"
           (click)="toggleCalendar()"
           [disabled]="disabled"
           [attr.aria-label]="'Open calendar'"
@@ -76,7 +76,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
       <!-- Calendar dropdown -->
       <div
         *ngIf="isOpen()"
-        class="absolute z-[9999] mt-2 w-72 rounded-xl border border-neutral-200 bg-white p-4 shadow-xl dark:border-neutral-700 dark:bg-neutral-900"
+        class="absolute z-[9999] mt-2 w-72 rounded-xl border border-edge-subtle bg-surface-elevated p-4 shadow-xl"
         role="dialog"
         aria-modal="true"
         [attr.aria-label]="'Choose date'"
@@ -85,7 +85,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
         <div class="flex items-center justify-between mb-4">
           <button
             type="button"
-            class="p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            class="p-1 rounded hover:bg-surface-hover"
             (click)="previousMonth()"
             [attr.aria-label]="'Previous month'"
           >
@@ -98,7 +98,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
           </span>
           <button
             type="button"
-            class="p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            class="p-1 rounded hover:bg-surface-hover"
             (click)="nextMonth()"
             [attr.aria-label]="'Next month'"
           >
@@ -112,7 +112,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
         <div class="grid grid-cols-7 gap-1 mb-2">
           <div
             *ngFor="let day of weekDays"
-            class="text-center text-xs font-medium text-neutral-500 dark:text-neutral-400"
+            class="text-center text-xs font-medium text-content-muted"
           >
             {{ day }}
           </div>
@@ -144,7 +144,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
         </div>
 
         <!-- Footer -->
-        <div class="mt-4 flex justify-between border-t border-neutral-200 pt-4 dark:border-neutral-700">
+        <div class="mt-4 flex justify-between border-t border-edge-subtle pt-4">
           <button
             type="button"
             class="text-sm text-primary-500 hover:text-primary-600"
@@ -154,7 +154,7 @@ type DatePickerVariants = VariantProps<typeof datePickerVariants>;
           </button>
           <button
             type="button"
-            class="text-sm text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+            class="text-sm text-content-muted hover:text-neutral-700 dark:hover:text-neutral-200"
             (click)="clearDate()"
           >
             Clear

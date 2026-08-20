@@ -135,7 +135,7 @@
             class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent tabular-nums">
             {{ stat.current }}{{ stat.suffix }}
           </div>
-          <div class="text-neutral-700 dark:text-neutral-300 mt-2 font-medium">
+          <div class="text-content-secondary mt-2 font-medium">
             {{ stat.label | translate }}
           </div>
         </div>
@@ -150,8 +150,13 @@
   <div class="absolute inset-0 z-0 pointer-events-none">
     <img src="assets/images/why-roaya-bg.png" alt="Trust and Partnership Background"
       class="absolute inset-0 w-full h-full object-cover" />
-    <!-- Dark overlay for text readability -->
-    <div class="absolute inset-0 bg-neutral-900/85 dark:bg-neutral-950/90 mix-blend-multiply"></div>
+    <!-- Light mode: the hero's own gradient ramp plus its black/20 veil, so this
+         section belongs to the same world as the top of the page instead of
+         reading as a flat near-black slab. -->
+    <div class="cinematic-ramp absolute inset-0 dark:hidden"></div>
+    <div class="absolute inset-0 bg-black/20 dark:hidden"></div>
+    <!-- Dark mode: unchanged deep neutral wash. -->
+    <div class="absolute inset-0 hidden dark:block bg-neutral-950/90 mix-blend-multiply"></div>
     <div class="absolute inset-0 bg-primary-900/40 mix-blend-overlay"></div>
   </div>
 
@@ -301,7 +306,7 @@
                    filter grayscale opacity-50
                    group-hover:grayscale-0 group-hover:opacity-100
                    transition-all duration-300 ease-in-out
-                   dark:brightness-0 dark:invert dark:opacity-40
+                   logo-adaptive dark:opacity-40
                    dark:group-hover:brightness-100 dark:group-hover:invert-0 dark:group-hover:opacity-100"
             loading="lazy" />
         </div>
@@ -321,7 +326,7 @@
 
     <!-- Optional: Trust Indicators -->
     <div class="mt-12 text-center">
-      <p class="text-sm text-neutral-600 dark:text-neutral-400">
+      <p class="text-sm text-content-secondary">
         {{ 'home.stats.clients' | translate }}
       </p>
     </div>
@@ -350,7 +355,7 @@
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
         {{ 'home.process.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      <p class="text-lg text-content-secondary leading-relaxed">
         {{ 'home.process.subtitle' | translate }}
       </p>
     </div>
@@ -390,7 +395,7 @@
                 class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ step.title | translate }}
               </h3>
-              <p class="text-neutral-700 dark:text-neutral-300 mb-3 text-sm leading-relaxed flex-grow">
+              <p class="text-content-secondary mb-3 text-sm leading-relaxed flex-grow">
                 {{ step.description | translate }}
               </p>
 
@@ -443,7 +448,7 @@
                 </div>
                 <h3 class="text-lg font-semibold">{{ step.title | translate }}</h3>
               </div>
-              <p class="text-neutral-700 dark:text-neutral-300 text-sm mb-3">{{ step.description | translate }}</p>
+              <p class="text-content-secondary text-sm mb-3">{{ step.description | translate }}</p>
               <span
                 class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-400 text-xs font-medium">
                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -509,7 +514,7 @@
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
         {{ 'home.industries.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      <p class="text-lg text-content-secondary leading-relaxed">
         {{ 'home.industries.subtitle' | translate }}
       </p>
     </div>
@@ -536,7 +541,7 @@
             class="text-xl font-semibold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ industry.name | translate }}
           </h3>
-          <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed mb-4">
+          <p class="text-content-secondary text-sm leading-relaxed mb-4">
             {{ industry.description | translate }}
           </p>
 
@@ -582,7 +587,7 @@
 <div class="relative z-20 -mt-32 pt-32 bg-gradient-to-t from-background via-background to-transparent">
   <div class="bg-background py-16">
     <div class="container-custom text-center">
-      <p class="text-lg text-neutral-700 dark:text-neutral-300 mb-6">
+      <p class="text-lg text-content-secondary mb-6">
         {{ 'home.services.viewAllDescription' | translate }}
       </p>
       <a routerLink="/services" #viewAllBtn (mousemove)="onButtonMouseMove($event, viewAllBtn)"
@@ -598,7 +603,13 @@
 </div>
 
 <!-- Case Studies Preview Section -->
-<section class="case-studies-section py-20 bg-background relative overflow-hidden">
+<!-- z-20 + an opaque page fill: the card-stack section above is pinned and
+     3000px+ tall with overflow visible, and it is now dark in light mode, so
+     without its own stacking context and solid ground this section let the
+     stack's end bleed through behind it. `bg-background` is the page fill —
+     white in light mode, and the dark surface in dark mode, so dark is
+     unchanged. -->
+<section class="case-studies-section py-20 bg-background relative z-20 overflow-hidden">
   <!-- Background Decorations -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
     <div class="absolute top-1/4 left-0 rtl:right-0 rtl:left-auto w-80 h-80 bg-accent-500/5 rounded-full blur-3xl">
@@ -617,7 +628,7 @@
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
         {{ 'home.caseStudies.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      <p class="text-lg text-content-secondary leading-relaxed">
         {{ 'home.caseStudies.subtitle' | translate }}
       </p>
     </div>
@@ -646,7 +657,7 @@
               class="text-4xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent">
               {{ caseStudy.metricValue }}
             </span>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ caseStudy.metric | translate }}</p>
+            <p class="text-sm text-content-muted">{{ caseStudy.metric | translate }}</p>
           </div>
 
           <!-- Title -->
@@ -656,14 +667,14 @@
           </h3>
 
           <!-- Summary -->
-          <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed mb-4 flex-grow">
+          <p class="text-content-secondary text-sm leading-relaxed mb-4 flex-grow">
             {{ caseStudy.summary | translate }}
           </p>
 
           <!-- Footer -->
           <div
             class="flex items-center justify-between mt-auto pt-4 border-t border-neutral-200 dark:border-primary-700/50">
-            <span class="text-sm text-neutral-500 dark:text-neutral-400">{{ caseStudy.company | translate }}</span>
+            <span class="text-sm text-content-muted">{{ caseStudy.company | translate }}</span>
             <span
               class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-secondary-400 group-hover:underline">
               {{ 'common.readMore' | translate }}
@@ -886,7 +897,7 @@
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
         {{ 'home.security.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      <p class="text-lg text-content-secondary leading-relaxed">
         {{ 'home.security.subtitle' | translate }}
       </p>
     </div>
@@ -907,7 +918,7 @@
             <ng-icon [name]="cert.icon" size="32"></ng-icon>
           </div>
           <h4 class="text-lg font-semibold mb-1">{{ cert.name | translate }}</h4>
-          <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ cert.description | translate }}</p>
+          <p class="text-xs text-content-muted">{{ cert.description | translate }}</p>
         </div>
       </div>
     </div>
@@ -925,7 +936,7 @@
             class="text-lg font-semibold mb-1 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ guarantee.title | translate }}
           </h4>
-          <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          <p class="text-sm text-content-secondary leading-relaxed">
             {{ guarantee.description | translate }}
           </p>
         </div>
@@ -1096,7 +1107,7 @@
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
         {{ 'home.testimonials.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      <p class="text-lg text-content-secondary leading-relaxed">
         {{ 'home.testimonials.subtitle' | translate }}
       </p>
     </div>
@@ -1141,7 +1152,7 @@
 
           <!-- Quote Text -->
           <blockquote class="mt-12 mb-8">
-            <p class="text-lg md:text-xl text-neutral-700 dark:text-neutral-200 leading-relaxed italic">
+            <p class="text-lg md:text-xl text-content-secondary leading-relaxed italic">
               "{{ testimonials[currentTestimonialIndex()].quote | translate }}"
             </p>
           </blockquote>
@@ -1157,7 +1168,7 @@
               <div>
                 <h4 class="font-semibold text-lg">{{ testimonials[currentTestimonialIndex()].clientName | translate }}
                 </h4>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400">
+                <p class="text-sm text-content-muted">
                   {{ testimonials[currentTestimonialIndex()].clientTitle | translate }}
                 </p>
                 <p class="text-xs text-secondary-600 dark:text-secondary-400 font-medium">
@@ -1194,7 +1205,7 @@
       <!-- Pagination Counter and Dot Navigation -->
       <div class="flex flex-col items-center gap-3 mt-8">
         <!-- X of Y Counter -->
-        <div class="text-sm font-medium text-neutral-600 dark:text-neutral-400" aria-live="polite" aria-atomic="true">
+        <div class="text-sm font-medium text-content-secondary" aria-live="polite" aria-atomic="true">
           <span class="sr-only">Testimonial </span>
           {{ currentTestimonialIndex() + 1 }} {{ 'common.of' | translate }} {{ testimonials.length }}
         </div>
@@ -1249,7 +1260,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'home.faq.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed mb-8">
+        <p class="text-lg text-content-secondary leading-relaxed mb-8">
           {{ 'home.faq.subtitle' | translate }}
         </p>
         <a routerLink="/contact"
@@ -1282,7 +1293,7 @@
             <div [attr.id]="'faq-answer-' + faq.id" [attr.aria-labelledby]="'faq-button-' + faq.id"
               [attr.role]="'region'" class="overflow-hidden transition-all duration-300" [class.max-h-0]="!faq.isOpen"
               [class.max-h-[500px]]="faq.isOpen">
-              <div class="p-6 pt-0 text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
+              <div class="p-6 pt-0 text-base text-content-secondary leading-relaxed">
                 {{ faq.answer | translate }}
               </div>
             </div>

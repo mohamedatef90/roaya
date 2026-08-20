@@ -85,15 +85,15 @@
         <!-- SOC Stat -->
         <div class="stat-parallax group relative text-center rounded-xl overflow-hidden h-full">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
             <div
               class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
               {{ 'services.security.page.statistics.soc.value' | translate }}
             </div>
-            <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+            <div class="text-lg font-semibold text-content-secondary mb-2">
               {{ 'services.security.page.statistics.soc.label' | translate }}
             </div>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.security.page.statistics.soc.description' | translate }}
             </p>
           </div>
@@ -102,15 +102,15 @@
         <!-- Threat Detection Stat -->
         <div class="stat-parallax group relative text-center rounded-xl overflow-hidden h-full">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
             <div
               class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
               {{ 'services.security.page.statistics.threatDetection.value' | translate }}
             </div>
-            <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+            <div class="text-lg font-semibold text-content-secondary mb-2">
               {{ 'services.security.page.statistics.threatDetection.label' | translate }}
             </div>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.security.page.statistics.threatDetection.description' | translate }}
             </p>
           </div>
@@ -119,15 +119,15 @@
         <!-- Response SLA Stat -->
         <div class="stat-parallax group relative text-center rounded-xl overflow-hidden h-full">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
             <div
               class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
               {{ 'services.security.page.statistics.responseSLA.value' | translate }}
             </div>
-            <div class="text-lg font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+            <div class="text-lg font-semibold text-content-secondary mb-2">
               {{ 'services.security.page.statistics.responseSLA.label' | translate }}
             </div>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.security.page.statistics.responseSLA.description' | translate }}
             </p>
           </div>
@@ -151,14 +151,14 @@
           <span class="text-accent-600 dark:text-accent-400">{{ 'services.security.page.threats.titleRespond' |
             translate }}</span>
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-2xl mx-auto">
           {{ 'services.security.page.threats.subtitle' | translate }}
         </p>
       </div>
 
       <!-- Description Paragraphs -->
       <div class="max-w-4xl mx-auto animate-fade-in-up">
-        <div class="space-y-6 text-lg md:text-xl text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        <div class="space-y-6 text-lg md:text-xl text-content-secondary leading-relaxed">
           <p>{{ 'services.security.page.threats.paragraph1' | translate }}</p>
           <p>{{ 'services.security.page.threats.paragraph2' | translate }}</p>
           <p>{{ 'services.security.page.threats.paragraph3' | translate }}</p>
@@ -174,7 +174,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.outcomes.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.outcomes.subtitle' | translate }}
         </p>
       </div>
@@ -184,7 +184,7 @@
         <div
           class="outcome-parallax group relative flex focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 focus-within:rounded-2xl security-card-glow">
           <div
-            class="relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 flex-1 flex flex-col z-10">
+            class="relative p-6 rounded-2xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 flex-1 flex flex-col z-10">
             <div
               class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 transition-transform">
               <ng-icon [name]="outcome.icon" size="28"></ng-icon>
@@ -193,7 +193,7 @@
               class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.security.page.outcomes.' + outcome.key + '.title' | translate }}
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+            <p class="text-content-secondary text-sm leading-relaxed">
               {{ 'services.security.page.outcomes.' + outcome.key + '.description' | translate }}
             </p>
           </div>
@@ -211,7 +211,7 @@
         <h2 class="text-4xl md:text-5xl font-bold mb-6 text-primary-900 dark:text-primary-100">
           {{ 'services.security.page.solutions.title' | translate }}
         </h2>
-        <p class="text-xl text-neutral-600 dark:text-neutral-400">
+        <p class="text-xl text-content-secondary">
           {{ 'services.security.page.solutions.subtitle' | translate }}
         </p>
       </div>
@@ -249,7 +249,7 @@
                 </h3>
               </div>
 
-              <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
+              <p class="text-lg text-content-secondary mb-8 leading-relaxed">
                 {{ 'services.security.page.solutions.' + solution.id + '.description' | translate }}
               </p>
 
@@ -264,7 +264,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </div>
-                  <span class="text-neutral-700 dark:text-neutral-300">
+                  <span class="text-content-secondary">
                     {{ 'services.security.page.solutions.' + solution.id + '.feature' + featureNum | translate }}
                   </span>
                 </div>
@@ -285,7 +285,7 @@
                 </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   @for (slaNum of [1, 2, 3, 4]; track slaNum) {
-                  <div class="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+                  <div class="flex items-center gap-2 text-sm text-content-secondary">
                     <ng-icon name="faCircleCheck" class="text-primary-600 dark:text-primary-400" size="16"></ng-icon>
                     {{ 'services.security.page.solutions.soc.sla' + slaNum | translate }}
                   </div>
@@ -308,7 +308,7 @@
                 </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   @for (delNum of [1, 2, 3, 4]; track delNum) {
-                  <div class="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+                  <div class="flex items-center gap-2 text-sm text-content-secondary">
                     <ng-icon name="faCircleCheck" class="text-secondary-600 dark:text-secondary-400"
                       size="16"></ng-icon>
                     {{ 'services.security.page.solutions.pentest.deliverable' + delNum | translate }}
@@ -331,7 +331,7 @@
                 </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   @for (capNum of [1, 2, 3, 4]; track capNum) {
-                  <div class="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+                  <div class="flex items-center gap-2 text-sm text-content-secondary">
                     <ng-icon name="faCircleCheck" class="text-accent-600 dark:text-accent-400" size="16"></ng-icon>
                     {{ 'services.security.page.solutions.incidentResponse.capability' + capNum | translate }}
                   </div>
@@ -377,7 +377,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.technologyPartners.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.technologyPartners.subtitle' | translate }}
         </p>
       </div>
@@ -386,7 +386,7 @@
         @for (partner of technologyPartners; track partner.key; let i = $index) {
         <div class="partner-parallax group relative rounded-xl overflow-hidden security-radar-sweep">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 text-center h-full flex flex-col z-10">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 text-center h-full flex flex-col z-10">
             <!-- Partner Logo -->
             <div class="w-full h-16 mb-4 flex items-center justify-center">
               <img [src]="partner.logo"
@@ -413,7 +413,7 @@
             </h3>
 
             <!-- Description -->
-            <p class="text-sm text-neutral-600 dark:text-neutral-200 mt-auto">
+            <p class="text-sm text-content-secondary mt-auto">
               {{ 'services.security.page.technologyPartners.' + partner.key + '.description' | translate }}
             </p>
           </div>
@@ -430,7 +430,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.frameworks.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.frameworks.subtitle' | translate }}
         </p>
       </div>
@@ -439,7 +439,7 @@
         @for (framework of frameworks; track framework.key; let i = $index) {
         <div class="framework-parallax group relative rounded-xl overflow-hidden">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full">
             <div
               class="w-10 h-10 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
               <ng-icon name="faCircleCheck" size="20" class="text-white"></ng-icon>
@@ -448,7 +448,7 @@
               class="text-lg font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.security.page.frameworks.' + framework.key + '.name' | translate }}
             </h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200 leading-relaxed">
+            <p class="text-sm text-content-secondary leading-relaxed">
               {{ 'services.security.page.frameworks.' + framework.key + '.description' | translate }}
             </p>
           </div>
@@ -465,7 +465,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.whyRoaya.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.whyRoaya.subtitle' | translate }}
         </p>
       </div>
@@ -474,7 +474,7 @@
         @for (diff of differentiators; track diff.key; let i = $index) {
         <div class="diff-parallax group relative rounded-xl overflow-hidden">
           <div
-            class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
+            class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
             <div
               class="absolute top-4 right-4 rtl:right-auto rtl:left-4 px-3 py-1 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-xs font-semibold rounded-full">
               {{ 'services.security.page.whyRoaya.' + diff.key + '.badge' | translate }}
@@ -483,13 +483,13 @@
               class="text-xl font-bold mb-3 pr-24 rtl:pr-0 rtl:pl-24 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.security.page.whyRoaya.' + diff.key + '.title' | translate }}
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed flex-grow">
+            <p class="text-content-secondary leading-relaxed flex-grow">
               {{ 'services.security.page.whyRoaya.' + diff.key + '.description' | translate }}
             </p>
 
             <!-- Certifications (for expertise) -->
             @if (diff.key === 'expertise') {
-            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="mt-4 pt-4 border-t border-edge-subtle">
               <div class="flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400 font-medium mb-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -498,7 +498,7 @@
                 </svg>
                 {{ 'services.security.page.whyRoaya.certificationsLabel' | translate }}
               </div>
-              <p class="text-sm text-neutral-700 dark:text-neutral-300 font-mono">
+              <p class="text-sm text-content-secondary font-mono">
                 {{ 'services.security.page.whyRoaya.expertise.certifications' | translate }}
               </p>
             </div>
@@ -506,10 +506,10 @@
 
             <!-- Metrics (for outcomeFocused) -->
             @if (diff.key === 'outcomeFocused') {
-            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="mt-4 pt-4 border-t border-edge-subtle">
               <div class="grid grid-cols-1 gap-2">
                 @for (metricNum of [1, 2, 3, 4]; track metricNum) {
-                <div class="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+                <div class="flex items-center gap-2 text-sm text-content-secondary">
                   <ng-icon name="faCircleCheck" class="text-secondary-600 dark:text-secondary-400" size="14"></ng-icon>
                   {{ 'services.security.page.whyRoaya.outcomeFocused.metric' + metricNum | translate }}
                 </div>
@@ -531,7 +531,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.industries.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.industries.subtitle' | translate }}
         </p>
       </div>
@@ -539,7 +539,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         @for (industry of industries; track industry.id; let i = $index) {
         <div
-          class="industry-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:border-primary-500 dark:hover:border-primary-400 hover:shadow-lg transition-all duration-300 cursor-default">
+          class="industry-parallax group bg-surface-elevated border border-edge-subtle rounded-xl p-6 hover:border-primary-500 dark:hover:border-primary-400 hover:shadow-lg transition-all duration-300 cursor-default">
           <div class="flex items-center gap-3 mb-3">
             <div
               class="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform">
@@ -550,7 +550,7 @@
               {{ 'services.security.page.industries.' + industry.id + '.name' | translate }}
             </h3>
           </div>
-          <p class="text-sm text-neutral-600 dark:text-neutral-400 flex items-center gap-2">
+          <p class="text-sm text-content-secondary flex items-center gap-2">
             <svg class="w-4 h-4 text-secondary-600 dark:text-secondary-400 flex-shrink-0" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -572,7 +572,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.pricing.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.pricing.subtitle' | translate }}
         </p>
       </div>
@@ -582,7 +582,7 @@
         <div class="group relative rounded-xl animate-fade-in-up overflow-visible"
           [style.animation-delay]="i * 100 + 'ms'">
           <div
-            class="relative h-full flex flex-col bg-white dark:bg-gray-800 rounded-xl p-8 pt-12 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1"
+            class="relative h-full flex flex-col bg-surface-elevated rounded-xl p-8 pt-12 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1"
             [ngClass]="tier.popular ? 'border-2 border-primary-500 dark:border-primary-400' : 'border border-gray-200 dark:border-gray-700'">
             @if (tier.popular) {
             <div
@@ -595,7 +595,7 @@
               class="text-2xl font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.security.page.pricing.' + tier.key + '.name' | translate }}
             </h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-6">
+            <p class="text-sm text-content-secondary mb-6">
               {{ 'services.security.page.pricing.' + tier.key + '.description' | translate }}
             </p>
 
@@ -603,7 +603,7 @@
               <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">
                 Get Your Custom Quote
               </div>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+              <p class="text-sm text-content-secondary mt-2">
                 Tailored to your needs
               </p>
             </div>
@@ -613,7 +613,7 @@
               <li class="flex items-start gap-2">
                 <ng-icon name="faCircleCheck" class="text-green-600 dark:text-green-400 mt-1 flex-shrink-0"
                   size="16"></ng-icon>
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">
+                <span class="text-sm text-content-secondary">
                   {{ 'services.security.page.pricing.' + tier.key + '.feature' + featureNum | translate }}
                 </span>
               </li>
@@ -651,7 +651,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.relatedServices.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.relatedServices.subtitle' | translate }}
         </p>
       </div>
@@ -672,7 +672,7 @@
             <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.security.page.relatedServices.' + service.id + '.title' | translate }}
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
+            <p class="text-content-secondary text-sm mb-4 leading-relaxed">
               {{ 'services.security.page.relatedServices.' + service.id + '.description' | translate }}
             </p>
             <div class="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">

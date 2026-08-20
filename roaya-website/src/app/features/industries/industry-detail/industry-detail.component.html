@@ -2,7 +2,7 @@
 <div *ngIf="!isLoaded()" class="min-h-screen flex items-center justify-center">
   <div class="text-center">
     <div class="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
-    <p class="text-neutral-600 dark:text-neutral-400">{{ 'common.loading' | translate }}</p>
+    <p class="text-content-secondary">{{ 'common.loading' | translate }}</p>
   </div>
 </div>
 
@@ -40,7 +40,7 @@
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
             </svg>
           </li>
-          <li class="text-gray-900 dark:text-white font-medium">{{ industry.titleKey | translate }}</li>
+          <li class="text-content-primary font-medium">{{ industry.titleKey | translate }}</li>
         </ol>
       </nav>
 
@@ -48,10 +48,10 @@
         <!-- Content -->
         <div class="animate-fade-in-up">
           <div class="w-20 h-20 rounded-2xl bg-gray-200 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center mb-6 overflow-hidden hover-lift">
-            <img *ngIf="industry.iconSvg" [src]="industry.iconSvg" [alt]="industry.titleKey | translate" class="w-12 h-12 object-contain dark:brightness-0 dark:invert" loading="lazy" />
+            <img *ngIf="industry.iconSvg" [src]="industry.iconSvg" [alt]="industry.titleKey | translate" class="w-12 h-12 object-contain logo-adaptive" loading="lazy" />
             <span *ngIf="!industry.iconSvg" class="text-5xl">{{ industry.icon }}</span>
           </div>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-content-primary mb-6">
             {{ industry.headlineKey | translate }}
           </h1>
           <p class="text-lg md:text-xl text-gray-700 dark:text-white/90 mb-8 leading-relaxed">
@@ -78,18 +78,18 @@
 
         <!-- Stats Card -->
         <div class="bg-gray-100 dark:bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-gray-300 dark:border-white/20 animate-fade-in-up hover-lift" style="animation-delay: 0.2s;">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">{{ 'industries.page.badge' | translate }}</h3>
+          <h3 class="text-xl font-bold text-content-primary mb-6">{{ 'industries.page.badge' | translate }}</h3>
           <div class="grid grid-cols-2 gap-4 stagger-children">
             <div class="bg-gray-200 dark:bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-gray-300 dark:hover:bg-white/20 transition-all cursor-default">
-              <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">99.9%</div>
+              <div class="text-3xl font-bold text-content-primary mb-1">99.9%</div>
               <div class="text-gray-600 dark:text-white/70 text-sm">{{ 'home.stats.uptime' | translate }}</div>
             </div>
             <div class="bg-gray-200 dark:bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-gray-300 dark:hover:bg-white/20 transition-all cursor-default">
-              <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">24/7</div>
+              <div class="text-3xl font-bold text-content-primary mb-1">24/7</div>
               <div class="text-gray-600 dark:text-white/70 text-sm">{{ 'home.stats.support' | translate }}</div>
             </div>
             <div class="bg-gray-200 dark:bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center col-span-2 hover:bg-gray-300 dark:hover:bg-white/20 transition-all cursor-default">
-              <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">150+</div>
+              <div class="text-3xl font-bold text-content-primary mb-1">150+</div>
               <div class="text-gray-600 dark:text-white/70 text-sm">{{ 'home.stats.clients' | translate }}</div>
             </div>
           </div>
@@ -109,7 +109,7 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             Built for Regulatory Compliance
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             Our solutions are designed to meet the strictest industry standards and regulatory requirements
           </p>
         </div>
@@ -124,7 +124,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <span class="font-semibold text-neutral-800 dark:text-neutral-200">{{ compliance | translate }}</span>
+            <span class="font-semibold text-content-primary">{{ compliance | translate }}</span>
           </div>
         </div>
       </div>
@@ -141,7 +141,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Recommended Solutions for {{ industry.titleKey | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Tailored technology solutions designed specifically for your industry's unique needs and challenges
         </p>
       </div>
@@ -160,7 +160,7 @@
           <h3 class="text-xl font-bold mb-3 group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors duration-300">
             {{ service.titleKey | translate }}
           </h3>
-          <p class="text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
+          <p class="text-content-secondary mb-6 leading-relaxed">
             {{ service.descriptionKey | translate }}
           </p>
           <span class="inline-flex items-center gap-2 text-primary-600 dark:text-secondary-400 font-semibold group-hover:gap-3 transition-all">
@@ -184,7 +184,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'industries.caseStudies.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'industries.caseStudies.description' | translate }}
         </p>
       </div>
@@ -200,9 +200,9 @@
             </span>
           </div>
           <h3 class="text-2xl font-bold mb-4 hover:text-primary-600 dark:hover:text-secondary-400 transition-colors">{{ useCase.titleKey | translate }}</h3>
-          <p class="text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">{{ useCase.descriptionKey | translate }}</p>
+          <p class="text-content-secondary mb-6 leading-relaxed">{{ useCase.descriptionKey | translate }}</p>
 
-          <h4 class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
+          <h4 class="text-sm font-semibold text-content-muted uppercase tracking-wider mb-4">
             {{ 'industries.caseStudies.results' | translate }}
           </h4>
           <ul class="space-y-3">
@@ -210,7 +210,7 @@
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5 group-hover/metric:scale-125 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-neutral-700 dark:text-neutral-300 font-medium">{{ metric | translate }}</span>
+              <span class="text-content-secondary font-medium">{{ metric | translate }}</span>
             </li>
           </ul>
         </div>
@@ -241,7 +241,7 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-6">
             {{ 'services.whyChoose.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
+          <p class="text-lg text-content-secondary mb-8 leading-relaxed">
             {{ 'services.whyChoose.description' | translate }}
           </p>
 
@@ -255,7 +255,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-semibold mb-2 group-hover/benefit:text-primary-600 dark:group-hover/benefit:text-primary-400 transition-colors">{{ 'services.whyChoose.benefit1.title' | translate }}</h3>
-                <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">{{ 'services.whyChoose.benefit1.description' | translate }}</p>
+                <p class="text-content-secondary leading-relaxed">{{ 'services.whyChoose.benefit1.description' | translate }}</p>
               </div>
             </div>
 
@@ -267,7 +267,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-semibold mb-2 group-hover/benefit:text-secondary-600 dark:group-hover/benefit:text-secondary-400 transition-colors">{{ 'services.whyChoose.benefit2.title' | translate }}</h3>
-                <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">{{ 'services.whyChoose.benefit2.description' | translate }}</p>
+                <p class="text-content-secondary leading-relaxed">{{ 'services.whyChoose.benefit2.description' | translate }}</p>
               </div>
             </div>
 
@@ -279,7 +279,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-semibold mb-2 group-hover/benefit:text-purple-600 dark:group-hover/benefit:text-purple-400 transition-colors">{{ 'services.whyChoose.benefit3.title' | translate }}</h3>
-                <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">{{ 'services.whyChoose.benefit3.description' | translate }}</p>
+                <p class="text-content-secondary leading-relaxed">{{ 'services.whyChoose.benefit3.description' | translate }}</p>
               </div>
             </div>
           </div>
@@ -347,7 +347,7 @@
   <div class="text-center">
     <div class="text-6xl mb-4">🔍</div>
     <h1 class="text-3xl font-bold mb-2">Industry Not Found</h1>
-    <p class="text-neutral-600 dark:text-neutral-400 mb-6">The industry you're looking for doesn't exist.</p>
+    <p class="text-content-secondary mb-6">The industry you're looking for doesn't exist.</p>
     <a
       routerLink="/industries"
       class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors"

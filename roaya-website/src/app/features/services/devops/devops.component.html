@@ -235,17 +235,17 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         @for (stat of statistics; track stat.key; let i = $index) {
         <div class="stat-parallax group relative text-center rounded-xl overflow-hidden">
-          <div class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
+          <div class="relative bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col justify-center">
             <div class="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white">
               <ng-icon [name]="stat.icon" size="24"></ng-icon>
             </div>
             <div class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
               {{ 'services.devops.page.statistics.' + stat.key + '.value' | translate }}
             </div>
-            <div class="text-base font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+            <div class="text-base font-semibold text-content-secondary mb-1">
               {{ 'services.devops.page.statistics.' + stat.key + '.label' | translate }}
             </div>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.devops.page.statistics.' + stat.key + '.description' | translate }}
             </p>
           </div>
@@ -263,23 +263,23 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.problem.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.devops.page.problem.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           @for (item of problemItems; track item.key) {
-          <div class="card-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+          <div class="card-parallax group bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center text-red-600 dark:text-red-400 flex-shrink-0">
                 <ng-icon [name]="item.icon" size="24"></ng-icon>
               </div>
               <div>
-                <h3 class="text-lg font-bold mb-2 text-neutral-900 dark:text-neutral-100">
+                <h3 class="text-lg font-bold mb-2 text-content-primary">
                   {{ 'services.devops.page.problem.' + item.key + '.title' | translate }}
                 </h3>
-                <p class="text-neutral-600 dark:text-neutral-400 text-sm">
+                <p class="text-content-secondary text-sm">
                   {{ 'services.devops.page.problem.' + item.key + '.description' | translate }}
                 </p>
               </div>
@@ -419,19 +419,19 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.strategic.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p class="text-lg text-content-secondary max-w-3xl mx-auto">
             {{ 'services.devops.page.strategic.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (outcome of strategicOutcomes; track outcome) {
-          <div class="card-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+          <div class="card-parallax group bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
             <div class="flex items-start gap-3">
               <div class="w-6 h-6 bg-secondary-100 dark:bg-secondary-900/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                 <ng-icon name="lucideCheckCircle2" class="text-secondary-600 dark:text-secondary-400" size="14"></ng-icon>
               </div>
-              <span class="text-neutral-700 dark:text-neutral-300">
+              <span class="text-content-secondary">
                 {{ 'services.devops.page.strategic.outcomes.' + outcome | translate }}
               </span>
             </div>
@@ -440,7 +440,7 @@
         </div>
 
         <div class="mt-12 text-center">
-          <p class="text-lg text-neutral-600 dark:text-neutral-400 italic">
+          <p class="text-lg text-content-secondary italic">
             {{ 'services.devops.page.strategic.conclusion' | translate }}
           </p>
         </div>
@@ -555,14 +555,14 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.aiAutomation.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p class="text-lg text-content-secondary max-w-3xl mx-auto">
             {{ 'services.devops.page.aiAutomation.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           @for (capability of aiAutomation; track capability.key) {
-          <div class="card-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+          <div class="card-parallax group bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
             <div class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white">
               <ng-icon [name]="capability.icon" size="28"></ng-icon>
             </div>
@@ -571,7 +571,7 @@
             </h3>
             <ul class="space-y-2">
               @for (itemNum of [1, 2, 3]; track itemNum) {
-              <li class="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+              <li class="flex items-start gap-2 text-sm text-content-secondary">
                 <ng-icon name="lucideCheckCircle2" class="text-secondary-600 dark:text-secondary-400 mt-0.5 flex-shrink-0" size="14"></ng-icon>
                 <span>{{ 'services.devops.page.aiAutomation.' + capability.key + '.item' + itemNum | translate }}</span>
               </li>
@@ -582,7 +582,7 @@
         </div>
 
         <div class="mt-12 text-center">
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.devops.page.aiAutomation.conclusion' | translate }}
           </p>
         </div>
@@ -602,7 +602,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           @for (service of serviceOfferings; track service.id) {
-          <div class="card-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+          <div class="card-parallax group bg-surface-elevated border border-edge-subtle rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
             <!-- Header -->
             <div class="flex items-start gap-4 mb-6">
               <div class="w-14 h-14 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
@@ -612,7 +612,7 @@
                 <h3 class="text-xl font-bold mb-1 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                   {{ 'services.devops.page.offerings.' + service.id + '.title' | translate }}
                 </h3>
-                <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                <p class="text-sm text-content-secondary">
                   {{ 'services.devops.page.offerings.' + service.id + '.description' | translate }}
                 </p>
               </div>
@@ -623,7 +623,7 @@
               @for (feature of service.features; track feature) {
               <li class="flex items-start gap-2 text-sm">
                 <ng-icon name="lucideCheckCircle2" class="text-secondary-600 dark:text-secondary-400 mt-0.5 flex-shrink-0" size="14"></ng-icon>
-                <span class="text-neutral-700 dark:text-neutral-300">
+                <span class="text-content-secondary">
                   {{ 'services.devops.page.offerings.' + service.id + '.' + feature | translate }}
                 </span>
               </li>
@@ -631,7 +631,7 @@
             </ul>
 
             <!-- Outcome -->
-            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="pt-4 border-t border-edge-subtle">
               <p class="text-sm font-medium text-primary-600 dark:text-primary-400">
                 <span class="font-bold">{{ 'services.devops.page.offerings.outcomeLabel' | translate }}:</span>
                 {{ 'services.devops.page.offerings.' + service.id + '.outcome' | translate }}
@@ -652,18 +652,18 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.automation.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.devops.page.automation.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           @for (benefit of automationBenefits; track benefit) {
-          <div class="card-parallax flex items-center gap-3 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+          <div class="card-parallax flex items-center gap-3 p-4 bg-surface-elevated border border-edge-subtle rounded-xl">
             <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
               <ng-icon name="lucideCheckCircle2" class="text-primary-600 dark:text-primary-400" size="18"></ng-icon>
             </div>
-            <span class="text-neutral-700 dark:text-neutral-300 font-medium">
+            <span class="text-content-secondary font-medium">
               {{ 'services.devops.page.automation.items.' + benefit | translate }}
             </span>
           </div>
@@ -687,18 +687,18 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.businessOutcomes.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.devops.page.businessOutcomes.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           @for (outcome of businessOutcomes; track outcome) {
-          <div class="card-parallax flex items-center gap-3 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+          <div class="card-parallax flex items-center gap-3 p-4 bg-surface-elevated border border-edge-subtle rounded-xl">
             <div class="w-8 h-8 bg-secondary-100 dark:bg-secondary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
               <ng-icon name="lucideCheckCircle2" class="text-secondary-600 dark:text-secondary-400" size="18"></ng-icon>
             </div>
-            <span class="text-neutral-700 dark:text-neutral-300 font-medium">
+            <span class="text-content-secondary font-medium">
               {{ 'services.devops.page.businessOutcomes.items.' + outcome | translate }}
             </span>
           </div>
@@ -738,12 +738,12 @@
             </div>
 
             <!-- Title -->
-            <h3 class="text-lg font-bold mb-2 text-neutral-900 dark:text-neutral-100">
+            <h3 class="text-lg font-bold mb-2 text-content-primary">
               {{ 'services.devops.page.howWeWork.' + step.key + '.title' | translate }}
             </h3>
 
             <!-- Description -->
-            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            <p class="text-sm text-content-secondary">
               {{ 'services.devops.page.howWeWork.' + step.key + '.description' | translate }}
             </p>
 
@@ -766,21 +766,21 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.frameworks.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.devops.page.frameworks.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (framework of frameworks; track framework.key) {
-          <div class="card-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+          <div class="card-parallax group bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
             <div class="w-10 h-10 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
               <ng-icon name="lucideAward" size="20" class="text-white"></ng-icon>
             </div>
             <h3 class="text-lg font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.devops.page.frameworks.' + framework.key + '.name' | translate }}
             </h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.devops.page.frameworks.' + framework.key + '.description' | translate }}
             </p>
           </div>
@@ -798,18 +798,18 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.devops.page.whyRoaya.title' | translate }}
           </h2>
-          <p class="text-lg text-neutral-600 dark:text-neutral-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.devops.page.whyRoaya.subtitle' | translate }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (diff of differentiators; track diff.key) {
-          <div class="card-parallax group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+          <div class="card-parallax group bg-surface-elevated border border-edge-subtle rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
             <h3 class="text-lg font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.devops.page.whyRoaya.' + diff.key + '.title' | translate }}
             </h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-200">
+            <p class="text-sm text-content-secondary">
               {{ 'services.devops.page.whyRoaya.' + diff.key + '.description' | translate }}
             </p>
           </div>
@@ -1113,7 +1113,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.devops.page.relatedServices.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.devops.page.relatedServices.subtitle' | translate }}
         </p>
       </div>
@@ -1134,7 +1134,7 @@
             <h3 class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
               {{ 'services.devops.page.relatedServices.' + service.id + '.title' | translate }}
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
+            <p class="text-content-secondary text-sm mb-4 leading-relaxed">
               {{ 'services.devops.page.relatedServices.' + service.id + '.description' | translate }}
             </p>
             <div class="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">

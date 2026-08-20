@@ -45,12 +45,12 @@ import { environment } from '../../../../environments/environment';
       <div class="page-header">
         <div>
           <h1>Tracking Code</h1>
-          <p class="text-slate-500 dark:text-slate-400">
+          <p class="text-content-muted">
             Install the tracking script to capture user behavior on your website
           </p>
         </div>
         <div class="flex items-center gap-3">
-          <span class="text-sm text-slate-600 dark:text-slate-400">Tracking Status:</span>
+          <span class="text-sm text-content-secondary">Tracking Status:</span>
           <span
             class="status-badge"
             [class.active]="trackingEnabled()"
@@ -84,7 +84,7 @@ import { environment } from '../../../../environments/environment';
             </div>
             <div class="site-id-display mb-4">
               <div class="flex-1">
-                <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold mb-1">Backend Tracking Endpoint</div>
+                <div class="text-xs text-content-muted uppercase font-semibold mb-1">Backend Tracking Endpoint</div>
                 <code class="site-id-code">{{ trackingEndpointUrl }}</code>
               </div>
               <p-button
@@ -115,7 +115,7 @@ import { environment } from '../../../../environments/environment';
                 (onClick)="copyToClipboard(standaloneScriptTag(), 'Script tag')"
               ></p-button>
             </div>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+            <p class="text-sm text-content-muted mb-4">
               If you have non-Angular pages that also need tracking, add this <code>&lt;script&gt;</code> tag:
             </p>
             <div class="script-container">
@@ -136,7 +136,7 @@ import { environment } from '../../../../environments/environment';
                   <div class="font-medium text-slate-800 dark:text-slate-200">
                     {{ setting.label }}
                   </div>
-                  <div class="text-sm text-slate-500 dark:text-slate-400">
+                  <div class="text-sm text-content-muted">
                     {{ setting.description }}
                   </div>
                 </div>
@@ -172,7 +172,7 @@ import { environment } from '../../../../environments/environment';
                 <i class="pi pi-file mr-2 text-blue-500"></i>
                 Tracked Pages
               </h3>
-              <span class="text-sm text-slate-500 dark:text-slate-400">
+              <span class="text-sm text-content-muted">
                 {{ trackedPages().length }} pages
               </span>
             </div>

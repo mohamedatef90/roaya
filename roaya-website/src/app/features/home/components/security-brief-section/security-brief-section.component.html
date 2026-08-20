@@ -54,7 +54,7 @@
         </p>
 
         <!-- Description -->
-        <p class="text-base text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl">
+        <p class="text-base text-content-secondary mb-8 leading-relaxed max-w-2xl">
           {{ 'home.serviceBriefs.security.description' | translate }}
         </p>
 
@@ -83,10 +83,10 @@
 
               <div class="flex-1 min-w-0">
                 <h3
-                  class="text-base font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-blue-700 dark:group-hover:text-cyan-300 transition-colors duration-300">
+                  class="text-base font-semibold text-content-primary mb-1 group-hover:text-blue-700 dark:group-hover:text-cyan-300 transition-colors duration-300">
                   {{ highlight.titleKey | translate }}
                 </h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p class="text-sm text-content-secondary leading-relaxed">
                   {{ highlight.descriptionKey | translate }}
                 </p>
               </div>
@@ -176,10 +176,10 @@
                    border border-blue-200/50 dark:border-cyan-500/30
                    shadow-lg shadow-blue-500/10 dark:shadow-cyan-500/10">
             <ng-icon [name]="stat.icon" class="text-blue-600 dark:text-cyan-400 mb-2" size="24" />
-            <div class="security-stat-value text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <div class="security-stat-value text-2xl sm:text-3xl font-bold text-content-primary mb-1">
               {{ stat.value }}
             </div>
-            <div class="text-xs text-gray-600 dark:text-gray-400 text-center uppercase tracking-wide">
+            <div class="text-xs text-content-secondary text-center uppercase tracking-wide">
               {{ stat.labelKey | translate }}
             </div>
           </div>

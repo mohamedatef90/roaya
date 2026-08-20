@@ -71,7 +71,7 @@ import { UploadedImage } from '../../../../../core/services/image-upload.service
         <form [formGroup]="editorForm" class="h-full">
           <!-- Custom Tabs -->
           <div class="mb-6">
-            <div class="inline-flex items-center p-1 rounded-xl bg-neutral-100 dark:bg-neutral-800">
+            <div class="inline-flex items-center p-1 rounded-xl bg-surface-secondary">
               <button
                 type="button"
                 (click)="activeTab.set('english')"
@@ -374,7 +374,7 @@ import { UploadedImage } from '../../../../../core/services/image-upload.service
           type="button"
           (click)="onCancel()"
           [disabled]="loading()"
-          class="px-4 py-2.5 rounded-xl text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors disabled:opacity-50"
+          class="px-4 py-2.5 rounded-xl text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors disabled:opacity-50"
         >
           Cancel
         </button>

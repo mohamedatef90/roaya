@@ -82,7 +82,7 @@ import {
           <div class="flex items-center gap-3">
             <button
               [routerLink]="['/admin/leads']"
-              class="flex items-center justify-center w-10 h-10 rounded-full text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              class="flex items-center justify-center w-10 h-10 rounded-full text-neutral-500 hover:bg-surface-hover transition-colors"
               aria-label="Back to leads"
             >
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -90,10 +90,10 @@ import {
               </svg>
             </button>
             <div>
-              <h1 class="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+              <h1 class="text-2xl sm:text-3xl font-bold text-content-primary">
                 {{ lead()!.firstName }} {{ lead()!.lastName }}
               </h1>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+              <p class="text-sm text-content-muted mt-0.5">
                 {{ lead()!.email }} &bull; {{ lead()!.company || 'No Company' }}
               </p>
             </div>
@@ -133,113 +133,113 @@ import {
           <!-- Left Column - Lead Information -->
           <div class="flex flex-col gap-6">
             <!-- Lead Info Card -->
-            <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-              <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800">
-                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{{ 'Lead Information' | translate }}</h3>
+            <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+              <div class="px-6 py-4 border-b border-edge-subtle">
+                <h3 class="text-lg font-semibold text-content-primary">{{ 'Lead Information' | translate }}</h3>
               </div>
               <div class="p-6">
                 <form [formGroup]="leadForm" class="space-y-5">
                   <!-- Name Fields -->
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label for="firstName" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                      <label for="firstName" class="block text-sm font-medium text-content-secondary mb-1.5">
                         {{ 'First Name' | translate }} *
                       </label>
                       <input
                         id="firstName"
                         formControlName="firstName"
                         type="text"
-                        class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                        class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                       />
                     </div>
                     <div>
-                      <label for="lastName" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                      <label for="lastName" class="block text-sm font-medium text-content-secondary mb-1.5">
                         {{ 'Last Name' | translate }} *
                       </label>
                       <input
                         id="lastName"
                         formControlName="lastName"
                         type="text"
-                        class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                        class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                       />
                     </div>
                   </div>
 
                   <!-- Email -->
                   <div>
-                    <label for="email" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                    <label for="email" class="block text-sm font-medium text-content-secondary mb-1.5">
                       {{ 'Email' | translate }} *
                     </label>
                     <input
                       id="email"
                       formControlName="email"
                       type="email"
-                      class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                      class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                     />
                   </div>
 
                   <!-- Phone -->
                   <div>
-                    <label for="phone" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                    <label for="phone" class="block text-sm font-medium text-content-secondary mb-1.5">
                       {{ 'Phone' | translate }}
                     </label>
                     <input
                       id="phone"
                       formControlName="phone"
                       type="tel"
-                      class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                      class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                     />
                   </div>
 
                   <!-- Company -->
                   <div>
-                    <label for="company" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                    <label for="company" class="block text-sm font-medium text-content-secondary mb-1.5">
                       {{ 'Company' | translate }}
                     </label>
                     <input
                       id="company"
                       formControlName="company"
                       type="text"
-                      class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                      class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                     />
                   </div>
 
                   <!-- Job Title -->
                   <div>
-                    <label for="jobTitle" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                    <label for="jobTitle" class="block text-sm font-medium text-content-secondary mb-1.5">
                       {{ 'Job Title' | translate }}
                     </label>
                     <input
                       id="jobTitle"
                       formControlName="jobTitle"
                       type="text"
-                      class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                      class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                     />
                   </div>
 
                   <!-- Website -->
                   <div>
-                    <label for="website" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                    <label for="website" class="block text-sm font-medium text-content-secondary mb-1.5">
                       {{ 'Website' | translate }}
                     </label>
                     <input
                       id="website"
                       formControlName="website"
                       type="url"
-                      class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                      class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                     />
                   </div>
 
                   <!-- Status & Priority -->
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label for="status" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                      <label for="status" class="block text-sm font-medium text-content-secondary mb-1.5">
                         {{ 'Status' | translate }} *
                       </label>
                       <select
                         id="status"
                         formControlName="status"
-                        class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                        class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                       >
                         @for (opt of statusOptions; track opt.value) {
                           <option [value]="opt.value">{{ opt.label }}</option>
@@ -247,13 +247,13 @@ import {
                       </select>
                     </div>
                     <div>
-                      <label for="priority" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                      <label for="priority" class="block text-sm font-medium text-content-secondary mb-1.5">
                         {{ 'Priority' | translate }} *
                       </label>
                       <select
                         id="priority"
                         formControlName="priority"
-                        class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                        class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                       >
                         @for (opt of priorityOptions; track opt.value) {
                           <option [value]="opt.value">{{ opt.label }}</option>
@@ -265,13 +265,13 @@ import {
                   <!-- Assign To (Super Admin Only) -->
                   @if (isSuperAdmin()) {
                     <div>
-                      <label for="assignedToId" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                      <label for="assignedToId" class="block text-sm font-medium text-content-secondary mb-1.5">
                         {{ 'Assign To' | translate }}
                       </label>
                       <select
                         id="assignedToId"
                         formControlName="assignedToId"
-                        class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                        class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                       >
                         <option [value]="''">Unassigned</option>
                         @for (user of users(); track user.id) {
@@ -281,10 +281,10 @@ import {
                     </div>
                   } @else if (lead()?.assignedTo) {
                     <div>
-                      <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                      <label class="block text-sm font-medium text-content-secondary mb-1.5">
                         {{ 'Assigned To' | translate }}
                       </label>
-                      <p class="flex h-10 w-full items-center rounded-md border border-neutral-200 bg-neutral-50 px-3 text-sm text-neutral-700 dark:border-neutral-700 dark:bg-neutral-800/50 dark:text-neutral-300">
+                      <p class="flex h-10 w-full items-center rounded-md border border-edge-subtle bg-surface-secondary px-3 text-sm text-content-secondary">
                         {{ lead()!.assignedTo!.firstName }} {{ lead()!.assignedTo!.lastName }}
                       </p>
                     </div>
@@ -292,14 +292,14 @@ import {
 
                   <!-- Follow-up Date -->
                   <div>
-                    <label for="nextFollowUpAt" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                    <label for="nextFollowUpAt" class="block text-sm font-medium text-content-secondary mb-1.5">
                       {{ 'Next Follow-up' | translate }}
                     </label>
                     <input
                       id="nextFollowUpAt"
                       formControlName="nextFollowUpAt"
                       type="datetime-local"
-                      class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                      class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                     />
                   </div>
                 </form>
@@ -307,9 +307,9 @@ import {
             </div>
 
             <!-- Tags Card -->
-            <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-              <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800">
-                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{{ 'Tags' | translate }}</h3>
+            <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+              <div class="px-6 py-4 border-b border-edge-subtle">
+                <h3 class="text-lg font-semibold text-content-primary">{{ 'Tags' | translate }}</h3>
               </div>
               <div class="p-6">
                 <app-tag-manager
@@ -328,9 +328,9 @@ import {
           <!-- Right Column - Activity & Notes -->
           <div>
             <!-- Tabs -->
-            <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
+            <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
               <!-- Tab Headers -->
-              <div class="flex border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex border-b border-edge-subtle">
                 <button
                   (click)="activeTab = 'activity'"
                   [class]="activeTab === 'activity'
@@ -374,21 +374,21 @@ import {
                 @if (activeTab === 'notes') {
                   <div class="notes-container">
                     <!-- Add Note Form -->
-                    <form [formGroup]="noteForm" (ngSubmit)="addNote()" class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-700">
+                    <form [formGroup]="noteForm" (ngSubmit)="addNote()" class="mb-6 pb-6 border-b border-edge-subtle">
                       <textarea
                         formControlName="content"
                         rows="3"
                         placeholder="Add a note..."
-                        class="flex min-h-[80px] w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 mb-3"
+                        class="flex min-h-[80px] w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100 mb-3"
                       ></textarea>
                       <div class="flex items-center justify-between">
                         <label class="inline-flex items-center gap-2 cursor-pointer">
                           <input
                             type="checkbox"
                             formControlName="isPrivate"
-                            class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800"
+                            class="w-4 h-4 rounded border-edge-strong text-primary-500 focus:ring-primary-500 dark:bg-neutral-800"
                           />
-                          <span class="text-sm text-neutral-700 dark:text-neutral-300">Private Note</span>
+                          <span class="text-sm text-content-secondary">Private Note</span>
                         </label>
                         <button
                           type="submit"
@@ -406,13 +406,13 @@ import {
                     <!-- Notes List -->
                     <div class="flex flex-col gap-3">
                       @for (note of lead()!.notes; track note.id) {
-                        <div class="p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg border-l-3 border-primary-500">
+                        <div class="p-4 bg-surface-secondary rounded-lg border-l-3 border-primary-500">
                           <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-2">
                               <div class="flex h-7 w-7 items-center justify-center rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 text-xs font-semibold shrink-0">
                                 {{ note.createdBy ? (note.createdBy.firstName?.charAt(0) || '') + (note.createdBy.lastName?.charAt(0) || '') : '?' }}
                               </div>
-                              <strong class="text-sm text-neutral-900 dark:text-neutral-100">
+                              <strong class="text-sm text-content-primary">
                                 {{ note.createdBy ? note.createdBy.firstName + ' ' + note.createdBy.lastName : 'Unknown User' }}
                               </strong>
                               @if (note.isPrivate) {
@@ -431,7 +431,7 @@ import {
                               </svg>
                             </button>
                           </div>
-                          <p class="text-sm text-neutral-700 dark:text-neutral-300 mb-1">{{ note.content }}</p>
+                          <p class="text-sm text-content-secondary mb-1">{{ note.content }}</p>
                           <small class="text-xs text-neutral-400">{{ formatDate(note.createdAt) }}</small>
                         </div>
                       }
@@ -449,46 +449,46 @@ import {
                 @if (activeTab === 'source') {
                   <div class="flex flex-col gap-5">
                     <div>
-                      <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'Source' | translate }}</label>
-                      <p class="text-neutral-900 dark:text-neutral-100">{{ lead()!.source }}</p>
+                      <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'Source' | translate }}</label>
+                      <p class="text-content-primary">{{ lead()!.source }}</p>
                     </div>
                     @if (lead()!.utmSource) {
                       <div>
-                        <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'UTM Source' | translate }}</label>
-                        <p class="text-neutral-900 dark:text-neutral-100">{{ lead()!.utmSource }}</p>
+                        <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'UTM Source' | translate }}</label>
+                        <p class="text-content-primary">{{ lead()!.utmSource }}</p>
                       </div>
                     }
                     @if (lead()!.utmMedium) {
                       <div>
-                        <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'UTM Medium' | translate }}</label>
-                        <p class="text-neutral-900 dark:text-neutral-100">{{ lead()!.utmMedium }}</p>
+                        <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'UTM Medium' | translate }}</label>
+                        <p class="text-content-primary">{{ lead()!.utmMedium }}</p>
                       </div>
                     }
                     @if (lead()!.utmCampaign) {
                       <div>
-                        <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'UTM Campaign' | translate }}</label>
-                        <p class="text-neutral-900 dark:text-neutral-100">{{ lead()!.utmCampaign }}</p>
+                        <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'UTM Campaign' | translate }}</label>
+                        <p class="text-content-primary">{{ lead()!.utmCampaign }}</p>
                       </div>
                     }
                     @if (lead()!.referrer) {
                       <div>
-                        <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'Referrer' | translate }}</label>
-                        <p class="text-neutral-900 dark:text-neutral-100">{{ lead()!.referrer }}</p>
+                        <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'Referrer' | translate }}</label>
+                        <p class="text-content-primary">{{ lead()!.referrer }}</p>
                       </div>
                     }
                     @if (lead()!.message) {
                       <div>
-                        <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'Message' | translate }}</label>
-                        <p class="text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap">{{ lead()!.message }}</p>
+                        <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'Message' | translate }}</label>
+                        <p class="text-content-primary whitespace-pre-wrap">{{ lead()!.message }}</p>
                       </div>
                     }
                     <div>
-                      <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'Created At' | translate }}</label>
-                      <p class="text-neutral-900 dark:text-neutral-100">{{ formatDate(lead()!.createdAt) }}</p>
+                      <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'Created At' | translate }}</label>
+                      <p class="text-content-primary">{{ formatDate(lead()!.createdAt) }}</p>
                     </div>
                     @if (lead()!.estimatedValue) {
                       <div>
-                        <label class="block text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-1">{{ 'Estimated Value' | translate }}</label>
+                        <label class="block text-sm font-semibold text-content-muted mb-1">{{ 'Estimated Value' | translate }}</label>
                         <p class="text-lg font-semibold text-green-600 dark:text-green-400">\${{ lead()!.estimatedValue | number:'1.0-0' }}</p>
                       </div>
                     }
@@ -510,12 +510,12 @@ import {
     <!-- Loading State -->
     @if (loading()) {
       <div class="flex items-center justify-center min-h-[400px]">
-        <div class="flex items-center gap-3 p-6 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm">
+        <div class="flex items-center gap-3 p-6 bg-surface-elevated rounded-xl border border-edge-subtle shadow-sm">
           <svg class="animate-spin h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <p class="text-neutral-700 dark:text-neutral-300">{{ 'Loading lead details...' | translate }}</p>
+          <p class="text-content-secondary">{{ 'Loading lead details...' | translate }}</p>
         </div>
       </div>
     }

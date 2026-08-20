@@ -77,7 +77,7 @@
   <section class="intro-section py-12 bg-background -mt-1">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        <p class="text-lg text-content-secondary leading-relaxed">
           {{ 'services.security.page.socSolutions.intro.p1' | translate }}
         </p>
       </div>
@@ -91,7 +91,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.socSolutions.whatYouGet.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.socSolutions.whatYouGet.subtitle' | translate }}
         </p>
       </div>
@@ -99,7 +99,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         @for (outcome of outcomes; track outcome.key) {
         <div
-          class="outcome-card group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          class="outcome-card group relative p-6 rounded-2xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
           <div
             class="w-14 h-14 mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 transition-transform">
             <ng-icon [name]="outcome.icon" size="28"></ng-icon>
@@ -108,7 +108,7 @@
             class="text-xl font-bold mb-3 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
             {{ 'services.security.page.socSolutions.whatYouGet.' + outcome.key + '.title' | translate }}
           </h3>
-          <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+          <p class="text-content-secondary text-sm leading-relaxed">
             {{ 'services.security.page.socSolutions.whatYouGet.' + outcome.key + '.description' | translate }}
           </p>
         </div>
@@ -124,10 +124,10 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.socSolutions.howItWorks.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-4">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto mb-4">
           {{ 'services.security.page.socSolutions.howItWorks.subtitle' | translate }}
         </p>
-        <p class="text-sm text-neutral-500 dark:text-neutral-500 max-w-4xl mx-auto italic">
+        <p class="text-sm text-content-muted max-w-4xl mx-auto italic">
           {{ 'services.security.page.socSolutions.howItWorks.note' | translate }}
         </p>
       </div>
@@ -148,7 +148,7 @@
               <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
                 {{ 'services.security.page.socSolutions.howItWorks.' + step.key + '.title' | translate }}
               </h3>
-              <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              <p class="text-content-secondary text-sm leading-relaxed">
                 {{ 'services.security.page.socSolutions.howItWorks.' + step.key + '.description' | translate }}
               </p>
             </div>
@@ -166,7 +166,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.socSolutions.packages.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.socSolutions.packages.subtitle' | translate }}
         </p>
       </div>
@@ -174,7 +174,7 @@
       <div class="max-w-5xl mx-auto space-y-6">
         @for (pkg of packages; track pkg.id) {
         <div
-          class="package-card rounded-2xl bg-white dark:bg-gray-800 border-2 transition-all duration-300 overflow-hidden"
+          class="package-card rounded-2xl bg-surface-elevated border-2 transition-all duration-300 overflow-hidden"
           [class.border-primary-500]="pkg.color === 'blue'"
           [class.border-cyan-500]="pkg.color === 'cyan'"
           [class.border-purple-500]="pkg.color === 'purple'"
@@ -209,7 +209,7 @@
                 <p class="text-sm text-secondary-600 dark:text-secondary-400 font-medium mb-3">
                   {{ 'services.security.page.socSolutions.packages.' + pkg.id + '.bestFor' | translate }}
                 </p>
-                <p class="text-neutral-700 dark:text-neutral-300">
+                <p class="text-content-secondary">
                   {{ 'services.security.page.socSolutions.packages.' + pkg.id + '.description' | translate }}
                 </p>
               </div>
@@ -217,7 +217,7 @@
               <!-- Expand Icon -->
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center transition-transform duration-300"
                    [class.rotate-180]="activePackage === pkg.id">
-                <svg class="w-5 h-5 text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-content-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </div>
@@ -227,12 +227,12 @@
           <!-- Expanded Content -->
           @if (activePackage === pkg.id) {
           <div class="px-6 pb-6 border-t border-gray-100 dark:border-gray-700 pt-4 animate-fadeIn">
-            <h4 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">Key Features:</h4>
+            <h4 class="text-sm font-semibold text-content-secondary mb-3">Key Features:</h4>
             <ul class="space-y-2">
               @for (featureNum of [1, 2, 3, 4, 5, 6]; track featureNum) {
               @if ('services.security.page.socSolutions.packages.' + pkg.id + '.feature' + featureNum | translate; as feature) {
               @if (feature && feature !== ('services.security.page.socSolutions.packages.' + pkg.id + '.feature' + featureNum)) {
-              <li class="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+              <li class="flex items-start gap-2 text-sm text-content-secondary">
                 <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -250,7 +250,7 @@
 
       <!-- Not Sure CTA -->
       <div class="mt-12 text-center">
-        <p class="text-neutral-600 dark:text-neutral-400 italic">
+        <p class="text-content-secondary italic">
           {{ 'services.security.page.socSolutions.packages.notSure' | translate }}
         </p>
       </div>
@@ -264,10 +264,10 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.socSolutions.integrations.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-6">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto mb-6">
           {{ 'services.security.page.socSolutions.integrations.subtitle' | translate }}
         </p>
-        <p class="text-base font-medium text-neutral-700 dark:text-neutral-300 mb-4">
+        <p class="text-base font-medium text-content-secondary mb-4">
           {{ 'services.security.page.socSolutions.integrations.description' | translate }}
         </p>
       </div>
@@ -275,15 +275,15 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
         @for (partner of integrationPartners; track partner.key) {
         <div
-          class="group p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          class="group p-6 rounded-xl bg-surface-elevated border border-edge-subtle text-center hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
           <div class="h-10 mb-3 flex items-center justify-center">
             <img
               [src]="partner.logo"
               [alt]="('services.security.page.socSolutions.integrations.partners.' + partner.key | translate)"
-              class="max-h-10 max-w-full object-contain filter dark:brightness-0 dark:invert opacity-70 group-hover:opacity-100 transition-opacity"
+              class="max-h-10 max-w-full object-contain logo-adaptive opacity-70 group-hover:opacity-100 transition-opacity"
             />
           </div>
-          <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          <p class="text-xs font-medium text-content-muted group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
             {{ 'services.security.page.socSolutions.integrations.partners.' + partner.key | translate }}
           </p>
         </div>
@@ -291,10 +291,10 @@
       </div>
 
       <div class="max-w-3xl mx-auto text-center space-y-3">
-        <p class="text-sm text-neutral-500 dark:text-neutral-500 italic">
+        <p class="text-sm text-content-muted italic">
           {{ 'services.security.page.socSolutions.integrations.note' | translate }}
         </p>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+        <p class="text-sm text-content-secondary">
           {{ 'services.security.page.socSolutions.integrations.huntingNote' | translate }}
         </p>
       </div>
@@ -308,7 +308,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.socSolutions.standards.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.socSolutions.standards.subtitle' | translate }}
         </p>
       </div>
@@ -316,7 +316,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
         @for (standard of standards; track standard.key) {
         <div
-          class="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 text-center">
+          class="p-6 rounded-xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 text-center">
           <div
             class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
             <ng-icon [name]="standard.icon" size="24" class="text-white"></ng-icon>
@@ -324,14 +324,14 @@
           <h3 class="text-lg font-bold mb-2 text-primary-900 dark:text-primary-100">
             {{ 'services.security.page.socSolutions.standards.' + standard.key + '.name' | translate }}
           </h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-200">
+          <p class="text-sm text-content-secondary">
             {{ 'services.security.page.socSolutions.standards.' + standard.key + '.description' | translate }}
           </p>
         </div>
         }
       </div>
 
-      <p class="text-center text-sm text-neutral-500 dark:text-neutral-500 italic max-w-3xl mx-auto">
+      <p class="text-center text-sm text-content-muted italic max-w-3xl mx-auto">
         {{ 'services.security.page.socSolutions.standards.alignmentNote' | translate }}
       </p>
     </div>
@@ -344,7 +344,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.security.page.socSolutions.whyRoaya.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           {{ 'services.security.page.socSolutions.whyRoaya.subtitle' | translate }}
         </p>
       </div>
@@ -352,11 +352,11 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         @for (diff of differentiators; track diff.key) {
         <div
-          class="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          class="p-6 rounded-xl bg-surface-elevated border border-edge-subtle shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
           <h3 class="text-xl font-bold mb-3 text-primary-900 dark:text-primary-100">
             {{ 'services.security.page.socSolutions.whyRoaya.' + diff.key + '.title' | translate }}
           </h3>
-          <p class="text-neutral-600 dark:text-neutral-200 leading-relaxed">
+          <p class="text-content-secondary leading-relaxed">
             {{ 'services.security.page.socSolutions.whyRoaya.' + diff.key + '.description' | translate }}
           </p>
         </div>

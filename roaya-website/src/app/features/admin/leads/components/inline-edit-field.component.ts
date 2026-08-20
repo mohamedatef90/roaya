@@ -23,7 +23,7 @@ export interface SelectOption {
   ],
   template: `
     <div class="inline-edit-field">
-      <label class="block text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-1">
+      <label class="block text-sm font-medium text-content-secondary mb-1">
         {{ label }}
       </label>
 
@@ -31,8 +31,8 @@ export interface SelectOption {
       @if (!editing()) {
         <div
           class="group flex items-center gap-2 py-2 px-3 rounded-lg cursor-pointer
-                 border border-transparent hover:border-neutral-300 dark:hover:border-neutral-600
-                 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors min-h-[42px]"
+                 border border-transparent hover:border-edge-strong
+                 hover:bg-surface-hover transition-colors min-h-[42px]"
           (click)="startEditing()"
           (keydown.enter)="startEditing()"
           tabindex="0"
@@ -40,7 +40,7 @@ export interface SelectOption {
           aria-label="Click to edit"
         >
           @if (displayValue) {
-            <span class="text-neutral-900 dark:text-neutral-100">{{ displayValue }}</span>
+            <span class="text-content-primary">{{ displayValue }}</span>
           } @else {
             <span class="text-neutral-400 italic">Click to edit</span>
           }
@@ -61,7 +61,7 @@ export interface SelectOption {
                 name="inlineEditText"
                 [(ngModel)]="editValue"
                 [placeholder]="placeholder"
-                class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                 (keydown.enter)="save()"
                 (keydown.escape)="cancel()"
               />
@@ -73,7 +73,7 @@ export interface SelectOption {
                 name="inlineEditEmail"
                 [(ngModel)]="editValue"
                 [placeholder]="placeholder"
-                class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                 (keydown.enter)="save()"
                 (keydown.escape)="cancel()"
               />
@@ -85,7 +85,7 @@ export interface SelectOption {
                 name="inlineEditPhone"
                 [(ngModel)]="editValue"
                 [placeholder]="placeholder"
-                class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                 (keydown.enter)="save()"
                 (keydown.escape)="cancel()"
               />
@@ -97,7 +97,7 @@ export interface SelectOption {
                 name="inlineEditUrl"
                 [(ngModel)]="editValue"
                 [placeholder]="placeholder"
-                class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                 (keydown.enter)="save()"
                 (keydown.escape)="cancel()"
               />
@@ -107,7 +107,7 @@ export interface SelectOption {
                 #inputRef
                 name="inlineEditSelect"
                 [(ngModel)]="editValue"
-                class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
               >
                 @for (opt of options; track opt.value) {
                   <option [value]="opt.value">{{ opt.label }}</option>
@@ -121,7 +121,7 @@ export interface SelectOption {
                 name="inlineEditDate"
                 [(ngModel)]="editValue"
                 [placeholder]="placeholder"
-                class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+                class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
                 (keydown.escape)="cancel()"
               />
             }
@@ -143,7 +143,7 @@ export interface SelectOption {
           <!-- Cancel button -->
           <button
             type="button"
-            class="rounded-full p-2 text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+            class="rounded-full p-2 text-neutral-500 hover:bg-surface-hover transition-colors"
             (click)="cancel()"
             [disabled]="saving()"
             aria-label="Cancel"

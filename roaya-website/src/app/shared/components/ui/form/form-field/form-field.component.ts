@@ -25,7 +25,7 @@ import { LabelComponent } from '../../primitives/label/label.component';
       <!-- Description -->
       <p
         *ngIf="description && !error"
-        class="text-sm text-neutral-500 dark:text-neutral-400"
+        class="text-sm text-content-muted"
         [id]="id ? id + '-description' : undefined"
       >
         {{ description }}
@@ -49,7 +49,7 @@ import { LabelComponent } from '../../primitives/label/label.component';
       <!-- Hint -->
       <p
         *ngIf="hint && !error"
-        class="text-xs text-neutral-400 dark:text-neutral-500"
+        class="text-xs text-content-muted"
       >
         {{ hint }}
       </p>
@@ -106,7 +106,7 @@ export class FormFieldComponent {
         <!-- Description -->
         <p
           *ngIf="description && !error"
-          class="text-sm text-neutral-500 dark:text-neutral-400"
+          class="text-sm text-content-muted"
         >
           {{ description }}
         </p>

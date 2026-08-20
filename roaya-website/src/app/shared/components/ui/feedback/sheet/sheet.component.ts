@@ -164,7 +164,7 @@ export class SheetHeaderComponent {}
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h2 [id]="id" class="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
+    <h2 [id]="id" class="text-lg font-semibold text-content-primary">
       <ng-content></ng-content>
     </h2>
   `,
@@ -179,7 +179,7 @@ export class SheetTitleComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <p [id]="id" class="text-sm text-neutral-500 dark:text-neutral-400">
+    <p [id]="id" class="text-sm text-content-muted">
       <ng-content></ng-content>
     </p>
   `,
@@ -207,7 +207,7 @@ export class SheetContentComponent {}
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+    <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4 border-t border-edge-subtle">
       <ng-content></ng-content>
     </div>
   `,

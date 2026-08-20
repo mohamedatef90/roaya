@@ -44,15 +44,15 @@ interface Permission {
   template: `
     <div class="p-6 min-h-screen">
       <!-- Header -->
-      <div class="mb-8 pb-6 border-b border-neutral-200 dark:border-neutral-800">
-        <h1 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
+      <div class="mb-8 pb-6 border-b border-edge-subtle">
+        <h1 class="text-2xl font-bold text-content-primary mb-1">
           {{ 'Settings' | translate }}
         </h1>
-        <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ 'Manage system configuration and preferences' | translate }}</p>
+        <p class="text-sm text-content-muted">{{ 'Manage system configuration and preferences' | translate }}</p>
       </div>
 
       <!-- Tabs -->
-      <div class="flex flex-wrap gap-2 mb-6 p-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
+      <div class="flex flex-wrap gap-2 mb-6 p-1.5 bg-surface-secondary rounded-xl">
         @for (tab of tabs; track tab.value) {
           <button
             (click)="activeTab = tab.value"
@@ -69,27 +69,27 @@ interface Permission {
       <!-- Tab Content -->
       <!-- General Settings -->
       @if (activeTab === 'general') {
-        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-          <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
+        <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+          <div class="px-6 py-4 border-b border-edge-subtle flex items-center gap-2">
             <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span class="font-semibold text-neutral-900 dark:text-neutral-100">General Settings</span>
+            <span class="font-semibold text-content-primary">General Settings</span>
           </div>
           <div class="p-6">
             <form [formGroup]="generalForm" class="space-y-5">
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Company Name</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Company Name</label>
                 <input formControlName="companyName" type="text" class="input-field" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Support Email</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Support Email</label>
                 <input formControlName="supportEmail" type="email" class="input-field" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Phone Number</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Phone Number</label>
                 <input formControlName="phoneNumber" type="tel" class="input-field" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Timezone</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Timezone</label>
                 <select formControlName="timezone" class="input-field">
                   @for (opt of timezoneOptions; track opt.value) {
                     <option [value]="opt.value">{{ opt.label }}</option>
@@ -97,14 +97,14 @@ interface Permission {
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Date Format</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Date Format</label>
                 <select formControlName="dateFormat" class="input-field">
                   @for (opt of dateFormatOptions; track opt.value) {
                     <option [value]="opt.value">{{ opt.label }}</option>
                   }
                 </select>
               </div>
-              <hr class="border-neutral-200 dark:border-neutral-700" />
+              <hr class="border-edge-subtle" />
               <div class="flex justify-end">
                 <button (click)="saveGeneralSettings()" [disabled]="saving()" class="btn-primary">
                   @if (saving()) { <span class="spinner"></span> }
@@ -119,24 +119,24 @@ interface Permission {
 
       <!-- Email Settings -->
       @if (activeTab === 'email') {
-        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-          <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
+        <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+          <div class="px-6 py-4 border-b border-edge-subtle flex items-center gap-2">
             <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <span class="font-semibold text-neutral-900 dark:text-neutral-100">Email Settings</span>
+            <span class="font-semibold text-content-primary">Email Settings</span>
           </div>
           <div class="p-6">
             <form [formGroup]="emailForm" class="space-y-5">
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">SMTP Host</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">SMTP Host</label>
                 <input formControlName="smtpHost" type="text" class="input-field" />
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">SMTP Port</label>
+                  <label class="block text-sm font-medium text-content-secondary mb-1.5">SMTP Port</label>
                   <input formControlName="smtpPort" type="number" min="1" max="65535" class="input-field" />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Encryption</label>
+                  <label class="block text-sm font-medium text-content-secondary mb-1.5">Encryption</label>
                   <select formControlName="smtpEncryption" class="input-field">
                     @for (opt of encryptionOptions; track opt.value) {
                       <option [value]="opt.value">{{ opt.label }}</option>
@@ -145,14 +145,14 @@ interface Permission {
                 </div>
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">From Email</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">From Email</label>
                 <input formControlName="fromEmail" type="email" class="input-field" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">From Name</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">From Name</label>
                 <input formControlName="fromName" type="text" class="input-field" />
               </div>
-              <hr class="border-neutral-200 dark:border-neutral-700" />
+              <hr class="border-edge-subtle" />
               <div class="flex justify-end gap-2">
                 <button (click)="testEmailConnection()" class="btn-secondary">
                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
@@ -170,34 +170,34 @@ interface Permission {
 
       <!-- Notification Settings -->
       @if (activeTab === 'notifications') {
-        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-          <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
+        <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+          <div class="px-6 py-4 border-b border-edge-subtle flex items-center gap-2">
             <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-            <span class="font-semibold text-neutral-900 dark:text-neutral-100">Notification Settings</span>
+            <span class="font-semibold text-content-primary">Notification Settings</span>
           </div>
           <div class="p-6">
             <form [formGroup]="notificationForm" class="space-y-5">
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="newLeadEmail" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Email notification for new leads</span>
+                <span class="text-sm text-content-secondary">Email notification for new leads</span>
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="leadAssignmentEmail" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Email notification when lead is assigned</span>
+                <span class="text-sm text-content-secondary">Email notification when lead is assigned</span>
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="dailyDigest" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Daily digest email summary</span>
+                <span class="text-sm text-content-secondary">Daily digest email summary</span>
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="weeklyReport" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Weekly performance report</span>
+                <span class="text-sm text-content-secondary">Weekly performance report</span>
               </label>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Notification Recipients</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Notification Recipients</label>
                 <input formControlName="notificationRecipients" type="text" class="input-field" placeholder="Comma-separated email addresses" />
               </div>
-              <hr class="border-neutral-200 dark:border-neutral-700" />
+              <hr class="border-edge-subtle" />
               <div class="flex justify-end">
                 <button (click)="saveNotificationSettings()" [disabled]="saving()" class="btn-primary">
                   @if (saving()) { <span class="spinner"></span> }
@@ -211,15 +211,15 @@ interface Permission {
 
       <!-- Lead Settings -->
       @if (activeTab === 'leads') {
-        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-          <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
+        <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+          <div class="px-6 py-4 border-b border-edge-subtle flex items-center gap-2">
             <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <span class="font-semibold text-neutral-900 dark:text-neutral-100">Lead Settings</span>
+            <span class="font-semibold text-content-primary">Lead Settings</span>
           </div>
           <div class="p-6">
             <form [formGroup]="leadForm" class="space-y-5">
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Default Lead Assignment</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Default Lead Assignment</label>
                 <select formControlName="defaultAssignment" class="input-field">
                   @for (opt of assignmentOptions; track opt.value) {
                     <option [value]="opt.value">{{ opt.label }}</option>
@@ -227,18 +227,18 @@ interface Permission {
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Lead Follow-up Reminder (hours)</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Lead Follow-up Reminder (hours)</label>
                 <input formControlName="followUpReminderHours" type="number" min="1" max="168" class="input-field" />
               </div>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="autoArchiveOldLeads" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Auto-archive leads inactive for 90+ days</span>
+                <span class="text-sm text-content-secondary">Auto-archive leads inactive for 90+ days</span>
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="requireNoteOnStatusChange" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Require note when changing lead status</span>
+                <span class="text-sm text-content-secondary">Require note when changing lead status</span>
               </label>
-              <hr class="border-neutral-200 dark:border-neutral-700" />
+              <hr class="border-edge-subtle" />
               <div class="flex justify-end">
                 <button (click)="saveLeadSettings()" [disabled]="saving()" class="btn-primary">
                   @if (saving()) { <span class="spinner"></span> }
@@ -252,35 +252,35 @@ interface Permission {
 
       <!-- Security Settings -->
       @if (activeTab === 'security') {
-        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-          <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
+        <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+          <div class="px-6 py-4 border-b border-edge-subtle flex items-center gap-2">
             <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
-            <span class="font-semibold text-neutral-900 dark:text-neutral-100">Security Settings</span>
+            <span class="font-semibold text-content-primary">Security Settings</span>
           </div>
           <div class="p-6">
             <form [formGroup]="securityForm" class="space-y-5">
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Session Timeout (minutes)</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Session Timeout (minutes)</label>
                 <input formControlName="sessionTimeout" type="number" min="5" max="1440" class="input-field" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Max Login Attempts</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Max Login Attempts</label>
                 <input formControlName="maxLoginAttempts" type="number" min="3" max="10" class="input-field" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Password Expiry (days)</label>
+                <label class="block text-sm font-medium text-content-secondary mb-1.5">Password Expiry (days)</label>
                 <input formControlName="passwordExpiryDays" type="number" min="0" max="365" class="input-field" />
                 <small class="text-neutral-400 text-xs mt-1 block">Set to 0 for no expiry</small>
               </div>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="requireTwoFactor" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Require two-factor authentication</span>
+                <span class="text-sm text-content-secondary">Require two-factor authentication</span>
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" formControlName="logAllActions" class="checkbox-field" />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Log all user actions for audit trail</span>
+                <span class="text-sm text-content-secondary">Log all user actions for audit trail</span>
               </label>
-              <hr class="border-neutral-200 dark:border-neutral-700" />
+              <hr class="border-edge-subtle" />
               <div class="flex justify-end">
                 <button (click)="saveSecuritySettings()" [disabled]="saving()" class="btn-primary">
                   @if (saving()) { <span class="spinner"></span> }
@@ -294,11 +294,11 @@ interface Permission {
 
       <!-- Admin Roles -->
       @if (activeTab === 'roles') {
-        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
-          <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+        <div class="rounded-xl border border-edge-subtle bg-surface-elevated shadow-sm">
+          <div class="px-6 py-4 border-b border-edge-subtle flex items-center justify-between">
             <div class="flex items-center gap-2">
               <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span class="font-semibold text-neutral-900 dark:text-neutral-100">Admin Roles Management</span>
+              <span class="font-semibold text-content-primary">Admin Roles Management</span>
             </div>
             <button (click)="openRoleDialog()" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium bg-primary-500 text-white hover:bg-primary-600 transition-colors">
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -310,16 +310,16 @@ interface Permission {
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
                 <thead>
-                  <tr class="border-b-2 border-neutral-200 dark:border-neutral-700">
-                    <th class="text-left py-3 px-4 font-semibold text-neutral-500 dark:text-neutral-400 uppercase text-xs tracking-wider" style="width: 20%">Role Name</th>
-                    <th class="text-left py-3 px-4 font-semibold text-neutral-500 dark:text-neutral-400 uppercase text-xs tracking-wider" style="width: 30%">Description</th>
-                    <th class="text-left py-3 px-4 font-semibold text-neutral-500 dark:text-neutral-400 uppercase text-xs tracking-wider" style="width: 35%">Permissions</th>
-                    <th class="text-left py-3 px-4 font-semibold text-neutral-500 dark:text-neutral-400 uppercase text-xs tracking-wider" style="width: 15%">Actions</th>
+                  <tr class="border-b-2 border-edge-subtle">
+                    <th class="text-left py-3 px-4 font-semibold text-content-muted uppercase text-xs tracking-wider" style="width: 20%">Role Name</th>
+                    <th class="text-left py-3 px-4 font-semibold text-content-muted uppercase text-xs tracking-wider" style="width: 30%">Description</th>
+                    <th class="text-left py-3 px-4 font-semibold text-content-muted uppercase text-xs tracking-wider" style="width: 35%">Permissions</th>
+                    <th class="text-left py-3 px-4 font-semibold text-content-muted uppercase text-xs tracking-wider" style="width: 15%">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   @for (role of roles(); track role.id) {
-                    <tr class="border-b border-neutral-100 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
+                    <tr class="border-b border-edge-subtle hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                       <td class="py-3 px-4">
                         <span
                           class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold text-white"
@@ -328,7 +328,7 @@ interface Permission {
                           {{ role.name }}
                         </span>
                       </td>
-                      <td class="py-3 px-4 text-neutral-600 dark:text-neutral-400">{{ role.description }}</td>
+                      <td class="py-3 px-4 text-content-secondary">{{ role.description }}</td>
                       <td class="py-3 px-4">
                         <div class="flex flex-wrap gap-1">
                           @for (perm of role.permissions.slice(0, 4); track perm) {
@@ -351,7 +351,7 @@ interface Permission {
                           <button
                             (click)="editRole(role)"
                             [disabled]="role.isSystem"
-                            class="p-1.5 rounded-full text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            class="p-1.5 rounded-full text-neutral-500 hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                             title="Edit"
                           >
                             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
@@ -397,7 +397,7 @@ interface Permission {
     @if (roleDialogVisible) {
       <div class="dialog-root">
         <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" (click)="roleDialogVisible = false" aria-hidden="true"></div>
-        <div class="fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 shadow-lg rounded-xl">
+        <div class="fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-surface-elevated dark:border-neutral-800 p-6 shadow-lg rounded-xl">
           <button
             type="button"
             class="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity"
@@ -407,34 +407,34 @@ interface Permission {
             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
 
-          <h2 class="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">
+          <h2 class="text-lg font-semibold mb-4 text-content-primary">
             {{ editingRole() ? 'Edit Role' : 'Add New Role' }}
           </h2>
 
           <form [formGroup]="roleForm" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Role Name *</label>
+              <label class="block text-sm font-medium text-content-secondary mb-1.5">Role Name *</label>
               <input formControlName="name" type="text" class="input-field" placeholder="e.g., Content Manager" />
               @if (roleForm.get('name')?.invalid && roleForm.get('name')?.touched) {
                 <small class="text-red-500 text-xs mt-1">Role name is required</small>
               }
             </div>
             <div>
-              <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Description</label>
+              <label class="block text-sm font-medium text-content-secondary mb-1.5">Description</label>
               <input formControlName="description" type="text" class="input-field" placeholder="Brief description of this role" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Permissions</label>
-              <div class="grid grid-cols-2 gap-3 max-h-[300px] overflow-y-auto p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
+              <label class="block text-sm font-medium text-content-secondary mb-2">Permissions</label>
+              <div class="grid grid-cols-2 gap-3 max-h-[300px] overflow-y-auto p-4 bg-surface-secondary rounded-lg border border-edge-subtle">
                 @for (perm of availablePermissions; track perm.key) {
-                  <label class="flex items-start gap-2 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
+                  <label class="flex items-start gap-2 p-2 rounded-lg hover:bg-surface-hover cursor-pointer transition-colors">
                     <input
                       type="checkbox"
                       [formControlName]="'perm_' + perm.key"
                       class="checkbox-field mt-0.5"
                     />
                     <div>
-                      <span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">{{ perm.label }}</span>
+                      <span class="text-sm font-medium text-content-secondary">{{ perm.label }}</span>
                       <span class="text-xs text-neutral-400 block">{{ perm.description }}</span>
                     </div>
                   </label>

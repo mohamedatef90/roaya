@@ -69,7 +69,7 @@ type CheckboxVariants = VariantProps<typeof checkboxVariants>;
           <polyline points="20 6 9 17 4 12"/>
         </svg>
       </div>
-      <span *ngIf="label" class="text-sm font-medium text-neutral-700 dark:text-neutral-300 select-none">
+      <span *ngIf="label" class="text-sm font-medium text-content-secondary select-none">
         {{ label }}
       </span>
       <ng-content></ng-content>

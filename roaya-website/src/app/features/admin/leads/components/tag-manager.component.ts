@@ -18,7 +18,7 @@ import { Tag } from '../../../../core/interfaces/admin.interface';
   ],
   template: `
     <div class="tag-manager">
-      <label class="block text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-2">
+      <label class="block text-sm font-medium text-content-secondary mb-2">
         Tags
       </label>
 
@@ -60,22 +60,22 @@ import { Tag } from '../../../../core/interfaces/admin.interface';
               (focus)="showSuggestions.set(true)"
               [placeholder]="loading ? 'Loading...' : 'Search or add tag...'"
               [disabled]="loading"
-              class="flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-10 w-full rounded-md border border-edge-strong bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
             />
 
             <!-- Suggestions dropdown -->
             @if (showSuggestions() && filteredTags().length > 0) {
-              <div class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md shadow-md max-h-60 overflow-auto">
+              <div class="absolute z-50 w-full mt-1 bg-surface-elevated border border-edge-subtle rounded-md shadow-md max-h-60 overflow-auto">
                 @for (tag of filteredTags(); track tag.id) {
                   <button
                     (click)="selectTag(tag)"
-                    class="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left"
+                    class="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-surface-hover transition-colors text-left"
                   >
                     <span
                       class="w-4 h-4 rounded-full shrink-0"
                       [style.background-color]="tag.color"
                     ></span>
-                    <span class="text-neutral-900 dark:text-neutral-100">{{ tag.name }}</span>
+                    <span class="text-content-primary">{{ tag.name }}</span>
                   </button>
                 }
               </div>
@@ -85,7 +85,7 @@ import { Tag } from '../../../../core/interfaces/admin.interface';
           <button
             (click)="addNewTag()"
             [disabled]="!canAddNew() || loading"
-            class="inline-flex items-center justify-center rounded-md h-10 w-10 shrink-0 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:pointer-events-none disabled:opacity-50 transition-colors"
+            class="inline-flex items-center justify-center rounded-md h-10 w-10 shrink-0 border border-edge-strong text-content-secondary hover:bg-surface-hover disabled:pointer-events-none disabled:opacity-50 transition-colors"
             title="Add as new tag"
           >
             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -98,14 +98,14 @@ import { Tag } from '../../../../core/interfaces/admin.interface';
 
       <!-- Create new tag prompt -->
       @if (showCreatePrompt()) {
-        <div class="mt-3 p-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg">
-          <p class="text-sm mb-3 text-neutral-700 dark:text-neutral-300">Create new tag "{{ newTagName }}"?</p>
+        <div class="mt-3 p-4 bg-surface-secondary border border-edge-subtle rounded-lg">
+          <p class="text-sm mb-3 text-content-secondary">Create new tag "{{ newTagName }}"?</p>
           <div class="flex items-center gap-2">
             <input
               type="color"
               name="tagColor"
               [(ngModel)]="newTagColor"
-              class="w-10 h-10 rounded cursor-pointer border border-neutral-300 dark:border-neutral-600"
+              class="w-10 h-10 rounded cursor-pointer border border-edge-strong"
               title="Choose tag color"
             />
             <button
@@ -123,7 +123,7 @@ import { Tag } from '../../../../core/interfaces/admin.interface';
             </button>
             <button
               (click)="cancelCreate()"
-              class="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+              class="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
             >
               Cancel
             </button>

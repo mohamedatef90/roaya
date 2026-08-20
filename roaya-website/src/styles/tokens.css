@@ -1,0 +1,243 @@
+/**
+ * Roaya Design System — Theme-Agnostic Tokens
+ * ============================================
+ *
+ * These values are IDENTICAL in both themes. They define the structural
+ * language of the site: geometry, rhythm, motion and layering.
+ *
+ * Theme-specific VISUAL tokens (color, shadow, gradient, glow) live in:
+ *   - styles/themes/light.css   ->  [data-theme="light"]
+ *   - styles/themes/dark.css    ->  [data-theme="dark"]
+ *
+ * RULE: components consume semantic tokens only. Never hardcode a
+ * light-mode or dark-mode color inside a component.
+ */
+
+:root {
+  /* ===========================
+   * Radii — identical per theme
+   * =========================== */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;   /* standard card */
+  --radius-xl: 20px;   /* featured container */
+  --radius-2xl: 24px;  /* hero / large feature */
+  --radius-pill: 9999px;
+
+  /* ===========================
+   * Theme transition
+   * Presentation only — never layout.
+   * =========================== */
+  --theme-transition-duration: 200ms;
+  --theme-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-ease),
+    border-color var(--theme-transition-duration) var(--theme-transition-ease),
+    color var(--theme-transition-duration) var(--theme-transition-ease),
+    fill var(--theme-transition-duration) var(--theme-transition-ease),
+    stroke var(--theme-transition-duration) var(--theme-transition-ease),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-ease);
+
+  /* ===========================
+   * Structural pattern geometry
+   * (colors come from the theme)
+   * =========================== */
+  --pattern-grid-size: 56px;
+  --pattern-dot-size: 22px;
+  --pattern-line-size: 120px;
+
+  /* ===========================
+   * Layout constants
+   * =========================== */
+  --header-height: 80px;
+  --header-height-scrolled: 64px;
+
+  /* ===========================
+   * Z-index scale
+   * =========================== */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+}
+
+/* ============================================================
+ * Brand color ramps — identical in both themes
+ * ============================================================
+ *
+ * These mirror `theme.extend.colors` in tailwind.config.js so the
+ * Tailwind utility (`bg-primary-500`) and the raw custom property
+ * (`var(--color-primary-500)`) always resolve to the same value.
+ *
+ * They live here rather than in a theme file because a brand ramp is
+ * theme-agnostic: dark mode re-maps which *step* a semantic token
+ * points at, it does not redefine the steps themselves.
+ *
+ * Previously declared in styles/base/_variables.scss, which was never
+ * imported — leaving ~67 var(--color-primary-500) references in
+ * component SCSS unresolved.
+ */
+:root {
+  /* Primary — Roaya Navy */
+  --color-primary-50: #f0f4f8;
+  --color-primary-100: #d9e2ec;
+  --color-primary-200: #bcccdc;
+  --color-primary-300: #9fb3c8;
+  --color-primary-400: #829ab1;
+  --color-primary-500: #3D5A80;
+  --color-primary-600: #334d6e;
+  --color-primary-700: #2a3f5f;
+  --color-primary-800: #203047;
+  --color-primary-900: #192532;
+  --color-primary-950: #0f1a28;
+
+  /* Secondary — Roaya Teal */
+  --color-secondary-50: #f0fafb;
+  --color-secondary-100: #d9f2f5;
+  --color-secondary-200: #b3e5eb;
+  --color-secondary-300: #8dd8e0;
+  --color-secondary-400: #71c7d1;
+  --color-secondary-500: #5DB7C2;
+  --color-secondary-600: #4a9ca6;
+  --color-secondary-700: #3c7f87;
+  --color-secondary-800: #2e6169;
+  --color-secondary-900: #1f424a;
+  --color-secondary-950: #142d32;
+
+  /* Accent — Roaya Purple */
+  --color-accent-50: #f5f2f9;
+  --color-accent-100: #e8e0f1;
+  --color-accent-200: #d1c1e3;
+  --color-accent-300: #b9a2d5;
+  --color-accent-400: #9278bc;
+  --color-accent-500: #6B4C9A;
+  --color-accent-600: #5a3f82;
+  --color-accent-700: #49336a;
+  --color-accent-800: #382652;
+  --color-accent-900: #271a3a;
+  --color-accent-950: #1a1127;
+
+  /* RGB channel triplets — for rgba(var(--x-rgb), <alpha>) composition */
+  --color-primary-rgb: 61, 90, 128;
+  --color-secondary-rgb: 93, 183, 194;
+  --color-accent-rgb: 107, 76, 154;
+
+  /* Brand aliases — kept for existing call sites */
+  --color-navy: #3D5A80;
+  --color-teal: #5DB7C2;
+  --color-purple: #6B4C9A;
+
+  /* Brand gradients */
+  --gradient-primary: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%);
+  --gradient-accent: linear-gradient(135deg, #6B4C9A 0%, #5DB7C2 100%);
+}
+
+/* ============================================================
+ * Theme-agnostic scales — absorbed from the theme files
+ * ============================================================
+ *
+ * These were previously declared IDENTICALLY in both
+ * themes/light.css and themes/dark.css. Two consequences:
+ *
+ *   1. Every edit had to be made twice, and any miss became a
+ *      silent one-theme-only bug.
+ *   2. Both theme files load AFTER this one and matched its
+ *      specificity, so their radius block shadowed the
+ *      structural radius scale declared above — `--radius-lg`
+ *      resolved to 8px, not the 16px this file documents.
+ *
+ * The structural scale above is the authority. The names below
+ * exist only in the old theme-file scale and are kept so no
+ * call site dangles.
+ */
+:root {
+  /* Radius aliases — legacy names, mapped onto the scale above */
+  --radius-none: 0;
+  --radius-base: var(--radius-xs);
+  --radius-3xl: 32px;
+  --radius-full: var(--radius-pill);
+
+  /* ===========================
+   * Typography
+   * =========================== */
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-arabic: 'Tajawal', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'Fira Code', 'Courier New', monospace;
+
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+  --font-size-5xl: 3rem;        /* 48px */
+  --font-size-6xl: 3.75rem;     /* 60px */
+  --font-size-7xl: 4.5rem;      /* 72px */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* ===========================
+   * Spacing Scale
+   * =========================== */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px */
+  --spacing-5: 1.25rem;   /* 20px */
+  --spacing-6: 1.5rem;    /* 24px */
+  --spacing-7: 1.75rem;   /* 28px */
+  --spacing-8: 2rem;      /* 32px */
+  --spacing-10: 2.5rem;   /* 40px */
+  --spacing-12: 3rem;     /* 48px */
+  --spacing-16: 4rem;     /* 64px */
+  --spacing-20: 5rem;     /* 80px */
+  --spacing-24: 6rem;     /* 96px */
+  --spacing-32: 8rem;     /* 128px */
+
+  /* ===========================
+   * Transitions
+   * =========================== */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ===========================
+   * Z-Index Scale (legacy `--z-index-*` names)
+   * The shorter `--z-*` scale above is the one to prefer.
+   * =========================== */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
+  /* ===========================
+   * Container Widths
+   * =========================== */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+}
