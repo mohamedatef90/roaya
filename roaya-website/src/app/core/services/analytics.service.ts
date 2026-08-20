@@ -99,12 +99,29 @@ export class AnalyticsService {
   }
 
   /**
-   * Track form submission
+   * Push event to GTM dataLayer
    */
-  trackFormSubmission(formType: 'contact' | 'roi_lead' | 'newsletter', success: boolean): void {
+  private pushToDataLayer(event: string, data?: Record<string, any>): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event, ...data });
+  }
+
+  /**
+   * Track form submission - pushes to both gtag and dataLayer (GTM)
+   */
+  trackFormSubmission(formId: string, formType: 'contact' | 'roi_lead' | 'newsletter' | 'pricing_quote', success: boolean): void {
+    if (success) {
+      this.pushToDataLayer('form_submission_success', {
+        formId,
+        formType,
+      });
+    }
     this.trackEvent('form_submission', {
+      form_id: formId,
       form_type: formType,
-      success: success
+      success,
     });
   }
 

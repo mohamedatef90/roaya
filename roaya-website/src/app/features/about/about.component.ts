@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideShield,
@@ -9,14 +9,11 @@ import {
   lucideGem,
   lucideRocket,
   lucideTarget,
-  lucideCircleCheck
+  lucideCircleCheck,
+  lucideLinkedin,
+  lucideMail
 } from '@ng-icons/lucide';
-
-interface TeamMember {
-  name: string;
-  role: string;
-  image: string;
-}
+import { ContentService, TeamMember as ApiTeamMember } from '../../core/services/content.service';
 
 interface Value {
   icon: string;
@@ -43,11 +40,17 @@ interface Milestone {
       lucideGem,
       lucideRocket,
       lucideTarget,
-      lucideCircleCheck
+      lucideCircleCheck,
+      lucideLinkedin,
+      lucideMail
     })
   ]
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
+  private readonly contentService = inject(ContentService);
+  private readonly translateService = inject(TranslateService);
+
+  teamMembers = signal<ApiTeamMember[]>([]);
   values: Value[] = [
     {
       icon: 'lucideShield',
@@ -105,4 +108,14 @@ export class AboutComponent {
     { value: '50+', label: 'about.stats.team' },
     { value: '99.9%', label: 'about.stats.uptime' }
   ];
+
+  ngOnInit(): void {
+    this.contentService.getTeamMembers().subscribe(members => {
+      this.teamMembers.set(members);
+    });
+  }
+
+  get currentLang(): string {
+    return this.translateService.currentLang || 'en';
+  }
 }

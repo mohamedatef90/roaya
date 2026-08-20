@@ -303,7 +303,7 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
       
       this.isSubmitted.set(true);
       this.contactForm.reset();
-      this.analytics.trackFormSubmission('contact', true);
+      this.analytics.trackFormSubmission('roaya-contact-form', 'contact', true);
 
       // Animate success state
       if (!this.prefersReducedMotion()) {
@@ -317,7 +317,7 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
     } catch (error) {
       console.error('Contact form submission error:', error);
       this.hasError.set(true);
-      this.analytics.trackFormSubmission('contact', false);
+      this.analytics.trackFormSubmission('roaya-contact-form', 'contact', false);
     } finally {
       this.isSubmitting.set(false);
     }

@@ -1,27 +1,22 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 /**
  * API Service
- * Handles all backend API communication
- * 
- * TODO: Configure backend API endpoint in environment files
- * TODO: Implement proper error handling and retry logic
- * TODO: Add request/response interceptors for authentication
+ * Handles public-facing form submissions to the backend lead system.
  */
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  
-  // TODO: Move to environment configuration
-  private readonly apiUrl = '/api'; // Update with actual backend URL
+  private readonly apiUrl = environment.apiUrl;
 
   /**
-   * Submit contact form
+   * Submit contact form as a lead.
+   * Maps the single `name` field to firstName/lastName for the backend.
    */
   submitContactForm(formData: {
     name: string;
@@ -30,22 +25,67 @@ export class ApiService {
     company?: string;
     service?: string;
     message: string;
-  }): Observable<any> {
-    // TODO: Implement actual API call
-    // Example:
-    // return this.http.post(`${this.apiUrl}/contact`, formData);
-    
-    console.warn('Contact form submission not connected to backend');
-    return of({ success: true, message: 'Form submission simulated' });
+  }): Observable<{ success: boolean; data: unknown }> {
+    const { firstName, lastName } = this.splitName(formData.name);
+
+    const payload = {
+      firstName,
+      lastName,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      company: formData.company || undefined,
+      source: 'CONTACT_FORM',
+      message: formData.message,
+      formData: {
+        service: formData.service,
+      },
+    };
+
+    return this.http
+      .post<{ success: boolean; data: unknown }>(`${this.apiUrl}/leads/submit`, payload);
   }
 
   /**
-   * Submit ROI calculator lead
+   * Submit pricing quote request as a lead.
+   */
+  submitPricingLead(formData: {
+    name: string;
+    email: string;
+    phone?: string;
+    company?: string;
+    industry?: string;
+    employees?: string;
+    services?: string[];
+    requirements?: string;
+  }): Observable<{ success: boolean; data: unknown }> {
+    const { firstName, lastName } = this.splitName(formData.name);
+
+    const payload = {
+      firstName,
+      lastName,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      company: formData.company || undefined,
+      source: 'PRICING_PAGE',
+      message: formData.requirements || undefined,
+      formData: {
+        industry: formData.industry,
+        employees: formData.employees,
+        services: formData.services,
+      },
+    };
+
+    return this.http
+      .post<{ success: boolean; data: unknown }>(`${this.apiUrl}/leads/submit`, payload);
+  }
+
+  /**
+   * Submit ROI calculator lead.
    */
   submitROILead(leadData: {
-    calculatorType: 'cloud' | 'email' | 'security';
-    inputs: any;
-    results: any;
+    calculatorType?: string;
+    inputs?: unknown;
+    results?: unknown;
     contactInfo: {
       name: string;
       email: string;
@@ -53,41 +93,43 @@ export class ApiService {
       company?: string;
       industry?: string;
     };
-  }): Observable<any> {
-    // TODO: Implement HubSpot CRM integration
-    // TODO: Send email with PDF report
-    // TODO: Generate PDF report server-side
-    // TODO: Notify sales team
-    
-    console.warn('ROI calculator lead submission not connected to backend/HubSpot');
-    return of({ success: true, leadId: 'temp-' + Date.now() });
+    currentSpend?: string;
+    painPoints?: string[];
+  }): Observable<{ success: boolean; data: unknown }> {
+    const { firstName, lastName } = this.splitName(leadData.contactInfo.name);
+
+    const payload = {
+      firstName,
+      lastName,
+      email: leadData.contactInfo.email,
+      phone: leadData.contactInfo.phone || undefined,
+      company: leadData.contactInfo.company || undefined,
+      source: 'ROI_CALCULATOR',
+      message: leadData.currentSpend
+        ? `Current IT Spend: ${leadData.currentSpend}`
+        : undefined,
+      formData: {
+        calculatorType: leadData.calculatorType,
+        inputs: leadData.inputs,
+        results: leadData.results,
+        industry: leadData.contactInfo.industry,
+        painPoints: leadData.painPoints,
+        currentSpend: leadData.currentSpend,
+      },
+    };
+
+    return this.http
+      .post<{ success: boolean; data: unknown }>(`${this.apiUrl}/leads/submit`, payload);
   }
 
   /**
-   * Generate PDF report for ROI calculator
+   * Split a full name into firstName and lastName.
+   * If only one word is provided, lastName defaults to a dot.
    */
-  generatePDFReport(leadId: string): Observable<Blob> {
-    // TODO: Implement PDF generation endpoint
-    // return this.http.get(`${this.apiUrl}/calculator/pdf/${leadId}`, {
-    //   responseType: 'blob'
-    // });
-    
-    console.warn('PDF generation not implemented');
-    return of(new Blob());
-  }
-
-  /**
-   * Send email
-   */
-  sendEmail(emailData: {
-    to: string;
-    subject: string;
-    body: string;
-    attachments?: Blob[];
-  }): Observable<any> {
-    // TODO: Implement email service integration (SendGrid, AWS SES, etc.)
-    
-    console.warn('Email service not configured');
-    return of({ success: true });
+  private splitName(fullName: string): { firstName: string; lastName: string } {
+    const parts = (fullName || '').trim().split(/\s+/);
+    const firstName = parts[0] || '';
+    const lastName = parts.length > 1 ? parts.slice(1).join(' ') : '.';
+    return { firstName, lastName };
   }
 }

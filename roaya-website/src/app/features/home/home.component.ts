@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { filter, take } from 'rxjs/operators';
 import { ScrollSmootherService } from '../../core/services/scroll-smoother.service';
 import { LoadingService } from '../../core/services/loading.service';
+import { ContentLoadingService } from '../../core/services/content-loading.service';
 // Font Awesome Regular (outline style) icons
 import {
   faCircleCheck,
@@ -44,6 +45,8 @@ import {
   lucideZap
 } from '@ng-icons/lucide';
 import { NavigationService } from '../../core/services/navigation.service';
+import { LogoService, Logo } from '../../core/services/logo.service';
+import { ContentService, Testimonial as ApiTestimonial } from '../../core/services/content.service';
 import { CardStackComponent } from '../../shared/components/card-stack';
 import type { StackCard } from '../../shared/components/card-stack';
 import { SecurityBriefSectionComponent } from './components/security-brief-section/security-brief-section.component';
@@ -161,8 +164,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly navigationService = inject(NavigationService);
   private readonly scrollSmootherService = inject(ScrollSmootherService);
   private readonly loadingService = inject(LoadingService);
+  private readonly contentLoadingService = inject(ContentLoadingService);
   private readonly translateService = inject(TranslateService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly logoService = inject(LogoService);
+  private readonly contentService = inject(ContentService);
 
   private scrollTriggers: ScrollTrigger[] = [];
   prefersReducedMotion = signal(false);
@@ -178,109 +184,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     { value: 10, suffix: '+', label: 'home.stats.experience', current: 0 }
   ]);
 
-  // Sector logos - Ministries, Banks, Universities
-  sectorLogos = [
-    // Ministries & Government
-    {
-      name: 'Ministry of Health',
-      logo: '/assets/images/logos/factors/شعار وزارة الصحة المصرية.png',
-      nameAr: 'وزارة الصحة المصرية'
-    },
-    {
-      name: 'Ministry of Agriculture',
-      logo: '/assets/images/logos/factors/ministry-of-agriculture.png',
-      nameAr: 'وزارة الزراعة واستصلاح الأراضي'
-    },
-    {
-      name: 'NPPA',
-      logo: '/assets/images/logos/factors/NPPA-1-300x300.png',
-      nameAr: 'الهيئة القومية للتأمينات'
-    },
-    // Banks
-    {
-      name: 'Banque Misr',
-      logo: '/assets/images/logos/factors/بنك مصر.png',
-      nameAr: 'بنك مصر'
-    },
-    {
-      name: 'Banque du Caire',
-      logo: '/assets/images/logos/factors/Banque_du_caire_Logo.png',
-      nameAr: 'بنك القاهرة'
-    },
-    {
-      name: 'Bank of Alexandria',
-      logo: '/assets/images/logos/factors/بنك الاسكندرية.png',
-      nameAr: 'بنك الإسكندرية',
-      scale: 'scale-150'
-    },
-    {
-      name: 'Agricultural Bank of Egypt',
-      logo: '/assets/images/logos/factors/البنك الزراعي المصري.png',
-      nameAr: 'البنك الزراعي المصري',
-      scale: 'scale-150'
-    },
-    // Universities
-    {
-      name: 'Cairo University',
-      logo: '/assets/images/logos/factors/جامعة القاهرة.png',
-      nameAr: 'جامعة القاهرة'
-    },
-    {
-      name: 'Ain Shams University',
-      logo: '/assets/images/logos/factors/شعار جامعة عين شمس.png',
-      nameAr: 'جامعة عين شمس'
-    },
-    {
-      name: 'Helwan University',
-      logo: '/assets/images/logos/factors/جامعة حلوان.png',
-      nameAr: 'جامعة حلوان'
-    },
-    {
-      name: 'Alexandria University',
-      logo: '/assets/images/logos/factors/Alexandria-University.svg',
-      nameAr: 'جامعة الإسكندرية',
-      scale: 'scale-150'
-    },
-    {
-      name: 'Misr International University',
-      logo: '/assets/images/logos/factors/شعار_جامعة_مصر_الدولية.png',
-      nameAr: 'جامعة مصر الدولية'
-    }
-  ];
+  // Sector logos - Ministries, Banks, Universities (now dynamic from LogoService)
+  sectorLogos = signal<Logo[]>([]);
 
-  // Trusted by logos - Real client logos
-  trustedLogos = [
-    {
-      name: 'Misr Pharmacy',
-      logo: '/assets/images/logos/clients/misr-logo.webp',
-      nameAr: 'صيدليات مصر'
-    },
-    {
-      name: 'Elsewedy Electric',
-      logo: '/assets/images/logos/clients/Elsewedy-EMG-logo-01-e1528629466548.png',
-      nameAr: 'السويدي إلكتريك'
-    },
-    {
-      name: 'Dorra Group',
-      logo: '/assets/images/logos/clients/Dorra-group-logo.png',
-      nameAr: 'مجموعة درة'
-    },
-    {
-      name: 'Cleopatra Group',
-      logo: '/assets/images/logos/clients/logo-cleopatra.png',
-      nameAr: 'مجموعة كليوباترا'
-    },
-    {
-      name: '2B Computer',
-      logo: '/assets/images/logos/clients/208-2086972_1-2b-computer-logo-2b-computer-logo-hd.png',
-      nameAr: '2B كمبيوتر'
-    },
-    {
-      name: 'RA Sports',
-      logo: '/assets/images/logos/clients/637187487380375480.jpg',
-      nameAr: 'RA الرياضة'
-    }
-  ];
+  // Trusted by logos - Real client logos (now dynamic from LogoService)
+  trustedLogos = signal<Logo[]>([]);
 
   // Features/benefits - using Font Awesome Regular (outline) icons
   features = [
@@ -747,10 +655,48 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     // Stats animation will be handled by GSAP in AfterViewInit
+
+    // Subscribe to logo updates from LogoService (dynamic content from admin panel)
+    this.logoService.sectorLogos$.subscribe(logos => {
+      this.sectorLogos.set(logos.filter(l => l.isActive).sort((a, b) => a.order - b.order));
+    });
+
+    this.logoService.clientLogos$.subscribe(logos => {
+      this.trustedLogos.set(logos.filter(l => l.isActive).sort((a, b) => a.order - b.order));
+    });
+
+    // Trigger loading logos from backend
+    this.logoService.loadAllLogos();
+
+    // Fetch testimonials from API; keep hardcoded fallback if API returns empty
+    this.contentService.getTestimonials(true).subscribe(apiTestimonials => {
+      if (apiTestimonials.length > 0) {
+        this.testimonials = apiTestimonials.map((t, i) => ({
+          id: t.id,
+          quote: t.quoteEn,
+          clientName: t.authorName,
+          clientTitle: t.authorTitleEn,
+          companyName: t.authorCompany || '',
+          industry: t.industry || '',
+          rating: t.rating,
+        }));
+      }
+    });
   }
 
   ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!isPlatformBrowser(this.platformId)) {
+      // For SSR, mark content as ready immediately
+      this.contentLoadingService.setImagesLoaded();
+      this.contentLoadingService.setAnimationsReady();
+      return;
+    }
+
+    // Track critical images for above-the-fold content
+    const criticalImages = [
+      '/assets/images/roaya-logo.png'
+    ];
+    this.contentLoadingService.trackCriticalImages(criticalImages);
 
     // Check for reduced motion preference
     this.prefersReducedMotion.set(
@@ -771,6 +717,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           setTimeout(() => {
             this.initAnimations();
             this.startTestimonialAutoRotation();
+            // Mark animations as ready after GSAP initialization
+            this.contentLoadingService.setAnimationsReady();
           }, 50);
         });
 
@@ -779,16 +727,20 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!this.scrollSmootherService.isReady()) {
           this.initAnimations();
           this.startTestimonialAutoRotation();
+          // Mark animations as ready even in fallback
+          this.contentLoadingService.setAnimationsReady();
         }
       }, 500);
     } else {
-      // If reduced motion, set stats to final values
+      // If reduced motion, set stats to final values and mark as ready
       this.stats.update(stats =>
         stats.map(stat => ({
           ...stat,
           current: stat.value
         }))
       );
+      // Mark as ready when reduced motion is preferred
+      this.contentLoadingService.setAnimationsReady();
     }
   }
 

@@ -1,0 +1,989 @@
+<div class="leads-list p-6" [class.kanban-active]="viewMode() === 'kanban'" style="width: 100%; max-width: 100%; overflow: hidden;">
+  <!-- Quick Stats Cards -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 mb-6">
+    <!-- Total Leads -->
+    <div class="stat-card bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">Total</p>
+          <p class="text-xl font-bold text-neutral-900 dark:text-neutral-100">{{ stats().total }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Today -->
+    <div class="stat-card bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14"/><path d="M5 12h14"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">Today</p>
+          <p class="text-xl font-bold text-green-600 dark:text-green-400">{{ stats().newToday }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- This Week -->
+    <div class="stat-card bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">This Week</p>
+          <p class="text-xl font-bold text-neutral-900 dark:text-neutral-100">{{ stats().newThisWeek }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Qualified -->
+    <div class="stat-card bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">Qualified</p>
+          <p class="text-xl font-bold text-amber-600 dark:text-amber-400">{{ stats().qualified }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Won -->
+    <div class="stat-card bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">Won</p>
+          <p class="text-xl font-bold text-emerald-600 dark:text-emerald-400">{{ stats().won }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversion Rate -->
+    <div class="stat-card bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">Conversion</p>
+          <p class="text-xl font-bold text-rose-600 dark:text-rose-400">{{ stats().conversionRate }}%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div class="header-content">
+      <h1 class="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+        {{ 'Leads Management' | translate }}
+      </h1>
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+        Manage and track all your leads in one place
+      </p>
+    </div>
+    <div class="flex items-center gap-2 flex-wrap">
+      <!-- View Mode Toggle -->
+      <div class="flex items-center bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+        <button
+          (click)="setViewMode('table')"
+          [class]="viewMode() === 'table'
+            ? 'px-3 py-1.5 rounded-md text-sm font-medium bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-sm'
+            : 'px-3 py-1.5 rounded-md text-sm font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-700'"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="3" x2="21" y1="15" y2="15"/><line x1="9" x2="9" y1="3" y2="21"/>
+          </svg>
+        </button>
+        <button
+          (click)="setViewMode('kanban')"
+          [class]="viewMode() === 'kanban'
+            ? 'px-3 py-1.5 rounded-md text-sm font-medium bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-sm'
+            : 'px-3 py-1.5 rounded-md text-sm font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-700'"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="6" height="14" x="2" y="5" rx="1"/><rect width="6" height="10" x="9" y="9" rx="1"/><rect width="6" height="16" x="16" y="3" rx="1"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Export Dropdown -->
+      <ui-dropdown-menu align="end">
+        <button
+          dropdownTrigger
+          class="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
+          </svg>
+          Export
+        </button>
+        <ui-dropdown-menu-item (selected)="exportLeads('csv')">
+          <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/>
+          </svg>
+          Export to CSV
+        </ui-dropdown-menu-item>
+        <ui-dropdown-menu-item (selected)="exportLeads('excel')">
+          <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/>
+          </svg>
+          Export to Excel
+        </ui-dropdown-menu-item>
+      </ui-dropdown-menu>
+
+      <!-- Refresh Button -->
+      <app-button
+        variant="secondary"
+        size="md"
+        (click)="loadLeads(); loadStats()"
+        [disabled]="loading()"
+      >
+        <svg *ngIf="loading()" class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <svg *ngIf="!loading()" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+        </svg>
+      </app-button>
+    </div>
+  </div>
+
+  <!-- Bulk Action Bar (shows when leads are selected) -->
+  <div *ngIf="getSelectedCount() > 0" class="mb-4 p-4 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-xl flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-medium text-primary-700 dark:text-primary-300">
+        {{ getSelectedCount() }} lead{{ getSelectedCount() > 1 ? 's' : '' }} selected
+      </span>
+      <button
+        (click)="clearSelection()"
+        class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 underline"
+      >
+        Clear selection
+      </button>
+    </div>
+    <div class="flex items-center gap-2">
+      <!-- Bulk Status Change -->
+      <ui-dropdown-menu align="end">
+        <button
+          dropdownTrigger
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+          Change Status
+        </button>
+        <ui-dropdown-menu-item *ngFor="let opt of statusOptions" (selected)="openBulkStatusDialog($any(opt.value))">
+          {{ opt.label }}
+        </ui-dropdown-menu-item>
+      </ui-dropdown-menu>
+
+      <!-- Bulk Delete -->
+      <button
+        (click)="bulkDelete()"
+        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30"
+      >
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+        </svg>
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Card (Collapsible) -->
+  <div class="mb-6 bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-700 shadow-sm" style="overflow: visible;">
+    <!-- Filter Header -->
+    <button
+      type="button"
+      (click)="toggleFilters()"
+      class="w-full px-5 py-4 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors"
+    >
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#5DB7C2]/20 to-[#3D5A80]/20 flex items-center justify-center">
+          <svg class="h-5 w-5 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+          </svg>
+        </div>
+        <div class="text-left">
+          <h3 class="font-semibold text-neutral-900 dark:text-neutral-50">Filters</h3>
+          <!-- Active filters summary when collapsed -->
+          <p *ngIf="!showFilters() && getActiveFilterCount() > 0" class="text-xs text-[#5DB7C2] mt-0.5">
+            {{ getActiveFilterCount() }} filter{{ getActiveFilterCount() > 1 ? 's' : '' }} active
+          </p>
+          <p *ngIf="!showFilters() && getActiveFilterCount() === 0" class="text-xs text-neutral-400 mt-0.5">
+            No filters applied
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Active filter badges when collapsed -->
+        <div *ngIf="!showFilters() && getActiveFilterCount() > 0" class="hidden sm:flex items-center gap-2 flex-wrap">
+          <span *ngIf="searchQuery" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[#5DB7C2]/10 text-[#3D5A80] dark:text-[#5DB7C2] text-xs font-medium">
+            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            "{{ searchQuery.length > 10 ? searchQuery.slice(0, 10) + '...' : searchQuery }}"
+          </span>
+          <span *ngIf="selectedStatuses.length > 0" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
+            {{ selectedStatuses.length }} status{{ selectedStatuses.length > 1 ? 'es' : '' }}
+          </span>
+          <span *ngIf="selectedSources.length > 0" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-medium">
+            {{ selectedSources.length }} source{{ selectedSources.length > 1 ? 's' : '' }}
+          </span>
+          <span *ngIf="dateFrom || dateTo" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
+            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            Date range
+          </span>
+        </div>
+        <div class="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+          <svg
+            class="h-4 w-4 text-neutral-500 transition-transform duration-200"
+            [class.rotate-180]="!showFilters()"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          >
+            <path d="m18 15-6-6-6 6"/>
+          </svg>
+        </div>
+      </div>
+    </button>
+
+    <!-- Filter Content -->
+    <div *ngIf="showFilters()" class="px-5 pb-5 border-t border-neutral-100 dark:border-neutral-800">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 pt-5">
+        <!-- Search -->
+        <div class="filter-item xl:col-span-2">
+          <label class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <svg class="h-4 w-4 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            {{ 'Search' | translate }}
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            placeholder="Search by name, email, company..."
+            (keyup.enter)="applyFilters()"
+            (input)="onSearchInput()"
+            class="w-full h-11 px-4 rounded-xl border-0 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2]/50 transition-all"
+          />
+        </div>
+
+        <!-- Status Filter -->
+        <div class="filter-item">
+          <label class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <svg class="h-4 w-4 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/>
+            </svg>
+            {{ 'Status' | translate }}
+          </label>
+          <ui-multi-select
+            [(ngModel)]="selectedStatuses"
+            [options]="statusOptions"
+            placeholder="All Statuses"
+            [showSelectAll]="false"
+          ></ui-multi-select>
+        </div>
+
+        <!-- Source Filter -->
+        <div class="filter-item">
+          <label class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <svg class="h-4 w-4 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+            {{ 'Source' | translate }}
+          </label>
+          <ui-multi-select
+            [(ngModel)]="selectedSources"
+            [options]="sourceOptions"
+            placeholder="All Sources"
+            [showSelectAll]="false"
+          ></ui-multi-select>
+        </div>
+
+        <!-- Date From -->
+        <div class="filter-item">
+          <label class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <svg class="h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+            </svg>
+            {{ 'From Date' | translate }}
+          </label>
+          <ui-date-picker
+            [(ngModel)]="dateFrom"
+            placeholder="Start date"
+          ></ui-date-picker>
+        </div>
+
+        <!-- Date To -->
+        <div class="filter-item">
+          <label class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <svg class="h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+            </svg>
+            {{ 'To Date' | translate }}
+          </label>
+          <ui-date-picker
+            [(ngModel)]="dateTo"
+            placeholder="End date"
+          ></ui-date-picker>
+        </div>
+      </div>
+
+      <!-- Filter Actions -->
+      <div class="flex items-center gap-3 mt-5 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+        <button
+          type="button"
+          (click)="applyFilters()"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] hover:opacity-90 shadow-lg shadow-[#5DB7C2]/20 transition-all"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Apply Filters
+        </button>
+        <button
+          type="button"
+          (click)="clearFilters()"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+          Clear All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE VIEW -->
+  <ui-card *ngIf="viewMode() === 'table'" variant="default" class="w-full" style="max-width: 100%; overflow: hidden;">
+    <ui-card-header padding="md">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-neutral-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <h3 class="font-semibold text-neutral-900 dark:text-neutral-50">All Leads</h3>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>
+          </svg>
+          <span>{{ totalRecords() }} total</span>
+        </div>
+      </div>
+    </ui-card-header>
+
+    <ui-card-content padding="none">
+      <div class="relative overflow-x-auto">
+        <!-- Loading Overlay -->
+        <div *ngIf="loading()" class="absolute inset-0 z-10 flex items-center justify-center bg-white/80 dark:bg-neutral-900/80">
+          <ui-spinner size="lg"></ui-spinner>
+        </div>
+
+        <!-- Table -->
+        <table class="w-full text-left text-sm">
+          <thead class="bg-neutral-50 text-xs uppercase text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 border-b border-neutral-200 dark:border-neutral-700">
+            <tr>
+              <th class="px-4 py-3 w-12">
+                <input
+                  type="checkbox"
+                  [checked]="selectAll()"
+                  (change)="toggleSelectAll()"
+                  class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800"
+                />
+              </th>
+              <th class="px-4 py-3 min-w-[180px]">{{ 'Name' | translate }}</th>
+              <th class="px-4 py-3 min-w-[200px]">{{ 'Email' | translate }}</th>
+              <th class="px-4 py-3 min-w-[140px]">{{ 'Company' | translate }}</th>
+              <th class="px-4 py-3 min-w-[140px]">{{ 'Status' | translate }}</th>
+              <th class="px-4 py-3 min-w-[100px]">{{ 'Priority' | translate }}</th>
+              <th class="px-4 py-3 min-w-[120px]">{{ 'Source' | translate }}</th>
+              <th class="px-4 py-3 min-w-[150px]">{{ 'Assigned To' | translate }}</th>
+              <th class="px-4 py-3 min-w-[120px]">{{ 'Created' | translate }}</th>
+              <th class="px-4 py-3 min-w-[100px] text-right">{{ 'Actions' | translate }}</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
+            <!-- Lead Rows -->
+            <tr *ngFor="let lead of leads(); trackBy: trackByLeadId"
+                [class]="isLeadSelected(lead.id)
+                  ? 'bg-primary-50 dark:bg-primary-900/20'
+                  : 'bg-white hover:bg-neutral-50 dark:bg-neutral-900 dark:hover:bg-neutral-800/50'"
+                class="transition-colors">
+              <!-- Checkbox -->
+              <td class="px-4 py-3">
+                <input
+                  type="checkbox"
+                  [checked]="isLeadSelected(lead.id)"
+                  (change)="toggleLeadSelection(lead.id)"
+                  class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800"
+                />
+              </td>
+
+              <!-- Name Cell -->
+              <td class="px-4 py-3">
+                <a [routerLink]="['/admin/leads', lead.id]" class="flex items-center gap-3 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-600 text-xs font-medium text-white">
+                    {{ getSafeInitials(lead) }}
+                  </div>
+                  <div>
+                    <span class="font-medium text-neutral-900 dark:text-neutral-100 block">
+                      {{ getSafeName(lead) }}
+                    </span>
+                    <span class="text-xs text-neutral-500 dark:text-neutral-400">
+                      {{ getSafePhone(lead) }}
+                    </span>
+                  </div>
+                </a>
+              </td>
+
+              <!-- Email Cell -->
+              <td class="px-4 py-3">
+                <a [href]="'mailto:' + getSafeEmail(lead)"
+                   class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors truncate block max-w-[180px]">
+                  {{ getSafeEmail(lead) }}
+                </a>
+              </td>
+
+              <!-- Company Cell -->
+              <td class="px-4 py-3 text-neutral-700 dark:text-neutral-300">
+                {{ getSafeCompany(lead) }}
+              </td>
+
+              <!-- Status Cell with Quick Change -->
+              <td class="px-4 py-3">
+                <ui-dropdown-menu align="start">
+                  <button
+                    dropdownTrigger
+                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-colors hover:opacity-80"
+                    [style.backgroundColor]="getStatusColor(lead.status) + '20'"
+                    [style.color]="getStatusColor(lead.status)"
+                  >
+                    {{ getStatusLabel(lead.status) }}
+                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                  </button>
+                  <ui-dropdown-menu-item
+                    *ngFor="let opt of statusOptions"
+                    (selected)="quickStatusChange(lead, $any(opt.value))"
+                    [class.font-semibold]="lead.status === opt.value"
+                  >
+                    <span
+                      class="w-2 h-2 rounded-full mr-2"
+                      [style.backgroundColor]="getStatusColor($any(opt.value))"
+                    ></span>
+                    {{ opt.label }}
+                  </ui-dropdown-menu-item>
+                </ui-dropdown-menu>
+              </td>
+
+              <!-- Priority Cell -->
+              <td class="px-4 py-3">
+                <ui-tag [variant]="getPrioritySeverity(lead.priority)" size="sm">
+                  {{ getPriorityLabel(lead.priority) }}
+                </ui-tag>
+              </td>
+
+              <!-- Source Cell -->
+              <td class="px-4 py-3">
+                <span class="text-xs text-neutral-500 dark:text-neutral-400">
+                  {{ getSourceLabel(lead.source) }}
+                </span>
+              </td>
+
+              <!-- Assigned To Cell -->
+              <td class="px-4 py-3">
+                <ng-container *ngIf="isSuperAdmin(); else readOnlyAssignment">
+                  <select
+                    [value]="lead.assignedToId || ''"
+                    (change)="assignLead(lead, $any($event.target).value)"
+                    class="h-8 w-full max-w-[140px] rounded-md border border-neutral-300 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 cursor-pointer"
+                  >
+                    <option value="">Unassigned</option>
+                    <option *ngFor="let user of users()" [value]="user.id">
+                      {{ user.firstName }} {{ user.lastName }}
+                    </option>
+                  </select>
+                </ng-container>
+                <ng-template #readOnlyAssignment>
+                  <span *ngIf="lead.assignedTo" class="text-sm text-neutral-700 dark:text-neutral-300">
+                    {{ lead.assignedTo.firstName }} {{ lead.assignedTo.lastName }}
+                  </span>
+                  <span *ngIf="!lead.assignedTo" class="text-xs text-neutral-400">-</span>
+                </ng-template>
+              </td>
+
+              <!-- Created At Cell -->
+              <td class="px-4 py-3 text-neutral-600 dark:text-neutral-400 text-sm">
+                {{ formatDate(lead.createdAt) }}
+              </td>
+
+              <!-- Actions Cell -->
+              <td class="px-4 py-3">
+                <div class="flex items-center justify-end gap-1">
+                  <ui-tooltip content="View Details" position="top">
+                    <button
+                      type="button"
+                      (click)="viewLead(lead)"
+                      class="p-1.5 rounded-md text-[#5DB7C2] hover:bg-[#5DB7C2]/10 transition-colors"
+                    >
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </button>
+                  </ui-tooltip>
+                  <ui-tooltip content="Edit" position="top">
+                    <button
+                      type="button"
+                      [routerLink]="['/admin/leads', lead.id]"
+                      class="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                    >
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                        <path d="m15 5 4 4"/>
+                      </svg>
+                    </button>
+                  </ui-tooltip>
+                  <ui-tooltip content="Delete" position="top">
+                    <button
+                      type="button"
+                      (click)="deleteLead(lead)"
+                      class="p-1.5 rounded-md text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    >
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                      </svg>
+                    </button>
+                  </ui-tooltip>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Empty State -->
+            <tr *ngIf="leads().length === 0 && !loading()">
+              <td colspan="10" class="px-4 py-12 text-center">
+                <div class="flex flex-col items-center gap-3 text-neutral-500">
+                  <svg class="h-16 w-16 text-neutral-300 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">
+                    {{ 'No leads found' | translate }}
+                  </h3>
+                  <p class="text-sm">Try adjusting your filters or search query</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="totalRecords() > 0" class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-3 border-t border-neutral-200 dark:border-neutral-700">
+        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+          Showing {{ (currentPage - 1) * rowsPerPage + 1 }} to {{ Math.min(currentPage * rowsPerPage, totalRecords()) }} of {{ totalRecords() }} leads
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-sm text-neutral-500 dark:text-neutral-400">Rows:</label>
+            <select
+              [(ngModel)]="rowsPerPage"
+              (change)="applyFilters()"
+              class="rounded-md border border-neutral-300 bg-white px-2 py-1 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-neutral-700 dark:bg-neutral-800"
+            >
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+              <option [value]="50">50</option>
+              <option [value]="100">100</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-1">
+            <button
+              type="button"
+              [disabled]="currentPage === 1"
+              (click)="goToPage(currentPage - 1)"
+              class="p-2 rounded-md border border-neutral-300 hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed dark:border-neutral-700 dark:hover:bg-neutral-800"
+            >
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+            <span class="px-3 py-1 text-sm text-neutral-600 dark:text-neutral-400">
+              Page {{ currentPage }} of {{ Math.ceil(totalRecords() / rowsPerPage) }}
+            </span>
+            <button
+              type="button"
+              [disabled]="currentPage >= Math.ceil(totalRecords() / rowsPerPage)"
+              (click)="goToPage(currentPage + 1)"
+              class="p-2 rounded-md border border-neutral-300 hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed dark:border-neutral-700 dark:hover:bg-neutral-800"
+            >
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ui-card-content>
+  </ui-card>
+
+  <!-- KANBAN VIEW -->
+  <div *ngIf="viewMode() === 'kanban'" class="kanban-board" style="width: 100%; max-width: 100%; overflow: hidden;">
+    <div class="kanban-scroll-container" style="display: flex; gap: 1rem; overflow-x: auto; overflow-y: hidden; padding-bottom: 1rem; width: 0; min-width: 100%;">
+      <!-- Kanban Column for each status -->
+      <div
+        *ngFor="let status of kanbanStatuses"
+        class="kanban-column flex-shrink-0 w-72"
+      >
+        <!-- Column Header -->
+        <div
+          class="flex items-center justify-between px-3 py-2 rounded-t-lg"
+          [style.backgroundColor]="getStatusColor(status) + '15'"
+        >
+          <div class="flex items-center gap-2">
+            <span
+              class="w-3 h-3 rounded-full"
+              [style.backgroundColor]="getStatusColor(status)"
+            ></span>
+            <h4 class="font-semibold text-sm text-neutral-900 dark:text-neutral-100">
+              {{ getStatusLabel(status) }}
+            </h4>
+          </div>
+          <span class="text-xs font-medium text-neutral-500 bg-white dark:bg-neutral-800 px-2 py-0.5 rounded-full">
+            {{ leadsByStatus()[status].length }}
+          </span>
+        </div>
+
+        <!-- Column Cards -->
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-b-lg p-2 min-h-[400px] space-y-2">
+          <div *ngIf="loading()" class="flex items-center justify-center py-8">
+            <ui-spinner size="sm"></ui-spinner>
+          </div>
+
+          <div
+            *ngFor="let lead of leadsByStatus()[status]"
+            class="kanban-card bg-white dark:bg-neutral-900 rounded-lg p-3 shadow-sm border border-neutral-200 dark:border-neutral-700 hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-start justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-600 text-xs font-medium text-white">
+                  {{ getSafeInitials(lead) }}
+                </div>
+                <div>
+                  <p class="font-medium text-sm text-neutral-900 dark:text-neutral-100">
+                    {{ getSafeName(lead) }}
+                  </p>
+                  <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                    {{ getSafeCompany(lead) }}
+                  </p>
+                </div>
+              </div>
+              <ui-tag [variant]="getPrioritySeverity(lead.priority)" size="sm">
+                {{ getPriorityLabel(lead.priority) }}
+              </ui-tag>
+            </div>
+
+            <p class="text-xs text-neutral-600 dark:text-neutral-400 mb-2 truncate">
+              {{ getSafeEmail(lead) }}
+            </p>
+
+            <div *ngIf="lead.assignedTo" class="flex items-center gap-1.5 mb-2">
+              <div class="flex h-5 w-5 items-center justify-center rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 text-[9px] font-medium">
+                {{ (lead.assignedTo.firstName?.charAt(0) || '') + (lead.assignedTo.lastName?.charAt(0) || '') }}
+              </div>
+              <span class="text-xs text-neutral-600 dark:text-neutral-400 truncate">{{ lead.assignedTo.firstName }} {{ lead.assignedTo.lastName }}</span>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-neutral-400 mb-3">
+              <span>{{ getSourceLabel(lead.source) }}</span>
+              <span>{{ formatDate(lead.createdAt) }}</span>
+            </div>
+
+            <!-- Kanban Card Actions -->
+            <div class="flex items-center gap-1 pt-2 border-t border-neutral-100 dark:border-neutral-800">
+              <button
+                type="button"
+                (click)="viewLead(lead)"
+                class="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium text-[#5DB7C2] hover:bg-[#5DB7C2]/10 transition-colors"
+              >
+                <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+                View
+              </button>
+              <button
+                type="button"
+                [routerLink]="['/admin/leads', lead.id]"
+                class="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              >
+                <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                </svg>
+                Edit
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty column state -->
+          <div *ngIf="!loading() && leadsByStatus()[status].length === 0" class="text-center py-8 text-neutral-400">
+            <p class="text-sm">No leads</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Dialog -->
+<ui-confirm-dialog
+  [open]="showDeleteConfirm()"
+  (openChange)="showDeleteConfirm.set($event)"
+  variant="destructive"
+  title="Delete Lead"
+  [message]="getDeleteConfirmMessage()"
+  confirmLabel="Delete"
+  cancelLabel="Cancel"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()"
+></ui-confirm-dialog>
+
+<!-- Bulk Status Change Dialog -->
+<ui-confirm-dialog
+  [open]="showBulkStatusDialog()"
+  (openChange)="showBulkStatusDialog.set($event)"
+  variant="default"
+  title="Change Status"
+  [message]="'Are you sure you want to change the status of ' + getSelectedCount() + ' leads to ' + (bulkStatusTarget() ? getStatusLabel(bulkStatusTarget()!) : '') + '?'"
+  confirmLabel="Change Status"
+  cancelLabel="Cancel"
+  (confirmed)="confirmBulkStatusChange()"
+  (cancelled)="cancelBulkStatusChange()"
+></ui-confirm-dialog>
+
+<!-- View Lead Details Dialog -->
+<ui-dialog [open]="showViewDialog()" (openChange)="showViewDialog.set($event)" size="lg" class="lead-view-dialog">
+  <ui-dialog-header>
+    <ui-dialog-title class="flex items-center gap-3">
+      <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#3D5A80] to-[#5DB7C2] text-white font-semibold">
+        {{ leadToView() ? getSafeInitials(leadToView()!) : '' }}
+      </div>
+      <div>
+        <span class="text-lg font-semibold text-neutral-900 dark:text-white">{{ leadToView() ? getSafeName(leadToView()!) : '' }}</span>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">Lead Details</p>
+      </div>
+    </ui-dialog-title>
+  </ui-dialog-header>
+
+  <ui-dialog-content class="p-0" style="max-height: 70vh; overflow-y: auto;">
+    <div *ngIf="leadToView() as lead" class="divide-y divide-neutral-200 dark:divide-neutral-700">
+      <!-- Status & Priority Bar -->
+      <div class="px-6 py-4 bg-neutral-50 dark:bg-neutral-800/50 flex flex-wrap items-center gap-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-neutral-500 uppercase">Status:</span>
+          <span
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
+            [style.backgroundColor]="getStatusColor(lead.status) + '20'"
+            [style.color]="getStatusColor(lead.status)"
+          >
+            <span class="w-2 h-2 rounded-full" [style.backgroundColor]="getStatusColor(lead.status)"></span>
+            {{ getStatusLabel(lead.status) }}
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-neutral-500 uppercase">Priority:</span>
+          <ui-tag [variant]="getPrioritySeverity(lead.priority)" size="md">
+            {{ getPriorityLabel(lead.priority) }}
+          </ui-tag>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-neutral-500 uppercase">Source:</span>
+          <span class="text-sm text-neutral-700 dark:text-neutral-300">{{ getSourceLabel(lead.source) }}</span>
+        </div>
+        <div *ngIf="lead.assignedTo" class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-neutral-500 uppercase">Assigned To:</span>
+          <span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">{{ lead.assignedTo.firstName }} {{ lead.assignedTo.lastName }}</span>
+        </div>
+      </div>
+
+      <!-- Contact Information Section -->
+      <div class="px-6 py-5">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+          <svg class="h-5 w-5 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Contact Information
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Full Name</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ getSafeName(lead) }}</p>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Email</label>
+            <a [href]="'mailto:' + getSafeEmail(lead)" class="text-sm font-medium text-[#5DB7C2] hover:underline block">{{ getSafeEmail(lead) }}</a>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Phone</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ getSafePhone(lead) }}</p>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Company</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ getSafeCompany(lead) }}</p>
+          </div>
+          <div *ngIf="lead.jobTitle" class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Job Title</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ sanitizeText(lead.jobTitle) }}</p>
+          </div>
+          <div *ngIf="lead.website" class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Website</label>
+            <a [href]="lead.website" target="_blank" class="text-sm font-medium text-[#5DB7C2] hover:underline block">{{ sanitizeText(lead.website) }}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Section -->
+      <div *ngIf="lead.message" class="px-6 py-5">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-white mb-3">
+          <svg class="h-5 w-5 text-[#6B4C9A]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Message
+        </h3>
+        <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700">
+          <p class="text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap">{{ sanitizeText(lead.message) }}</p>
+        </div>
+      </div>
+
+      <!-- Form Data Section -->
+      <div *ngIf="lead.formData && getFormDataEntries(lead).length > 0" class="px-6 py-5">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+          <svg class="h-5 w-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" x2="8" y1="13" y2="13"/>
+            <line x1="16" x2="8" y1="17" y2="17"/>
+            <line x1="10" x2="8" y1="9" y2="9"/>
+          </svg>
+          Form Submission Data
+        </h3>
+        <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+          <table class="w-full text-sm">
+            <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
+              <tr *ngFor="let entry of getFormDataEntries(lead)" class="hover:bg-neutral-100 dark:hover:bg-neutral-700/50">
+                <td class="px-4 py-3 font-medium text-neutral-700 dark:text-neutral-300 w-1/3">{{ entry.key }}</td>
+                <td class="px-4 py-3 text-neutral-900 dark:text-white">{{ entry.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tags Section -->
+      <div *ngIf="lead.tags && lead.tags.length > 0" class="px-6 py-5">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-white mb-3">
+          <svg class="h-5 w-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+            <path d="M7 7h.01"/>
+          </svg>
+          Tags
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          <span *ngFor="let tag of lead.tags"
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
+            [style.backgroundColor]="tag.color + '20'"
+            [style.color]="tag.color"
+          >
+            {{ tag.name }}
+          </span>
+        </div>
+      </div>
+
+      <!-- UTM Tracking Section -->
+      <div *ngIf="lead.utmSource || lead.utmMedium || lead.utmCampaign" class="px-6 py-5">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+          <svg class="h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="m19 9-5 5-4-4-3 3"/>
+          </svg>
+          UTM Tracking
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div *ngIf="lead.utmSource" class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Source</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ sanitizeText(lead.utmSource) }}</p>
+          </div>
+          <div *ngIf="lead.utmMedium" class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Medium</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ sanitizeText(lead.utmMedium) }}</p>
+          </div>
+          <div *ngIf="lead.utmCampaign" class="space-y-1">
+            <label class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Campaign</label>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">{{ sanitizeText(lead.utmCampaign) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Info Section -->
+      <div *ngIf="lead.ipAddress || lead.userAgent || lead.referrer" class="px-6 py-5 bg-neutral-50 dark:bg-neutral-800/50">
+        <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+          <svg class="h-5 w-5 text-neutral-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="3" rx="2"/>
+            <line x1="8" x2="16" y1="21" y2="21"/>
+            <line x1="12" x2="12" y1="17" y2="21"/>
+          </svg>
+          Technical Information
+        </h3>
+        <div class="space-y-3 text-xs">
+          <div *ngIf="lead.ipAddress" class="flex items-start gap-2">
+            <span class="font-medium text-neutral-500 dark:text-neutral-400 min-w-[80px]">IP Address:</span>
+            <span class="text-neutral-700 dark:text-neutral-300 font-mono">{{ sanitizeText(lead.ipAddress) }}</span>
+          </div>
+          <div *ngIf="lead.referrer" class="flex items-start gap-2">
+            <span class="font-medium text-neutral-500 dark:text-neutral-400 min-w-[80px]">Referrer:</span>
+            <span class="text-neutral-700 dark:text-neutral-300 break-all">{{ sanitizeText(lead.referrer) }}</span>
+          </div>
+          <div *ngIf="lead.userAgent" class="flex items-start gap-2">
+            <span class="font-medium text-neutral-500 dark:text-neutral-400 min-w-[80px]">User Agent:</span>
+            <span class="text-neutral-700 dark:text-neutral-300 break-all text-[10px] font-mono">{{ sanitizeText(lead.userAgent) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metadata Section -->
+      <div class="px-6 py-4 bg-neutral-100 dark:bg-neutral-900 flex flex-wrap items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+        <div class="flex items-center gap-4">
+          <span>Created: <strong class="text-neutral-700 dark:text-neutral-300">{{ formatDate(lead.createdAt) }}</strong></span>
+          <span>Updated: <strong class="text-neutral-700 dark:text-neutral-300">{{ formatDate(lead.updatedAt) }}</strong></span>
+        </div>
+        <div *ngIf="lead.estimatedValue" class="flex items-center gap-1">
+          <span>Est. Value:</span>
+          <strong class="text-emerald-600 dark:text-emerald-400">${{ lead.estimatedValue.toLocaleString() }}</strong>
+        </div>
+      </div>
+    </div>
+  </ui-dialog-content>
+</ui-dialog>

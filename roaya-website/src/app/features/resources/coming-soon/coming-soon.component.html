@@ -33,7 +33,7 @@
           {{ translationPrefix + '.subscription.label' | translate }}
         </p>
 
-        <form (ngSubmit)="handleSubscribe()" class="flex flex-col sm:flex-row gap-3">
+        <form id="roaya-newsletter-form" (ngSubmit)="handleSubscribe()" class="flex flex-col sm:flex-row gap-3">
           <div class="relative flex-1">
             <ng-icon
               name="lucideMail"

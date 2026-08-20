@@ -1,0 +1,925 @@
+.leads-list {
+  padding: 2rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  box-sizing: border-box;
+  overflow: hidden;
+  
+  // Ensure all direct children respect width
+  > * {
+    max-width: 100%;
+  }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+
+  .header-content {
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      background: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+// Filters Card with Glassmorphism
+:host ::ng-deep .filters-card {
+  margin-bottom: 2rem;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+
+  .p-card-header {
+    background: transparent;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+
+    h3 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: #5DB7C2;
+      }
+    }
+  }
+
+  .p-card-body {
+    padding: 1.5rem;
+  }
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: #5DB7C2;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+// Enhanced filter input styling - shadcn style without strokes
+:host ::ng-deep {
+  .filter-item {
+    // Remove all ring-offset styles from UI components
+    ui-input,
+    ui-select,
+    ui-multi-select,
+    ui-date-picker {
+      input, button, [role="combobox"] {
+        outline: none !important;
+        box-shadow: none !important;
+
+        &:focus, &:focus-within {
+          outline: none !important;
+          box-shadow: 0 0 0 3px rgba(93, 183, 194, 0.15) !important;
+          border-color: #5DB7C2 !important;
+        }
+      }
+    }
+
+    // Override any component wrapper styles
+    > * {
+      --tw-ring-offset-width: 0px !important;
+      --tw-ring-offset-color: transparent !important;
+    }
+  }
+}
+
+// Global form field stroke removal
+:host ::ng-deep {
+  // Remove ring-offset from all form elements
+  [class*="ring-offset"],
+  [class*="focus:ring-offset"],
+  [class*="focus-within:ring-offset"],
+  [class*="focus-visible:ring-offset"] {
+    --tw-ring-offset-width: 0px !important;
+    --tw-ring-offset-shadow: none !important;
+  }
+
+  // Clean input styling
+  input, select, textarea, button {
+    &:focus, &:focus-visible, &:focus-within {
+      outline: none !important;
+    }
+  }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+// Table Card with Glassmorphism
+:host ::ng-deep .table-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+
+  .p-card-header {
+    background: transparent;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .p-card-body {
+    padding: 0;
+  }
+
+  .p-card-content {
+    padding: 0;
+  }
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      color: #5DB7C2;
+    }
+  }
+
+  .table-stats {
+    display: flex;
+    gap: 1rem;
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(93, 183, 194, 0.15);
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      border: 1px solid rgba(93, 183, 194, 0.3);
+
+      i {
+        color: #5DB7C2;
+      }
+    }
+  }
+}
+
+// Enhanced Table Styling with Fixed Header
+:host ::ng-deep .leads-table {
+  .p-datatable-header {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .p-datatable-wrapper {
+    max-height: 600px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(93, 183, 194, 0.5);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(93, 183, 194, 0.7);
+      }
+    }
+  }
+
+  .p-datatable-thead > tr > th {
+    background: var(--table-header-bg);
+    backdrop-filter: blur(8px);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border-bottom: 2px solid rgba(93, 183, 194, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    &:hover {
+      background: var(--table-header-hover);
+    }
+  }
+
+  .p-sortable-column-icon {
+    color: var(--text-secondary);
+  }
+
+  .p-sortable-column:hover .p-sortable-column-icon,
+  .p-sortable-column-sorted .p-sortable-column-icon {
+    color: #5DB7C2;
+  }
+
+  // Zebra striping with glassmorphism
+  .p-datatable-tbody > tr {
+    background: transparent;
+    transition: all 0.2s ease;
+
+    &:nth-child(even) {
+      background: var(--table-row-even);
+    }
+
+    &:hover {
+      background: rgba(93, 183, 194, 0.15);
+      box-shadow: inset 3px 0 0 #5DB7C2;
+      transform: translateX(2px);
+    }
+
+    td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+  }
+}
+
+// Cell Styles
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(93, 183, 194, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  strong {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
+.email-link,
+.phone-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #5DB7C2;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+
+  i {
+    font-size: 0.875rem;
+  }
+
+  &:hover {
+    color: var(--text-primary);
+    background: rgba(93, 183, 194, 0.15);
+    text-decoration: none;
+  }
+}
+
+.company-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(107, 76, 154, 0.15);
+  border: 1px solid rgba(107, 76, 154, 0.3);
+  border-radius: 8px;
+  color: #6B4C9A;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  i {
+    font-size: 0.875rem;
+  }
+}
+
+[data-theme='dark'] .company-badge {
+  color: #D8B4FE;
+  background: rgba(107, 76, 154, 0.2);
+}
+
+.message-cell {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: help;
+}
+
+.date-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+
+  i {
+    color: #5DB7C2;
+    font-size: 0.875rem;
+  }
+}
+
+.no-data {
+  color: var(--text-muted);
+  font-style: italic;
+  opacity: 0.6;
+}
+
+// Action Buttons with Tooltips
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+
+  :host ::ng-deep .p-button {
+    &.p-button-text {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(93, 183, 194, 0.15);
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-message {
+  padding: 0 !important;
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+
+    i {
+      font-size: 4rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Loading State
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+}
+
+// Enhanced PrimeNG Tag Colors
+:host ::ng-deep {
+  .p-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    border-width: 1px;
+    border-style: solid;
+
+    .p-tag-icon {
+      font-size: 0.875rem;
+    }
+  }
+
+  .p-tag-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .p-tag-info {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3B82F6;
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+
+  .p-tag-warn {
+    background: rgba(245, 158, 11, 0.2);
+    color: #F59E0B;
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  .p-tag-danger {
+    background: rgba(239, 68, 68, 0.2);
+    color: #EF4444;
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+
+  .p-tag-secondary {
+    background: rgba(107, 114, 128, 0.2);
+    color: #9CA3AF;
+    border-color: rgba(107, 114, 128, 0.4);
+  }
+}
+
+// Tooltip Styling
+:host ::ng-deep .p-tooltip {
+  .p-tooltip-text {
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    max-width: 400px;
+    line-height: 1.5;
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Paginator styling
+:host ::ng-deep .p-paginator {
+  background: transparent;
+  border-top: 1px solid var(--border-color);
+  padding: 1rem;
+  color: var(--text-primary);
+
+  .p-paginator-pages .p-paginator-page {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 10px;
+    min-width: 40px;
+    height: 40px;
+
+    &:hover {
+      background: rgba(93, 183, 194, 0.15);
+      border-color: rgba(93, 183, 194, 0.5);
+    }
+
+    &.p-highlight {
+      background: linear-gradient(135deg, #3D5A80 0%, #5DB7C2 100%);
+      border-color: #5DB7C2;
+      color: #ffffff;
+    }
+  }
+
+  .p-paginator-first,
+  .p-paginator-prev,
+  .p-paginator-next,
+  .p-paginator-last {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 10px;
+    min-width: 40px;
+    height: 40px;
+
+    &:hover:not(:disabled) {
+      background: rgba(93, 183, 194, 0.15);
+      border-color: rgba(93, 183, 194, 0.5);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+    }
+  }
+
+  .p-paginator-current {
+    color: var(--text-secondary);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .filters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .leads-list {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .header-content h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+  }
+
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+
+  .name-cell {
+    .avatar {
+      width: 32px;
+      height: 32px;
+      font-size: 0.75rem;
+    }
+  }
+
+  .table-stats {
+    flex-direction: column;
+    width: 100%;
+
+    .stat {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  :host ::ng-deep .leads-table {
+    .p-datatable-wrapper {
+      max-height: 500px;
+    }
+  }
+}
+
+// Print Styles
+@media print {
+  .page-header p-button,
+  .filter-actions,
+  .action-buttons,
+  :host ::ng-deep .p-paginator {
+    display: none !important;
+  }
+
+  .leads-list {
+    padding: 0;
+    background: white;
+  }
+
+  :host ::ng-deep .filters-card,
+  :host ::ng-deep .table-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    background: white;
+  }
+
+  .page-header .header-content h1 {
+    -webkit-text-fill-color: initial;
+    color: #1f2937;
+  }
+
+  .name-cell strong,
+  .table-header h3 {
+    color: #1f2937;
+  }
+}
+
+// CSS Variables for theme support
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --border-color: rgba(61, 90, 128, 0.12);
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-bg-focus: #ffffff;
+  --table-header-bg: rgba(248, 250, 252, 0.9);
+  --table-header-hover: rgba(243, 244, 246, 0.9);
+  --table-row-even: rgba(0, 0, 0, 0.02);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme='dark'] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --glass-bg: rgba(30, 41, 59, 0.85);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-primary: #f1f5f9;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --input-bg: rgba(255, 255, 255, 0.08);
+  --input-bg-focus: rgba(255, 255, 255, 0.12);
+  --table-header-bg: rgba(51, 65, 85, 0.8);
+  --table-header-hover: rgba(51, 65, 85, 0.9);
+  --table-row-even: rgba(255, 255, 255, 0.02);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+// ============================================================================
+// STAT CARDS
+// ============================================================================
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Host element styling
+:host {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+// ============================================================================
+// KANBAN VIEW STYLES
+// ============================================================================
+.kanban-board {
+  margin-top: 1rem;
+  width: 100%;
+  position: relative;
+}
+
+.kanban-scroll-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1rem;
+  // This trick forces the flex container to respect parent width
+  width: 0;
+  min-width: 100%;
+  
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(93, 183, 194, 0.5);
+    border-radius: 4px;
+
+    &:hover {
+      background: rgba(93, 183, 194, 0.7);
+    }
+  }
+}
+
+// When kanban is active, contain the width
+.leads-list.kanban-active {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+// Table container fix
+.relative.overflow-x-auto {
+  max-width: 100%;
+}
+
+.kanban-column {
+  flex-shrink: 0;
+  min-height: 450px;
+}
+
+.kanban-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Custom scrollbar for kanban columns
+.kanban-column > div:last-child {
+  max-height: calc(100vh - 400px);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+[data-theme='dark'] .kanban-column > div:last-child {
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+// ============================================================================
+// BULK ACTION BAR
+// ============================================================================
+.bulk-action-bar {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// VIEW MODE TOGGLE
+// ============================================================================
+.view-mode-toggle {
+  button {
+    transition: all 0.15s ease;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE KANBAN
+// ============================================================================
+@media (max-width: 1024px) {
+  .kanban-column {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .kanban-column {
+    width: 260px;
+    min-width: 260px;
+  }
+
+  .stat-card {
+    padding: 0.75rem;
+
+    .text-xl {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+// ============================================================================
+// LEAD VIEW DIALOG
+// ============================================================================
+:host ::ng-deep .lead-view-dialog {
+  ui-dialog-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(93, 183, 194, 0.3);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba(93, 183, 194, 0.5);
+      }
+    }
+  }
+}

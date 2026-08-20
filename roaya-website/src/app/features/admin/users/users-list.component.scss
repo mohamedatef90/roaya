@@ -1,0 +1,450 @@
+// Premium Enterprise Admin - Users List
+// Ultra-modern glassmorphic design
+
+// Brand Colors
+$navy: #3D5A80;
+$teal: #5DB7C2;
+$purple: #6B4C9A;
+
+.users-list {
+  padding: 2rem;
+  min-height: 100vh;
+
+  // Page Header with Gradient
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba($navy, 0.1);
+
+    h1 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, $navy 0%, $teal 50%, $purple 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+
+  // Filter Card with Glass Effect
+  :host ::ng-deep .filter-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba($navy, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba($navy, 0.06);
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 8px 32px rgba($navy, 0.1);
+    }
+
+    .p-card-body {
+      padding: 1.25rem;
+    }
+
+    // Search Input Enhancement
+    .p-input-icon-left {
+      width: 100%;
+
+      .pi-search {
+        color: $teal;
+        left: 1rem;
+      }
+
+      input {
+        padding-left: 2.75rem;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid rgba($navy, 0.12);
+        background: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+
+        &:focus {
+          border-color: $teal;
+          box-shadow: 0 0 0 3px rgba($teal, 0.15);
+        }
+      }
+    }
+
+    // Select Dropdown Enhancement
+    .p-select {
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba($navy, 0.12);
+      background: rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        border-color: rgba($teal, 0.5);
+      }
+
+      &.p-focus {
+        border-color: $teal;
+        box-shadow: 0 0 0 3px rgba($teal, 0.15);
+      }
+    }
+  }
+
+  // Users Table Card
+  :host ::ng-deep .p-card:not(.filter-card) {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba($navy, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba($navy, 0.08);
+    overflow: hidden;
+
+    .p-card-body {
+      padding: 0;
+    }
+  }
+
+  // Enhanced Data Table
+  :host ::ng-deep .p-datatable {
+    .p-datatable-wrapper {
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    // Table Header
+    .p-datatable-thead > tr > th {
+      background: linear-gradient(180deg, rgba($navy, 0.03) 0%, rgba($navy, 0.06) 100%);
+      border: none;
+      border-bottom: 1px solid rgba($navy, 0.08);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba($navy, 0.7);
+      padding: 1rem 1.25rem;
+
+      .p-sortable-column-icon {
+        color: $teal;
+        margin-left: 0.5rem;
+      }
+
+      &:hover {
+        background: linear-gradient(180deg, rgba($teal, 0.05) 0%, rgba($teal, 0.08) 100%);
+      }
+    }
+
+    // Table Body - increased padding for better readability
+    .p-datatable-tbody > tr {
+      background: transparent;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: linear-gradient(90deg, rgba($teal, 0.05) 0%, rgba($purple, 0.03) 100%);
+      }
+
+      > td {
+        border: none;
+        border-bottom: 1px solid rgba($navy, 0.05);
+        padding: 1.125rem 1.5rem;
+        vertical-align: middle;
+      }
+
+      &:last-child > td {
+        border-bottom: none;
+      }
+    }
+
+    // Striped Rows
+    &.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+      background: rgba($navy, 0.015);
+
+      &:hover {
+        background: linear-gradient(90deg, rgba($teal, 0.04) 0%, rgba($purple, 0.04) 100%);
+      }
+    }
+
+    // User Avatar - increased to 44px for better visibility
+    .user-avatar,
+    .w-8.h-8 {
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 12px !important;
+      background: linear-gradient(135deg, $navy 0%, $teal 100%) !important;
+      font-size: 0.9rem !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 12px rgba($navy, 0.2);
+    }
+
+    // Name Cell
+    .font-medium {
+      font-weight: 600;
+      color: $navy;
+    }
+
+    // Paginator
+    .p-paginator {
+      background: linear-gradient(180deg, rgba($navy, 0.02) 0%, rgba($navy, 0.04) 100%);
+      border: none;
+      border-top: 1px solid rgba($navy, 0.08);
+      padding: 1rem 1.5rem;
+
+      .p-paginator-element {
+        border-radius: 10px;
+        min-width: 40px;
+        height: 40px;
+        margin: 0 2px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: rgba($teal, 0.1);
+          color: $teal;
+        }
+
+        &.p-highlight {
+          background: linear-gradient(135deg, $navy 0%, $teal 100%);
+          color: white;
+          box-shadow: 0 4px 12px rgba($navy, 0.25);
+        }
+      }
+
+      .p-paginator-pages {
+        gap: 4px;
+      }
+    }
+
+    // Empty Message
+    .text-center.py-8 {
+      padding: 4rem 2rem !important;
+
+      .pi-users {
+        font-size: 4rem !important;
+        color: rgba($navy, 0.2);
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      p {
+        color: rgba($navy, 0.5);
+        font-size: 1rem;
+      }
+    }
+  }
+
+  // Enhanced Tags
+  :host ::ng-deep .p-tag {
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+
+    // Role Tags
+    &.p-tag-danger {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+    }
+
+    &.p-tag-warn {
+      background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+    }
+
+    &.p-tag-info {
+      background: linear-gradient(135deg, $navy 0%, $teal 100%);
+      box-shadow: 0 2px 8px rgba($navy, 0.25);
+    }
+
+    &.p-tag-success {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+    }
+
+    &.p-tag-secondary {
+      background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+      box-shadow: 0 2px 8px rgba(100, 116, 139, 0.25);
+    }
+  }
+
+  // Action Buttons - improved touch targets and hover effects
+  :host ::ng-deep {
+    .p-button {
+      &.p-button-text {
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.08);
+          background: rgba($teal, 0.1);
+        }
+      }
+
+      &.p-button-rounded {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+
+        .pi {
+          font-size: 0.95rem;
+        }
+      }
+    }
+
+    // Primary Add Button
+    .page-header .p-button:not(.p-button-text) {
+      background: linear-gradient(135deg, $navy 0%, $teal 100%);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba($navy, 0.25);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba($navy, 0.35);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Reset Password Dialog Enhancement
+:host ::ng-deep .p-dialog {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba($navy, 0.25);
+
+  .p-dialog-header {
+    background: linear-gradient(135deg, $navy 0%, $teal 100%);
+    color: white;
+    padding: 1.25rem 1.5rem;
+
+    .p-dialog-title {
+      font-weight: 600;
+    }
+
+    .p-dialog-header-icon {
+      color: white;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .p-dialog-content {
+    padding: 2rem;
+
+    .pi-check-circle {
+      color: #10b981 !important;
+      filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.3));
+    }
+
+    code {
+      background: linear-gradient(135deg, rgba($navy, 0.05) 0%, rgba($teal, 0.05) 100%);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: $navy;
+      border: 1px solid rgba($navy, 0.1);
+    }
+  }
+
+  .p-dialog-footer {
+    background: rgba($navy, 0.03);
+    border-top: 1px solid rgba($navy, 0.08);
+    padding: 1rem 1.5rem;
+  }
+}
+
+// Dark Mode Support
+[data-theme='dark'] {
+  .users-list {
+    .page-header {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+
+      h1 {
+        background: linear-gradient(135deg, #93c5fd 0%, $teal 50%, #c4b5fd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    :host ::ng-deep .filter-card {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(255, 255, 255, 0.08);
+
+      input,
+      .p-select {
+        background: rgba(15, 23, 42, 0.6);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+      }
+    }
+
+    :host ::ng-deep .p-card:not(.filter-card) {
+      background: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    :host ::ng-deep .p-datatable {
+      .p-datatable-thead > tr > th {
+        background: rgba(15, 23, 42, 0.5);
+        color: rgba(255, 255, 255, 0.7);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .p-datatable-tbody > tr {
+        &:hover {
+          background: rgba($teal, 0.08);
+        }
+
+        > td {
+          border-bottom-color: rgba(255, 255, 255, 0.05);
+          color: #e2e8f0;
+        }
+      }
+
+      &.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .font-medium {
+        color: #f1f5f9;
+      }
+
+      .p-paginator {
+        background: rgba(15, 23, 42, 0.5);
+        border-top-color: rgba(255, 255, 255, 0.08);
+      }
+    }
+  }
+
+  :host ::ng-deep .p-dialog {
+    .p-dialog-content {
+      background: #1e293b;
+      color: #e2e8f0;
+
+      code {
+        background: rgba(255, 255, 255, 0.05);
+        color: $teal;
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    .p-dialog-footer {
+      background: rgba(15, 23, 42, 0.5);
+      border-top-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+}

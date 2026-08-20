@@ -12,6 +12,7 @@ import { ScrollIndicatorComponent } from '../../shared/components/scroll-indicat
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
 import { CosmicLoaderComponent } from '../../shared/components/cosmic-loader/cosmic-loader.component';
+import { ConsentBannerComponent } from '../../shared/components/consent-banner/consent-banner.component';
 import { Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
@@ -19,7 +20,7 @@ import { throttleTime } from 'rxjs/operators';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent, ConsentBannerComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
@@ -294,16 +295,20 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
 
-  private navigationSub?: Subscription;
   private routeSub?: Subscription;
-  private navigationStartTime = 0;
-  private readonly minimumLoaderDuration = 6000;
-  private loaderShownOnce = false;
 
   ngOnInit(): void {
+    // Show loading screen on app initialization
+    this.loadingService.show('Loading Roaya IT...');
+
+    // Simple approach: Just mark content ready after a short delay
+    // The LoadingService will wait for minimum time (3s) then hide
+    setTimeout(() => {
+      this.loadingService.setContentReady();
+    }, 500);
+
     // Check initial scroll position
     this.checkScroll();
-    this.initializeLoader();
     this.updateRouteState(this.router.url);
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -335,16 +340,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           this.checkScroll();
         });
     }
-
-    // Ensure loader is visible on first paint
-    this.showInitialLoader();
   }
 
   ngOnDestroy(): void {
     // Close mobile menu when component is destroyed
     this.navigationService.closeMobileMenu();
     this.scrollSmootherService.destroy();
-    this.navigationSub?.unsubscribe();
     this.routeSub?.unsubscribe();
     this.scrollSub?.unsubscribe();
   }
@@ -379,52 +380,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         this.scrollProgress = progress;
       }
     }
-  }
-
-  private initializeLoader(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    this.navigationSub = this.router.events.subscribe(event => {
-      if (this.loaderShownOnce) {
-        return;
-      }
-
-      if (event instanceof NavigationStart) {
-        this.navigationStartTime = performance.now();
-        this.loadingService.showLoading();
-      }
-
-      if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-        const elapsed = performance.now() - this.navigationStartTime;
-        const remaining = Math.max(0, this.minimumLoaderDuration - elapsed);
-        window.setTimeout(() => {
-          this.loadingService.hideLoading();
-          this.loaderShownOnce = true;
-          this.contentEntered = true;
-        }, remaining);
-      }
-    });
-  }
-
-  private showInitialLoader(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    // Prevent double-run if already shown via navigation events
-    if (this.loaderShownOnce) {
-      return;
-    }
-
-    this.navigationStartTime = performance.now();
-    this.loadingService.showLoading();
-    window.setTimeout(() => {
-      this.loadingService.hideLoading();
-      this.loaderShownOnce = true;
-      this.contentEntered = true;
-    }, this.minimumLoaderDuration);
   }
 
   private updateRouteState(url: string): void {

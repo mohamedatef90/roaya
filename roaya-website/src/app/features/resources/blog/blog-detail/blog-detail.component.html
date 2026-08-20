@@ -37,7 +37,7 @@
       <div class="absolute bottom-0 left-1/4 w-80 h-80 bg-teal/10 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="container mx-auto px-4 relative z-10">
+    <div class="container-custom relative z-10">
       <!-- Back Link -->
       <a routerLink="/resources/blog"
         class="inline-flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-white/80 dark:hover:text-white mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy rounded-lg px-2 py-1 -mx-2 -my-1">
@@ -80,7 +80,7 @@
   </section>
 
   <!-- Main Content Area -->
-  <div class="container mx-auto px-4 py-12">
+  <div class="container-custom py-12">
     <div class="flex flex-col lg:flex-row gap-10 lg:gap-12">
       <!-- Left Sidebar (TOC) - Desktop -->
       <aside class="hidden lg:block lg:w-56 flex-shrink-0 order-1">
@@ -111,18 +111,20 @@
 
         <!-- Article Content - Enhanced Typography -->
         <div
-          class="article-content prose prose-lg dark:prose-invert max-w-none
+          class="article-content prose prose-lg dark:prose-invert max-w-none overflow-x-hidden
                  prose-headings:font-bold prose-headings:tracking-tight
                  prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-neutral-900 dark:prose-h2:text-white prose-h2:border-b prose-h2:border-neutral-200 dark:prose-h2:border-neutral-700 prose-h2:pb-3
                  prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-neutral-800 dark:prose-h3:text-neutral-100
                  prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-p:text-base prose-p:md:text-lg prose-p:leading-relaxed prose-p:mb-6
-                 prose-a:text-navy dark:prose-a:text-teal prose-a:font-medium prose-a:no-underline prose-a:border-b-2 prose-a:border-navy/30 dark:prose-a:border-teal/30 hover:prose-a:border-navy dark:hover:prose-a:border-teal prose-a:transition-colors
+                 prose-a:text-navy dark:prose-a:text-teal-400 prose-a:font-medium prose-a:no-underline prose-a:border-b-2 prose-a:border-navy/30 dark:prose-a:border-teal-400/30 hover:prose-a:border-navy dark:hover:prose-a:border-teal-400 prose-a:transition-colors
                  prose-strong:text-neutral-900 dark:prose-strong:text-white prose-strong:font-semibold
                  prose-ul:my-6 prose-ul:text-neutral-700 dark:prose-ul:text-neutral-300
                  prose-ol:my-6 prose-ol:text-neutral-700 dark:prose-ol:text-neutral-300
                  prose-li:text-base prose-li:md:text-lg prose-li:leading-relaxed prose-li:mb-2 prose-li:marker:text-navy dark:prose-li:marker:text-teal
                  prose-blockquote:border-l-4 prose-blockquote:border-navy dark:prose-blockquote:border-teal prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-neutral-600 dark:prose-blockquote:text-neutral-400
                  prose-code:text-navy dark:prose-code:text-teal prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                 prose-pre:overflow-x-auto prose-pre:max-w-full
+                 prose-img:w-full prose-img:h-auto
                  mb-12"
           [innerHTML]="processedContent()"></div>
 
@@ -199,7 +201,7 @@
           <h2 class="text-2xl font-bold mb-8 text-neutral-900 dark:text-white">
             {{ 'blog.detail.related' | translate }}
           </h2>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
             @for (relatedPost of relatedPosts(); track relatedPost.id) {
             <a [routerLink]="['/resources/blog', relatedPost.slug]"
               class="group block bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"

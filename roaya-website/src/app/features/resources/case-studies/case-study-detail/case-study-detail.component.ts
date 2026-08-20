@@ -21,7 +21,7 @@ import {
 } from '@ng-icons/lucide';
 import { AnalyticsService } from '../../../../core/services/analytics.service';
 import { SEOService } from '../../../../core/services/seo.service';
-import { CaseStudy } from '../case-studies.component';
+import { CaseStudy } from '../../../../core/services/content.service';
 
 interface CaseStudyData {
   slug: string;

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { RouterOutlet } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { VisitorTrackingService } from './core/services/visitor-tracking.service';
 
 /**
  * Root Application Component
@@ -9,9 +11,10 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MainLayoutComponent],
+  imports: [CommonModule, RouterOutlet, ToastModule],
   template: `
-    <app-main-layout />
+    <router-outlet />
+    <p-toast position="top-right" />
   `,
   styles: [`
     :host {
@@ -20,4 +23,11 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
     }
   `]
 })
-export class App {}
+export class App {
+  private readonly tracking = inject(VisitorTrackingService);
+
+  constructor() {
+    this.tracking.init();
+    this.tracking.enableClickTracking();
+  }
+}

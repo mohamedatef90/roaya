@@ -1,11 +1,12 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
+import { ContentService, ServicePackage } from '../../core/services/content.service';
 
 interface FAQ {
   question: string;
@@ -29,10 +30,15 @@ interface ServiceOption {
   templateUrl: './pricing.component.html',
   styleUrl: './pricing.component.scss'
 })
-export class PricingComponent {
+export class PricingComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly apiService = inject(ApiService);
   private readonly analytics = inject(AnalyticsService);
+  private readonly contentService = inject(ContentService);
+  private readonly translateService = inject(TranslateService);
+
+  packages = signal<ServicePackage[]>([]);
+  isYearly = signal(false);
 
   expandedFAQ = signal<number | null>(null);
   isSubmitting = signal(false);
@@ -75,6 +81,29 @@ export class PricingComponent {
     { question: 'pricing.faq.q4', answer: 'pricing.faq.a4' },
     { question: 'pricing.faq.q5', answer: 'pricing.faq.a5' }
   ];
+
+  ngOnInit(): void {
+    this.contentService.getPackages().subscribe(pkgs => {
+      this.packages.set(pkgs);
+    });
+  }
+
+  get currentLang(): string {
+    return this.translateService.currentLang || 'en';
+  }
+
+  toggleBilling(): void {
+    this.isYearly.update(v => !v);
+  }
+
+  getPackagePrice(pkg: ServicePackage): number | null {
+    const price = this.isYearly() ? pkg.priceYearly : pkg.priceMonthly;
+    return price ?? null;
+  }
+
+  getPackageFeatures(pkg: ServicePackage): string[] {
+    return this.currentLang === 'ar' ? pkg.featuresAr : pkg.featuresEn;
+  }
 
   toggleFAQ(index: number): void {
     this.expandedFAQ.update(current => current === index ? null : index);
@@ -127,20 +156,22 @@ export class PricingComponent {
         email: this.quoteForm.value.email,
         phone: this.quoteForm.value.phone,
         company: this.quoteForm.value.companyName,
-        service: this.selectedServices.join(', '),
-        message: `Industry: ${this.quoteForm.value.industry || 'Not specified'}\nEmployees: ${this.quoteForm.value.employees || 'Not specified'}\nServices: ${this.selectedServices.join(', ') || 'Not specified'}\n\nRequirements:\n${this.quoteForm.value.requirements || 'Not specified'}`
+        industry: this.quoteForm.value.industry,
+        employees: this.quoteForm.value.employees,
+        services: this.selectedServices,
+        requirements: this.quoteForm.value.requirements,
       };
 
-      await firstValueFrom(this.apiService.submitContactForm(formData));
+      await firstValueFrom(this.apiService.submitPricingLead(formData));
 
       this.isSubmitted.set(true);
       this.quoteForm.reset();
       this.selectedServices = [];
-      this.analytics.trackFormSubmission('contact', true);
+      this.analytics.trackFormSubmission('roaya-pricing-form', 'pricing_quote', true);
     } catch (error) {
       console.error('Quote form submission error:', error);
       this.hasError.set(true);
-      this.analytics.trackFormSubmission('contact', false);
+      this.analytics.trackFormSubmission('roaya-pricing-form', 'pricing_quote', false);
     } finally {
       this.isSubmitting.set(false);
     }

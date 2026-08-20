@@ -1,34 +1,27 @@
 import { Injectable, signal, effect } from '@angular/core';
 
 export type Theme = 'light' | 'dark';
+export type Direction = 'ltr' | 'rtl';
 
 /**
  * Theme Service
- * Manages light/dark mode theme switching with persistence
+ * Manages application theme (light/dark) and direction (LTR/RTL)
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly THEME_KEY = 'roaya-theme';
-  
-  // Signal for reactive theme state
+  private readonly DIRECTION_KEY = 'roaya-direction';
+
   theme = signal<Theme>(this.getInitialTheme());
+  direction = signal<Direction>(this.getInitialDirection());
 
   constructor() {
-    // Effect to sync theme changes with DOM and localStorage
+    // Apply theme and direction whenever they change
     effect(() => {
-      const currentTheme = this.theme();
-      try {
-        this.applyTheme(currentTheme);
-        this.saveTheme(currentTheme);
-      } catch (error) {
-        console.warn('Failed to apply theme:', error);
-        // Fallback: at least try to apply DOM theme even if storage fails
-        if (typeof document !== 'undefined') {
-          document.documentElement.classList.toggle('dark', currentTheme === 'dark');
-        }
-      }
+      this.applyTheme(this.theme());
+      this.applyDirection(this.direction());
     });
   }
 
@@ -36,64 +29,46 @@ export class ThemeService {
    * Get initial theme from localStorage or system preference
    */
   private getInitialTheme(): Theme {
-    // Check localStorage first (with SSR safety)
-    if (typeof localStorage !== 'undefined') {
-      try {
-        const savedTheme = localStorage.getItem(this.THEME_KEY) as Theme;
-        if (savedTheme === 'light' || savedTheme === 'dark') {
-          return savedTheme;
-        }
-      } catch {
-        // localStorage may be disabled
-      }
+    const stored = localStorage.getItem(this.THEME_KEY) as Theme;
+    if (stored && (stored === 'light' || stored === 'dark')) {
+      return stored;
     }
 
-    // Fall back to system preference
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      try {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      } catch {
-        // matchMedia may not be available
-      }
+    // Check system preference
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      return 'dark';
     }
 
     return 'light';
   }
 
   /**
-   * Apply theme to document
-   * Sets both data-theme attribute (for CSS variable files) and dark class (for Tailwind)
+   * Get initial direction from localStorage or browser language
    */
-  private applyTheme(theme: Theme): void {
-    if (typeof document !== 'undefined') {
-      const html = document.documentElement;
-
-      // Set data-theme attribute for CSS variable theme files (light.css, dark.css)
-      html.setAttribute('data-theme', theme);
-
-      // Toggle dark class for Tailwind dark mode utilities
-      if (theme === 'dark') {
-        html.classList.add('dark');
-      } else {
-        html.classList.remove('dark');
-      }
+  private getInitialDirection(): Direction {
+    const stored = localStorage.getItem(this.DIRECTION_KEY) as Direction;
+    if (stored && (stored === 'ltr' || stored === 'rtl')) {
+      return stored;
     }
+
+    // Check if the browser language is RTL
+    const lang = navigator.language || (navigator as any).userLanguage;
+    const rtlLanguages = ['ar', 'he', 'fa', 'ur'];
+    if (rtlLanguages.some((rtl) => lang.startsWith(rtl))) {
+      return 'rtl';
+    }
+
+    return 'ltr';
   }
 
   /**
-   * Save theme to localStorage
-   */
-  private saveTheme(theme: Theme): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(this.THEME_KEY, theme);
-    }
-  }
-
-  /**
-   * Toggle between light and dark theme
+   * Toggle between light and dark themes
    */
   toggleTheme(): void {
-    this.theme.update(current => current === 'light' ? 'dark' : 'light');
+    this.theme.set(this.theme() === 'light' ? 'dark' : 'light');
   }
 
   /**
@@ -104,9 +79,49 @@ export class ThemeService {
   }
 
   /**
-   * Check if dark mode is active
+   * Toggle between LTR and RTL directions
    */
-  isDark(): boolean {
+  toggleDirection(): void {
+    this.direction.set(this.direction() === 'ltr' ? 'rtl' : 'ltr');
+  }
+
+  /**
+   * Set specific direction
+   */
+  setDirection(direction: Direction): void {
+    this.direction.set(direction);
+  }
+
+  /**
+   * Apply theme to document
+   */
+  private applyTheme(theme: Theme): void {
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem(this.THEME_KEY, theme);
+  }
+
+  /**
+   * Apply direction to document
+   */
+  private applyDirection(direction: Direction): void {
+    const root = document.documentElement;
+    root.setAttribute('dir', direction);
+    document.body.dir = direction;
+    localStorage.setItem(this.DIRECTION_KEY, direction);
+  }
+
+  /**
+   * Check if current theme is dark
+   */
+  isDarkTheme(): boolean {
     return this.theme() === 'dark';
+  }
+
+  /**
+   * Check if current direction is RTL
+   */
+  isRTL(): boolean {
+    return this.direction() === 'rtl';
   }
 }

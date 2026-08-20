@@ -100,6 +100,7 @@ export class ComingSoonComponent implements OnInit {
       this.subscribed.set(true);
 
       // Track success
+      this.analytics.trackFormSubmission('roaya-newsletter-form', 'newsletter', true);
       this.analytics.trackEvent('coming_soon_subscribe_success', {
         type: this.type()
       });

@@ -1,0 +1,18 @@
+/**
+ * Dashboard Component Styles
+ * Most styling is now handled via Tailwind classes in the template.
+ */
+
+:host {
+  display: block;
+}
+
+// Dashboard container
+.dashboard {
+  min-height: 100%;
+}
+
+// Ensure canvas elements are responsive
+canvas {
+  max-width: 100%;
+}

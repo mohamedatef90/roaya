@@ -1,0 +1,739 @@
+// Prisma Schema for Lead Management System
+// PostgreSQL database with full lead tracking capabilities
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  NEGOTIATION
+  WON
+  LOST
+  ARCHIVED
+}
+
+enum LeadSource {
+  CONTACT_FORM
+  PRICING_PAGE
+  ROI_CALCULATOR
+  NEWSLETTER
+  REFERRAL
+  LINKEDIN
+  GOOGLE_ADS
+  ORGANIC
+  OTHER
+}
+
+enum LeadPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  SALES_MANAGER
+  SALES_REP
+  VIEWER
+}
+
+enum ActivityType {
+  NOTE
+  EMAIL_SENT
+  EMAIL_RECEIVED
+  CALL
+  MEETING
+  STATUS_CHANGE
+  ASSIGNMENT_CHANGE
+  FOLLOW_UP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  READ
+}
+
+enum ContentType {
+  BLOG_POST
+  CASE_STUDY
+  WHITEPAPER
+}
+
+enum ContentStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PackageType {
+  SUBSCRIPTION
+  ONE_TIME
+  CUSTOM
+}
+
+// ============================================
+// TABLES
+// ============================================
+
+// 1. Admin Users Table
+model AdminUser {
+  id                  String    @id @default(uuid())
+  email               String    @unique
+  passwordHash        String    @map("password_hash")
+  firstName           String    @map("first_name")
+  lastName            String    @map("last_name")
+  role                UserRole  @default(VIEWER)
+  isActive            Boolean   @default(true) @map("is_active")
+  lastLoginAt         DateTime? @map("last_login_at")
+  failedLoginAttempts Int       @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime? @map("locked_until")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  assignedLeads    Lead[]            @relation("AssignedTo")
+  leadActivities   LeadActivity[]
+  refreshTokens    RefreshToken[]
+  userActivityLogs UserActivityLog[]
+
+  @@map("admin_users")
+}
+
+// 1.1 User Activity Log Table
+model UserActivityLog {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String // LOGIN, LOGOUT, LEAD_UPDATE, USER_CREATED, etc.
+  details   Json?
+  ipAddress String?   @map("ip_address")
+  userAgent String?   @map("user_agent")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("user_activity_logs")
+}
+
+// 2. Leads Table
+model Lead {
+  id String @id @default(uuid())
+
+  // Contact Information
+  firstName String  @map("first_name")
+  lastName  String  @map("last_name")
+  email     String
+  phone     String?
+  company   String?
+  jobTitle  String? @map("job_title")
+  website   String?
+
+  // Lead Details
+  source   LeadSource
+  status   LeadStatus   @default(NEW)
+  priority LeadPriority @default(MEDIUM)
+
+  // Form-Specific Data (JSON for flexibility)
+  formData Json? @map("form_data")
+
+  // ROI Calculator specific
+  estimatedValue Decimal? @map("estimated_value") @db.Decimal(12, 2)
+
+  // Message from contact form
+  message String? @db.Text
+
+  // Tracking
+  utmSource   String? @map("utm_source")
+  utmMedium   String? @map("utm_medium")
+  utmCampaign String? @map("utm_campaign")
+  ipAddress   String? @map("ip_address")
+  userAgent   String? @map("user_agent")
+  referrer    String?
+
+  // Assignment
+  assignedToId String?    @map("assigned_to_id")
+  assignedTo   AdminUser? @relation("AssignedTo", fields: [assignedToId], references: [id])
+
+  // Follow-up
+  nextFollowUpAt DateTime? @map("next_follow_up_at")
+
+  // Timestamps
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  convertedAt DateTime? @map("converted_at")
+
+  // Relations
+  activities    LeadActivity[]
+  tags          LeadTag[]
+  notes         LeadNote[]
+  notifications Notification[]
+
+  @@index([email])
+  @@index([status])
+  @@index([source])
+  @@index([assignedToId])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+// 3. Lead Activities Table
+model LeadActivity {
+  id     String @id @default(uuid())
+  leadId String @map("lead_id")
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  type        ActivityType
+  description String       @db.Text
+  metadata    Json?
+
+  performedById String?    @map("performed_by_id")
+  performedBy   AdminUser? @relation(fields: [performedById], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([leadId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("lead_activities")
+}
+
+// 4. Lead Notes Table
+model LeadNote {
+  id     String @id @default(uuid())
+  leadId String @map("lead_id")
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  content   String  @db.Text
+  isPrivate Boolean @default(false) @map("is_private")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([leadId])
+  @@map("lead_notes")
+}
+
+// 5. Tags Table
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  color     String   @default("#3B82F6")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  leads LeadTag[]
+
+  @@map("tags")
+}
+
+// 6. Lead Tags Junction Table
+model LeadTag {
+  leadId String @map("lead_id")
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  tagId String @map("tag_id")
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@id([leadId, tagId])
+  @@map("lead_tags")
+}
+
+// 7. Notifications Table
+model Notification {
+  id String @id @default(uuid())
+
+  leadId String? @map("lead_id")
+  lead   Lead?   @relation(fields: [leadId], references: [id], onDelete: SetNull)
+
+  type      String
+  subject   String
+  body      String @db.Text
+  recipient String
+
+  status   NotificationStatus @default(PENDING)
+  sentAt   DateTime?          @map("sent_at")
+  errorMsg String?            @map("error_msg")
+
+  metadata Json?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// 8. Refresh Tokens Table
+model RefreshToken {
+  id     String    @id @default(uuid())
+  token  String    @unique
+  userId String    @map("user_id")
+  user   AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tokenFamily String    @default(uuid()) @map("token_family")
+  usedAt      DateTime? @map("used_at")
+  expiresAt   DateTime  @map("expires_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  revokedAt   DateTime? @map("revoked_at")
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([tokenFamily])
+  @@map("refresh_tokens")
+}
+
+// 9. Email Templates Table
+enum EmailTemplateCategory {
+  TRANSACTIONAL
+  MARKETING
+  NOTIFICATION
+}
+
+model EmailTemplate {
+  id            String                @id @default(uuid())
+  name          String                @unique
+  category      EmailTemplateCategory @default(TRANSACTIONAL)
+  subjectEn     String                @map("subject_en")
+  subjectAr     String                @map("subject_ar")
+  contentHtmlEn String                @map("content_html_en") @db.Text
+  contentHtmlAr String                @map("content_html_ar") @db.Text
+  contentTextEn String?               @map("content_text_en") @db.Text
+  contentTextAr String?               @map("content_text_ar") @db.Text
+  variables     String[]              @default([]) // {{firstName}}, {{companyName}}, etc.
+  isActive      Boolean               @default(true) @map("is_active")
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@index([isActive])
+  @@map("email_templates")
+}
+
+// 10. System Settings Table
+model SystemSetting {
+  id       String @id @default(uuid())
+  key      String @unique
+  value    Json
+  category String @default("general")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@map("system_settings")
+}
+
+// ============================================
+// CONTENT MANAGEMENT
+// ============================================
+
+// 11. Content Items Table (Blog Posts, Case Studies, Whitepapers)
+model ContentItem {
+  id String @id @default(uuid())
+
+  type   ContentType
+  status ContentStatus @default(DRAFT)
+
+  // Bilingual content
+  titleEn   String  @map("title_en")
+  titleAr   String  @map("title_ar")
+  slugEn    String  @unique @map("slug_en")
+  slugAr    String  @unique @map("slug_ar")
+  excerptEn String? @map("excerpt_en") @db.Text
+  excerptAr String? @map("excerpt_ar") @db.Text
+  contentEn String  @map("content_en") @db.Text
+  contentAr String  @map("content_ar") @db.Text
+
+  // Media
+  featuredImage String? @map("featured_image")
+
+  // Categorization
+  category String?
+  tags     String[] @default([])
+
+  // Author
+  authorId String @map("author_id")
+
+  // SEO
+  metaTitleEn String? @map("meta_title_en")
+  metaTitleAr String? @map("meta_title_ar")
+  metaDescEn  String? @map("meta_desc_en") @db.Text
+  metaDescAr  String? @map("meta_desc_ar") @db.Text
+
+  // Structured metadata (author info, case study keyResults, etc.)
+  metadata Json?
+
+  // Metrics
+  viewCount Int @default(0) @map("view_count")
+
+  // Timestamps
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@index([type])
+  @@index([status])
+  @@index([publishedAt])
+  @@map("content_items")
+}
+
+// 12. Service Packages Table
+model ServicePackage {
+  id String @id @default(uuid())
+
+  isActive Boolean @default(true) @map("is_active")
+  order    Int     @default(0)
+
+  // Bilingual content
+  nameEn        String  @map("name_en")
+  nameAr        String  @map("name_ar")
+  descriptionEn String? @map("description_en") @db.Text
+  descriptionAr String? @map("description_ar") @db.Text
+
+  // Package type
+  type PackageType @default(SUBSCRIPTION)
+
+  // Pricing
+  priceMonthly Decimal? @map("price_monthly") @db.Decimal(10, 2)
+  priceYearly  Decimal? @map("price_yearly") @db.Decimal(10, 2)
+  currency     String   @default("USD")
+
+  // Features (JSON for flexibility)
+  featuresEn Json @map("features_en")
+  featuresAr Json @map("features_ar")
+
+  // Display options
+  isFeatured Boolean @default(false) @map("is_featured")
+  badge      String? // e.g., "Popular", "Best Value"
+  badgeColor String? @map("badge_color")
+
+  // CTA
+  ctaTextEn String? @map("cta_text_en")
+  ctaTextAr String? @map("cta_text_ar")
+  ctaLink   String? @map("cta_link")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive])
+  @@index([order])
+  @@map("service_packages")
+}
+
+// 13. Team Members Table
+model TeamMember {
+  id String @id @default(uuid())
+
+  isActive Boolean @default(true) @map("is_active")
+  order    Int     @default(0)
+
+  // Bilingual content
+  nameEn  String  @map("name_en")
+  nameAr  String  @map("name_ar")
+  titleEn String  @map("title_en")
+  titleAr String  @map("title_ar")
+  bioEn   String? @map("bio_en") @db.Text
+  bioAr   String? @map("bio_ar") @db.Text
+
+  // Contact info
+  email    String?
+  linkedin String?
+  twitter  String?
+
+  // Media
+  photoUrl String? @map("photo_url")
+
+  // Categorization
+  department String?
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive])
+  @@index([order])
+  @@index([department])
+  @@map("team_members")
+}
+
+// 14. Testimonials Table
+model Testimonial {
+  id String @id @default(uuid())
+
+  isActive   Boolean @default(true) @map("is_active")
+  isFeatured Boolean @default(false) @map("is_featured")
+  order      Int     @default(0)
+
+  // Bilingual content
+  quoteEn String @map("quote_en") @db.Text
+  quoteAr String @map("quote_ar") @db.Text
+
+  // Author info
+  authorName    String  @map("author_name")
+  authorTitleEn String  @map("author_title_en")
+  authorTitleAr String  @map("author_title_ar")
+  authorCompany String? @map("author_company")
+  authorPhoto   String? @map("author_photo")
+
+  // Rating
+  rating Int @default(5)
+
+  // Categorization
+  service  String?
+  industry String?
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive])
+  @@index([isFeatured])
+  @@index([order])
+  @@map("testimonials")
+}
+
+// 15. Logos Table
+enum LogoCategory {
+  CLIENT
+  PARTNER
+  TECHNOLOGY
+  CERTIFICATION
+}
+
+model Logo {
+  id           String       @id @default(uuid())
+  name         String
+  imageUrl     String       @map("image_url")
+  darkModeUrl  String?      @map("dark_mode_url")
+  category     LogoCategory @default(CLIENT)
+  sections     String[]     @default([]) // hero, footer, about, services
+  websiteUrl   String?      @map("website_url")
+  altTextEn    String?      @map("alt_text_en")
+  altTextAr    String?      @map("alt_text_ar")
+  isActive     Boolean      @default(true) @map("is_active")
+  displayOrder Int          @default(0) @map("display_order")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@index([isActive])
+  @@map("logos")
+}
+
+// ============================================
+// DOCUMENTATION / KNOWLEDGE BASE
+// ============================================
+
+enum DocAccessLevel {
+  PUBLIC
+  INTERNAL
+  ADMIN
+}
+
+// 15. Documentation Categories Table
+model DocCategory {
+  id           String        @id @default(uuid())
+  nameEn       String        @map("name_en")
+  nameAr       String        @map("name_ar")
+  slug         String        @unique
+  parentId     String?       @map("parent_id")
+  parent       DocCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children     DocCategory[] @relation("CategoryHierarchy")
+  pages        DocPage[]
+  displayOrder Int           @default(0) @map("display_order")
+  isActive     Boolean       @default(true) @map("is_active")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  @@index([parentId])
+  @@index([slug])
+  @@index([isActive])
+  @@map("doc_categories")
+}
+
+// 16. Documentation Pages Table
+model DocPage {
+  id           String         @id @default(uuid())
+  titleEn      String         @map("title_en")
+  titleAr      String         @map("title_ar")
+  slug         String         @unique
+  contentEn    String         @map("content_en") @db.Text
+  contentAr    String         @map("content_ar") @db.Text
+  categoryId   String         @map("category_id")
+  category     DocCategory    @relation(fields: [categoryId], references: [id])
+  accessLevel  DocAccessLevel @default(PUBLIC) @map("access_level")
+  isPublished  Boolean        @default(false) @map("is_published")
+  version      String         @default("1.0")
+  displayOrder Int            @default(0) @map("display_order")
+  viewCount    Int            @default(0) @map("view_count")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([isPublished])
+  @@index([accessLevel])
+  @@map("doc_pages")
+}
+
+// ============================================
+// WEBSITE ANALYTICS
+// ============================================
+
+// 17. Page Views Table
+model PageView {
+  id        String   @id @default(uuid())
+  sessionId String   @map("session_id")
+  path      String
+  referrer  String?
+  userAgent String?  @map("user_agent")
+  ipAddress String?  @map("ip_address")
+  country   String?
+  device    String? // desktop, mobile, tablet
+  browser   String?
+  duration  Int? // seconds on page
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  session AnalyticsSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([path])
+  @@index([createdAt])
+  @@index([sessionId, createdAt(sort: Desc)], map: "idx_pv_session_created")
+  @@index([createdAt, path], map: "idx_pv_created_path")
+  @@map("page_views")
+}
+
+// 18. Analytics Sessions Table
+model AnalyticsSession {
+  id          String    @id @default(uuid())
+  visitorId   String    @map("visitor_id") // anonymous visitor identifier
+  startedAt   DateTime  @default(now()) @map("started_at")
+  endedAt     DateTime? @map("ended_at")
+  pageCount   Int       @default(0) @map("page_count")
+  country     String?
+  device      String?
+  browser     String?
+  referrer    String?
+  utmSource   String?   @map("utm_source")
+  utmMedium   String?   @map("utm_medium")
+  utmCampaign String?   @map("utm_campaign")
+  isBot       Boolean   @default(false) @map("is_bot")
+
+  // Relations
+  pageViews       PageView[]
+  heatmapClicks   HeatmapClick[]
+  recordingEvents SessionRecordingEvent[]
+  customEvents    CustomAnalyticsEvent[]
+
+  @@index([visitorId])
+  @@index([startedAt])
+  @@index([visitorId, startedAt(sort: Desc)], map: "idx_as_visitor_started")
+  @@index([startedAt, country], map: "idx_as_started_country")
+  @@index([startedAt, device], map: "idx_as_started_device")
+  @@map("analytics_sessions")
+}
+
+// 19. Heatmap Clicks Table
+model HeatmapClick {
+  id           String           @id @default(uuid())
+  sessionId    String           @map("session_id")
+  path         String
+  x            Int              @db.SmallInt // percentage from left
+  y            Int              @db.SmallInt // percentage from top
+  elementTag   String?          @map("element_tag")
+  elementId    String?          @map("element_id")
+  elementClass String?          @map("element_class")
+  createdAt    DateTime         @default(now()) @map("created_at")
+
+  // Relations
+  session AnalyticsSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([path])
+  @@index([createdAt])
+  @@index([path, createdAt], map: "idx_hc_path_created")
+  @@map("heatmap_clicks")
+}
+
+// 20. Session Recording Events Table
+model SessionRecordingEvent {
+  id        String   @id @default(uuid())
+  sessionId String   @map("session_id")
+  events    Json     // Array of rrweb EventWithTime objects
+  sequence  Int      // Batch ordering (0, 1, 2, ...)
+  byteSize  Int?     @map("byte_size")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  session AnalyticsSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([sessionId, sequence])
+  @@map("session_recording_events")
+}
+
+// 21. Analytics Daily Summary Table (pre-aggregated metrics)
+model AnalyticsDailySummary {
+  id                 String   @id @default(uuid()) @db.Uuid
+  summaryDate        DateTime @unique @map("summary_date") @db.Date
+  totalSessions      Int      @default(0) @map("total_sessions")
+  uniqueVisitors     Int      @default(0) @map("unique_visitors")
+  totalPageViews     Int      @default(0) @map("total_page_views")
+  avgSessionDuration Decimal  @default(0) @map("avg_session_duration") @db.Decimal(8, 2)
+  bounceCount        Int      @default(0) @map("bounce_count")
+  topPages           Json     @default("[]") @map("top_pages")
+  deviceBreakdown    Json     @default("{}") @map("device_breakdown")
+  countryBreakdown   Json     @default("{}") @map("country_breakdown")
+  browserBreakdown   Json     @default("{}") @map("browser_breakdown")
+  referrerBreakdown  Json     @default("{}") @map("referrer_breakdown")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([summaryDate(sort: Desc)], map: "idx_ads_summary_date")
+  @@map("analytics_daily_summary")
+}
+
+// 22. Custom Analytics Events Table (button clicks, form submissions, etc.)
+model CustomAnalyticsEvent {
+  id            String   @id @default(uuid()) @db.Uuid
+  sessionId     String   @map("session_id") @db.VarChar(255)
+  eventName     String   @map("event_name") @db.VarChar(255)
+  eventCategory String   @map("event_category") @db.VarChar(100)
+  eventData     Json     @default("{}") @map("event_data") @db.JsonB
+  pagePath      String   @map("page_path") @db.VarChar(2000)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relations
+  session AnalyticsSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId], map: "idx_custom_events_session_id")
+  @@index([eventName], map: "idx_custom_events_name")
+  @@index([eventCategory], map: "idx_custom_events_category")
+  @@index([createdAt(sort: Desc)], map: "idx_custom_events_created_at")
+  @@index([eventName, createdAt(sort: Desc)], map: "idx_custom_events_name_created")
+  @@index([eventCategory, createdAt(sort: Desc)], map: "idx_custom_events_category_created")
+  @@map("custom_analytics_events")
+}

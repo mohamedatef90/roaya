@@ -1,0 +1,112 @@
+import { Component, signal, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
+/**
+ * GDPR Consent Banner
+ * Simple consent banner for analytics and session recording tracking.
+ * Stores user consent preferences in localStorage.
+ */
+@Component({
+  selector: 'app-consent-banner',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  template: `
+    @if (showBanner()) {
+      <div class="fixed bottom-0 inset-x-0 z-50 p-4 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 shadow-2xl">
+        <div class="container mx-auto max-w-5xl">
+          <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+            <!-- Icon & Message -->
+            <div class="flex items-start gap-3 flex-1">
+              <svg class="h-6 w-6 text-[#3D5A80] dark:text-[#5DB7C2] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <div class="flex-1">
+                <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                  We use cookies and analytics to improve your experience. This includes visitor tracking and session recordings to enhance our services.
+                  <a [routerLink]="['/privacy']" class="text-[#3D5A80] dark:text-[#5DB7C2] underline hover:no-underline">Learn more</a>
+                </p>
+                <!-- Recording Checkbox -->
+                <label class="flex items-center gap-2 mt-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="allowRecording"
+                    class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-[#3D5A80] dark:text-[#5DB7C2] focus:ring-[#5DB7C2] dark:focus:ring-[#3D5A80]"
+                  />
+                  <span class="text-sm text-neutral-600 dark:text-neutral-400">
+                    Allow session recording (helps us improve UX)
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3 w-full md:w-auto">
+              <button
+                (click)="decline()"
+                class="flex-1 md:flex-initial px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+              >
+                Decline
+              </button>
+              <button
+                (click)="accept()"
+                class="flex-1 md:flex-initial px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] rounded-lg hover:shadow-lg transition-all"
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  `,
+  styles: [`
+    :host {
+      display: contents;
+    }
+  `]
+})
+export class ConsentBannerComponent implements OnInit {
+  showBanner = signal(false);
+  allowRecording = false;
+
+  private readonly ANALYTICS_CONSENT_KEY = 'ra_analytics_consent';
+  private readonly RECORDING_CONSENT_KEY = 'ra_recording_consent';
+
+  ngOnInit(): void {
+    this.checkConsent();
+  }
+
+  private checkConsent(): void {
+    try {
+      const analyticsConsent = localStorage.getItem(this.ANALYTICS_CONSENT_KEY);
+      if (!analyticsConsent) {
+        this.showBanner.set(true);
+      }
+    } catch {
+      // localStorage unavailable - don't show banner
+    }
+  }
+
+  accept(): void {
+    try {
+      localStorage.setItem(this.ANALYTICS_CONSENT_KEY, 'accepted');
+      localStorage.setItem(this.RECORDING_CONSENT_KEY, this.allowRecording ? 'accepted' : 'declined');
+      this.showBanner.set(false);
+    } catch {
+      // Silently fail if localStorage unavailable
+    }
+  }
+
+  decline(): void {
+    try {
+      localStorage.setItem(this.ANALYTICS_CONSENT_KEY, 'declined');
+      localStorage.setItem(this.RECORDING_CONSENT_KEY, 'declined');
+      this.showBanner.set(false);
+    } catch {
+      // Silently fail if localStorage unavailable
+    }
+  }
+}

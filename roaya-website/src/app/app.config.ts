@@ -1,15 +1,20 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, ErrorHandler } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { provideHttpClient, withFetch, HttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideClientHydration } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule, MissingTranslationHandler } from '@ngx-translate/core';
 import { importProvidersFrom } from '@angular/core';
 import { provideNgIconsConfig } from '@ng-icons/core';
+import { MessageService } from 'primeng/api';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { HybridTranslationLoaderFactory } from './core/i18n/hybrid-translation.loader';
 import { AIMissingTranslationHandler } from './core/i18n/ai-missing-translation.handler';
 import { TranslationCacheService } from './core/services/translation-cache.service';
+import { GlobalErrorHandler } from './core/services/error-handler.service';
 
 /**
  * Application Configuration
@@ -30,11 +35,26 @@ export const appConfig: ApplicationConfig = {
       })
     ),
 
-    // HTTP client with fetch API
-    provideHttpClient(withFetch()),
+    // HTTP client with fetch API and interceptors
+    provideHttpClient(
+      withFetch(), 
+      withInterceptors([authInterceptor, loadingInterceptor])
+    ),
 
     // Client-side hydration for SSR (if needed in future)
     provideClientHydration(),
+
+    // Browser animations (required for PrimeNG)
+    provideAnimations(),
+
+    // Global error handler
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
+
+    // PrimeNG message service for toasts
+    MessageService,
 
     // ngx-translate for i18n with AI translation support
     importProvidersFrom(

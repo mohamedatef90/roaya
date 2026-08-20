@@ -124,16 +124,16 @@
   }
 
   a {
-    color: #14b8a6 !important; // teal
-    text-decoration-color: rgba(20, 184, 166, 0.3) !important; // teal with opacity
+    color: #2dd4bf !important; // teal-400 - better contrast (4.5:1+)
+    text-decoration-color: rgba(45, 212, 191, 0.3) !important; // teal-400 with opacity
 
     &:hover {
-      color: #2dd4bf !important; // lighter teal
-      text-decoration-color: #14b8a6 !important; // solid teal on hover
+      color: #5eead4 !important; // teal-300 - even lighter on hover
+      text-decoration-color: #2dd4bf !important; // solid teal on hover
     }
 
     &:visited {
-      color: #14b8a6 !important; // teal
+      color: #2dd4bf !important; // teal-400
     }
   }
 
@@ -147,9 +147,9 @@
   }
 
   code {
-    background: #262626 !important; // neutral-800
+    background: #1e293b !important; // slate-800 - slightly lighter for visibility
     color: #fafafa !important; // neutral-50
-    border-color: #404040 !important; // neutral-700
+    border-color: #475569 !important; // slate-600 - higher contrast border
   }
 
   pre {

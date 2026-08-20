@@ -24,17 +24,17 @@
               </svg>
             </div>
             <h2 class="text-2xl font-bold mb-2">{{ 'contact.form.success.title' | translate }}</h2>
-            <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ 'contact.form.success.message' | translate }}</p>
+            <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ 'contact.form.success.description' | translate }}</p>
             <button
               (click)="resetForm()"
               class="inline-flex items-center gap-2 px-6 py-3 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 rounded-xl font-medium hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
             >
-              {{ 'contact.form.success.another' | translate }}
+              {{ 'contact.form.success.button' | translate }}
             </button>
           </div>
 
           <!-- Form -->
-          <form *ngIf="!isSubmitted()" [formGroup]="roiForm" (ngSubmit)="onSubmit()" class="space-y-6 p-6 md:p-8">
+          <form id="roaya-roi-form" *ngIf="!isSubmitted()" [formGroup]="roiForm" (ngSubmit)="onSubmit()" class="space-y-6 p-6 md:p-8">
 
             <!-- Form Header -->
             <div class="text-center mb-8">

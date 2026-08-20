@@ -18,7 +18,7 @@ export class ThemeToggleComponent {
   readonly themeService = inject(ThemeService);
 
   // Computed signal for checked state
-  isChecked = computed(() => this.themeService.isDark());
+  isChecked = computed(() => this.themeService.theme() === 'dark');
 
   /**
    * Toggle theme when switch is clicked

@@ -10,6 +10,7 @@
 | Folder | Purpose | Key Files |
 |--------|---------|-----------|
 | [project/](#project) | Business analysis, planning, status reports | Stakeholder summary, project status |
+| [backend-reports/](#backend-reports) | Backend API documentation & reports | Implementation, testing, database schema |
 | [architecture/](#architecture) | Technical design, ADRs, performance audits | Technical architecture, ADRs |
 | [design/](#design) | Design system, patterns, components, visuals | UI design system, animations |
 | [ux/](#ux) | User experience specifications | UX specs, highlights |
@@ -39,6 +40,14 @@ memory-bank/
 │       ├── product-status-report.md
 │       ├── project-analysis-report.md
 │       └── technical-architecture-report.md
+│
+├── backend-reports/                 # Backend API Documentation
+│   ├── README.md                    # Backend reports overview
+│   ├── IMPLEMENTATION_SUMMARY.md    # Complete implementation details
+│   ├── LOCAL_TESTING_GUIDE.md       # Testing & setup guide
+│   ├── QUICK_START.md               # Quick start guide
+│   ├── DATABASE_SCHEMA.md           # Database schema documentation
+│   └── BACKEND_README.md            # Original backend README
 │
 ├── architecture/                    # Technical Architecture
 │   ├── TECHNICAL_ARCHITECTURE.md    # Core system design

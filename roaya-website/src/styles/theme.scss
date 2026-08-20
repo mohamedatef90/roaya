@@ -1,0 +1,964 @@
+/**
+ * Roaya IT Custom Theme
+ * Modern CRM Admin Panel Design System
+ * Based on brand colors with glassmorphism and modern UI patterns
+ */
+
+// ============================================================================
+// BRAND COLOR PALETTE
+// ============================================================================
+
+// Primary Brand Colors (From Logo)
+$roaya-navy: #3D5A80;
+$roaya-navy-light: #5A7FAD;
+$roaya-navy-dark: #2A3F5A;
+$roaya-teal: #5DB7C2;
+$roaya-teal-light: #7DD3DC;
+$roaya-teal-dark: #4A9BA5;
+$roaya-purple: #6B4C9A;
+$roaya-purple-light: #9070C4;
+$roaya-purple-dark: #503870;
+
+// Semantic Colors
+$roaya-success: #10b981;
+$roaya-warning: #f59e0b;
+$roaya-danger: #ef4444;
+$roaya-info: #3b82f6;
+
+// Neutral colors (Light Mode)
+$roaya-gray-50: #f9fafb;
+$roaya-gray-100: #f3f4f6;
+$roaya-gray-200: #e5e7eb;
+$roaya-gray-300: #d1d5db;
+$roaya-gray-400: #9ca3af;
+$roaya-gray-500: #6b7280;
+$roaya-gray-600: #4b5563;
+$roaya-gray-700: #374151;
+$roaya-gray-800: #1f2937;
+$roaya-gray-900: #111827;
+
+// Slate colors (Dark Mode)
+$roaya-slate-50: #f8fafc;
+$roaya-slate-100: #f1f5f9;
+$roaya-slate-200: #e2e8f0;
+$roaya-slate-300: #cbd5e1;
+$roaya-slate-400: #94a3b8;
+$roaya-slate-500: #64748b;
+$roaya-slate-600: #475569;
+$roaya-slate-700: #334155;
+$roaya-slate-800: #1e293b;
+$roaya-slate-900: #0f172a;
+
+// ============================================================================
+// LIGHT THEME VARIABLES (Premium CRM Admin Design System)
+// ============================================================================
+
+[data-theme='light'] {
+  // Brand Primary Colors
+  --roaya-navy: #{$roaya-navy};
+  --roaya-navy-light: #{$roaya-navy-light};
+  --roaya-teal: #{$roaya-teal};
+  --roaya-teal-light: #{$roaya-teal-light};
+  --roaya-purple: #{$roaya-purple};
+  --roaya-purple-light: #{$roaya-purple-light};
+
+  // Primary Colors (PrimeNG compatibility)
+  --primary-color: #{$roaya-navy};
+  --primary-color-text: #ffffff;
+
+  // Surface Colors (Premium whites and grays)
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8FAFC;
+  --bg-tertiary: #F1F5F9;
+  --border-color: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+
+  // Surface aliases for PrimeNG
+  --surface-0: #ffffff;
+  --surface-50: #{$roaya-gray-50};
+  --surface-100: #{$roaya-gray-100};
+  --surface-200: #{$roaya-gray-200};
+  --surface-300: #{$roaya-gray-300};
+  --surface-400: #{$roaya-gray-400};
+  --surface-500: #{$roaya-gray-500};
+  --surface-600: #{$roaya-gray-600};
+  --surface-700: #{$roaya-gray-700};
+  --surface-800: #{$roaya-gray-800};
+  --surface-900: #{$roaya-gray-900};
+  --surface-ground: #F8FAFC;
+  --surface-section: #ffffff;
+  --surface-card: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-border: #E2E8F0;
+  --surface-hover: #F8FAFC;
+
+  // Text Colors (PrimeNG compatibility)
+  --text-color: #0F172A;
+  --text-color-secondary: #475569;
+
+  // Semantic Colors
+  --success-color: #{$roaya-success};
+  --warning-color: #{$roaya-warning};
+  --danger-color: #{$roaya-danger};
+  --info-color: #{$roaya-info};
+
+  // Brand Gradients (Premium multi-stop gradients)
+  --gradient-primary: linear-gradient(135deg, #{$roaya-navy} 0%, #{$roaya-teal} 100%);
+  --gradient-secondary: linear-gradient(135deg, #{$roaya-teal} 0%, #{$roaya-teal-light} 100%);
+  --gradient-accent: linear-gradient(135deg, #{$roaya-purple} 0%, #{$roaya-navy} 100%);
+  --gradient-brand: linear-gradient(135deg, #{$roaya-navy} 0%, #{$roaya-teal} 100%);
+  --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  --gradient-danger: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+
+  // Glassmorphism (Premium blur effects)
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(226, 232, 240, 0.9);
+  --glass-shadow: 0 8px 32px rgba(61, 90, 128, 0.12);
+
+  // Shadows (Premium elevated design)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-brand: 0 4px 14px 0 rgba(61, 90, 128, 0.25);
+
+  // Misc
+  --content-padding: 1.5rem;
+  --border-radius: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --transition-duration: 200ms;
+  --transition-timing: ease-in-out;
+}
+
+// ============================================================================
+// DARK THEME VARIABLES (Premium CRM Admin Design System)
+// ============================================================================
+
+[data-theme='dark'] {
+  // Brand Primary Colors (Brighter for dark mode)
+  --roaya-navy: #{$roaya-navy-light};
+  --roaya-navy-light: #{$roaya-navy};
+  --roaya-teal: #{$roaya-teal-light};
+  --roaya-teal-light: #{$roaya-teal};
+  --roaya-purple: #{$roaya-purple-light};
+  --roaya-purple-light: #{$roaya-purple};
+
+  // Primary Colors (PrimeNG compatibility)
+  --primary-color: #{$roaya-navy-light};
+  --primary-color-text: #ffffff;
+
+  // Surface Colors (Premium dark backgrounds)
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-tertiary: #334155;
+  --border-color: #334155;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #64748B;
+
+  // Surface aliases for PrimeNG
+  --surface-0: #{$roaya-slate-900};
+  --surface-50: #{$roaya-slate-800};
+  --surface-100: #{$roaya-slate-700};
+  --surface-200: #{$roaya-slate-600};
+  --surface-300: #{$roaya-slate-500};
+  --surface-400: #{$roaya-slate-400};
+  --surface-500: #{$roaya-slate-300};
+  --surface-600: #{$roaya-slate-200};
+  --surface-700: #{$roaya-slate-100};
+  --surface-800: #{$roaya-slate-50};
+  --surface-900: #ffffff;
+  --surface-ground: #0F172A;
+  --surface-section: #1E293B;
+  --surface-card: #1E293B;
+  --surface-overlay: #1E293B;
+  --surface-border: #334155;
+  --surface-hover: #334155;
+
+  // Text Colors (PrimeNG compatibility)
+  --text-color: #F8FAFC;
+  --text-color-secondary: #CBD5E1;
+
+  // Semantic Colors
+  --success-color: #{$roaya-success};
+  --warning-color: #{$roaya-warning};
+  --danger-color: #{$roaya-danger};
+  --info-color: #{$roaya-info};
+
+  // Brand Gradients (Premium multi-stop gradients)
+  --gradient-primary: linear-gradient(135deg, #{$roaya-navy-light} 0%, #{$roaya-teal-light} 100%);
+  --gradient-secondary: linear-gradient(135deg, #{$roaya-teal-light} 0%, #{$roaya-teal} 100%);
+  --gradient-accent: linear-gradient(135deg, #{$roaya-purple-light} 0%, #{$roaya-navy-light} 100%);
+  --gradient-brand: linear-gradient(135deg, #{$roaya-navy-light} 0%, #{$roaya-teal-light} 100%);
+  --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  --gradient-danger: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+
+  // Glassmorphism (Premium dark mode blur)
+  --glass-bg: rgba(30, 41, 59, 0.85);
+  --glass-border: rgba(51, 65, 85, 0.9);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  // Shadows (Premium deep shadows for dark mode)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  --shadow-brand: 0 4px 14px 0 rgba(93, 183, 194, 0.3);
+
+  // Misc
+  --content-padding: 1.5rem;
+  --border-radius: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --transition-duration: 200ms;
+  --transition-timing: ease-in-out;
+}
+
+// ============================================================================
+// RTL SUPPORT
+// ============================================================================
+
+[dir='rtl'] {
+  .p-datatable .p-datatable-thead > tr > th {
+    text-align: right;
+  }
+  
+  .p-datatable .p-datatable-tbody > tr > td {
+    text-align: right;
+  }
+  
+  .p-menubar .p-menubar-root-list {
+    flex-direction: row-reverse;
+  }
+  
+  .p-card .p-card-content {
+    direction: rtl;
+  }
+  
+  .p-button .p-button-icon-left {
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
+  
+  .p-button .p-button-icon-right {
+    margin-left: 0;
+    margin-right: 0.5rem;
+  }
+}
+
+// ============================================================================
+// GLOBAL OVERRIDES
+// ============================================================================
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--surface-ground);
+  color: var(--text-color);
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+// PrimeNG Component Overrides
+.p-component {
+  font-family: inherit;
+}
+
+// Card styling (Modern elevated design)
+.p-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .p-card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--surface-border);
+    padding: 1.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: var(--roaya-teal);
+      }
+    }
+  }
+
+  .p-card-body {
+    padding: var(--content-padding);
+  }
+
+  .p-card-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--surface-border);
+  }
+}
+
+// Table styling
+.p-datatable {
+  .p-datatable-header {
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+  }
+  
+  .p-datatable-thead > tr > th {
+    background: var(--surface-50);
+    color: var(--text-color);
+    border: 1px solid var(--surface-border);
+    font-weight: 600;
+  }
+  
+  .p-datatable-tbody > tr {
+    background: var(--surface-card);
+    color: var(--text-color);
+    
+    &:hover {
+      background: var(--surface-hover);
+    }
+    
+    > td {
+      border: 1px solid var(--surface-border);
+    }
+  }
+  
+  .p-paginator {
+    background: var(--surface-card);
+    color: var(--text-color);
+    border: 1px solid var(--surface-border);
+  }
+}
+
+// ============================================================================
+// PREMIUM BUTTON SYSTEM
+// ============================================================================
+
+.p-button {
+  background: var(--gradient-primary);
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 200ms ease-in-out;
+  box-shadow: var(--shadow-sm);
+
+  &:enabled:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-brand);
+  }
+
+  &:enabled:active {
+    transform: translateY(0);
+  }
+
+  &.p-button-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+
+    &:enabled:hover {
+      background: var(--bg-secondary);
+      border-color: var(--roaya-navy);
+    }
+  }
+
+  &.p-button-success {
+    background: var(--gradient-success);
+  }
+
+  &.p-button-warning {
+    background: var(--gradient-warning);
+  }
+
+  &.p-button-danger {
+    background: var(--gradient-danger);
+  }
+
+  &.p-button-info {
+    background: var(--gradient-brand);
+  }
+
+  &.p-button-outlined {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+
+    &:enabled:hover {
+      background: var(--bg-secondary);
+      border-color: var(--roaya-teal);
+      color: var(--roaya-teal);
+    }
+  }
+
+  &.p-button-text {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+
+    &:enabled:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+  }
+
+  &.p-button-rounded {
+    border-radius: 50%;
+  }
+}
+
+// ============================================================================
+// PREMIUM FORM INPUT SYSTEM
+// ============================================================================
+
+.p-inputtext {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 200ms ease-in-out;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:enabled:hover {
+    border-color: var(--roaya-navy);
+  }
+
+  &:enabled:focus {
+    outline: none;
+    border-color: var(--roaya-navy);
+    box-shadow: 0 0 0 3px rgba(61, 90, 128, 0.15);
+  }
+}
+
+.p-inputnumber-input {
+  @extend .p-inputtext;
+}
+
+.p-textarea {
+  @extend .p-inputtext;
+  min-height: 100px;
+  resize: vertical;
+}
+
+// Dropdown styling
+.p-dropdown {
+  background: var(--surface-0);
+  border: 1px solid var(--surface-border);
+  
+  &:not(.p-disabled):hover {
+    border-color: var(--primary-color);
+  }
+  
+  &:not(.p-disabled).p-focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+  }
+  
+  .p-dropdown-label {
+    color: var(--text-color);
+  }
+}
+
+.p-dropdown-panel {
+  background: var(--surface-overlay);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-lg);
+  
+  .p-dropdown-items .p-dropdown-item {
+    color: var(--text-color);
+    
+    &:not(.p-highlight):not(.p-disabled):hover {
+      background: var(--surface-hover);
+    }
+    
+    &.p-highlight {
+      background: var(--primary-color);
+      color: var(--primary-color-text);
+    }
+  }
+}
+
+// Multiselect styling
+.p-multiselect {
+  background: var(--surface-0);
+  border: 1px solid var(--surface-border);
+  
+  &:not(.p-disabled):hover {
+    border-color: var(--primary-color);
+  }
+  
+  &:not(.p-disabled).p-focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+  }
+}
+
+.p-multiselect-panel {
+  background: var(--surface-overlay);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-lg);
+  
+  .p-multiselect-items .p-multiselect-item {
+    color: var(--text-color);
+    
+    &:not(.p-highlight):not(.p-disabled):hover {
+      background: var(--surface-hover);
+    }
+    
+    &.p-highlight {
+      background: var(--primary-color);
+      color: var(--primary-color-text);
+    }
+  }
+}
+
+// Calendar styling
+.p-calendar {
+  .p-inputtext {
+    background: var(--surface-0);
+    color: var(--text-color);
+  }
+}
+
+.p-datepicker {
+  background: var(--surface-overlay);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-color);
+  
+  .p-datepicker-header {
+    background: var(--surface-card);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--surface-border);
+  }
+  
+  .p-datepicker-calendar {
+    td {
+      > span {
+        color: var(--text-color);
+        
+        &:hover {
+          background: var(--surface-hover);
+        }
+        
+        &.p-highlight {
+          background: var(--primary-color);
+          color: var(--primary-color-text);
+        }
+      }
+    }
+  }
+}
+
+// Toast styling
+.p-toast {
+  .p-toast-message {
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--shadow-lg);
+    
+    &.p-toast-message-info {
+      border-left: 4px solid var(--info-color);
+    }
+    
+    &.p-toast-message-success {
+      border-left: 4px solid var(--success-color);
+    }
+    
+    &.p-toast-message-warn {
+      border-left: 4px solid var(--warning-color);
+    }
+    
+    &.p-toast-message-error {
+      border-left: 4px solid var(--danger-color);
+    }
+    
+    .p-toast-message-content {
+      color: var(--text-color);
+    }
+  }
+}
+
+// Dialog styling
+.p-dialog {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-xl);
+  
+  .p-dialog-header {
+    background: var(--surface-card);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--surface-border);
+  }
+  
+  .p-dialog-content {
+    background: var(--surface-card);
+    color: var(--text-color);
+  }
+  
+  .p-dialog-footer {
+    background: var(--surface-card);
+    border-top: 1px solid var(--surface-border);
+  }
+}
+
+// Sidebar styling
+.p-sidebar {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-xl);
+  
+  .p-sidebar-header {
+    background: var(--surface-card);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--surface-border);
+  }
+  
+  .p-sidebar-content {
+    background: var(--surface-card);
+    color: var(--text-color);
+  }
+}
+
+// Menu styling
+.p-menu {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  
+  .p-menuitem-link {
+    color: var(--text-color);
+    
+    &:not(.p-disabled):hover {
+      background: var(--surface-hover);
+    }
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES (Modern CRM Admin)
+// ============================================================================
+
+// Text Colors
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--text-color-secondary);
+}
+
+.text-success {
+  color: var(--success-color);
+}
+
+.text-warning {
+  color: var(--warning-color);
+}
+
+.text-danger {
+  color: var(--danger-color);
+}
+
+.text-info {
+  color: var(--info-color);
+}
+
+// Background Colors
+.bg-primary {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+.bg-surface {
+  background-color: var(--surface-card);
+}
+
+.border-surface {
+  border-color: var(--surface-border);
+}
+
+// Shadows
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow {
+  box-shadow: var(--shadow);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+.shadow-brand {
+  box-shadow: var(--shadow-brand);
+}
+
+// Glassmorphism Utility
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+// Brand Gradients
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-secondary {
+  background: var(--gradient-secondary);
+}
+
+.gradient-accent {
+  background: var(--gradient-accent);
+}
+
+.gradient-brand {
+  background: var(--gradient-brand);
+}
+
+// Modern Card
+.modern-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-brand);
+    border-color: var(--roaya-navy);
+  }
+}
+
+// Status Badges
+.badge-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  [data-theme='dark'] & {
+    background: rgba(16, 185, 129, 0.2);
+  }
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning-color);
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  [data-theme='dark'] & {
+    background: rgba(245, 158, 11, 0.2);
+  }
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color);
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  [data-theme='dark'] & {
+    background: rgba(239, 68, 68, 0.2);
+  }
+}
+
+.badge-info {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--info-color);
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  [data-theme='dark'] & {
+    background: rgba(59, 130, 246, 0.2);
+  }
+}
+
+// ============================================================================
+// PREMIUM TAG/BADGE SYSTEM
+// ============================================================================
+
+.p-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  .p-tag-icon {
+    font-size: 0.875rem;
+  }
+
+  &.p-tag-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+    }
+
+    [data-theme='dark'] & {
+      background: rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  &.p-tag-warning, &.p-tag-warn {
+    background: rgba(245, 158, 11, 0.1);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #F59E0B;
+    }
+
+    [data-theme='dark'] & {
+      background: rgba(245, 158, 11, 0.2);
+    }
+  }
+
+  &.p-tag-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #EF4444;
+    }
+
+    [data-theme='dark'] & {
+      background: rgba(239, 68, 68, 0.2);
+    }
+  }
+
+  &.p-tag-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3B82F6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3B82F6;
+    }
+
+    [data-theme='dark'] & {
+      background: rgba(59, 130, 246, 0.2);
+    }
+  }
+
+  &.p-tag-secondary {
+    background: rgba(107, 114, 128, 0.1);
+    color: #9CA3AF;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+
+    [data-theme='dark'] & {
+      background: rgba(107, 114, 128, 0.2);
+    }
+  }
+}

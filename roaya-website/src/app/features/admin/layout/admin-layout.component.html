@@ -1,0 +1,377 @@
+<div class="admin-layout" [class.rtl]="currentLang() === 'ar'">
+  <!-- Fixed Sidebar (Desktop) -->
+  <aside class="admin-sidebar" [class.collapsed]="sidebarCollapsed()">
+    <!-- Logo Section -->
+    <div class="sidebar-logo">
+      <img src="/assets/images/roaya-logo.png" alt="Roaya IT" class="logo-img" />
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <ng-container *ngFor="let item of menuItems(); let i = index">
+          <!-- Simple menu item (no sub-items) -->
+          <li *ngIf="item.routerLink" class="nav-item">
+            <a
+              [routerLink]="item.routerLink"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: item.routerLink[0] === '/admin/dashboard'}"
+              class="nav-link"
+              [attr.title]="item.label"
+            >
+              <svg class="nav-icon h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [innerHTML]="item.svgIcon"></svg>
+              <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ item.label | translate }}</span>
+              <span *ngIf="item.viewOnly && !sidebarCollapsed()" class="view-only-badge" title="View Only">
+                <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </span>
+            </a>
+          </li>
+
+          <!-- Menu item with sub-items -->
+          <li *ngIf="item.items" class="nav-item has-submenu" [class.expanded]="expandedMenus[i]">
+            <button
+              type="button"
+              class="nav-link submenu-toggle"
+              (click)="toggleSubmenu(i)"
+              [attr.title]="item.label"
+              [attr.aria-expanded]="expandedMenus[i]"
+            >
+              <svg class="nav-icon h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [innerHTML]="item.svgIcon"></svg>
+              <span class="nav-label" *ngIf="!sidebarCollapsed()">{{ item.label | translate }}</span>
+              <svg *ngIf="!sidebarCollapsed()" class="nav-chevron h-4 w-4" [class.rotate-90]="expandedMenus[i]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+
+            <!-- Sub-menu items -->
+            <ul class="submenu-list" *ngIf="!sidebarCollapsed() && expandedMenus[i]">
+              <li *ngFor="let subItem of item.items" class="submenu-item">
+                <a
+                  [routerLink]="subItem.routerLink"
+                  routerLinkActive="active"
+                  class="submenu-link"
+                  [attr.title]="subItem.label"
+                >
+                  <span class="submenu-dot"></span>
+                  <span class="submenu-label">{{ subItem.label | translate }}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer" *ngIf="!sidebarCollapsed()">
+      <div class="user-info-card">
+        <ui-avatar
+          [name]="getUserFullName()"
+          size="lg"
+        ></ui-avatar>
+        <div class="user-details">
+          <p class="user-name">{{ getUserFullName() }}</p>
+          <p class="user-email">{{ currentUser()?.email }}</p>
+        </div>
+      </div>
+
+      <div class="footer-actions">
+        <button
+          type="button"
+          class="footer-btn"
+          (click)="openSettings()"
+          [attr.aria-label]="'Settings' | translate"
+          title="Settings"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="footer-btn"
+          [attr.aria-label]="'Help' | translate"
+          title="Help"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="footer-btn"
+          (click)="logout()"
+          [attr.aria-label]="'Logout' | translate"
+          title="Logout"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar (Sheet) -->
+  <ui-sheet
+    [open]="mobileSidebarVisible()"
+    [side]="currentLang() === 'ar' ? 'right' : 'left'"
+    (openChange)="mobileSidebarVisible.set($event)"
+  >
+    <ui-sheet-header>
+      <div class="sidebar-header">
+        <img src="/assets/images/roaya-logo.png" alt="Roaya IT" />
+      </div>
+    </ui-sheet-header>
+
+    <ui-sheet-content>
+      <nav class="sidebar-menu">
+        <ul>
+          <ng-container *ngFor="let item of menuItems(); let i = index">
+            <!-- Simple menu item -->
+            <li *ngIf="item.routerLink">
+              <a
+                [routerLink]="item.routerLink"
+                routerLinkActive="active"
+                class="menu-item"
+                (click)="mobileSidebarVisible.set(false)"
+              >
+                <svg class="h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [innerHTML]="item.svgIcon"></svg>
+                <span>{{ item.label | translate }}</span>
+              </a>
+            </li>
+
+            <!-- Menu item with sub-items -->
+            <li *ngIf="item.items" class="has-submenu" [class.expanded]="expandedMenus[i]">
+              <button
+                type="button"
+                class="menu-item submenu-toggle"
+                (click)="toggleSubmenu(i)"
+              >
+                <svg class="h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [innerHTML]="item.svgIcon"></svg>
+                <span>{{ item.label | translate }}</span>
+                <svg class="submenu-chevron h-4 w-4" [class.rotate-90]="expandedMenus[i]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+
+              <ul class="mobile-submenu" *ngIf="expandedMenus[i]">
+                <li *ngFor="let subItem of item.items">
+                  <a
+                    [routerLink]="subItem.routerLink"
+                    routerLinkActive="active"
+                    class="submenu-item"
+                    (click)="mobileSidebarVisible.set(false)"
+                  >
+                    <span class="submenu-dot"></span>
+                    <span>{{ subItem.label | translate }}</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ng-container>
+        </ul>
+      </nav>
+    </ui-sheet-content>
+  </ui-sheet>
+
+  <!-- Main Content Container -->
+  <div class="admin-main">
+    <!-- Top Header Bar -->
+    <header class="admin-header">
+      <div class="header-left">
+        <!-- Mobile Menu Toggle -->
+        <button
+          type="button"
+          class="icon-btn mobile-menu-toggle"
+          (click)="mobileSidebarVisible.set(true)"
+          [attr.aria-label]="'Toggle Menu' | translate"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+        <!-- Desktop Sidebar Toggle -->
+        <button
+          type="button"
+          class="icon-btn sidebar-toggle"
+          (click)="toggleSidebarCollapse()"
+          [attr.aria-label]="'Toggle Sidebar' | translate"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [class.rotate-180]="sidebarCollapsed()">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <!-- Page Title (Dynamic based on route) -->
+        <h1 class="page-title">{{ pageTitle() | translate }}</h1>
+      </div>
+
+      <div class="header-right">
+        <!-- Search Bar -->
+        <div class="search-container">
+          <svg class="search-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="{{ 'Search...' | translate }}"
+          />
+        </div>
+
+        <!-- Theme Toggle -->
+        <button
+          type="button"
+          class="icon-btn header-action-btn"
+          (click)="toggleTheme()"
+          [attr.aria-label]="'Toggle Theme' | translate"
+          title="Toggle Theme"
+        >
+          <svg *ngIf="isDarkMode()" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg *ngIf="!isDarkMode()" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Language Toggle -->
+        <button
+          type="button"
+          class="icon-btn header-action-btn lang-toggle"
+          (click)="toggleLanguage()"
+          [attr.aria-label]="'Toggle Language' | translate"
+          title="Toggle Language"
+        >
+          {{ currentLang() === 'en' ? 'ع' : 'EN' }}
+        </button>
+
+        <!-- Notifications -->
+        <button
+          type="button"
+          class="icon-btn header-action-btn notifications-btn"
+          [attr.aria-label]="'Notifications' | translate"
+          title="Notifications"
+        >
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="notification-badge">3</span>
+        </button>
+
+        <!-- User Avatar Menu -->
+        <ui-dropdown-menu align="end">
+          <ui-avatar
+            dropdownTrigger
+            [name]="getUserFullName()"
+            size="sm"
+            class="cursor-pointer"
+          ></ui-avatar>
+          <ui-dropdown-menu-item (selected)="viewProfile()">
+            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Profile
+          </ui-dropdown-menu-item>
+          <ui-dropdown-menu-item (selected)="openSettings()">
+            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            Settings
+          </ui-dropdown-menu-item>
+          <ui-dropdown-menu-separator></ui-dropdown-menu-separator>
+          <ui-dropdown-menu-item (selected)="logout()" [danger]="true">
+            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+          </ui-dropdown-menu-item>
+        </ui-dropdown-menu>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- Session Timeout Warning Dialog -->
+  <ui-dialog
+    [open]="idleTimeoutService.showWarning()"
+    size="sm"
+    [showCloseButton]="false"
+    [closeOnOverlayClick]="false"
+    [closeOnEscape]="false"
+  >
+    <ui-dialog-header>
+      <ui-dialog-title>Session Expiring</ui-dialog-title>
+    </ui-dialog-header>
+
+    <ui-dialog-content>
+      <div class="session-timeout-content">
+        <div class="timeout-icon">
+          <svg class="clock-icon h-12 w-12 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <p class="timeout-message">
+          Your session will expire in <strong>{{ idleTimeoutService.secondsRemaining() }}</strong> seconds due to inactivity.
+        </p>
+        <p class="timeout-subtitle">Would you like to continue your session?</p>
+      </div>
+    </ui-dialog-content>
+
+    <ui-dialog-footer>
+      <div class="timeout-actions">
+        <app-button
+          variant="outline"
+          (click)="logoutFromWarning()"
+        >
+          <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </app-button>
+        <app-button
+          variant="primary"
+          (click)="extendSession()"
+        >
+          <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Stay Logged In
+        </app-button>
+      </div>
+    </ui-dialog-footer>
+  </ui-dialog>
+</div>

@@ -1,7 +1,7 @@
 # Roaya IT Corporate Website - Claude Context
 
-> **Last Updated:** 2026-01-19
-> **Project Status:** Phase 1-3 Complete, Phase 4 In Progress (Backend Integration Pending)
+> **Last Updated:** 2026-02-08
+> **Project Status:** Phase 1-4 Complete, Production Deployed
 > **Claude Code Role:** Product Orchestrator
 
 ---
@@ -44,6 +44,75 @@ MEMORY_BANK=/Users/roaya/Roaya-files/Development/roaya/memory-bank/
 | **Content Strategy** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/content/bilingual-website-content-strategy.md` |
 | **Translation Files (EN)** | `/Users/roaya/Roaya-files/Development/roaya/roaya-website/src/assets/i18n/en.json` |
 | **Translation Files (AR)** | `/Users/roaya/Roaya-files/Development/roaya/roaya-website/src/assets/i18n/ar.json` |
+| **Backend Reports** | `/Users/roaya/Roaya-files/Development/roaya/memory-bank/backend-reports/` |
+| **Backend Source** | `/Users/roaya/Roaya-files/Development/roaya/backend/` |
+
+---
+
+## Production Environment
+
+### Server Details
+
+| Component | Location |
+|-----------|----------|
+| **Server IP** | `10.1.2.2` |
+| **SSH User** | `roaya` |
+| **SSH Key** | `~/.ssh/roaya_server` |
+| **Frontend Path** | `/var/www/roaya-website/` |
+| **Backend Path** | `/opt/roaya/backend/` |
+| **PM2 Process** | `roaya-api` |
+| **Domain** | `roaya.co` |
+
+### Backend Technology Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Node.js** | ≥20.0.0 | Runtime |
+| **Express** | ^4.21.0 | HTTP framework |
+| **Prisma** | ^5.22.0 | ORM + PostgreSQL |
+| **TypeScript** | ^5.6.2 | Language |
+| **Zod** | ^3.23.8 | Validation |
+| **JWT** | ^9.0.2 | Authentication |
+| **bcryptjs** | ^2.4.3 | Password hashing |
+| **Winston** | ^3.15.0 | Logging |
+| **BullMQ** | ^5.25.0 | Job queues |
+| **SendGrid** | ^8.1.3 | Email |
+
+### Backend API Structure
+
+```
+backend/
+├── src/
+│   ├── index.ts                 # Entry point
+│   ├── config/                  # Configuration
+│   │   └── database.ts          # Prisma client
+│   ├── application/
+│   │   └── services/            # Business logic
+│   │       ├── auth.service.ts
+│   │       ├── user.service.ts
+│   │       ├── lead.service.ts
+│   │       └── ...
+│   ├── presentation/
+│   │   ├── routes/              # API routes
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── user.routes.ts
+│   │   │   ├── lead.routes.ts
+│   │   │   └── ...
+│   │   ├── controllers/         # Request handlers
+│   │   ├── middleware/          # Auth, validation, etc.
+│   │   └── validators/          # Zod schemas
+│   ├── domain/
+│   │   └── exceptions/          # Custom errors
+│   └── shared/
+│       └── utils/               # Helpers, logger
+├── prisma/
+│   ├── schema.prisma            # Database schema
+│   ├── seed.ts                  # Main seed script
+│   ├── seed-content.ts          # Blog/case studies
+│   └── seed-logos.ts            # Partner/client logos
+├── dist/                        # Compiled output
+└── package.json
+```
 
 ---
 
@@ -78,6 +147,7 @@ MEMORY_BANK=/Users/roaya/Roaya-files/Development/roaya/memory-bank/
 - **API Integration:** ApiService (backend API calls, contact form, ROI leads)
 - **Analytics:** AnalyticsService (Google Analytics 4 tracking, event logging)
 - **SEO:** SEOService (meta tags, structured data, Open Graph, canonical URLs)
+- **Logo Management:** LogoService (dynamic logos for Sectors We Serve & Trusted By sections)
 
 ---
 
@@ -365,6 +435,8 @@ product-orchestrator (Master Coordinator)
 
 ## Development Commands
 
+### Frontend (Angular)
+
 ```bash
 # Navigation
 cd /Users/roaya/Roaya-files/Development/roaya/roaya-website
@@ -376,6 +448,7 @@ npm run start           # Alias for dev
 
 # Build
 npm run build           # Production build (outputs to dist/)
+npm run build:prod      # Production build (alias)
 npm run build:dev       # Development build
 
 # Testing (when implemented)
@@ -391,6 +464,256 @@ npm run format:check    # Check formatting
 
 # Type Checking
 npm run typecheck       # TypeScript type checking
+```
+
+### Backend (Express/Prisma)
+
+```bash
+# Navigation
+cd /Users/roaya/Roaya-files/Development/roaya/backend
+
+# Development
+npm install              # Install dependencies
+npm run dev             # Start dev server with hot reload (tsx watch)
+
+# Build
+npm run build           # Build for production (prisma generate + tsc)
+npm run start           # Run compiled code
+npm run start:prod      # Run in production mode
+
+# Database
+npm run prisma:generate  # Generate Prisma client
+npm run prisma:migrate   # Run migrations (dev)
+npm run prisma:migrate:prod  # Run migrations (production)
+npm run prisma:studio    # Open Prisma Studio
+npm run prisma:seed      # Seed database
+npm run prisma:seed-content  # Seed blog/case studies
+npm run prisma:seed-logos    # Seed partner/client logos
+npm run db:reset         # Reset database
+
+# Testing
+npm run test            # Run tests
+npm run test:watch      # Watch mode
+npm run test:coverage   # Coverage report
+npm run test:e2e        # E2E tests
+
+# Code Quality
+npm run lint            # ESLint check
+npm run lint:fix        # Auto-fix linting issues
+```
+
+---
+
+## Production Deployment
+
+### Prerequisites
+
+- **VPN Connection Required:** Connect to the company VPN to access the internal server at `10.1.2.2`
+- SSH key installed at `~/.ssh/roaya_server`
+- Both frontend and backend build successfully locally
+
+### VPN Connection Verification
+
+Before deploying, verify VPN connectivity:
+
+```bash
+# Test VPN connection
+ping -c 3 10.1.2.2
+
+# If ping fails, reconnect VPN and try again
+# Expected output: 64 bytes from 10.1.2.2: icmp_seq=0 ttl=63 time=XXms
+
+# Test SSH connection
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 "echo 'Connected'"
+```
+
+### Quick Deployment Commands
+
+```bash
+# QUICK FRONTEND DEPLOY (single command)
+cd /Users/roaya/Roaya-files/Development/roaya/roaya-website && \
+npm run build && \
+tar czf /tmp/roaya-dist.tar.gz --exclude='assets' -C dist/roaya-website/browser . && \
+scp -o ConnectTimeout=30 -i ~/.ssh/roaya_server /tmp/roaya-dist.tar.gz roaya@10.1.2.2:/tmp/ && \
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /var/www/roaya-website && \
+   find . -maxdepth 1 ! -name assets ! -name . -exec rm -rf {} + && \
+   tar xzf /tmp/roaya-dist.tar.gz && \
+   rm -f ._* ._.* /tmp/roaya-dist.tar.gz"
+
+# QUICK BACKEND DEPLOY (single command)
+cd /Users/roaya/Roaya-files/Development/roaya/backend && \
+npm run build && \
+tar czf /tmp/roaya-backend.tar.gz dist prisma package.json package-lock.json && \
+scp -o ConnectTimeout=30 -i ~/.ssh/roaya_server /tmp/roaya-backend.tar.gz roaya@10.1.2.2:/tmp/ && \
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && \
+   tar xzf /tmp/roaya-backend.tar.gz && \
+   npx prisma generate && \
+   pm2 restart roaya-api && \
+   rm /tmp/roaya-backend.tar.gz"
+```
+
+### Detailed Deployment Commands
+
+```bash
+# ============================================
+# FRONTEND DEPLOYMENT
+# ============================================
+
+# 1. Build frontend
+cd /Users/roaya/Roaya-files/Development/roaya/roaya-website
+npm run build:prod
+
+# 2. Create tarball (excluding assets to preserve uploaded images)
+tar czf /tmp/roaya-dist.tar.gz --exclude='assets' \
+  -C dist/roaya-website/browser .
+
+# 3. Upload to server
+scp -o ControlMaster=no -o ControlPath=none \
+  -i ~/.ssh/roaya_server \
+  /tmp/roaya-dist.tar.gz roaya@10.1.2.2:/tmp/
+
+# 4. Deploy on server
+ssh -o ControlMaster=no -o ControlPath=none \
+  -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /var/www/roaya-website && \
+   find . -maxdepth 1 ! -name assets ! -name . -exec rm -rf {} + && \
+   tar xzf /tmp/roaya-dist.tar.gz && \
+   rm /tmp/roaya-dist.tar.gz"
+
+# ============================================
+# BACKEND DEPLOYMENT
+# ============================================
+
+# 1. Build backend
+cd /Users/roaya/Roaya-files/Development/roaya/backend
+npm run build
+
+# 2. Create tarball
+tar czf /tmp/roaya-backend.tar.gz \
+  -C /Users/roaya/Roaya-files/Development/roaya/backend \
+  dist prisma package.json package-lock.json
+
+# 3. Upload to server
+scp -o ControlMaster=no -o ControlPath=none \
+  -i ~/.ssh/roaya_server \
+  /tmp/roaya-backend.tar.gz roaya@10.1.2.2:/tmp/
+
+# 4. Deploy on server
+ssh -o ControlMaster=no -o ControlPath=none \
+  -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && \
+   tar xzf /tmp/roaya-backend.tar.gz && \
+   npx prisma generate && \
+   pm2 restart roaya-api && \
+   rm /tmp/roaya-backend.tar.gz"
+
+# ============================================
+# COMBINED DEPLOYMENT (both frontend + backend)
+# ============================================
+
+# Build both
+cd /Users/roaya/Roaya-files/Development/roaya/roaya-website && npm run build:prod
+cd /Users/roaya/Roaya-files/Development/roaya/backend && npm run build
+
+# Create tarballs
+tar czf /tmp/roaya-dist.tar.gz --exclude='assets' \
+  -C /Users/roaya/Roaya-files/Development/roaya/roaya-website/dist/roaya-website/browser .
+tar czf /tmp/roaya-backend.tar.gz \
+  -C /Users/roaya/Roaya-files/Development/roaya/backend \
+  dist prisma package.json package-lock.json
+
+# Upload both
+scp -o ControlMaster=no -o ControlPath=none -i ~/.ssh/roaya_server \
+  /tmp/roaya-dist.tar.gz /tmp/roaya-backend.tar.gz roaya@10.1.2.2:/tmp/
+
+# Deploy frontend
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /var/www/roaya-website && \
+   find . -maxdepth 1 ! -name assets ! -name . -exec rm -rf {} + && \
+   tar xzf /tmp/roaya-dist.tar.gz && rm /tmp/roaya-dist.tar.gz"
+
+# Deploy backend
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && \
+   tar xzf /tmp/roaya-backend.tar.gz && \
+   npx prisma generate && \
+   pm2 restart roaya-api && \
+   rm /tmp/roaya-backend.tar.gz"
+```
+
+### Database Schema Sync (Production)
+
+When new Prisma models are added to `schema.prisma`, sync them to production:
+
+```bash
+# Push schema changes to production database (creates missing tables)
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && npx prisma db push --accept-data-loss"
+
+# Restart API after schema changes
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 "pm2 restart roaya-api"
+
+# Verify health
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "curl -s http://localhost:3001/api/v1/health"
+```
+
+**Note:** `--accept-data-loss` only affects tables being created (no existing data is lost). Use `prisma migrate deploy` for migrations that modify existing tables.
+
+### Database Seeding (Production)
+
+```bash
+# Seed logos (partner + client) - run via SSH
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && npm run prisma:seed-logos"
+
+# Seed content (blogs + case studies)
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && npm run prisma:seed-content"
+
+# Run main seed (if needed)
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "cd /opt/roaya/backend && npm run prisma:seed"
+```
+
+### Useful Production Commands
+
+```bash
+# Check PM2 status
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "pm2 status"
+
+# View backend logs
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "pm2 logs roaya-api --lines 50"
+
+# Restart backend
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "pm2 restart roaya-api"
+
+# Check file timestamps (verify deployment)
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "ls -lt /var/www/roaya-website/main-*.js | head -1"
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "ls -lt /opt/roaya/backend/dist/index.js | head -1"
+```
+
+### SSH & VPN Notes
+
+**VPN Required:** The production server (10.1.2.2) is on an internal network. You must be connected to the company VPN to access it.
+
+**Common Issues:**
+- **Connection timeout:** Reconnect VPN and verify with `ping 10.1.2.2`
+- **Slow network:** Use `-o ConnectTimeout=30` for all SSH commands
+- **SSH session drops:** Harmless if command completed; verify with file timestamps
+- **Stale connections:** Use `pkill -f "ssh.*10.1.2.2"` to clear
+
+**Verify Deployment:**
+```bash
+# Check frontend deployment timestamp
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "ls -lt /var/www/roaya-website/main-*.js | head -1"
+
+# Check backend is running
+ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
+  "curl -s http://localhost:3001/api/v1/health"
 ```
 
 ---
@@ -504,11 +827,12 @@ npm run typecheck       # TypeScript type checking
 
 ---
 
-### Phase 4: Polish & Launch 🔄 IN PROGRESS
+### Phase 4: Polish & Launch ✅ COMPLETED
+
 **Completed:**
 - [x] SEO service implementation (meta tags, structured data, Open Graph)
 - [x] Analytics service implementation (GA4 tracking setup)
-- [x] Backend API service stubs (ready for integration)
+- [x] Backend API integration (full Express backend with PostgreSQL)
 - [x] Build error fixes (import paths, deprecated methods, TypeScript types)
 - [x] Production build verification (builds successfully with warnings only)
 - [x] Mega menu expandable sections (Cybersecurity with nested items)
@@ -521,26 +845,30 @@ npm run typecheck       # TypeScript type checking
 - [x] Penetration Testing page enhancements (animated counters, category filters, accessibility)
 - [x] Security partner logos integration (Palo Alto, IBM QRadar, Splunk, Elastic, CrowdStrike, Fortinet, Kaspersky, Nessus)
 - [x] Dark mode logo support with CSS filters
+- [x] Full admin panel with shadcn UI components
+- [x] User management with password generator (meets complexity requirements)
+- [x] Lead management system
+- [x] Blog/Case Studies content management
+- [x] Logo management (Sectors We Serve, Trusted By)
+- [x] Website analytics dashboard
+- [x] Production deployment to roaya.co
+- [x] Database seeding (logos, blog posts, case studies)
+- [x] Loading screen optimization (1.5s minimum, non-blocking texture loading)
+- [x] Error toast suppression on public pages (admin-only toasts)
 
-**Remaining Tasks:**
-- [ ] Backend API connection (HubSpot CRM, email service, PDF generation)
-- [ ] GA4 Measurement ID configuration
+**Remaining Optional Tasks:**
+- [ ] GA4 Measurement ID configuration (placeholder in environment.prod.ts)
 - [ ] Google Search Console setup
-- [ ] Performance optimization (Core Web Vitals)
-- [ ] XML sitemap generation
-- [ ] Accessibility audit (WCAG 2.1 AA)
-- [ ] Cross-browser testing
-- [ ] Production deployment
-- [ ] Domain configuration (www.roaya.co)
-- [ ] Blog content population (CMS/API integration)
-- [ ] Case study content loading from memory-bank
+- [ ] Sentry DSN configuration (placeholder in environment.prod.ts)
+- [ ] HubSpot CRM integration
+- [ ] Performance optimization (Core Web Vitals audit)
 
-**Status:** Infrastructure complete, backend integration pending
+**Status:** Production deployed and operational
 
 **Build Status:**
 - ✅ Production build succeeds
 - ✅ All TypeScript errors resolved
-- ⚠️ Bundle size warnings (519KB initial, target: 500KB) - acceptable for Phase 4
+- ⚠️ Bundle size warnings (~895KB initial) - contains admin panel, acceptable
 - ⚠️ Some component SCSS files slightly exceed budget - optimization pending
 
 ---
@@ -810,6 +1138,253 @@ services.security.page.penetrationTesting.whatYouGet.item1.title
 
 ---
 
+### Logo Management Admin Page (2026-01-28)
+
+**Conversion from PrimeNG to Shadcn:**
+The Logo Management admin page (`/admin/logos`) has been completely rewritten to use shadcn UI components instead of PrimeNG.
+
+**Files Created/Modified:**
+- **New:** `src/app/core/services/logo.service.ts` - Logo management service with reactive state
+- **Modified:** `src/app/features/admin/logos/logos-list.component.ts` - Converted to shadcn
+- **Modified:** `src/app/features/home/home.component.ts` - Now uses LogoService dynamically
+- **Modified:** `src/app/features/home/home.component.html` - Updated to use signal syntax
+
+**Logo Categories:**
+| Category | Website Section | Description |
+|----------|-----------------|-------------|
+| `sector` | "Sectors We Serve" | Ministries, Banks, Universities |
+| `client` | "Trusted By" | Client company logos |
+
+**LogoService Features:**
+- Reactive state using BehaviorSubject (changes propagate in real-time)
+- CRUD operations: create, update, delete logos
+- Order management with drag-drop support
+- Toggle active/inactive status
+- Fallback data when API unavailable
+- Bilingual support (name + nameAr)
+
+**Logo Interface:**
+```typescript
+interface Logo {
+  id: string;
+  name: string;           // English name
+  nameAr: string;         // Arabic name
+  logo: string;           // Image URL
+  darkModeLogo?: string;  // Optional dark mode variant
+  scale?: string;         // Optional scale class (e.g., 'scale-150')
+  order: number;
+  isActive: boolean;
+}
+```
+
+**Admin Panel Features:**
+- Two tabs: "Industry / Sectors" and "Clients"
+- Drag-drop reordering
+- Add/Edit/Delete logos
+- Toggle visibility (active/inactive)
+- Image upload with preview
+- Scale options for small logos
+- Dark mode variant support
+- Info banners explaining each section
+
+**Dynamic Website Integration:**
+Changes made in the admin panel immediately reflect on the public website:
+- Home page "Sectors We Serve" section uses `LogoService.sectorLogos$`
+- Home page "Trusted By" section uses `LogoService.clientLogos$`
+- Only active logos are displayed, sorted by order
+
+---
+
+### Admin Panel Structure (2026-02-08)
+
+**Route:** `/admin/*`
+**Layout:** `AdminLayoutComponent` with sidebar navigation
+
+**Admin Modules:**
+
+| Route | Component | Description |
+|-------|-----------|-------------|
+| `/admin/login` | `LoginComponent` | JWT-based authentication |
+| `/admin/dashboard` | `DashboardComponent` | Overview with stats |
+| `/admin/leads` | `LeadsListComponent` | Lead management CRM |
+| `/admin/leads/:id` | `LeadDetailComponent` | Lead details with activity timeline |
+| `/admin/users` | `UsersListComponent` | User management (SUPER_ADMIN) |
+| `/admin/users/new` | `UserFormComponent` | Create new user |
+| `/admin/users/:id` | `UserDetailComponent` | User details |
+| `/admin/users/:id/edit` | `UserFormComponent` | Edit user |
+| `/admin/content/blog` | `BlogListComponent` | Blog post management |
+| `/admin/content/case-studies` | `CaseStudiesListComponent` | Case study management |
+| `/admin/logos` | `LogosListComponent` | Logo management (sectors/clients) |
+| `/admin/analytics` | `AnalyticsComponent` | Lead analytics dashboard |
+| `/admin/website-analytics` | `AnalyticsDashboardComponent` | Website visitor analytics |
+| `/admin/website-analytics/heatmaps` | `HeatmapsComponent` | Click heatmaps |
+| `/admin/website-analytics/recordings` | `RecordingsListComponent` | Session recordings |
+| `/admin/team` | `TeamListComponent` | Team member management |
+| `/admin/packages` | `PackagesListComponent` | Pricing packages |
+| `/admin/testimonials` | `TestimonialsListComponent` | Testimonial management |
+| `/admin/email-templates` | `TemplatesListComponent` | Email template editor |
+| `/admin/documentation` | `DocsListComponent` | Documentation management |
+| `/admin/settings` | `SettingsComponent` | System settings |
+
+**User Roles:**
+- `SUPER_ADMIN` - Full access, can create/edit/delete users
+- `ADMIN` - Can manage leads, content, view analytics
+- `MANAGER` - Can manage assigned leads
+- `SALES` - Can view and update assigned leads
+- `VIEWER` - Read-only access
+
+**Password Requirements (aligned frontend + backend):**
+- Minimum 12 characters
+- At least one uppercase letter (A-Z)
+- At least one lowercase letter (a-z)
+- At least one digit (0-9)
+- At least one special character (@$!%*?&#^_+-= etc.)
+- Password generator creates 16-char passwords meeting all requirements
+
+---
+
+### shadcn UI Component Library (2026-02-08)
+
+**Location:** `src/app/shared/components/ui/`
+
+All admin panel components use shadcn UI (Angular port) for consistent styling.
+
+**Primitives (`ui/primitives/`):**
+
+| Component | Selector | Description |
+|-----------|----------|-------------|
+| `InputComponent` | `ui-input` | Text input with variants (default/error/success) |
+| `CardComponent` | `ui-card` | Container card |
+| `SpinnerComponent` | `ui-spinner` | Loading spinner |
+| `LabelComponent` | `ui-label` | Form labels |
+| `BadgeComponent` | `ui-badge` | Status badges |
+| `ButtonComponent` | `ui-button` | Action buttons |
+| `SkeletonComponent` | `ui-skeleton` | Loading placeholders |
+
+**Form Components (`ui/form/`):**
+
+| Component | Selector | Description |
+|-----------|----------|-------------|
+| `PasswordInputComponent` | `ui-password-input` | Password field with show/hide toggle |
+| `SelectComponent` | `ui-select` | Dropdown select with keyboard nav |
+| `CheckboxComponent` | `ui-checkbox` | Checkbox with custom styling |
+| `TextareaComponent` | `ui-textarea` | Multi-line text input |
+
+**Feedback Components (`ui/feedback/`):**
+
+| Component | Selector | Description |
+|-----------|----------|-------------|
+| `DialogComponent` | `ui-dialog` | Modal dialogs |
+| `ConfirmDialogComponent` | `ui-confirm-dialog` | Confirmation prompts |
+| `ToastService` | Injectable | Toast notifications |
+
+**Component Styling Pattern:**
+
+All shadcn components use:
+- `class-variance-authority (cva)` for variant styling
+- `ControlValueAccessor` for Angular forms integration
+- Tailwind CSS for styling
+- CSS custom properties for theming
+- Dark mode support via `dark:` prefix
+
+**Example Usage:**
+```typescript
+import { InputComponent } from '../shared/components/ui/primitives/input/input.component';
+import { SelectComponent } from '../shared/components/ui/form/select/select.component';
+import { ToastService } from '../shared/components/ui/feedback/toast/toast.service';
+
+// In template
+<ui-input
+  formControlName="email"
+  [variant]="form.get('email')?.invalid ? 'error' : 'default'"
+  placeholder="Enter email"
+/>
+
+// Toast notifications
+this.toast.success('Operation completed', 'Success');
+this.toast.error('Something went wrong', 'Error');
+```
+
+---
+
+### User Form Enhancement (2026-02-08)
+
+**File:** `src/app/features/admin/users/user-form.component.ts`
+
+Completely rewritten from PrimeNG to shadcn UI with:
+
+1. **Password Generator** - Creates 16-char passwords with:
+   - Guaranteed uppercase, lowercase, digit, special character
+   - Excludes ambiguous characters (I, l, O, 0, 1)
+   - Fisher-Yates shuffle for randomization
+
+2. **Password Strength Indicator**:
+   - 4-segment color bar (red → orange → yellow → green)
+   - Real-time requirement checklist with checkmarks
+   - Computed signals for reactive updates
+
+3. **Frontend Validation** aligned with backend:
+   - `passwordComplexityValidator` custom Angular validator
+   - Matches backend regex in `user.routes.ts`
+
+---
+
+### Reset Password Enhancement (2026-02-08)
+
+**Backend Fix:** `backend/src/application/services/user.service.ts`
+
+Previously used `crypto.randomBytes(8).toString('hex')` which only produced hex characters (0-9, a-f).
+
+Now uses `generateStrongPassword()` method:
+- Same algorithm as frontend password generator
+- Uses `crypto.randomInt()` for cryptographic randomness
+- Produces 16-char passwords meeting all complexity requirements
+- Fisher-Yates shuffle for uniform distribution
+
+---
+
+### Form Field Styling Update (2026-02-08)
+
+**Files:**
+- `src/app/shared/components/ui/primitives/input/input.component.ts`
+- `src/app/shared/components/ui/form/password-input/password-input.component.ts`
+
+Changed from bordered to borderless style:
+- `border` → `border-0`
+- `bg-neutral-50` → `bg-neutral-100`
+- `focus:border-*` → `focus:ring-2 focus:ring-*/50`
+
+Now matches `ui-select` component styling for consistency.
+
+---
+
+### Admin Panel UI Fixes (2026-01-28)
+
+**Dialog Z-Index Fix:**
+- Admin sidebar had `z-index: 1000`, causing dialogs (z-50) to appear behind it
+- Fixed by updating Dialog component z-index to `z-[1100]`
+- Affected file: `src/app/shared/components/ui/feedback/dialog/dialog.component.ts`
+
+**Dialog Overflow Fix:**
+- Full-size dialog content was getting cut off
+- Added `overflow-hidden` to dialog container
+- Added `overflow-y-auto` to DialogContentComponent
+- Max height set to `calc(100vh-12rem)` for scrollable content
+
+**Table Responsiveness Fix:**
+- Blog and Case Studies admin tables had column overflow issues
+- Changed grid columns to use `minmax()` for flexible title column
+- Reduced fixed column widths
+- Added `overflow-x-auto` wrapper
+- Affected files: `blog-list.component.ts`, `case-studies-list.component.ts`
+
+**Dark Mode Accessibility Fix:**
+- Blog detail page links had insufficient contrast in dark mode (~3.8:1)
+- Updated link color from `#14b8a6` to `#2dd4bf` (teal-400) for 4.5:1+ ratio
+- Affected file: `blog-detail.component.scss`
+
+---
+
 ## Architecture Decisions (ADRs)
 
 ### ADR-001: Angular Standalone Components
@@ -1076,6 +1651,116 @@ services.security.page.penetrationTesting.whatYouGet.item1.title
 ```
 
 **Status:** Adopted (2025-12-25)
+
+---
+
+### ADR-015: Dynamic Logo Management with Reactive Service
+**Decision:** Implement logo management using a reactive service pattern with BehaviorSubject for real-time updates across admin and public website
+**Rationale:**
+- Changes in admin panel should immediately reflect on public website
+- Centralized logo data management
+- Consistent interface for both sector and client logos
+- Fallback support when API is unavailable
+- Easy to extend for additional logo categories
+
+**Implementation:**
+- `LogoService` with BehaviorSubject for `sectorLogos$` and `clientLogos$`
+- Home component subscribes to observables and uses signals
+- Admin panel CRUD operations update the shared state
+- Initial data loaded from service (fallback if API fails)
+
+**Alternative Considered:** Direct API calls in each component
+**Trade-off:** More complex service, but better UX and data consistency
+**Status:** Adopted (2026-01-28)
+
+---
+
+### ADR-016: Shadcn UI for Admin Panel Components
+**Decision:** Convert admin panel components from PrimeNG to shadcn UI components
+**Rationale:**
+- Consistent styling with public website (both use Tailwind)
+- Smaller bundle size (PrimeNG is heavy)
+- Better dark mode support
+- Unified component library across the application
+- More control over component behavior and styling
+
+**Implementation:**
+- Use shadcn Dialog, Select, Skeleton, ConfirmDialog
+- Tailwind CSS for all admin panel styling
+- Lucide icons instead of PrimeNG icons
+- CDK Drag-Drop retained for reordering functionality
+
+**Status:** Adopted (2026-01-28)
+
+---
+
+### ADR-017: Borderless Form Input Styling
+**Decision:** Use borderless inputs with background color instead of bordered inputs
+**Rationale:**
+- Cleaner, more modern appearance
+- Consistent with shadcn UI design language
+- Focus states use ring instead of border for better visibility
+- Matches `ui-select` component styling
+
+**Implementation:**
+- Changed `border border-neutral-200` to `border-0 bg-neutral-100`
+- Changed `focus:border-*` to `focus:ring-2 focus:ring-*/50`
+- Applied to `InputComponent` and `PasswordInputComponent`
+
+**Status:** Adopted (2026-02-08)
+
+---
+
+### ADR-018: Cryptographically Secure Password Generation
+**Decision:** Use `crypto.randomInt()` and Fisher-Yates shuffle for password generation
+**Rationale:**
+- `Math.random()` is not cryptographically secure
+- `crypto.randomInt()` provides uniform distribution
+- Fisher-Yates shuffle ensures unbiased randomization
+- Guarantees all character categories are represented
+
+**Implementation:**
+- Backend: `generateStrongPassword()` in `user.service.ts`
+- Frontend: `generatePassword()` in `user-form.component.ts`
+- Same algorithm in both locations for consistency
+- Excludes ambiguous characters (I, l, O, 0, 1)
+
+**Status:** Adopted (2026-02-08)
+
+---
+
+### ADR-019: Admin-Only Error Toasts
+**Decision:** Only show error toast notifications on admin panel routes
+**Rationale:**
+- Public website visitors should not see backend error messages
+- API failures (visitor tracking, content loading) are expected on slow connections
+- Admin users need feedback for CRUD operations
+- Better UX for public visitors
+
+**Implementation:**
+- `GlobalErrorHandler.handleHttpError()` checks `this.router.url?.startsWith('/admin')`
+- `GlobalErrorHandler.handleClientError()` same check
+- File: `src/app/core/services/error-handler.service.ts`
+
+**Status:** Adopted (2026-02-08)
+
+---
+
+### ADR-020: Non-Blocking Asset Loading
+**Decision:** Load external assets (textures, images) in background without blocking render
+**Rationale:**
+- Initial render should not wait for external CDN resources
+- Better perceived performance
+- Graceful fallback if resources fail to load
+- Works with slow network connections
+
+**Implementation:**
+- Cosmic loader renders Earth with solid color immediately
+- Three.js textures load in background via Promise
+- `applyTextures()` swaps materials when ready
+- Reduced minimum display time from 3s to 1.5s
+
+**Status:** Adopted (2026-02-08)
 
 ---
 
@@ -1371,6 +2056,66 @@ The `/Users/roaya/Roaya-files/Development/roaya/memory-bank/` directory contains
 - `planning/project-plan.md` - Milestones, sprints, deliverables
 - `planning/backlog.md` - Feature backlog and prioritization
 
+### Backend Reports & Documentation
+- `backend-reports/` - All backend implementation reports, API docs, security reports, and guides
+
+**Backend Reports Index (27 files):**
+
+| Report | Description |
+|--------|-------------|
+| `BACKEND_FULL_REFERENCE.md` | Comprehensive backend reference document |
+| `BACKEND_README.md` | Backend project README |
+| `README.md` | Backend reports overview |
+| `IMPLEMENTATION_SUMMARY.md` | Full implementation technical overview |
+| `IMPLEMENTATION_REPORT.md` | Implementation progress report |
+| `CHANGES_SUMMARY.md` | Summary of all backend changes |
+| `DATABASE_SCHEMA.md` | Prisma database schema documentation |
+| `API_ACCESS.md` | API access and endpoint reference |
+| `API_DOCUMENTATION_LOGOS_EMAIL_TEMPLATES.md` | Logos and email templates API docs |
+| `DOCUMENTATION_API.md` | Documentation system API reference |
+| `DOCUMENTATION_AND_ANALYTICS_IMPLEMENTATION_REPORT.md` | Docs & analytics implementation report |
+| `WEBSITE_ANALYTICS_API.md` | Website analytics tracking API docs |
+| `QUICK_START.md` | Quick start guide for backend API |
+| `QUICK_START_GUIDE.md` | Quick start guide for docs & analytics APIs |
+| `QUICKSTART_ADMIN.md` | Admin panel quick start guide |
+| `LOCAL_TESTING_GUIDE.md` | Local development and testing guide |
+| `NEW_DEVELOPER_GUIDE.md` | Onboarding guide for new developers |
+| `ADMIN_DASHBOARD.md` | Admin dashboard documentation |
+| `ADMIN_IMPLEMENTATION_SUMMARY.md` | Admin panel implementation summary |
+| `SECURITY_IMPLEMENTATION.md` | Security features implementation details |
+| `SECURITY_FIXES_SUMMARY.md` | Security fixes summary |
+| `account-lockout-and-token-rotation-implementation.md` | Account lockout & token rotation feature |
+| `security-and-feature-completion-report-2026-01-26.md` | Security & feature completion report |
+| `logos-email-templates-implementation-report.md` | Logos & email templates implementation |
+| `dynamic-content-integration-plan.md` | Dynamic content integration plan |
+| `loading-screen-enhancement-2026-01-22.md` | Loading screen enhancement report |
+| `scroll-fetch-error-investigation-2026-01-22.md` | Scroll/fetch error investigation |
+
+---
+
+## Reports Storage Rule
+
+**All reports MUST be stored in the memory-bank directory.** Do not leave reports in the `backend/` folder or any other project source directory.
+
+### Rule
+- **Location:** All reports, implementation summaries, investigation logs, and documentation go in `/Users/roaya/Roaya-files/Development/roaya/memory-bank/`
+- **Backend reports:** `/memory-bank/backend-reports/`
+- **QA reports:** `/memory-bank/qa/reports/`
+- **Design reports:** `/memory-bank/design/`
+- **Project plans:** `/memory-bank/project/`
+- **Research:** `/memory-bank/research/`
+
+### Naming Convention
+- Implementation reports: `FEATURE_NAME_IMPLEMENTATION_REPORT.md` or `feature-name-implementation-report.md`
+- Investigation logs: `issue-description-YYYY-MM-DD.md`
+- API documentation: `API_NAME_API.md`
+- Security reports: `SECURITY_TOPIC.md`
+
+### When Creating Reports
+1. Write the report directly to the appropriate `memory-bank/` subdirectory
+2. Never store reports in `backend/`, `roaya-website/`, or any source code directory
+3. Update this CLAUDE.md if a new report category is added
+
 ---
 
 ## Key Dependencies
@@ -1516,6 +2261,10 @@ The `/Users/roaya/Roaya-files/Development/roaya/memory-bank/` directory contains
 | 1.6.0 | 2025-12-25 | Mega menu expandable sections for Cybersecurity services, translation path standardization (ADR-012), icon library standardization (ADR-013), mega menu pattern (ADR-014), scroll progress indicator | Super Tech Lead |
 | 1.7.0 | 2025-12-26 | SOC Solutions page with full content and translations, Penetration Testing enhancements (animated counters, category filters, accessibility fixes), Security partner logos integration with dark mode support | Super Tech Lead |
 | 1.8.0 | 2026-01-19 | Memory bank cleanup (removed obsolete archive logs, AI services fix summaries, duplicate security docs), updated all paths to new project location, removed outdated agent-map.json reference, added consolidated DESIGN-SYSTEM.md reference | Product Orchestrator |
+| 1.9.0 | 2026-01-28 | Logo Management conversion from PrimeNG to shadcn, LogoService for dynamic website integration, Admin panel UI fixes (dialog z-index, overflow, table responsiveness), Dark mode accessibility improvements, ADR-015 & ADR-016 | Product Orchestrator |
+| 2.0.0 | 2026-02-01 | Consolidated all backend reports into memory-bank/backend-reports (27 files), added Backend Reports Index to CLAUDE.md, established Reports Storage Rule (all reports must go in memory-bank), added report naming conventions and storage guidelines | Product Orchestrator |
+| 2.1.0 | 2026-02-08 | Production deployment documentation (server details, deployment commands, SSH instructions), Admin panel structure documentation (all routes and modules), shadcn UI component library documentation, User form enhancement (password generator with strength indicator), Reset password enhancement (backend strong password generation matching frontend), Form field styling update (borderless inputs with focus rings), ADR-017 through ADR-020 (Borderless Form Input Styling, Cryptographically Secure Password Generation, Admin-Only Error Toasts, Non-Blocking Asset Loading) | Product Orchestrator |
+| 2.2.0 | 2026-02-08 | Website Analytics fix (created missing PostgreSQL tables via prisma db push), Loading screen optimization (2s fixed duration, no content wait), VPN connection documentation added, Quick deployment commands added, Database schema sync documentation added, Seeding commands updated to use SSH | Product Orchestrator |
 
 ---
 

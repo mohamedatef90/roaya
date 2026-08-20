@@ -125,15 +125,14 @@ export class CosmicLoaderComponent implements AfterViewInit, OnDestroy {
     this.starField = this.createStarField();
     this.scene.add(this.milkyWay, this.starField);
 
-    let textures: EarthTextures | null = null;
-    try {
-      textures = await this.loadTextures();
-    } catch (error) {
-      console.warn('Falling back to solid Earth material; texture load failed.', error);
-    }
-    this.addEarth(textures);
-
+    // Render immediately with solid materials (non-blocking)
+    this.addEarth(null);
     this.renderFrame();
+
+    // Load textures in the background and swap when ready
+    this.loadTextures()
+      .then(textures => this.applyTextures(textures))
+      .catch(() => { /* keep solid fallback */ });
     window.addEventListener('resize', this.handleResize);
 
     if (!this.prefersReducedMotion) {
@@ -162,7 +161,8 @@ export class CosmicLoaderComponent implements AfterViewInit, OnDestroy {
     earthGroup.rotation.set(0.4, 0, 0);
     this.earthGroup = earthGroup;
 
-    const earthGeometry = new SphereGeometry(1, 128, 128);
+    const segments = this.isMobile ? 64 : 128;
+    const earthGeometry = new SphereGeometry(1, segments, segments);
     const earthMaterial = new MeshPhongMaterial({
       map: textures?.colorMap ?? null,
       specularMap: textures?.specularMap ?? null,
@@ -175,7 +175,7 @@ export class CosmicLoaderComponent implements AfterViewInit, OnDestroy {
     this.earthMesh = earthMesh;
     earthGroup.add(earthMesh);
 
-    const cloudsGeometry = new SphereGeometry(1, 128, 128);
+    const cloudsGeometry = new SphereGeometry(1, segments, segments);
     const cloudsMaterial = new MeshPhongMaterial({
       map: textures?.cloudsMap ?? null,
       transparent: true,
@@ -189,7 +189,7 @@ export class CosmicLoaderComponent implements AfterViewInit, OnDestroy {
     this.cloudsMesh = cloudsMesh;
     earthGroup.add(cloudsMesh);
 
-    const atmosphereGeometry = new SphereGeometry(1, 128, 128);
+    const atmosphereGeometry = new SphereGeometry(1, segments, segments);
     const atmosphereMaterial = new ShaderMaterial({
       uniforms: {
         color: { value: new Color('#00aaff') },
@@ -224,8 +224,28 @@ export class CosmicLoaderComponent implements AfterViewInit, OnDestroy {
     this.scene.add(earthGroup);
   }
 
+  private applyTextures(textures: EarthTextures): void {
+    if (this.earthMesh) {
+      const mat = this.earthMesh.material as MeshPhongMaterial;
+      mat.map = textures.colorMap;
+      mat.specularMap = textures.specularMap;
+      mat.color = new Color('#ffffff');
+      mat.needsUpdate = true;
+    }
+    if (this.cloudsMesh) {
+      const mat = this.cloudsMesh.material as MeshPhongMaterial;
+      mat.map = textures.cloudsMap;
+      mat.opacity = 0.3;
+      mat.needsUpdate = true;
+    }
+  }
+
+  private get isMobile(): boolean {
+    return this.isBrowser && (window.innerWidth < 768 || 'ontouchstart' in window);
+  }
+
   private createStarField(): Points {
-    const count = 8000;
+    const count = this.isMobile ? 3000 : 8000;
     const positions = new Float32Array(count * 3);
     const color = new Color('#ffffff');
 
@@ -258,7 +278,7 @@ export class CosmicLoaderComponent implements AfterViewInit, OnDestroy {
   }
 
   private createMilkyWayBand(): Points {
-    const count = 15000;
+    const count = this.isMobile ? 5000 : 15000;
     const radius = 350;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);

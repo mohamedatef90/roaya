@@ -6,7 +6,7 @@ export const environment = {
   production: false,
 
   // API Configuration
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'http://localhost:3001/api/v1',
 
   // Google Cloud Translation API
   // Instructions to get your API key:
@@ -37,4 +37,12 @@ export const environment = {
 
   // Analytics
   googleAnalyticsId: '', // GA4 Measurement ID
+
+  // Error Logging (Sentry)
+  // Instructions to get your DSN:
+  // 1. Go to https://sentry.io
+  // 2. Create a new project (Angular)
+  // 3. Copy the DSN from Project Settings → Client Keys
+  // 4. Paste below (leave empty to disable Sentry)
+  sentryDsn: '', // Leave empty to use console logging only
 };

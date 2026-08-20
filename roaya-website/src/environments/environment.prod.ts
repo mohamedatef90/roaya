@@ -6,7 +6,7 @@ export const environment = {
   production: true,
 
   // API Configuration
-  apiUrl: 'https://api.roaya.co',
+  apiUrl: '/api/v1',
 
   // Google Cloud Translation API
   // SECURITY: This key should be restricted to your production domain
@@ -25,4 +25,9 @@ export const environment = {
 
   // Analytics
   googleAnalyticsId: '', // GA4 Measurement ID (e.g., G-XXXXXXXXXX)
+
+  // Error Logging (Sentry)
+  // SECURITY: Restrict this DSN to your production domain in Sentry settings
+  // Go to Project Settings → Client Keys → Configure → Allowed Domains
+  sentryDsn: '', // Add your production Sentry DSN here
 };

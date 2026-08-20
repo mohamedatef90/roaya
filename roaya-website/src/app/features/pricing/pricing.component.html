@@ -19,6 +19,109 @@
   </div>
 </section>
 
+<!-- Packages Section (dynamic from admin) -->
+<section *ngIf="packages().length > 0" class="py-20 bg-background">
+  <div class="container-custom">
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 text-sm font-medium mb-4">
+        {{ 'pricing.page.badge' | translate }}
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        {{ 'pricing.page.title' | translate }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto mb-8">
+        {{ 'pricing.page.description' | translate }}
+      </p>
+
+      <!-- Billing Toggle -->
+      <div class="flex items-center justify-center gap-4">
+        <span class="text-sm font-medium" [class.text-primary-600]="!isYearly()" [class.dark:text-secondary-400]="!isYearly()">
+          {{ 'pricing.monthly' | translate }}
+        </span>
+        <button
+          (click)="toggleBilling()"
+          class="relative w-14 h-7 rounded-full transition-colors"
+          [ngClass]="isYearly() ? 'bg-primary-600' : 'bg-neutral-300 dark:bg-neutral-600'"
+          [attr.aria-label]="'Toggle billing period'"
+        >
+          <span
+            class="absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform"
+            [ngClass]="isYearly() ? 'translate-x-7' : 'translate-x-0.5'"
+          ></span>
+        </button>
+        <span class="text-sm font-medium" [class.text-primary-600]="isYearly()" [class.dark:text-secondary-400]="isYearly()">
+          {{ 'pricing.yearly' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Package Cards Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div
+        *ngFor="let pkg of packages()"
+        class="relative bg-surface rounded-2xl border overflow-hidden transition-all hover:shadow-xl"
+        [ngClass]="pkg.isFeatured ? 'border-primary-500 shadow-lg scale-[1.02]' : 'border-border'"
+      >
+        <!-- Featured Badge -->
+        <div *ngIf="pkg.badge" class="absolute top-0 inset-x-0">
+          <div
+            class="text-center text-xs font-bold text-white py-1.5"
+            [ngStyle]="{ 'background-color': pkg.badgeColor || '#3D5A80' }"
+          >
+            {{ pkg.badge }}
+          </div>
+        </div>
+
+        <div class="p-6 md:p-8" [class.pt-10]="pkg.badge">
+          <!-- Package Name -->
+          <h3 class="text-xl font-bold mb-2">
+            {{ currentLang === 'ar' ? pkg.nameAr : pkg.nameEn }}
+          </h3>
+          <p *ngIf="pkg.descriptionEn || pkg.descriptionAr" class="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+            {{ currentLang === 'ar' ? (pkg.descriptionAr || pkg.descriptionEn) : (pkg.descriptionEn || pkg.descriptionAr) }}
+          </p>
+
+          <!-- Price -->
+          <div class="mb-6">
+            <div *ngIf="getPackagePrice(pkg) !== null" class="flex items-baseline gap-1">
+              <span class="text-4xl font-bold text-primary-600 dark:text-secondary-400">
+                {{ getPackagePrice(pkg) | number }}
+              </span>
+              <span class="text-sm text-neutral-500">
+                {{ pkg.currency }} / {{ isYearly() ? ('pricing.perYear' | translate) : ('pricing.perMonth' | translate) }}
+              </span>
+            </div>
+            <div *ngIf="getPackagePrice(pkg) === null" class="text-2xl font-bold text-primary-600 dark:text-secondary-400">
+              {{ 'pricing.custom' | translate }}
+            </div>
+          </div>
+
+          <!-- Features -->
+          <ul class="space-y-3 mb-8">
+            <li *ngFor="let feature of getPackageFeatures(pkg)" class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-sm">{{ feature }}</span>
+            </li>
+          </ul>
+
+          <!-- CTA Button -->
+          <a
+            [routerLink]="pkg.ctaLink || '/contact'"
+            class="block w-full text-center px-6 py-3 rounded-xl font-semibold transition-all"
+            [ngClass]="pkg.isFeatured
+              ? 'bg-gradient-primary text-white hover:shadow-lg'
+              : 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 hover:bg-primary-200 dark:hover:bg-primary-900/50'"
+          >
+            {{ currentLang === 'ar' ? (pkg.ctaTextAr || ('pricing.getStarted' | translate)) : (pkg.ctaTextEn || ('pricing.getStarted' | translate)) }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Lead Capture Form Section -->
 <section class="py-20 bg-background -mt-8">
   <div class="container-custom">
@@ -34,17 +137,17 @@
             </svg>
           </div>
           <h2 class="text-2xl font-bold mb-2">{{ 'contact.form.success.title' | translate }}</h2>
-          <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ 'contact.form.success.message' | translate }}</p>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ 'contact.form.success.description' | translate }}</p>
           <button
             (click)="resetForm()"
             class="inline-flex items-center gap-2 px-6 py-3 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 rounded-xl font-medium hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
           >
-            {{ 'contact.form.success.another' | translate }}
+            {{ 'contact.form.success.button' | translate }}
           </button>
         </div>
 
         <!-- Form -->
-        <form *ngIf="!isSubmitted()" [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <form id="roaya-pricing-form" *ngIf="!isSubmitted()" [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-6">
 
           <!-- Form Header -->
           <div class="text-center mb-8">

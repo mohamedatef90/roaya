@@ -236,7 +236,7 @@
 
     <!-- Sector Logos Grid -->
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 items-center justify-items-center">
-      <div *ngFor="let sector of sectorLogos"
+      <div *ngFor="let sector of sectorLogos()"
         class="group relative w-full h-24 flex items-center justify-center p-4
                bg-white/50 dark:bg-white/5 backdrop-blur-sm rounded-xl
                border border-border/50 hover:border-primary-500/30
@@ -293,7 +293,7 @@
 
     <!-- Client Logos Grid -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
-      <div *ngFor="let client of trustedLogos"
+      <div *ngFor="let client of trustedLogos()"
         class="group relative w-full h-20 flex items-center justify-center px-4 transition-all duration-300 hover:scale-105">
         <!-- Logo Container -->
         <div class="relative w-full h-full flex items-center justify-center">

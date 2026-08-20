@@ -87,25 +87,27 @@ export class RoiCalculatorComponent {
     this.hasError.set(false);
 
     try {
-      const formData = {
-        name: this.roiForm.value.companyName,
-        email: this.roiForm.value.email,
-        phone: this.roiForm.value.phone,
-        company: this.roiForm.value.companyName,
-        service: 'ROI Analysis Request',
-        message: `Current IT Spend: ${this.roiForm.value.currentSpend || 'Not specified'}\nPain Points: ${this.selectedPainPoints.join(', ') || 'None specified'}`
+      const leadData = {
+        contactInfo: {
+          name: this.roiForm.value.companyName,
+          email: this.roiForm.value.email,
+          phone: this.roiForm.value.phone,
+          company: this.roiForm.value.companyName,
+        },
+        currentSpend: this.roiForm.value.currentSpend,
+        painPoints: this.selectedPainPoints,
       };
 
-      await firstValueFrom(this.apiService.submitContactForm(formData));
+      await firstValueFrom(this.apiService.submitROILead(leadData));
 
       this.isSubmitted.set(true);
       this.roiForm.reset();
       this.selectedPainPoints = [];
-      this.analytics.trackFormSubmission('roi_lead', true);
+      this.analytics.trackFormSubmission('roaya-roi-form', 'roi_lead', true);
     } catch (error) {
       console.error('ROI form submission error:', error);
       this.hasError.set(true);
-      this.analytics.trackFormSubmission('roi_lead', false);
+      this.analytics.trackFormSubmission('roaya-roi-form', 'roi_lead', false);
     } finally {
       this.isSubmitting.set(false);
     }

@@ -5,6 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import PrimeNG Theme (for admin panel) */
+@import './styles/theme.scss';
+
 /* ========================================
    CSS Custom Properties (Theme Variables)
    ======================================== */
@@ -193,11 +196,11 @@ body.mega-menu-open header {
   }
 
   .btn-secondary {
-    @apply btn px-6 py-3 bg-surface border border-border text-text-primary hover:bg-surface-elevated;
+    @apply btn px-6 py-3 bg-surface border border-border text-neutral-900 dark:text-neutral-100 hover:bg-surface-elevated;
   }
 
   .btn-ghost {
-    @apply btn px-4 py-2 text-text-secondary hover:text-text-primary hover:bg-surface;
+    @apply btn px-4 py-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:text-neutral-100 hover:bg-surface;
   }
 
   /* Card styles */
