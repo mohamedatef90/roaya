@@ -188,6 +188,14 @@ export const routes: Routes = [
         path: 'cookies',
         loadComponent: () => import('./features/legal/cookies/cookies.component').then(m => m.CookiesComponent),
         title: 'Cookie Policy - Roaya IT'
+      },
+      // Not found (404) - catches unknown URLs inside the main layout.
+      // The server layer returns a real HTTP 404 status for this route
+      // (see app.routes.server.ts).
+      {
+        path: '**',
+        loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent),
+        title: 'Page Not Found - Roaya IT'
       }
     ]
   },
@@ -359,10 +367,4 @@ export const routes: Routes = [
     ]
   },
 
-  // Fallback redirect
-  {
-    path: '**',
-    redirectTo: '',
-    pathMatch: 'full'
-  }
 ];

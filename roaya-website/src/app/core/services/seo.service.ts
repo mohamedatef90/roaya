@@ -64,7 +64,10 @@ export class SEOService {
    * Update SEO data for a page
    */
   updateSEO(data: SEOData): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    // Title/meta/OG/Twitter tags are emitted on both server and browser so
+    // the first HTTP response carries route-specific SEO data. DOM-touching
+    // operations (structured data, canonical) remain browser-only below.
+    const isBrowser = isPlatformBrowser(this.platformId);
 
     // Title
     if (data.title) {
@@ -86,7 +89,7 @@ export class SEOService {
       title: data.title || this.defaultTitle,
       description: data.description || this.defaultDescription,
       image: data.image || '/assets/images/roaya-logo.png',
-      url: data.url || window.location.href,
+      url: data.url || (isBrowser ? window.location.href : `${this.baseUrl}${this.router.url}`),
       type: data.type || 'website'
     });
 
@@ -97,8 +100,8 @@ export class SEOService {
       image: data.image || '/assets/images/roaya-logo.png'
     });
 
-    // Structured Data (JSON-LD)
-    if (data.structuredData) {
+    // Structured Data (JSON-LD) - manipulates the DOM directly, browser only
+    if (data.structuredData && isBrowser) {
       this.setStructuredData(data.structuredData);
     }
   }

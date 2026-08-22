@@ -168,12 +168,14 @@ export class ContentLoadingService {
       });
     }
 
-    // Fallback timeout
-    setTimeout(() => {
-      if (!this.translationsLoaded$.getValue()) {
-        this.translationsLoaded$.next(true);
-      }
-    }, 3000);
+    // Fallback timeout (browser only - a pending timer would delay SSR stability)
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        if (!this.translationsLoaded$.getValue()) {
+          this.translationsLoaded$.next(true);
+        }
+      }, 3000);
+    }
   }
 
   /**

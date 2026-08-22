@@ -298,17 +298,21 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   private routeSub?: Subscription;
 
   ngOnInit(): void {
-    // Show loading screen on app initialization
-    this.loadingService.show('Loading Roaya IT...');
+    // Loading screen and scroll state are browser-only; running them during
+    // SSR would schedule zone timers that delay server response stability.
+    if (isPlatformBrowser(this.platformId)) {
+      // Show loading screen on app initialization
+      this.loadingService.show('Loading Roaya IT...');
 
-    // Simple approach: Just mark content ready after a short delay
-    // The LoadingService will wait for minimum time (3s) then hide
-    setTimeout(() => {
-      this.loadingService.setContentReady();
-    }, 500);
+      // Simple approach: Just mark content ready after a short delay
+      // The LoadingService will wait for minimum time (3s) then hide
+      setTimeout(() => {
+        this.loadingService.setContentReady();
+      }, 500);
 
-    // Check initial scroll position
-    this.checkScroll();
+      // Check initial scroll position
+      this.checkScroll();
+    }
     this.updateRouteState(this.router.url);
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

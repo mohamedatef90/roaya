@@ -29,6 +29,10 @@ export class ThemeService {
    * Get initial theme from localStorage or system preference
    */
   private getInitialTheme(): Theme {
+    // SSR guard: no browser storage/media queries on the server
+    if (typeof localStorage === 'undefined' || typeof window === 'undefined') {
+      return 'light';
+    }
     const stored = localStorage.getItem(this.THEME_KEY) as Theme;
     if (stored && (stored === 'light' || stored === 'dark')) {
       return stored;
@@ -49,6 +53,10 @@ export class ThemeService {
    * Get initial direction from localStorage or browser language
    */
   private getInitialDirection(): Direction {
+    // SSR guard: no browser storage/navigator on the server
+    if (typeof localStorage === 'undefined' || typeof navigator === 'undefined') {
+      return 'ltr';
+    }
     const stored = localStorage.getItem(this.DIRECTION_KEY) as Direction;
     if (stored && (stored === 'ltr' || stored === 'rtl')) {
       return stored;
@@ -96,6 +104,7 @@ export class ThemeService {
    * Apply theme to document
    */
   private applyTheme(theme: Theme): void {
+    if (typeof document === 'undefined') return; // SSR guard
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
     localStorage.setItem(this.THEME_KEY, theme);
@@ -105,6 +114,7 @@ export class ThemeService {
    * Apply direction to document
    */
   private applyDirection(direction: Direction): void {
+    if (typeof document === 'undefined') return; // SSR guard
     const root = document.documentElement;
     root.setAttribute('dir', direction);
     document.body.dir = direction;

@@ -492,6 +492,7 @@ export class MegaMenuComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit(): void {
+    if (typeof window === 'undefined') return; // SSR guard
     // Check reduced motion preference (ACCESSIBILITY)
     this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }

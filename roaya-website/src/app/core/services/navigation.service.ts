@@ -225,6 +225,7 @@ export class NavigationService {
    * Handles both native scroll and GSAP ScrollSmoother
    */
   private resetScrollPosition(): void {
+    if (typeof window === 'undefined') return; // SSR guard
     // Use requestAnimationFrame to ensure DOM is ready
     requestAnimationFrame(() => {
       // Reset GSAP ScrollSmoother if initialized
