@@ -2361,6 +2361,9 @@
         "feature3": "All-Flash storage arrays (2TB-10TB)",
         "feature4": "Zero-downtime resource adjustments"
       },
+      "cloudedge": {
+        "description": "Welcome to CloudEdge by WorldPosta, your all-in-one secure, scalable cloud hosting solution. Designed to handle mission-critical applications with ease, CloudEdge offers flexibility, robust security, and high performance perfect for businesses of all sizes."
+      },
       "cloudFirewall": {
         "name": "Cloud Firewall",
         "tagline": "Zero Trust Security",

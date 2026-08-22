@@ -25,6 +25,18 @@ import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+interface WorldPostaProduct {
+  id: string;
+  name: string;
+  tagline: string;
+  icon: string;
+  logo: string;
+  description: string;
+  descriptionKey?: string;
+  features: string[];
+  color: string;
+}
+
 /**
  * WorldPosta Services Standalone Component
  * Comprehensive WorldPosta cloud services including Posta, CloudEdge, and CloudSpace
@@ -86,7 +98,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   // WorldPosta Products - 3 main products
-  readonly products = [
+  readonly products: WorldPostaProduct[] = [
     {
       id: 'posta',
       name: 'Posta',
@@ -111,6 +123,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
       icon: 'faCloud',
       logo: '/assets/images/worldposta/CloudEdge.png',
       description: 'Welcome to CloudEdge by WorldPosta, your all-in-one secure, scalable cloud hosting solution. Designed to handle mission-critical applications with ease, CloudEdge offers flexibility, robust security, and high performance perfect for businesses of all sizes.',
+      descriptionKey: 'services.worldposta.cloudedge.description',
       features: [
         'Secure file storage & sync',
         'Team collaboration tools',
