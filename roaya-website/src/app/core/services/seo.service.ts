@@ -11,12 +11,12 @@ export interface SEOData {
   image?: string;
   url?: string;
   type?: string;
-  structuredData?: any;
 }
 
 /**
  * SEO Service
- * Handles meta tags, structured data (JSON-LD), and SEO optimization
+ * Handles meta tags, canonical URLs, and SEO optimization.
+ * JSON-LD structured data is handled separately by StructuredDataService.
  */
 @Injectable({
   providedIn: 'root'
@@ -88,11 +88,6 @@ export class SEOService {
    * Update SEO data for a page
    */
   updateSEO(data: SEOData): void {
-    // Title/meta/OG/Twitter tags are emitted on both server and browser so
-    // the first HTTP response carries route-specific SEO data. DOM-touching
-    // operations (structured data, canonical) remain browser-only below.
-    const isBrowser = isPlatformBrowser(this.platformId);
-
     // Title
     if (data.title) {
       this.setTitle(data.title);
@@ -123,11 +118,6 @@ export class SEOService {
       description: data.description || this.defaultDescription,
       image: data.image || '/assets/images/roaya-logo.png'
     });
-
-    // Structured Data (JSON-LD) - manipulates the DOM directly, browser only
-    if (data.structuredData && isBrowser) {
-      this.setStructuredData(data.structuredData);
-    }
   }
 
   /**
@@ -212,85 +202,5 @@ export class SEOService {
       this.document.head.appendChild(link);
     }
     link.setAttribute('href', url);
-  }
-
-  /**
-   * Add structured data (JSON-LD) to page
-   */
-  private setStructuredData(data: any): void {
-    // Remove existing structured data script
-    const existingScript = document.querySelector('script[type="application/ld+json"]');
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    // Add new structured data script
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(data);
-    document.head.appendChild(script);
-  }
-
-  /**
-   * Get organization structured data
-   */
-  getOrganizationStructuredData(): any {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Roaya IT',
-      url: this.baseUrl,
-      logo: `${this.baseUrl}/assets/images/roaya-logo.png`,
-      description: this.defaultDescription,
-      address: {
-        '@type': 'PostalAddress',
-        addressCountry: 'EG',
-        addressLocality: 'Cairo'
-      },
-      contactPoint: {
-        '@type': 'ContactPoint',
-        contactType: 'Customer Service',
-        email: 'info@roaya.co'
-      },
-      sameAs: [
-        // TODO: Add social media URLs
-      ]
-    };
-  }
-
-  /**
-   * Get website structured data
-   */
-  getWebSiteStructuredData(): any {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'Roaya IT',
-      url: this.baseUrl,
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: `${this.baseUrl}/resources/blog?search={search_term_string}`
-        },
-        'query-input': 'required name=search_term_string'
-      }
-    };
-  }
-
-  /**
-   * Get breadcrumb structured data
-   */
-  getBreadcrumbStructuredData(items: Array<{ name: string; url: string }>): any {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: items.map((item, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: item.name,
-        item: item.url.startsWith('http') ? item.url : `${this.baseUrl}${item.url}`
-      }))
-    };
   }
 }
