@@ -1,4 +1,4 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
@@ -26,17 +26,19 @@ export class SEOService {
   private readonly meta = inject(Meta);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
 
   private readonly defaultTitle = 'Roaya IT - Enterprise IT Solutions & Services';
   private readonly defaultDescription = 'Roaya IT provides enterprise-grade IT solutions including cloud infrastructure, cybersecurity, email services, and managed IT support in Egypt. Transparent pricing and proven results.';
   private readonly defaultKeywords = 'IT solutions Egypt, cloud hosting Egypt, cybersecurity Egypt, enterprise email hosting, SAP operations, managed IT services, digital transformation Egypt';
-  private readonly baseUrl = 'https://roaya.co'; // TODO: Update with actual domain
+  // Fixed canonical origin: www and any other entry host normalize to this.
+  private readonly baseUrl = 'https://roaya.co';
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.initializeDefaultTags();
-      this.setupCanonicalTags();
     }
+    this.setupCanonicalTags();
   }
 
   /**
@@ -50,14 +52,36 @@ export class SEOService {
   }
 
   /**
-   * Set up canonical tags on route changes
+   * Keep a self-referencing canonical in sync with the active route.
+   *
+   * The URL is always built from the fixed origin plus the router path
+   * (never from the browser location), so www/non-www entry hosts and any
+   * query parameters or hash fragments cannot leak into the canonical.
+   * Runs on both server and browser: during SSR/prerender the initial
+   * navigation has already completed when this service is constructed, so
+   * the immediate call below emits the canonical in the first HTTP
+   * response; the subscription keeps it updated on client-side navigation.
    */
   private setupCanonicalTags(): void {
+    this.setCanonicalUrl(this.buildCanonicalUrl(this.router.url));
+
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.setCanonicalUrl(window.location.href);
+      .subscribe(event => {
+        this.setCanonicalUrl(this.buildCanonicalUrl(event.urlAfterRedirects));
       });
+  }
+
+  /**
+   * Build the canonical URL for a router path: fixed origin, query
+   * parameters and hash excluded, no trailing slash except for the root
+   * (matching sitemap.xml entries).
+   */
+  buildCanonicalUrl(path: string): string {
+    const cleanPath = path.split('#')[0].split('?')[0];
+    const withLeadingSlash = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+    const normalized = withLeadingSlash.replace(/\/+$/, '');
+    return normalized === '' ? `${this.baseUrl}/` : `${this.baseUrl}${normalized}`;
   }
 
   /**
@@ -89,7 +113,7 @@ export class SEOService {
       title: data.title || this.defaultTitle,
       description: data.description || this.defaultDescription,
       image: data.image || '/assets/images/roaya-logo.png',
-      url: data.url || (isBrowser ? window.location.href : `${this.baseUrl}${this.router.url}`),
+      url: data.url || this.buildCanonicalUrl(this.router.url),
       type: data.type || 'website'
     });
 
@@ -177,20 +201,17 @@ export class SEOService {
   }
 
   /**
-   * Set canonical URL
+   * Set canonical URL (SSR-safe: uses the injected DOCUMENT, which is the
+   * server-side document during SSR/prerender)
    */
   private setCanonicalUrl(url: string): void {
-    // Remove existing canonical link
-    const existingLink = document.querySelector('link[rel="canonical"]');
-    if (existingLink) {
-      existingLink.remove();
+    let link = this.document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!link) {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
     }
-
-    // Add new canonical link
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'canonical');
     link.setAttribute('href', url);
-    document.head.appendChild(link);
   }
 
   /**
