@@ -52,6 +52,7 @@ import type { StackCard } from '../../shared/components/card-stack';
 import { SecurityBriefSectionComponent } from './components/security-brief-section/security-brief-section.component';
 import { PentestBriefSectionComponent } from './components/pentest-brief-section/pentest-brief-section.component';
 import { DevopsBriefSectionComponent } from './components/devops-brief-section/devops-brief-section.component';
+import type { CaseStudySlug } from '../resources/case-studies/case-studies.data';
 
 interface Stat {
   value: number;
@@ -99,7 +100,9 @@ interface Certification {
 
 interface CaseStudyPreview {
   id: string;
-  slug: string;
+  // Constrained to registered slugs so a preview can never link to a
+  // case-study route that has no detail page (typecheck enforces it).
+  slug: CaseStudySlug;
   title: string;
   company: string;
   industry: string;
@@ -585,7 +588,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   caseStudiesPreview: CaseStudyPreview[] = [
     {
       id: 'case-1',
-      slug: 'national-bank-cloud-migration',
+      slug: 'bank-cloud-migration',
       title: 'home.caseStudies.case1.title',
       company: 'home.caseStudies.case1.company',
       industry: 'home.caseStudies.case1.industry',
@@ -595,7 +598,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     {
       id: 'case-2',
-      slug: 'healthcare-network-security',
+      slug: 'healthcare-soc-implementation',
       title: 'home.caseStudies.case2.title',
       company: 'home.caseStudies.case2.company',
       industry: 'home.caseStudies.case2.industry',
@@ -605,7 +608,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     {
       id: 'case-3',
-      slug: 'manufacturing-it-automation',
+      slug: 'manufacturing-sap-implementation',
       title: 'home.caseStudies.case3.title',
       company: 'home.caseStudies.case3.company',
       industry: 'home.caseStudies.case3.industry',
