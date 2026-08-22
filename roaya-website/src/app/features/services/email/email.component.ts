@@ -217,9 +217,9 @@ export class EmailComponent implements OnInit {
   // Differentiators - What makes us unique
   readonly differentiators = [
     {
-      title: 'Official WorldPosta Partner',
-      description: 'Certified WorldPosta partner with direct access to enterprise-grade email infrastructure and priority technical support',
-      highlight: 'Certified Partner'
+      title: 'Exclusive MENA Partner of WorldPosta',
+      description: 'Exclusive MENA partner with direct access to enterprise-grade email infrastructure and priority technical support',
+      highlight: 'Exclusive MENA Partner'
     },
     {
       title: 'Egyptian Data Center Options',

@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Stats with animated counters
   stats = signal<Stat[]>([
-    { value: 1500, suffix: '+', label: 'home.stats.clients', current: 0 },
+    { value: 150, suffix: '+', label: 'home.stats.clients', current: 0 },
     { value: 99.9, suffix: '%', label: 'home.stats.uptime', current: 0 },
     { value: 24, suffix: '/7', label: 'home.stats.support', current: 0 },
     { value: 10, suffix: '+', label: 'home.stats.experience', current: 0 }

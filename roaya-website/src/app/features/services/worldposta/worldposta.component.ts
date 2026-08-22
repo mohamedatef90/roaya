@@ -69,7 +69,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
   // Statistics - Key performance metrics
   readonly statistics = [
     {
-      value: '99.95%',
+      value: '99.99%',
       label: 'Platform Uptime',
       description: 'Enterprise-grade reliability guaranteed'
     },
@@ -97,7 +97,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
       features: [
         'Custom domain email (@yourcompany.com)',
         'Microsoft Outlook & mobile app support',
-        '99.95% uptime SLA',
+        '99.99% uptime SLA',
         'Advanced spam & malware protection',
         'Email archiving & compliance',
         'Shared calendars & contacts'
@@ -107,10 +107,10 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       id: 'cloudedge',
       name: 'CloudEdge',
-      tagline: 'Secure Cloud Storage',
+      tagline: 'All-in-One Secure Cloud Hosting',
       icon: 'faCloud',
       logo: '/assets/images/worldposta/CloudEdge.png',
-      description: 'Enterprise cloud storage with file sync, sharing, and collaboration features for teams of any size.',
+      description: 'Welcome to CloudEdge by WorldPosta, your all-in-one secure, scalable cloud hosting solution. Designed to handle mission-critical applications with ease, CloudEdge offers flexibility, robust security, and high performance perfect for businesses of all sizes.',
       features: [
         'Secure file storage & sync',
         'Team collaboration tools',
@@ -247,7 +247,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
     },
     {
       icon: 'faCircleCheck',
-      title: '99.95% Uptime SLA',
+      title: '99.99% Uptime SLA',
       description: 'Guaranteed availability with redundant systems and 24/7 monitoring'
     },
     {
@@ -327,9 +327,9 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
   // Why Roaya for WorldPosta
   readonly differentiators = [
     {
-      title: 'Official WorldPosta Partner',
-      description: 'Certified partner with direct access to WorldPosta infrastructure and priority support',
-      highlight: 'Certified Partner'
+      title: 'Exclusive MENA Partner of WorldPosta',
+      description: 'Exclusive MENA partner with direct access to WorldPosta infrastructure and priority support',
+      highlight: 'Exclusive MENA Partner'
     },
     {
       title: 'Egyptian Data Center Options',
@@ -380,7 +380,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set meta tags for SEO
     this.meta.updateTag({
       name: 'description',
-      content: 'Official WorldPosta partner in Egypt. Enterprise email, cloud storage, and no-code apps. Starting at $1.50/user/month with 99.95% uptime guarantee.'
+      content: 'Exclusive MENA partner of WorldPosta. Enterprise email, cloud storage, and no-code apps. Starting at $1.50/user/month with 99.99% uptime guarantee.'
     });
 
     this.meta.updateTag({
@@ -390,7 +390,7 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Open Graph tags
     this.meta.updateTag({ property: 'og:title', content: 'WorldPosta Cloud Services - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Enterprise email, cloud storage, and no-code apps. Official WorldPosta partner in Egypt.' });
+    this.meta.updateTag({ property: 'og:description', content: 'Enterprise email, cloud storage, and no-code apps. Exclusive MENA partner of WorldPosta.' });
     this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
