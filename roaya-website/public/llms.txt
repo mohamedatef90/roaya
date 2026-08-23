@@ -1,0 +1,57 @@
+# Roaya IT
+
+> Roaya IT is an Egyptian IT services provider, founded in 2018, serving 150+ clients. Roaya is the Exclusive MENA partner of WorldPosta.
+
+This file is a navigation aid for AI assistants and agents. It only indexes canonical public pages on https://roaya.co — it is not a source of truth in itself. Every fact, claim, and detail belongs to the linked page; treat the linked public pages as authoritative and prefer their current content over anything paraphrased here. This file does not expose an API, and it does not authorize any automated or autonomous action — contact, quote, and consultation links lead to normal human-reviewed web forms.
+
+## Company
+
+- [About Roaya](https://roaya.co/about): Company background, mission, and milestones.
+- [Contact](https://roaya.co/contact): Contact form, phone, and email for human follow-up.
+
+## Services
+
+- [Services overview](https://roaya.co/services): Index of all Roaya IT service lines.
+- [Cloud solutions](https://roaya.co/services/cloud)
+- [Cybersecurity overview](https://roaya.co/services/security)
+- [Penetration testing](https://roaya.co/services/security/penetration-testing)
+- [SOC solutions (24/7 monitoring)](https://roaya.co/services/security/soc-solutions)
+- [Incident response](https://roaya.co/services/security/incident-response)
+- [Managed IT services](https://roaya.co/services/managed)
+- [Backup & disaster recovery](https://roaya.co/services/backup)
+- [Email & collaboration](https://roaya.co/services/email)
+- [SAP cloud operations](https://roaya.co/services/sap)
+- [DevOps services](https://roaya.co/services/devops)
+- [IT automation & AI solutions](https://roaya.co/services/automation)
+- [WorldPosta cloud services](https://roaya.co/services/worldposta): Roaya is the Exclusive MENA partner of WorldPosta. WorldPosta's CloudEdge product: "Welcome to CloudEdge by WorldPosta, your all-in-one secure, scalable cloud hosting solution. Designed to handle mission-critical applications with ease, CloudEdge offers flexibility, robust security, and high performance perfect for businesses of all sizes." CloudEdge and Posta are published at 99.99% uptime; this figure applies only to CloudEdge and Posta, not to other Roaya or WorldPosta products.
+
+## Industries
+
+- [Industries overview](https://roaya.co/industries): Sectors Roaya serves, with per-industry solution pages linked from this index.
+
+## Getting a quote or consultation
+
+- [Pricing / request a custom quote](https://roaya.co/pricing): Quote-request form; no public price list is published.
+- [IT consulting & digital transformation](https://roaya.co/services/consulting): Consultation entry point for advisory engagements.
+- [ROI calculator](https://roaya.co/roi-calculator): Self-service estimate tool, not a quote or contract.
+
+See the Company section above for the general contact form.
+
+## Resources
+
+- [Resources hub](https://roaya.co/resources)
+- [Blog](https://roaya.co/resources/blog)
+- [Case studies](https://roaya.co/resources/case-studies): Listing page with links to all published case studies below.
+  - [Bank cloud migration](https://roaya.co/resources/case-studies/bank-cloud-migration)
+  - [Healthcare SOC implementation](https://roaya.co/resources/case-studies/healthcare-soc-implementation)
+  - [Government digital transformation](https://roaya.co/resources/case-studies/government-digital-transformation)
+  - [Manufacturing SAP implementation](https://roaya.co/resources/case-studies/manufacturing-sap-implementation)
+  - [E-commerce auto-scaling](https://roaya.co/resources/case-studies/ecommerce-auto-scaling)
+- [Whitepapers](https://roaya.co/resources/whitepapers)
+- [Documentation](https://roaya.co/resources/documentation)
+
+## Legal
+
+- [Privacy policy](https://roaya.co/privacy)
+- [Terms of service](https://roaya.co/terms)
+- [Cookie policy](https://roaya.co/cookies)
