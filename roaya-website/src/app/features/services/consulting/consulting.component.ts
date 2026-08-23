@@ -12,7 +12,6 @@ import {
   faCircle,
   faClock
 } from '@ng-icons/font-awesome/regular';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * IT Consulting & Digital Transformation Standalone Component
@@ -39,8 +38,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class ConsultingComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/consulting.svg';
@@ -302,24 +299,6 @@ export class ConsultingComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('IT Consulting & Digital Transformation - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Expert IT consulting and digital transformation services. Strategic guidance, technology assessments, and implementation support. 150+ projects delivered, 95% client satisfaction.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'IT Consulting, Digital Transformation, IT Strategy, Technology Assessment, Enterprise Architecture, IT Governance, Egypt IT Consulting'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'IT Consulting & Digital Transformation - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Expert IT consulting services with 150+ projects delivered and 95% client satisfaction' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

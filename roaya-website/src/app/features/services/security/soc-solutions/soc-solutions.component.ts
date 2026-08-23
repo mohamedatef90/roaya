@@ -28,7 +28,6 @@ import {
   lucideAlertTriangle,
   lucideMail
 } from '@ng-icons/lucide';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -77,8 +76,6 @@ export class SocSolutionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private scrollTriggers: ScrollTrigger[] = [];
   private prefersReducedMotion = false;
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // What You Get - 5 outcomes
   readonly outcomes = [
@@ -145,30 +142,6 @@ export class SocSolutionsComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('24/7 Security Operations Center (SOC) Services - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: '24/7 Security Operations Center (SOC) services in Egypt. Managed SOC with AI-assisted detection, threat hunting, and incident response. NIST CSF and ISO 27001 aligned.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'SOC Egypt, Security Operations Center, managed SOC, 24/7 monitoring, threat detection, incident response, SIEM, XDR, MDR, NIST CSF, ISO 27001, MITRE ATT&CK, cybersecurity monitoring Egypt'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({
-      property: 'og:title',
-      content: '24/7 Security Operations Center (SOC) Services - Roaya IT'
-    });
-    this.meta.updateTag({
-      property: 'og:description',
-      content: 'Managed SOC services with 24/7 monitoring, AI-assisted detection, and expert-led incident response. Stop chasing alerts. Focus on real risks.'
-    });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   ngAfterViewInit(): void {

@@ -21,7 +21,6 @@ import {
   faSolidGlobe,
   faSolidCode
 } from '@ng-icons/font-awesome/solid';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -69,8 +68,6 @@ interface WorldPostaProduct {
   ]
 })
 export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
 
@@ -387,24 +384,6 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('WorldPosta Cloud Services - Business Email, Storage & Apps | Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Exclusive MENA partner of WorldPosta. Enterprise email, cloud storage, and no-code apps. Starting at $1.50/user/month with 99.99% uptime guarantee.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'WorldPosta, Business Email, Cloud Storage, CloudEdge, CloudSpace, Posta, Egypt Email, Enterprise Email, Cloud Services'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'WorldPosta Cloud Services - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Enterprise email, cloud storage, and no-code apps. Exclusive MENA partner of WorldPosta.' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   ngAfterViewInit(): void {

@@ -17,7 +17,6 @@ import {
   faSolidShieldHalved,
   faSolidBoxArchive
 } from '@ng-icons/font-awesome/solid';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * Email Service Standalone Component
@@ -47,8 +46,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class EmailComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/email.svg';
@@ -311,24 +308,6 @@ export class EmailComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Email & Collaboration Solutions (WorldPosta Partner) - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Professional business email powered by WorldPosta. 99.9% uptime, 50GB+ storage, advanced security. Egyptian data center options available.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'Business Email, WorldPosta, Email Hosting, Email Security, Email Archiving, Egypt Email, Microsoft Outlook, Email Migration'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Email & Collaboration Solutions (WorldPosta Partner) - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Professional business email with 99.9% uptime and Egyptian data center options' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

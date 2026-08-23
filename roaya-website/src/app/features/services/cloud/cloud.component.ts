@@ -12,7 +12,6 @@ import {
   faSquareCheck,
   faCircle
 } from '@ng-icons/font-awesome/regular';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * Cloud Solutions Standalone Component
@@ -39,8 +38,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class CloudComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/cloud.svg';
@@ -302,24 +299,6 @@ export class CloudComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Cloud Solutions & Infrastructure Management - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Professional Cloud Solutions and Infrastructure Management services. Multi-cloud support (AWS, Azure, GCP), 24/7 monitoring, 40% cost reduction, enterprise security.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'Cloud Solutions, AWS, Azure, Google Cloud, Cloud Migration, Infrastructure as Code, Multi-Cloud Management, FinOps, Cloud Security, Egypt Cloud Services'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Cloud Solutions & Infrastructure Management - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Professional Cloud Solutions with multi-cloud support, 24/7 monitoring, and 40% cost reduction' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

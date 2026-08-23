@@ -147,6 +147,15 @@ describe('SEOService', () => {
         // Twitter card is present and singular.
         expect(twitterCard).toBe('summary_large_image');
 
+        // Internal consistency: title/OG/Twitter must all agree with each
+        // other (this is exactly the class of bug found in QA_BLOCKED —
+        // a route whose component set title/og/description directly while
+        // SEOService's registry-driven Twitter tags disagreed with them).
+        expect(ogTitle).toBe(title);
+        expect(twitterTitle).toBe(title);
+        expect(ogDescription).toBe(description);
+        expect(twitterDescription).toBe(description);
+
         // Exactly one of each tag (no duplicate/conflicting tags).
         expect(document.querySelectorAll('link[rel="canonical"]').length).toBe(1);
         expect(document.querySelectorAll('meta[name="description"]').length).toBe(1);
@@ -201,6 +210,91 @@ describe('SEOService', () => {
 
       expect(description!.length).toBeLessThanOrEqual(161); // 160 chars + ellipsis
       expect(fullSource.startsWith(description!.replace('…', '').trim())).toBe(true);
+    });
+  });
+
+  describe('QA_BLOCKED regression: former direct Meta/Title writers no longer conflict', () => {
+    // These 15 routes previously had their own component set title/description/
+    // OG tags directly via Angular's Meta/Title services, bypassing SEOService.
+    // That code has been removed; SEOService (via this registry) is now the
+    // only writer. Assert each is present in the registry and, once navigated
+    // to, is fully internally consistent (not just "some tags happen to be
+    // non-empty" — the earlier bug left og/title correct while twitter was a
+    // stale, unrelated route's content).
+    const FORMER_DIRECT_WRITER_ROUTES = [
+      '/services/automation',
+      '/services/backup',
+      '/services/cloud',
+      '/services/consulting',
+      '/services/ai',
+      '/services/devops',
+      '/services/email',
+      '/services/managed',
+      '/services/sap',
+      '/services/security',
+      '/services/security/penetration-testing',
+      '/services/security/soc-solutions',
+      '/services/security/incident-response',
+      '/services/security/pentest-v2',
+      '/services/worldposta',
+    ];
+
+    it('registers all 15 previously-conflicting service routes', () => {
+      for (const path of FORMER_DIRECT_WRITER_ROUTES) {
+        expect(ROUTE_METADATA[path]).toBeTruthy();
+      }
+      expect(FORMER_DIRECT_WRITER_ROUTES.length).toBe(15);
+    });
+
+    it('gives each former direct-writer route fully consistent, distinct tags', async () => {
+      const seenTitles = new Set<string>();
+
+      for (const path of FORMER_DIRECT_WRITER_ROUTES) {
+        await router.navigateByUrl(path);
+
+        const title = document.title;
+        const description = metaContent('meta[name="description"]');
+        const ogTitle = metaContent('meta[property="og:title"]');
+        const ogUrl = metaContent('meta[property="og:url"]');
+        const twitterTitle = metaContent('meta[name="twitter:title"]');
+        const twitterDescription = metaContent('meta[name="twitter:description"]');
+
+        // Single writer: OG and Twitter agree with the title/description
+        // SEOService set, not a leftover from a direct component call.
+        expect(ogTitle).toBe(title);
+        expect(twitterTitle).toBe(title);
+        expect(twitterDescription).toBe(description);
+        expect(ogUrl).toBe(service.buildCanonicalUrl(path));
+
+        // Distinct per route (catches cross-route contamination, the exact
+        // shape of the original QA_BLOCKED defect).
+        expect(seenTitles.has(title)).toBe(false);
+        seenTitles.add(title);
+      }
+
+      expect(seenTitles.size).toBe(FORMER_DIRECT_WRITER_ROUTES.length);
+    });
+
+    it('sources title/description from the same approved copy the removed component code used to hardcode', async () => {
+      await router.navigateByUrl('/services/security/soc-solutions');
+      expect(document.title).toBe(
+        `${enTranslations.services.security.page.socSolutions.hero.title} - Roaya IT`
+      );
+      // Source hero copy for this route is > 160 chars, so the description
+      // is a faithful truncated excerpt of it (see the /privacy test above
+      // for the same truncation behavior), not a byte-for-byte match.
+      const socDescription = metaContent('meta[name="description"]')!;
+      expect(
+        enTranslations.services.security.page.socSolutions.hero.subtitle.startsWith(
+          socDescription.replace('…', '').trim()
+        )
+      ).toBe(true);
+
+      await router.navigateByUrl('/services/worldposta');
+      expect(document.title).toBe(`${enTranslations.services.worldposta.heroTitle} - Roaya IT`);
+      expect(metaContent('meta[name="description"]')).toBe(
+        enTranslations.services.worldposta.heroDescription
+      );
     });
   });
 

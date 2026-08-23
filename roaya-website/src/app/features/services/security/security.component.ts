@@ -12,7 +12,6 @@ import {
   faSquareCheck,
   faCircle
 } from '@ng-icons/font-awesome/regular';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -41,8 +40,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   ]
 })
 export class SecurityComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
 
@@ -122,24 +119,6 @@ export class SecurityComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Cybersecurity Services Built for Real-World Threats - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Protect, detect, and respond to cyber threats with enterprise-grade cybersecurity solutions in Egypt and MENA. 24/7 SOC monitoring, AI-accelerated threat detection, and NIST-aligned incident response.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'Cybersecurity Egypt, MENA Cybersecurity, SOC Services, Penetration Testing, NIST Framework, ISO 27001, Incident Response, AI Threat Detection, Palo Alto Cortex XSIAM'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Cybersecurity Services Built for Real-World Threats - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Enterprise-grade cybersecurity with 24/7 SOC, AI-accelerated threat detection, and privacy-preserving infrastructure.' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   ngAfterViewInit(): void {
