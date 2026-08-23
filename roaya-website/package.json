@@ -10,7 +10,14 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "serve:ssr:roaya-website": "node dist/roaya-website/server/server.mjs"
+    "serve:ssr:roaya-website": "node dist/roaya-website/server/server.mjs",
+    "validate:llms-txt": "node scripts/validate-llms-txt.mjs",
+    "test:llms-txt:selftest": "node scripts/validate-llms-txt.selftest.mjs",
+    "validate:claims": "node scripts/claim-evidence/validate-registry.mjs",
+    "test:claims:selftest": "node scripts/claim-evidence/validate-registry.selftest.mjs",
+    "ai-readiness": "node scripts/ai-readiness/check.mjs",
+    "test:ai-readiness:selftest": "node scripts/ai-readiness/checks.selftest.mjs",
+    "verify:evidence": "npm run validate:claims && npm run test:claims:selftest && npm run test:llms-txt:selftest && npm run test:ai-readiness:selftest && npm run ai-readiness"
   },
   "prettier": {
     "printWidth": 100,
