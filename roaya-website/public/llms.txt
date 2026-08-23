@@ -31,7 +31,7 @@ This file is a navigation aid for AI assistants and agents. It only indexes cano
 
 ## Getting a quote or consultation
 
-- [Pricing / request a custom quote](https://roaya.co/pricing): Quote-request form; no public price list is published.
+- [Pricing / request a custom quote](https://roaya.co/pricing): Submit a request to get a custom quote reviewed by a human.
 - [IT consulting & digital transformation](https://roaya.co/services/consulting): Consultation entry point for advisory engagements.
 - [ROI calculator](https://roaya.co/roi-calculator): Self-service estimate tool, not a quote or contract.
 
