@@ -9,11 +9,12 @@ const router = Router();
 // LOGO ROUTES
 // ===========================================
 
-// Public route for website (active logos only)
-router.get('/logos', logoController.getLogos.bind(logoController));
-
-// Admin routes - all require authentication
+// Legacy admin namespace. Public reads use /public/logos; every route in this
+// router is authenticated explicitly so security never depends on mount order.
 router.use(authenticate);
+
+// Admin list includes inactive records needed by the management UI.
+router.get('/logos', logoController.getLogos.bind(logoController));
 
 // Get logo by ID
 router.get('/logos/:id', logoController.getLogoById.bind(logoController));
