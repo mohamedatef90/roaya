@@ -11,7 +11,7 @@ import { MegaMenuComponent, MegaMenuItem } from '../../shared/components/mega-me
 import { ScrollIndicatorComponent } from '../../shared/components/scroll-indicator/scroll-indicator.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
-import { CosmicLoaderComponent } from '../../shared/components/cosmic-loader/cosmic-loader.component';
+import { InitLoaderComponent } from '../../shared/components/init-loader/init-loader.component';
 import { ConsentBannerComponent } from '../../shared/components/consent-banner/consent-banner.component';
 import { Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
@@ -20,7 +20,7 @@ import { throttleTime } from 'rxjs/operators';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent, ConsentBannerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, InitLoaderComponent, ConsentBannerComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
@@ -69,6 +69,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isRTL = computed(() => this.languageService.isRTL());
   isMobileMenuOpen = computed(() => this.navigationService.mobileMenuOpen());
+
+  // Holds the page back at a lower opacity while the initialization intro is
+  // on screen. Released the moment the intro *starts* exiting rather than when
+  // it is removed, so the loader fading out and the page coming up overlap as
+  // one cross-fade instead of running back to back.
+  isPageDimmed = computed(
+    () => this.loadingService.isLoading() && !this.loadingService.isExiting()
+  );
 
   // Mega menu items for all services (with Font Awesome icons)
   // Order: Left column (1-5), Right column (6-10), Featured (WorldPosta)
@@ -298,11 +306,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   private routeSub?: Subscription;
 
   ngOnInit(): void {
-    // Show loading screen on app initialization
-    this.loadingService.show('Loading Roaya IT...');
+    // Show the initialization intro on app start
+    this.loadingService.show('Building your digital environment');
 
-    // Simple approach: Just mark content ready after a short delay
-    // The LoadingService will wait for minimum time (3s) then hide
+    // Signal that the shell is mounted and the page can be revealed. The
+    // intro holds at its MANAGED stage until this lands, then finishes.
     setTimeout(() => {
       this.loadingService.setContentReady();
     }, 500);

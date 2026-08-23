@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-23T09:11:35.225Z",
+        "reason": "Project design system: tailwind.config.js sets sans:['Inter',...], CLAUDE.md documents Inter as the English brand face, and index.html preloads it. The loader introduces the site, so a different face would read as inconsistent."
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "roaya-website/src/app/shared/components/init-loader/init-loader.component.scss"
+        ],
+        "createdAt": "2026-08-23T09:11:51.867Z",
+        "reason": "User confirmed: the brief for this loader explicitly listed 'thin perspective grid' among the requested background infrastructure graphics. It is perspective-transformed and mask-faded as a data-centre floor, not a flat blueprint overlay."
+      }
+    ]
+  }
+}

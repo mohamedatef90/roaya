@@ -6,15 +6,16 @@
   {{ 'accessibility.skipToContent' | translate }}
 </a>
 
-<!-- Cosmic loading overlay -->
-<app-cosmic-loader
+<!-- Enterprise initialization intro (cross-fades out into the page beneath) -->
+<app-init-loader
   *ngIf="loadingService.isLoading()"
   class="fixed inset-0 z-[60]"
-  aria-label="Loading Roaya IT experience"
-></app-cosmic-loader>
+  [class.is-exiting]="loadingService.isExiting()"
+  aria-label="Preparing the Roaya enterprise experience"
+></app-init-loader>
 
 <!-- Right edge scroll line -->
-<div class="edge-scroll-line" aria-hidden="true">
+<div class="edge-scroll-line page-reveal" [class.page-reveal--held]="isPageDimmed()" aria-hidden="true">
   <span class="edge-scroll-line__track"></span>
   <span
     class="edge-scroll-line__fill"
@@ -24,8 +25,9 @@
 
 <!-- Header - Fixed Sticky Navbar (below news bar) -->
 <header
-  class="fixed inset-x-0 z-40 px-4 lg:px-6 pt-3"
+  class="fixed inset-x-0 z-40 px-4 lg:px-6 pt-3 page-reveal"
   [ngClass]="[headerPosition(), !isHomeRoute ? 'header-nonhome' : '']"
+  [class.page-reveal--held]="isPageDimmed()"
   role="banner"
 >
   <nav
@@ -470,7 +472,7 @@
 </div>
 
 <!-- ScrollSmoother Wrapper -->
-<div id="smooth-wrapper">
+<div id="smooth-wrapper" class="page-reveal" [class.page-reveal--held]="isPageDimmed()">
   <div id="smooth-content">
     <!-- Main Content -->
     <main id="main-content" tabindex="-1" class="min-h-screen">
@@ -664,4 +666,4 @@
 </div>
 
 <!-- GDPR Consent Banner (position: fixed, bottom) -->
-<app-consent-banner></app-consent-banner>
+<app-consent-banner class="page-reveal" [class.page-reveal--held]="isPageDimmed()"></app-consent-banner>

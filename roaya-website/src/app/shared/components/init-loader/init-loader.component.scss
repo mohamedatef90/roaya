@@ -1,0 +1,795 @@
+/* ==========================================================================
+   Enterprise technology initialization intro
+   Deep-navy canvas, Roaya blue → cyan accents, pure CSS/SVG motion.
+   ========================================================================== */
+
+// Brand
+$navy-900: #050c1f; // canvas — matches the app's dark-mode ground
+$blue-600: #405d8d;
+$blue-400: #5685aa;
+$cyan-400: #70c3ce;
+$ink: #e8f0f7;
+$ink-muted: rgba(203, 221, 236, 0.58);
+$ink-faint: rgba(203, 221, 236, 0.46);
+
+$gradient: linear-gradient(90deg, #{$blue-600} 0%, #{$blue-400} 45%, #{$cyan-400} 100%);
+
+// Motion
+$enter: cubic-bezier(0.22, 0.9, 0.28, 1);
+$exit: cubic-bezier(0.4, 0, 0.2, 1);
+
+:host {
+  display: block;
+  pointer-events: none;
+}
+
+.init-loader {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  color: $ink;
+  background:
+    radial-gradient(120% 90% at 50% 8%, rgba(64, 93, 141, 0.26) 0%, transparent 62%),
+    radial-gradient(80% 70% at 50% 108%, rgba(112, 195, 206, 0.12) 0%, transparent 70%),
+    linear-gradient(180deg, #071228 0%, #{$navy-900} 46%, #030913 100%);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* The sequence is a centred, direction-neutral splash whose copy is English
+     and whose stages read left-to-right, so it is pinned to LTR rather than
+     inheriting the document direction. This keeps the progress fill, its
+     leading edge and the connector line consistent in both languages. */
+  direction: ltr;
+}
+
+/* --- Exit: content lifts and fades, the canvas dissolves to reveal the page - */
+
+:host(.is-exiting) .init-loader {
+  animation: canvas-out 340ms $exit forwards;
+}
+
+:host(.is-exiting) .stack {
+  animation: stack-out 340ms $exit forwards;
+}
+
+:host(.is-exiting) .fx {
+  animation: fade-out 260ms $exit forwards;
+}
+
+@keyframes canvas-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes stack-out {
+  to {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Background — infrastructure references at low opacity
+   ========================================================================== */
+
+.fx {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  color: $cyan-400;
+  pointer-events: none;
+}
+
+.fx__wash,
+.fx__grid,
+.fx__network,
+.fx__mark,
+.fx__rack {
+  position: absolute;
+  opacity: 0;
+  animation: fx-in 900ms ease-out forwards;
+}
+
+@keyframes fx-in {
+  to {
+    opacity: var(--fx-opacity, 1);
+  }
+}
+
+/* Soft light behind the logo, keeping the centre of gravity high. */
+.fx__wash {
+  --fx-opacity: 1;
+  inset: -20% 10% auto 10%;
+  height: 70%;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(86, 133, 170, 0.18) 0%,
+    rgba(64, 93, 141, 0.06) 45%,
+    transparent 72%
+  );
+  filter: blur(6px);
+}
+
+/* Thin perspective grid — the data-centre floor. */
+.fx__grid {
+  --fx-opacity: 0.5;
+  inset: auto 0 0 0;
+  height: 46%;
+  background-image:
+    linear-gradient(to right, rgba(112, 195, 206, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(86, 133, 170, 0.16) 1px, transparent 1px);
+  background-size: 68px 44px;
+  transform: perspective(320px) rotateX(58deg) scale(1.9);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 78%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 78%);
+  animation-delay: 120ms;
+}
+
+/* Network topology — connectivity across the estate. Masked away from the
+   centre so no trace crosses the logo or the copy beneath it. */
+.fx__network {
+  --fx-opacity: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation-delay: 200ms;
+  $network-mask: radial-gradient(
+    62% 52% at 50% 48%,
+    transparent 24%,
+    rgba(0, 0, 0, 0.5) 68%,
+    #000 100%
+  );
+  mask-image: $network-mask;
+  -webkit-mask-image: $network-mask;
+}
+
+.fx__network-links path {
+  fill: none;
+  stroke: rgba(133, 175, 205, 0.16);
+  stroke-width: 1;
+}
+
+.fx__network-pulses path {
+  fill: none;
+  stroke: rgba(112, 195, 206, 0.5);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 44 620;
+  stroke-dashoffset: 664;
+  animation: pulse-travel 5.2s linear infinite;
+
+  &:nth-child(2) {
+    animation-delay: 1.1s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 2.3s;
+  }
+}
+
+@keyframes pulse-travel {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.fx__network-nodes circle {
+  fill: rgba(112, 195, 206, 0.42);
+  stroke: rgba(112, 195, 206, 0.22);
+  stroke-width: 4;
+  animation: node-breathe 4.4s ease-in-out infinite;
+
+  &:nth-child(even) {
+    animation-delay: 1.4s;
+  }
+}
+
+@keyframes node-breathe {
+  0%,
+  100% {
+    stroke-width: 3;
+    opacity: 0.7;
+  }
+  50% {
+    stroke-width: 7;
+    opacity: 1;
+  }
+}
+
+/* Cloud + shield outlines — the two pillars, held far apart and very faint. */
+.fx__mark {
+  --fx-opacity: 0.16;
+  color: rgba(174, 208, 226, 0.9);
+  animation-delay: 320ms;
+}
+
+.fx__mark--cloud {
+  inset-inline-start: 6%;
+  top: 15%;
+  width: clamp(120px, 15vw, 210px);
+}
+
+.fx__mark--shield {
+  inset-inline-end: 7%;
+  top: 13%;
+  width: clamp(78px, 9vw, 130px);
+}
+
+/* Abstract server racks, grounding the lower corners. */
+.fx__rack {
+  --fx-opacity: 0.22;
+  bottom: 6%;
+  width: clamp(48px, 5.4vw, 74px);
+  color: rgba(150, 190, 214, 0.75);
+  fill: none;
+  stroke-width: 1;
+  animation-delay: 420ms;
+}
+
+.fx__rack--start {
+  inset-inline-start: 9%;
+}
+
+.fx__rack--end {
+  inset-inline-end: 10%;
+  bottom: 9%;
+}
+
+.fx__led {
+  fill: $cyan-400;
+  opacity: 0.25;
+  animation: led-blink 3.4s ease-in-out infinite;
+}
+
+@keyframes led-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 0.22;
+  }
+  35% {
+    opacity: 0.95;
+  }
+}
+
+.fx__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 100% at 50% 42%, transparent 40%, rgba(3, 8, 18, 0.82) 100%);
+}
+
+/* ==========================================================================
+   Foreground composition
+   ========================================================================== */
+
+.stack {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(2rem, 5vh, 3.5rem) clamp(1.25rem, 5vw, 3rem);
+  text-align: center;
+}
+
+.stack__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.1rem, 2.6vh, 1.75rem);
+  /* Sits the logo in the upper-centre of the composition. */
+  margin-bottom: clamp(2.5rem, 6.5vh, 4.5rem);
+}
+
+.stack__logo {
+  width: clamp(180px, 26vw, 300px);
+  height: auto;
+  /* Renders the mark in white for the dark canvas; the asset is untouched. */
+  filter: brightness(0) invert(1);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise-in 620ms $enter 60ms forwards;
+}
+
+.stack__heading {
+  margin: 0;
+  font-size: clamp(0.72rem, 1.5vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(226, 238, 247, 0.86);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rise-in 620ms $enter 220ms forwards;
+}
+
+@keyframes rise-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Initialization flow ------------------------------------------------- */
+
+.flow {
+  position: relative;
+  width: min(100%, 640px);
+  opacity: 0;
+  animation: rise-in 620ms $enter 340ms forwards;
+}
+
+.flow__track {
+  position: absolute;
+  top: 28px;
+  inset-inline: 10%;
+  height: 1px;
+  background: rgba(133, 175, 205, 0.16);
+}
+
+.flow__track-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  /* Scaled rather than width-animated so the glide between stages stays on
+     the compositor. The gradient is painted across the full width first, so
+     scaling lands the cyan end on the leading edge exactly as a width
+     animation would. */
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: $gradient;
+  /* Reads as an illuminated trace rather than a flat 1px rule. */
+  box-shadow: 0 0 6px rgba(112, 195, 206, 0.35);
+  transition: transform 480ms $enter;
+}
+
+.flow__stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flow__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.flow__node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(174, 208, 226, 0.14);
+  border-radius: 14px;
+  background: rgba(9, 20, 40, 0.72);
+  backdrop-filter: blur(2px);
+  transition:
+    border-color 320ms ease,
+    background-color 320ms ease,
+    box-shadow 320ms ease,
+    transform 320ms $enter;
+}
+
+.flow__icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.4;
+  color: rgba(174, 208, 226, 0.34);
+  transition: color 320ms ease;
+}
+
+/* The tick is held back until READY activates, then draws itself in. */
+.flow__check {
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+}
+
+.flow__label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(203, 221, 236, 0.4);
+  transition: color 320ms ease;
+}
+
+.flow__sublabel {
+  margin-top: -0.4rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: rgba(203, 221, 236, 0.24);
+  transition: color 320ms ease;
+}
+
+/* Completed stages settle into a calm blue. */
+.flow__stage[data-state='done'] {
+  .flow__node {
+    border-color: rgba(86, 133, 170, 0.4);
+    background: rgba(16, 34, 60, 0.72);
+  }
+
+  .flow__icon {
+    color: rgba(143, 182, 204, 0.85);
+  }
+
+  .flow__label {
+    color: rgba(203, 221, 236, 0.6);
+  }
+
+  .flow__sublabel {
+    color: rgba(203, 221, 236, 0.3);
+  }
+}
+
+/* The active stage carries the Roaya cyan — one restrained glow, not neon. */
+.flow__stage[data-state='active'] {
+  .flow__node {
+    border-color: rgba(112, 195, 206, 0.5);
+    background: rgba(112, 195, 206, 0.09);
+    box-shadow:
+      0 0 0 1px rgba(112, 195, 206, 0.14),
+      0 8px 26px -12px rgba(112, 195, 206, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .flow__icon {
+    color: $cyan-400;
+  }
+
+  .flow__label {
+    color: $ink;
+  }
+
+  .flow__sublabel {
+    color: rgba(203, 221, 236, 0.5);
+  }
+
+  /* Single soft ring on activation, then it rests. */
+  .flow__node::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid rgba(112, 195, 206, 0.55);
+    border-radius: inherit;
+    animation: node-ring 900ms ease-out forwards;
+  }
+
+  .flow__check {
+    animation: draw-check 420ms $enter 60ms forwards;
+  }
+}
+
+@keyframes node-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.42);
+  }
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* --- Status + progress --------------------------------------------------- */
+
+.meter {
+  width: min(100%, 560px);
+  margin-top: clamp(2rem, 5vh, 3rem);
+  opacity: 0;
+  animation: rise-in 620ms $enter 420ms forwards;
+}
+
+.meter__status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  /* Reserved height keeps the bar from shifting as the copy changes. */
+  min-height: 1.4rem;
+  margin: 0 0 0.9rem;
+  font-size: clamp(0.76rem, 1.5vw, 0.85rem);
+  letter-spacing: 0.05em;
+  color: rgba(219, 233, 244, 0.78);
+}
+
+.meter__stage-chip {
+  display: none;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid rgba(112, 195, 206, 0.32);
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $cyan-400;
+}
+
+.meter__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.meter__track {
+  position: relative;
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(174, 208, 226, 0.1);
+  overflow: hidden;
+}
+
+.meter__fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: 999px;
+  background: $gradient;
+}
+
+/* Subtle light at the leading edge only. */
+.meter__edge {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #d6f3f7;
+  box-shadow: 0 0 10px 2px rgba(112, 195, 206, 0.55);
+  transform: translate(50%, -50%);
+  transition: opacity 200ms ease;
+}
+
+/* No leading edge before the sequence starts moving. */
+.meter__track.is-idle .meter__edge {
+  opacity: 0;
+}
+
+.meter__percent {
+  min-width: 3.4ch;
+  font-size: clamp(0.76rem, 1.5vw, 0.85rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  text-align: end;
+  color: rgba(219, 233, 244, 0.9);
+}
+
+/* --- Service line + footnote -------------------------------------------- */
+
+.pillars {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin: clamp(1.75rem, 4vh, 2.5rem) 0 0;
+  font-size: clamp(0.68rem, 1.4vw, 0.78rem);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(203, 221, 236, 0.62);
+  opacity: 0;
+  animation: rise-in 620ms $enter 540ms forwards;
+}
+
+.pillars__dot {
+  color: $cyan-400;
+  opacity: 0.75;
+}
+
+.footnote {
+  margin: clamp(0.9rem, 2.4vh, 1.35rem) 0 0;
+  font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+  letter-spacing: 0.07em;
+  color: $ink-faint;
+  opacity: 0;
+  animation: rise-in 620ms $enter 660ms forwards;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+  .flow {
+    width: min(100%, 560px);
+  }
+
+  .flow__node {
+    width: 50px;
+    height: 50px;
+    border-radius: 13px;
+  }
+
+  .flow__track {
+    top: 25px;
+  }
+
+  .flow__icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 767px) {
+  .flow__sublabel {
+    display: none;
+  }
+
+  .flow__node {
+    width: 46px;
+    height: 46px;
+  }
+
+  .flow__track {
+    top: 23px;
+  }
+}
+
+/* Mobile: the five stages stop carrying text and read as a compact icon
+   sequence — the active stage is named once, above the status line. */
+@media (max-width: 639px) {
+  .stack {
+    justify-content: center;
+  }
+
+  .stack__brand {
+    margin-bottom: clamp(2rem, 5vh, 3rem);
+  }
+
+  .flow {
+    width: min(100%, 320px);
+  }
+
+  .flow__label,
+  .flow__sublabel {
+    display: none;
+  }
+
+  .flow__node {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+
+  .flow__track {
+    top: 19px;
+    inset-inline: 12%;
+  }
+
+  .flow__icon {
+    width: 19px;
+    height: 19px;
+  }
+
+  .meter__status {
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 3rem;
+  }
+
+  .meter__stage-chip {
+    display: inline-block;
+  }
+
+  .fx__mark--cloud,
+  .fx__mark--shield,
+  .fx__rack {
+    display: none;
+  }
+
+  .pillars {
+    gap: 0.4rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+  }
+
+  .footnote {
+    max-width: 30ch;
+    line-height: 1.5;
+  }
+}
+
+/* Short viewports (landscape phones, small laptops) — trim the vertical rhythm. */
+@media (max-height: 620px) {
+  .stack__brand {
+    margin-bottom: 1.75rem;
+  }
+
+  .meter {
+    margin-top: 1.5rem;
+  }
+
+  .pillars {
+    margin-top: 1.25rem;
+  }
+
+  .footnote {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — the sequence is presented at rest
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .fx__wash,
+  .fx__grid,
+  .fx__network,
+  .fx__mark,
+  .fx__rack,
+  .stack__logo,
+  .stack__heading,
+  .flow,
+  .meter,
+  .pillars,
+  .footnote {
+    animation: none;
+    opacity: var(--fx-opacity, 1);
+    transform: none;
+  }
+
+  .fx__mark {
+    opacity: 0.16;
+  }
+
+  .fx__rack {
+    opacity: 0.22;
+  }
+
+  .fx__grid {
+    opacity: 0.5;
+    transform: perspective(320px) rotateX(58deg) scale(1.9);
+  }
+
+  .fx__network-pulses path,
+  .fx__network-nodes circle,
+  .fx__led,
+  .flow__stage[data-state='active'] .flow__node::after,
+  .flow__check {
+    animation: none;
+  }
+
+  .flow__check {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .flow__track-fill,
+  .meter__fill {
+    transition: none;
+  }
+
+  :host(.is-exiting) .init-loader,
+  :host(.is-exiting) .stack,
+  :host(.is-exiting) .fx {
+    animation: fade-out 200ms linear forwards;
+  }
+}
