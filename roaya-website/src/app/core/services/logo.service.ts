@@ -119,13 +119,32 @@ export class LogoService {
    */
   loadAllLogos(): void {
     forkJoin([
-      this.getLogos('sector'),
-      this.getLogos('client')
+      this.getPublicLogos('sector'),
+      this.getPublicLogos('client')
     ]).subscribe();
   }
 
   /**
-   * Get all logos by category from the backend
+   * Get active logos for public website sections.
+   */
+  getPublicLogos(category: LogoCategory): Observable<Logo[]> {
+    const backendCat = this.toBackendCategory(category);
+    return this.http.get<LogoApiResponse>(`${this.apiUrl}/public/logos`, {
+      params: { category: backendCat }
+    }).pipe(
+      map(response => (response.data || []).map(bl => this.mapFromBackend(bl))),
+      tap(logos => {
+        if (category === 'sector') {
+          this.sectorLogosSubject.next(logos);
+        } else {
+          this.clientLogosSubject.next(logos);
+        }
+      })
+    );
+  }
+
+  /**
+   * Get all logos by category for the authenticated admin list, including inactive records.
    */
   getLogos(category: LogoCategory): Observable<Logo[]> {
     const backendCat = this.toBackendCategory(category);
