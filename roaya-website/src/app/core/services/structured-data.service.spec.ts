@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { StructuredDataService } from './structured-data.service';
 
 describe('StructuredDataService', () => {
@@ -33,6 +34,7 @@ describe('StructuredDataService', () => {
   beforeEach(() => {
     document.getElementById('roaya-structured-data')?.remove();
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       providers: [provideRouter([{ path: '**', children: [] }])],
     });
     service = TestBed.inject(StructuredDataService);

@@ -3,6 +3,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { ROUTE_METADATA } from '../seo/route-metadata';
 
 export interface SEOData {
   title?: string;
@@ -27,18 +29,24 @@ export class SEOService {
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
+  private readonly translate = inject(TranslateService);
 
   private readonly defaultTitle = 'Roaya IT - Enterprise IT Solutions & Services';
   private readonly defaultDescription = 'Roaya IT provides enterprise-grade IT solutions including cloud infrastructure, cybersecurity, email services, and managed IT support in Egypt. Transparent pricing and proven results.';
   private readonly defaultKeywords = 'IT solutions Egypt, cloud hosting Egypt, cybersecurity Egypt, enterprise email hosting, SAP operations, managed IT services, digital transformation Egypt';
   // Fixed canonical origin: www and any other entry host normalize to this.
   private readonly baseUrl = 'https://roaya.co';
+  // Brand suffix mirrors the existing static route titles in app.routes.ts
+  // (e.g. "Services - Roaya IT"). The company name stays in English in both
+  // locales per the approved bilingual content convention.
+  private readonly brandSuffix = ' - Roaya IT';
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.initializeDefaultTags();
     }
     this.setupCanonicalTags();
+    this.setupRouteMetadata();
   }
 
   /**
@@ -82,6 +90,91 @@ export class SEOService {
     const withLeadingSlash = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
     const normalized = withLeadingSlash.replace(/\/+$/, '');
     return normalized === '' ? `${this.baseUrl}/` : `${this.baseUrl}${normalized}`;
+  }
+
+  /**
+   * Route-specific registry metadata (Stage 3.2, TIFO-14).
+   *
+   * Applies on every completed navigation (including the initial one, so
+   * the raw first HTTP response for a registered static route carries its
+   * own title/description/OG/Twitter tags) and on every active-language
+   * change (so a locale toggle without navigation never leaves
+   * stale-language text in the tags).
+   *
+   * Deliberately does NOT also apply eagerly from `this.router.url` at
+   * construction time the way `setupCanonicalTags` does: `SEOService` can
+   * be constructed before the initial navigation has resolved (confirmed
+   * via a prerendered-HTML check while developing this registry — the
+   * eager read observed a stale `this.router.url` still pointing at the
+   * default route), and a stale read here is one-sided. If the stale URL
+   * matches a registry entry, its tags get applied to the wrong page; if
+   * the correct URL later turns out to have no entry, `applyRouteMetadata`
+   * is a no-op and never clears that wrong page's stale tags. Canonical
+   * has no such asymmetry (it always recomputes on every event, registry
+   * or not), so an eager read is harmless there; it is not here.
+   * `NavigationEnd` reliably fires (and is received) for the route
+   * actually being rendered before SSR serializes the response, so the
+   * subscription alone is both correct and sufficient.
+   */
+  private setupRouteMetadata(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(event => {
+        this.applyRouteMetadata(event.urlAfterRedirects);
+      });
+
+    this.translate.onLangChange.subscribe(() => {
+      this.applyRouteMetadata(this.router.url);
+    });
+  }
+
+  /**
+   * Resolve and apply the registry entry for `url`, if one exists.
+   */
+  private applyRouteMetadata(url: string): void {
+    const path = this.normalizeRoutePath(url);
+    const entry = ROUTE_METADATA[path];
+    if (!entry) {
+      return;
+    }
+
+    const title = `${this.translate.instant(entry.titleKey)}${this.brandSuffix}`;
+    const description = this.truncateDescription(this.translate.instant(entry.descriptionKey));
+
+    this.updateSEO({
+      title,
+      description,
+      url: this.buildCanonicalUrl(path),
+      type: entry.ogType || 'website'
+    });
+  }
+
+  /**
+   * Route path with query/hash stripped and trailing slash removed
+   * (matching the `ROUTE_METADATA` keys), independent of `buildCanonicalUrl`
+   * so a lookup miss never depends on the canonical origin.
+   */
+  private normalizeRoutePath(url: string): string {
+    const cleanPath = url.split('#')[0].split('?')[0];
+    const withLeadingSlash = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+    const normalized = withLeadingSlash.replace(/\/+$/, '');
+    return normalized === '' ? '/' : normalized;
+  }
+
+  /**
+   * Keep meta descriptions within the practical SERP display length.
+   * Cuts at the last whole word at or before the limit and appends an
+   * ellipsis, so long-form approved copy (e.g. legal section content)
+   * becomes a faithful excerpt rather than a truncated word/claim.
+   */
+  private truncateDescription(text: string, maxLength = 160): string {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    const truncated = text.slice(0, maxLength);
+    const lastSpace = truncated.lastIndexOf(' ');
+    const safeCut = lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated;
+    return `${safeCut}…`;
   }
 
   /**
