@@ -2,8 +2,9 @@ import { ApplicationConfig, provideZoneChangeDetection, ErrorHandler } from '@an
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { ssrApiInterceptor } from './core/interceptors/ssr-api.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule, MissingTranslationHandler } from '@ngx-translate/core';
 import { importProvidersFrom } from '@angular/core';
 import { provideNgIconsConfig } from '@ng-icons/core';
@@ -38,11 +39,11 @@ export const appConfig: ApplicationConfig = {
     // HTTP client with fetch API and interceptors
     provideHttpClient(
       withFetch(), 
-      withInterceptors([authInterceptor, loadingInterceptor])
+      withInterceptors([ssrApiInterceptor, authInterceptor, loadingInterceptor])
     ),
 
-    // Client-side hydration for SSR (if needed in future)
-    provideClientHydration(),
+    // Client-side hydration for SSR with event replay
+    provideClientHydration(withEventReplay()),
 
     // Browser animations (required for PrimeNG)
     provideAnimations(),

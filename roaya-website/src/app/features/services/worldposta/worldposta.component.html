@@ -38,7 +38,7 @@
         <div
           class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
           <span class="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></span>
-          Official WorldPosta Partner in Egypt
+          Exclusive MENA Partner of WorldPosta
         </div>
 
         <!-- WorldPosta Logo -->
@@ -149,7 +149,7 @@
 
             <!-- Description -->
             <p class="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
-              {{ product.description }}
+              {{ product.descriptionKey ? (product.descriptionKey | translate) : product.description }}
             </p>
 
             <!-- Features -->
@@ -360,7 +360,7 @@
               </div>
             </div>
 
-            <!-- 99.95% Uptime -->
+            <!-- 99.99% Uptime -->
             <div class="benefit-parallax group relative">
               <div
                 class="absolute -inset-0.5 bg-gradient-to-r from-worldposta-green via-worldposta-blue to-worldposta-purple opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 rounded-2xl">

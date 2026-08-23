@@ -12,7 +12,6 @@ import {
   faSquareCheck,
   faCircle
 } from '@ng-icons/font-awesome/regular';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * SAP Operations Standalone Component
@@ -39,8 +38,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class SapComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // SAP logo path
   readonly iconPath = '/assets/images/logos/partners/sap-logo-png_seeklogo-122607.png';
@@ -302,24 +299,6 @@ export class SapComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('SAP Cloud Operations & Basis Management - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Professional SAP Cloud Operations and Basis Management services. 24/7 support, 99.95% uptime, certified SAP specialists. Reduce TCO by 40%.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'SAP Basis, SAP Operations, SAP HANA, SAP Support, SAP Management, SAP Cloud, Egypt SAP, SAP Monitoring'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'SAP Cloud Operations & Basis Management - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Professional SAP Operations with 24/7 support and 99.95% uptime guarantee' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

@@ -12,7 +12,6 @@ import {
   faSquareCheck,
   faCircle
 } from '@ng-icons/font-awesome/regular';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * Managed IT Services Standalone Component
@@ -39,8 +38,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class ManagedComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/managed.svg';
@@ -302,24 +299,6 @@ export class ManagedComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Managed IT Services & Support - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Professional Managed IT Services with 24/7 support, 99.9% uptime, and predictable monthly costs. Focus on your business while we handle your IT.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'Managed IT Services, IT Support, Help Desk, Network Management, IT Outsourcing, Egypt IT Services, 24/7 Support'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Managed IT Services & Support - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Professional Managed IT Services with 24/7 support and 99.9% uptime guarantee' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roaya.co/internal/claim-evidence/registry.schema.json",
+  "title": "Roaya claim/evidence registry",
+  "description": "Documented schema for scripts/claim-evidence/registry.json (TIFO-16). This file is the human-readable contract; scripts/claim-evidence/validate-registry.mjs implements the equivalent checks in plain Node (no schema-validation library is a project dependency, so the enforcement is hand-written but must stay in lockstep with this document).",
+  "type": "object",
+  "required": ["version", "claims"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": 1 },
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claim" }
+    }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "required": [
+        "id",
+        "category",
+        "status",
+        "topic",
+        "scope",
+        "sourceType",
+        "sourcePointer",
+        "decisionReference",
+        "reviewDate",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Unique kebab-case identifier. Must be unique across the whole registry."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["business_decision", "deferred_claim", "case_study"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["verified", "deferred", "blocked"]
+        },
+        "topic": {
+          "type": ["string", "null"],
+          "enum": ["uptime", null],
+          "description": "Optional narrow-scope classifier. Currently only 'uptime' is defined, because uptime is the one approved fact family that is scope-limited (CloudEdge/Posta only) rather than blanket-approved."
+        },
+        "scope": {
+          "type": ["array", "null"],
+          "items": { "type": "string", "enum": ["cloudedge", "posta"] },
+          "description": "For topic 'uptime': the products the claim is allowed to apply to. A verified uptime claim's scope must be a non-empty subset of ['cloudedge','posta']. Null for claims with no topic."
+        },
+        "sourceType": {
+          "type": "string",
+          "enum": ["i18n_key", "component_source", "decision_record", "known_gap", "pending"]
+        },
+        "sourcePointer": {
+          "type": ["string", "null"],
+          "description": "Relative in-repo file path (optionally with a '#fragment' locator), e.g. 'src/assets/i18n/en.json#about.story.p1'. Must not be an absolute path, must not contain '..', must not be a bare URL. Required (non-null) whenever status is 'verified'."
+        },
+        "decisionReference": {
+          "type": ["string", "null"],
+          "description": "Human-readable pointer to the approving decision (e.g. a Stage 0 decision label). Required (non-null, non-empty) whenever status is 'verified'."
+        },
+        "reviewDate": {
+          "type": ["string", "null"],
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "ISO calendar date (YYYY-MM-DD) this entry was last reviewed, or null if never reviewed."
+        },
+        "notes": {
+          "type": ["string", "null"]
+        },
+        "slug": {
+          "type": "string",
+          "description": "Case-study only: must match a slug in src/app/features/resources/case-studies/case-studies.data.ts."
+        },
+        "clientApprovalReference": {
+          "type": ["string", "null"],
+          "description": "Case-study only: written client-approval reference/date. Must stay null until a real approval is attached."
+        },
+        "metricEvidencePointer": {
+          "type": ["string", "null"],
+          "description": "Case-study only: pointer to the metric evidence backing the case study's published numbers. Must stay null until real evidence is attached."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "category": { "const": "case_study" } }, "required": ["category"] },
+          "then": {
+            "required": ["slug", "clientApprovalReference", "metricEvidencePointer"]
+          },
+          "else": {
+            "not": { "anyOf": [{ "required": ["slug"] }, { "required": ["clientApprovalReference"] }, { "required": ["metricEvidencePointer"] }] }
+          }
+        }
+      ]
+    }
+  }
+}

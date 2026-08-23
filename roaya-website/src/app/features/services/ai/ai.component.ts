@@ -56,7 +56,6 @@ import {
   lucideBadgeCheck,
   lucideCog
 } from '@ng-icons/lucide';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -128,8 +127,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   ]
 })
 export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -346,25 +343,6 @@ export class AiComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     // Generate AI elements for parallax layers
     this.generateAIElements();
-
-    // Set page title
-    this.title.setTitle('AI Services - Journey to Intelligent Operations | Roaya IT');
-
-    // Set meta tags
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Embark on a journey to intelligent operations. Enterprise AI services with governance, security, and measurable outcomes.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'AI Services, Machine Learning, AI Agents, Enterprise AI, AI Automation, AI Governance, Intelligent Operations'
-    });
-
-    // Open Graph
-    this.meta.updateTag({ property: 'og:title', content: 'AI Services - Journey to Intelligent Operations | Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Embark on a journey from chaos to intelligent operations with enterprise AI.' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   private generateAIElements(): void {

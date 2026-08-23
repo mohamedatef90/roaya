@@ -33,7 +33,6 @@ import {
   lucideFileWarning,
   lucideExternalLink
 } from '@ng-icons/lucide';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -87,8 +86,6 @@ export class PenetrationTestingComponent implements OnInit, AfterViewInit, OnDes
   private readonly cdr = inject(ChangeDetectorRef);
   private scrollTriggers: ScrollTrigger[] = [];
   private prefersReducedMotion = false;
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Active tab for services overview
   activeServiceTab = 'assessment';
@@ -192,30 +189,6 @@ export class PenetrationTestingComponent implements OnInit, AfterViewInit, OnDes
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Penetration Testing & Security Assessment Services - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Professional penetration testing and security assessments in Egypt. Expert-led validation with AI-accelerated analysis. Reduce real risk fast with NIST-aligned testing methodology.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'penetration testing Egypt, security assessment, vulnerability assessment, ethical hacking Egypt, penetration testing services, NIST CSF, ISO 27001, MITRE ATT&CK, web application pen testing, network security testing, cloud security assessment'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({
-      property: 'og:title',
-      content: 'Penetration Testing & Security Assessment Services - Roaya IT'
-    });
-    this.meta.updateTag({
-      property: 'og:description',
-      content: 'Expert-led penetration testing and security assessments. Human-led, AI-accelerated analysis for faster, more accurate vulnerability detection.'
-    });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   ngAfterViewInit(): void {

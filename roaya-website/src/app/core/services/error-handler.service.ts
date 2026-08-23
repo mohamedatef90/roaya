@@ -292,8 +292,8 @@ export class GlobalErrorHandler implements ErrorHandler {
     let errorMessage = 'An error occurred';
     let errorDetails = '';
 
-    // Client-side or network error
-    if (error.error instanceof ErrorEvent) {
+    // Client-side or network error (ErrorEvent does not exist on the server)
+    if (typeof ErrorEvent !== 'undefined' && error.error instanceof ErrorEvent) {
       errorMessage = 'Network Error';
       errorDetails = error.error.message;
     } else {

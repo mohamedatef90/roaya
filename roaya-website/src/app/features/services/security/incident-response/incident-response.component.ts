@@ -39,7 +39,6 @@ import {
   lucideSparkles,
   lucideInfo
 } from '@ng-icons/lucide';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -99,8 +98,6 @@ export class IncidentResponseComponent implements OnInit, AfterViewInit, OnDestr
   private readonly cdr = inject(ChangeDetectorRef);
   private scrollTriggers: ScrollTrigger[] = [];
   private prefersReducedMotion = false;
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // When to Call - 7 common triggers
   readonly triggers = [
@@ -194,30 +191,6 @@ export class IncidentResponseComponent implements OnInit, AfterViewInit, OnDestr
   };
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Incident Response & Digital Forensics - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: '24/7 Incident Response and Digital Forensics services in Egypt. NIST SP 800-61 aligned methodology. Rapid containment, forensic investigation, and expert-led recovery.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'incident response Egypt, digital forensics, NIST SP 800-61, cyber incident, ransomware response, forensic investigation, IR retainer, 24/7 incident response, DFIR services, memory forensics, network forensics'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({
-      property: 'og:title',
-      content: 'Incident Response & Digital Forensics - Roaya IT'
-    });
-    this.meta.updateTag({
-      property: 'og:description',
-      content: 'When every minute counts, we bring clarity. 24/7 incident response with NIST-aligned methodology and AI-assisted forensic analysis.'
-    });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   ngAfterViewInit(): void {

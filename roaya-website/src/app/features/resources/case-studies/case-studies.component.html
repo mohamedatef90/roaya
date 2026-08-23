@@ -97,11 +97,12 @@
 <section class="py-16 bg-background">
   <div class="container-custom">
     <div *ngIf="filteredCaseStudies().length > 0; else emptyState" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <article
+<!-- Real <a href> (routerLink on an anchor) so detail pages are crawlable -->
+      <a
         *ngFor="let caseStudy of filteredCaseStudies()"
         (click)="trackCaseStudyClick(caseStudy.id)"
         [routerLink]="['/resources/case-studies', caseStudy.slug]"
-        class="group bg-surface rounded-xl border border-border overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+        class="group block bg-surface rounded-xl border border-border overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
       >
         <!-- Featured Image -->
         <div class="relative h-48 overflow-hidden bg-gradient-to-br from-primary-500 to-secondary-500">
@@ -140,11 +141,11 @@
           </div>
 
           <h2 class="text-xl font-bold mb-3 group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors line-clamp-2">
-            {{ caseStudy.title }}
+            {{ caseStudy.title | translate }}
           </h2>
 
           <p class="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3 text-sm">
-            {{ caseStudy.excerpt }}
+            {{ caseStudy.excerpt | translate }}
           </p>
 
           <!-- Key Results Preview -->
@@ -160,7 +161,8 @@
           </div>
 
           <div class="flex items-center justify-between text-sm text-neutral-500 dark:text-neutral-400">
-            <span>{{ caseStudy.companySize }} {{ 'caseStudies.employees' | translate }}</span>
+            <span *ngIf="caseStudy.companySize">{{ caseStudy.companySize }} {{ 'caseStudies.employees' | translate }}</span>
+            <span *ngIf="!caseStudy.companySize"></span>
             <span class="text-primary-500 font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
               {{ 'caseStudies.readMore' | translate }}
               <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -169,7 +171,7 @@
             </span>
           </div>
         </div>
-      </article>
+      </a>
     </div>
 
     <!-- Empty State -->

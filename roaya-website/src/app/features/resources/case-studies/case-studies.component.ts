@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnalyticsService } from '../../../core/services/analytics.service';
 import { ContentService, CaseStudy } from '../../../core/services/content.service';
+import { CASE_STUDIES } from './case-studies.data';
 
 @Component({
   selector: 'app-case-studies',
@@ -55,16 +56,48 @@ export class CaseStudiesComponent implements OnInit {
   }
 
   private loadCaseStudies(): void {
+    // Registered studies render first (also during SSR/prerender, where the
+    // content API is unavailable) so every detail page always has a crawlable
+    // listing anchor. API results may enrich them but only registered slugs
+    // are shown — anything else would link to a "Case Study Not Found" page.
+    const staticStudies = this.buildRegisteredCaseStudies();
+    this.setStudies(staticStudies);
+
     this.contentService.getCaseStudies(1, 50).subscribe({
       next: (res) => {
-        this.allCaseStudies.set(res.studies);
-        this.filteredCaseStudies.set(res.studies);
+        const bySlug = new Map(staticStudies.map((s) => [s.slug, s]));
+        for (const study of res.studies) {
+          if (bySlug.has(study.slug)) {
+            bySlug.set(study.slug, study);
+          }
+        }
+        this.setStudies([...bySlug.values()]);
       },
       error: () => {
-        this.allCaseStudies.set([]);
-        this.filteredCaseStudies.set([]);
+        // Keep the registered static list
       },
     });
+  }
+
+  private buildRegisteredCaseStudies(): CaseStudy[] {
+    // title/excerpt hold translation keys; the template pipes them through
+    // `translate`, which passes non-key strings (API values) through as-is.
+    return CASE_STUDIES.map((record) => ({
+      id: record.slug,
+      slug: record.slug,
+      title: `${record.translationKey}.hero.title`,
+      excerpt: `${record.translationKey}.hero.subtitle`,
+      industry: record.industry,
+      services: [...record.services],
+      companySize: '',
+      keyResults: [],
+      publishedDate: new Date('2025-12-05'),
+    }));
+  }
+
+  private setStudies(studies: CaseStudy[]): void {
+    this.allCaseStudies.set(studies);
+    this.filteredCaseStudies.set(this.computeFiltered());
   }
 
   filterByIndustry(industry: string): void {
@@ -77,7 +110,7 @@ export class CaseStudiesComponent implements OnInit {
     this.applyFilters();
   }
 
-  private applyFilters(): void {
+  private computeFiltered(): CaseStudy[] {
     const industry = this.selectedIndustry();
     const service = this.selectedService();
 
@@ -91,9 +124,16 @@ export class CaseStudiesComponent implements OnInit {
       filtered = filtered.filter(cs => cs.services.includes(service));
     }
 
-    this.filteredCaseStudies.set(filtered);
+    return filtered;
+  }
 
-    this.analytics.trackEvent('case_study_filter', { industry, service });
+  private applyFilters(): void {
+    this.filteredCaseStudies.set(this.computeFiltered());
+
+    this.analytics.trackEvent('case_study_filter', {
+      industry: this.selectedIndustry(),
+      service: this.selectedService(),
+    });
   }
 
   trackCaseStudyClick(caseStudyId: string): void {

@@ -33,7 +33,6 @@ import {
   lucidePlay,
   lucideArrowRight
 } from '@ng-icons/lucide';
-import { Meta, Title } from '@angular/platform-browser';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -83,8 +82,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   ]
 })
 export class DevopsComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
 
@@ -301,24 +298,6 @@ export class DevopsComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('DevOps Services - CI/CD, Kubernetes, GitOps | Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Enterprise DevOps services for continuous, reliable delivery. CI/CD pipelines, Kubernetes platform engineering, GitOps, and SRE observability. Deploy safely and predictably at scale.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'DevOps Services, CI/CD Pipelines, Kubernetes, GitOps, Argo CD, Terraform, Infrastructure as Code, SRE, Platform Engineering, GitHub Actions, Azure DevOps, AWS EKS, GKE'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'DevOps Services - CI/CD, Kubernetes, GitOps | Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Enterprise DevOps for continuous, reliable delivery. Deploy safely and predictably at scale.' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   ngAfterViewInit(): void {

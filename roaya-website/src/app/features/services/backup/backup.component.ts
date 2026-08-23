@@ -15,7 +15,6 @@ import {
 import {
   faSolidShield
 } from '@ng-icons/font-awesome/solid';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * Backup & Recovery Standalone Component
@@ -43,8 +42,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class BackupComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/backup.svg';
@@ -311,24 +308,6 @@ export class BackupComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('Backup & Disaster Recovery Solutions - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Enterprise backup and disaster recovery solutions with 99.99% data recovery rate, <4 hour RTO, and 15-minute RPO. Protect your business data.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'backup solutions, disaster recovery, business continuity, data replication, cloud backup, DR planning, Egypt backup, data protection'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Backup & Disaster Recovery Solutions - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Enterprise backup and disaster recovery with guaranteed RTO/RPO SLAs' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

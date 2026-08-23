@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, inject, computed } from '@angular/core';
+import { Component, signal, OnInit, inject, computed, RESPONSE_INIT } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -21,14 +21,9 @@ import {
 } from '@ng-icons/lucide';
 import { AnalyticsService } from '../../../../core/services/analytics.service';
 import { SEOService } from '../../../../core/services/seo.service';
-import { CaseStudy } from '../../../../core/services/content.service';
+import { CASE_STUDY_MAP, CaseStudyRecord } from '../case-studies.data';
 
-interface CaseStudyData {
-  slug: string;
-  translationKey: string;
-  industry: string;
-  services: string[];
-}
+type CaseStudyData = CaseStudyRecord;
 
 @Component({
   selector: 'app-case-study-detail',
@@ -60,40 +55,10 @@ export class CaseStudyDetailComponent implements OnInit {
   private readonly analytics = inject(AnalyticsService);
   private readonly translate = inject(TranslateService);
   private readonly seo = inject(SEOService);
+  private readonly responseInit = inject(RESPONSE_INIT, { optional: true });
 
-  // Case study mapping: slug -> translation key and metadata
-  private readonly caseStudyMap: Record<string, CaseStudyData> = {
-    'bank-cloud-migration': {
-      slug: 'bank-cloud-migration',
-      translationKey: 'caseStudies.banking',
-      industry: 'finance',
-      services: ['cloud', 'migration', 'security']
-    },
-    'healthcare-soc-implementation': {
-      slug: 'healthcare-soc-implementation',
-      translationKey: 'caseStudies.healthcare',
-      industry: 'healthcare',
-      services: ['security']
-    },
-    'government-digital-transformation': {
-      slug: 'government-digital-transformation',
-      translationKey: 'caseStudies.government',
-      industry: 'government',
-      services: ['cloud', 'automation', 'security']
-    },
-    'manufacturing-sap-implementation': {
-      slug: 'manufacturing-sap-implementation',
-      translationKey: 'caseStudies.manufacturing',
-      industry: 'manufacturing',
-      services: ['sap', 'cloud']
-    },
-    'ecommerce-auto-scaling': {
-      slug: 'ecommerce-auto-scaling',
-      translationKey: 'caseStudies.ecommerce',
-      industry: 'retail',
-      services: ['cloud', 'security']
-    }
-  };
+  // Registered case studies live in ../case-studies.data.ts (single source)
+  private readonly caseStudyMap: Readonly<Record<string, CaseStudyData>> = CASE_STUDY_MAP;
 
   caseStudyData = signal<CaseStudyData | null>(null);
   translationPrefix = signal<string>('');
@@ -119,8 +84,17 @@ export class CaseStudyDetailComponent implements OnInit {
     if (slug) {
       this.loadCaseStudy(slug);
     } else {
-      this.isLoading.set(false);
-      this.notFound.set(true);
+      this.markNotFound();
+    }
+  }
+
+  // Unknown slugs render the not-found view and, during SSR, respond with a
+  // real HTTP 404 so crawlers don't index broken case-study URLs as 200s.
+  private markNotFound(): void {
+    this.isLoading.set(false);
+    this.notFound.set(true);
+    if (this.responseInit) {
+      this.responseInit.status = 404;
     }
   }
 
@@ -148,8 +122,7 @@ export class CaseStudyDetailComponent implements OnInit {
 
       this.isLoading.set(false);
     } else {
-      this.isLoading.set(false);
-      this.notFound.set(true);
+      this.markNotFound();
     }
   }
 

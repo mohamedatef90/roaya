@@ -12,7 +12,6 @@ import {
   faSquareCheck,
   faCircle
 } from '@ng-icons/font-awesome/regular';
-import { Meta, Title } from '@angular/platform-browser';
 
 /**
  * Automation & AI Solutions Standalone Component
@@ -39,8 +38,6 @@ import { Meta, Title } from '@angular/platform-browser';
   ]
 })
 export class AutomationComponent implements OnInit {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
 
   // Service icon path
   readonly iconPath = '/assets/images/icons/services/automation.svg';
@@ -302,24 +299,6 @@ export class AutomationComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Set page title
-    this.title.setTitle('IT Automation & AI Solutions - Roaya IT');
-
-    // Set meta tags for SEO
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Professional IT Automation and AI Solutions. Arabic-speaking chatbots, RPA, workflow automation, and custom AI development. Reduce manual tasks by 60%.'
-    });
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'IT Automation, AI Solutions, RPA, Chatbots, Machine Learning, Workflow Automation, Arabic AI, Egypt Automation, Process Automation'
-    });
-
-    // Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'IT Automation & AI Solutions - Roaya IT' });
-    this.meta.updateTag({ property: 'og:description', content: 'Transform your business with intelligent automation and AI solutions. Reduce manual tasks by 60%.' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
   }
 
   /**

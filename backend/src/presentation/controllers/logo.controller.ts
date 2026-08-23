@@ -77,6 +77,21 @@ const sendTestEmailSchema = z.object({
 export class LogoController {
   // --- LOGOS ---
 
+  async getPublicLogos(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = logoQuerySchema.pick({ category: true, section: true }).parse(req.query);
+      const logos = await logoService.getLogos({
+        category: query.category,
+        section: query.section,
+        isActive: true,
+      });
+
+      res.json({ success: true, data: logos });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getLogos(req: Request, res: Response, next: NextFunction) {
     try {
       const query = logoQuerySchema.parse(req.query);

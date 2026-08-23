@@ -128,6 +128,7 @@ export class ScrollIndicatorComponent implements OnInit, OnDestroy {
   private intersectionObserver?: IntersectionObserver;
 
   ngOnInit(): void {
+    if (typeof window === 'undefined') return; // SSR guard: DOM/scroll APIs only
     this.initializeSections();
     this.setupScrollListener();
   }

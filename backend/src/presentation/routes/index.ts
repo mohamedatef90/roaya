@@ -9,6 +9,7 @@ import logoRoutes from './logo.routes.js';
 import documentationRoutes from './documentation.routes.js';
 import websiteAnalyticsRoutes from './website-analytics.routes.js';
 import publicContentRoutes from './public-content.routes.js';
+import publicLogoRoutes from './public-logo.routes.js';
 import { healthCheck, redisHealthCheck } from '../../config/index.js';
 
 const router = Router();
@@ -41,6 +42,7 @@ router.use('/admin', contentRoutes);
 router.use('/admin', logoRoutes);
 router.use('/docs', documentationRoutes);
 router.use('/content', publicContentRoutes);
+router.use('/public', publicLogoRoutes);
 router.use('/website-analytics', websiteAnalyticsRoutes);
 
 export default router;

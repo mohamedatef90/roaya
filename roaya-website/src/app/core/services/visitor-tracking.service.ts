@@ -72,6 +72,7 @@ export class VisitorTrackingService {
 
   /** Enable click tracking for heatmap data collection */
   enableClickTracking(): void {
+    if (typeof document === 'undefined') return; // SSR guard
     if (this.clickTrackingEnabled) return;
     this.clickTrackingEnabled = true;
 

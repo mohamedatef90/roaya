@@ -2321,15 +2321,15 @@
     "worldposta": {
       "title": "WorldPosta Services",
       "description": "Complete cloud platform: email, storage, and no-code apps",
-      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email, CloudEdge secure storage, and CloudSpace no-code app builder. Enterprise-grade solutions starting at $1.50/user/month.",
+      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email, CloudEdge secure cloud hosting, and CloudSpace no-code app builder. Enterprise-grade solutions starting at $1.50/user/month.",
       "features": {
         "email": "Posta Business Email",
-        "storage": "CloudEdge Cloud Storage",
+        "storage": "CloudEdge Cloud Hosting",
         "apps": "CloudSpace App Builder",
         "security": "Enterprise Security"
       },
       "heroTitle": "WorldPosta Cloud Services",
-      "heroDescription": "Enterprise email, cloud storage, and no-code apps. Complete cloud platform with 99.95% uptime and Egyptian data center options.",
+      "heroDescription": "Enterprise email, cloud storage, and no-code apps. Complete cloud platform with 99.99% uptime and Egyptian data center options.",
       "ctaGetStarted": "Start Free Trial",
       "ctaViewPricing": "View Pricing",
       "ctaCalculateROI": "Calculate ROI",
@@ -2340,13 +2340,13 @@
       "industriesTitle": "Industries We Serve",
       "industriesDescription": "Trusted by organizations across multiple sectors",
       "whyRoayaTitle": "Why Choose Roaya for WorldPosta",
-      "whyRoayaDescription": "As the official WorldPosta partner in Egypt, we provide expert implementation and local support",
+      "whyRoayaDescription": "As the Exclusive MENA partner of WorldPosta, we provide expert implementation and local support",
       "knowAboutTitle": "Learn More About WorldPosta",
       "knowAboutDescription": "WorldPosta is a leading cloud platform providing enterprise-grade email, storage, and application solutions trusted by thousands of businesses worldwide.",
       "knowAboutFeature1": "Global cloud infrastructure",
       "knowAboutFeature2": "Enterprise-grade security",
       "knowAboutFeature3": "24/7 technical support",
-      "knowAboutFeature4": "99.95% uptime guarantee",
+      "knowAboutFeature4": "99.99% uptime guarantee",
       "visitWebsite": "Visit WorldPosta Website",
       "advancedProductsLabel": "Enterprise Infrastructure",
       "advancedProductsTitle": "Advanced Cloud Solutions",
@@ -2360,6 +2360,9 @@
         "feature2": "Guaranteed dedicated performance",
         "feature3": "All-Flash storage arrays (2TB-10TB)",
         "feature4": "Zero-downtime resource adjustments"
+      },
+      "cloudedge": {
+        "description": "Welcome to CloudEdge by WorldPosta, your all-in-one secure, scalable cloud hosting solution. Designed to handle mission-critical applications with ease, CloudEdge offers flexibility, robust security, and high performance perfect for businesses of all sizes."
       },
       "cloudFirewall": {
         "name": "Cloud Firewall",
@@ -2490,7 +2493,7 @@
       "promo3": "24/7 Support - 15-Minute Response Guaranteed"
     },
     "hero": {
-      "badge": "Trusted by 1500+ Companies",
+      "badge": "Trusted by 150+ Companies",
       "title": "IT Services That Deliver Results",
       "subtitle": "Guaranteed.",
       "description": "First IT provider with transparent pricing and guaranteed ROI. Enterprise-grade security and 24/7 support.",
@@ -2865,7 +2868,7 @@
         "title": "WorldPosta Partnership",
         "item1": "Global enterprise infrastructure",
         "item2": "International security certifications",
-        "item3": "99.95% uptime guarantee",
+        "item3": "99.99% uptime guarantee",
         "item4": "24/7 technical support"
       },
       "stats": {
@@ -3258,7 +3261,7 @@
       "badge": "Our Story",
       "title": "Building Trust Through Technology",
       "p1": "Founded in 2018, Roaya IT emerged from a simple observation: Egyptian businesses deserve IT solutions that match global standards without the complexity and hidden costs often associated with enterprise technology.",
-      "p2": "As the official WorldPosta partner in Egypt, we've helped over 150 businesses transform their IT infrastructure, providing everything from secure email solutions to comprehensive cybersecurity and cloud services.",
+      "p2": "As the Exclusive MENA partner of WorldPosta, we've helped over 150 businesses transform their IT infrastructure, providing everything from secure email solutions to comprehensive cybersecurity and cloud services.",
       "p3": "Today, we're proud to be one of Egypt's most trusted IT service providers, known for our transparent pricing, local support, and commitment to customer success.",
       "imageAlt": "Roaya IT Headquarters"
     },
@@ -3292,7 +3295,7 @@
       },
       "partnership": {
         "title": "WorldPosta Partnership",
-        "description": "Became the official WorldPosta partner for enterprise email solutions in Egypt."
+        "description": "Became the Exclusive MENA partner of WorldPosta for enterprise email solutions."
       },
       "expansion": {
         "title": "Service Expansion",
@@ -3318,8 +3321,8 @@
     "partnership": {
       "badge": "Strategic Partnership",
       "title": "Powered by WorldPosta",
-      "description": "As WorldPosta's official partner in Egypt, we deliver enterprise-grade email and collaboration solutions backed by global infrastructure and local expertise.",
-      "partner": "Official Partner",
+      "description": "As WorldPosta's Exclusive MENA partner, we deliver enterprise-grade email and collaboration solutions backed by global infrastructure and local expertise.",
+      "partner": "Exclusive MENA Partner",
       "benefit1": "Enterprise-grade email hosting with 99.9% uptime",
       "benefit2": "Advanced security with spam and malware protection",
       "benefit3": "Full compliance with Egyptian data regulations"
@@ -4766,5 +4769,10 @@
         }
       }
     }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or may have been moved.",
+    "backHome": "Back to Home"
   }
 }
