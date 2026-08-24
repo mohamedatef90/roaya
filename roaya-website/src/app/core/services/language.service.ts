@@ -1,4 +1,5 @@
-import { Injectable, signal, effect, inject, computed } from '@angular/core';
+import { Injectable, signal, effect, inject, computed, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslationCacheService } from './translation-cache.service';
 import { GoogleTranslateService } from './google-translate.service';
@@ -17,6 +18,9 @@ export class LanguageService {
   private readonly translate = inject(TranslateService);
   private readonly cacheService = inject(TranslationCacheService);
   private readonly googleTranslate = inject(GoogleTranslateService);
+
+  /** See ThemeService.isBrowser — typeof localStorage is unsafe on Node 22+. */
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   // Signal for reactive language state
   language = signal<Language>(this.getInitialLanguage());
@@ -53,7 +57,7 @@ export class LanguageService {
    */
   private getInitialLanguage(): Language {
     // Check localStorage first (with SSR safety)
-    if (typeof localStorage !== 'undefined') {
+    if (this.isBrowser) {
       const savedLang = localStorage.getItem(this.LANGUAGE_KEY) as Language;
       if (savedLang === 'en' || savedLang === 'ar') {
         return savedLang;
@@ -76,7 +80,7 @@ export class LanguageService {
     // Set translation language
     this.translate.use(lang);
 
-    if (typeof document !== 'undefined') {
+    if (this.isBrowser) {
       const html = document.documentElement;
       
       // Set language attribute
@@ -96,7 +100,7 @@ export class LanguageService {
    * Save language to localStorage
    */
   private saveLanguage(lang: Language): void {
-    if (typeof localStorage !== 'undefined') {
+    if (this.isBrowser) {
       localStorage.setItem(this.LANGUAGE_KEY, lang);
     }
   }

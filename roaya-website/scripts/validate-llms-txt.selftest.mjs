@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {
   validateLlmsTxt,
-  validateVercelLlmsContentType,
+  validateNginxMachineFileContentTypes,
   findPricingAssertions,
 } from './validate-llms-txt.mjs';
 
@@ -16,7 +16,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');
 const llmsTxt = readFileSync(join(publicDir, 'llms.txt'), 'utf8');
 const sitemapXml = readFileSync(join(publicDir, 'sitemap.xml'), 'utf8');
-const vercelConfigJson = readFileSync(join(__dirname, '..', 'vercel.json'), 'utf8');
+const nginxConf = readFileSync(
+  join(__dirname, '..', 'deploy', 'nginx', 'roaya-website.conf'),
+  'utf8',
+);
 
 let failures = 0;
 
@@ -35,8 +38,8 @@ function check(name, condition) {
   check('baseline llms.txt passes with zero errors', errors.length === 0);
 }
 {
-  const { errors } = validateVercelLlmsContentType(vercelConfigJson);
-  check('baseline vercel.json passes with zero errors', errors.length === 0);
+  const { errors } = validateNginxMachineFileContentTypes(nginxConf);
+  check('baseline nginx config passes with zero errors', errors.length === 0);
 }
 
 // Mutation: non-canonical origin must be rejected.
@@ -84,33 +87,67 @@ for (const mutation of pricingMutations) {
   check(`pricing assertion is caught: "${mutation}"`, findings.length > 0);
 }
 
-// Mutation: removing the /llms.txt Content-Type rule from vercel.json must be caught.
+// Mutation: removing the `location = /llms.txt` block entirely must be caught.
 {
-  const config = JSON.parse(vercelConfigJson);
-  config.headers = config.headers.filter((rule) => rule.source !== '/llms.txt');
-  const { errors } = validateVercelLlmsContentType(JSON.stringify(config));
+  const mutated = nginxConf.replace(
+    /location\s*=\s*\/llms\.txt\s*\{[\s\S]*?\n\s*\}/,
+    '',
+  );
+  const { errors } = validateNginxMachineFileContentTypes(mutated);
   check(
-    'missing /llms.txt header rule in vercel.json is rejected',
-    errors.some((e) => e.includes('no header rule for source "/llms.txt"')),
+    'missing `location = /llms.txt` block in nginx config is rejected',
+    errors.some((e) => e.includes('no `location = /llms.txt` block')),
   );
 }
 
-// Mutation: wrong Content-Type value on the /llms.txt rule must be caught.
+// Mutation: dropping just the default_type from the /llms.txt block must be
+// caught — the block still exists, so a block-presence check alone would miss
+// this and nginx would fall back to a charset-less content type.
 {
-  const config = JSON.parse(vercelConfigJson);
-  const rule = config.headers.find((r) => r.source === '/llms.txt');
-  rule.headers.find((h) => h.key === 'Content-Type').value = 'application/octet-stream';
-  const { errors } = validateVercelLlmsContentType(JSON.stringify(config));
+  const mutated = nginxConf.replace(
+    /(location\s*=\s*\/llms\.txt\s*\{[\s\S]*?)\n\s*default_type\s+"[^"]+"\s*;/,
+    '$1',
+  );
+  const { errors } = validateNginxMachineFileContentTypes(mutated);
   check(
-    'wrong /llms.txt Content-Type value in vercel.json is rejected',
-    errors.some((e) => e.includes('Content-Type must be')),
+    'missing default_type in the /llms.txt block is rejected',
+    errors.some((e) => e.includes('has no default_type directive')),
   );
 }
 
-// Mutation: invalid JSON in vercel.json must be caught.
+// Mutation: wrong content type value must be caught.
 {
-  const { errors } = validateVercelLlmsContentType('{ not valid json');
-  check('invalid vercel.json is rejected', errors.some((e) => e.includes('not valid JSON')));
+  const mutated = nginxConf.replace(
+    /(location\s*=\s*\/llms\.txt\s*\{[\s\S]*?default_type\s+)"[^"]+"/,
+    '$1"application/octet-stream"',
+  );
+  const { errors } = validateNginxMachineFileContentTypes(mutated);
+  check(
+    'wrong /llms.txt default_type value is rejected',
+    errors.some((e) => e.includes('default_type must be')),
+  );
+}
+
+// Mutation: the same gates must hold for robots.txt and sitemap.xml, not just
+// llms.txt — otherwise a regression on either could ship unnoticed.
+for (const route of ['/robots.txt', '/sitemap.xml']) {
+  const escaped = route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const mutated = nginxConf.replace(
+    new RegExp(`(location\\s*=\\s*${escaped}\\s*\\{[\\s\\S]*?default_type\\s+)"[^"]+"`),
+    '$1"application/octet-stream"',
+  );
+  const { errors } = validateNginxMachineFileContentTypes(mutated);
+  check(
+    `wrong ${route} default_type value is rejected`,
+    errors.some((e) => e.includes(`\`location = ${route}\` default_type must be`)),
+  );
+}
+
+// Mutation: an empty or unreadable config must be caught rather than passing
+// vacuously.
+{
+  const { errors } = validateNginxMachineFileContentTypes('');
+  check('empty nginx config is rejected', errors.some((e) => e.includes('empty or unreadable')));
 }
 
 if (failures > 0) {

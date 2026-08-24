@@ -42,11 +42,16 @@ function makeSandbox() {
   mkdirSync(join(sandboxRoot, 'src/app/features/services/worldposta'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/assets/i18n'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'scripts/claim-evidence'), { recursive: true });
+  mkdirSync(join(sandboxRoot, 'deploy/nginx'), { recursive: true });
 
   cpSync(join(realRoot, 'public/robots.txt'), join(sandboxRoot, 'public/robots.txt'));
   cpSync(join(realRoot, 'public/sitemap.xml'), join(sandboxRoot, 'public/sitemap.xml'));
   cpSync(join(realRoot, 'public/llms.txt'), join(sandboxRoot, 'public/llms.txt'));
-  cpSync(join(realRoot, 'vercel.json'), join(sandboxRoot, 'vercel.json'));
+  cpSync(
+    join(realRoot, 'deploy', 'nginx', 'roaya-website.conf'),
+    join(sandboxRoot, 'deploy', 'nginx', 'roaya-website.conf'),
+    { recursive: false },
+  );
   cpSync(join(realRoot, 'src/app/core/seo/route-metadata.ts'), join(sandboxRoot, 'src/app/core/seo/route-metadata.ts'));
   cpSync(join(realRoot, 'src/app/core/seo/entity-taxonomy.ts'), join(sandboxRoot, 'src/app/core/seo/entity-taxonomy.ts'));
   cpSync(join(realRoot, 'src/app/app.routes.ts'), join(sandboxRoot, 'src/app/app.routes.ts'));

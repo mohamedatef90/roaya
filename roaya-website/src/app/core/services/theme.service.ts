@@ -1,4 +1,5 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export type Theme = 'light' | 'dark';
 export type Direction = 'ltr' | 'rtl';
@@ -13,6 +14,15 @@ export type Direction = 'ltr' | 'rtl';
 export class ThemeService {
   private readonly THEME_KEY = 'roaya-theme';
   private readonly DIRECTION_KEY = 'roaya-direction';
+
+  /**
+   * Angular's own platform check — the only reliable browser test.
+   * `typeof localStorage === 'undefined'` is NOT reliable: Node 22+ ships an
+   * experimental `localStorage` global that is defined but has no `getItem`,
+   * so a typeof guard passes on the server and then throws, which silently
+   * fails every prerendered route at build time.
+   */
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   theme = signal<Theme>(this.getInitialTheme());
   direction = signal<Direction>(this.getInitialDirection());
@@ -30,7 +40,7 @@ export class ThemeService {
    */
   private getInitialTheme(): Theme {
     // SSR guard: no browser storage/media queries on the server
-    if (typeof localStorage === 'undefined' || typeof window === 'undefined') {
+    if (!this.isBrowser) {
       return 'light';
     }
     const stored = localStorage.getItem(this.THEME_KEY) as Theme;
@@ -54,7 +64,7 @@ export class ThemeService {
    */
   private getInitialDirection(): Direction {
     // SSR guard: no browser storage/navigator on the server
-    if (typeof localStorage === 'undefined' || typeof navigator === 'undefined') {
+    if (!this.isBrowser) {
       return 'ltr';
     }
     const stored = localStorage.getItem(this.DIRECTION_KEY) as Direction;
@@ -104,7 +114,7 @@ export class ThemeService {
    * Apply theme to document
    */
   private applyTheme(theme: Theme): void {
-    if (typeof document === 'undefined') return; // SSR guard
+    if (!this.isBrowser) return; // SSR guard
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
     localStorage.setItem(this.THEME_KEY, theme);
@@ -114,7 +124,7 @@ export class ThemeService {
    * Apply direction to document
    */
   private applyDirection(direction: Direction): void {
-    if (typeof document === 'undefined') return; // SSR guard
+    if (!this.isBrowser) return; // SSR guard
     const root = document.documentElement;
     root.setAttribute('dir', direction);
     document.body.dir = direction;

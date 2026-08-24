@@ -2011,13 +2011,23 @@ Closes #42
 
 ---
 
-## Deployment Strategy (Future)
+## Deployment Strategy
 
-### Hosting Options (To Be Decided)
-1. **Vercel** - Recommended for Angular SSR
-2. **Netlify** - Good for static sites
-3. **AWS S3 + CloudFront** - Enterprise-grade
-4. **Firebase Hosting** - Google ecosystem
+### Hosting: settled — self-hosted, nothing else
+
+Production is the **self-hosted server reached over VPN/SSH** (see the
+Production Deployment section above for host details). This is not an open
+question: all Vercel configuration was removed from the repo on 2026-08-24,
+and `roaya-website/deploy/nginx/roaya-website.conf` is the single source of
+truth for host-level behavior (redirects, security headers, machine-file
+content types, caching, SSR proxying).
+
+Do not reintroduce a PaaS target (Vercel/Netlify/Firebase) or a static-only
+bucket setup without an explicit decision — the SSR process is load-bearing
+for the AI-readiness work, and a static-only host silently defeats it.
+
+Deploy with `./deploy/scripts/deploy-ssr.sh`; see
+`docs/deploy/RUNBOOK.md` and `docs/deploy/verification-checklist.md`.
 
 ### CI/CD Pipeline (Planned)
 ```

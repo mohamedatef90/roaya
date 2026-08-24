@@ -5,8 +5,10 @@
  *   (which itself is generated from the registered public routes), and appear once.
  * - the file must not make pricing assertions (price tokens, "$", "/month", claims
  *   about whether a price list exists), matching the Stage 0 pricing-deferred decision.
- * - vercel.json must serve /llms.txt as text/plain; charset=utf-8, matching the
- *   established robots.txt/sitemap.xml pattern.
+ * - the deployed nginx config must serve /llms.txt as text/plain; charset=utf-8,
+ *   matching the established robots.txt/sitemap.xml pattern. Production is the
+ *   self-hosted nginx origin, so that config is the only place this guarantee
+ *   can live.
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -78,33 +80,53 @@ export function validateLlmsTxt({ llmsTxt, sitemapXml }) {
   return { errors, linkCount: links.length };
 }
 
-export function validateVercelLlmsContentType(vercelConfigJson) {
+/**
+ * Assert the nginx config declares an explicit content type for each machine
+ * file. nginx would otherwise fall back to its mime.types mapping, which has
+ * no entry for .txt served as UTF-8 and would emit a bare `text/plain` with no
+ * charset. These files are the crawler/AI-agent contract, so the charset is
+ * part of it.
+ *
+ * `location = /path` (exact match) and `default_type "<value>";` are matched
+ * as a pair inside the same block, so moving a default_type into an unrelated
+ * block does not satisfy the check.
+ */
+export const MACHINE_FILE_CONTENT_TYPES = {
+  '/robots.txt': 'text/plain; charset=utf-8',
+  '/sitemap.xml': 'application/xml; charset=utf-8',
+  '/llms.txt': 'text/plain; charset=utf-8',
+};
+
+export function validateNginxMachineFileContentTypes(nginxConf) {
   const errors = [];
-  let config;
-  try {
-    config = JSON.parse(vercelConfigJson);
-  } catch (error) {
-    return { errors: [`vercel.json is not valid JSON: ${error.message}`] };
+
+  if (typeof nginxConf !== 'string' || nginxConf.trim() === '') {
+    return { errors: ['nginx config is empty or unreadable.'] };
   }
 
-  const headerRules = Array.isArray(config.headers) ? config.headers : [];
-  const llmsRule = headerRules.find((rule) => rule.source === '/llms.txt');
-
-  if (!llmsRule) {
-    errors.push('vercel.json has no header rule for source "/llms.txt".');
-    return { errors };
-  }
-
-  const contentTypeHeader = (llmsRule.headers ?? []).find(
-    (header) => header.key === 'Content-Type',
-  );
-
-  if (!contentTypeHeader) {
-    errors.push('vercel.json "/llms.txt" rule has no Content-Type header.');
-  } else if (contentTypeHeader.value !== LLMS_CONTENT_TYPE) {
-    errors.push(
-      `vercel.json "/llms.txt" Content-Type must be "${LLMS_CONTENT_TYPE}", found "${contentTypeHeader.value}".`,
+  for (const [route, expected] of Object.entries(MACHINE_FILE_CONTENT_TYPES)) {
+    // Match `location = <route> { ... }` up to the first closing brace at the
+    // block's own indentation. The generated config never nests inside these.
+    const escaped = route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const blockMatch = nginxConf.match(
+      new RegExp(`location\\s*=\\s*${escaped}\\s*\\{([\\s\\S]*?)\\n\\s*\\}`),
     );
+
+    if (!blockMatch) {
+      errors.push(`nginx config has no \`location = ${route}\` block.`);
+      continue;
+    }
+
+    const block = blockMatch[1];
+    const defaultType = block.match(/default_type\s+"([^"]+)"\s*;/);
+
+    if (!defaultType) {
+      errors.push(`nginx \`location = ${route}\` block has no default_type directive.`);
+    } else if (defaultType[1] !== expected) {
+      errors.push(
+        `nginx \`location = ${route}\` default_type must be "${expected}", found "${defaultType[1]}".`,
+      );
+    }
   }
 
   return { errors };
@@ -115,11 +137,14 @@ function main() {
   const publicDir = join(__dirname, '..', 'public');
   const llmsTxt = readFileSync(join(publicDir, 'llms.txt'), 'utf8');
   const sitemapXml = readFileSync(join(publicDir, 'sitemap.xml'), 'utf8');
-  const vercelConfigJson = readFileSync(join(__dirname, '..', 'vercel.json'), 'utf8');
+  const nginxConf = readFileSync(
+    join(__dirname, '..', 'deploy', 'nginx', 'roaya-website.conf'),
+    'utf8',
+  );
 
   const llmsResult = validateLlmsTxt({ llmsTxt, sitemapXml });
-  const vercelResult = validateVercelLlmsContentType(vercelConfigJson);
-  const errors = [...llmsResult.errors, ...vercelResult.errors];
+  const nginxResult = validateNginxMachineFileContentTypes(nginxConf);
+  const errors = [...llmsResult.errors, ...nginxResult.errors];
 
   if (errors.length > 0) {
     console.error(
@@ -134,7 +159,7 @@ function main() {
 
   console.log(
     `llms.txt validation passed: ${llmsResult.linkCount} link(s) canonical/sitemap-registered/non-duplicated, ` +
-      'no prohibited pricing assertions, vercel.json serves /llms.txt as text/plain; charset=utf-8.',
+      'no prohibited pricing assertions, nginx serves all 3 machine files with explicit content types.',
   );
 }
 

@@ -9,7 +9,7 @@
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { validateLlmsTxt, validateVercelLlmsContentType } from '../validate-llms-txt.mjs';
+import { validateLlmsTxt, validateNginxMachineFileContentTypes } from '../validate-llms-txt.mjs';
 import { validateRegistry, extractCaseStudySlugs } from '../claim-evidence/validate-registry.mjs';
 
 function ok(id, title, details) {
@@ -133,20 +133,22 @@ export function checkLlmsTxt(ctx) {
   const title = 'llms.txt validator, MIME config, prohibited assertions';
   const llmsPath = join(ctx.publicDir, 'llms.txt');
   const sitemapPath = join(ctx.publicDir, 'sitemap.xml');
-  const vercelPath = join(ctx.root, 'vercel.json');
+  const nginxPath = join(ctx.root, 'deploy', 'nginx', 'roaya-website.conf');
   if (!existsSync(llmsPath)) return fail(id, title, [`Missing ${relative(ctx.root, llmsPath)}`]);
 
   const llmsTxt = readFileSync(llmsPath, 'utf8');
   const sitemapXml = readFileSync(sitemapPath, 'utf8');
-  const vercelConfigJson = readFileSync(vercelPath, 'utf8');
+  if (!existsSync(nginxPath))
+    return fail(id, title, [`Missing ${relative(ctx.root, nginxPath)}`]);
+  const nginxConf = readFileSync(nginxPath, 'utf8');
 
   const llmsResult = validateLlmsTxt({ llmsTxt, sitemapXml });
-  const vercelResult = validateVercelLlmsContentType(vercelConfigJson);
-  const errors = [...llmsResult.errors, ...vercelResult.errors];
+  const nginxResult = validateNginxMachineFileContentTypes(nginxConf);
+  const errors = [...llmsResult.errors, ...nginxResult.errors];
 
   return errors.length
     ? fail(id, title, errors)
-    : ok(id, title, `${llmsResult.linkCount} link(s) canonical/sitemap-registered/non-duplicated; vercel.json MIME rule present.`);
+    : ok(id, title, `${llmsResult.linkCount} link(s) canonical/sitemap-registered/non-duplicated; nginx content-type rules present for all 3 machine files.`);
 }
 
 export function checkCanonicalMetadataCoverage(ctx) {
