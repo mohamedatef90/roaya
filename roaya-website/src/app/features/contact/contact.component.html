@@ -245,6 +245,9 @@
                       type="text"
                       id="name"
                       formControlName="name"
+                      required
+                      [attr.aria-invalid]="hasFieldError('name') ? 'true' : null"
+                      [attr.aria-describedby]="hasFieldError('name') ? 'name-error' : null"
                       class="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-primary-900/30 border-2 focus:ring-0 outline-none transition-all duration-300 placeholder:text-neutral-400"
                       [ngClass]="hasFieldError('name')
                         ? 'border-red-400 focus:border-red-500'
@@ -254,8 +257,8 @@
                     <!-- Focus Glow -->
                     <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-secondary-500/20 to-accent-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur transition-opacity duration-300"></div>
                   </div>
-                  <p *ngIf="hasFieldError('name')" class="mt-2 text-sm text-red-500 flex items-center gap-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <p *ngIf="hasFieldError('name')" id="name-error" role="alert" class="mt-2 text-sm text-red-500 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                     </svg>
                     {{ getFieldError('name') | translate }}
@@ -272,6 +275,9 @@
                       type="email"
                       id="email"
                       formControlName="email"
+                      required
+                      [attr.aria-invalid]="hasFieldError('email') ? 'true' : null"
+                      [attr.aria-describedby]="hasFieldError('email') ? 'email-error' : null"
                       class="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-primary-900/30 border-2 focus:ring-0 outline-none transition-all duration-300 placeholder:text-neutral-400"
                       [ngClass]="hasFieldError('email')
                         ? 'border-red-400 focus:border-red-500'
@@ -280,8 +286,8 @@
                     />
                     <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-secondary-500/20 to-accent-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur transition-opacity duration-300"></div>
                   </div>
-                  <p *ngIf="hasFieldError('email')" class="mt-2 text-sm text-red-500 flex items-center gap-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <p *ngIf="hasFieldError('email')" id="email-error" role="alert" class="mt-2 text-sm text-red-500 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                     </svg>
                     {{ getFieldError('email') | translate }}
@@ -298,6 +304,8 @@
                       type="tel"
                       id="phone"
                       formControlName="phone"
+                      [attr.aria-invalid]="hasFieldError('phone') ? 'true' : null"
+                      [attr.aria-describedby]="hasFieldError('phone') ? 'phone-error' : null"
                       class="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-primary-900/30 border-2 focus:ring-0 outline-none transition-all duration-300 placeholder:text-neutral-400"
                       [ngClass]="hasFieldError('phone')
                         ? 'border-red-400 focus:border-red-500'
@@ -306,8 +314,8 @@
                     />
                     <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-secondary-500/20 to-accent-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur transition-opacity duration-300"></div>
                   </div>
-                  <p *ngIf="hasFieldError('phone')" class="mt-2 text-sm text-red-500 flex items-center gap-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <p *ngIf="hasFieldError('phone')" id="phone-error" role="alert" class="mt-2 text-sm text-red-500 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                     </svg>
                     {{ getFieldError('phone') | translate }}
@@ -368,6 +376,9 @@
                     id="message"
                     formControlName="message"
                     rows="5"
+                    required
+                    [attr.aria-invalid]="hasFieldError('message') ? 'true' : null"
+                    [attr.aria-describedby]="hasFieldError('message') ? 'message-error' : null"
                     class="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-primary-900/30 border-2 focus:ring-0 outline-none transition-all duration-300 resize-none placeholder:text-neutral-400"
                     [ngClass]="hasFieldError('message')
                       ? 'border-red-400 focus:border-red-500'
@@ -376,8 +387,8 @@
                   ></textarea>
                   <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-secondary-500/20 to-accent-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur transition-opacity duration-300"></div>
                 </div>
-                <p *ngIf="hasFieldError('message')" class="mt-2 text-sm text-red-500 flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <p *ngIf="hasFieldError('message')" id="message-error" role="alert" class="mt-2 text-sm text-red-500 flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                   </svg>
                   {{ getFieldError('message') | translate }}
@@ -385,8 +396,8 @@
               </div>
 
               <!-- Error Message -->
-              <div *ngIf="hasError()" class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 flex items-center gap-3">
-                <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <div *ngIf="hasError()" role="alert" class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 flex items-center gap-3">
+                <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
                 {{ 'contact.form.error' | translate }}

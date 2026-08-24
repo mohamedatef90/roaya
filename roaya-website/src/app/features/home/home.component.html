@@ -132,8 +132,12 @@
         <div
           class="relative text-center p-6 bg-white/85 dark:bg-primary-900/65 backdrop-blur-xl rounded-xl border border-white/60 dark:border-primary-700/40 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
           <div
-            class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent tabular-nums">
-            {{ stat.current }}{{ stat.suffix }}
+            class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-secondary-400 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text [&:not(.no-gradient)]:text-transparent tabular-nums"
+            role="text">
+            <!-- Semantic value for SSR/accessibility - always present in DOM -->
+            <span class="sr-only" data-stat-semantic>{{ stat.value }}{{ stat.suffix }}</span>
+            <!-- Visual animated value - hidden from screen readers -->
+            <span aria-hidden="true" data-stat-animated>{{ stat.current }}{{ stat.suffix }}</span>
           </div>
           <div class="text-neutral-700 dark:text-neutral-300 mt-2 font-medium">
             {{ stat.label | translate }}
