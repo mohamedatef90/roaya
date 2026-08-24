@@ -28,8 +28,15 @@ The checks verify:
 - **JSON-LD coverage** on `/`, `/about`, `/services/worldposta` (ROUTE_ENTITY_MAP)
 - **Express 301 redirects** for pentest-v2 canonicalization (both locales)
 - **Closed industry registry** with RESPONSE_INIT 404 for unknown IDs
-- **Deferred `node_modules` cleanup** — 1 low-severity quill XSS remains;
-  fixing requires a breaking-change major upgrade blocked on CMS migration
+- **Deferred repository cleanup** — 11,683 tracked root `node_modules/**` files
+  remain intentionally deferred. Removing tracked dependency artifacts is a broad,
+  destructive VCS cleanup and must be planned separately so the deployment/build
+  workflow can be verified from a clean checkout.
+- **Residual production security gate** — `npm audit --omit=dev` reports one
+  low-severity direct `quill@2.0.3` HTML-export XSS (`GHSA-v3m3-f69x-jf25`).
+  `npm` marks the available remediation as a semver-major change; the **Roaya CMS
+  owner** must validate editor/export compatibility and a named human security
+  reviewer must approve the migration before the finding may be considered closed.
 
 The automated layer cannot and does not substitute for the gates below.
 
