@@ -2320,21 +2320,20 @@
     },
     "worldposta": {
       "title": "WorldPosta Services",
-      "description": "Complete cloud platform: email, storage, and no-code apps",
-      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email, CloudEdge secure cloud hosting, and CloudSpace no-code app builder. Enterprise-grade solutions starting at $1.50/user/month.",
+      "description": "Complete cloud platform: enterprise email and secure hosting",
+      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email and CloudEdge secure cloud hosting. Contact us for enterprise-grade solutions tailored to your needs.",
       "features": {
         "email": "Posta Business Email",
         "storage": "CloudEdge Cloud Hosting",
-        "apps": "CloudSpace App Builder",
         "security": "Enterprise Security"
       },
       "heroTitle": "WorldPosta Cloud Services",
-      "heroDescription": "Enterprise email, cloud storage, and no-code apps. Complete cloud platform with 99.99% uptime and Egyptian data center options.",
+      "heroDescription": "Enterprise email and cloud storage. Complete cloud platform with 99.99% uptime and Egyptian data center options.",
       "ctaGetStarted": "Start Free Trial",
       "ctaViewPricing": "View Pricing",
       "ctaCalculateROI": "Calculate ROI",
       "productsTitle": "WorldPosta Cloud Products",
-      "productsDescription": "Three powerful products to transform your business operations",
+      "productsDescription": "Enterprise-grade products to transform your business operations",
       "benefitsTitle": "Why Choose WorldPosta",
       "benefitsDescription": "Enterprise-grade cloud services with local support and global infrastructure",
       "industriesTitle": "Industries We Serve",
@@ -2454,7 +2453,7 @@
         },
         "costEffective": {
           "title": "Cost Effective",
-          "description": "Reduce IT costs by up to 40% with our managed solutions"
+          "description": "Optimize IT costs with our managed solutions"
         }
       },
       "industries": {
@@ -2488,7 +2487,7 @@
     },
     "newsBar": {
       "text": "Enterprise Email Security Suite Now Available",
-      "promo1": "Save 40% on Cloud Migration This Quarter",
+      "promo1": "Cloud Migration Assessment Available",
       "promo2": "Free Cybersecurity Assessment for New Clients",
       "promo3": "24/7 Support - 15-Minute Response Guaranteed"
     },
@@ -2496,7 +2495,7 @@
       "badge": "Trusted by 150+ Companies",
       "title": "IT Services That Deliver Results",
       "subtitle": "Guaranteed.",
-      "description": "First IT provider with transparent pricing and guaranteed ROI. Enterprise-grade security and 24/7 support.",
+      "description": "IT provider with transparent pricing and measurable results. Enterprise-grade security and 24/7 support.",
       "cta": "Start Your Journey",
       "secondaryCta": "View Pricing",
       "secondaryCtaContact": "Contact Us",
@@ -3302,8 +3301,8 @@
         "description": "Expanded our portfolio to include comprehensive cybersecurity and cloud services."
       },
       "certification": {
-        "title": "ISO Certification",
-        "description": "Achieved ISO certification for our security and service management processes."
+        "title": "Industry Standards",
+        "description": "Committed to industry-leading security and service management practices."
       },
       "growth": {
         "title": "150+ Clients",
@@ -3449,7 +3448,7 @@
         "item3": "Specific recommendations for your business",
         "item4": "No obligation consultation"
       },
-      "socialProof": "150+ businesses have saved an average of 40% on IT costs"
+      "socialProof": "150+ businesses trust Roaya for their IT solutions"
     },
     "tabs": {
       "cloud": "Cloud Infrastructure",
@@ -3598,7 +3597,7 @@
   "caseStudies": {
     "badge": "Case Studies",
     "title": "Real Egyptian Enterprises. Real Results.",
-    "description": "See how banks, hospitals, and manufacturers reduced IT costs by 40% while achieving 99.9%+ uptime with Roaya IT's transparent cloud and security solutions.",
+    "description": "See how banks, hospitals, and manufacturers achieved their IT goals with Roaya IT's transparent cloud and security solutions.",
     "filters": {
       "all": "All",
       "byIndustry": "Filter by Industry",
