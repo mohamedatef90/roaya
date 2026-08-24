@@ -50,17 +50,20 @@
  *   translation, add it to `PENDING_ROUTE_METADATA_GAPS` below instead of
  *   inventing text, and flag it for content sign-off.
  *
- * EN/AR and SSR scope (architectural constraint, not a Stage 3.2 gap):
- * the app has no locale-prefixed routes and no server-side Accept-Language
- * detection (`app.routes.server.ts` prerenders/serves every path once, and
- * `LanguageService` picks the active language from `localStorage`/
- * `navigator.language`, both browser-only). The raw first HTTP response is
- * therefore always in the default language (`en`); Arabic is applied by
- * `TranslateService.use('ar')` after client-side hydration, and this
- * registry's `onLangChange` re-application (see `SEOService`) is what keeps
- * title/description/OG/Twitter tags correct once that happens. Adding
- * locale-prefixed SSR routing is a routing-architecture change outside this
- * issue's scope.
+ * EN/AR and SSR scope (updated Stage 3.4 - the constraint below is gone):
+ * this registry is keyed by LOCALE-INDEPENDENT paths. `/about` and
+ * `/ar/about` both resolve the entry for `/about`, through whichever language
+ * the URL declares.
+ *
+ * Until Stage 3.4 the app had no locale-prefixed routes and no server-side
+ * language selection: every path was prerendered once and `LanguageService`
+ * read the language from `localStorage`/`navigator.language` (both
+ * browser-only), so the raw first HTTP response was ALWAYS English and Arabic
+ * existed only after hydration - invisible to every crawler and AI agent.
+ * English is now served unprefixed and Arabic under `/ar`, each prerendered
+ * in its own language, with `hreflang` alternates tying the pair together.
+ * The keys here did not change, which is why adding a locale did not touch a
+ * single entry below.
  */
 
 export interface RouteMetadataEntry {

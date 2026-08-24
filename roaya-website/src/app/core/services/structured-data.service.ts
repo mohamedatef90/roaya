@@ -11,6 +11,7 @@ import {
   ROUTE_ENTITY_MAP
 } from '../seo/entity-taxonomy';
 import { ROUTE_METADATA } from '../seo/route-metadata';
+import { Locale, splitLocale, withLocale } from '../i18n/locale-routing';
 import { StructuredDataGraph, StructuredDataNode } from '../seo/json-ld.types';
 
 const SCRIPT_ID = 'roaya-structured-data';
@@ -59,7 +60,8 @@ export class StructuredDataService {
   }
 
   private render(rawPath: string): void {
-    const nodes = this.buildNodes(this.normalizePath(rawPath));
+    const { locale, path } = splitLocale(this.normalizePath(rawPath));
+    const nodes = this.buildNodes(path, locale);
 
     if (!nodes.length) {
       this.clear();
@@ -83,11 +85,14 @@ export class StructuredDataService {
    * URL + hierarchy is the whole value here anyway; the prose is already in
    * the HTML the same crawler is reading.
    */
-  private buildNodes(path: string): StructuredDataNode[] {
+  private buildNodes(path: string, locale: Locale): StructuredDataNode[] {
     const origin = this.seo.buildCanonicalUrl('/');
     const organizationId = `${origin}#organization`;
     const websiteId = `${origin}#website`;
-    const url = this.seo.buildCanonicalUrl(path);
+    // Lookups are keyed by the locale-independent path; every emitted URL is
+    // the locale's own, so the Arabic graph describes the Arabic page and
+    // never links back into the English tree.
+    const url = this.seo.buildCanonicalUrl(withLocale(path, locale));
     const nodes: StructuredDataNode[] = [];
 
     // Site-wide identity is emitted only alongside at least one page-specific
@@ -96,7 +101,7 @@ export class StructuredDataService {
     // website" about a page that does not exist.
     const metadata = ROUTE_METADATA[path];
     const serviceIds = ROUTE_ENTITY_MAP[path]?.serviceIds ?? [];
-    const breadcrumb = this.buildBreadcrumb(path, url);
+    const breadcrumb = this.buildBreadcrumb(path, url, locale);
     if (!metadata && !breadcrumb && serviceIds.length === 0) {
       return [];
     }
@@ -121,7 +126,7 @@ export class StructuredDataService {
       if (!service) {
         continue;
       }
-      const serviceUrl = this.seo.buildCanonicalUrl(service.path);
+      const serviceUrl = this.seo.buildCanonicalUrl(withLocale(service.path, locale));
       nodes.push({
         '@type': 'Service',
         '@id': `${serviceUrl}#service-${service.id}`,
@@ -165,7 +170,7 @@ export class StructuredDataService {
    * Anything shorter than Home + one level is dropped rather than emitted as
    * a single-item list.
    */
-  private buildBreadcrumb(path: string, url: string): StructuredDataNode | null {
+  private buildBreadcrumb(path: string, url: string, locale: Locale): StructuredDataNode | null {
     const segments = path === '/' ? [] : path.slice(1).split('/');
     const paths = ['/', ...segments.map((_, index) => `/${segments.slice(0, index + 1).join('/')}`)];
 
@@ -176,7 +181,7 @@ export class StructuredDataService {
         '@type': 'ListItem' as const,
         position: index + 1,
         name: this.translate.instant(entry.key),
-        item: this.seo.buildCanonicalUrl(entry.path)
+        item: this.seo.buildCanonicalUrl(withLocale(entry.path, locale))
       }));
 
     if (items.length < 2) {

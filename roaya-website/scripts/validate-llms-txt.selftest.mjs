@@ -43,8 +43,15 @@ function check(name, condition) {
 }
 
 // Mutation: non-canonical origin must be rejected.
+//
+// These mutations target the markdown LINK, not the bare URL: prose in
+// llms.txt also mentions example URLs, and a plain `.replace(url, ...)` hits
+// whichever comes first. When the Languages section was added it did exactly
+// that - the mutation landed in prose the validator does not inspect, both
+// checks silently stopped mutating anything, and this suite reported green
+// while proving nothing.
 {
-  const mutated = llmsTxt.replace('https://roaya.co/about', 'http://roaya.co/about');
+  const mutated = llmsTxt.replace('](https://roaya.co/about)', '](http://roaya.co/about)');
   const { errors } = validateLlmsTxt({ llmsTxt: mutated, sitemapXml });
   check(
     'non-canonical (http) origin is rejected',
@@ -55,8 +62,8 @@ function check(name, condition) {
 // Mutation: a link not present in the sitemap must be rejected.
 {
   const mutated = llmsTxt.replace(
-    'https://roaya.co/about',
-    'https://roaya.co/about-not-a-real-route',
+    '](https://roaya.co/about)',
+    '](https://roaya.co/about-not-a-real-route)',
   );
   const { errors } = validateLlmsTxt({ llmsTxt: mutated, sitemapXml });
   check(

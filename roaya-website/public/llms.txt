@@ -4,6 +4,13 @@
 
 This file is a navigation aid for AI assistants and agents. It only indexes canonical public pages on https://roaya.co — it is not a source of truth in itself. Every fact, claim, and detail belongs to the linked page; treat the linked public pages as authoritative and prefer their current content over anything paraphrased here. This file does not expose an API, and it does not authorize any automated or autonomous action — contact, quote, and consultation links lead to normal human-reviewed web forms.
 
+## Languages
+
+Every page below exists in English at its listed URL and in Arabic at the same path under `/ar` (for example `https://roaya.co/about` and `https://roaya.co/ar/about`). Both are server-rendered, and each declares the other with `hreflang`, so either language can be read, linked, or cited directly.
+
+- [Roaya IT in English](https://roaya.co/): English homepage.
+- [Roaya IT in Arabic](https://roaya.co/ar): Arabic homepage.
+
 ## Company
 
 - [About Roaya](https://roaya.co/about): Company background, mission, and milestones.

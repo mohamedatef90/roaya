@@ -22,6 +22,16 @@ function skip(id, title, reason) {
   return { id, title, status: 'skip', details: reason, errors: [] };
 }
 
+/**
+ * Split a site path into locale + locale-independent path. English is
+ * unprefixed, Arabic lives under /ar (see src/app/core/i18n/locale-routing.ts).
+ */
+function splitLocalePath(path) {
+  if (path === '/ar') return { locale: 'ar', path: '/' };
+  if (path.startsWith('/ar/')) return { locale: 'ar', path: path.slice(3) };
+  return { locale: 'en', path };
+}
+
 function readJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
@@ -183,12 +193,47 @@ export function checkCanonicalMetadataCoverage(ctx) {
     (path.startsWith('/resources/blog/') && path !== '/resources/blog') ||
     (path.startsWith('/resources/case-studies/') && path !== '/resources/case-studies');
 
-  for (const path of sitemapPaths) {
+  for (const sitemapPath of sitemapPaths) {
+    // ROUTE_METADATA is keyed by locale-independent paths: /about and
+    // /ar/about resolve the same entry through the active language.
+    const { path } = splitLocalePath(sitemapPath);
     if (registeredKeys.includes(path)) continue;
     if (selfResolvingRoutes.has(path)) continue;
     if (isSelfResolvingDynamicDetail(path)) continue;
     if (pendingGaps.includes(path)) continue;
-    errors.push(`Sitemap route "${path}" has no ROUTE_METADATA entry, is not a documented self-resolving route, and is not listed in PENDING_ROUTE_METADATA_GAPS.`);
+    errors.push(`Sitemap route "${sitemapPath}" has no ROUTE_METADATA entry, is not a documented self-resolving route, and is not listed in PENDING_ROUTE_METADATA_GAPS.`);
+  }
+
+  // Locale parity. A page that exists in one locale and not the other is the
+  // failure mode this whole change exists to prevent: a reader following an
+  // Arabic link into a 404, or an Arabic page no sitemap ever announces.
+  const byLocale = { en: new Set(), ar: new Set() };
+  for (const sitemapPath of sitemapPaths) {
+    const { locale, path } = splitLocalePath(sitemapPath);
+    byLocale[locale].add(path);
+  }
+  for (const path of byLocale.en) {
+    if (!byLocale.ar.has(path)) {
+      errors.push(`Sitemap lists "${path}" in English but has no Arabic mirror ("/ar${path === '/' ? '' : path}").`);
+    }
+  }
+  for (const path of byLocale.ar) {
+    if (!byLocale.en.has(path)) {
+      errors.push(`Sitemap lists Arabic "/ar${path === '/' ? '' : path}" with no English original ("${path}").`);
+    }
+  }
+
+  // Every sitemap URL must carry the full hreflang alternate set, or the two
+  // locales read as competing duplicates rather than one page in two
+  // languages.
+  const urlBlocks = [...sitemapXml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+  for (const block of urlBlocks) {
+    const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1] ?? '(unknown)';
+    for (const hreflang of ['en', 'ar', 'x-default']) {
+      if (!block.includes(`hreflang="${hreflang}"`)) {
+        errors.push(`Sitemap entry "${loc}" is missing its hreflang="${hreflang}" alternate.`);
+      }
+    }
   }
 
   // Route registry (serverRoutes) prerendered static paths must match the
@@ -203,12 +248,14 @@ export function checkCanonicalMetadataCoverage(ctx) {
       errors.push(`Prerendered static route "${path}" (app.routes.server.ts) is missing from sitemap.xml.`);
     }
   }
-  for (const path of sitemapPaths) {
-    const isDynamicDetail = path.startsWith('/resources/blog/') && path !== '/resources/blog';
-    if (isDynamicDetail) continue;
+  for (const sitemapPath of sitemapPaths) {
+    // Dynamic detail pages are server-rendered per request in both locales,
+    // so they are never in the prerendered set.
+    const { path } = splitLocalePath(sitemapPath);
+    if (path.startsWith('/resources/blog/') && path !== '/resources/blog') continue;
     if (path.startsWith('/resources/case-studies/') && path !== '/resources/case-studies') continue;
-    if (!serverSet.has(path)) {
-      errors.push(`Sitemap route "${path}" is not a prerendered static route in app.routes.server.ts.`);
+    if (!serverSet.has(sitemapPath)) {
+      errors.push(`Sitemap route "${sitemapPath}" is not a prerendered static route in app.routes.server.ts.`);
     }
   }
 

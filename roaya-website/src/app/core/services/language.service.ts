@@ -1,6 +1,10 @@
 import { Injectable, signal, effect, inject, computed, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { splitLocale, withLocale } from '../i18n/locale-routing';
 import { TranslationCacheService } from './translation-cache.service';
 import { GoogleTranslateService } from './google-translate.service';
 
@@ -18,9 +22,12 @@ export class LanguageService {
   private readonly translate = inject(TranslateService);
   private readonly cacheService = inject(TranslationCacheService);
   private readonly googleTranslate = inject(GoogleTranslateService);
+  private readonly router = inject(Router);
 
   /** See ThemeService.isBrowser — typeof localStorage is unsafe on Node 22+. */
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  /** The server document during SSR/prerender, the real one in the browser. */
+  private readonly document = inject(DOCUMENT);
 
   // Signal for reactive language state
   language = signal<Language>(this.getInitialLanguage());
@@ -56,8 +63,17 @@ export class LanguageService {
    * Get initial language from localStorage or browser preference
    */
   private getInitialLanguage(): Language {
-    // Check localStorage first (with SSR safety)
     if (this.isBrowser) {
+      // The URL outranks every stored preference: /ar/* is an Arabic page for
+      // everyone who opens it, including a visitor whose last choice was
+      // English. Reading it here (not only in the route resolver) keeps the
+      // very first paint from flashing the wrong language before the
+      // resolver runs.
+      const path = this.document.location?.pathname ?? '';
+      if (path === '/ar' || path.startsWith('/ar/')) {
+        return 'ar';
+      }
+
       const savedLang = localStorage.getItem(this.LANGUAGE_KEY) as Language;
       if (savedLang === 'en' || savedLang === 'ar') {
         return savedLang;
@@ -80,20 +96,16 @@ export class LanguageService {
     // Set translation language
     this.translate.use(lang);
 
-    if (this.isBrowser) {
-      const html = document.documentElement;
-      
-      // Set language attribute
-      html.setAttribute('lang', lang);
-      
-      // Set direction (RTL for Arabic, LTR for English)
-      const direction = lang === 'ar' ? 'rtl' : 'ltr';
-      html.setAttribute('dir', direction);
-      
-      // Update body class for styling hooks
-      html.classList.remove('lang-en', 'lang-ar');
-      html.classList.add(`lang-${lang}`);
-    }
+    // Written through the injected DOCUMENT, not the `document` global, so
+    // this also runs during SSR/prerender. It used to be browser-only, which
+    // meant an Arabic render still shipped `<html lang="en" dir="ltr">` in
+    // the first response — telling every crawler the Arabic page was
+    // English, and leaving RTL to appear only after hydration.
+    const html = this.document.documentElement;
+    html.setAttribute('lang', lang);
+    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    html.classList.remove('lang-en', 'lang-ar');
+    html.classList.add(`lang-${lang}`);
   }
 
   /**
@@ -106,17 +118,68 @@ export class LanguageService {
   }
 
   /**
-   * Toggle between English and Arabic
+   * Apply the locale the URL declares, and complete only once that locale's
+   * translations are loaded.
+   *
+   * This is the route resolver's entry point (see locale-routing.ts) and the
+   * reason the URL — not `localStorage` — decides the rendered language.
+   * Returns synchronously when the requested locale is already active, so
+   * client-side navigation within one locale costs nothing.
    */
-  toggleLanguage(): void {
-    this.language.update(current => current === 'en' ? 'ar' : 'en');
+  activateLocale(lang: Language): Observable<Language> {
+    if (this.language() !== lang) {
+      this.language.set(lang);
+    }
+    if (this.translate.currentLang === lang) {
+      return of(lang);
+    }
+    return this.translate.use(lang).pipe(map(() => lang));
   }
 
   /**
-   * Set specific language
+   * Toggle between English and Arabic
+   */
+  toggleLanguage(): void {
+    this.setLanguage(this.language() === 'en' ? 'ar' : 'en');
+  }
+
+  /**
+   * Set specific language.
+   *
+   * On a public page this NAVIGATES to that page's mirror (/about <->
+   * /ar/about) rather than swapping strings in place: the URL is what makes
+   * an Arabic page linkable, shareable, and crawlable, so a language that
+   * changed without the URL changing would leave the reader on an address
+   * that claims to be English. Query string and fragment are carried across
+   * so a switch never loses the reader's place.
+   *
+   * Admin and auth screens are not locale-prefixed (no /ar/admin exists), so
+   * there the language still switches in place.
    */
   setLanguage(lang: Language): void {
-    this.language.set(lang);
+    const currentUrl = this.router.url;
+    const [pathAndQuery, fragment] = currentUrl.split('#');
+    const [rawPath, query] = pathAndQuery.split('?');
+
+    if (!this.isLocalizedPath(rawPath)) {
+      this.language.set(lang);
+      return;
+    }
+
+    const { path } = splitLocale(rawPath);
+    const target = withLocale(path, lang)
+      + (query ? `?${query}` : '')
+      + (fragment ? `#${fragment}` : '');
+
+    // The route resolver applies the locale on activation, so this single
+    // navigation is the whole switch — setting the signal here too would
+    // render the new language against the old URL for one frame.
+    void this.router.navigateByUrl(target);
+  }
+
+  /** Public pages are mirrored per locale; admin/auth screens are not. */
+  private isLocalizedPath(path: string): boolean {
+    return !path.startsWith('/admin');
   }
 
   /**

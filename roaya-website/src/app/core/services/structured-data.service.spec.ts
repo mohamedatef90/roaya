@@ -40,6 +40,9 @@ describe('StructuredDataService', () => {
     '/services/worldposta',
     '/services/security/penetration-testing',
     '/resources/case-studies/bank-cloud-migration',
+    '/ar',
+    '/ar/about',
+    '/ar/services/worldposta',
   ];
 
   beforeEach(() => {
@@ -211,6 +214,39 @@ describe('StructuredDataService', () => {
 
     it('emits no structured data at all on an unknown/404 route', async () => {
       await router.navigateByUrl('/this-route-does-not-exist');
+
+      expect(scriptEl()).toBeNull();
+    });
+  });
+
+  describe('Arabic locale (/ar)', () => {
+    it('describes the Arabic page, never linking back into the English tree', async () => {
+      await router.navigateByUrl('/ar/about');
+
+      const page = nodesOfType('WebPage')[0];
+      expect(page['@id']).toBe('https://roaya.co/ar/about#webpage');
+      expect(page.url).toBe('https://roaya.co/ar/about');
+
+      const trail = nodesOfType('BreadcrumbList')[0].itemListElement.map((item: any) => item.item);
+      expect(trail).toEqual(['https://roaya.co/ar', 'https://roaya.co/ar/about']);
+    });
+
+    it('keeps site-wide Organization/WebSite @ids locale-independent', async () => {
+      await router.navigateByUrl('/ar/about');
+
+      expect(nodesOfType('Organization')[0]['@id']).toBe('https://roaya.co/#organization');
+      expect(nodesOfType('WebPage')[0].isPartOf).toEqual({ '@id': 'https://roaya.co/#website' });
+    });
+
+    it('resolves the same registry entry as the English mirror', async () => {
+      await router.navigateByUrl('/ar/pricing');
+
+      expect(nodesOfType('WebPage').length).toBe(1);
+      expect(nodesOfType('BreadcrumbList')[0].itemListElement.length).toBe(2);
+    });
+
+    it('emits nothing on an unknown Arabic path', async () => {
+      await router.navigateByUrl('/ar/no-such-page');
 
       expect(scriptEl()).toBeNull();
     });

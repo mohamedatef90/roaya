@@ -5,6 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ROUTE_METADATA } from '../seo/route-metadata';
+import { Locale, SUPPORTED_LOCALES, splitLocale, withLocale } from '../i18n/locale-routing';
 
 export interface SEOData {
   title?: string;
@@ -71,12 +72,12 @@ export class SEOService {
    * response; the subscription keeps it updated on client-side navigation.
    */
   private setupCanonicalTags(): void {
-    this.setCanonicalUrl(this.buildCanonicalUrl(this.router.url));
+    this.applyCanonicalAndAlternates(this.router.url);
 
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
-        this.setCanonicalUrl(this.buildCanonicalUrl(event.urlAfterRedirects));
+        this.applyCanonicalAndAlternates(event.urlAfterRedirects);
       });
   }
 
@@ -132,7 +133,9 @@ export class SEOService {
    * Resolve and apply the registry entry for `url`, if one exists.
    */
   private applyRouteMetadata(url: string): void {
-    const path = this.normalizeRoutePath(url);
+    // The registry is keyed by locale-independent paths: /about and /ar/about
+    // are the same entry, resolved through whichever language is active.
+    const { path } = splitLocale(this.normalizeRoutePath(url));
     const entry = ROUTE_METADATA[path];
     if (!entry) {
       return;
@@ -144,7 +147,7 @@ export class SEOService {
     this.updateSEO({
       title,
       description,
-      url: this.buildCanonicalUrl(path),
+      url: this.buildCanonicalUrl(this.normalizeRoutePath(url)),
       type: entry.ogType || 'website'
     });
   }
@@ -287,6 +290,76 @@ export class SEOService {
    * Set canonical URL (SSR-safe: uses the injected DOCUMENT, which is the
    * server-side document during SSR/prerender)
    */
+  /**
+   * Self-referencing canonical plus the page's `hreflang` alternates.
+   *
+   * A canonical alone is not enough once the same page exists at /about and
+   * /ar/about: without alternates each is just an unrelated URL, so neither
+   * search engines nor AI agents can tell they are one page in two
+   * languages, and the Arabic one competes with the English one instead of
+   * serving Arabic readers.
+   *
+   * `x-default` points at English, which is what an unprefixed URL already
+   * serves.
+   */
+  private applyCanonicalAndAlternates(url: string): void {
+    const path = this.normalizeRoutePath(url);
+    this.setCanonicalUrl(this.buildCanonicalUrl(path));
+
+    const { path: localeIndependent } = splitLocale(path);
+    if (!this.hasLocaleAlternates(localeIndependent)) {
+      this.clearAlternates();
+      return;
+    }
+
+    const alternates: { hreflang: string; href: string }[] = SUPPORTED_LOCALES.map(locale => ({
+      hreflang: locale,
+      href: this.buildCanonicalUrl(withLocale(localeIndependent, locale))
+    }));
+    alternates.push({
+      hreflang: 'x-default',
+      href: this.buildCanonicalUrl(withLocale(localeIndependent, 'en'))
+    });
+
+    this.setAlternates(alternates);
+  }
+
+  /**
+   * Whether `path` (locale-independent) names a real, indexable page that
+   * exists in both locales.
+   *
+   * Registered static routes do. So do the dynamic detail pages, which
+   * resolve their own metadata rather than living in the registry. Anything
+   * else is an unknown path — the 404 — and a 404 must not advertise
+   * translations of itself.
+   */
+  private hasLocaleAlternates(path: string): boolean {
+    if (ROUTE_METADATA[path]) {
+      return true;
+    }
+    return ['/resources/case-studies/', '/resources/blog/'].some(
+      prefix => path.startsWith(prefix) && path !== prefix.replace(/\/$/, '')
+    );
+  }
+
+  private setAlternates(alternates: { hreflang: string; href: string }[]): void {
+    this.clearAlternates();
+    for (const alternate of alternates) {
+      const link = this.document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('hreflang', alternate.hreflang);
+      link.setAttribute('href', alternate.href);
+      link.setAttribute('data-seo-alternate', '');
+      this.document.head.appendChild(link);
+    }
+  }
+
+  private clearAlternates(): void {
+    this.document
+      .querySelectorAll('link[rel="alternate"][data-seo-alternate]')
+      .forEach(link => link.remove());
+  }
+
   private setCanonicalUrl(url: string): void {
     let link = this.document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!link) {

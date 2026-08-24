@@ -1,143 +1,502 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!--
+  Bilingual sitemap: every public page is listed once per locale, English
+  unprefixed and Arabic under /ar, each carrying the full xhtml:link
+  alternate set (en, ar, x-default) that tells a crawler the two URLs are
+  one page in two languages rather than duplicates competing with each
+  other. Locale parity is asserted by the route-metadata-coverage check:
+  a page added to one locale and not the other fails the build.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://roaya.co/</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/"/>
   </url>
   <url>
     <loc>https://roaya.co/services</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services"/>
   </url>
   <url>
     <loc>https://roaya.co/services/automation</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/automation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/automation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/automation"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/automation</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/automation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/automation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/automation"/>
   </url>
   <url>
     <loc>https://roaya.co/services/backup</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/backup"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/backup"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/backup"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/backup</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/backup"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/backup"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/backup"/>
   </url>
   <url>
     <loc>https://roaya.co/services/cloud</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/cloud"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/cloud"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/cloud"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/cloud</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/cloud"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/cloud"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/cloud"/>
   </url>
   <url>
     <loc>https://roaya.co/services/consulting</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/consulting"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/consulting"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/consulting"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/consulting</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/consulting"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/consulting"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/consulting"/>
   </url>
   <url>
     <loc>https://roaya.co/services/ai</loc>
     <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/ai"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/ai"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/ai"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/ai</loc>
+    <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/ai"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/ai"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/ai"/>
   </url>
   <url>
     <loc>https://roaya.co/services/devops</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/devops"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/devops"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/devops"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/devops</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/devops"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/devops"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/devops"/>
   </url>
   <url>
     <loc>https://roaya.co/services/email</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/email"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/email"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/email"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/email</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/email"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/email"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/email"/>
   </url>
   <url>
     <loc>https://roaya.co/services/managed</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/managed"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/managed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/managed"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/managed</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/managed"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/managed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/managed"/>
   </url>
   <url>
     <loc>https://roaya.co/services/sap</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/sap"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/sap"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/sap"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/sap</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/sap"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/sap"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/sap"/>
   </url>
   <url>
     <loc>https://roaya.co/services/security</loc>
     <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/security</loc>
+    <lastmod>2026-01-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security"/>
   </url>
   <url>
     <loc>https://roaya.co/services/security/penetration-testing</loc>
     <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/penetration-testing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/penetration-testing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/penetration-testing"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/security/penetration-testing</loc>
+    <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/penetration-testing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/penetration-testing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/penetration-testing"/>
   </url>
   <url>
     <loc>https://roaya.co/services/security/soc-solutions</loc>
     <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/soc-solutions"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/soc-solutions"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/soc-solutions"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/security/soc-solutions</loc>
+    <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/soc-solutions"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/soc-solutions"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/soc-solutions"/>
   </url>
   <url>
     <loc>https://roaya.co/services/security/incident-response</loc>
     <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/incident-response"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/incident-response"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/incident-response"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/security/incident-response</loc>
+    <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/incident-response"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/incident-response"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/incident-response"/>
   </url>
   <url>
     <loc>https://roaya.co/services/security/pentest-v2</loc>
     <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/pentest-v2"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/pentest-v2"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/pentest-v2"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/security/pentest-v2</loc>
+    <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/pentest-v2"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/pentest-v2"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/pentest-v2"/>
   </url>
   <url>
     <loc>https://roaya.co/services/worldposta</loc>
     <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/worldposta"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/worldposta"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/worldposta"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/worldposta</loc>
+    <lastmod>2026-01-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/worldposta"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/worldposta"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/worldposta"/>
   </url>
   <url>
     <loc>https://roaya.co/industries</loc>
     <lastmod>2026-01-08</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries</loc>
+    <lastmod>2026-01-08</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries"/>
   </url>
   <url>
     <loc>https://roaya.co/pricing</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/pricing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/pricing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/pricing"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/pricing</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/pricing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/pricing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/pricing"/>
   </url>
   <url>
     <loc>https://roaya.co/about</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/about"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/about"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/about</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/about"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/about"/>
   </url>
   <url>
     <loc>https://roaya.co/contact</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/contact"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/contact"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/contact</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/contact"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/contact"/>
   </url>
   <url>
     <loc>https://roaya.co/roi-calculator</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/roi-calculator"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/roi-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/roi-calculator"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/roi-calculator</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/roi-calculator"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/roi-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/roi-calculator"/>
   </url>
   <url>
     <loc>https://roaya.co/resources</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/blog</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/blog"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/blog"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/blog</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/blog"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/blog"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/case-studies</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/case-studies</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/case-studies/bank-cloud-migration</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/bank-cloud-migration"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/bank-cloud-migration"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/bank-cloud-migration"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/case-studies/bank-cloud-migration</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/bank-cloud-migration"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/bank-cloud-migration"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/bank-cloud-migration"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/case-studies/healthcare-soc-implementation</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/healthcare-soc-implementation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/healthcare-soc-implementation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/healthcare-soc-implementation"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/case-studies/healthcare-soc-implementation</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/healthcare-soc-implementation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/healthcare-soc-implementation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/healthcare-soc-implementation"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/case-studies/government-digital-transformation</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/government-digital-transformation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/government-digital-transformation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/government-digital-transformation"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/case-studies/government-digital-transformation</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/government-digital-transformation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/government-digital-transformation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/government-digital-transformation"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/case-studies/manufacturing-sap-implementation</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/manufacturing-sap-implementation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/manufacturing-sap-implementation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/manufacturing-sap-implementation"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/case-studies/manufacturing-sap-implementation</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/manufacturing-sap-implementation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/manufacturing-sap-implementation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/manufacturing-sap-implementation"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/case-studies/ecommerce-auto-scaling</loc>
     <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/ecommerce-auto-scaling"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/ecommerce-auto-scaling"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/ecommerce-auto-scaling"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/case-studies/ecommerce-auto-scaling</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/case-studies/ecommerce-auto-scaling"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/case-studies/ecommerce-auto-scaling"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/ecommerce-auto-scaling"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/whitepapers</loc>
     <lastmod>2026-01-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/whitepapers"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/whitepapers"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/whitepapers"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/whitepapers</loc>
+    <lastmod>2026-01-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/whitepapers"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/whitepapers"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/whitepapers"/>
   </url>
   <url>
     <loc>https://roaya.co/resources/documentation</loc>
     <lastmod>2026-01-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/documentation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/documentation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/documentation"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/resources/documentation</loc>
+    <lastmod>2026-01-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/documentation"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/documentation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/documentation"/>
   </url>
   <url>
     <loc>https://roaya.co/privacy</loc>
     <lastmod>2025-12-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/privacy"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/privacy</loc>
+    <lastmod>2025-12-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/privacy"/>
   </url>
   <url>
     <loc>https://roaya.co/terms</loc>
     <lastmod>2025-12-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/terms"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/terms"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/terms</loc>
+    <lastmod>2025-12-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/terms"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/terms"/>
   </url>
   <url>
     <loc>https://roaya.co/cookies</loc>
     <lastmod>2025-12-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/cookies"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/cookies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/cookies"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/cookies</loc>
+    <lastmod>2025-12-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/cookies"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/cookies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/cookies"/>
   </url>
 </urlset>
