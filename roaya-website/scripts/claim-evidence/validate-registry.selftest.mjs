@@ -269,6 +269,64 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 
+// Rule: blocked entries with public-surface sourcePointer but no exception must be rejected.
+{
+  const mutated = mutate((c) => {
+    // Re-add a public surface pointer to a blocked claim (simulating reversion)
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#about.milestones.certification.title';
+    // No exceptionOwner/exceptionExpiry/exceptionApproval
+  });
+  check(
+    'blocked claim with public-surface sourcePointer but no exception is rejected',
+    errorsFor(mutated).some((e) => e.includes('missing required exception fields')),
+  );
+}
+
+// Rule: blocked entries with public-surface sourcePointer and incomplete exception must be rejected.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'pricing-truth-ranges');
+    claim.sourcePointer = 'src/assets/i18n/en.json#services.worldposta.fullDescription';
+    claim.exceptionOwner = 'Marketing Lead';
+    // Missing exceptionExpiry and exceptionApproval
+  });
+  check(
+    'blocked claim with public-surface sourcePointer and incomplete exception is rejected',
+    errorsFor(mutated).some((e) => e.includes('missing required exception fields')),
+  );
+}
+
+// Rule: blocked entries with public-surface sourcePointer and expired exception must be rejected.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'cloudspace-definition-taxonomy');
+    claim.sourcePointer = 'src/app/features/services/worldposta/worldposta.component.ts#products.cloudspace';
+    claim.exceptionOwner = 'Product Manager';
+    claim.exceptionExpiry = '2025-01-01'; // Past date
+    claim.exceptionApproval = 'TIFO-99 temporary exception';
+  });
+  check(
+    'blocked claim with public-surface sourcePointer and expired exception is rejected',
+    errorsFor(mutated).some((e) => e.includes('exceptionExpiry') && e.includes('passed')),
+  );
+}
+
+// Rule: blocked entries with public-surface sourcePointer and valid exception must pass.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#about.milestones.certification.title';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31'; // Future date
+    claim.exceptionApproval = 'TIFO-100 approved temporary exception';
+  });
+  check(
+    'blocked claim with public-surface sourcePointer and valid exception passes',
+    errorsFor(mutated).length === 0,
+  );
+}
+
 if (failures > 0) {
   console.error(`\n${failures} self-test check(s) FAILED — validator is not red-capable.`);
   process.exitCode = 1;
