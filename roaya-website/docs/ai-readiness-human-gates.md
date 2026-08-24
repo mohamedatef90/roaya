@@ -8,11 +8,30 @@ happened for the current change — it exists so the required human review
 points are explicit and cannot be silently skipped.
 
 The automated layer (`scripts/claim-evidence/` + `scripts/ai-readiness/`,
-see `npm run verify:evidence`) only covers what is deterministically
-checkable from local source/build state: the claim/evidence registry,
-robots/sitemap/llms.txt, route-metadata/JSON-LD coverage, case-study routing,
-and a real 404 against a locally built server. It cannot and does not
-substitute for the gates below.
+see `npm run verify:evidence`) covers 11 evidence checks deterministically
+verifiable from local source/build state:
+
+1. **robots-policy** — robots.txt policy, bot allow/deny decisions
+2. **sitemap-validity** — sitemap.xml validity, canonical URLs, duplicates
+3. **llms-txt** — llms.txt validator, MIME config, prohibited assertions
+4. **canonical-metadata-coverage** — route registry vs sitemap reconciliation
+5. **json-ld-exclusion-gates** — JSON-LD validity, hard-exclusion tokens
+6. **pentest-v2-canonicalization** — Express 301 legacy redirects
+7. **industry-route-integrity** — closed industry registry enforcement
+8. **case-study-route-integrity** — case-study routing/404 integrity
+9. **approved-factual-consistency** — claim-evidence registry + source pointers
+10. **machine-files-in-build** — machine files in production build
+11. **real-unknown-route-404** — real HTTP 404 via local SSR server
+
+The checks verify:
+- **58 prerendered routes** emitted in the production build
+- **JSON-LD coverage** on `/`, `/about`, `/services/worldposta` (ROUTE_ENTITY_MAP)
+- **Express 301 redirects** for pentest-v2 canonicalization (both locales)
+- **Closed industry registry** with RESPONSE_INIT 404 for unknown IDs
+- **Deferred `node_modules` cleanup** — 1 low-severity quill XSS remains;
+  fixing requires a breaking-change major upgrade blocked on CMS migration
+
+The automated layer cannot and does not substitute for the gates below.
 
 ## 1. Per-case-study approval and metric evidence
 
@@ -29,7 +48,34 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
       the entry's `status` changes from `"blocked"`.
 - [ ] `npm run validate:claims` is re-run after the edit and passes.
 
-## 2. Push / PR / CI review
+## 2. Blocked public surface exception policy
+
+Blocked registry entries (`status: "blocked"`) that point to publicly rendered
+surfaces (i18n keys, component templates) must now carry documented exception
+fields or have their `sourcePointer` set to `null` after remediation.
+
+**Validator enforcement:** `scripts/claim-evidence/validate-registry.mjs`
+rejects any blocked claim with a `sourcePointer` matching public surface
+prefixes unless all three exception fields are present and valid:
+
+- `exceptionOwner` — named human approving the temporary exception
+- `exceptionExpiry` — future YYYY-MM-DD date when the exception expires
+- `exceptionApproval` — reference (ticket, email, decision record)
+
+**When to use exceptions vs. remediation:**
+
+- **Remediate** (set `sourcePointer: null`): When blocked copy has been
+  removed or qualified (e.g., "ISO Certification" → "Industry Standards")
+- **Exception**: When blocked copy must remain temporarily visible with
+  explicit human approval and an expiry date for follow-up
+
+**Self-test coverage:** `npm run test:claims:selftest` includes red-capable
+tests proving the validator correctly rejects:
+- Blocked public-surface claims without exception fields
+- Blocked public-surface claims with incomplete exceptions
+- Blocked public-surface claims with expired exceptions
+
+## 3. Push / PR / CI review
 
 - [ ] Changes are pushed to a branch and opened as a PR (this issue's Agent
       Identity forbids the agent from doing this itself).
@@ -37,7 +83,7 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
 - [ ] CI (typecheck, unit tests, `npm run verify:evidence`, production build)
       is green on the PR's head commit — not just on a local machine.
 
-## 3. Pre-merge verification against a local production build
+## 4. Pre-merge verification against a local production build
 
 There is no preview environment — the self-hosted nginx origin is the only
 deployment target. So this gate runs against a real production build on the
@@ -52,10 +98,10 @@ PORT=4200 node dist/roaya-website/server/server.mjs
 
 Then confirm:
 
-- [ ] **Build gates passed** — `verify:evidence` reported 9/9 and the script
+- [ ] **Build gates passed** — `verify:evidence` reported 11/11 and the script
       did not abort on the prerendered-route count.
-- [ ] **30 prerendered routes emitted** —
-      `find dist/roaya-website/browser -name index.html | wc -l` returns 30.
+- [ ] **58 prerendered routes emitted** —
+      `find dist/roaya-website/browser -name index.html | wc -l` returns 58.
       A lower number means prerendering failed silently; `ng build` exits 0
       when it does, so this count is the only cheap signal.
 - [ ] **SSR runtime, not a static shell** — a sample of canonical routes
@@ -77,7 +123,7 @@ Then confirm:
       guarantee is enforced automatically by the `llms-txt` check, which
       parses `deploy/nginx/roaya-website.conf`.
 
-## 4. Production deployment / rollback approval
+## 5. Production deployment / rollback approval
 
 - [ ] A named human approves the production deployment after the Preview
       checks above pass.
@@ -87,7 +133,7 @@ Then confirm:
       separately reviewed and approved (out of scope for any agent run under
       this issue's Agent Identity).
 
-## 5. Ambiguous factual claims requiring human decision
+## 6. Ambiguous factual claims requiring human decision
 
 The following facts have conflicting or ambiguous source evidence. Do **NOT**
 change these values without explicit human verification of the correct answer.
@@ -109,17 +155,17 @@ both be updated by a human after verification.
 
 ### pentest-v2 redirect implementation
 
-**Current implementation:** Client-side Angular redirect
-(`redirectTo: 'services/security/penetration-testing'`)
+**Current implementation:** Express server-level 301 redirects in `src/server.ts`
+for both `/services/security/pentest-v2` and `/ar/services/security/pentest-v2`,
+with Angular client-side fallback (`redirectTo: 'services/security/penetration-testing'`).
 
-**Limitation:** For optimal SEO, a server-level 301 redirect via nginx config
-would be preferable. The current client-side redirect preserves user
-functionality but does not send a proper HTTP 301 status to crawlers during
-SSR (Angular's built-in redirect emits a client-side navigation, not a server
-response status change).
+**Verification:** The `pentest-v2-canonicalization` evidence check validates:
+- Express 301 redirects exist for both locales
+- pentest-v2 is removed from sitemap.xml
+- pentest-v2 is not in route-metadata.ts or breadcrumbs
+- Canonical penetration-testing route is prerendered
 
-**Status:** Functional redirect implemented. Server-level 301 requires human
-nginx configuration changes. See `deploy/nginx/roaya-website.conf`.
+**Status:** ✓ Express 301 redirects implemented and verified by automated check.
 
 ---
 
