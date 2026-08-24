@@ -1,0 +1,27 @@
+[Unit]
+Description=Roaya website — Angular SSR Node server
+After=network.target
+
+[Service]
+Type=simple
+User=__DEPLOY_USER__
+Group=__DEPLOY_GROUP__
+WorkingDirectory=__WEBSITE_DEPLOY_PATH__
+# Built by: npm ci && npm run build:prod (see docs/deploy/RUNBOOK.md)
+ExecStart=/usr/bin/node __WEBSITE_DEPLOY_PATH__/dist/roaya-website/server/server.mjs
+Restart=on-failure
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=__SSR_PORT__
+# Add any runtime env vars the app reads (API base URL, analytics keys, etc.)
+# via EnvironmentFile instead of hardcoding secrets in this unit file:
+EnvironmentFile=-__WEBSITE_DEPLOY_PATH__/.env.production
+
+StandardOutput=append:/var/log/roaya/ssr-out.log
+StandardError=append:/var/log/roaya/ssr-error.log
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

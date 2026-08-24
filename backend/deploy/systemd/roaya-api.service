@@ -1,0 +1,26 @@
+[Unit]
+Description=Roaya lead-management backend API
+After=network.target postgresql.service redis-server.service
+
+[Service]
+Type=simple
+User=__DEPLOY_USER__
+Group=__DEPLOY_GROUP__
+WorkingDirectory=__BACKEND_DEPLOY_PATH__
+# Built by: npm ci && npm run build (prisma generate + tsc) — see docs/deploy/RUNBOOK.md
+ExecStart=/usr/bin/node __BACKEND_DEPLOY_PATH__/dist/index.js
+Restart=on-failure
+RestartSec=5
+Environment=NODE_ENV=production
+EnvironmentFile=__BACKEND_DEPLOY_PATH__/.env
+# .env must be populated from backend/.env.example with real secrets —
+# never commit it. See docs/deploy/RUNBOOK.md "Fill these in" table.
+
+StandardOutput=append:/var/log/roaya/api-out.log
+StandardError=append:/var/log/roaya/api-error.log
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
