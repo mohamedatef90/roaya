@@ -10,8 +10,35 @@ there.
 This runbook covers that nginx config plus process supervision for the Angular
 SSR server and the backend API.
 
-No agent runs any step in this runbook against the real production host. A
-human with SSH access executes it.
+### As-deployed status (2026-08-24)
+
+This runbook has been executed. The migration described below is **done** and
+the live origin is verified:
+
+| What | State |
+|---|---|
+| SSR process | `roaya-ssr` under PM2 on `127.0.0.1:4000`, `pm2 save`d and the PM2 systemd unit enabled, so it survives reboot |
+| Releases | `/var/www/roaya-ssr/releases/<stamp>`, `current` symlink, last 5 kept |
+| nginx | SSR config live; unknown route `404`, `www` `301` to apex, machine files with explicit charsets, `/api/` proxied to `:3001` |
+| Locales | English unprefixed, Arabic under `/ar`, 60 prerendered routes, `hreflang` alternates on every page |
+| Verified | All 70 sitemap URLs `200` on the origin; `/no-such-route` `404` publicly |
+
+Deploys are now just `./deploy/scripts/deploy-ssr.sh` from `roaya-website/`.
+
+Two operational quirks worth knowing before you run it:
+
+- `pm2 restart` does not release the SSH channel on this host even after it
+  succeeds (no TTY). The deploy completes and the release goes live, but the
+  script's own SSH invocation can hang at the end. Confirm with
+  `readlink -f /var/www/roaya-ssr/current` rather than waiting for the exit.
+- Do not edit anything under `/var/www/roaya-ssr/current` on the host. It is
+  build output; the next deploy overwrites it. All changes belong in the repo.
+
+Still open, deliberately not touched by this deploy: the expired Sectigo
+origin certificate (see the TLS section), the unauthenticated Prisma Studio on
+`*:5555`, and the dependency advisories at the end of this document.
+
+The steps below remain the reference for re-running or rolling back.
 
 ### Fill these in before you start
 
