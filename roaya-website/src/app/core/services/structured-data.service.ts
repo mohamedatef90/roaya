@@ -1,14 +1,17 @@
 import { DOCUMENT, Injectable, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 import { SEOService } from './seo.service';
 import {
   APPROVED_SERVICES,
+  BREADCRUMB_LABEL_KEYS,
   ORGANIZATION_FOUNDING_DATE,
   ORGANIZATION_NAME,
-  ROUTE_ENTITY_MAP,
-  RouteEntityConfig
+  ROUTE_ENTITY_MAP
 } from '../seo/entity-taxonomy';
+import { ROUTE_METADATA } from '../seo/route-metadata';
+import { Locale, splitLocale, withLocale } from '../i18n/locale-routing';
 import { StructuredDataGraph, StructuredDataNode } from '../seo/json-ld.types';
 
 const SCRIPT_ID = 'roaya-structured-data';
@@ -28,6 +31,7 @@ export class StructuredDataService {
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
   private readonly seo = inject(SEOService);
+  private readonly translate = inject(TranslateService);
 
   constructor() {
     this.render(this.router.url);
@@ -35,6 +39,12 @@ export class StructuredDataService {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe(event => this.render(event.urlAfterRedirects));
+
+    // Breadcrumb and WebPage names are translated copy, so a locale toggle
+    // without navigation would otherwise leave the graph in the previous
+    // language while the visible page is in the new one. Mirrors the same
+    // onLangChange re-application SEOService does for title/description.
+    this.translate.onLangChange.subscribe(() => this.render(this.router.url));
   }
 
   /**
@@ -50,8 +60,8 @@ export class StructuredDataService {
   }
 
   private render(rawPath: string): void {
-    const config = ROUTE_ENTITY_MAP[this.normalizePath(rawPath)];
-    const nodes = config ? this.buildNodes(config) : [];
+    const { locale, path } = splitLocale(this.normalizePath(rawPath));
+    const nodes = this.buildNodes(path, locale);
 
     if (!nodes.length) {
       this.clear();
@@ -61,59 +71,136 @@ export class StructuredDataService {
     this.setGraph({ '@context': 'https://schema.org', '@graph': nodes });
   }
 
-  private buildNodes(config: RouteEntityConfig): StructuredDataNode[] {
+  /**
+   * Compose the page's `@graph`:
+   *   Organization + WebSite   site-wide identity, every route
+   *   Service                  only where ROUTE_ENTITY_MAP approves it
+   *   WebPage                  every route with approved registry metadata
+   *   BreadcrumbList           every route with a resolvable ancestry
+   *
+   * Deliberately carries NO `description` on WebPage. The route's meta
+   * description is approved for a meta tag, but on the case-study routes it
+   * restates a registry-*blocked* metric claim ("42% cost reduction"), and
+   * structured data is the one surface where those must not appear. A name +
+   * URL + hierarchy is the whole value here anyway; the prose is already in
+   * the HTML the same crawler is reading.
+   */
+  private buildNodes(path: string, locale: Locale): StructuredDataNode[] {
     const origin = this.seo.buildCanonicalUrl('/');
     const organizationId = `${origin}#organization`;
+    const websiteId = `${origin}#website`;
+    // Lookups are keyed by the locale-independent path; every emitted URL is
+    // the locale's own, so the Arabic graph describes the Arabic page and
+    // never links back into the English tree.
+    const url = this.seo.buildCanonicalUrl(withLocale(path, locale));
     const nodes: StructuredDataNode[] = [];
 
-    if (config.organizationAndWebsite) {
-      nodes.push({
-        '@type': 'Organization',
-        '@id': organizationId,
-        name: ORGANIZATION_NAME,
-        url: origin,
-        foundingDate: ORGANIZATION_FOUNDING_DATE
-      });
-      nodes.push({
-        '@type': 'WebSite',
-        '@id': `${origin}#website`,
-        name: ORGANIZATION_NAME,
-        url: origin,
-        inLanguage: 'en'
-      });
+    // Site-wide identity is emitted only alongside at least one page-specific
+    // node. A route we cannot describe - an unknown path, i.e. the real 404 -
+    // must stay free of structured data rather than assert "this is Roaya IT's
+    // website" about a page that does not exist.
+    const metadata = ROUTE_METADATA[path];
+    const serviceIds = ROUTE_ENTITY_MAP[path]?.serviceIds ?? [];
+    const breadcrumb = this.buildBreadcrumb(path, url, locale);
+    if (!metadata && !breadcrumb && serviceIds.length === 0) {
+      return [];
     }
 
-    for (const id of config.serviceIds ?? []) {
+    nodes.push({
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: ORGANIZATION_NAME,
+      url: origin,
+      foundingDate: ORGANIZATION_FOUNDING_DATE
+    });
+    nodes.push({
+      '@type': 'WebSite',
+      '@id': websiteId,
+      name: ORGANIZATION_NAME,
+      url: origin,
+      inLanguage: this.activeLanguage()
+    });
+
+    for (const id of serviceIds) {
       const service = APPROVED_SERVICES.find(candidate => candidate.id === id);
       if (!service) {
         continue;
       }
-      const url = this.seo.buildCanonicalUrl(service.path);
+      const serviceUrl = this.seo.buildCanonicalUrl(withLocale(service.path, locale));
       nodes.push({
         '@type': 'Service',
-        '@id': `${url}#service-${service.id}`,
+        '@id': `${serviceUrl}#service-${service.id}`,
         name: service.name,
         description: service.description,
-        url,
+        url: serviceUrl,
         provider: { '@id': organizationId }
       });
     }
 
-    if (config.breadcrumb?.length) {
-      const lastPath = config.breadcrumb[config.breadcrumb.length - 1].path;
-      nodes.push({
-        '@type': 'BreadcrumbList',
-        '@id': `${this.seo.buildCanonicalUrl(lastPath)}#breadcrumb`,
-        itemListElement: config.breadcrumb.map((item, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: item.name,
-          item: this.seo.buildCanonicalUrl(item.path)
-        }))
-      });
+    if (breadcrumb) {
+      nodes.push(breadcrumb);
+    }
+
+    if (metadata) {
+      const webPage: StructuredDataNode = {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        name: this.translate.instant(metadata.titleKey),
+        url,
+        inLanguage: this.activeLanguage(),
+        isPartOf: { '@id': websiteId },
+        about: { '@id': organizationId }
+      };
+      if (breadcrumb) {
+        webPage['breadcrumb'] = { '@id': breadcrumb['@id'] };
+      }
+      nodes.push(webPage);
     }
 
     return nodes;
+  }
+
+  /**
+   * Ancestry-derived BreadcrumbList: every ancestor of `path` that carries a
+   * visible label, then the page itself.
+   *
+   * A path whose own leaf has no label (today: the case-study detail routes,
+   * whose only short titles are blocked metric claims) still gets the chain
+   * up to its parent, which is a valid BreadcrumbList - not a partial one.
+   * Anything shorter than Home + one level is dropped rather than emitted as
+   * a single-item list.
+   */
+  private buildBreadcrumb(path: string, url: string, locale: Locale): StructuredDataNode | null {
+    const segments = path === '/' ? [] : path.slice(1).split('/');
+    const paths = ['/', ...segments.map((_, index) => `/${segments.slice(0, index + 1).join('/')}`)];
+
+    const items = paths
+      .map(ancestor => ({ path: ancestor, key: BREADCRUMB_LABEL_KEYS[ancestor] }))
+      .filter((entry): entry is { path: string; key: string } => Boolean(entry.key))
+      .map((entry, index) => ({
+        '@type': 'ListItem' as const,
+        position: index + 1,
+        name: this.translate.instant(entry.key),
+        item: this.seo.buildCanonicalUrl(withLocale(entry.path, locale))
+      }));
+
+    if (items.length < 2) {
+      return null;
+    }
+
+    return {
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: items
+    };
+  }
+
+  /**
+   * BCP-47 tag for the active locale, so `inLanguage` follows the language
+   * toggle instead of asserting English on an Arabic render.
+   */
+  private activeLanguage(): string {
+    return this.translate.currentLang || this.translate.getDefaultLang() || 'en';
   }
 
   private setGraph(graph: StructuredDataGraph): void {

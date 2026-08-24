@@ -530,16 +530,21 @@ ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 "echo 'Connected'
 ### Quick Deployment Commands
 
 ```bash
-# QUICK FRONTEND DEPLOY (single command)
-cd /Users/roaya/Roaya-files/Development/roaya/roaya-website && \
-npm run build && \
-tar czf /tmp/roaya-dist.tar.gz --exclude='assets' -C dist/roaya-website/browser . && \
-scp -o ConnectTimeout=30 -i ~/.ssh/roaya_server /tmp/roaya-dist.tar.gz roaya@10.1.2.2:/tmp/ && \
-ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
-  "cd /var/www/roaya-website && \
-   find . -maxdepth 1 ! -name assets ! -name . -exec rm -rf {} + && \
-   tar xzf /tmp/roaya-dist.tar.gz && \
-   rm -f ._* ._.* /tmp/roaya-dist.tar.gz"
+# QUICK FRONTEND DEPLOY — use the script, not a hand-rolled tar
+cd /Users/roaya/Roaya-files/Development/roaya/roaya-website
+DRY_RUN=1 ./deploy/scripts/deploy-ssr.sh   # build + gate, upload nothing
+./deploy/scripts/deploy-ssr.sh             # build, gate, ship, restart SSR
+
+# The old browser-only `tar --exclude='assets'` command that used to live here
+# is GONE ON PURPOSE. It shipped dist/roaya-website/browser only, so:
+#   1. the SSR server bundle never reached the host — no SSR could run, and
+#      every unknown route answered 200 with a stale index.html;
+#   2. `--exclude='assets'` (added to protect admin-uploaded images) also
+#      excluded assets/i18n, so translation changes were invisible in
+#      production for six months.
+# deploy/scripts/deploy-ssr.sh ships the server bundle, carries assets/images
+# forward, lets the build's own assets/i18n win, refuses to deploy a build
+# with fewer than 30 prerendered routes, and keeps 5 releases for rollback.
 
 # QUICK BACKEND DEPLOY (single command)
 cd /Users/roaya/Roaya-files/Development/roaya/backend && \
@@ -2011,13 +2016,23 @@ Closes #42
 
 ---
 
-## Deployment Strategy (Future)
+## Deployment Strategy
 
-### Hosting Options (To Be Decided)
-1. **Vercel** - Recommended for Angular SSR
-2. **Netlify** - Good for static sites
-3. **AWS S3 + CloudFront** - Enterprise-grade
-4. **Firebase Hosting** - Google ecosystem
+### Hosting: settled — self-hosted, nothing else
+
+Production is the **self-hosted server reached over VPN/SSH** (see the
+Production Deployment section above for host details). This is not an open
+question: all Vercel configuration was removed from the repo on 2026-08-24,
+and `roaya-website/deploy/nginx/roaya-website.conf` is the single source of
+truth for host-level behavior (redirects, security headers, machine-file
+content types, caching, SSR proxying).
+
+Do not reintroduce a PaaS target (Vercel/Netlify/Firebase) or a static-only
+bucket setup without an explicit decision — the SSR process is load-bearing
+for the AI-readiness work, and a static-only host silently defeats it.
+
+Deploy with `./deploy/scripts/deploy-ssr.sh`; see
+`docs/deploy/RUNBOOK.md` and `docs/deploy/verification-checklist.md`.
 
 ### CI/CD Pipeline (Planned)
 ```

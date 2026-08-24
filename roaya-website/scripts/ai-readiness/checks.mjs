@@ -9,7 +9,7 @@
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { validateLlmsTxt, validateVercelLlmsContentType } from '../validate-llms-txt.mjs';
+import { validateLlmsTxt, validateNginxMachineFileContentTypes } from '../validate-llms-txt.mjs';
 import { validateRegistry, extractCaseStudySlugs } from '../claim-evidence/validate-registry.mjs';
 
 function ok(id, title, details) {
@@ -20,6 +20,16 @@ function fail(id, title, errors, details) {
 }
 function skip(id, title, reason) {
   return { id, title, status: 'skip', details: reason, errors: [] };
+}
+
+/**
+ * Split a site path into locale + locale-independent path. English is
+ * unprefixed, Arabic lives under /ar (see src/app/core/i18n/locale-routing.ts).
+ */
+function splitLocalePath(path) {
+  if (path === '/ar') return { locale: 'ar', path: '/' };
+  if (path.startsWith('/ar/')) return { locale: 'ar', path: path.slice(3) };
+  return { locale: 'en', path };
 }
 
 function readJson(path) {
@@ -133,20 +143,22 @@ export function checkLlmsTxt(ctx) {
   const title = 'llms.txt validator, MIME config, prohibited assertions';
   const llmsPath = join(ctx.publicDir, 'llms.txt');
   const sitemapPath = join(ctx.publicDir, 'sitemap.xml');
-  const vercelPath = join(ctx.root, 'vercel.json');
+  const nginxPath = join(ctx.root, 'deploy', 'nginx', 'roaya-website.conf');
   if (!existsSync(llmsPath)) return fail(id, title, [`Missing ${relative(ctx.root, llmsPath)}`]);
 
   const llmsTxt = readFileSync(llmsPath, 'utf8');
   const sitemapXml = readFileSync(sitemapPath, 'utf8');
-  const vercelConfigJson = readFileSync(vercelPath, 'utf8');
+  if (!existsSync(nginxPath))
+    return fail(id, title, [`Missing ${relative(ctx.root, nginxPath)}`]);
+  const nginxConf = readFileSync(nginxPath, 'utf8');
 
   const llmsResult = validateLlmsTxt({ llmsTxt, sitemapXml });
-  const vercelResult = validateVercelLlmsContentType(vercelConfigJson);
-  const errors = [...llmsResult.errors, ...vercelResult.errors];
+  const nginxResult = validateNginxMachineFileContentTypes(nginxConf);
+  const errors = [...llmsResult.errors, ...nginxResult.errors];
 
   return errors.length
     ? fail(id, title, errors)
-    : ok(id, title, `${llmsResult.linkCount} link(s) canonical/sitemap-registered/non-duplicated; vercel.json MIME rule present.`);
+    : ok(id, title, `${llmsResult.linkCount} link(s) canonical/sitemap-registered/non-duplicated; nginx content-type rules present for all 3 machine files.`);
 }
 
 export function checkCanonicalMetadataCoverage(ctx) {
@@ -181,12 +193,47 @@ export function checkCanonicalMetadataCoverage(ctx) {
     (path.startsWith('/resources/blog/') && path !== '/resources/blog') ||
     (path.startsWith('/resources/case-studies/') && path !== '/resources/case-studies');
 
-  for (const path of sitemapPaths) {
+  for (const sitemapPath of sitemapPaths) {
+    // ROUTE_METADATA is keyed by locale-independent paths: /about and
+    // /ar/about resolve the same entry through the active language.
+    const { path } = splitLocalePath(sitemapPath);
     if (registeredKeys.includes(path)) continue;
     if (selfResolvingRoutes.has(path)) continue;
     if (isSelfResolvingDynamicDetail(path)) continue;
     if (pendingGaps.includes(path)) continue;
-    errors.push(`Sitemap route "${path}" has no ROUTE_METADATA entry, is not a documented self-resolving route, and is not listed in PENDING_ROUTE_METADATA_GAPS.`);
+    errors.push(`Sitemap route "${sitemapPath}" has no ROUTE_METADATA entry, is not a documented self-resolving route, and is not listed in PENDING_ROUTE_METADATA_GAPS.`);
+  }
+
+  // Locale parity. A page that exists in one locale and not the other is the
+  // failure mode this whole change exists to prevent: a reader following an
+  // Arabic link into a 404, or an Arabic page no sitemap ever announces.
+  const byLocale = { en: new Set(), ar: new Set() };
+  for (const sitemapPath of sitemapPaths) {
+    const { locale, path } = splitLocalePath(sitemapPath);
+    byLocale[locale].add(path);
+  }
+  for (const path of byLocale.en) {
+    if (!byLocale.ar.has(path)) {
+      errors.push(`Sitemap lists "${path}" in English but has no Arabic mirror ("/ar${path === '/' ? '' : path}").`);
+    }
+  }
+  for (const path of byLocale.ar) {
+    if (!byLocale.en.has(path)) {
+      errors.push(`Sitemap lists Arabic "/ar${path === '/' ? '' : path}" with no English original ("${path}").`);
+    }
+  }
+
+  // Every sitemap URL must carry the full hreflang alternate set, or the two
+  // locales read as competing duplicates rather than one page in two
+  // languages.
+  const urlBlocks = [...sitemapXml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+  for (const block of urlBlocks) {
+    const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1] ?? '(unknown)';
+    for (const hreflang of ['en', 'ar', 'x-default']) {
+      if (!block.includes(`hreflang="${hreflang}"`)) {
+        errors.push(`Sitemap entry "${loc}" is missing its hreflang="${hreflang}" alternate.`);
+      }
+    }
   }
 
   // Route registry (serverRoutes) prerendered static paths must match the
@@ -201,12 +248,14 @@ export function checkCanonicalMetadataCoverage(ctx) {
       errors.push(`Prerendered static route "${path}" (app.routes.server.ts) is missing from sitemap.xml.`);
     }
   }
-  for (const path of sitemapPaths) {
-    const isDynamicDetail = path.startsWith('/resources/blog/') && path !== '/resources/blog';
-    if (isDynamicDetail) continue;
+  for (const sitemapPath of sitemapPaths) {
+    // Dynamic detail pages are server-rendered per request in both locales,
+    // so they are never in the prerendered set.
+    const { path } = splitLocalePath(sitemapPath);
+    if (path.startsWith('/resources/blog/') && path !== '/resources/blog') continue;
     if (path.startsWith('/resources/case-studies/') && path !== '/resources/case-studies') continue;
-    if (!serverSet.has(path)) {
-      errors.push(`Sitemap route "${path}" is not a prerendered static route in app.routes.server.ts.`);
+    if (!serverSet.has(sitemapPath)) {
+      errors.push(`Sitemap route "${sitemapPath}" is not a prerendered static route in app.routes.server.ts.`);
     }
   }
 
@@ -238,6 +287,51 @@ export function checkJsonLdExclusionGates(ctx) {
     }
   }
 
+  // Breadcrumb labels are translated copy resolved at render time, so a key
+  // that is missing, empty, or English-only would ship a raw key (or an
+  // English label on an Arabic page) straight into the structured data. That
+  // is invisible in the built HTML unless something asserts it here.
+  const breadcrumbMapMatch = entityTaxonomyTs.match(/BREADCRUMB_LABEL_KEYS[^=]*=\s*\{([\s\S]*?)\n\};/);
+  if (!breadcrumbMapMatch) {
+    errors.push('entity-taxonomy.ts no longer exports a BREADCRUMB_LABEL_KEYS map — breadcrumb coverage cannot be verified.');
+  } else {
+    const breadcrumbEntries = [...breadcrumbMapMatch[1].matchAll(/'([^']+)':\s*'([^']+)'/g)]
+      .map((m) => ({ path: m[1], key: m[2] }));
+    if (breadcrumbEntries.length === 0) {
+      errors.push('BREADCRUMB_LABEL_KEYS is empty — no route would emit a BreadcrumbList.');
+    }
+
+    const locales = ['en', 'ar'];
+    const dictionaries = Object.fromEntries(
+      locales.map((locale) => [locale, readJson(join(ctx.root, `src/assets/i18n/${locale}.json`))]),
+    );
+    const resolve = (dictionary, dottedKey) =>
+      dottedKey.split('.').reduce((node, part) => (node && typeof node === 'object' ? node[part] : undefined), dictionary);
+
+    for (const { path, key } of breadcrumbEntries) {
+      for (const locale of locales) {
+        const value = resolve(dictionaries[locale], key);
+        if (typeof value !== 'string' || value.trim() === '') {
+          errors.push(`Breadcrumb label for "${path}" ("${key}") does not resolve to non-empty text in ${locale}.json.`);
+        }
+      }
+    }
+
+    // Every registered metadata route should be reachable in a breadcrumb;
+    // an unlabelled ancestor silently truncates its children's chains.
+    const routeMetadataTs = readFileSync(join(ctx.srcApp, 'core/seo/route-metadata.ts'), 'utf8');
+    const routeMetadataMatch = routeMetadataTs.match(/ROUTE_METADATA[^=]*=\s*\{([\s\S]*)\n\};/);
+    const metadataPaths = routeMetadataMatch
+      ? [...routeMetadataMatch[1].matchAll(/^\s{2}'([^']+)':\s*\{/gm)].map((m) => m[1])
+      : [];
+    const labelled = new Set(breadcrumbEntries.map((entry) => entry.path));
+    for (const path of metadataPaths) {
+      if (!labelled.has(path)) {
+        errors.push(`Route "${path}" has registry metadata but no BREADCRUMB_LABEL_KEYS entry, so it emits no BreadcrumbList.`);
+      }
+    }
+  }
+
   const routeEntityMapMatch = entityTaxonomyTs.match(/ROUTE_ENTITY_MAP[^=]*=\s*\{([\s\S]*)\n\};/);
   const routeKeys = routeEntityMapMatch
     ? [...routeEntityMapMatch[1].matchAll(/^\s{2}'([^']+)':\s*\{/gm)].map((m) => m[1])
@@ -257,7 +351,13 @@ export function checkJsonLdExclusionGates(ctx) {
 
   return errors.length
     ? fail(id, title, errors)
-    : ok(id, title, `${routeKeys.length} route(s) registered in ROUTE_ENTITY_MAP; no hard-excluded tokens in service descriptions; uptime scope claim verified.`);
+    : ok(
+        id,
+        title,
+        `${routeKeys.length} route(s) registered in ROUTE_ENTITY_MAP; ` +
+          `${breadcrumbMapMatch ? [...breadcrumbMapMatch[1].matchAll(/'([^']+)':\s*'([^']+)'/g)].length : 0} breadcrumb label(s) resolving in en+ar; ` +
+          'no hard-excluded tokens in service descriptions; uptime scope claim verified.',
+      );
 }
 
 export function checkCaseStudyRouteIntegrity(ctx) {

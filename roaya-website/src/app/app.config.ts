@@ -1,5 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection, ErrorHandler } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { TitleStrategy, provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { LocalizedTitleStrategy } from './core/seo/localized-title.strategy';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { ssrApiInterceptor } from './core/interceptors/ssr-api.interceptor';
@@ -23,6 +24,9 @@ import { GlobalErrorHandler } from './core/services/error-handler.service';
  */
 export const appConfig: ApplicationConfig = {
   providers: [
+    // Single, deterministic owner for document.title — see
+    // core/seo/localized-title.strategy.ts.
+    { provide: TitleStrategy, useClass: LocalizedTitleStrategy },
     // Zone.js change detection with event coalescing for better performance
     provideZoneChangeDetection({ eventCoalescing: true }),
 

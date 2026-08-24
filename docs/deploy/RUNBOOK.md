@@ -1,13 +1,44 @@
 ## Production parity kit — self-hosted SSH deployment runbook (TIFO-18)
 
-Production for the Roaya website is a self-hosted server reached over
-VPN/SSH — **not Vercel**. This runbook reproduces the Stage 1.1 host-hygiene
-behavior currently defined in `roaya-website/vercel.json` (see
-[`vercel-nginx-mapping.md`](./vercel-nginx-mapping.md) for the exact mapping)
-plus process supervision for the Angular SSR server and the backend API.
+Production for the Roaya website is a self-hosted server reached over VPN/SSH.
+It is the only deployment target — all Vercel configuration has been removed
+from this repo, and the nginx config in `roaya-website/deploy/nginx/` is now
+the single source of truth for host-level behavior. See
+[`nginx-config-rationale.md`](./nginx-config-rationale.md) for why each rule is
+there.
 
-No agent runs any step in this runbook against the real production host. A
-human with SSH access executes it.
+This runbook covers that nginx config plus process supervision for the Angular
+SSR server and the backend API.
+
+### As-deployed status (2026-08-24)
+
+This runbook has been executed. The migration described below is **done** and
+the live origin is verified:
+
+| What | State |
+|---|---|
+| SSR process | `roaya-ssr` under PM2 on `127.0.0.1:4000`, `pm2 save`d and the PM2 systemd unit enabled, so it survives reboot |
+| Releases | `/var/www/roaya-ssr/releases/<stamp>`, `current` symlink, last 5 kept |
+| nginx | SSR config live; unknown route `404`, `www` `301` to apex, machine files with explicit charsets, `/api/` proxied to `:3001` |
+| Locales | English unprefixed, Arabic under `/ar`, 60 prerendered routes, `hreflang` alternates on every page |
+| Verified | All 70 sitemap URLs `200` on the origin; `/no-such-route` `404` publicly |
+
+Deploys are now just `./deploy/scripts/deploy-ssr.sh` from `roaya-website/`.
+
+Two operational quirks worth knowing before you run it:
+
+- `pm2 restart` does not release the SSH channel on this host even after it
+  succeeds (no TTY). The deploy completes and the release goes live, but the
+  script's own SSH invocation can hang at the end. Confirm with
+  `readlink -f /var/www/roaya-ssr/current` rather than waiting for the exit.
+- Do not edit anything under `/var/www/roaya-ssr/current` on the host. It is
+  build output; the next deploy overwrites it. All changes belong in the repo.
+
+Still open, deliberately not touched by this deploy: the expired Sectigo
+origin certificate (see the TLS section), the unauthenticated Prisma Studio on
+`*:5555`, and the dependency advisories at the end of this document.
+
+The steps below remain the reference for re-running or rolling back.
 
 ### Fill these in before you start
 
@@ -15,12 +46,13 @@ human with SSH access executes it.
 |---|---|---|
 | `__SERVER_NAME__` | Production apex domain | `roaya.co` (`roaya-website/CLAUDE.md` Production Environment table) |
 | `__WWW_SERVER_NAME__` | www host to redirect from | `www.roaya.co` |
-| `__SSL_CERT_PATH__` | TLS full-chain cert path | Not documented in-repo — confirm with whoever manages the host, e.g. `/etc/letsencrypt/live/roaya.co/fullchain.pem` |
-| `__SSL_KEY_PATH__` | TLS private key path | Not documented in-repo, e.g. `/etc/letsencrypt/live/roaya.co/privkey.pem` |
-| `__BROWSER_DIST_PATH__` | Absolute path to the built Angular browser output | `/var/www/roaya-website/dist/roaya-website/browser` — CLAUDE.md's existing deploy commands untar the browser build directly into `/var/www/roaya-website/` (no `dist/` nesting on the server); adjust to match whatever layout you actually deploy |
+| `__SSL_CERT_PATH__` | TLS full-chain cert path | **Verified on host 2026-08-24:** `/var/www/roaya-cert/www_roaya_co.crt` — a Sectigo commercial cert, `CN=www.roaya.co`, SANs `www.roaya.co` + `roaya.co`. **It expired 2026-05-01.** Not Let's Encrypt — see the TLS section below before touching it. |
+| `__SSL_KEY_PATH__` | TLS private key path | **Verified on host:** `/var/www/roaya-cert/www.roaya.conopass.key` |
+| `__BACKEND_PORT__` | Port the backend API listens on | **Verified on host:** `3001` (`node /opt/roaya/backend/dist/index.js` under PM2) |
+| `__BROWSER_DIST_PATH__` | Absolute path to the built Angular browser output | `/var/www/roaya-ssr/current/browser` if you use `deploy/scripts/deploy-ssr.sh` (timestamped releases + a `current` symlink). The pre-existing `/var/www/roaya-website/` holds the old static-only build and the admin-uploaded images the script carries forward. |
 | `__WEBSITE_DEPLOY_PATH__` | Absolute path to the deployed `roaya-website/` checkout | `/var/www/roaya-website` (CLAUDE.md) |
 | `__BACKEND_DEPLOY_PATH__` | Absolute path to the deployed `backend/` checkout | `/opt/roaya/backend` (CLAUDE.md) |
-| `__SSR_UPSTREAM_HOST__` / `__SSR_UPSTREAM_PORT__` | Where nginx proxies SSR requests | `127.0.0.1` / `4000` — `4000` is `src/server.ts`'s own default; not documented as already deployed anywhere (see gap note below) |
+| `__SSR_UPSTREAM_HOST__` / `__SSR_UPSTREAM_PORT__` | Where nginx proxies SSR requests | `127.0.0.1` / `4000` — `4000` is `src/server.ts`'s own default and is **confirmed free on the host** (only `:22`, `:80`, `:443`, `:3001`, `:5432`, `:6379`, `:5555`, `:33221` are listening as of 2026-08-24) |
 | `__SSR_PORT__` | Port the SSR Node process listens on (must match the nginx upstream) | Same as above — pick a free port and keep both in sync |
 | `__DEPLOY_USER__` / `__DEPLOY_GROUP__` | Unix user/group the services run as | `roaya` (CLAUDE.md SSH user) |
 
@@ -57,44 +89,92 @@ below) and nginx must stop returning `200` for unknown routes. Until that
 migration happens, treat every AI-readiness deliverable from TIFO-9 onward as
 built-but-not-deployed.
 
-### 1. Build
+**Full host survey (read-only SSH, 2026-08-24).** The gap is wider than the
+above: the deployed build is from **2026-02-08**, so it predates every
+AI-readiness ticket, not just the SSR ones.
 
-On the server (or in a CI runner that then ships the artifacts over
-SSH/rsync — this repo does not include that pipeline):
+| Finding | Evidence |
+|---|---|
+| Deployed build is ~6 months stale | `/var/www/roaya-website/index.html` mtime `2026-02-08 11:53:34` |
+| `robots.txt`, `sitemap.xml`, `llms.txt` all absent from the webroot | `curl -sI` on the origin returns `200` with `Content-Type: text/html` for `/robots.txt` — the SPA fallback hands crawlers `index.html` |
+| No SSR process | `ps` shows only `node /opt/roaya/backend/dist/index.js` (PM2, up 197d) |
+| Origin returns `200` for unknown routes | live nginx has `try_files $uri $uri/ /index.html` |
+| **`assets/i18n` has never been deployed** | server `en/ar.json` mtime `2026-02-08 09:51`, repo `2026-08-23`. `CLAUDE.md`'s deploy uses `--exclude='assets'` to protect the 12 admin-uploaded images in `assets/images`, and takes `assets/i18n` down with it |
+| **TLS cert expired 2026-05-01** | Sectigo `CN=www.roaya.co`; Cloudflare terminates TLS at the edge and is evidently not validating the origin |
+| Live nginx proxies the API | `location /api/ { proxy_pass http://127.0.0.1:3001/api/; }` — this block was **missing** from this kit until 2026-08-24 and is now included |
+| Prisma Studio exposed | `node .../prisma studio` listening on `*:5555`, up 197d, no auth. Unrelated to this deploy — kill it regardless |
+| Host runs Node **v20.20.0**, npm 10.8.2 | satisfies Angular 21's `^20.19.0`; note `package.json` declares `packageManager: npm@11.6.3` |
+| Backend healthy | `{"status":"healthy","services":{"database":"up","redis":"up"}}` |
+
+The i18n finding matters more once SSR is live, not less: `ServerTranslationLoader`
+bundles the JSON into the server bundle at build time, while the browser fetches
+`/assets/i18n/{lang}.json` at runtime. Ship a fresh SSR bundle over a stale
+`assets/i18n` and the SSR HTML renders correct copy that hydration then
+*overwrites* with six-month-old strings. `deploy/scripts/deploy-ssr.sh` fixes
+this by shipping the build's own `assets/i18n` and copying only
+`assets/images` forward.
+
+### ⚠ A silently-broken build is the single biggest deploy risk
+
+`ng build` **exits 0 when prerendering fails.** It emits no route HTML, and the
+resulting artifact answers *every* route with an Express `404 Cannot GET /`.
+
+This is not hypothetical — it happened on 2026-08-24 building this repo on
+Node v25. `ThemeService`/`LanguageService` guarded browser storage with
+`typeof localStorage === 'undefined'`, but Node 22+ ships an experimental
+`localStorage` global that is *defined* and has no `getItem`. The guard passed
+on the server, `.getItem` threw, all 30 prerenders died, and the build reported
+success. Both services now use `isPlatformBrowser(PLATFORM_ID)` instead, which
+is version-independent — but the failure mode is generic to any SSR-unsafe
+code, so **always gate on the evidence suite** (step 5) rather than on the
+build's exit code. A good build emits 30 `browser/**/index.html` files;
+`deploy-ssr.sh` hard-fails below that.
+
+### 1. Build and ship the website
+
+Use the script — it encodes the gates that the manual commands in
+`roaya-website/CLAUDE.md` lack:
 
 ```bash
-# Website (Angular SSR)
-cd __WEBSITE_DEPLOY_PATH__
-npm ci
-npm run build:prod
-# Produces:
-#   dist/roaya-website/browser/   — static assets + robots.txt/sitemap.xml/llms.txt
-#   dist/roaya-website/server/server.mjs — SSR Node entry point
-
-# Backend
-cd __BACKEND_DEPLOY_PATH__
-npm ci --omit=dev
-npm run build
-# Runs `prisma generate` then `tsc`, producing dist/index.js
+cd roaya-website
+DRY_RUN=1 ./deploy/scripts/deploy-ssr.sh   # build + verify, upload nothing
+./deploy/scripts/deploy-ssr.sh             # build, verify, ship, pm2 restart
 ```
 
-Run `npm run verify:evidence` inside `roaya-website/` before shipping a build
-— see step 5.
+It builds, runs `verify:evidence`, hard-fails if fewer than 30 prerendered
+routes were emitted, ships `dist/roaya-website/` into a timestamped release
+under `/var/www/roaya-ssr/releases/`, carries `assets/images` forward from the
+old webroot, flips the `current` symlink, keeps the last 5 releases for
+rollback, and restarts `pm2 roaya-ssr`.
 
-### 2. Copy artifacts to the server
+The build produces:
 
-Whatever transport you use (rsync, git pull + build on-box, CI artifact
-upload), the server needs:
+```
+dist/roaya-website/browser/                    static assets + robots.txt/sitemap.xml/llms.txt
+dist/roaya-website/browser/**/index.html       30 prerendered routes
+dist/roaya-website/server/server.mjs           SSR Node entry point (self-contained)
+```
 
-- The full `roaya-website/` checkout (or at minimum `dist/`, `package.json`,
-  `package-lock.json`, and any runtime env file) at `__WEBSITE_DEPLOY_PATH__`.
-- The full `backend/` checkout (or `dist/`, `package.json`,
-  `package-lock.json`, `prisma/`) at `__BACKEND_DEPLOY_PATH__`.
-- A populated `__BACKEND_DEPLOY_PATH__/.env` — copy `backend/.env.example`
-  and fill in real values (`DATABASE_URL`, `REDIS_HOST`, `JWT_SECRET`,
-  `SENDGRID_API_KEY`, `CORS_ORIGIN=https://__SERVER_NAME__`, etc.).
-- An optional `__WEBSITE_DEPLOY_PATH__/.env.production` if the SSR app reads
-  any runtime env vars (e.g. the backend API base URL).
+Build it on Node 20 or 22 LTS if you can. The `isBrowser` fix makes the build
+version-independent, but the host runs Node v20.20.0 and matching it removes a
+variable.
+
+### 2. Backend (only if the backend is part of this deploy)
+
+The backend is already deployed and healthy; touch it only if you have backend
+changes to ship.
+
+```bash
+cd __BACKEND_DEPLOY_PATH__
+npm ci --omit=dev
+npm run build      # prisma generate + tsc -> dist/index.js
+pm2 restart roaya-api
+```
+
+It needs a populated `__BACKEND_DEPLOY_PATH__/.env` (`DATABASE_URL`,
+`REDIS_HOST`, `JWT_SECRET`, `SENDGRID_API_KEY`,
+`CORS_ORIGIN=https://__SERVER_NAME__`, …). Postgres and Redis are already
+running locally on the host and correctly bound to `127.0.0.1`.
 
 ### 3. Install nginx config
 
@@ -106,22 +186,81 @@ sudo nginx -t          # syntax check — must pass before reload
 sudo systemctl reload nginx
 ```
 
-TLS certificates: use Let's Encrypt via certbot rather than fabricating
-certs. Typical flow (adjust for your nginx/certbot packaging):
+#### TLS certificates — do NOT run certbot here
 
-```bash
-sudo certbot --nginx -d __SERVER_NAME__ -d __WWW_SERVER_NAME__
+Earlier revisions of this runbook advised `certbot --nginx`. **That advice was
+wrong for this host** and would clobber a paid certificate. The host uses a
+Sectigo commercial cert, referenced by the live nginx config as:
+
+```
+ssl_certificate     /var/www/roaya-cert/www_roaya_co.crt;
+ssl_certificate_key /var/www/roaya-cert/www.roaya.conopass.key;
 ```
 
-certbot will rewrite the `ssl_certificate`/`ssl_certificate_key` lines and
-set up auto-renewal; re-verify the config afterward with `nginx -t`.
+`CN=www.roaya.co`, SANs cover `www.roaya.co` and `roaya.co`, valid
+`2025-05-01` → **`2026-05-01`. It is expired.** Browsers do not surface this
+because Cloudflare terminates TLS at the edge and is evidently configured
+"Full" rather than "Full (strict)", so it accepts the stale origin cert.
+
+Resolve this as its own task, before or independently of the SSR migration:
+
+1. Decide with whoever owns the Sectigo account whether to renew, or to
+   migrate the origin to Let's Encrypt (the config already has an
+   `/.well-known/acme-challenge/` location rooted at `/var/www/letsencrypt`,
+   so HTTP-01 would work).
+2. If migrating to certbot, set Cloudflare to **Full (strict)** afterwards so
+   an expired origin cert can't go unnoticed for four months again.
+3. Keep the existing cert paths in the nginx config until the replacement is
+   actually in place — swapping the paths before the files exist takes the
+   site down at the origin.
+
+Whichever route you take, re-verify with `sudo nginx -t` before reloading.
+
+#### Decision needed: `www` or apex as canonical
+
+The nginx config includes a 301 `www.roaya.co` → `roaya.co`. The **live**
+config serves both hostnames identically with no redirect, which means
+duplicate content on two canonical hosts.
+
+Apex is the choice consistent with the rest of the repo — `public/sitemap.xml`,
+`public/llms.txt`, and the route metadata registry all emit `https://roaya.co`
+URLs. Against that, `roaya-website/CLAUDE.md` names `www.roaya.co` as the
+project domain, and existing inbound links may point at `www` (a 301 preserves
+their link equity, which is why the redirect is the safer of the two).
+
+**Confirm the direction before installing.** Reversing a canonical host later
+costs another round of re-indexing.
 
 ### 4. Install process supervision
 
-Pick **one** approach — systemd (preferred, native to most Linux distros) or
-PM2 — per app. Do not run both for the same process.
+Pick **one** approach per app. Do not run both for the same process.
 
-**systemd (preferred):**
+**PM2 is the right choice on this host** — verified 2026-08-24: it already
+runs a PM2 God daemon (v6.0.14) with `pm2-logrotate` installed, and the
+backend has been supervised by it for 197 days. Adding the SSR app to the
+existing PM2 setup means one supervisor to reason about, and
+`deploy/scripts/deploy-ssr.sh` drives `pm2 restart roaya-ssr` directly.
+The systemd units below remain as an alternative if you'd rather migrate
+both apps off PM2 — but that's a separate change, not part of this deploy.
+
+**PM2 (recommended for this host):**
+
+```bash
+# One-time registration (deploy-ssr.sh prints this if the app is missing):
+pm2 start /var/www/roaya-ssr/current/server/server.mjs --name roaya-ssr \
+  --cwd /var/www/roaya-ssr/current -i 1
+pm2 save
+
+# Thereafter, deploys are just:
+#   ./deploy/scripts/deploy-ssr.sh
+```
+
+Note the SSR bundle is **self-contained** — Angular bundles express and all
+runtime dependencies into `server.mjs`. Verified by running the built server
+from a directory with no `node_modules`. No `npm ci` is needed on the host for
+the website (the backend still needs its own deps).
+
+**systemd (alternative):**
 
 ```bash
 sudo cp roaya-website/deploy/systemd/roaya-ssr.service /etc/systemd/system/roaya-ssr.service

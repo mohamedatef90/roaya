@@ -37,31 +37,45 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
 - [ ] CI (typecheck, unit tests, `npm run verify:evidence`, production build)
       is green on the PR's head commit — not just on a local machine.
 
-## 3. Vercel Preview verification
+## 3. Pre-merge verification against a local production build
 
-Before merging, a human opens the PR's Vercel Preview URL and confirms:
+There is no preview environment — the self-hosted nginx origin is the only
+deployment target. So this gate runs against a real production build on the
+reviewer's machine, which is a closer match to production than a preview host
+would have been anyway (same artifact, same Node entry point).
 
-- [ ] **Root directory** — the Preview built from `roaya-website/` (not the
-      repo root or `backend/`).
-- [ ] **SSR runtime** — the Preview is serving the Angular SSR bundle
-      (`dist/roaya-website/server`), not a static-only fallback.
-- [ ] **www redirect** — `https://www.<preview-domain>` redirects to the
-      apex/preview host exactly as `vercel.json`'s redirect rule intends for
-      production (`www.roaya.co` → `roaya.co`), adapted for the preview URL.
-- [ ] **Headers/content types** — `/robots.txt`, `/sitemap.xml`, and
-      `/llms.txt` are served with the `Content-Type` values in `vercel.json`,
-      and the security headers (`Strict-Transport-Security`,
-      `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are
-      present on a normal page response.
-- [ ] **Raw HTML / status / canonical / JSON-LD / llms** — `curl` (or "view
-      source") on a sample of canonical routes confirms: HTTP 200 with real
-      content in the first response (not just a client-rendered shell), a
-      correct self-referencing `<link rel="canonical">`, the expected
-      JSON-LD `<script type="application/ld+json">` graph for routes that
-      should carry one, and that `/llms.txt` is reachable and matches
-      `public/llms.txt`.
-- [ ] An unregistered path returns a real HTTP 404 on the Preview, not a 200
-      with a client-side "not found" component.
+```bash
+cd roaya-website
+DRY_RUN=1 ./deploy/scripts/deploy-ssr.sh   # build + full evidence suite, ships nothing
+PORT=4200 node dist/roaya-website/server/server.mjs
+```
+
+Then confirm:
+
+- [ ] **Build gates passed** — `verify:evidence` reported 9/9 and the script
+      did not abort on the prerendered-route count.
+- [ ] **30 prerendered routes emitted** —
+      `find dist/roaya-website/browser -name index.html | wc -l` returns 30.
+      A lower number means prerendering failed silently; `ng build` exits 0
+      when it does, so this count is the only cheap signal.
+- [ ] **SSR runtime, not a static shell** — a sample of canonical routes
+      returns HTTP 200 with real content in the first response, each with its
+      own route-specific `<title>` (not a shared shell title).
+- [ ] **JSON-LD where it is registered** — the routes in `ROUTE_ENTITY_MAP`
+      (`/`, `/about`, `/services/worldposta`) carry a
+      `<script type="application/ld+json">` graph. Other routes are not
+      supposed to have one — absence there is not a defect.
+- [ ] **Canonical links** — each route has a correct self-referencing
+      `<link rel="canonical">`.
+- [ ] **Real 404** — an unregistered path returns HTTP 404, not a 200 with a
+      client-side "not found" component.
+- [ ] **Machine files** — `/robots.txt`, `/sitemap.xml`, and `/llms.txt` are
+      reachable and byte-identical to `public/`. Their **content types** and
+      the security headers are nginx's responsibility, not the Node server's,
+      so they are verified post-deploy against the host — see
+      `docs/deploy/verification-checklist.md`. The config side of that
+      guarantee is enforced automatically by the `llms-txt` check, which
+      parses `deploy/nginx/roaya-website.conf`.
 
 ## 4. Production deployment / rollback approval
 

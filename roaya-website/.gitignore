@@ -41,7 +41,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
-.vercel
 .env*.local
 
 # Generated AI-readiness JSON report (TIFO-16) — regenerate with `npm run ai-readiness`

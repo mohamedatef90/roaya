@@ -1,0 +1,72 @@
+# ARCHIVED — the nginx config that served roaya.co BEFORE the SSR migration.
+#
+# Captured verbatim from /etc/nginx/sites-available/roaya-website on the
+# production host on 2026-08-24, immediately before the SSR cutover. Kept here
+# as the record of pre-migration production state, and as the true rollback
+# target: the cutover script's own .bak was overwritten on its second run
+# (fixed since — backups are now timestamped per run), so this file is the only
+# remaining copy of the original.
+#
+# It is NOT a config to deploy. It contains the two defects the migration
+# fixed:
+#   1. `try_files $uri $uri/ /index.html` — an SPA fallback that returned HTTP
+#      200 with a stale index.html for every unknown route, and handed crawlers
+#      HTML when they asked for /robots.txt.
+#   2. No SSR upstream at all, and no explicit content types for the machine
+#      files.
+# It also served roaya.co and www.roaya.co identically, with no canonical host.
+
+# Redirect HTTP -> HTTPS
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name roaya.co www.roaya.co;
+
+    return 301 https://$host$request_uri;
+}
+
+# HTTPS site (Angular SPA)
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    server_name roaya.co www.roaya.co;
+
+    root /var/www/roaya-website;
+    index index.html;
+
+    # SSL certs 
+    ssl_certificate     /var/www/roaya-cert/www_roaya_co.crt;
+    ssl_certificate_key /var/www/roaya-cert/www.roaya.conopass.key;
+
+    # Reverse proxy API requests to backend
+    location /api/ {
+        proxy_pass http://127.0.0.1:3001/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    # Angular SPA routes
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets (hashed files)
+    location ~* \.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?)$ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+        try_files $uri =404;
+    }
+
+    # Optional: allow ACME challenge if you ever use certbot HTTP-01
+    location ^~ /.well-known/acme-challenge/ {
+        root /var/www/letsencrypt;
+        try_files $uri =404;
+    }
+}

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { localeResolver } from './core/i18n/locale.resolver';
 import {
   authGuard,
   superAdminGuard,
@@ -11,12 +12,12 @@ import {
  * Application Routes
  * Roaya IT - Lazy loaded feature routes for optimal performance
  */
-export const routes: Routes = [
-  // Public routes with main layout (header + footer)
-  {
-    path: '',
-    loadComponent: () => import('./layouts/main-layout/main-layout.component').then(m => m.MainLayoutComponent),
-    children: [
+/**
+ * Every public page, defined once and mounted twice: unprefixed for English
+ * and under `/ar` for Arabic (see core/i18n/locale-routing.ts). One array
+ * means a route can never exist in one language and not the other.
+ */
+const publicRoutes: Routes = [
       {
         path: '',
         loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
@@ -197,7 +198,30 @@ export const routes: Routes = [
         loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent),
         title: 'Page Not Found - Roaya IT'
       }
-    ]
+];
+
+const mainLayout = () =>
+  import('./layouts/main-layout/main-layout.component').then(m => m.MainLayoutComponent);
+
+export const routes: Routes = [
+  // Arabic MUST be declared before the unprefixed tree: that tree ends in a
+  // '**' child, which would otherwise swallow /ar/* as a 404 before the
+  // Arabic branch is ever considered.
+  {
+    path: 'ar',
+    loadComponent: mainLayout,
+    data: { locale: 'ar' },
+    resolve: { locale: localeResolver },
+    children: publicRoutes
+  },
+
+  // Public routes with main layout (header + footer) — English, unprefixed.
+  {
+    path: '',
+    loadComponent: mainLayout,
+    data: { locale: 'en' },
+    resolve: { locale: localeResolver },
+    children: publicRoutes
   },
 
   // Admin routes (standalone - no main layout)

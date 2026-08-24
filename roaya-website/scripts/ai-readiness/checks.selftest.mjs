@@ -42,11 +42,16 @@ function makeSandbox() {
   mkdirSync(join(sandboxRoot, 'src/app/features/services/worldposta'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/assets/i18n'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'scripts/claim-evidence'), { recursive: true });
+  mkdirSync(join(sandboxRoot, 'deploy/nginx'), { recursive: true });
 
   cpSync(join(realRoot, 'public/robots.txt'), join(sandboxRoot, 'public/robots.txt'));
   cpSync(join(realRoot, 'public/sitemap.xml'), join(sandboxRoot, 'public/sitemap.xml'));
   cpSync(join(realRoot, 'public/llms.txt'), join(sandboxRoot, 'public/llms.txt'));
-  cpSync(join(realRoot, 'vercel.json'), join(sandboxRoot, 'vercel.json'));
+  cpSync(
+    join(realRoot, 'deploy', 'nginx', 'roaya-website.conf'),
+    join(sandboxRoot, 'deploy', 'nginx', 'roaya-website.conf'),
+    { recursive: false },
+  );
   cpSync(join(realRoot, 'src/app/core/seo/route-metadata.ts'), join(sandboxRoot, 'src/app/core/seo/route-metadata.ts'));
   cpSync(join(realRoot, 'src/app/core/seo/entity-taxonomy.ts'), join(sandboxRoot, 'src/app/core/seo/entity-taxonomy.ts'));
   cpSync(join(realRoot, 'src/app/app.routes.ts'), join(sandboxRoot, 'src/app/app.routes.ts'));
@@ -163,7 +168,11 @@ check(
 check(
   'llms-txt fails when a link is not sitemap-registered',
   withSandbox(
-    (ctx) => editFile(join(ctx.publicDir, 'llms.txt'), (t) => t.replace('https://roaya.co/about', 'https://roaya.co/about-not-a-real-route')),
+    // Targets the markdown link, not the bare URL: llms.txt prose also
+    // mentions example URLs, and mutating the first textual match would edit
+    // prose the validator never inspects - leaving this check green while
+    // proving nothing.
+    (ctx) => editFile(join(ctx.publicDir, 'llms.txt'), (t) => t.replace('](https://roaya.co/about)', '](https://roaya.co/about-not-a-real-route)')),
     (ctx) => checkLlmsTxt(ctx).status === 'fail',
   ),
 );
@@ -179,7 +188,11 @@ check(
 check(
   'canonical-metadata-coverage fails when a prerendered route is missing from the sitemap',
   withSandbox(
-    (ctx) => editFile(join(ctx.publicDir, 'sitemap.xml'), (t) => t.replace(/\s*<url>\s*<loc>https:\/\/roaya\.co\/about<\/loc>\s*<lastmod>[^<]+<\/lastmod>\s*<\/url>/, '')),
+    // The <url> block now also carries xhtml:link alternates, so this must
+    // match the whole block rather than assuming loc+lastmod and nothing else
+    // - a regex that silently stops matching leaves the sandbox unbroken and
+    // turns this red-capability test green for the wrong reason.
+    (ctx) => editFile(join(ctx.publicDir, 'sitemap.xml'), (t) => t.replace(/\s*<url>\s*<loc>https:\/\/roaya\.co\/about<\/loc>[\s\S]*?<\/url>/, '')),
     (ctx) => checkCanonicalMetadataCoverage(ctx).status === 'fail',
   ),
 );
@@ -222,7 +235,7 @@ check(
   'case-study-route-integrity fails when a case-study slug is missing from the sitemap',
   withSandbox(
     (ctx) => editFile(join(ctx.publicDir, 'sitemap.xml'), (t) => t.replace(
-      /\s*<url>\s*<loc>https:\/\/roaya\.co\/resources\/case-studies\/bank-cloud-migration<\/loc>\s*<lastmod>[^<]+<\/lastmod>\s*<\/url>/,
+      /\s*<url>\s*<loc>https:\/\/roaya\.co\/resources\/case-studies\/bank-cloud-migration<\/loc>[\s\S]*?<\/url>/,
       '',
     )),
     (ctx) => checkCaseStudyRouteIntegrity(ctx).status === 'fail',

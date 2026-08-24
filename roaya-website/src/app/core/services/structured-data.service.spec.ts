@@ -31,6 +31,20 @@ describe('StructuredDataService', () => {
     'review',
   ];
 
+  // Every shape the graph can take: root, leaf, nested leaf, service page,
+  // and the label-less case-study leaf.
+  const SWEPT_ROUTES = [
+    '/',
+    '/about',
+    '/pricing',
+    '/services/worldposta',
+    '/services/security/penetration-testing',
+    '/resources/case-studies/bank-cloud-migration',
+    '/ar',
+    '/ar/about',
+    '/ar/services/worldposta',
+  ];
+
   beforeEach(() => {
     document.getElementById('roaya-structured-data')?.remove();
     TestBed.configureTestingModule({
@@ -72,9 +86,23 @@ describe('StructuredDataService', () => {
       });
     });
 
-    it('emits no Service or BreadcrumbList nodes', () => {
+    it('emits no Service node, and no single-item BreadcrumbList', () => {
       expect(nodesOfType('Service').length).toBe(0);
+      // Home is its own only ancestor; a one-item trail is dropped rather
+      // than emitted as a degenerate BreadcrumbList.
       expect(nodesOfType('BreadcrumbList').length).toBe(0);
+    });
+
+    it('emits a WebPage node bound to the site and organization', () => {
+      const page = nodesOfType('WebPage')[0];
+      expect(page['@id']).toBe('https://roaya.co/#webpage');
+      expect(page.url).toBe('https://roaya.co/');
+      expect(page.isPartOf).toEqual({ '@id': 'https://roaya.co/#website' });
+      expect(page.about).toEqual({ '@id': 'https://roaya.co/#organization' });
+    });
+
+    it('carries no description on WebPage (prose stays out of structured data)', () => {
+      expect(nodesOfType('WebPage')[0].description).toBeUndefined();
     });
   });
 
@@ -83,18 +111,27 @@ describe('StructuredDataService', () => {
       await router.navigateByUrl('/about');
 
       const breadcrumb = nodesOfType('BreadcrumbList')[0];
-      expect(breadcrumb.itemListElement).toEqual([
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://roaya.co/' },
-        { '@type': 'ListItem', position: 2, name: 'About', item: 'https://roaya.co/about' },
+      expect(breadcrumb.itemListElement.map((item: any) => item.position)).toEqual([1, 2]);
+      expect(breadcrumb.itemListElement.map((item: any) => item.item)).toEqual([
+        'https://roaya.co/',
+        'https://roaya.co/about',
       ]);
     });
 
-    it('emits no Organization/WebSite/Service nodes (already emitted only on root)', async () => {
+    it('repeats site-wide Organization/WebSite so @id references resolve on the page', async () => {
       await router.navigateByUrl('/about');
 
-      expect(nodesOfType('Organization').length).toBe(0);
-      expect(nodesOfType('WebSite').length).toBe(0);
+      expect(nodesOfType('Organization').length).toBe(1);
+      expect(nodesOfType('WebSite').length).toBe(1);
       expect(nodesOfType('Service').length).toBe(0);
+    });
+
+    it('links its WebPage to its own BreadcrumbList', async () => {
+      await router.navigateByUrl('/about');
+
+      expect(nodesOfType('WebPage')[0].breadcrumb).toEqual({
+        '@id': 'https://roaya.co/about#breadcrumb',
+      });
     });
   });
 
@@ -143,15 +180,73 @@ describe('StructuredDataService', () => {
     });
   });
 
-  describe('unrecognized routes', () => {
-    it('emits no structured data on a route absent from the taxonomy', async () => {
+  describe('coverage beyond the hand-curated entity map', () => {
+    it('covers a route that has registry metadata but no entity-map entry', async () => {
       await router.navigateByUrl('/pricing');
+
+      expect(nodesOfType('WebPage')[0].url).toBe('https://roaya.co/pricing');
+      expect(nodesOfType('BreadcrumbList')[0].itemListElement.length).toBe(2);
+    });
+
+    it('builds a three-level trail for a nested service page', async () => {
+      await router.navigateByUrl('/services/security/penetration-testing');
+
+      expect(nodesOfType('BreadcrumbList')[0].itemListElement.map((item: any) => item.item)).toEqual([
+        'https://roaya.co/',
+        'https://roaya.co/services',
+        'https://roaya.co/services/security',
+        'https://roaya.co/services/security/penetration-testing',
+      ]);
+    });
+
+    it('ends a case-study trail at the listing page, with no WebPage node', async () => {
+      await router.navigateByUrl('/resources/case-studies/bank-cloud-migration');
+
+      // The leaf has no label that is not also a registry-blocked metric
+      // claim, so the trail stops one level up instead of inventing one.
+      expect(nodesOfType('BreadcrumbList')[0].itemListElement.map((item: any) => item.item)).toEqual([
+        'https://roaya.co/',
+        'https://roaya.co/resources',
+        'https://roaya.co/resources/case-studies',
+      ]);
+      expect(nodesOfType('WebPage').length).toBe(0);
+    });
+
+    it('emits no structured data at all on an unknown/404 route', async () => {
+      await router.navigateByUrl('/this-route-does-not-exist');
 
       expect(scriptEl()).toBeNull();
     });
+  });
 
-    it('emits no structured data on an unknown/404 route', async () => {
-      await router.navigateByUrl('/this-route-does-not-exist');
+  describe('Arabic locale (/ar)', () => {
+    it('describes the Arabic page, never linking back into the English tree', async () => {
+      await router.navigateByUrl('/ar/about');
+
+      const page = nodesOfType('WebPage')[0];
+      expect(page['@id']).toBe('https://roaya.co/ar/about#webpage');
+      expect(page.url).toBe('https://roaya.co/ar/about');
+
+      const trail = nodesOfType('BreadcrumbList')[0].itemListElement.map((item: any) => item.item);
+      expect(trail).toEqual(['https://roaya.co/ar', 'https://roaya.co/ar/about']);
+    });
+
+    it('keeps site-wide Organization/WebSite @ids locale-independent', async () => {
+      await router.navigateByUrl('/ar/about');
+
+      expect(nodesOfType('Organization')[0]['@id']).toBe('https://roaya.co/#organization');
+      expect(nodesOfType('WebPage')[0].isPartOf).toEqual({ '@id': 'https://roaya.co/#website' });
+    });
+
+    it('resolves the same registry entry as the English mirror', async () => {
+      await router.navigateByUrl('/ar/pricing');
+
+      expect(nodesOfType('WebPage').length).toBe(1);
+      expect(nodesOfType('BreadcrumbList')[0].itemListElement.length).toBe(2);
+    });
+
+    it('emits nothing on an unknown Arabic path', async () => {
+      await router.navigateByUrl('/ar/no-such-page');
 
       expect(scriptEl()).toBeNull();
     });
@@ -159,7 +254,7 @@ describe('StructuredDataService', () => {
 
   describe('evidence gates', () => {
     it('excludes hard-excluded terms (ISO, pricing, CloudSpace, ratings/reviews) from every route', async () => {
-      for (const url of ['/', '/about', '/services/worldposta']) {
+      for (const url of SWEPT_ROUTES) {
         await router.navigateByUrl(url);
         const raw = scriptEl()?.text ?? '';
         for (const term of EXCLUDED_TERMS) {
@@ -169,7 +264,7 @@ describe('StructuredDataService', () => {
     });
 
     it('never emits invented fields (address, phone, sameAs, logo, ratings, legalName)', async () => {
-      for (const url of ['/', '/about', '/services/worldposta']) {
+      for (const url of SWEPT_ROUTES) {
         await router.navigateByUrl(url);
         const raw = scriptEl()?.text ?? '';
         for (const field of ['address', 'telephone', 'sameAs', 'logo', 'aggregateRating', 'legalName', 'faqPage']) {
