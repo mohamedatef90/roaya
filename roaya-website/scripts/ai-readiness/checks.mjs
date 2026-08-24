@@ -687,7 +687,11 @@ export async function checkRealUnknownRoute404(ctx) {
   const port = ctx.serverPort;
   const child = spawn(process.execPath, [ctx.serverEntryFile], {
     cwd: ctx.root,
-    env: { ...process.env, PORT: String(port) },
+    // NG_ALLOWED_HOSTS='*' lets Angular SSR server-render on 127.0.0.1 in the
+    // local test environment. Without it, Angular falls back to client-side
+    // rendering (CSR) for host validation failures and RESPONSE_INIT.status
+    // never propagates, so the 404 set by NotFoundComponent is lost.
+    env: { ...process.env, PORT: String(port), NG_ALLOWED_HOSTS: '*' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
