@@ -42,7 +42,27 @@ export interface BreadcrumbListNode {
   itemListElement: BreadcrumbListItem[];
 }
 
-export type StructuredDataNode = OrganizationNode | WebSiteNode | ServiceNode | BreadcrumbListNode;
+/**
+ * The page itself. Carries name/url/hierarchy only - never a description:
+ * see StructuredDataService.buildNodes for why prose is excluded here.
+ */
+export interface WebPageNode {
+  '@type': 'WebPage';
+  '@id': string;
+  name: string;
+  url: string;
+  inLanguage: string;
+  isPartOf: { '@id': string };
+  about: { '@id': string };
+  breadcrumb?: { '@id': string };
+}
+
+export type StructuredDataNode =
+  | OrganizationNode
+  | WebSiteNode
+  | ServiceNode
+  | BreadcrumbListNode
+  | WebPageNode;
 
 export interface StructuredDataGraph {
   '@context': 'https://schema.org';

@@ -240,6 +240,51 @@ export function checkJsonLdExclusionGates(ctx) {
     }
   }
 
+  // Breadcrumb labels are translated copy resolved at render time, so a key
+  // that is missing, empty, or English-only would ship a raw key (or an
+  // English label on an Arabic page) straight into the structured data. That
+  // is invisible in the built HTML unless something asserts it here.
+  const breadcrumbMapMatch = entityTaxonomyTs.match(/BREADCRUMB_LABEL_KEYS[^=]*=\s*\{([\s\S]*?)\n\};/);
+  if (!breadcrumbMapMatch) {
+    errors.push('entity-taxonomy.ts no longer exports a BREADCRUMB_LABEL_KEYS map — breadcrumb coverage cannot be verified.');
+  } else {
+    const breadcrumbEntries = [...breadcrumbMapMatch[1].matchAll(/'([^']+)':\s*'([^']+)'/g)]
+      .map((m) => ({ path: m[1], key: m[2] }));
+    if (breadcrumbEntries.length === 0) {
+      errors.push('BREADCRUMB_LABEL_KEYS is empty — no route would emit a BreadcrumbList.');
+    }
+
+    const locales = ['en', 'ar'];
+    const dictionaries = Object.fromEntries(
+      locales.map((locale) => [locale, readJson(join(ctx.root, `src/assets/i18n/${locale}.json`))]),
+    );
+    const resolve = (dictionary, dottedKey) =>
+      dottedKey.split('.').reduce((node, part) => (node && typeof node === 'object' ? node[part] : undefined), dictionary);
+
+    for (const { path, key } of breadcrumbEntries) {
+      for (const locale of locales) {
+        const value = resolve(dictionaries[locale], key);
+        if (typeof value !== 'string' || value.trim() === '') {
+          errors.push(`Breadcrumb label for "${path}" ("${key}") does not resolve to non-empty text in ${locale}.json.`);
+        }
+      }
+    }
+
+    // Every registered metadata route should be reachable in a breadcrumb;
+    // an unlabelled ancestor silently truncates its children's chains.
+    const routeMetadataTs = readFileSync(join(ctx.srcApp, 'core/seo/route-metadata.ts'), 'utf8');
+    const routeMetadataMatch = routeMetadataTs.match(/ROUTE_METADATA[^=]*=\s*\{([\s\S]*)\n\};/);
+    const metadataPaths = routeMetadataMatch
+      ? [...routeMetadataMatch[1].matchAll(/^\s{2}'([^']+)':\s*\{/gm)].map((m) => m[1])
+      : [];
+    const labelled = new Set(breadcrumbEntries.map((entry) => entry.path));
+    for (const path of metadataPaths) {
+      if (!labelled.has(path)) {
+        errors.push(`Route "${path}" has registry metadata but no BREADCRUMB_LABEL_KEYS entry, so it emits no BreadcrumbList.`);
+      }
+    }
+  }
+
   const routeEntityMapMatch = entityTaxonomyTs.match(/ROUTE_ENTITY_MAP[^=]*=\s*\{([\s\S]*)\n\};/);
   const routeKeys = routeEntityMapMatch
     ? [...routeEntityMapMatch[1].matchAll(/^\s{2}'([^']+)':\s*\{/gm)].map((m) => m[1])
@@ -259,7 +304,13 @@ export function checkJsonLdExclusionGates(ctx) {
 
   return errors.length
     ? fail(id, title, errors)
-    : ok(id, title, `${routeKeys.length} route(s) registered in ROUTE_ENTITY_MAP; no hard-excluded tokens in service descriptions; uptime scope claim verified.`);
+    : ok(
+        id,
+        title,
+        `${routeKeys.length} route(s) registered in ROUTE_ENTITY_MAP; ` +
+          `${breadcrumbMapMatch ? [...breadcrumbMapMatch[1].matchAll(/'([^']+)':\s*'([^']+)'/g)].length : 0} breadcrumb label(s) resolving in en+ar; ` +
+          'no hard-excluded tokens in service descriptions; uptime scope claim verified.',
+      );
 }
 
 export function checkCaseStudyRouteIntegrity(ctx) {
