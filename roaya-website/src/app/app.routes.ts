@@ -94,10 +94,13 @@ const publicRoutes: Routes = [
         loadComponent: () => import('./features/services/security/incident-response/incident-response.component').then(m => m.IncidentResponseComponent),
         title: 'Incident Response & Digital Forensics - Roaya IT'
       },
+      // Redirect: pentest-v2 → penetration-testing (canonicalization)
+      // This is a client-side redirect; for production SEO, nginx should issue
+      // a server-level 301 redirect. See docs/ai-readiness-human-gates.md.
       {
         path: 'services/security/pentest-v2',
-        loadComponent: () => import('./features/services/security/pentest-v2/pentest-v2.component').then(m => m.PentestV2Component),
-        title: 'AI-Assisted Penetration Testing & Security Assessment - Roaya IT'
+        redirectTo: 'services/security/penetration-testing',
+        pathMatch: 'full'
       },
       {
         path: 'services/worldposta',

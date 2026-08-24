@@ -360,6 +360,146 @@ export function checkJsonLdExclusionGates(ctx) {
       );
 }
 
+export function checkPentestV2Canonicalization(ctx) {
+  const id = 'pentest-v2-canonicalization';
+  const title = 'pentest-v2 redirects to canonical penetration-testing';
+  const errors = [];
+
+  // Verify pentest-v2 is a redirect in app.routes.ts
+  const appRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.ts'), 'utf8');
+  const hasRedirect = /path:\s*'services\/security\/pentest-v2'[\s\S]*?redirectTo:\s*'services\/security\/penetration-testing'/.test(appRoutesTs);
+  if (!hasRedirect) {
+    errors.push('app.routes.ts does not redirect pentest-v2 to penetration-testing.');
+  }
+
+  // Verify pentest-v2 is NOT in sitemap.xml
+  const sitemapXml = readFileSync(join(ctx.publicDir, 'sitemap.xml'), 'utf8');
+  if (sitemapXml.includes('pentest-v2')) {
+    errors.push('sitemap.xml still contains pentest-v2 (should be removed after canonicalization).');
+  }
+
+  // Verify pentest-v2 is NOT in app.routes.server.ts prerender list
+  const serverRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.server.ts'), 'utf8');
+  if (/pentest-v2.*Prerender/.test(serverRoutesTs)) {
+    errors.push('app.routes.server.ts still prerenders pentest-v2 (should be removed after canonicalization).');
+  }
+
+  // Verify canonical penetration-testing route exists and is prerendered
+  if (!serverRoutesTs.includes("'services/security/penetration-testing'")) {
+    errors.push('app.routes.server.ts does not prerender the canonical penetration-testing route.');
+  }
+
+  // Verify pentest-v2 is NOT in route-metadata.ts (except as comment)
+  const routeMetadataTs = readFileSync(join(ctx.srcApp, 'core/seo/route-metadata.ts'), 'utf8');
+  // Look for pentest-v2 as a registered route key, not just in comments
+  if (/^\s*'\/services\/security\/pentest-v2':/m.test(routeMetadataTs)) {
+    errors.push('route-metadata.ts still registers pentest-v2 as a metadata route (should be removed).');
+  }
+
+  // Verify pentest-v2 is NOT in breadcrumb labels (except as comment)
+  const entityTaxonomyTs = readFileSync(join(ctx.srcApp, 'core/seo/entity-taxonomy.ts'), 'utf8');
+  if (/^\s*'\/services\/security\/pentest-v2':/m.test(entityTaxonomyTs)) {
+    errors.push('entity-taxonomy.ts BREADCRUMB_LABEL_KEYS still registers pentest-v2 (should be removed).');
+  }
+
+  return errors.length
+    ? fail(id, title, errors)
+    : ok(id, title, 'pentest-v2 correctly redirects to penetration-testing; removed from sitemap, prerender, metadata, and breadcrumbs.');
+}
+
+export function checkIndustryRouteIntegrity(ctx) {
+  const id = 'industry-route-integrity';
+  const title = 'industry registered routes/registry/404 integrity';
+  const errors = [];
+
+  // Import the approved industry IDs from the TypeScript registry.
+  // We parse it as text since the evidence check runs in Node/mjs context.
+  const industryRegistryTs = readFileSync(
+    join(ctx.srcApp, 'core/seo/industry-registry.ts'),
+    'utf8',
+  );
+
+  // Extract the 6 approved industry IDs from the registry
+  const approvedIdMatches = [...industryRegistryTs.matchAll(/id:\s*'([^']+)'/g)];
+  const approvedIds = approvedIdMatches.map((m) => m[1]);
+  if (approvedIds.length !== 6) {
+    errors.push(`industry-registry.ts does not have exactly 6 approved industry IDs (found ${approvedIds.length}).`);
+  }
+
+  const expectedIds = ['finance', 'healthcare', 'government', 'manufacturing', 'retail', 'education'];
+  for (const expectedId of expectedIds) {
+    if (!approvedIds.includes(expectedId)) {
+      errors.push(`industry-registry.ts is missing the expected industry ID "${expectedId}".`);
+    }
+  }
+  for (const approvedId of approvedIds) {
+    if (!expectedIds.includes(approvedId)) {
+      errors.push(`industry-registry.ts contains unexpected industry ID "${approvedId}".`);
+    }
+  }
+
+  // Verify industry detail component imports and uses the registry
+  const industryDetailTs = readFileSync(
+    join(ctx.srcApp, 'features/industries/industry-detail/industry-detail.component.ts'),
+    'utf8',
+  );
+  if (!industryDetailTs.includes('isValidIndustryId')) {
+    errors.push('industry-detail.component.ts does not import/use isValidIndustryId from the closed registry.');
+  }
+  if (!industryDetailTs.includes('RESPONSE_INIT')) {
+    errors.push('industry-detail.component.ts does not inject RESPONSE_INIT for setting HTTP 404 status.');
+  }
+
+  // Check sitemap contains all 6 industry routes (both locales)
+  const sitemapXml = readFileSync(join(ctx.publicDir, 'sitemap.xml'), 'utf8');
+  const sitemapUrls = new Set([...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+  for (const industryId of approvedIds) {
+    const enUrl = `${ctx.origin}/industries/${industryId}`;
+    const arUrl = `${ctx.origin}/ar/industries/${industryId}`;
+    if (!sitemapUrls.has(enUrl)) {
+      errors.push(`Industry "${industryId}" EN route is missing from sitemap.xml (expected ${enUrl}).`);
+    }
+    if (!sitemapUrls.has(arUrl)) {
+      errors.push(`Industry "${industryId}" AR route is missing from sitemap.xml (expected ${arUrl}).`);
+    }
+  }
+
+  // Check app.routes.server.ts has industry prerender routes
+  const serverRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.server.ts'), 'utf8');
+  for (const industryId of approvedIds) {
+    const enRoute = `industries/${industryId}`;
+    const arRoute = `ar/industries/${industryId}`;
+    if (!serverRoutesTs.includes(`'${enRoute}'`)) {
+      errors.push(`app.routes.server.ts does not prerender industry route "${enRoute}".`);
+    }
+    if (!serverRoutesTs.includes(`'${arRoute}'`)) {
+      errors.push(`app.routes.server.ts does not prerender industry route "${arRoute}".`);
+    }
+  }
+
+  // Check route-metadata has all 6 industry pages
+  const routeMetadataTs = readFileSync(join(ctx.srcApp, 'core/seo/route-metadata.ts'), 'utf8');
+  for (const industryId of approvedIds) {
+    const route = `/industries/${industryId}`;
+    if (!routeMetadataTs.includes(`'${route}':`)) {
+      errors.push(`route-metadata.ts is missing ROUTE_METADATA entry for "${route}".`);
+    }
+  }
+
+  // Check breadcrumb labels exist for all 6 industry pages
+  const entityTaxonomyTs = readFileSync(join(ctx.srcApp, 'core/seo/entity-taxonomy.ts'), 'utf8');
+  for (const industryId of approvedIds) {
+    const route = `/industries/${industryId}`;
+    if (!entityTaxonomyTs.includes(`'${route}':`)) {
+      errors.push(`entity-taxonomy.ts BREADCRUMB_LABEL_KEYS is missing entry for "${route}".`);
+    }
+  }
+
+  return errors.length
+    ? fail(id, title, errors)
+    : ok(id, title, `${approvedIds.length} approved industry ID(s) registered in routing, sitemap, metadata, and breadcrumbs; closed registry enforced in component with RESPONSE_INIT 404.`);
+}
+
 export function checkCaseStudyRouteIntegrity(ctx) {
   const id = 'case-study-route-integrity';
   const title = 'case-study registered routes/anchors/404 integrity';
@@ -552,6 +692,8 @@ export const ALL_CHECKS = [
   checkLlmsTxt,
   checkCanonicalMetadataCoverage,
   checkJsonLdExclusionGates,
+  checkPentestV2Canonicalization,
+  checkIndustryRouteIntegrity,
   checkCaseStudyRouteIntegrity,
   checkApprovedFactualConsistency,
   checkMachineFilesInBuild,

@@ -87,8 +87,42 @@ Then confirm:
       separately reviewed and approved (out of scope for any agent run under
       this issue's Agent Identity).
 
+## 5. Ambiguous factual claims requiring human decision
+
+The following facts have conflicting or ambiguous source evidence. Do **NOT**
+change these values without explicit human verification of the correct answer.
+The agent is instructed not to invent, remove, or modify these without explicit
+human approval.
+
+### Organization founding year
+
+**Current value:** `2018` (in `src/app/core/seo/entity-taxonomy.ts` and
+`src/assets/i18n/en.json` "about.story.p1")
+
+**Ambiguity:** Some LinkedIn references or early external sources may show
+2012 as Roaya's founding year. The approved English content ("Founded in 2018,
+Roaya IT emerged from...") uses 2018. If 2012 is actually correct, the
+translation files and `ORGANIZATION_FOUNDING_DATE` in entity-taxonomy.ts must
+both be updated by a human after verification.
+
+**Status:** Awaiting human verification.
+
+### pentest-v2 redirect implementation
+
+**Current implementation:** Client-side Angular redirect
+(`redirectTo: 'services/security/penetration-testing'`)
+
+**Limitation:** For optimal SEO, a server-level 301 redirect via nginx config
+would be preferable. The current client-side redirect preserves user
+functionality but does not send a proper HTTP 301 status to crawlers during
+SSR (Angular's built-in redirect emits a client-side navigation, not a server
+response status change).
+
+**Status:** Functional redirect implemented. Server-level 301 requires human
+nginx configuration changes. See `deploy/nginx/roaya-website.conf`.
+
 ---
 
-None of the four sections above are satisfied by running
+None of the sections above are satisfied by running
 `npm run verify:evidence` or by an agent posting a comment. They require a
 named human to perform the action and record that they did.
