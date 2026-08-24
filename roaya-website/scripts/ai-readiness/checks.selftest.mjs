@@ -40,6 +40,7 @@ function makeSandbox() {
   mkdirSync(join(sandboxRoot, 'src/app/core/seo'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/features/resources/case-studies'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/features/services/worldposta'), { recursive: true });
+  mkdirSync(join(sandboxRoot, 'src/app/features/not-found'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/assets/i18n'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'scripts/claim-evidence'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'deploy/nginx'), { recursive: true });
@@ -65,6 +66,10 @@ function makeSandbox() {
   cpSync(
     join(realRoot, 'src/app/features/services/worldposta/worldposta.component.ts'),
     join(sandboxRoot, 'src/app/features/services/worldposta/worldposta.component.ts'),
+  );
+  cpSync(
+    join(realRoot, 'src/app/features/not-found/not-found.component.ts'),
+    join(sandboxRoot, 'src/app/features/not-found/not-found.component.ts'),
   );
   cpSync(
     join(realRoot, 'scripts/claim-evidence/registry.json'),
@@ -247,11 +252,11 @@ check(
   ),
 );
 check(
-  'case-study-route-integrity fails when the wildcard route stops returning a real 404',
+  'case-study-route-integrity fails when the NotFoundComponent stops setting a real 404',
   withSandbox(
-    (ctx) => editFile(join(ctx.srcApp, 'app.routes.server.ts'), (t) => t.replace(
-      "{ path: '**', renderMode: RenderMode.Server, status: 404 },",
-      "{ path: '**', renderMode: RenderMode.Server },",
+    (ctx) => editFile(join(ctx.srcApp, 'features/not-found/not-found.component.ts'), (t) => t.replace(
+      'this.responseInit.status = 404;',
+      'this.responseInit.status = 200;',
     )),
     (ctx) => checkCaseStudyRouteIntegrity(ctx).status === 'fail',
   ),

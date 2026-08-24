@@ -248,12 +248,37 @@ export function checkCanonicalMetadataCoverage(ctx) {
       errors.push(`Prerendered static route "${path}" (app.routes.server.ts) is missing from sitemap.xml.`);
     }
   }
+  // Extract dynamic server routes (industries/:id, services/:id, etc.) to
+  // verify that sitemap detail pages are covered by a matching Server route.
+  const serverDynamicPatterns = [...serverRoutesTs.matchAll(/\{\s*path:\s*'([^']+)',\s*renderMode:\s*RenderMode\.Server\s*\}/g)]
+    .map((m) => m[1])
+    .filter((p) => p.includes(':'));
+
+  const isCoveredByDynamicRoute = (sitemapPath) => {
+    const { path } = splitLocalePath(sitemapPath);
+    for (const pattern of serverDynamicPatterns) {
+      const localeIndependentPattern = pattern.startsWith('ar/') ? pattern.slice(3) : pattern;
+      // Convert :param to regex segment (e.g., industries/:id -> industries/[^/]+)
+      const regex = new RegExp(`^/${localeIndependentPattern.replace(/:[^/]+/g, '[^/]+')}$`);
+      if (regex.test(path)) return true;
+    }
+    return false;
+  };
+
   for (const sitemapPath of sitemapPaths) {
     // Dynamic detail pages are server-rendered per request in both locales,
-    // so they are never in the prerendered set.
+    // so they are never in the prerendered set. Check they're covered by a
+    // dynamic RenderMode.Server route instead.
     const { path } = splitLocalePath(sitemapPath);
     if (path.startsWith('/resources/blog/') && path !== '/resources/blog') continue;
     if (path.startsWith('/resources/case-studies/') && path !== '/resources/case-studies') continue;
+    // Industry detail pages are now server-rendered via industries/:id
+    if (path.startsWith('/industries/') && path !== '/industries') {
+      if (!isCoveredByDynamicRoute(sitemapPath)) {
+        errors.push(`Sitemap route "${sitemapPath}" is not covered by any RenderMode.Server dynamic route in app.routes.server.ts.`);
+      }
+      continue;
+    }
     if (!serverSet.has(sitemapPath)) {
       errors.push(`Sitemap route "${sitemapPath}" is not a prerendered static route in app.routes.server.ts.`);
     }
@@ -365,11 +390,24 @@ export function checkPentestV2Canonicalization(ctx) {
   const title = 'pentest-v2 redirects to canonical penetration-testing';
   const errors = [];
 
-  // Verify pentest-v2 is a redirect in app.routes.ts
+  // Verify pentest-v2 is a redirect in app.routes.ts (client-side fallback)
   const appRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.ts'), 'utf8');
-  const hasRedirect = /path:\s*'services\/security\/pentest-v2'[\s\S]*?redirectTo:\s*'services\/security\/penetration-testing'/.test(appRoutesTs);
-  if (!hasRedirect) {
-    errors.push('app.routes.ts does not redirect pentest-v2 to penetration-testing.');
+  const hasClientRedirect = /path:\s*'services\/security\/pentest-v2'[\s\S]*?redirectTo:\s*'services\/security\/penetration-testing'/.test(appRoutesTs);
+  if (!hasClientRedirect) {
+    errors.push('app.routes.ts does not redirect pentest-v2 to penetration-testing (client fallback).');
+  }
+
+  // Verify server.ts has permanent 301 redirects for pentest-v2 (both locales)
+  const serverTs = readFileSync(join(ctx.root, 'src/server.ts'), 'utf8');
+  const hasEnServerRedirect = /app\.get\s*\(\s*['"]\/services\/security\/pentest-v2['"]/.test(serverTs) &&
+    /res\.redirect\s*\(\s*301\s*,\s*['"]\/services\/security\/penetration-testing['"]/.test(serverTs);
+  const hasArServerRedirect = /app\.get\s*\(\s*['"]\/ar\/services\/security\/pentest-v2['"]/.test(serverTs) &&
+    /res\.redirect\s*\(\s*301\s*,\s*['"]\/ar\/services\/security\/penetration-testing['"]/.test(serverTs);
+  if (!hasEnServerRedirect) {
+    errors.push('server.ts does not have a 301 redirect for /services/security/pentest-v2.');
+  }
+  if (!hasArServerRedirect) {
+    errors.push('server.ts does not have a 301 redirect for /ar/services/security/pentest-v2.');
   }
 
   // Verify pentest-v2 is NOT in sitemap.xml
@@ -404,7 +442,7 @@ export function checkPentestV2Canonicalization(ctx) {
 
   return errors.length
     ? fail(id, title, errors)
-    : ok(id, title, 'pentest-v2 correctly redirects to penetration-testing; removed from sitemap, prerender, metadata, and breadcrumbs.');
+    : ok(id, title, 'pentest-v2 correctly redirects to penetration-testing via server 301; client fallback present; removed from sitemap, prerender, metadata, and breadcrumbs.');
 }
 
 export function checkIndustryRouteIntegrity(ctx) {
@@ -464,17 +502,17 @@ export function checkIndustryRouteIntegrity(ctx) {
     }
   }
 
-  // Check app.routes.server.ts has industry prerender routes
+  // Check app.routes.server.ts has industry dynamic server routes (not prerender)
+  // Industry detail pages are served via industries/:id with a closed registry
+  // that returns a real 404 for unknown IDs via RESPONSE_INIT.
   const serverRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.server.ts'), 'utf8');
-  for (const industryId of approvedIds) {
-    const enRoute = `industries/${industryId}`;
-    const arRoute = `ar/industries/${industryId}`;
-    if (!serverRoutesTs.includes(`'${enRoute}'`)) {
-      errors.push(`app.routes.server.ts does not prerender industry route "${enRoute}".`);
-    }
-    if (!serverRoutesTs.includes(`'${arRoute}'`)) {
-      errors.push(`app.routes.server.ts does not prerender industry route "${arRoute}".`);
-    }
+  const hasEnDynamicRoute = /\{\s*path:\s*'industries\/:id',\s*renderMode:\s*RenderMode\.Server\s*\}/.test(serverRoutesTs);
+  const hasArDynamicRoute = /\{\s*path:\s*'ar\/industries\/:id',\s*renderMode:\s*RenderMode\.Server\s*\}/.test(serverRoutesTs);
+  if (!hasEnDynamicRoute) {
+    errors.push('app.routes.server.ts does not have RenderMode.Server for "industries/:id" (EN).');
+  }
+  if (!hasArDynamicRoute) {
+    errors.push('app.routes.server.ts does not have RenderMode.Server for "ar/industries/:id" (AR).');
   }
 
   // Check route-metadata has all 6 industry pages
@@ -528,9 +566,18 @@ export function checkCaseStudyRouteIntegrity(ctx) {
   if (!detailIsServerRendered) {
     errors.push('app.routes.server.ts does not server-render "resources/case-studies/:slug" (needed for a real per-slug 404).');
   }
-  const wildcardIs404 = /path:\s*'\*\*',\s*renderMode:\s*RenderMode\.Server,\s*status:\s*404/.test(serverRoutesTs);
-  if (!wildcardIs404) {
-    errors.push('app.routes.server.ts wildcard "**" route is not configured to return a real HTTP 404.');
+  // The wildcard route must be server-rendered. The HTTP 404 status is set by
+  // NotFoundComponent via RESPONSE_INIT injection (Angular SSR doesn't accept
+  // status: 404 in route config; it only allows redirect status codes).
+  const wildcardIsServerRendered = /path:\s*'\*\*',\s*renderMode:\s*RenderMode\.Server/.test(serverRoutesTs);
+  if (!wildcardIsServerRendered) {
+    errors.push('app.routes.server.ts wildcard "**" route is not configured for RenderMode.Server.');
+  }
+  // Verify NotFoundComponent sets the 404 status via RESPONSE_INIT
+  const notFoundTs = readFileSync(join(ctx.srcApp, 'features/not-found/not-found.component.ts'), 'utf8');
+  const notFoundSets404 = /RESPONSE_INIT/.test(notFoundTs) && /responseInit\.status\s*=\s*404/.test(notFoundTs);
+  if (!notFoundSets404) {
+    errors.push('NotFoundComponent does not set HTTP 404 status via RESPONSE_INIT (required for SSR 404 responses).');
   }
 
   for (const slug of slugs) {

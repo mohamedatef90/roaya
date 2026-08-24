@@ -25,6 +25,18 @@ const angularApp = new AngularNodeAppEngine();
  */
 
 /**
+ * Permanent 301 redirects for legacy URLs. These must be handled at the server
+ * layer (before the Angular handler) so that crawlers receive a real HTTP 301
+ * status and Location header, not a client-side redirect.
+ */
+app.get('/services/security/pentest-v2', (_req, res) => {
+  res.redirect(301, '/services/security/penetration-testing');
+});
+app.get('/ar/services/security/pentest-v2', (_req, res) => {
+  res.redirect(301, '/ar/services/security/penetration-testing');
+});
+
+/**
  * Serve static files from /browser
  */
 app.use(
