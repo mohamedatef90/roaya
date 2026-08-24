@@ -70,7 +70,9 @@ fi
 # host. Ship dist/roaya-website/ as-is.
 log "Packaging"
 TARBALL=/tmp/roaya-ssr-$(date +%Y%m%d-%H%M%S).tar.gz
-tar czf "$TARBALL" -C dist roaya-website
+# COPYFILE_DISABLE stops macOS tar from embedding ._* AppleDouble entries and
+# xattr headers, which GNU tar on the host reports as pages of warnings.
+COPYFILE_DISABLE=1 tar czf "$TARBALL" -C dist roaya-website
 echo "  $TARBALL ($(du -h "$TARBALL" | cut -f1))"
 
 # ---------------------------------------------------------------------------
@@ -114,16 +116,28 @@ ls -1dt "$RELEASE_DIR"/releases/*/ | tail -n +6 | xargs -r rm -rf
 
 rm -f "$REMOTE_TARBALL"
 
-if pm2 describe "$PM2_APP" >/dev/null 2>&1; then
-  pm2 restart "$PM2_APP" --update-env
+# The pm2 CLI's table-rendering commands (list/describe/restart) hang without a
+# TTY on this host — observed 2026-08-24, wedging a deploy after the artifact was
+# already live. `jlist` emits plain JSON and is reliable; every pm2 call is also
+# wrapped in `timeout` so a hang degrades to a warning instead of a hung deploy.
+if timeout 30 pm2 jlist 2>/dev/null | grep -q "\"name\":\"$PM2_APP\""; then
+  timeout 60 pm2 restart "$PM2_APP" --update-env >/dev/null 2>&1 || true
+  echo "restarted pm2 app '$PM2_APP'"
 else
-  echo "NOTE: pm2 app '$PM2_APP' not registered yet."
-  echo "Register it once, then re-run this script:"
-  echo "  pm2 start $RELEASE_DIR/current/server/server.mjs --name $PM2_APP \\"
-  echo "    --cwd $RELEASE_DIR/current -i 1 --env production"
+  echo "NOTE: pm2 app '$PM2_APP' is not registered. Register it once:"
+  echo "  cd $RELEASE_DIR/current && PORT=4000 NODE_ENV=production \\"
+  echo "    pm2 start server/server.mjs --name $PM2_APP --cwd $RELEASE_DIR/current -i 1"
   echo "  pm2 save"
 fi
-pm2 describe "$PM2_APP" 2>/dev/null | grep -E 'status|uptime|restarts' || true
+
+# Verify the app actually answers, rather than trusting pm2's own status field.
+sleep 3
+CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "http://127.0.0.1:${SSR_PORT:-4000}/about" || echo 000)
+if [ "$CODE" = "200" ]; then
+  echo "SSR healthy on 127.0.0.1:${SSR_PORT:-4000} (/about -> 200)"
+else
+  echo "WARNING: SSR did not return 200 on /about (got $CODE). Check: pm2 logs $PM2_APP" >&2
+fi
 REMOTE
 
 log "Deployed. Now run docs/deploy/verification-checklist.md against the host."
