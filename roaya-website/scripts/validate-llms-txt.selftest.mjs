@@ -143,6 +143,23 @@ for (const route of ['/robots.txt', '/sitemap.xml']) {
   );
 }
 
+// Mutation: removing the `types { }` reset must be caught. This is the exact
+// defect that reached production on 2026-08-24 — every default_type was
+// present and correct, so a check that only looked at default_type passed
+// while the live origin served text/plain and text/xml.
+for (const route of ['/robots.txt', '/sitemap.xml', '/llms.txt']) {
+  const escaped = route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const mutated = nginxConf.replace(
+    new RegExp(`(location\\s*=\\s*${escaped}\\s*\\{[\\s\\S]*?)\\n\\s*types\\s*\\{\\s*\\}`),
+    '$1',
+  );
+  const { errors } = validateNginxMachineFileContentTypes(mutated);
+  check(
+    `missing \`types { }\` reset for ${route} is rejected`,
+    errors.some((e) => e.includes('has no empty `types { }` block')),
+  );
+}
+
 // Mutation: an empty or unreadable config must be caught rather than passing
 // vacuously.
 {

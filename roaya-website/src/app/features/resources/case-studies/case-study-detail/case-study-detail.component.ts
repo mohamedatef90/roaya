@@ -107,10 +107,15 @@ export class CaseStudyDetailComponent implements OnInit {
       this.caseStudyData.set(caseStudy);
       this.translationPrefix.set(caseStudy.translationKey);
 
-      // Update SEO
+      // Update SEO. Resolve the i18n keys first: updateSEO writes whatever
+      // string it is given straight into <title>/<meta>, it does not translate.
+      // Passing raw keys shipped `caseStudies.banking.meta.title` as the live
+      // SSR title on every case-study page (found in production 2026-08-24).
+      // translate.instant works during SSR because ServerTranslationLoader
+      // provides the bundled JSON synchronously.
       this.seo.updateSEO({
-        title: `${caseStudy.translationKey}.meta.title`,
-        description: `${caseStudy.translationKey}.meta.description`
+        title: this.translate.instant(`${caseStudy.translationKey}.meta.title`),
+        description: this.translate.instant(`${caseStudy.translationKey}.meta.description`)
       });
 
       // Track page view

@@ -90,6 +90,15 @@ export function validateLlmsTxt({ llmsTxt, sitemapXml }) {
  * `location = /path` (exact match) and `default_type "<value>";` are matched
  * as a pair inside the same block, so moving a default_type into an unrelated
  * block does not satisfy the check.
+ *
+ * An empty `types { }` block is ALSO required, and that requirement is not
+ * cosmetic. `default_type` only applies when nginx cannot resolve a type from
+ * mime.types — and .txt and .xml are both in it. Without the `types { }`
+ * reset, nginx serves `text/plain` and `text/xml` and never consults
+ * `default_type` at all. This was caught in production on 2026-08-24: the
+ * config had every `default_type` in place, this validator passed, and the
+ * live origin still served the wrong types. Asserting the directive exists is
+ * not the same as asserting it takes effect.
  */
 export const MACHINE_FILE_CONTENT_TYPES = {
   '/robots.txt': 'text/plain; charset=utf-8',
@@ -125,6 +134,16 @@ export function validateNginxMachineFileContentTypes(nginxConf) {
     } else if (defaultType[1] !== expected) {
       errors.push(
         `nginx \`location = ${route}\` default_type must be "${expected}", found "${defaultType[1]}".`,
+      );
+    }
+
+    // Without an empty `types { }` reset, the default_type above is inert for
+    // any extension present in mime.types — which includes .txt and .xml.
+    if (!/types\s*\{\s*\}/.test(block)) {
+      errors.push(
+        `nginx \`location = ${route}\` has no empty \`types { }\` block, so its ` +
+          `default_type is ignored for known extensions (nginx would serve the ` +
+          `mime.types value instead).`,
       );
     }
   }
