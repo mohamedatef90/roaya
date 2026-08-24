@@ -87,11 +87,19 @@ REMOTE_TARBALL="/tmp/$(basename "$TARBALL")"
 STAMP=$(basename "$TARBALL" .tar.gz)
 
 log "Activating release on host"
-ssh "${SSH_OPTS[@]}" "$SSH_HOST" bash -s <<REMOTE
+ssh "${SSH_OPTS[@]}" "$SSH_HOST" bash -s -- \
+  "$RELEASE_DIR" "$REMOTE_ROOT" "$STAMP" "$REMOTE_TARBALL" "$PM2_APP" "${SSR_PORT:-4000}" <<'REMOTE'
 set -euo pipefail
 
+RELEASE_DIR="$1"
+REMOTE_ROOT="$2"
+STAMP="$3"
+REMOTE_TARBALL="$4"
+PM2_APP="$5"
+SSR_PORT="$6"
+
 # /var/www is owned by the deploy user (verified 2026-08-24), so no sudo is
-# needed here — and using it would hang on a password prompt over a
+# needed here - and using it would hang on a password prompt over a
 # non-interactive SSH session.
 mkdir -p "$RELEASE_DIR/releases"
 
@@ -116,25 +124,31 @@ ls -1dt "$RELEASE_DIR"/releases/*/ | tail -n +6 | xargs -r rm -rf
 
 rm -f "$REMOTE_TARBALL"
 
-# The pm2 CLI's table-rendering commands (list/describe/restart) hang without a
-# TTY on this host — observed 2026-08-24, wedging a deploy after the artifact was
-# already live. `jlist` emits plain JSON and is reliable; every pm2 call is also
-# wrapped in `timeout` so a hang degrades to a warning instead of a hung deploy.
+# The pm2 CLI table-rendering commands (list/describe/restart) hang without a
+# TTY on this host - observed 2026-08-24, wedging a deploy after the artifact
+# was already live. The jlist subcommand emits plain JSON and is reliable;
+# every pm2 call is wrapped in the timeout utility so a hang degrades to a
+# warning instead of a hung deploy.
+#
+# NOTE: this heredoc delimiter is QUOTED on purpose. Everything below runs on
+# the host; inputs arrive as positional parameters above. An unquoted
+# delimiter makes the local shell expand $vars, $(cmd) AND backticks in these
+# comments - which silently broke this block on 2026-08-24.
 if timeout 30 pm2 jlist 2>/dev/null | grep -q "\"name\":\"$PM2_APP\""; then
   timeout 60 pm2 restart "$PM2_APP" --update-env >/dev/null 2>&1 || true
   echo "restarted pm2 app '$PM2_APP'"
 else
   echo "NOTE: pm2 app '$PM2_APP' is not registered. Register it once:"
-  echo "  cd $RELEASE_DIR/current && PORT=4000 NODE_ENV=production \\"
+  echo "  cd $RELEASE_DIR/current && PORT=$SSR_PORT NODE_ENV=production \\"
   echo "    pm2 start server/server.mjs --name $PM2_APP --cwd $RELEASE_DIR/current -i 1"
   echo "  pm2 save"
 fi
 
-# Verify the app actually answers, rather than trusting pm2's own status field.
+# Verify the app actually answers, rather than trusting the pm2 status field.
 sleep 3
-CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "http://127.0.0.1:${SSR_PORT:-4000}/about" || echo 000)
+CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "http://127.0.0.1:$SSR_PORT/about" || echo 000)
 if [ "$CODE" = "200" ]; then
-  echo "SSR healthy on 127.0.0.1:${SSR_PORT:-4000} (/about -> 200)"
+  echo "SSR healthy on 127.0.0.1:$SSR_PORT (/about -> 200)"
 else
   echo "WARNING: SSR did not return 200 on /about (got $CODE). Check: pm2 logs $PM2_APP" >&2
 fi
