@@ -28,21 +28,34 @@ Never fill in secrets (DB passwords, JWT secrets, SendGrid keys, etc.) inside
 committed config files — they belong only in `.env` files on the server,
 outside version control.
 
-**Gap between this kit and the current deploy process.** `roaya-website/CLAUDE.md`
-documents the deploy commands actually in use today: they `tar`/`scp` only the
-Angular **browser** build (`dist/roaya-website/browser`) into
-`/var/www/roaya-website/` and never reference deploying or supervising the SSR
-**server** bundle (`dist/roaya-website/server/server.mjs`), nor any nginx
-config file in this repo. That is consistent with a static-file deploy, which
-is exactly the "static-only SPA fallback" this kit's nginx config avoids —
-if that is indeed how `roaya.co` is served today, the AI-friendly SSR output
-from TIFO-9 (per-route SSR HTML, JSON-LD, bilingual metadata, real 404s) is
-not actually live. This kit's config is written for the SSR-serving
-architecture the app is built for; going live with it requires updating the
-existing deploy flow to also ship and supervise the SSR process (steps 2 and
-4 below), not just the browser assets. Confirm current production's real
-setup with whoever manages `roaya.co` before assuming either way — this issue
-does not connect to that host to check.
+**Confirmed gap between this kit and the current deploy process (2026-08-24).**
+`roaya-website/CLAUDE.md` documents deploy commands that `tar`/`scp` only the
+Angular **browser** build into `/var/www/roaya-website/`, with no reference to
+the SSR **server** bundle or any nginx config in this repo. A human with SSH
+access to the production host ran the two checks proposed above and confirmed
+it live:
+
+```
+$ ps aux | grep -i "server.mjs|roaya-ssr"
+# no matching process — only the grep command itself
+$ curl -sI https://roaya.co/this-route-xyz
+HTTP/2 200
+server: cloudflare
+last-modified: Sun, 08 Feb 2026 10:53:34 GMT
+```
+
+An unknown route returning `200` with a `last-modified` header from a static
+file (not a fresh SSR response) confirms `roaya.co` is currently served as a
+**static-only build with no SSR process running** — Cloudflare sits in front
+of the origin, but the origin itself has no `server.mjs`/`roaya-ssr` process
+to hit. This means the AI-friendly SSR output from TIFO-9 (per-route SSR HTML,
+JSON-LD, bilingual metadata, real 404s) is **not live today**, regardless of
+what's in `main`. Going live with this kit is therefore not just "add nginx +
+supervision" — it's a real migration off static-only hosting: the existing
+deploy flow must start shipping and supervising the SSR process (steps 2 and 4
+below) and nginx must stop returning `200` for unknown routes. Until that
+migration happens, treat every AI-readiness deliverable from TIFO-9 onward as
+built-but-not-deployed.
 
 ### 1. Build
 
