@@ -96,7 +96,11 @@ function withSandbox(mutate, run) {
 
 function editFile(path, transform) {
   const content = readFileSync(path, 'utf8');
-  writeFileSync(path, transform(content));
+  const mutated = transform(content);
+  if (mutated === content) {
+    throw new Error(`Self-test fixture mutation was a no-op: ${path}`);
+  }
+  writeFileSync(path, mutated);
 }
 
 // --- Baseline: every check passes clean on an untouched sandbox copy. ---
@@ -119,10 +123,11 @@ function editFile(path, transform) {
 }
 
 // --- robots-policy ---
+// Use regex to match both LF and CRLF line endings (Windows compatibility)
 check(
   'robots-policy fails when an AI training crawler is no longer disallowed',
   withSandbox(
-    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace('User-agent: GPTBot\nDisallow: /', 'User-agent: GPTBot\nAllow: /')),
+    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace(/User-agent: GPTBot\r?\nDisallow: \//, 'User-agent: GPTBot\nAllow: /')),
     (ctx) => checkRobotsPolicy(ctx).status === 'fail',
   ),
 );
@@ -136,7 +141,7 @@ check(
 check(
   'robots-policy fails when an admin path disallow is removed',
   withSandbox(
-    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace('Disallow: /admin/\n', '')),
+    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace(/Disallow: \/admin\/\r?\n/, '')),
     (ctx) => checkRobotsPolicy(ctx).status === 'fail',
   ),
 );
