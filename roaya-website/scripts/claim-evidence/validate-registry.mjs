@@ -187,16 +187,149 @@ const PUBLIC_SURFACE_PREFIXES = [
 // Exact policy for blocked claims whose former sourcePointer is intentionally
 // null after remediation. This closes the registry-only loophole: a blocked
 // claim cannot be silently reintroduced into its known public surface.
+//
+// Each entry maps a blocked claim ID to an array of { path, forbidden } rules.
+// forbidden is an array of exact substrings that must NOT appear in the file.
+// Using exact values avoids false-positive regex matches.
 const BLOCKED_PUBLIC_SURFACE_POLICY = {
-  'pricing-truth-ranges': [{
-    path: 'src/assets/i18n/en.json',
-    forbidden: ['From 2,500 EGP/mo', 'From 8,500 EGP/mo'],
-  }],
-  'case-study-bank-cloud-migration': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
-  'case-study-healthcare-soc-implementation': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
-  'case-study-government-digital-transformation': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
-  'case-study-manufacturing-sap-implementation': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
-  'case-study-ecommerce-auto-scaling': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
+  // ── pricing-truth-ranges ────────────────────────────────────────────────────
+  // Blocked EGP price claims removed per Stage 0 decision 9.
+  'pricing-truth-ranges': [
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        'From 2,500 EGP/mo',
+        'From 8,500 EGP/mo',
+        '$1.50/user/month',
+        'CloudSpace plans start at $1.50 per user/month',
+        '$0.50/user/month',
+        '1.50/user',
+        '0.50/user',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        'From 2,500 EGP/mo',
+        'From 8,500 EGP/mo',
+        '2,500 جنيه',
+        '8,500 جنيه',
+        '$1.50/user/month',
+        'CloudSpace plans start at $1.50 per user/month',
+        '$0.50/user/month',
+        '1.50/user',
+        '0.50/user',
+      ],
+    },
+  ],
+
+  // ── iso-certification ───────────────────────────────────────────────────────
+  // Unverified ISO Certification claim. "ISO Certified" in footer is blocked
+  // until written ISO certificate reference is provided.
+  'iso-certification': [
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        '"certified": "ISO Certified"',
+        'ISO Certification',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        '"certified": "معتمد ISO"',
+        'شهادة ISO',
+      ],
+    },
+  ],
+
+  // ── cloudspace-definition-taxonomy ──────────────────────────────────────────
+  // CloudSpace removed from WorldPosta products; JSON-LD exclusion in place.
+  // Prevent reintroduction of CloudSpace plan pricing (.50 claim variants).
+  'cloudspace-definition-taxonomy': [
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        '"CloudSpace"',
+        'CloudSpace plan',
+        '$1.50/user',
+        '$0.50/user',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        '"CloudSpace"',
+        'CloudSpace plan',
+        'كلاود سبيس',
+      ],
+    },
+  ],
+
+  // ── blocked social proof / guaranteed ROI variants ──────────────────────────
+  // "Guaranteed ROI" is an unverified marketing claim. The pricing page trust
+  // section must not promise guaranteed ROI until evidence is provided.
+  // "40% promo" / promotional savings guarantees are also blocked.
+  'uptime-generic-outside-cloudedge-posta': [
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        '"roi": "Guaranteed ROI"',
+        'guaranteed ROI',
+        '40% promo',
+        'save 40%',
+        'Save 40%',
+        'Save up to 40%',
+        '40% promotional savings with guaranteed ROI',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        '"roi": "عائد استثمار مضمون"',
+        'عائد استثمار مضمون',
+        'خصم 40%',
+        'توفير 40%',
+        'وفر حتى 40%',
+        'توفير ترويجي 40% مع عائد استثمار مضمون',
+      ],
+    },
+  ],
+
+  // ── case study blocked metric template behavior ─────────────────────────────
+  // The case study detail component template must not dynamically render
+  // .results.metrics. keys for blocked case studies. Individual case study
+  // entries also enforce that 40% savings claims are not published as metrics.
+  'case-study-bank-cloud-migration': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+  ],
+  'case-study-healthcare-soc-implementation': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+  ],
+  'case-study-government-digital-transformation': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+  ],
+  'case-study-manufacturing-sap-implementation': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+  ],
+  'case-study-ecommerce-auto-scaling': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    // Also enforce no 40% savings claim in the case study subtitle/metrics
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        '40% cost savings',
+        '"value": "40%"',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        'وتوفير 40%',
+        '"value": "40%"',
+      ],
+    },
+  ],
 };
 
 function isPublicSurface(sourcePointer) {
@@ -374,6 +507,7 @@ function main() {
   const caseStudySlugs = extractCaseStudySlugs(caseStudiesDataTs);
   const publicSurfaceFiles = {
     'src/assets/i18n/en.json': readFileSync(join(__dirname, '..', '..', 'src/assets/i18n/en.json'), 'utf8'),
+    'src/assets/i18n/ar.json': readFileSync(join(__dirname, '..', '..', 'src/assets/i18n/ar.json'), 'utf8'),
     'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html': readFileSync(join(__dirname, '..', '..', 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'), 'utf8'),
   };
 
