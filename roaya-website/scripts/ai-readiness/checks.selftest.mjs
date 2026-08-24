@@ -38,7 +38,7 @@ function makeSandbox() {
   const sandboxRoot = mkdtempSync(join(tmpdir(), 'tifo16-ai-readiness-'));
   mkdirSync(join(sandboxRoot, 'public'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/core/seo'), { recursive: true });
-  mkdirSync(join(sandboxRoot, 'src/app/features/resources/case-studies'), { recursive: true });
+  mkdirSync(join(sandboxRoot, 'src/app/features/resources/case-studies/case-study-detail'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/features/services/worldposta'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/features/not-found'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/assets/i18n'), { recursive: true });
@@ -60,6 +60,10 @@ function makeSandbox() {
   cpSync(
     join(realRoot, 'src/app/features/resources/case-studies/case-studies.data.ts'),
     join(sandboxRoot, 'src/app/features/resources/case-studies/case-studies.data.ts'),
+  );
+  cpSync(
+    join(realRoot, 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'),
+    join(sandboxRoot, 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'),
   );
   cpSync(join(realRoot, 'src/assets/i18n/en.json'), join(sandboxRoot, 'src/assets/i18n/en.json'));
   cpSync(join(realRoot, 'src/assets/i18n/ar.json'), join(sandboxRoot, 'src/assets/i18n/ar.json'));

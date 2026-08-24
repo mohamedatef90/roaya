@@ -25,7 +25,9 @@ verifiable from local source/build state:
 
 The checks verify:
 - **58 prerendered routes** emitted in the production build
-- **JSON-LD coverage** on `/`, `/about`, `/services/worldposta` (ROUTE_ENTITY_MAP)
+- **JSON-LD coverage** — site-wide Organization/WebSite identity and URL-derived
+  breadcrumbs are emitted on canonical routes; `ROUTE_ENTITY_MAP` has one
+  page-specific Service mapping: `/services/worldposta`.
 - **Express 301 redirects** for pentest-v2 canonicalization (both locales)
 - **Closed industry registry** with RESPONSE_INIT 404 for unknown IDs
 - **Deferred repository cleanup** — 11,683 tracked root `node_modules/**` files
@@ -57,9 +59,10 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
 
 ## 2. Blocked public surface exception policy
 
-Blocked registry entries (`status: "blocked"`) that point to publicly rendered
-surfaces (i18n keys, component templates) must now carry documented exception
-fields or have their `sourcePointer` set to `null` after remediation.
+Blocked registry entries (`status: "blocked"`) are checked against the explicit
+claim-to-public-surface policy in the validator, even when their `sourcePointer`
+is `null`. Public blocked values/templates must be removed or qualified; a
+documented exception is required only for a deliberately retained public pointer.
 
 **Validator enforcement:** `scripts/claim-evidence/validate-registry.mjs`
 rejects any blocked claim with a `sourcePointer` matching public surface
@@ -114,10 +117,11 @@ Then confirm:
 - [ ] **SSR runtime, not a static shell** — a sample of canonical routes
       returns HTTP 200 with real content in the first response, each with its
       own route-specific `<title>` (not a shared shell title).
-- [ ] **JSON-LD where it is registered** — the routes in `ROUTE_ENTITY_MAP`
-      (`/`, `/about`, `/services/worldposta`) carry a
-      `<script type="application/ld+json">` graph. Other routes are not
-      supposed to have one — absence there is not a defect.
+- [ ] **JSON-LD where it is registered** — every canonical route receives the
+      verified site-wide Organization/WebSite identity plus URL-derived
+      breadcrumbs. `ROUTE_ENTITY_MAP` has exactly one page-specific Service
+      mapping, `/services/worldposta`; other routes must not gain unregistered
+      Service facts.
 - [ ] **Canonical links** — each route has a correct self-referencing
       `<link rel="canonical">`.
 - [ ] **Real 404** — an unregistered path returns HTTP 404, not a 200 with a

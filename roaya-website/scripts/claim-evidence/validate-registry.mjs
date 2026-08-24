@@ -184,6 +184,21 @@ const PUBLIC_SURFACE_PREFIXES = [
   'src/app/shared/',
 ];
 
+// Exact policy for blocked claims whose former sourcePointer is intentionally
+// null after remediation. This closes the registry-only loophole: a blocked
+// claim cannot be silently reintroduced into its known public surface.
+const BLOCKED_PUBLIC_SURFACE_POLICY = {
+  'pricing-truth-ranges': [{
+    path: 'src/assets/i18n/en.json',
+    forbidden: ['From 2,500 EGP/mo', 'From 8,500 EGP/mo'],
+  }],
+  'case-study-bank-cloud-migration': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
+  'case-study-healthcare-soc-implementation': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
+  'case-study-government-digital-transformation': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
+  'case-study-manufacturing-sap-implementation': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
+  'case-study-ecommerce-auto-scaling': [{ path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] }],
+};
+
 function isPublicSurface(sourcePointer) {
   if (!sourcePointer) return false;
   return PUBLIC_SURFACE_PREFIXES.some((prefix) => sourcePointer.startsWith(prefix));
@@ -261,7 +276,23 @@ function validateEvidenceGates(claim, errors) {
   }
 }
 
-export function validateRegistry(registryJson, { caseStudySlugs } = {}) {
+function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
+  if (claim.status !== 'blocked') return;
+  for (const rule of BLOCKED_PUBLIC_SURFACE_POLICY[claim.id] ?? []) {
+    const source = publicSurfaceFiles?.[rule.path];
+    if (typeof source !== 'string') {
+      pushError(errors, claim.id, `Blocked public-surface policy could not inspect ${rule.path}.`);
+      continue;
+    }
+    for (const forbidden of rule.forbidden) {
+      if (source.includes(forbidden)) {
+        pushError(errors, claim.id, `Blocked public claim is rendered or reintroduced in ${rule.path}: ${JSON.stringify(forbidden)}. Remove/qualify it or add a real documented exception.`);
+      }
+    }
+  }
+}
+
+export function validateRegistry(registryJson, { caseStudySlugs, publicSurfaceFiles } = {}) {
   const errors = [];
   let registry;
   try {
@@ -297,6 +328,7 @@ export function validateRegistry(registryJson, { caseStudySlugs } = {}) {
 
     validateSecrets(claim, errors);
     validateEvidenceGates(claim, errors);
+    validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles);
 
     if (claim.category === 'case_study' && isNonEmptyString(claim.slug)) {
       if (seenSlugs.has(claim.slug)) {
@@ -340,8 +372,12 @@ function main() {
   const registryJson = readFileSync(registryPath, 'utf8');
   const caseStudiesDataTs = readFileSync(caseStudiesDataPath, 'utf8');
   const caseStudySlugs = extractCaseStudySlugs(caseStudiesDataTs);
+  const publicSurfaceFiles = {
+    'src/assets/i18n/en.json': readFileSync(join(__dirname, '..', '..', 'src/assets/i18n/en.json'), 'utf8'),
+    'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html': readFileSync(join(__dirname, '..', '..', 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'), 'utf8'),
+  };
 
-  const { errors, claimCount } = validateRegistry(registryJson, { caseStudySlugs });
+  const { errors, claimCount } = validateRegistry(registryJson, { caseStudySlugs, publicSurfaceFiles });
 
   if (errors.length > 0) {
     console.error(`claim-evidence registry validation FAILED (${errors.length} error(s)):`);

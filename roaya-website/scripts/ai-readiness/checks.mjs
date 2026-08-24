@@ -608,7 +608,11 @@ export function checkApprovedFactualConsistency(ctx) {
     'utf8',
   );
   const caseStudySlugs = extractCaseStudySlugs(caseStudiesDataTs);
-  const { errors: schemaErrors } = validateRegistry(registryJson, { caseStudySlugs });
+  const publicSurfaceFiles = {
+    'src/assets/i18n/en.json': readFileSync(join(ctx.root, 'src/assets/i18n/en.json'), 'utf8'),
+    'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html': readFileSync(join(ctx.root, 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'), 'utf8'),
+  };
+  const { errors: schemaErrors } = validateRegistry(registryJson, { caseStudySlugs, publicSurfaceFiles });
   errors.push(...schemaErrors);
 
   const registry = JSON.parse(registryJson);

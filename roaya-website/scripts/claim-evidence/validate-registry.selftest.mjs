@@ -21,6 +21,10 @@ const caseStudiesDataPath = join(
 const baselineJson = readFileSync(registryPath, 'utf8');
 const caseStudiesDataTs = readFileSync(caseStudiesDataPath, 'utf8');
 const caseStudySlugs = extractCaseStudySlugs(caseStudiesDataTs);
+const publicSurfaceFiles = {
+  'src/assets/i18n/en.json': readFileSync(join(__dirname, '..', '..', 'src/assets/i18n/en.json'), 'utf8'),
+  'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html': readFileSync(join(__dirname, '..', '..', 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'), 'utf8'),
+};
 const baseline = JSON.parse(baselineJson);
 
 let failures = 0;
@@ -45,13 +49,34 @@ function findClaim(clone, id) {
 }
 
 function errorsFor(mutatedJson) {
-  return validateRegistry(mutatedJson, { caseStudySlugs }).errors;
+  return validateRegistry(mutatedJson, { caseStudySlugs, publicSurfaceFiles }).errors;
 }
 
 // Baseline must pass clean.
 {
-  const { errors } = validateRegistry(baselineJson, { caseStudySlugs });
+  const { errors } = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles });
   check('baseline registry.json passes with zero errors', errors.length === 0);
+}
+
+// Rule: a mutation of a real public source back to a blocked price must fail.
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': `${publicSurfaceFiles['src/assets/i18n/en.json']}\nFrom 2,500 EGP/mo`,
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check('blocked pricing reintroduced into a public source is rejected', errors.some((e) => e.includes('From 2,500 EGP/mo')));
+}
+
+// Rule: restoring dynamic metric rendering for blocked case studies must fail.
+{
+  const templatePath = 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html';
+  const sources = {
+    ...publicSurfaceFiles,
+    [templatePath]: `${publicSurfaceFiles[templatePath]}\n{{ translationPrefix() + '.results.metrics.' + metric + '.value' | translate }}`,
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check('blocked case-study metric rendering reintroduced into a public template is rejected', errors.some((e) => e.includes('.results.metrics.')));
 }
 
 // Rule: a verified status without a source pointer must be rejected.

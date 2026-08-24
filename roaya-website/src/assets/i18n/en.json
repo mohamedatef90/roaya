@@ -2815,12 +2815,12 @@
       "subtitle": "We're the first IT services provider in Egypt to publish transparent pricing. See exactly what you'll pay.",
       "starter": {
         "title": "Starter",
-        "price": "From 2,500 EGP/mo",
+        "price": "Contact us for current pricing",
         "description": "Perfect for small teams"
       },
       "business": {
         "title": "Business",
-        "price": "From 8,500 EGP/mo",
+        "price": "Contact us for current pricing",
         "description": "For growing companies"
       },
       "enterprise": {
@@ -3724,22 +3724,22 @@
         "description": "The transformation delivered measurable business impact within the first 6 months post-migration.",
         "metrics": {
           "metric1": {
-            "value": "42%",
+            "value": "Pending client approval",
             "label": "Cost Reduction",
             "description": "Annual infrastructure savings through optimized cloud resources"
           },
           "metric2": {
-            "value": "99.94%",
+            "value": "Pending client approval",
             "label": "Uptime Achieved",
             "description": "Zero critical outages since migration completion"
           },
           "metric3": {
-            "value": "60%",
+            "value": "Pending client approval",
             "label": "Faster Deployment",
             "description": "New services launched in days instead of weeks"
           },
           "metric4": {
-            "value": "100%",
+            "value": "Pending client approval",
             "label": "CBE Compliant",
             "description": "Full regulatory compliance maintained throughout"
           }
@@ -4240,22 +4240,22 @@
         "description": "The infrastructure transformation enabled unlimited growth while reducing costs.",
         "metrics": {
           "metric1": {
-            "value": "300%",
+            "value": "Pending client approval",
             "label": "Traffic Capacity",
             "description": "Scaled from 10K to 30K concurrent users during Black Friday"
           },
           "metric2": {
-            "value": "99.99%",
+            "value": "Pending client approval",
             "label": "Uptime",
             "description": "Zero downtime during all sales events since implementation"
           },
           "metric3": {
-            "value": "40%",
+            "value": "Pending client approval",
             "label": "Cost Savings",
             "description": "Infrastructure costs reduced through pay-as-you-scale model"
           },
           "metric4": {
-            "value": "1.8s",
+            "value": "Pending client approval",
             "label": "Page Load Time",
             "description": "Average load time reduced from 4+ seconds to under 2 seconds"
           }
