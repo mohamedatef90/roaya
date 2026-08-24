@@ -71,6 +71,9 @@ function validateClaimShape(claim, errors) {
     'slug',
     'clientApprovalReference',
     'metricEvidencePointer',
+    'exceptionOwner',
+    'exceptionExpiry',
+    'exceptionApproval',
   ]);
   for (const key of Object.keys(claim)) {
     if (!baseAllowed.has(key)) {
@@ -173,6 +176,19 @@ function validateSecrets(claim, errors) {
   }
 }
 
+// Public surface paths where blocked copy appearing would fail AI-readiness.
+// These are i18n files and component sources that render to the public website.
+const PUBLIC_SURFACE_PREFIXES = [
+  'src/assets/i18n/',
+  'src/app/features/',
+  'src/app/shared/',
+];
+
+function isPublicSurface(sourcePointer) {
+  if (!sourcePointer) return false;
+  return PUBLIC_SURFACE_PREFIXES.some((prefix) => sourcePointer.startsWith(prefix));
+}
+
 function validateEvidenceGates(claim, errors) {
   const id = claim.id;
 
@@ -206,6 +222,41 @@ function validateEvidenceGates(claim, errors) {
     if (claim.status === 'blocked' && (hasApproval || hasMetricEvidence) === false) {
       // Expected steady state: blocked with both null. No error — this is
       // the correct "not yet promoted" shape.
+    }
+  }
+
+  // TIFO-16 blocked-public-surface policy: blocked entries that point to a
+  // publicly rendered surface (i18n or component source) MUST have a documented
+  // exception with owner, expiry, and approval — OR the blocked copy must be
+  // removed/qualified from the public surface.
+  if (claim.status === 'blocked' && isPublicSurface(claim.sourcePointer)) {
+    const hasExceptionOwner = isNonEmptyString(claim.exceptionOwner);
+    const hasExceptionExpiry = isNonEmptyString(claim.exceptionExpiry);
+    const hasExceptionApproval = isNonEmptyString(claim.exceptionApproval);
+
+    // Expiry must be a valid future date if provided
+    if (hasExceptionExpiry) {
+      if (!DATE_PATTERN.test(claim.exceptionExpiry)) {
+        pushError(errors, id, `"exceptionExpiry" must be in YYYY-MM-DD format: ${JSON.stringify(claim.exceptionExpiry)}`);
+      } else {
+        const [y, m, d] = claim.exceptionExpiry.split('-').map(Number);
+        const expiryDate = new Date(Date.UTC(y, m - 1, d));
+        const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
+        if (expiryDate < today) {
+          pushError(errors, id, `"exceptionExpiry" has passed (${claim.exceptionExpiry}) — blocked public copy must be removed or exception renewed.`);
+        }
+      }
+    }
+
+    if (!(hasExceptionOwner && hasExceptionExpiry && hasExceptionApproval)) {
+      pushError(
+        errors,
+        id,
+        `status is "blocked" with sourcePointer targeting a public surface (${claim.sourcePointer}) but missing required exception fields. ` +
+        `Blocked copy on public surfaces requires: exceptionOwner, exceptionExpiry (YYYY-MM-DD), and exceptionApproval. ` +
+        `Either add the exception or remove/qualify the blocked copy from the public surface.`,
+      );
     }
   }
 }

@@ -84,6 +84,19 @@
         "metricEvidencePointer": {
           "type": ["string", "null"],
           "description": "Case-study only: pointer to the metric evidence backing the case study's published numbers. Must stay null until real evidence is attached."
+        },
+        "exceptionOwner": {
+          "type": ["string", "null"],
+          "description": "For blocked claims pointing to public surfaces: the human owner accountable for the exception (e.g. 'Marketing Lead'). Required when blocked copy ships to a public surface."
+        },
+        "exceptionExpiry": {
+          "type": ["string", "null"],
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "For blocked claims pointing to public surfaces: the date (YYYY-MM-DD) by which the blocked copy must be removed or the exception renewed. Must be a future date."
+        },
+        "exceptionApproval": {
+          "type": ["string", "null"],
+          "description": "For blocked claims pointing to public surfaces: the approval decision or ticket reference allowing temporary blocked copy to ship."
         }
       },
       "allOf": [
