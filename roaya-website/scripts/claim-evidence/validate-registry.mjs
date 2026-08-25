@@ -226,26 +226,27 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // ── iso-certification ───────────────────────────────────────────────────────
   // Unverified ISO Certification claim. "ISO Certified" in footer is blocked
   // until written ISO certificate reference is provided.
+  // Each rule declares exactly ONE forbidden scalar value for separate authorization.
   'iso-certification': [
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#footer.certified',
-      forbidden: ['"certified": "ISO Certified"'],
+      forbidden: 'ISO Certified',
     },
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#about.milestones.certification.title',
-      forbidden: ['ISO Certification'],
+      forbidden: 'ISO Certification',
     },
     {
       path: 'src/assets/i18n/ar.json',
       sourcePointer: 'src/assets/i18n/ar.json#footer.certified',
-      forbidden: ['"certified": "معتمد ISO"'],
+      forbidden: 'معتمد ISO',
     },
     {
       path: 'src/assets/i18n/ar.json',
       sourcePointer: 'src/assets/i18n/ar.json#about.milestones.certification.title',
-      forbidden: ['شهادة ISO'],
+      forbidden: 'شهادة ISO',
     },
   ],
 
@@ -318,47 +319,56 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // ── bank-cloud-migration (banking) ─────────────────────────────────────────
   // Blocked: 42% cost reduction, 99.94% uptime, 60% faster deployment claims
   // Current public surface: AR meta.description contains "42%" and "دون أي توقف"
+  // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-bank-cloud-migration': [
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    // EN meta.title
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.meta.title',
-      forbidden: ['42% Cost Reduction - Roaya IT'],
+      forbidden: '42% Cost Reduction - Roaya IT',
     },
+    // EN hero.title
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.hero.title',
-      forbidden: ['Achieves 42% Cost Reduction'],
+      forbidden: 'Achieves 42% Cost Reduction',
+    },
+    // EN results.metrics - split into separate rules
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics',
+      forbidden: '99.94%',
     },
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics',
-      forbidden: ['99.94%', '60% Faster Deployment'],
+      forbidden: '60% Faster Deployment',
+    },
+    // AR meta.description - split into separate rules for each token
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.meta.description',
+      forbidden: 'لخفض 42%',
     },
     {
       path: 'src/assets/i18n/ar.json',
       sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.meta.description',
-      forbidden: [
-        // meta.description blocked claims: 42% cost reduction + without downtime
-        'لخفض 42%',
-        'دون أي توقف',
-      ],
+      forbidden: 'دون أي توقف',
     },
+    // AR hero.title
     {
       path: 'src/assets/i18n/ar.json',
       sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.hero.title',
-      forbidden: [
-        // hero.title blocked claim: without downtime
-        'دون أي توقف',
-      ],
+      forbidden: 'دون أي توقف',
     },
+    // AR results.metrics - prevents meta.description exception from authorizing same token here
     {
-      // A separate exact rule prevents a meta.description exception from
-      // authorizing the same blocked reduction token in results.metrics.
       path: 'src/assets/i18n/ar.json',
       sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.results.metrics',
-      forbidden: ['لخفض 42%'],
+      forbidden: 'لخفض 42%',
     },
+    // AR whole-file rules (no sourcePointer = no key-aware authorization)
     {
       path: 'src/assets/i18n/ar.json',
       forbidden: [
@@ -464,23 +474,38 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // NOTE: "Zero downtime" appears in results.metrics.metric2.description which
   // needs to be qualified. Other occurrences in postaHybrid or banking challenge
   // are service descriptions, not outcome claims.
+  // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-ecommerce-auto-scaling': [
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    // EN meta.title
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.title',
-      forbidden: ['300% Traffic Capacity - Roaya IT'],
+      forbidden: '300% Traffic Capacity - Roaya IT',
+    },
+    // EN meta.description - split into separate rules
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description',
+      forbidden: '300% traffic surge',
     },
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description',
-      forbidden: ['300% traffic surge', 'with zero downtime'],
+      forbidden: 'with zero downtime',
+    },
+    // EN hero.title - split into separate rules
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.hero.title',
+      forbidden: '300% Traffic Surge',
     },
     {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.hero.title',
-      forbidden: ['300% Traffic Surge', 'Zero Downtime'],
+      forbidden: 'Zero Downtime',
     },
+    // EN whole-file rules (no sourcePointer = no key-aware authorization)
     {
       path: 'src/assets/i18n/en.json',
       forbidden: [
@@ -491,6 +516,7 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
         'Zero downtime during all sales events',
       ],
     },
+    // AR whole-file rules (no sourcePointer = no key-aware authorization)
     {
       path: 'src/assets/i18n/ar.json',
       forbidden: [
@@ -665,6 +691,48 @@ function parseSourcePointer(sourcePointer) {
   };
 }
 
+/**
+ * Determines if the rule is a key-aware exact policy rule:
+ * - Has a sourcePointer with a JSON key fragment (path#key.path)
+ * - Has a scalar forbidden token (string, not array)
+ * - Targets a JSON file
+ *
+ * Key-aware rules fail closed: if JSON can't parse or key path doesn't resolve,
+ * emit a validation error rather than falling back to whole-file scanning.
+ */
+function isKeyAwareRule(rule) {
+  if (!rule.sourcePointer || typeof rule.sourcePointer !== 'string') return false;
+  if (typeof rule.forbidden !== 'string') return false; // Must be scalar
+  if (!rule.path.endsWith('.json')) return false;
+  const { keyPath } = parseSourcePointer(rule.sourcePointer);
+  return Boolean(keyPath);
+}
+
+/**
+ * For exception authorization with exact policy rules:
+ * - The claim's sourcePointer must exactly match the rule's sourcePointer
+ * - The rule must have a scalar forbidden token (one token per rule)
+ * - This ensures that authorizing token A at key X does NOT authorize:
+ *   - Token A at key Y (wrong key)
+ *   - Token B at key X (sibling token in same key)
+ */
+function policyApprovalMarker(rule, forbiddenToken) {
+  return `policy-token:${rule.sourcePointer}:${forbiddenToken}`;
+}
+
+function isExceptionAuthorizedForRule(claim, rule, forbiddenToken) {
+  if (claim.status !== 'blocked') return false;
+  if (!hasValidException(claim)) return false;
+  // Rule must have an exact sourcePointer to match against.
+  if (typeof rule.sourcePointer !== 'string') return false;
+  if (typeof rule.forbidden !== 'string') return false;
+  // Claim pointer is the ordinary locator and must exactly identify this key.
+  if (claim.sourcePointer !== rule.sourcePointer) return false;
+  // The approval itself must name this one policy token. This binds an approval
+  // to a single scalar rule without changing the registry sourcePointer schema.
+  return claim.exceptionApproval.includes(policyApprovalMarker(rule, forbiddenToken));
+}
+
 function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
   if (claim.status !== 'blocked') return;
 
@@ -674,14 +742,13 @@ function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
     if (path in parsedCache) return parsedCache[path];
     const source = publicSurfaceFiles?.[path];
     if (typeof source !== 'string') {
-      parsedCache[path] = null;
-      return null;
+      parsedCache[path] = { parsed: null, error: 'File not available' };
+      return parsedCache[path];
     }
     try {
-      parsedCache[path] = JSON.parse(source);
-    } catch {
-      // Not valid JSON - return null, fall back to string matching
-      parsedCache[path] = null;
+      parsedCache[path] = { parsed: JSON.parse(source), error: null };
+    } catch (e) {
+      parsedCache[path] = { parsed: null, error: e.message };
     }
     return parsedCache[path];
   }
@@ -693,19 +760,37 @@ function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
       continue;
     }
 
-    // Parse the rule's sourcePointer to get the key path (if any)
+    // Normalize forbidden to array for iteration
+    const forbiddenTokens = typeof rule.forbidden === 'string' ? [rule.forbidden] : rule.forbidden;
+
+    // Determine if this is a key-aware rule (scalar forbidden + sourcePointer with keyPath)
+    const keyAware = isKeyAwareRule(rule);
     const { keyPath: ruleKeyPath } = rule.sourcePointer ? parseSourcePointer(rule.sourcePointer) : { keyPath: null };
 
-    for (const forbidden of rule.forbidden) {
+    for (const forbidden of forbiddenTokens) {
       let found = false;
 
-      if (ruleKeyPath && rule.path.endsWith('.json')) {
-        // JSON-key-aware matching: only check at the specific key path
-        const parsedJson = getParsedJson(rule.path);
-        if (parsedJson) {
-          found = containsForbiddenAtKeyPath(parsedJson, ruleKeyPath, forbidden);
+      if (keyAware) {
+        // JSON-key-aware matching: ONLY check at the specific key path
+        // Fail closed: if JSON can't parse or key doesn't resolve, emit error
+        const { parsed, error } = getParsedJson(rule.path);
+        if (error) {
+          pushError(errors, claim.id, `Key-aware policy rule for ${rule.path}#${ruleKeyPath} cannot parse JSON: ${error}. Fix the JSON or remove the key-aware rule.`);
+          continue;
+        }
+        const valueAtConfiguredKey = getValueAtKeyPath(parsed, ruleKeyPath);
+        if (typeof valueAtConfiguredKey === 'undefined') {
+          pushError(errors, claim.id, `Key-aware policy rule for ${rule.path}#${ruleKeyPath} could not resolve its configured JSON key. Fix the policy or restore the key.`);
+          continue;
+        }
+        found = containsForbiddenAtKeyPath(parsed, ruleKeyPath, forbidden);
+      } else if (ruleKeyPath && rule.path.endsWith('.json')) {
+        // Array-based rule with keyPath: check at key path, fall back to whole file if needed
+        const { parsed } = getParsedJson(rule.path);
+        if (parsed) {
+          found = containsForbiddenAtKeyPath(parsed, ruleKeyPath, forbidden);
         } else {
-          // Fall back to string matching if JSON parsing failed
+          // Fall back to string matching for array rules
           found = source.includes(forbidden);
         }
       } else {
@@ -714,9 +799,10 @@ function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
       }
 
       if (found) {
-        // Check if this specific forbidden string at this specific path is
-        // authorized by a valid exception mapping in sourcePointer.
-        if (isExceptionAuthorized(claim, rule)) {
+        // Check if this specific forbidden token is authorized by exception
+        // For scalar rules: exception must match exact sourcePointer
+        // For array rules: exceptions never authorize (whole-file policy)
+        if (isExceptionAuthorizedForRule(claim, rule, forbidden)) {
           continue;
         }
         pushError(errors, claim.id, `Blocked public claim is rendered or reintroduced in ${rule.path}: ${JSON.stringify(forbidden)}. Remove/qualify it or add a real documented exception.`);

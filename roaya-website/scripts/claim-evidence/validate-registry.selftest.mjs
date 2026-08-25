@@ -401,7 +401,7 @@ for (const [label, field, value] of secretMutations) {
     claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
     claim.exceptionOwner = 'Marketing Lead';
     claim.exceptionExpiry = '2027-12-31';
-    claim.exceptionApproval = 'TIFO-300 exact ISO exception authorized';
+    claim.exceptionApproval = 'TIFO-300 exact ISO exception authorized; policy-token:src/assets/i18n/en.json#footer.certified:ISO Certified';
   });
   // Inject the exact forbidden string at the exact key location using proper JSON mutation
   const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
@@ -497,7 +497,7 @@ for (const [label, field, value] of secretMutations) {
     claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.banking.meta.title';
     claim.exceptionOwner = 'Marketing Lead';
     claim.exceptionExpiry = '2027-12-31';
-    claim.exceptionApproval = 'TIFO-400 meta.title exception only';
+    claim.exceptionApproval = 'TIFO-400 meta.title exception only; policy-token:src/assets/i18n/en.json#caseStudies.banking.meta.title:42% Cost Reduction - Roaya IT';
   });
   // Inject the exact authorized string at meta.title location using proper JSON mutation
   const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.meta.title', '42% Cost Reduction - Roaya IT');
@@ -517,7 +517,7 @@ for (const [label, field, value] of secretMutations) {
     claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.banking.meta.title';
     claim.exceptionOwner = 'Marketing Lead';
     claim.exceptionExpiry = '2027-12-31';
-    claim.exceptionApproval = 'TIFO-400 meta.title exception only';
+    claim.exceptionApproval = 'TIFO-400 meta.title exception only; policy-token:src/assets/i18n/en.json#caseStudies.banking.meta.title:42% Cost Reduction - Roaya IT';
   });
   // Inject a DIFFERENT blocked string at hero.title (not covered by exception)
   const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.hero.title', 'Achieves 42% Cost Reduction');
@@ -535,7 +535,7 @@ for (const [label, field, value] of secretMutations) {
     claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
     claim.exceptionOwner = 'CEO';
     claim.exceptionExpiry = '2028-06-30';
-    claim.exceptionApproval = 'TIFO-500 full authorization for ISO badge';
+    claim.exceptionApproval = 'TIFO-500 full authorization for ISO badge; policy-token:src/assets/i18n/en.json#footer.certified:ISO Certified';
   });
   // Inject at the exact mapped location using proper JSON mutation
   const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
@@ -555,6 +555,7 @@ for (const [label, field, value] of secretMutations) {
 
 // Rule: case study exception must cover the exact mapped public surface, not a different one.
 // A valid exception for banking case study's meta.title does NOT permit hero.title reintroduction.
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
   const mutated = mutate((c) => {
     const claim = findClaim(c, 'case-study-bank-cloud-migration');
@@ -565,10 +566,7 @@ for (const [label, field, value] of secretMutations) {
     claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.banking.meta.title';
   });
   // Now inject a blocked claim into hero.title - should still be rejected
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"heroTitle": "Achieves 42% Cost Reduction"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.hero.title', 'Achieves 42% Cost Reduction');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'case study exception for one path does not permit blocked claim in different path (wrong-map)',
@@ -668,8 +666,9 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // ── iso-certification: both public locales must turn red on reintroduction. ────
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
-  const sources = { ...publicSurfaceFiles, 'src/assets/i18n/en.json': `${publicSurfaceFiles['src/assets/i18n/en.json']}\n"certified": "ISO Certified"` };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked iso-certification EN footer "ISO Certified" is detected',
@@ -677,7 +676,7 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
-  const sources = { ...publicSurfaceFiles, 'src/assets/i18n/ar.json': `${publicSurfaceFiles['src/assets/i18n/ar.json']}\n"certified": "معتمد ISO"` };
+  const sources = withMutatedJsonSource('src/assets/i18n/ar.json', 'footer.certified', 'معتمد ISO');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked iso-certification AR footer "معتمد ISO" is detected',
@@ -812,12 +811,10 @@ for (const [label, field, value] of secretMutations) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 // ── case-study-bank-cloud-migration (banking) ─────────────────────────────────
+// Use withMutatedJsonSource() for key-aware rules to create valid JSON.
 {
-  // EN: meta.title blocked claim
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "42% Cost Reduction - Roaya IT"',
-  };
+  // EN: meta.title blocked claim - mutate at exact key path
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.meta.title', '42% Cost Reduction - Roaya IT');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-bank-cloud-migration EN meta.title "42% Cost Reduction" is rejected',
@@ -825,11 +822,8 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
-  // EN: hero.title blocked claim
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Bank Achieves 42% Cost Reduction"',
-  };
+  // EN: hero.title blocked claim - mutate at exact key path
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.hero.title', 'Achieves 42% Cost Reduction');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-bank-cloud-migration EN hero.title "Achieves 42% Cost Reduction" is rejected',
@@ -837,11 +831,8 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
-  // EN: hero blocked 99.94% uptime metric
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"uptime": "99.94%"',
-  };
+  // EN: results.metrics blocked 99.94% uptime metric - mutate nested metrics object
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.results.metrics.metric2.value', '99.94%');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-bank-cloud-migration EN "99.94%" uptime metric is rejected',
@@ -1072,12 +1063,10 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // ── case-study-ecommerce-auto-scaling (ecommerce) ─────────────────────────────
+// Use withMutatedJsonSource() for key-aware rules to create valid JSON.
 {
-  // EN: meta.title blocked claim
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "300% Traffic Capacity - Roaya IT"',
-  };
+  // EN: meta.title blocked claim - mutate at exact key path
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.meta.title', '300% Traffic Capacity - Roaya IT');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-ecommerce EN meta.title "300% Traffic Capacity" is rejected',
@@ -1085,11 +1074,8 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
-  // EN: hero.title blocked claim
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Handles 300% Traffic Surge"',
-  };
+  // EN: hero.title blocked claim - mutate at exact key path
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.hero.title', '300% Traffic Surge');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-ecommerce EN hero.title "300% Traffic Surge" is rejected',
@@ -1165,11 +1151,9 @@ for (const [label, field, value] of secretMutations) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 // ── EN ecommerce meta.description: "300% traffic surge" + "zero downtime" ──────
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"description": "scaled to handle 300% traffic surge during Black Friday"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.meta.description', 'Scaled to handle 300% traffic surge during Black Friday');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-ecommerce EN meta.description "300% traffic surge" is rejected',
@@ -1177,10 +1161,7 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"description": "during Black Friday with zero downtime"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.meta.description', 'During Black Friday with zero downtime');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-ecommerce EN meta.description "with zero downtime" is rejected',
@@ -1189,11 +1170,9 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // ── EN ecommerce hero.title: "Zero Downtime" ───────────────────────────────────
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Handles Traffic Surge with Zero Downtime"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.hero.title', 'Handles Traffic Surge with Zero Downtime');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-ecommerce EN hero.title "Zero Downtime" is rejected',
@@ -1202,11 +1181,9 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // ── AR banking meta.description: "42%" + "without downtime" (دون أي توقف) ───────
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"description": "لخفض 42% في تكاليف البنية التحتية"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/ar.json', 'caseStudies.banking.meta.description', 'لخفض 42% في تكاليف البنية التحتية');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-bank AR meta.description "لخفض 42%" is rejected',
@@ -1214,10 +1191,7 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"description": "الترحيل السحابي دون أي توقف"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/ar.json', 'caseStudies.banking.meta.description', 'الترحيل السحابي دون أي توقف');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-bank AR meta.description "دون أي توقف" is rejected',
@@ -1226,11 +1200,9 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // ── AR banking hero.title: "without downtime" (دون أي توقف) ─────────────────────
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "ترحيل سحابي دون أي توقف"',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/ar.json', 'caseStudies.banking.hero.title', 'ترحيل سحابي دون أي توقف');
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'blocked case-study-bank AR hero.title "دون أي توقف" is rejected',
@@ -1245,6 +1217,7 @@ for (const [label, field, value] of secretMutations) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 // Rule: token at wrong key fails - 42% in results.metrics (wrong key) with exception for meta.description
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
   const mutated = mutate((c) => {
     const claim = findClaim(c, 'case-study-bank-cloud-migration');
@@ -1254,11 +1227,8 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionExpiry = '2027-12-31';
     claim.exceptionApproval = 'TIFO-600 exception for meta.description only';
   });
-  // Inject "لخفض 42%" at results.metrics (not meta.description)
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"results": { "metrics": { "metric1": { "description": "لخفض 42% في التكاليف" } } }',
-  };
+  // Inject "لخفض 42%" at results.metrics (not meta.description) - wrong key
+  const sources = withMutatedJsonSource('src/assets/i18n/ar.json', 'caseStudies.banking.results.metrics.metric1.description', 'لخفض 42% في التكاليف');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'wrong-key mutation: 42% at results.metrics fails even with meta.description exception',
@@ -1274,6 +1244,7 @@ for (const [label, field, value] of secretMutations) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 // Rule: sibling token stays red - exception for meta.description does not authorize hero.title
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
   const mutated = mutate((c) => {
     const claim = findClaim(c, 'case-study-ecommerce-auto-scaling');
@@ -1284,10 +1255,7 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionApproval = 'TIFO-700 exception for meta.description only';
   });
   // Inject "Zero Downtime" at hero.title (sibling rule not covered by exception)
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"hero": { "title": "Platform with Zero Downtime" }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.hero.title', 'Platform with Zero Downtime');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'sibling token stays red: meta.description exception does NOT authorize hero.title "Zero Downtime"',
@@ -1296,6 +1264,7 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // Rule: exception authorizes ONLY exact mapped token (green test)
+// Use withMutatedJsonSource() to create valid JSON for key-aware rules.
 {
   const mutated = mutate((c) => {
     const claim = findClaim(c, 'case-study-ecommerce-auto-scaling');
@@ -1303,18 +1272,64 @@ for (const [label, field, value] of secretMutations) {
     claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description';
     claim.exceptionOwner = 'Marketing Lead';
     claim.exceptionExpiry = '2027-12-31';
-    claim.exceptionApproval = 'TIFO-800 exact meta.description exception';
+    claim.exceptionApproval = 'TIFO-800 exact meta.description exception; policy-token:src/assets/i18n/en.json#caseStudies.ecommerce.meta.description:300% traffic surge';
   });
   // Inject the exact mapped forbidden string at meta.description
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": { "description": "handle 300% traffic surge during sales" }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.ecommerce.meta.description', 'Handle 300% traffic surge during sales');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   // Should NOT have error for the authorized string at the mapped location
   check(
     'exact exception green: meta.description exception authorizes 300% traffic surge at that key',
     !errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('300% traffic surge')),
+  );
+}
+
+// Rule: approval of one token at the same JSON key must not authorize a sibling token.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-ecommerce-auto-scaling');
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-801 single-token approval; policy-token:src/assets/i18n/en.json#caseStudies.ecommerce.meta.description:300% traffic surge';
+  });
+  const sources = withMutatedJsonSource(
+    'src/assets/i18n/en.json',
+    'caseStudies.ecommerce.meta.description',
+    'Scaled for a 300% traffic surge with zero downtime',
+  );
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'same-key sibling token stays red: 300% approval does NOT authorize "with zero downtime"',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('with zero downtime')),
+  );
+}
+
+// Rule: malformed JSON for a key-aware policy must fail closed rather than fall back to whole-file matching.
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': '{ malformed JSON',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'key-aware JSON policy fails closed when its source is invalid JSON',
+    errors.some((e) => e.includes('iso-certification') && e.includes('cannot parse JSON')),
+  );
+}
+
+// Rule: missing configured key for a key-aware policy must also fail closed.
+{
+  const obj = JSON.parse(publicSurfaceFiles['src/assets/i18n/en.json']);
+  delete obj.footer.certified;
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': JSON.stringify(obj),
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'key-aware JSON policy fails closed when its configured key is missing',
+    errors.some((e) => e.includes('iso-certification') && e.includes('could not resolve its configured JSON key')),
   );
 }
 

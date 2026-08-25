@@ -70,7 +70,16 @@ prefixes unless all three exception fields are present and valid:
 
 - `exceptionOwner` — named human approving the temporary exception
 - `exceptionExpiry` — future YYYY-MM-DD date when the exception expires
-- `exceptionApproval` — reference (ticket, email, decision record)
+- `exceptionApproval` — reference (ticket, email, decision record) that names the
+  exact policy token as `policy-token:<path#i18n.key>:<forbidden-value>`. This
+  binds approval to one rendered value at one public key; it never changes the
+  normal `sourcePointer` locator schema.
+
+For a key-aware JSON policy rule, the validator parses the public source and
+checks the resolved key only. Invalid JSON or an unresolved configured key fails
+closed; it never falls back to a whole-file substring check. One approved token
+does not authorize a sibling token at the same key or the same token at another
+key.
 
 **When to use exceptions vs. remediation:**
 
