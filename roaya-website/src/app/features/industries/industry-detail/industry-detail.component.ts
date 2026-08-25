@@ -1,8 +1,9 @@
-import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, DestroyRef, RESPONSE_INIT } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isValidIndustryId, type IndustryId } from '../../../core/seo/industry-registry';
 
 /**
  * Industry Detail Interface
@@ -52,13 +53,18 @@ interface IndustryDetail {
 export class IndustryDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly responseInit = inject(RESPONSE_INIT, { optional: true });
 
   // Reactive state using signals
   industryId = signal<string>('');
   industryData = signal<IndustryDetail | null>(null);
+  /** True once route param processing completes (success or 404). */
+  isProcessed = signal(false);
+  /** True if the industry ID was not found in the closed registry. */
+  notFound = signal(false);
 
-  // Computed property for checking if data is loaded
-  isLoaded = computed(() => this.industryData() !== null);
+  // Computed property for checking if data is loaded successfully
+  isLoaded = computed(() => this.isProcessed() && this.industryData() !== null);
 
   /**
    * Industry data mapping
@@ -307,21 +313,42 @@ export class IndustryDetailComponent implements OnInit {
           const id = params['id'];
           this.industryId.set(id);
 
+          // Validate against the closed industry registry.
+          // Unknown IDs must trigger a real HTTP 404 from the SSR layer.
+          if (!isValidIndustryId(id)) {
+            this.markNotFound(id);
+            return;
+          }
+
           // Load industry data
-          const data = this.industriesData[id];
+          const data = this.industriesData[id as IndustryId];
           if (data) {
             this.industryData.set(data);
+            this.isProcessed.set(true);
           } else {
-            // Industry not found - could redirect or show error
-            console.warn(`Industry with ID "${id}" not found`);
-            this.industryData.set(null);
+            // ID is in registry but data is missing (should not happen)
+            this.markNotFound(id);
           }
         },
         error: (error) => {
           console.error('Error loading industry:', error);
-          this.industryData.set(null);
+          this.markNotFound('');
         }
       });
+  }
+
+  /**
+   * Marks the industry as not found, sets a real HTTP 404 for SSR,
+   * and ensures crawlers never index an invalid industry URL as a 200.
+   */
+  private markNotFound(id: string): void {
+    console.warn(`Industry with ID "${id}" not found in closed registry`);
+    this.industryData.set(null);
+    this.notFound.set(true);
+    this.isProcessed.set(true);
+    if (this.responseInit) {
+      this.responseInit.status = 404;
+    }
   }
 
   /**

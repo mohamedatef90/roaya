@@ -38,8 +38,9 @@ function makeSandbox() {
   const sandboxRoot = mkdtempSync(join(tmpdir(), 'tifo16-ai-readiness-'));
   mkdirSync(join(sandboxRoot, 'public'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/core/seo'), { recursive: true });
-  mkdirSync(join(sandboxRoot, 'src/app/features/resources/case-studies'), { recursive: true });
+  mkdirSync(join(sandboxRoot, 'src/app/features/resources/case-studies/case-study-detail'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/app/features/services/worldposta'), { recursive: true });
+  mkdirSync(join(sandboxRoot, 'src/app/features/not-found'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'src/assets/i18n'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'scripts/claim-evidence'), { recursive: true });
   mkdirSync(join(sandboxRoot, 'deploy/nginx'), { recursive: true });
@@ -60,11 +61,19 @@ function makeSandbox() {
     join(realRoot, 'src/app/features/resources/case-studies/case-studies.data.ts'),
     join(sandboxRoot, 'src/app/features/resources/case-studies/case-studies.data.ts'),
   );
+  cpSync(
+    join(realRoot, 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'),
+    join(sandboxRoot, 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'),
+  );
   cpSync(join(realRoot, 'src/assets/i18n/en.json'), join(sandboxRoot, 'src/assets/i18n/en.json'));
   cpSync(join(realRoot, 'src/assets/i18n/ar.json'), join(sandboxRoot, 'src/assets/i18n/ar.json'));
   cpSync(
     join(realRoot, 'src/app/features/services/worldposta/worldposta.component.ts'),
     join(sandboxRoot, 'src/app/features/services/worldposta/worldposta.component.ts'),
+  );
+  cpSync(
+    join(realRoot, 'src/app/features/not-found/not-found.component.ts'),
+    join(sandboxRoot, 'src/app/features/not-found/not-found.component.ts'),
   );
   cpSync(
     join(realRoot, 'scripts/claim-evidence/registry.json'),
@@ -96,7 +105,11 @@ function withSandbox(mutate, run) {
 
 function editFile(path, transform) {
   const content = readFileSync(path, 'utf8');
-  writeFileSync(path, transform(content));
+  const mutated = transform(content);
+  if (mutated === content) {
+    throw new Error(`Self-test fixture mutation was a no-op: ${path}`);
+  }
+  writeFileSync(path, mutated);
 }
 
 // --- Baseline: every check passes clean on an untouched sandbox copy. ---
@@ -119,10 +132,11 @@ function editFile(path, transform) {
 }
 
 // --- robots-policy ---
+// Use regex to match both LF and CRLF line endings (Windows compatibility)
 check(
   'robots-policy fails when an AI training crawler is no longer disallowed',
   withSandbox(
-    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace('User-agent: GPTBot\nDisallow: /', 'User-agent: GPTBot\nAllow: /')),
+    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace(/User-agent: GPTBot\r?\nDisallow: \//, 'User-agent: GPTBot\nAllow: /')),
     (ctx) => checkRobotsPolicy(ctx).status === 'fail',
   ),
 );
@@ -136,7 +150,7 @@ check(
 check(
   'robots-policy fails when an admin path disallow is removed',
   withSandbox(
-    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace('Disallow: /admin/\n', '')),
+    (ctx) => editFile(join(ctx.publicDir, 'robots.txt'), (t) => t.replace(/Disallow: \/admin\/\r?\n/, '')),
     (ctx) => checkRobotsPolicy(ctx).status === 'fail',
   ),
 );
@@ -242,11 +256,11 @@ check(
   ),
 );
 check(
-  'case-study-route-integrity fails when the wildcard route stops returning a real 404',
+  'case-study-route-integrity fails when the NotFoundComponent stops setting a real 404',
   withSandbox(
-    (ctx) => editFile(join(ctx.srcApp, 'app.routes.server.ts'), (t) => t.replace(
-      "{ path: '**', renderMode: RenderMode.Server, status: 404 },",
-      "{ path: '**', renderMode: RenderMode.Server },",
+    (ctx) => editFile(join(ctx.srcApp, 'features/not-found/not-found.component.ts'), (t) => t.replace(
+      'this.responseInit.status = 404;',
+      'this.responseInit.status = 200;',
     )),
     (ctx) => checkCaseStudyRouteIntegrity(ctx).status === 'fail',
   ),

@@ -62,19 +62,9 @@
           {{ translationPrefix() + '.hero.subtitle' | translate }}
         </p>
 
-        <!-- Quick Stats -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          @for (metric of resultMetrics(); track metric) {
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 text-center">
-              <div class="text-3xl md:text-4xl font-bold text-white mb-1">
-                {{ translationPrefix() + '.results.metrics.' + metric + '.value' | translate }}
-              </div>
-              <div class="text-white/80 text-sm font-medium">
-                {{ translationPrefix() + '.results.metrics.' + metric + '.label' | translate }}
-              </div>
-            </div>
-          }
-        </div>
+        <p class="text-white/80 text-sm font-medium">
+          Case-study outcomes are published only after documented client approval.
+        </p>
       </div>
     </section>
 
@@ -223,21 +213,9 @@
             {{ translationPrefix() + '.results.description' | translate }}
           </p>
 
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            @for (metric of resultMetrics(); track metric) {
-              <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                <div class="text-4xl md:text-5xl font-bold text-white mb-2">
-                  {{ translationPrefix() + '.results.metrics.' + metric + '.value' | translate }}
-                </div>
-                <div class="text-white font-medium mb-1">
-                  {{ translationPrefix() + '.results.metrics.' + metric + '.label' | translate }}
-                </div>
-                <div class="text-white/70 text-sm">
-                  {{ translationPrefix() + '.results.metrics.' + metric + '.description' | translate }}
-                </div>
-              </div>
-            }
-          </div>
+          <p class="text-white/80 text-center">
+            Detailed results and metrics are pending documented client approval.
+          </p>
         </div>
       </div>
     </section>

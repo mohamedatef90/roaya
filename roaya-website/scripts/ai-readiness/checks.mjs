@@ -248,12 +248,37 @@ export function checkCanonicalMetadataCoverage(ctx) {
       errors.push(`Prerendered static route "${path}" (app.routes.server.ts) is missing from sitemap.xml.`);
     }
   }
+  // Extract dynamic server routes (industries/:id, services/:id, etc.) to
+  // verify that sitemap detail pages are covered by a matching Server route.
+  const serverDynamicPatterns = [...serverRoutesTs.matchAll(/\{\s*path:\s*'([^']+)',\s*renderMode:\s*RenderMode\.Server\s*\}/g)]
+    .map((m) => m[1])
+    .filter((p) => p.includes(':'));
+
+  const isCoveredByDynamicRoute = (sitemapPath) => {
+    const { path } = splitLocalePath(sitemapPath);
+    for (const pattern of serverDynamicPatterns) {
+      const localeIndependentPattern = pattern.startsWith('ar/') ? pattern.slice(3) : pattern;
+      // Convert :param to regex segment (e.g., industries/:id -> industries/[^/]+)
+      const regex = new RegExp(`^/${localeIndependentPattern.replace(/:[^/]+/g, '[^/]+')}$`);
+      if (regex.test(path)) return true;
+    }
+    return false;
+  };
+
   for (const sitemapPath of sitemapPaths) {
     // Dynamic detail pages are server-rendered per request in both locales,
-    // so they are never in the prerendered set.
+    // so they are never in the prerendered set. Check they're covered by a
+    // dynamic RenderMode.Server route instead.
     const { path } = splitLocalePath(sitemapPath);
     if (path.startsWith('/resources/blog/') && path !== '/resources/blog') continue;
     if (path.startsWith('/resources/case-studies/') && path !== '/resources/case-studies') continue;
+    // Industry detail pages are now server-rendered via industries/:id
+    if (path.startsWith('/industries/') && path !== '/industries') {
+      if (!isCoveredByDynamicRoute(sitemapPath)) {
+        errors.push(`Sitemap route "${sitemapPath}" is not covered by any RenderMode.Server dynamic route in app.routes.server.ts.`);
+      }
+      continue;
+    }
     if (!serverSet.has(sitemapPath)) {
       errors.push(`Sitemap route "${sitemapPath}" is not a prerendered static route in app.routes.server.ts.`);
     }
@@ -360,6 +385,159 @@ export function checkJsonLdExclusionGates(ctx) {
       );
 }
 
+export function checkPentestV2Canonicalization(ctx) {
+  const id = 'pentest-v2-canonicalization';
+  const title = 'pentest-v2 redirects to canonical penetration-testing';
+  const errors = [];
+
+  // Verify pentest-v2 is a redirect in app.routes.ts (client-side fallback)
+  const appRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.ts'), 'utf8');
+  const hasClientRedirect = /path:\s*'services\/security\/pentest-v2'[\s\S]*?redirectTo:\s*'services\/security\/penetration-testing'/.test(appRoutesTs);
+  if (!hasClientRedirect) {
+    errors.push('app.routes.ts does not redirect pentest-v2 to penetration-testing (client fallback).');
+  }
+
+  // Verify server.ts has permanent 301 redirects for pentest-v2 (both locales)
+  const serverTs = readFileSync(join(ctx.root, 'src/server.ts'), 'utf8');
+  const hasEnServerRedirect = /app\.get\s*\(\s*['"]\/services\/security\/pentest-v2['"]/.test(serverTs) &&
+    /res\.redirect\s*\(\s*301\s*,\s*['"]\/services\/security\/penetration-testing['"]/.test(serverTs);
+  const hasArServerRedirect = /app\.get\s*\(\s*['"]\/ar\/services\/security\/pentest-v2['"]/.test(serverTs) &&
+    /res\.redirect\s*\(\s*301\s*,\s*['"]\/ar\/services\/security\/penetration-testing['"]/.test(serverTs);
+  if (!hasEnServerRedirect) {
+    errors.push('server.ts does not have a 301 redirect for /services/security/pentest-v2.');
+  }
+  if (!hasArServerRedirect) {
+    errors.push('server.ts does not have a 301 redirect for /ar/services/security/pentest-v2.');
+  }
+
+  // Verify pentest-v2 is NOT in sitemap.xml
+  const sitemapXml = readFileSync(join(ctx.publicDir, 'sitemap.xml'), 'utf8');
+  if (sitemapXml.includes('pentest-v2')) {
+    errors.push('sitemap.xml still contains pentest-v2 (should be removed after canonicalization).');
+  }
+
+  // Verify pentest-v2 is NOT in app.routes.server.ts prerender list
+  const serverRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.server.ts'), 'utf8');
+  if (/pentest-v2.*Prerender/.test(serverRoutesTs)) {
+    errors.push('app.routes.server.ts still prerenders pentest-v2 (should be removed after canonicalization).');
+  }
+
+  // Verify canonical penetration-testing route exists and is prerendered
+  if (!serverRoutesTs.includes("'services/security/penetration-testing'")) {
+    errors.push('app.routes.server.ts does not prerender the canonical penetration-testing route.');
+  }
+
+  // Verify pentest-v2 is NOT in route-metadata.ts (except as comment)
+  const routeMetadataTs = readFileSync(join(ctx.srcApp, 'core/seo/route-metadata.ts'), 'utf8');
+  // Look for pentest-v2 as a registered route key, not just in comments
+  if (/^\s*'\/services\/security\/pentest-v2':/m.test(routeMetadataTs)) {
+    errors.push('route-metadata.ts still registers pentest-v2 as a metadata route (should be removed).');
+  }
+
+  // Verify pentest-v2 is NOT in breadcrumb labels (except as comment)
+  const entityTaxonomyTs = readFileSync(join(ctx.srcApp, 'core/seo/entity-taxonomy.ts'), 'utf8');
+  if (/^\s*'\/services\/security\/pentest-v2':/m.test(entityTaxonomyTs)) {
+    errors.push('entity-taxonomy.ts BREADCRUMB_LABEL_KEYS still registers pentest-v2 (should be removed).');
+  }
+
+  return errors.length
+    ? fail(id, title, errors)
+    : ok(id, title, 'pentest-v2 correctly redirects to penetration-testing via server 301; client fallback present; removed from sitemap, prerender, metadata, and breadcrumbs.');
+}
+
+export function checkIndustryRouteIntegrity(ctx) {
+  const id = 'industry-route-integrity';
+  const title = 'industry registered routes/registry/404 integrity';
+  const errors = [];
+
+  // Import the approved industry IDs from the TypeScript registry.
+  // We parse it as text since the evidence check runs in Node/mjs context.
+  const industryRegistryTs = readFileSync(
+    join(ctx.srcApp, 'core/seo/industry-registry.ts'),
+    'utf8',
+  );
+
+  // Extract the 6 approved industry IDs from the registry
+  const approvedIdMatches = [...industryRegistryTs.matchAll(/id:\s*'([^']+)'/g)];
+  const approvedIds = approvedIdMatches.map((m) => m[1]);
+  if (approvedIds.length !== 6) {
+    errors.push(`industry-registry.ts does not have exactly 6 approved industry IDs (found ${approvedIds.length}).`);
+  }
+
+  const expectedIds = ['finance', 'healthcare', 'government', 'manufacturing', 'retail', 'education'];
+  for (const expectedId of expectedIds) {
+    if (!approvedIds.includes(expectedId)) {
+      errors.push(`industry-registry.ts is missing the expected industry ID "${expectedId}".`);
+    }
+  }
+  for (const approvedId of approvedIds) {
+    if (!expectedIds.includes(approvedId)) {
+      errors.push(`industry-registry.ts contains unexpected industry ID "${approvedId}".`);
+    }
+  }
+
+  // Verify industry detail component imports and uses the registry
+  const industryDetailTs = readFileSync(
+    join(ctx.srcApp, 'features/industries/industry-detail/industry-detail.component.ts'),
+    'utf8',
+  );
+  if (!industryDetailTs.includes('isValidIndustryId')) {
+    errors.push('industry-detail.component.ts does not import/use isValidIndustryId from the closed registry.');
+  }
+  if (!industryDetailTs.includes('RESPONSE_INIT')) {
+    errors.push('industry-detail.component.ts does not inject RESPONSE_INIT for setting HTTP 404 status.');
+  }
+
+  // Check sitemap contains all 6 industry routes (both locales)
+  const sitemapXml = readFileSync(join(ctx.publicDir, 'sitemap.xml'), 'utf8');
+  const sitemapUrls = new Set([...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+  for (const industryId of approvedIds) {
+    const enUrl = `${ctx.origin}/industries/${industryId}`;
+    const arUrl = `${ctx.origin}/ar/industries/${industryId}`;
+    if (!sitemapUrls.has(enUrl)) {
+      errors.push(`Industry "${industryId}" EN route is missing from sitemap.xml (expected ${enUrl}).`);
+    }
+    if (!sitemapUrls.has(arUrl)) {
+      errors.push(`Industry "${industryId}" AR route is missing from sitemap.xml (expected ${arUrl}).`);
+    }
+  }
+
+  // Check app.routes.server.ts has industry dynamic server routes (not prerender)
+  // Industry detail pages are served via industries/:id with a closed registry
+  // that returns a real 404 for unknown IDs via RESPONSE_INIT.
+  const serverRoutesTs = readFileSync(join(ctx.srcApp, 'app.routes.server.ts'), 'utf8');
+  const hasEnDynamicRoute = /\{\s*path:\s*'industries\/:id',\s*renderMode:\s*RenderMode\.Server\s*\}/.test(serverRoutesTs);
+  const hasArDynamicRoute = /\{\s*path:\s*'ar\/industries\/:id',\s*renderMode:\s*RenderMode\.Server\s*\}/.test(serverRoutesTs);
+  if (!hasEnDynamicRoute) {
+    errors.push('app.routes.server.ts does not have RenderMode.Server for "industries/:id" (EN).');
+  }
+  if (!hasArDynamicRoute) {
+    errors.push('app.routes.server.ts does not have RenderMode.Server for "ar/industries/:id" (AR).');
+  }
+
+  // Check route-metadata has all 6 industry pages
+  const routeMetadataTs = readFileSync(join(ctx.srcApp, 'core/seo/route-metadata.ts'), 'utf8');
+  for (const industryId of approvedIds) {
+    const route = `/industries/${industryId}`;
+    if (!routeMetadataTs.includes(`'${route}':`)) {
+      errors.push(`route-metadata.ts is missing ROUTE_METADATA entry for "${route}".`);
+    }
+  }
+
+  // Check breadcrumb labels exist for all 6 industry pages
+  const entityTaxonomyTs = readFileSync(join(ctx.srcApp, 'core/seo/entity-taxonomy.ts'), 'utf8');
+  for (const industryId of approvedIds) {
+    const route = `/industries/${industryId}`;
+    if (!entityTaxonomyTs.includes(`'${route}':`)) {
+      errors.push(`entity-taxonomy.ts BREADCRUMB_LABEL_KEYS is missing entry for "${route}".`);
+    }
+  }
+
+  return errors.length
+    ? fail(id, title, errors)
+    : ok(id, title, `${approvedIds.length} approved industry ID(s) registered in routing, sitemap, metadata, and breadcrumbs; closed registry enforced in component with RESPONSE_INIT 404.`);
+}
+
 export function checkCaseStudyRouteIntegrity(ctx) {
   const id = 'case-study-route-integrity';
   const title = 'case-study registered routes/anchors/404 integrity';
@@ -388,9 +566,18 @@ export function checkCaseStudyRouteIntegrity(ctx) {
   if (!detailIsServerRendered) {
     errors.push('app.routes.server.ts does not server-render "resources/case-studies/:slug" (needed for a real per-slug 404).');
   }
-  const wildcardIs404 = /path:\s*'\*\*',\s*renderMode:\s*RenderMode\.Server,\s*status:\s*404/.test(serverRoutesTs);
-  if (!wildcardIs404) {
-    errors.push('app.routes.server.ts wildcard "**" route is not configured to return a real HTTP 404.');
+  // The wildcard route must be server-rendered. The HTTP 404 status is set by
+  // NotFoundComponent via RESPONSE_INIT injection (Angular SSR doesn't accept
+  // status: 404 in route config; it only allows redirect status codes).
+  const wildcardIsServerRendered = /path:\s*'\*\*',\s*renderMode:\s*RenderMode\.Server/.test(serverRoutesTs);
+  if (!wildcardIsServerRendered) {
+    errors.push('app.routes.server.ts wildcard "**" route is not configured for RenderMode.Server.');
+  }
+  // Verify NotFoundComponent sets the 404 status via RESPONSE_INIT
+  const notFoundTs = readFileSync(join(ctx.srcApp, 'features/not-found/not-found.component.ts'), 'utf8');
+  const notFoundSets404 = /RESPONSE_INIT/.test(notFoundTs) && /responseInit\.status\s*=\s*404/.test(notFoundTs);
+  if (!notFoundSets404) {
+    errors.push('NotFoundComponent does not set HTTP 404 status via RESPONSE_INIT (required for SSR 404 responses).');
   }
 
   for (const slug of slugs) {
@@ -421,7 +608,12 @@ export function checkApprovedFactualConsistency(ctx) {
     'utf8',
   );
   const caseStudySlugs = extractCaseStudySlugs(caseStudiesDataTs);
-  const { errors: schemaErrors } = validateRegistry(registryJson, { caseStudySlugs });
+  const publicSurfaceFiles = {
+    'src/assets/i18n/en.json': readFileSync(join(ctx.root, 'src/assets/i18n/en.json'), 'utf8'),
+    'src/assets/i18n/ar.json': readFileSync(join(ctx.root, 'src/assets/i18n/ar.json'), 'utf8'),
+    'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html': readFileSync(join(ctx.root, 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html'), 'utf8'),
+  };
+  const { errors: schemaErrors } = validateRegistry(registryJson, { caseStudySlugs, publicSurfaceFiles });
   errors.push(...schemaErrors);
 
   const registry = JSON.parse(registryJson);
@@ -500,7 +692,11 @@ export async function checkRealUnknownRoute404(ctx) {
   const port = ctx.serverPort;
   const child = spawn(process.execPath, [ctx.serverEntryFile], {
     cwd: ctx.root,
-    env: { ...process.env, PORT: String(port) },
+    // NG_ALLOWED_HOSTS='*' lets Angular SSR server-render on 127.0.0.1 in the
+    // local test environment. Without it, Angular falls back to client-side
+    // rendering (CSR) for host validation failures and RESPONSE_INIT.status
+    // never propagates, so the 404 set by NotFoundComponent is lost.
+    env: { ...process.env, PORT: String(port), NG_ALLOWED_HOSTS: '*' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
@@ -552,6 +748,8 @@ export const ALL_CHECKS = [
   checkLlmsTxt,
   checkCanonicalMetadataCoverage,
   checkJsonLdExclusionGates,
+  checkPentestV2Canonicalization,
+  checkIndustryRouteIntegrity,
   checkCaseStudyRouteIntegrity,
   checkApprovedFactualConsistency,
   checkMachineFilesInBuild,

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, RESPONSE_INIT } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Not Found (404) Component
- * Rendered for unknown URLs. The server layer returns a real HTTP 404
- * status for this route (see app.routes.server.ts).
+ * Rendered for unknown URLs. Sets the HTTP 404 status via RESPONSE_INIT
+ * injection so SSR returns a real 404 to crawlers.
  */
 @Component({
   selector: 'app-not-found',
@@ -29,4 +29,13 @@ import { TranslateModule } from '@ngx-translate/core';
     </section>
   `
 })
-export class NotFoundComponent {}
+export class NotFoundComponent implements OnInit {
+  private readonly responseInit = inject(RESPONSE_INIT, { optional: true });
+
+  ngOnInit(): void {
+    // Set real HTTP 404 status for SSR (ensures crawlers receive 404, not 200)
+    if (this.responseInit) {
+      this.responseInit.status = 404;
+    }
+  }
+}

@@ -57,7 +57,7 @@
     "contact": "Contact Us",
     "address": "Block 3/67, Maadi Zahraa - 10th Sector, Cairo, Egypt",
     "securityFirst": "Security First",
-    "certified": "ISO Certified",
+    "certified": "Industry standards under review",
     "allRightsReserved": "All rights reserved.",
     "copyright": "© 2024 Roaya IT. All rights reserved.",
     "privacyPolicy": "Privacy Policy",
@@ -2320,21 +2320,20 @@
     },
     "worldposta": {
       "title": "WorldPosta Services",
-      "description": "Complete cloud platform: email, storage, and no-code apps",
-      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email, CloudEdge secure cloud hosting, and CloudSpace no-code app builder. Enterprise-grade solutions starting at $1.50/user/month.",
+      "description": "Complete cloud platform: enterprise email and secure hosting",
+      "fullDescription": "WorldPosta offers a complete cloud platform including Posta business email and CloudEdge secure cloud hosting. Contact us for enterprise-grade solutions tailored to your needs.",
       "features": {
         "email": "Posta Business Email",
         "storage": "CloudEdge Cloud Hosting",
-        "apps": "CloudSpace App Builder",
         "security": "Enterprise Security"
       },
       "heroTitle": "WorldPosta Cloud Services",
-      "heroDescription": "Enterprise email, cloud storage, and no-code apps. Complete cloud platform with 99.99% uptime and Egyptian data center options.",
+      "heroDescription": "Enterprise email and cloud storage. Complete cloud platform with 99.99% uptime and Egyptian data center options.",
       "ctaGetStarted": "Start Free Trial",
       "ctaViewPricing": "View Pricing",
       "ctaCalculateROI": "Calculate ROI",
       "productsTitle": "WorldPosta Cloud Products",
-      "productsDescription": "Three powerful products to transform your business operations",
+      "productsDescription": "Enterprise-grade products to transform your business operations",
       "benefitsTitle": "Why Choose WorldPosta",
       "benefitsDescription": "Enterprise-grade cloud services with local support and global infrastructure",
       "industriesTitle": "Industries We Serve",
@@ -2454,7 +2453,7 @@
         },
         "costEffective": {
           "title": "Cost Effective",
-          "description": "Reduce IT costs by up to 40% with our managed solutions"
+          "description": "Optimize IT costs with our managed solutions"
         }
       },
       "industries": {
@@ -2488,7 +2487,7 @@
     },
     "newsBar": {
       "text": "Enterprise Email Security Suite Now Available",
-      "promo1": "Save 40% on Cloud Migration This Quarter",
+      "promo1": "Cloud Migration Assessment Available",
       "promo2": "Free Cybersecurity Assessment for New Clients",
       "promo3": "24/7 Support - 15-Minute Response Guaranteed"
     },
@@ -2496,7 +2495,7 @@
       "badge": "Trusted by 150+ Companies",
       "title": "IT Services That Deliver Results",
       "subtitle": "Guaranteed.",
-      "description": "First IT provider with transparent pricing and guaranteed ROI. Enterprise-grade security and 24/7 support.",
+      "description": "IT provider with transparent pricing and measurable results. Enterprise-grade security and 24/7 support.",
       "cta": "Start Your Journey",
       "secondaryCta": "View Pricing",
       "secondaryCtaContact": "Contact Us",
@@ -2816,12 +2815,12 @@
       "subtitle": "We're the first IT services provider in Egypt to publish transparent pricing. See exactly what you'll pay.",
       "starter": {
         "title": "Starter",
-        "price": "From 2,500 EGP/mo",
+        "price": "Contact us for current pricing",
         "description": "Perfect for small teams"
       },
       "business": {
         "title": "Business",
-        "price": "From 8,500 EGP/mo",
+        "price": "Contact us for current pricing",
         "description": "For growing companies"
       },
       "enterprise": {
@@ -3210,7 +3209,7 @@
       "cancelDesc": "No long-term contracts required",
       "support": "24/7 Support",
       "supportDesc": "Egyptian team at your service",
-      "roi": "Guaranteed ROI",
+      "roi": "ROI assessment available",
       "roiDesc": "Measurable business results"
     },
     "faq": {
@@ -3302,8 +3301,8 @@
         "description": "Expanded our portfolio to include comprehensive cybersecurity and cloud services."
       },
       "certification": {
-        "title": "ISO Certification",
-        "description": "Achieved ISO certification for our security and service management processes."
+        "title": "Industry Standards",
+        "description": "Committed to industry-leading security and service management practices."
       },
       "growth": {
         "title": "150+ Clients",
@@ -3449,7 +3448,7 @@
         "item3": "Specific recommendations for your business",
         "item4": "No obligation consultation"
       },
-      "socialProof": "150+ businesses have saved an average of 40% on IT costs"
+      "socialProof": "150+ businesses trust Roaya for their IT solutions"
     },
     "tabs": {
       "cloud": "Cloud Infrastructure",
@@ -3598,7 +3597,7 @@
   "caseStudies": {
     "badge": "Case Studies",
     "title": "Real Egyptian Enterprises. Real Results.",
-    "description": "See how banks, hospitals, and manufacturers reduced IT costs by 40% while achieving 99.9%+ uptime with Roaya IT's transparent cloud and security solutions.",
+    "description": "See how banks, hospitals, and manufacturers achieved their IT goals with Roaya IT's transparent cloud and security solutions.",
     "filters": {
       "all": "All",
       "byIndustry": "Filter by Industry",
@@ -3659,12 +3658,12 @@
     },
     "banking": {
       "meta": {
-        "title": "Bank Cloud Migration Case Study | 42% Cost Reduction - Roaya IT",
-        "description": "Learn how a major Egyptian bank achieved 42% infrastructure cost reduction with zero-downtime cloud migration while maintaining CBE compliance."
+        "title": "Bank Cloud Migration Case Study | Cost Reduction - Roaya IT",
+        "description": "Learn how a major Egyptian bank achieved significant infrastructure cost reduction with zero-downtime cloud migration while maintaining CBE compliance."
       },
       "hero": {
         "badge": "Finance & Banking",
-        "title": "Major Egyptian Bank Achieves 42% Cost Reduction with Zero-Downtime Cloud Migration",
+        "title": "Major Egyptian Bank Achieves Significant Cost Reduction with Zero-Downtime Cloud Migration",
         "subtitle": "8-month transformation to Egypt-hosted cloud infrastructure with full CBE compliance"
       },
       "overview": {
@@ -3725,22 +3724,22 @@
         "description": "The transformation delivered measurable business impact within the first 6 months post-migration.",
         "metrics": {
           "metric1": {
-            "value": "42%",
+            "value": "Pending client approval",
             "label": "Cost Reduction",
             "description": "Annual infrastructure savings through optimized cloud resources"
           },
           "metric2": {
-            "value": "99.94%",
+            "value": "Pending client approval",
             "label": "Uptime Achieved",
             "description": "Zero critical outages since migration completion"
           },
           "metric3": {
-            "value": "60%",
+            "value": "Pending client approval",
             "label": "Faster Deployment",
             "description": "New services launched in days instead of weeks"
           },
           "metric4": {
-            "value": "100%",
+            "value": "Pending client approval",
             "label": "CBE Compliant",
             "description": "Full regulatory compliance maintained throughout"
           }
@@ -3788,12 +3787,12 @@
     },
     "healthcare": {
       "meta": {
-        "title": "Healthcare SOC Implementation Case Study | Zero Breaches - Roaya IT",
-        "description": "Discover how Egypt's leading hospital network eliminated security threats with 24/7 SOC implementation and achieved HIPAA-aligned security controls."
+        "title": "Healthcare SOC Implementation Case Study - Roaya IT",
+        "description": "Discover how Egypt's leading hospital network strengthened security with 24/7 SOC implementation and achieved HIPAA-aligned security controls."
       },
       "hero": {
         "badge": "Healthcare",
-        "title": "Leading Hospital Network Achieves Zero Breaches with 24/7 SOC Implementation",
+        "title": "Leading Hospital Network Strengthens Security with 24/7 SOC Implementation",
         "subtitle": "6-month security transformation protecting sensitive patient data across multiple facilities"
       },
       "overview": {
@@ -3854,12 +3853,12 @@
         "description": "The security transformation delivered immediate protection and long-term peace of mind.",
         "metrics": {
           "metric1": {
-            "value": "0",
+            "value": "Pending client approval",
             "label": "Security Breaches",
-            "description": "Zero data breaches in 18 months since implementation"
+            "description": "Significant reduction in security incidents since implementation"
           },
           "metric2": {
-            "value": "85%",
+            "value": "Pending client approval",
             "label": "Faster Detection",
             "description": "Threat detection time reduced from hours to minutes"
           },
@@ -3869,7 +3868,7 @@
             "description": "Round-the-clock SOC coverage protecting patient data"
           },
           "metric4": {
-            "value": "100%",
+            "value": "Pending client approval",
             "label": "HIPAA-Aligned",
             "description": "Security controls meeting international healthcare standards"
           }
@@ -3917,12 +3916,12 @@
     },
     "government": {
       "meta": {
-        "title": "Government Digital Transformation Case Study | 60% Faster Processing - Roaya IT",
-        "description": "See how a major Egyptian government agency reduced citizen service processing time by 60% through cloud infrastructure and workflow automation."
+        "title": "Government Digital Transformation Case Study - Roaya IT",
+        "description": "See how a major Egyptian government agency accelerated citizen service processing through cloud infrastructure and workflow automation."
       },
       "hero": {
         "badge": "Government & Public Sector",
-        "title": "Egyptian Government Agency Reduces Citizen Service Processing Time by 60%",
+        "title": "Egyptian Government Agency Accelerates Citizen Service Processing",
         "subtitle": "8-month digital transformation ensuring 100% data sovereignty on Egypt-hosted infrastructure"
       },
       "overview": {
@@ -3998,7 +3997,7 @@
             "description": "Paper-based workflows digitized and automated"
           },
           "metric4": {
-            "value": "92%",
+            "value": "Pending approval",
             "label": "Citizen Satisfaction",
             "description": "Post-implementation citizen satisfaction score"
           }
@@ -4046,12 +4045,12 @@
     },
     "manufacturing": {
       "meta": {
-        "title": "Manufacturing SAP Implementation Case Study | 35% Inventory Optimization - Roaya IT",
-        "description": "Learn how a leading Egyptian manufacturer achieved 35% inventory optimization and 25% production efficiency improvement through SAP S/4HANA implementation."
+        "title": "Manufacturing SAP Implementation Case Study | Inventory Optimization - Roaya IT",
+        "description": "Learn how a leading Egyptian manufacturer achieved significant inventory optimization and production efficiency improvement through SAP S/4HANA implementation."
       },
       "hero": {
         "badge": "Manufacturing & Logistics",
-        "title": "35% Inventory Optimization Through SAP S/4HANA Implementation",
+        "title": "Inventory Optimization Through SAP S/4HANA Implementation",
         "subtitle": "10-month transformation achieving real-time operational visibility across production facilities"
       },
       "overview": {
@@ -4112,12 +4111,12 @@
         "description": "The SAP transformation delivered significant operational and financial improvements.",
         "metrics": {
           "metric1": {
-            "value": "35%",
+            "value": "Pending approval",
             "label": "Inventory Optimization",
             "description": "Reduced carrying costs through better demand forecasting"
           },
           "metric2": {
-            "value": "25%",
+            "value": "Pending approval",
             "label": "Production Efficiency",
             "description": "OEE improvement through optimized scheduling"
           },
@@ -4127,7 +4126,7 @@
             "description": "Live dashboards replacing 2-3 day manual reports"
           },
           "metric4": {
-            "value": "18%",
+            "value": "Pending approval",
             "label": "Revenue Growth",
             "description": "First-year revenue increase from improved capacity"
           }
@@ -4175,13 +4174,13 @@
     },
     "ecommerce": {
       "meta": {
-        "title": "E-commerce Auto-Scaling Case Study | 300% Traffic Capacity - Roaya IT",
-        "description": "Discover how Egypt's fastest-growing e-commerce platform scaled to handle 300% traffic surge during Black Friday with zero downtime."
+        "title": "E-commerce Auto-Scaling Case Study | Traffic Capacity - Roaya IT",
+        "description": "Discover how Egypt's fastest-growing e-commerce platform scaled to handle peak traffic during Black Friday. Outcome metrics pending client approval."
       },
       "hero": {
         "badge": "Retail & E-commerce",
-        "title": "E-commerce Platform Handles 300% Traffic Surge with Zero Downtime",
-        "subtitle": "4-month infrastructure transformation enabling limitless scalability and 40% cost savings"
+        "title": "E-commerce Platform Handles Traffic Surge Seamlessly",
+        "subtitle": "Case-study outcome pending client approval"
       },
       "overview": {
         "title": "Project Overview",
@@ -4241,22 +4240,22 @@
         "description": "The infrastructure transformation enabled unlimited growth while reducing costs.",
         "metrics": {
           "metric1": {
-            "value": "300%",
+            "value": "Pending client approval",
             "label": "Traffic Capacity",
             "description": "Scaled from 10K to 30K concurrent users during Black Friday"
           },
           "metric2": {
-            "value": "99.99%",
+            "value": "Pending client approval",
             "label": "Uptime",
-            "description": "Zero downtime during all sales events since implementation"
+            "description": "High availability maintained during sales events (metrics pending client approval)"
           },
           "metric3": {
-            "value": "40%",
+            "value": "Pending client approval",
             "label": "Cost Savings",
             "description": "Infrastructure costs reduced through pay-as-you-scale model"
           },
           "metric4": {
-            "value": "1.8s",
+            "value": "Pending client approval",
             "label": "Page Load Time",
             "description": "Average load time reduced from 4+ seconds to under 2 seconds"
           }

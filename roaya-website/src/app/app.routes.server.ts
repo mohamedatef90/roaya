@@ -67,10 +67,11 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'ar/services/security/soc-solutions', renderMode: RenderMode.Prerender },
   { path: 'services/security/incident-response', renderMode: RenderMode.Prerender },
   { path: 'ar/services/security/incident-response', renderMode: RenderMode.Prerender },
-  { path: 'services/security/pentest-v2', renderMode: RenderMode.Prerender },
-  { path: 'ar/services/security/pentest-v2', renderMode: RenderMode.Prerender },
   { path: 'services/worldposta', renderMode: RenderMode.Prerender },
   { path: 'ar/services/worldposta', renderMode: RenderMode.Prerender },
+  // Industry overview is prerendered; detail pages are served dynamically via
+  // industries/:id above (the closed registry + RESPONSE_INIT returns a real
+  // 404 for unknown IDs).
   { path: 'industries', renderMode: RenderMode.Prerender },
   { path: 'ar/industries', renderMode: RenderMode.Prerender },
   { path: 'pricing', renderMode: RenderMode.Prerender },
@@ -98,6 +99,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'cookies', renderMode: RenderMode.Prerender },
   { path: 'ar/cookies', renderMode: RenderMode.Prerender },
 
-  // Unknown URLs: server-rendered 404 page with a real 404 status code
-  { path: '**', renderMode: RenderMode.Server, status: 404 },
+  // Unknown URLs: server-rendered 404 page. The HTTP 404 status is set by the
+  // NotFoundComponent via RESPONSE_INIT injection, not by server route config
+  // (Angular SSR rejects status codes that aren't valid redirect codes).
+  { path: '**', renderMode: RenderMode.Server },
 ];

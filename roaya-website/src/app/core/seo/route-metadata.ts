@@ -141,10 +141,7 @@ export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
     titleKey: 'services.security.page.incidentResponse.hero.title',
     descriptionKey: 'services.security.page.incidentResponse.hero.subtitle'
   },
-  '/services/security/pentest-v2': {
-    titleKey: 'services.security.page.pentestV2.hero.title',
-    descriptionKey: 'services.security.page.pentestV2.hero.subtitle1'
-  },
+  // Note: pentest-v2 is now a redirect to penetration-testing, not a separate page.
   '/services/worldposta': {
     titleKey: 'services.worldposta.heroTitle',
     descriptionKey: 'services.worldposta.heroDescription'
@@ -152,6 +149,30 @@ export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
   '/industries': {
     titleKey: 'industries.page.title',
     descriptionKey: 'industries.page.description'
+  },
+  '/industries/finance': {
+    titleKey: 'industries.finance.title',
+    descriptionKey: 'industries.finance.description'
+  },
+  '/industries/healthcare': {
+    titleKey: 'industries.healthcare.title',
+    descriptionKey: 'industries.healthcare.description'
+  },
+  '/industries/government': {
+    titleKey: 'industries.government.title',
+    descriptionKey: 'industries.government.description'
+  },
+  '/industries/manufacturing': {
+    titleKey: 'industries.manufacturing.title',
+    descriptionKey: 'industries.manufacturing.description'
+  },
+  '/industries/retail': {
+    titleKey: 'industries.retail.title',
+    descriptionKey: 'industries.retail.description'
+  },
+  '/industries/education': {
+    titleKey: 'industries.education.title',
+    descriptionKey: 'industries.education.description'
   },
   '/pricing': {
     titleKey: 'pricing.page.title',

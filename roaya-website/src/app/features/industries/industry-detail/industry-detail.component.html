@@ -1,5 +1,5 @@
 <!-- Loading State -->
-<div *ngIf="!isLoaded()" class="min-h-screen flex items-center justify-center">
+<div *ngIf="!isProcessed()" class="min-h-screen flex items-center justify-center">
   <div class="text-center">
     <div class="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
     <p class="text-neutral-600 dark:text-neutral-400">{{ 'common.loading' | translate }}</p>
@@ -342,12 +342,12 @@
 
 </div>
 
-<!-- Error State - Industry Not Found -->
-<div *ngIf="isLoaded() && !industryData()" class="min-h-screen flex items-center justify-center bg-background">
+<!-- Error State - Industry Not Found (renders with HTTP 404 during SSR) -->
+<div *ngIf="notFound()" class="min-h-screen flex items-center justify-center bg-background">
   <div class="text-center">
-    <div class="text-6xl mb-4">🔍</div>
-    <h1 class="text-3xl font-bold mb-2">Industry Not Found</h1>
-    <p class="text-neutral-600 dark:text-neutral-400 mb-6">The industry you're looking for doesn't exist.</p>
+    <p class="text-7xl font-bold bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] bg-clip-text text-transparent">404</p>
+    <h1 class="mt-6 text-3xl font-semibold text-neutral-900 dark:text-neutral-100">{{ 'notFound.title' | translate }}</h1>
+    <p class="mt-4 text-neutral-600 dark:text-neutral-400 mb-6">{{ 'notFound.description' | translate }}</p>
     <a
       routerLink="/industries"
       class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors"
@@ -355,7 +355,7 @@
       <svg class="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
       </svg>
-      {{ 'common.back' | translate }} to Industries
+      {{ 'common.back' | translate }} {{ 'common.industries' | translate }}
     </a>
   </div>
 </div>

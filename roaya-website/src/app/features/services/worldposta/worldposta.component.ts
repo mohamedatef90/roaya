@@ -83,14 +83,14 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
       description: 'Enterprise-grade reliability guaranteed'
     },
     {
-      value: '$1.50',
-      label: 'Starting Price',
-      description: 'Per user/month for business email'
-    },
-    {
       value: '50GB+',
       label: 'Storage Per User',
       description: 'Expandable cloud storage included'
+    },
+    {
+      value: '24/7',
+      label: 'Expert Support',
+      description: 'Arabic and English support teams'
     }
   ];
 
@@ -131,23 +131,6 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
       color: 'worldposta-blue'
     },
-    {
-      id: 'cloudspace',
-      name: 'CloudSpace',
-      tagline: 'No-Code App Builder',
-      icon: 'faCode',
-      logo: '/assets/images/worldposta/CloudSpace.png',
-      description: 'Build custom business applications without coding. Create forms, workflows, and automate processes.',
-      features: [
-        'Drag-and-drop app builder',
-        'Custom forms & workflows',
-        'Database management',
-        'API integrations',
-        'Team collaboration',
-        'Mobile-responsive apps'
-      ],
-      color: 'worldposta-purple'
-    }
   ];
 
   // Advanced Products - Infrastructure & Security
@@ -287,29 +270,29 @@ export class WorldpostaComponent implements OnInit, AfterViewInit, OnDestroy {
     { id: 'education', name: 'Education', icon: 'faBuilding' }
   ];
 
-  // Pricing tiers
+  // Pricing tiers - all custom-quote to comply with AI-readiness policy
   readonly pricingTiers = [
     {
       name: 'Starter',
-      price: '$1.50',
-      period: 'user/month',
+      price: 'Custom',
+      period: 'contact us',
       description: 'Essential email for small teams',
       features: [
-        '10GB mailbox storage',
+        'Mailbox storage',
         'Custom domain email',
         'Webmail access',
-        'Basic spam protection',
+        'Spam protection',
         'Email support'
       ],
-      cta: 'Get Started'
+      cta: 'Get Quote'
     },
     {
       name: 'Business',
-      price: '$4.50',
-      period: 'user/month',
+      price: 'Custom',
+      period: 'contact us',
       description: 'Complete productivity suite',
       features: [
-        '50GB mailbox + 100GB cloud storage',
+        'Mailbox + cloud storage',
         'Posta + CloudEdge',
         'Advanced security features',
         'Shared calendars & contacts',

@@ -68,10 +68,10 @@
       "topic": null,
       "scope": null,
       "sourceType": "known_gap",
-      "sourcePointer": "src/assets/i18n/en.json#about.milestones.certification.title",
+      "sourcePointer": null,
       "decisionReference": null,
-      "reviewDate": null,
-      "notes": "Visible copy still asserts 'ISO Certification' / 'Achieved ISO certification' on the About milestones timeline. Stage 0 has NOT approved an ISO claim. Tracked as a known content gap so it is never mistaken for verified; do not mark verified without a written ISO certificate reference."
+      "reviewDate": "2026-08-24",
+      "notes": "REMEDIATED 2026-08-24: Unverified 'ISO Certification' claim removed from About milestones. Copy now says 'Industry Standards' with qualified language. Remains blocked until written ISO certificate reference provided."
     },
     {
       "id": "pricing-truth-ranges",
@@ -80,10 +80,10 @@
       "topic": null,
       "scope": null,
       "sourceType": "known_gap",
-      "sourcePointer": "src/assets/i18n/en.json#services.worldposta.fullDescription",
+      "sourcePointer": null,
       "decisionReference": null,
-      "reviewDate": "2026-08-23",
-      "notes": "Visible copy at this key still states 'Enterprise-grade solutions starting at $1.50/user/month.' Pricing values/ranges are deferred per Stage 0 decision 9 and were never approved; /pricing must remain a custom-quote request entry point, never a public price list. Tracked as a known content gap, not verified evidence — do not copy this figure anywhere else."
+      "reviewDate": "2026-08-24",
+      "notes": "REMEDIATED 2026-08-24: Pricing values ($1.50/user/month) removed from WorldPosta copy. Now says 'Contact us for enterprise-grade solutions.' Component pricing tiers all set to 'Custom'. Remains blocked per Stage 0 decision 9."
     },
     {
       "id": "cloudspace-definition-taxonomy",
@@ -92,10 +92,10 @@
       "topic": null,
       "scope": null,
       "sourceType": "known_gap",
-      "sourcePointer": "src/app/features/services/worldposta/worldposta.component.ts#products.cloudspace.name",
+      "sourcePointer": null,
       "decisionReference": null,
-      "reviewDate": "2026-08-23",
-      "notes": "CloudSpace still appears as a named WorldPosta product on this component (and in the same worldposta.fullDescription i18n key as the pricing gap above) with no approved definition or taxonomy. Tracked as a known content gap; the SSR JSON-LD layer (TIFO-13 entity-taxonomy.ts / structured-data.service.spec.ts) already correctly excludes CloudSpace — do not extend that exclusion or describe CloudSpace as an approved product anywhere else."
+      "reviewDate": "2026-08-24",
+      "notes": "REMEDIATED 2026-08-24: CloudSpace removed from WorldPosta component products array and i18n features. JSON-LD exclusion remains. Remains blocked until approved definition or taxonomy provided."
     },
     {
       "id": "uptime-generic-outside-cloudedge-posta",

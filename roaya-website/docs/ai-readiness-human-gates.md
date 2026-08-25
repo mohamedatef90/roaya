@@ -8,11 +8,39 @@ happened for the current change — it exists so the required human review
 points are explicit and cannot be silently skipped.
 
 The automated layer (`scripts/claim-evidence/` + `scripts/ai-readiness/`,
-see `npm run verify:evidence`) only covers what is deterministically
-checkable from local source/build state: the claim/evidence registry,
-robots/sitemap/llms.txt, route-metadata/JSON-LD coverage, case-study routing,
-and a real 404 against a locally built server. It cannot and does not
-substitute for the gates below.
+see `npm run verify:evidence`) covers 11 evidence checks deterministically
+verifiable from local source/build state:
+
+1. **robots-policy** — robots.txt policy, bot allow/deny decisions
+2. **sitemap-validity** — sitemap.xml validity, canonical URLs, duplicates
+3. **llms-txt** — llms.txt validator, MIME config, prohibited assertions
+4. **canonical-metadata-coverage** — route registry vs sitemap reconciliation
+5. **json-ld-exclusion-gates** — JSON-LD validity, hard-exclusion tokens
+6. **pentest-v2-canonicalization** — Express 301 legacy redirects
+7. **industry-route-integrity** — closed industry registry enforcement
+8. **case-study-route-integrity** — case-study routing/404 integrity
+9. **approved-factual-consistency** — claim-evidence registry + source pointers
+10. **machine-files-in-build** — machine files in production build
+11. **real-unknown-route-404** — real HTTP 404 via local SSR server
+
+The checks verify:
+- **58 prerendered routes** emitted in the production build
+- **JSON-LD coverage** — site-wide Organization/WebSite identity and URL-derived
+  breadcrumbs are emitted on canonical routes; `ROUTE_ENTITY_MAP` has one
+  page-specific Service mapping: `/services/worldposta`.
+- **Express 301 redirects** for pentest-v2 canonicalization (both locales)
+- **Closed industry registry** with RESPONSE_INIT 404 for unknown IDs
+- **Deferred repository cleanup** — 11,683 tracked root `node_modules/**` files
+  remain intentionally deferred. Removing tracked dependency artifacts is a broad,
+  destructive VCS cleanup and must be planned separately so the deployment/build
+  workflow can be verified from a clean checkout.
+- **Residual production security gate** — `npm audit --omit=dev` reports one
+  low-severity direct `quill@2.0.3` HTML-export XSS (`GHSA-v3m3-f69x-jf25`).
+  `npm` marks the available remediation as a semver-major change; the **Roaya CMS
+  owner** must validate editor/export compatibility and a named human security
+  reviewer must approve the migration before the finding may be considered closed.
+
+The automated layer cannot and does not substitute for the gates below.
 
 ## 1. Per-case-study approval and metric evidence
 
@@ -29,7 +57,44 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
       the entry's `status` changes from `"blocked"`.
 - [ ] `npm run validate:claims` is re-run after the edit and passes.
 
-## 2. Push / PR / CI review
+## 2. Blocked public surface exception policy
+
+Blocked registry entries (`status: "blocked"`) are checked against the explicit
+claim-to-public-surface policy in the validator, even when their `sourcePointer`
+is `null`. Public blocked values/templates must be removed or qualified; a
+documented exception is required only for a deliberately retained public pointer.
+
+**Validator enforcement:** `scripts/claim-evidence/validate-registry.mjs`
+rejects any blocked claim with a `sourcePointer` matching public surface
+prefixes unless all three exception fields are present and valid:
+
+- `exceptionOwner` — named human approving the temporary exception
+- `exceptionExpiry` — future YYYY-MM-DD date when the exception expires
+- `exceptionApproval` — reference (ticket, email, decision record) that names the
+  exact policy token as `policy-token:<path#i18n.key>:<forbidden-value>`. This
+  binds approval to one rendered value at one public key; it never changes the
+  normal `sourcePointer` locator schema.
+
+For a key-aware JSON policy rule, the validator parses the public source and
+checks the resolved key only. Invalid JSON or an unresolved configured key fails
+closed; it never falls back to a whole-file substring check. One approved token
+does not authorize a sibling token at the same key or the same token at another
+key.
+
+**When to use exceptions vs. remediation:**
+
+- **Remediate** (set `sourcePointer: null`): When blocked copy has been
+  removed or qualified (e.g., "ISO Certification" → "Industry Standards")
+- **Exception**: When blocked copy must remain temporarily visible with
+  explicit human approval and an expiry date for follow-up
+
+**Self-test coverage:** `npm run test:claims:selftest` includes red-capable
+tests proving the validator correctly rejects:
+- Blocked public-surface claims without exception fields
+- Blocked public-surface claims with incomplete exceptions
+- Blocked public-surface claims with expired exceptions
+
+## 3. Push / PR / CI review
 
 - [ ] Changes are pushed to a branch and opened as a PR (this issue's Agent
       Identity forbids the agent from doing this itself).
@@ -37,7 +102,7 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
 - [ ] CI (typecheck, unit tests, `npm run verify:evidence`, production build)
       is green on the PR's head commit — not just on a local machine.
 
-## 3. Pre-merge verification against a local production build
+## 4. Pre-merge verification against a local production build
 
 There is no preview environment — the self-hosted nginx origin is the only
 deployment target. So this gate runs against a real production build on the
@@ -52,19 +117,20 @@ PORT=4200 node dist/roaya-website/server/server.mjs
 
 Then confirm:
 
-- [ ] **Build gates passed** — `verify:evidence` reported 9/9 and the script
+- [ ] **Build gates passed** — `verify:evidence` reported 11/11 and the script
       did not abort on the prerendered-route count.
-- [ ] **30 prerendered routes emitted** —
-      `find dist/roaya-website/browser -name index.html | wc -l` returns 30.
+- [ ] **58 prerendered routes emitted** —
+      `find dist/roaya-website/browser -name index.html | wc -l` returns 58.
       A lower number means prerendering failed silently; `ng build` exits 0
       when it does, so this count is the only cheap signal.
 - [ ] **SSR runtime, not a static shell** — a sample of canonical routes
       returns HTTP 200 with real content in the first response, each with its
       own route-specific `<title>` (not a shared shell title).
-- [ ] **JSON-LD where it is registered** — the routes in `ROUTE_ENTITY_MAP`
-      (`/`, `/about`, `/services/worldposta`) carry a
-      `<script type="application/ld+json">` graph. Other routes are not
-      supposed to have one — absence there is not a defect.
+- [ ] **JSON-LD where it is registered** — every canonical route receives the
+      verified site-wide Organization/WebSite identity plus URL-derived
+      breadcrumbs. `ROUTE_ENTITY_MAP` has exactly one page-specific Service
+      mapping, `/services/worldposta`; other routes must not gain unregistered
+      Service facts.
 - [ ] **Canonical links** — each route has a correct self-referencing
       `<link rel="canonical">`.
 - [ ] **Real 404** — an unregistered path returns HTTP 404, not a 200 with a
@@ -77,7 +143,7 @@ Then confirm:
       guarantee is enforced automatically by the `llms-txt` check, which
       parses `deploy/nginx/roaya-website.conf`.
 
-## 4. Production deployment / rollback approval
+## 5. Production deployment / rollback approval
 
 - [ ] A named human approves the production deployment after the Preview
       checks above pass.
@@ -87,8 +153,42 @@ Then confirm:
       separately reviewed and approved (out of scope for any agent run under
       this issue's Agent Identity).
 
+## 6. Ambiguous factual claims requiring human decision
+
+The following facts have conflicting or ambiguous source evidence. Do **NOT**
+change these values without explicit human verification of the correct answer.
+The agent is instructed not to invent, remove, or modify these without explicit
+human approval.
+
+### Organization founding year
+
+**Current value:** `2018` (in `src/app/core/seo/entity-taxonomy.ts` and
+`src/assets/i18n/en.json` "about.story.p1")
+
+**Ambiguity:** Some LinkedIn references or early external sources may show
+2012 as Roaya's founding year. The approved English content ("Founded in 2018,
+Roaya IT emerged from...") uses 2018. If 2012 is actually correct, the
+translation files and `ORGANIZATION_FOUNDING_DATE` in entity-taxonomy.ts must
+both be updated by a human after verification.
+
+**Status:** Awaiting human verification.
+
+### pentest-v2 redirect implementation
+
+**Current implementation:** Express server-level 301 redirects in `src/server.ts`
+for both `/services/security/pentest-v2` and `/ar/services/security/pentest-v2`,
+with Angular client-side fallback (`redirectTo: 'services/security/penetration-testing'`).
+
+**Verification:** The `pentest-v2-canonicalization` evidence check validates:
+- Express 301 redirects exist for both locales
+- pentest-v2 is removed from sitemap.xml
+- pentest-v2 is not in route-metadata.ts or breadcrumbs
+- Canonical penetration-testing route is prerendered
+
+**Status:** ✓ Express 301 redirects implemented and verified by automated check.
+
 ---
 
-None of the four sections above are satisfied by running
+None of the sections above are satisfied by running
 `npm run verify:evidence` or by an agent posting a comment. They require a
 named human to perform the action and record that they did.

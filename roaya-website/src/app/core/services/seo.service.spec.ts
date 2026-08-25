@@ -235,15 +235,15 @@ describe('SEOService', () => {
       '/services/security/penetration-testing',
       '/services/security/soc-solutions',
       '/services/security/incident-response',
-      '/services/security/pentest-v2',
       '/services/worldposta',
     ];
 
-    it('registers all 15 previously-conflicting service routes', () => {
+    it('registers all 14 canonical previously-conflicting service routes', () => {
       for (const path of FORMER_DIRECT_WRITER_ROUTES) {
         expect(ROUTE_METADATA[path]).toBeTruthy();
       }
-      expect(FORMER_DIRECT_WRITER_ROUTES.length).toBe(15);
+      // pentest-v2 is intentionally excluded: it is now a redirect-only legacy URL.
+      expect(FORMER_DIRECT_WRITER_ROUTES.length).toBe(14);
     });
 
     it('gives each former direct-writer route fully consistent, distinct tags', async () => {

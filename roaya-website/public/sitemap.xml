@@ -220,20 +220,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/incident-response"/>
   </url>
   <url>
-    <loc>https://roaya.co/services/security/pentest-v2</loc>
-    <lastmod>2026-01-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/pentest-v2"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/pentest-v2"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/pentest-v2"/>
-  </url>
-  <url>
-    <loc>https://roaya.co/ar/services/security/pentest-v2</loc>
-    <lastmod>2026-01-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/security/pentest-v2"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/security/pentest-v2"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/security/pentest-v2"/>
-  </url>
-  <url>
     <loc>https://roaya.co/services/worldposta</loc>
     <lastmod>2026-01-18</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/worldposta"/>
@@ -260,6 +246,90 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/industries/finance</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/finance"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/finance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/finance"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries/finance</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/finance"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/finance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/finance"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/industries/healthcare</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/healthcare"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/healthcare"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/healthcare"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries/healthcare</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/healthcare"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/healthcare"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/healthcare"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/industries/government</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/government"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/government"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/government"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries/government</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/government"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/government"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/government"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/industries/manufacturing</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/manufacturing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/manufacturing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/manufacturing"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries/manufacturing</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/manufacturing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/manufacturing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/manufacturing"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/industries/retail</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/retail"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/retail"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/retail"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries/retail</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/retail"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/retail"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/retail"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/industries/education</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/education"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/education"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/education"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/industries/education</loc>
+    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/industries/education"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/industries/education"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/industries/education"/>
   </url>
   <url>
     <loc>https://roaya.co/pricing</loc>
