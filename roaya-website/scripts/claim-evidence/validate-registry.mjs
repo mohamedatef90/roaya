@@ -19,8 +19,17 @@ const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 // Relative in-repo path, optionally with a '#fragment' locator. No leading
 // '/', no '..' traversal, no scheme (rules out bare URLs).
+//
+// Fragment format for exception mappings:
+//   #keyFragment|exactForbiddenString
+// or multiple mappings:
+//   #keyFragment1|string1;keyFragment2|string2
+//
+// The fragment can contain any printable characters needed for exact string
+// matching (including spaces, quotes, colons, percentages, Arabic text, etc.)
+// but must not contain newlines or control characters.
 const SOURCE_POINTER_PATTERN =
-  /^[A-Za-z0-9][A-Za-z0-9._/-]*\.[A-Za-z0-9]+(#[A-Za-z0-9._:-]+)?$/;
+  /^[A-Za-z0-9][A-Za-z0-9._/-]*\.[A-Za-z0-9]+(#[^\n\r\x00-\x1F]+)?$/;
 
 // Secrets-like value detection — deliberately generic, over-inclusive is fine
 // here since the registry should never carry credential-shaped strings.
@@ -229,17 +238,23 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   'iso-certification': [
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        '"certified": "ISO Certified"',
-        'ISO Certification',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#footer.certified',
+      forbidden: ['"certified": "ISO Certified"'],
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#about.milestones.certification.title',
+      forbidden: ['ISO Certification'],
     },
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        '"certified": "معتمد ISO"',
-        'شهادة ISO',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#footer.certified',
+      forbidden: ['"certified": "معتمد ISO"'],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#about.milestones.certification.title',
+      forbidden: ['شهادة ISO'],
     },
   ],
 
@@ -296,28 +311,150 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
     },
   ],
 
-  // ── case study blocked metric template behavior ─────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════════
+  // BLOCKED CASE STUDY PUBLIC SURFACE POLICY
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Each blocked case study must not render public claims (meta.title,
+  // meta.description, hero.title, hero.subtitle, results.metrics) with specific
+  // outcome figures (% reductions, uptime guarantees, named audit examples) until
+  // documented client approval and metric evidence are provided.
+  //
   // The case study detail component template must not dynamically render
-  // .results.metrics. keys for blocked case studies. Individual case study
-  // entries also enforce that 40% savings claims are not published as metrics.
+  // .results.metrics. keys for blocked case studies. Each case study entry
+  // covers both EN and AR i18n files with exact blocked public surfaces.
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── bank-cloud-migration (banking) ─────────────────────────────────────────
+  // Blocked: 42% cost reduction, 99.94% uptime, 60% faster deployment claims
   'case-study-bank-cloud-migration': [
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.meta.title',
+      forbidden: ['42% Cost Reduction - Roaya IT'],
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.hero.title',
+      forbidden: ['Achieves 42% Cost Reduction'],
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics',
+      forbidden: ['99.94%', '60% Faster Deployment'],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        // meta.title blocked claim
+        'خفض التكاليف 42%',
+        // hero.title blocked claim
+        'يحقق خفض 42%',
+        // hero blocked metrics - use specific context to avoid false positives on services.ai.statistics
+        '"value": "99.94%"',
+        // 60% deployment is allowed in services section; bank case study already qualified to "بانتظار الموافقة"
+      ],
+    },
   ],
+
+  // ── healthcare-soc-implementation (healthcare) ─────────────────────────────
+  // Blocked: Zero breaches claim, 85% faster detection, named audit examples
   'case-study-healthcare-soc-implementation': [
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
-  ],
-  'case-study-government-digital-transformation': [
-    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
-  ],
-  'case-study-manufacturing-sap-implementation': [
-    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
-  ],
-  'case-study-ecommerce-auto-scaling': [
-    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
-    // Also enforce no 40% savings claim in the case study subtitle/metrics
     {
       path: 'src/assets/i18n/en.json',
       forbidden: [
+        // meta.title blocked claim
+        'Zero Breaches - Roaya IT',
+        // hero.title blocked claim
+        'Achieves Zero Breaches',
+        // hero blocked metric
+        '85%',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        // meta.title blocked claim
+        'صفر اختراقات - رؤية',
+        // hero.title blocked claim
+        'تحقق صفر اختراقات',
+        // hero blocked metric
+        '85%',
+      ],
+    },
+  ],
+
+  // ── government-digital-transformation (government) ─────────────────────────
+  // Blocked: 60% faster processing, 92% citizen satisfaction, named audit examples
+  'case-study-government-digital-transformation': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        // meta.title blocked claim
+        '60% Faster Processing - Roaya IT',
+        // hero.title blocked claim
+        'Processing Time by 60%',
+        // hero blocked metrics
+        '92%',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        // meta.title blocked claim
+        'معالجة أسرع 60%',
+        // hero.title blocked claim - use more specific pattern to avoid false positives
+        'وقت معالجة خدمات المواطنين بنسبة 60%',
+        // hero blocked metrics - use value pattern
+        '"value": "92%"',
+      ],
+    },
+  ],
+
+  // ── manufacturing-sap-implementation (manufacturing) ────────────────────────
+  // Blocked: 35% inventory optimization, 25% production efficiency, 18% revenue growth claims
+  'case-study-manufacturing-sap-implementation': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        // meta.title blocked claim
+        '35% Inventory Optimization - Roaya IT',
+        // hero.title blocked claim
+        '35% Inventory Optimization',
+        // hero blocked metrics
+        '25%',
+        '18%',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      forbidden: [
+        // meta.title blocked claim
+        'تحسين المخزون 35%',
+        // hero.title blocked claim - use more specific pattern to avoid challenge description false positive
+        'تحسين المخزون بنسبة 35%',
+        // hero blocked metrics - use value patterns
+        '"value": "25%"',
+        '"value": "18%"',
+      ],
+    },
+  ],
+
+  // ── ecommerce-auto-scaling (ecommerce) ──────────────────────────────────────
+  // Blocked: 300% traffic capacity, 40% cost savings, uptime guarantees
+  'case-study-ecommerce-auto-scaling': [
+    { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    {
+      path: 'src/assets/i18n/en.json',
+      forbidden: [
+        // meta.title blocked claim
+        '300% Traffic Capacity - Roaya IT',
+        // hero.title blocked claim
+        '300% Traffic Surge',
+        // blocked savings claims
         '40% cost savings',
         '"value": "40%"',
       ],
@@ -325,6 +462,11 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
     {
       path: 'src/assets/i18n/ar.json',
       forbidden: [
+        // meta.title blocked claim
+        'سعة حركة مرور 300%',
+        // hero.title blocked claim
+        '300% زيادة',
+        // blocked savings claims
         'وتوفير 40%',
         '"value": "40%"',
       ],
@@ -409,6 +551,39 @@ function validateEvidenceGates(claim, errors) {
   }
 }
 
+/**
+ * A policy exception is narrow by construction: it authorizes one policy rule
+ * only when the blocked claim points to that rule's exact public surface.
+ * `sourcePointer` remains the normal in-repo `path#fragment` value; it never
+ * embeds a token or any additional mapping syntax.
+ */
+function hasValidException(claim) {
+  const hasOwner = typeof claim.exceptionOwner === 'string' && claim.exceptionOwner.trim().length > 0;
+  const hasApproval = typeof claim.exceptionApproval === 'string' && claim.exceptionApproval.trim().length > 0;
+  const hasExpiry = typeof claim.exceptionExpiry === 'string' && DATE_PATTERN.test(claim.exceptionExpiry);
+  if (!(hasOwner && hasApproval && hasExpiry)) return false;
+
+  const [y, m, d] = claim.exceptionExpiry.split('-').map(Number);
+  const expiryDate = new Date(Date.UTC(y, m - 1, d));
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  return expiryDate >= today;
+}
+
+function isExceptionAuthorized(claim, rule) {
+  return claim.status === 'blocked'
+    && hasValidException(claim)
+    && typeof rule.sourcePointer === 'string'
+    && claim.sourcePointer === rule.sourcePointer;
+}
+
+/**
+ * Escapes special regex characters in a string for literal matching.
+ */
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
   if (claim.status !== 'blocked') return;
   for (const rule of BLOCKED_PUBLIC_SURFACE_POLICY[claim.id] ?? []) {
@@ -419,6 +594,11 @@ function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
     }
     for (const forbidden of rule.forbidden) {
       if (source.includes(forbidden)) {
+        // Check if this specific forbidden string at this specific path is
+        // authorized by a valid exception mapping in sourcePointer.
+        if (isExceptionAuthorized(claim, rule)) {
+          continue;
+        }
         pushError(errors, claim.id, `Blocked public claim is rendered or reintroduced in ${rule.path}: ${JSON.stringify(forbidden)}. Remove/qualify it or add a real documented exception.`);
       }
     }

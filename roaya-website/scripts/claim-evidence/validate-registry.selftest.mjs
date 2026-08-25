@@ -357,6 +357,255 @@ for (const [label, field, value] of secretMutations) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// EXACT EXCEPTION AUTHORIZATION TESTS
+// A valid exception with sourcePointer mapping `path#key.path:exact forbidden string`
+// must authorize ONLY that exact forbidden string at that exact path. Wrong path,
+// wrong key, wrong string, or any mismatch must reject.
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Rule: exact valid ISO exception - inject "ISO Certified" at the exact i18n key yields ZERO errors.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    // Exception mapping format: path#keyFragment:exactForbiddenString
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-300 exact ISO exception authorized';
+  });
+  // Inject the exact forbidden string at the exact key location
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'exact valid ISO exception with sourcePointer mapping yields ZERO errors for that claim',
+    errors.length === 0,
+  );
+}
+
+// Rule: wrong-map - inject equivalent blocked string in another key/path and fail.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    // Exception maps to footer.certified but we inject at about.milestones
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-301 exact ISO exception';
+  });
+  // Inject blocked string at a DIFFERENT key location (about.milestones, not footer.certified)
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"about": { "milestones": { "certification": { "title": "ISO Certification" } } }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'ISO exception for footer.certified does NOT authorize a different policy rule (wrong-map)',
+    errors.some((e) => e.includes('iso-certification') && e.includes('ISO Certification')),
+  );
+}
+
+// Rule: missing exception fields must fail (no exceptionOwner).
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    // Missing exceptionOwner
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-302 exception';
+  });
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'missing exceptionOwner fails even with valid mapping',
+    errors.some((e) => e.includes('iso-certification') && (e.includes('missing required exception fields') || e.includes('ISO Certified'))),
+  );
+}
+
+// Rule: incomplete exception (missing exceptionApproval) must fail.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    // Missing exceptionApproval
+  });
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'missing exceptionApproval fails even with valid mapping',
+    errors.some((e) => e.includes('iso-certification') && (e.includes('missing required exception fields') || e.includes('ISO Certified'))),
+  );
+}
+
+// Rule: expired exception must fail.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2024-01-01'; // Expired
+    claim.exceptionApproval = 'TIFO-303 expired exception';
+  });
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'expired exception fails even with valid mapping',
+    errors.some((e) => e.includes('iso-certification') && (e.includes('passed') || e.includes('ISO Certified'))),
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CASE STUDY EXACT EXCEPTION AUTHORIZATION TESTS
+// A valid case-study exception with meta.title mapping must authorize ONLY that
+// exact string. Injection at hero.title or any other path must still reject.
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Rule: valid blocked case-study exception success test - one exact meta.title mapping,
+// injection at hero remains rejected.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-bank-cloud-migration');
+    // Exception mapping: authorize ONLY "42% Cost Reduction - Roaya IT" at meta.title key
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.banking.meta.title';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-400 meta.title exception only';
+  });
+  // Inject the exact authorized string at meta.title location
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"caseStudies": { "banking": { "meta": { "title": "42% Cost Reduction - Roaya IT" } } }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  // The exact mapped forbidden string should be authorized, so no error for that specific string
+  check(
+    'case study exact meta.title exception authorizes that exact string - zero errors for authorized string',
+    !errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('42% Cost Reduction - Roaya IT')),
+  );
+}
+
+// Rule: same case-study exception, but hero.title injection must still be rejected.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-bank-cloud-migration');
+    // Exception ONLY for meta.title
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.banking.meta.title';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-400 meta.title exception only';
+  });
+  // Inject a DIFFERENT blocked string at hero.title (not covered by exception)
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"caseStudies": { "banking": { "hero": { "title": "Achieves 42% Cost Reduction" } } }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'case study meta.title exception does NOT authorize hero.title blocked string',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('Achieves 42% Cost Reduction')),
+  );
+}
+
+// Rule: full clean pass for valid ISO exception case.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    claim.exceptionOwner = 'CEO';
+    claim.exceptionExpiry = '2028-06-30';
+    claim.exceptionApproval = 'TIFO-500 full authorization for ISO badge';
+  });
+  // Inject at the exact mapped location
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "badge": { "certified": "ISO Certified" } }',
+  };
+  const { errors, claimCount } = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources });
+  check(
+    'full clean pass: valid ISO exception with exact mapping produces zero errors',
+    errors.length === 0,
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// EXCEPTION BEHAVIOR TESTS FOR CASE STUDY CLAIMS
+// An exact valid exception with owner, future expiry, and approval must permit
+// only the mapped retained blocked public surface. Missing/incomplete/expired/
+// wrong-map exceptions must fail.
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Rule: case study exception must cover the exact mapped public surface, not a different one.
+// A valid exception for banking case study's meta.title does NOT permit hero.title reintroduction.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-bank-cloud-migration');
+    // Add a valid exception that maps to meta.title path - NOW WITH EXACT MAPPING FORMAT
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-200 exception for meta.title only';
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.banking.meta.title';
+  });
+  // Now inject a blocked claim into hero.title - should still be rejected
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"heroTitle": "Achieves 42% Cost Reduction"',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'case study exception for one path does not permit blocked claim in different path (wrong-map)',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('Achieves 42% Cost Reduction')),
+  );
+}
+
+// Rule: case study claim with valid exception but missing client approval must still be rejected.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-healthcare-soc-implementation');
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-201 temporary exception';
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.healthcare.hero.title';
+    // clientApprovalReference still null - claim cannot be verified
+    claim.status = 'verified';
+  });
+  check(
+    'case study with exception but no clientApprovalReference cannot become verified',
+    errorsFor(mutated).some((e) => e.includes('must stay "blocked"')),
+  );
+}
+
+// Rule: case study claim with valid exception but missing metric evidence must still be rejected.
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-government-digital-transformation');
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-202 temporary exception';
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.government.hero.title';
+    claim.clientApprovalReference = 'Client approved on 2026-08-01';
+    // metricEvidencePointer still null - claim cannot be verified
+    claim.status = 'verified';
+  });
+  check(
+    'case study with exception and approval but no metricEvidencePointer cannot become verified',
+    errorsFor(mutated).some((e) => e.includes('must stay "blocked"')),
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 // RED-CAPABLE SELF-TESTS FOR EACH BLOCKED CLAIM FAMILY
 // These tests mutate real EN and AR public source strings and assert that the
 // validator correctly rejects reintroduction of blocked copy.
@@ -547,12 +796,306 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 
-// ── case-study-ecommerce-auto-scaling: blocked metric and savings copy. ───────
+// ══════════════════════════════════════════════════════════════════════════════
+// RED-CAPABLE SELF-TESTS FOR EACH BLOCKED CASE STUDY CLAIM FAMILY
+// Each blocked case study must be tested in both EN and AR for:
+//   - meta.title blocked claims (SEO)
+//   - hero.title blocked claims (visible headline)
+//   - hero.subtitle blocked claims (visible subheadline)
+//   - results.metrics blocked values (outcome figures)
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── case-study-bank-cloud-migration (banking) ─────────────────────────────────
 {
+  // EN: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "42% Cost Reduction - Roaya IT"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank-cloud-migration EN meta.title "42% Cost Reduction" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('42% Cost Reduction')),
+  );
+}
+{
+  // EN: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Bank Achieves 42% Cost Reduction"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank-cloud-migration EN hero.title "Achieves 42% Cost Reduction" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('Achieves 42% Cost Reduction')),
+  );
+}
+{
+  // EN: hero blocked 99.94% uptime metric
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"uptime": "99.94%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank-cloud-migration EN "99.94%" uptime metric is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('99.94%')),
+  );
+}
+{
+  // AR: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"meta": "خفض التكاليف 42%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank-cloud-migration AR meta.title "خفض التكاليف 42%" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('خفض التكاليف 42%')),
+  );
+}
+{
+  // AR: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "يحقق خفض 42%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank-cloud-migration AR hero.title "يحقق خفض 42%" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('يحقق خفض 42%')),
+  );
+}
+
+// ── case-study-healthcare-soc-implementation (healthcare) ─────────────────────
+{
+  // EN: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "Zero Breaches - Roaya IT"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-healthcare EN meta.title "Zero Breaches" is rejected',
+    errors.some((e) => e.includes('case-study-healthcare-soc-implementation') && e.includes('Zero Breaches')),
+  );
+}
+{
+  // EN: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Achieves Zero Breaches with SOC"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-healthcare EN hero.title "Achieves Zero Breaches" is rejected',
+    errors.some((e) => e.includes('case-study-healthcare-soc-implementation') && e.includes('Achieves Zero Breaches')),
+  );
+}
+{
+  // EN: hero blocked 85% metric
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"detection": "85% faster"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-healthcare EN "85%" metric is rejected',
+    errors.some((e) => e.includes('case-study-healthcare-soc-implementation') && e.includes('85%')),
+  );
+}
+{
+  // AR: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"meta": "صفر اختراقات - رؤية"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-healthcare AR meta.title "صفر اختراقات" is rejected',
+    errors.some((e) => e.includes('case-study-healthcare-soc-implementation') && e.includes('صفر اختراقات')),
+  );
+}
+{
+  // AR: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "تحقق صفر اختراقات"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-healthcare AR hero.title "تحقق صفر اختراقات" is rejected',
+    errors.some((e) => e.includes('case-study-healthcare-soc-implementation') && e.includes('تحقق صفر اختراقات')),
+  );
+}
+
+// ── case-study-government-digital-transformation (government) ─────────────────
+{
+  // EN: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "60% Faster Processing - Roaya IT"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-government EN meta.title "60% Faster Processing" is rejected',
+    errors.some((e) => e.includes('case-study-government-digital-transformation') && e.includes('60% Faster Processing')),
+  );
+}
+{
+  // EN: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Processing Time by 60%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-government EN hero.title "Processing Time by 60%" is rejected',
+    errors.some((e) => e.includes('case-study-government-digital-transformation') && e.includes('Processing Time by 60%')),
+  );
+}
+{
+  // EN: hero blocked 92% metric
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"satisfaction": "92%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-government EN "92%" metric is rejected',
+    errors.some((e) => e.includes('case-study-government-digital-transformation') && e.includes('92%')),
+  );
+}
+{
+  // AR: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"meta": "معالجة أسرع 60%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-government AR meta.title "معالجة أسرع 60%" is rejected',
+    errors.some((e) => e.includes('case-study-government-digital-transformation') && e.includes('معالجة أسرع 60%')),
+  );
+}
+{
+  // AR: hero.title blocked claim - use the specific pattern matching the validator policy
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "وقت معالجة خدمات المواطنين بنسبة 60%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-government AR hero.title "وقت معالجة خدمات المواطنين بنسبة 60%" is rejected',
+    errors.some((e) => e.includes('case-study-government-digital-transformation') && e.includes('وقت معالجة خدمات المواطنين بنسبة 60%')),
+  );
+}
+
+// ── case-study-manufacturing-sap-implementation (manufacturing) ───────────────
+{
+  // EN: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "35% Inventory Optimization - Roaya IT"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-manufacturing EN meta.title "35% Inventory Optimization" is rejected',
+    errors.some((e) => e.includes('case-study-manufacturing-sap-implementation') && e.includes('35% Inventory Optimization')),
+  );
+}
+{
+  // EN: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "35% Inventory Optimization Through SAP"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-manufacturing EN hero.title "35% Inventory Optimization" is rejected',
+    errors.some((e) => e.includes('case-study-manufacturing-sap-implementation') && e.includes('35% Inventory Optimization')),
+  );
+}
+{
+  // EN: hero blocked 25% metric
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"efficiency": "25% production efficiency"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-manufacturing EN "25%" metric is rejected',
+    errors.some((e) => e.includes('case-study-manufacturing-sap-implementation') && e.includes('25%')),
+  );
+}
+{
+  // EN: hero blocked 18% metric
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"revenue": "18% revenue growth"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-manufacturing EN "18%" metric is rejected',
+    errors.some((e) => e.includes('case-study-manufacturing-sap-implementation') && e.includes('18%')),
+  );
+}
+{
+  // AR: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"meta": "تحسين المخزون 35%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-manufacturing AR meta.title "تحسين المخزون 35%" is rejected',
+    errors.some((e) => e.includes('case-study-manufacturing-sap-implementation') && e.includes('تحسين المخزون 35%')),
+  );
+}
+{
+  // AR: hero.title blocked claim - use the specific pattern matching the validator policy
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "تحسين المخزون بنسبة 35%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-manufacturing AR hero.title "تحسين المخزون بنسبة 35%" is rejected',
+    errors.some((e) => e.includes('case-study-manufacturing-sap-implementation') && e.includes('تحسين المخزون بنسبة 35%')),
+  );
+}
+
+// ── case-study-ecommerce-auto-scaling (ecommerce) ─────────────────────────────
+{
+  // EN: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": "300% Traffic Capacity - Roaya IT"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce EN meta.title "300% Traffic Capacity" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('300% Traffic Capacity')),
+  );
+}
+{
+  // EN: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Handles 300% Traffic Surge"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce EN hero.title "300% Traffic Surge" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('300% Traffic Surge')),
+  );
+}
+{
+  // EN: blocked savings claim
   const sources = { ...publicSurfaceFiles, 'src/assets/i18n/en.json': `${publicSurfaceFiles['src/assets/i18n/en.json']}\n"subtitle": "40% cost savings"` };
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
-    'blocked case-study-ecommerce EN "40% cost savings" is detected',
+    'blocked case-study-ecommerce EN "40% cost savings" is rejected',
     errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('40% cost savings')),
   );
 }
@@ -569,10 +1112,34 @@ for (const [label, field, value] of secretMutations) {
   );
 }
 {
+  // AR: meta.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"meta": "سعة حركة مرور 300%"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce AR meta.title "سعة حركة مرور 300%" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('سعة حركة مرور 300%')),
+  );
+}
+{
+  // AR: hero.title blocked claim
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "300% زيادة"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce AR hero.title "300% زيادة" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('300% زيادة')),
+  );
+}
+{
   const sources = { ...publicSurfaceFiles, 'src/assets/i18n/ar.json': `${publicSurfaceFiles['src/assets/i18n/ar.json']}\n"subtitle": "وتوفير 40%"` };
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
-    'blocked case-study-ecommerce AR "وتوفير 40%" is detected',
+    'blocked case-study-ecommerce AR "وتوفير 40%" is rejected',
     errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('وتوفير 40%')),
   );
 }
@@ -580,7 +1147,7 @@ for (const [label, field, value] of secretMutations) {
   const sources = { ...publicSurfaceFiles, 'src/assets/i18n/ar.json': `${publicSurfaceFiles['src/assets/i18n/ar.json']}\n"value": "40%"` };
   const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
-    'blocked case-study-ecommerce AR metric "value": "40%" is detected',
+    'blocked case-study-ecommerce AR metric "value": "40%" is rejected',
     errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('40%')),
   );
 }
