@@ -364,7 +364,7 @@ for (const [label, field, value] of secretMutations) {
   });
   check(
     'blocked claim with public-surface sourcePointer and expired exception is rejected',
-    errorsFor(mutated).some((e) => e.includes('exceptionExpiry') && e.includes('passed')),
+    errorsFor(mutated).some((e) => e.includes('exceptionExpiry') && (e.includes('strictly in the future') || e.includes('real calendar date'))),
   );
 }
 
@@ -1331,6 +1331,24 @@ for (const [label, field, value] of secretMutations) {
     'key-aware JSON policy fails closed when its configured key is missing',
     errors.some((e) => e.includes('iso-certification') && e.includes('could not resolve its configured JSON key')),
   );
+}
+
+// Round-6: exceptions require real calendar dates strictly after today.
+for (const [label, expiry] of [
+  ['impossible calendar date', '2099-99-99'],
+  ['today boundary', new Date().toISOString().slice(0, 10)],
+  ['past date', '2025-01-01'],
+]) {
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'iso-certification');
+    claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = expiry;
+    claim.exceptionApproval = 'policy-token:src/assets/i18n/en.json#footer.certified:ISO Certified';
+  });
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(`blocked public exception with ${label} is rejected`, errors.some((e) => e.includes('exceptionExpiry')));
 }
 
 if (failures > 0) {

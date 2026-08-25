@@ -17,6 +17,18 @@ const SCOPE_VALUES = ['cloudedge', 'posta'];
 
 const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function isStrictlyFutureCalendarDate(value) {
+  if (typeof value !== 'string' || !DATE_PATTERN.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return false;
+
+  const tomorrow = new Date();
+  tomorrow.setUTCHours(0, 0, 0, 0);
+  tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+  return date >= tomorrow;
+}
 // Relative in-repo path, optionally with a '#fragment' locator. No leading
 // '/', no '..' traversal, no scheme (rules out bare URLs).
 const SOURCE_POINTER_PATTERN =
@@ -584,19 +596,11 @@ function validateEvidenceGates(claim, errors) {
     const hasExceptionExpiry = isNonEmptyString(claim.exceptionExpiry);
     const hasExceptionApproval = isNonEmptyString(claim.exceptionApproval);
 
-    // Expiry must be a valid future date if provided
-    if (hasExceptionExpiry) {
-      if (!DATE_PATTERN.test(claim.exceptionExpiry)) {
-        pushError(errors, id, `"exceptionExpiry" must be in YYYY-MM-DD format: ${JSON.stringify(claim.exceptionExpiry)}`);
-      } else {
-        const [y, m, d] = claim.exceptionExpiry.split('-').map(Number);
-        const expiryDate = new Date(Date.UTC(y, m - 1, d));
-        const today = new Date();
-        today.setUTCHours(0, 0, 0, 0);
-        if (expiryDate < today) {
-          pushError(errors, id, `"exceptionExpiry" has passed (${claim.exceptionExpiry}) — blocked public copy must be removed or exception renewed.`);
-        }
-      }
+    // Expiry must be a real calendar date strictly after today. Date.UTC
+    // normalizes impossible values (such as 2099-99-99), so never trust it
+    // without the round-trip validation in isStrictlyFutureCalendarDate().
+    if (hasExceptionExpiry && !isStrictlyFutureCalendarDate(claim.exceptionExpiry)) {
+      pushError(errors, id, `"exceptionExpiry" must be a real calendar date strictly in the future: ${JSON.stringify(claim.exceptionExpiry)}.`);
     }
 
     if (!(hasExceptionOwner && hasExceptionExpiry && hasExceptionApproval)) {
@@ -620,14 +624,7 @@ function validateEvidenceGates(claim, errors) {
 function hasValidException(claim) {
   const hasOwner = typeof claim.exceptionOwner === 'string' && claim.exceptionOwner.trim().length > 0;
   const hasApproval = typeof claim.exceptionApproval === 'string' && claim.exceptionApproval.trim().length > 0;
-  const hasExpiry = typeof claim.exceptionExpiry === 'string' && DATE_PATTERN.test(claim.exceptionExpiry);
-  if (!(hasOwner && hasApproval && hasExpiry)) return false;
-
-  const [y, m, d] = claim.exceptionExpiry.split('-').map(Number);
-  const expiryDate = new Date(Date.UTC(y, m - 1, d));
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  return expiryDate >= today;
+  return hasOwner && hasApproval && isStrictlyFutureCalendarDate(claim.exceptionExpiry);
 }
 
 function isExceptionAuthorized(claim, rule) {
