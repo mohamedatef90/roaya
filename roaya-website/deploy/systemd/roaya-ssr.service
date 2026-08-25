@@ -7,12 +7,20 @@ Type=simple
 User=__DEPLOY_USER__
 Group=__DEPLOY_GROUP__
 WorkingDirectory=__WEBSITE_DEPLOY_PATH__
-# Built by: npm ci && npm run build:prod (see docs/deploy/RUNBOOK.md)
+# Built by: npm ci && npm run build:prod (see docs/deploy/RUNTIME-ENV.md)
 ExecStart=/usr/bin/node __WEBSITE_DEPLOY_PATH__/dist/roaya-website/server/server.mjs
 Restart=on-failure
 RestartSec=5
 Environment=NODE_ENV=production
 Environment=PORT=__SSR_PORT__
+# REQUIRED. @angular/ssr >= 21 rejects any request whose Host header hostname
+# is not listed here and silently serves browser/index.csr.html with HTTP 200
+# instead of the rendered page. Hostnames only — the check ignores the port.
+# nginx forwards `proxy_set_header Host $host`, so real traffic only ever
+# presents these two. Do NOT add localhost, 127.0.0.1, or '*'; loopback health
+# checks must send `Host: roaya.co`. See docs/deploy/RUNTIME-ENV.md.
+Environment=NG_ALLOWED_HOSTS=roaya.co,www.roaya.co
+# NG_TRUST_PROXY_HEADERS is intentionally UNSET for this nginx configuration.
 # Add any runtime env vars the app reads (API base URL, analytics keys, etc.)
 # via EnvironmentFile instead of hardcoding secrets in this unit file:
 EnvironmentFile=-__WEBSITE_DEPLOY_PATH__/.env.production

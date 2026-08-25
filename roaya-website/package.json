@@ -17,6 +17,12 @@
     "test:claims:selftest": "node scripts/claim-evidence/validate-registry.selftest.mjs",
     "ai-readiness": "node scripts/ai-readiness/check.mjs",
     "test:ai-readiness:selftest": "node scripts/ai-readiness/checks.selftest.mjs",
+    "test:deploy-runtime-config": "node scripts/deploy/validate-runtime-config.mjs",
+    "test:deploy-runtime-config:selftest": "node scripts/deploy/validate-runtime-config.selftest.mjs",
+    "test:deploy-health-gate": "bash scripts/deploy/health-gate.simulation.sh",
+    "test:build-toolchain": "node scripts/deploy/validate-build-toolchain.mjs",
+    "test:build-toolchain:selftest": "node scripts/deploy/validate-build-toolchain.selftest.mjs",
+    "test:build-exit": "bash scripts/deploy/build-exit-regression.sh",
     "verify:evidence": "npm run validate:claims && npm run test:claims:selftest && npm run test:llms-txt:selftest && npm run test:ai-readiness:selftest && npm run ai-readiness"
   },
   "prettier": {
@@ -72,8 +78,8 @@
     "zone.js": "^0.16.0"
   },
   "devDependencies": {
-    "@angular/build": "^21.2.21",
-    "@angular/cli": "^21.2.21",
+    "@angular/build": "21.2.13",
+    "@angular/cli": "21.2.13",
     "@angular/compiler-cli": "^21.2.21",
     "@sentry/angular": "^10.38.0",
     "@tailwindcss/container-queries": "^0.1.1",
