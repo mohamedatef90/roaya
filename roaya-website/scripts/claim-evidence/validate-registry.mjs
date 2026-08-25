@@ -200,39 +200,76 @@ const PUBLIC_SURFACE_PREFIXES = [
 // null after remediation. This closes the registry-only loophole: a blocked
 // claim cannot be silently reintroduced into its known public surface.
 //
-// Each entry maps a blocked claim ID to an array of { path, forbidden } rules.
-// forbidden is an array of exact substrings that must NOT appear in the file.
-// Using exact values avoids false-positive regex matches.
+// Each entry maps a blocked claim ID to an array of { path, sourcePointer, forbidden } rules.
+// IMPORTANT: All business rules must use exact scalar key mappings:
+// - `sourcePointer` must be in format `path#key.path` pointing to a REAL, EXISTING JSON key
+// - `forbidden` must be a scalar string (not array) for key-aware authorization
+// - Keys that don't exist in the current i18n files are not included (key-aware rules fail closed)
+// Using exact values avoids false-positive regex matches and enables per-token exception authorization.
 const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // ── pricing-truth-ranges ────────────────────────────────────────────────────
   // Blocked EGP price claims removed per Stage 0 decision 9.
+  // Each scalar rule targets the specific JSON key where the blocked value would reappear.
+  // NOTE: CloudSpace keys were completely removed and are not included here.
   'pricing-truth-ranges': [
+    // EN: starter tier pricing at home.pricingPreview
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        'From 2,500 EGP/mo',
-        'From 8,500 EGP/mo',
-        '$1.50/user/month',
-        'CloudSpace plans start at $1.50 per user/month',
-        '$0.50/user/month',
-        '1.50/user',
-        '0.50/user',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#home.pricingPreview.starter.price',
+      forbidden: 'From 2,500 EGP/mo',
+    },
+    // EN: business tier pricing at home.pricingPreview
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#home.pricingPreview.business.price',
+      forbidden: 'From 8,500 EGP/mo',
+    },
+    // EN: WorldPosta fullDescription - could contain price claims
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#services.worldposta.fullDescription',
+      forbidden: '$1.50/user/month',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#services.worldposta.fullDescription',
+      forbidden: '$0.50/user/month',
+    },
+
+    // AR: starter tier pricing at home.pricingPreview
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#home.pricingPreview.starter.price',
+      forbidden: 'From 2,500 EGP/mo',
     },
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        'From 2,500 EGP/mo',
-        'From 8,500 EGP/mo',
-        '2,500 جنيه',
-        '8,500 جنيه',
-        '$1.50/user/month',
-        'CloudSpace plans start at $1.50 per user/month',
-        '$0.50/user/month',
-        '1.50/user',
-        '0.50/user',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#home.pricingPreview.starter.price',
+      forbidden: '2,500 جنيه',
     },
+    // AR: business tier pricing at home.pricingPreview
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#home.pricingPreview.business.price',
+      forbidden: 'From 8,500 EGP/mo',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#home.pricingPreview.business.price',
+      forbidden: '8,500 جنيه',
+    },
+    // AR: WorldPosta fullDescription - could contain price claims
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#services.worldposta.fullDescription',
+      forbidden: '$1.50/user/month',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#services.worldposta.fullDescription',
+      forbidden: '$0.50/user/month',
+    },
+
   ],
 
   // ── iso-certification ───────────────────────────────────────────────────────
@@ -265,23 +302,26 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // ── cloudspace-definition-taxonomy ──────────────────────────────────────────
   // CloudSpace removed from WorldPosta products; JSON-LD exclusion in place.
   // Prevent reintroduction of CloudSpace plan pricing (.50 claim variants).
+  // The CloudSpace product keys were completely removed, so we target the WorldPosta
+  // fullDescription which is the most likely location for reintroduction.
   'cloudspace-definition-taxonomy': [
+    // EN: WorldPosta fullDescription - could contain CloudSpace claims
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        '"CloudSpace"',
-        'CloudSpace plan',
-        '$1.50/user',
-        '$0.50/user',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#services.worldposta.fullDescription',
+      forbidden: 'CloudSpace',
+    },
+
+    // AR: WorldPosta fullDescription - could contain CloudSpace claims
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#services.worldposta.fullDescription',
+      forbidden: 'CloudSpace',
     },
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        '"CloudSpace"',
-        'CloudSpace plan',
-        'كلاود سبيس',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#services.worldposta.fullDescription',
+      forbidden: 'كلاود سبيس',
     },
   ],
 
@@ -289,29 +329,71 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // "Guaranteed ROI" is an unverified marketing claim. The pricing page trust
   // section must not promise guaranteed ROI until evidence is provided.
   // "40% promo" / promotional savings guarantees are also blocked.
+  // Each scalar rule targets the specific JSON key where the blocked value would reappear.
   'uptime-generic-outside-cloudedge-posta': [
+    // EN: pricing.trust.roi key is the primary location
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        '"roi": "Guaranteed ROI"',
-        'guaranteed ROI',
-        '40% promo',
-        'save 40%',
-        'Save 40%',
-        'Save up to 40%',
-        '40% promotional savings with guaranteed ROI',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#pricing.trust.roi',
+      forbidden: 'Guaranteed ROI',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#pricing.trust.roiDesc',
+      forbidden: 'guaranteed ROI',
+    },
+    // EN: promotional savings at home.hero.badge
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#home.hero.badge',
+      forbidden: '40% promo',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#home.hero.badge',
+      forbidden: 'save 40%',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#home.hero.badge',
+      forbidden: 'Save 40%',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#home.hero.badge',
+      forbidden: 'Save up to 40%',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#home.newsBar.promo1',
+      forbidden: '40% promotional savings with guaranteed ROI',
+    },
+    // AR: pricing.trust.roi key is the primary location
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#pricing.trust.roi',
+      forbidden: 'عائد استثمار مضمون',
+    },
+    // AR: promotional savings at home.hero.badge
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#home.hero.badge',
+      forbidden: 'خصم 40%',
     },
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        '"roi": "عائد استثمار مضمون"',
-        'عائد استثمار مضمون',
-        'خصم 40%',
-        'توفير 40%',
-        'وفر حتى 40%',
-        'توفير ترويجي 40% مع عائد استثمار مضمون',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#home.hero.badge',
+      forbidden: 'توفير 40%',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#home.hero.badge',
+      forbidden: 'وفر حتى 40%',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#home.newsBar.promo1',
+      forbidden: 'توفير ترويجي 40% مع عائد استثمار مضمون',
     },
   ],
 
@@ -326,13 +408,15 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   // The case study detail component template must not dynamically render
   // .results.metrics. keys for blocked case studies. Each case study entry
   // covers both EN and AR i18n files with exact blocked public surfaces.
+  //
+  // IMPORTANT: All rules must use exact scalar key mappings for key-aware authorization.
   // ══════════════════════════════════════════════════════════════════════════════
 
   // ── bank-cloud-migration (banking) ─────────────────────────────────────────
   // Blocked: 42% cost reduction, 99.94% uptime, 60% faster deployment claims
-  // Current public surface: AR meta.description contains "42%" and "دون أي توقف"
   // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-bank-cloud-migration': [
+    // Template structural hard-block: prevents dynamic .results.metrics. rendering
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
     // EN meta.title
     {
@@ -346,16 +430,22 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.hero.title',
       forbidden: 'Achieves 42% Cost Reduction',
     },
-    // EN results.metrics - split into separate rules
+    // EN results.metrics - split into separate rules for each metric
     {
       path: 'src/assets/i18n/en.json',
-      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics.metric2.value',
       forbidden: '99.94%',
     },
     {
       path: 'src/assets/i18n/en.json',
-      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics.metric3.value',
       forbidden: '60% Faster Deployment',
+    },
+    // AR meta.title
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.meta.title',
+      forbidden: 'خفض التكاليف 42%',
     },
     // AR meta.description - split into separate rules for each token
     {
@@ -368,7 +458,12 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
       sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.meta.description',
       forbidden: 'دون أي توقف',
     },
-    // AR hero.title
+    // AR hero.title - separate rules for each blocked token
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.hero.title',
+      forbidden: 'يحقق خفض 42%',
+    },
     {
       path: 'src/assets/i18n/ar.json',
       sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.hero.title',
@@ -377,117 +472,173 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
     // AR results.metrics - prevents meta.description exception from authorizing same token here
     {
       path: 'src/assets/i18n/ar.json',
-      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.results.metrics',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.results.metrics.metric1.value',
       forbidden: 'لخفض 42%',
     },
-    // AR whole-file rules (no sourcePointer = no key-aware authorization)
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        // meta.title blocked claim
-        'خفض التكاليف 42%',
-        // hero.title blocked claim
-        'يحقق خفض 42%',
-        // hero blocked metrics - use specific context to avoid false positives on services.ai.statistics
-        '"value": "99.94%"',
-        // 60% deployment is allowed in services section; bank case study already qualified to "بانتظار الموافقة"
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.results.metrics.metric2.value',
+      forbidden: '99.94%',
     },
   ],
 
   // ── healthcare-soc-implementation (healthcare) ─────────────────────────────
   // Blocked: Zero breaches claim, 85% faster detection, named audit examples
+  // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-healthcare-soc-implementation': [
+    // Template structural hard-block: prevents dynamic .results.metrics. rendering
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    // EN meta.title
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        // meta.title blocked claim
-        'Zero Breaches - Roaya IT',
-        // hero.title blocked claim
-        'Achieves Zero Breaches',
-        // hero blocked metric
-        '85%',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.healthcare.meta.title',
+      forbidden: 'Zero Breaches - Roaya IT',
     },
+    // EN hero.title
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.healthcare.hero.title',
+      forbidden: 'Achieves Zero Breaches',
+    },
+    // EN results.metrics - blocked 85% metric
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.healthcare.results.metrics.metric2.value',
+      forbidden: '85%',
+    },
+    // AR meta.title
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        // meta.title blocked claim
-        'صفر اختراقات - رؤية',
-        // hero.title blocked claim
-        'تحقق صفر اختراقات',
-        // hero blocked metric
-        '85%',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.healthcare.meta.title',
+      forbidden: 'صفر اختراقات - رؤية',
+    },
+    // AR hero.title
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.healthcare.hero.title',
+      forbidden: 'تحقق صفر اختراقات',
+    },
+    // AR results.metrics - blocked 85% metric
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.healthcare.results.metrics.metric2.value',
+      forbidden: '85%',
     },
   ],
 
   // ── government-digital-transformation (government) ─────────────────────────
   // Blocked: 60% faster processing, 92% citizen satisfaction, named audit examples
+  // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-government-digital-transformation': [
+    // Template structural hard-block: prevents dynamic .results.metrics. rendering
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    // EN meta.title
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        // meta.title blocked claim
-        '60% Faster Processing - Roaya IT',
-        // hero.title blocked claim
-        'Processing Time by 60%',
-        // hero blocked metrics
-        '92%',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.government.meta.title',
+      forbidden: '60% Faster Processing - Roaya IT',
     },
+    // EN hero.title
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.government.hero.title',
+      forbidden: 'Processing Time by 60%',
+    },
+    // EN results.metrics - blocked 92% metric
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.government.results.metrics.metric4.value',
+      forbidden: '92%',
+    },
+    // AR meta.title
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        // meta.title blocked claim
-        'معالجة أسرع 60%',
-        // hero.title blocked claim - use more specific pattern to avoid false positives
-        'وقت معالجة خدمات المواطنين بنسبة 60%',
-        // hero blocked metrics - use value pattern
-        '"value": "92%"',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.government.meta.title',
+      forbidden: 'معالجة أسرع 60%',
+    },
+    // AR hero.title
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.government.hero.title',
+      forbidden: 'وقت معالجة خدمات المواطنين بنسبة 60%',
+    },
+    // AR results.metrics - blocked 92% metric
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.government.results.metrics.metric4.value',
+      forbidden: '92%',
     },
   ],
 
   // ── manufacturing-sap-implementation (manufacturing) ────────────────────────
   // Blocked: 35% inventory optimization, 25% production efficiency, 18% revenue growth claims
+  // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-manufacturing-sap-implementation': [
+    // Template structural hard-block: prevents dynamic .results.metrics. rendering
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
+    // EN meta.title
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        // meta.title blocked claim
-        '35% Inventory Optimization - Roaya IT',
-        // hero.title blocked claim
-        '35% Inventory Optimization',
-        // hero blocked metrics
-        '25%',
-        '18%',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.manufacturing.meta.title',
+      forbidden: '35% Inventory Optimization - Roaya IT',
+    },
+    // EN hero.title
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.manufacturing.hero.title',
+      forbidden: '35% Inventory Optimization',
+    },
+    // EN results.metrics - blocked metrics
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.manufacturing.results.metrics.metric1.value',
+      forbidden: '35%',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.manufacturing.results.metrics.metric2.value',
+      forbidden: '25%',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.manufacturing.results.metrics.metric4.value',
+      forbidden: '18%',
+    },
+    // AR meta.title
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.manufacturing.meta.title',
+      forbidden: 'تحسين المخزون 35%',
+    },
+    // AR hero.title
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.manufacturing.hero.title',
+      forbidden: 'تحسين المخزون بنسبة 35%',
+    },
+    // AR results.metrics - blocked metrics
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.manufacturing.results.metrics.metric1.value',
+      forbidden: '35%',
     },
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        // meta.title blocked claim
-        'تحسين المخزون 35%',
-        // hero.title blocked claim - use more specific pattern to avoid challenge description false positive
-        'تحسين المخزون بنسبة 35%',
-        // hero blocked metrics - use value patterns
-        '"value": "25%"',
-        '"value": "18%"',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.manufacturing.results.metrics.metric2.value',
+      forbidden: '25%',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.manufacturing.results.metrics.metric4.value',
+      forbidden: '18%',
     },
   ],
 
   // ── ecommerce-auto-scaling (ecommerce) ──────────────────────────────────────
   // Blocked: 300% traffic capacity, 40% cost savings, uptime guarantees (zero downtime)
-  // NOTE: "Zero downtime" appears in results.metrics.metric2.description which
-  // needs to be qualified. Other occurrences in postaHybrid or banking challenge
-  // are service descriptions, not outcome claims.
   // Each key-aware rule has ONE scalar forbidden token for separate authorization.
   'case-study-ecommerce-auto-scaling': [
+    // Template structural hard-block: prevents dynamic .results.metrics. rendering
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
     // EN meta.title
     {
@@ -517,31 +668,71 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.hero.title',
       forbidden: 'Zero Downtime',
     },
-    // EN whole-file rules (no sourcePointer = no key-aware authorization)
+    // EN hero.subtitle - blocked savings claims
     {
       path: 'src/assets/i18n/en.json',
-      forbidden: [
-        // blocked savings claims
-        '40% cost savings',
-        '"value": "40%"',
-        // results.metrics.metric2.description blocked claim - exact match
-        'Zero downtime during all sales events',
-      ],
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.hero.subtitle',
+      forbidden: '40% cost savings',
     },
-    // AR whole-file rules (no sourcePointer = no key-aware authorization)
+    // EN results.metrics - blocked metrics
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.results.metrics.metric1.value',
+      forbidden: '300%',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.results.metrics.metric2.value',
+      forbidden: 'Zero downtime',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.results.metrics.metric2.description',
+      forbidden: 'Zero downtime during all sales events',
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.results.metrics.metric3.value',
+      forbidden: '40%',
+    },
+    // AR meta.title
     {
       path: 'src/assets/i18n/ar.json',
-      forbidden: [
-        // meta.title blocked claim
-        'سعة حركة مرور 300%',
-        // hero.title blocked claim
-        '300% زيادة',
-        // blocked savings claims
-        'وتوفير 40%',
-        '"value": "40%"',
-        // results.metrics.metric2.description blocked claim - exact match
-        'صفر توقف خلال جميع',
-      ],
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.meta.title',
+      forbidden: 'سعة حركة مرور 300%',
+    },
+    // AR hero.title
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.hero.title',
+      forbidden: '300% زيادة',
+    },
+    // AR hero.subtitle - blocked savings claims
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.hero.subtitle',
+      forbidden: 'وتوفير 40%',
+    },
+    // AR results.metrics - blocked metrics
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.results.metrics.metric1.value',
+      forbidden: '300%',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.results.metrics.metric2.value',
+      forbidden: 'صفر توقف',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.results.metrics.metric2.description',
+      forbidden: 'صفر توقف خلال جميع',
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.ecommerce.results.metrics.metric3.value',
+      forbidden: '40%',
     },
   ],
 };
