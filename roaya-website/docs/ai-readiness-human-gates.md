@@ -138,8 +138,8 @@ Then confirm:
 - [ ] **Machine files** — `/robots.txt`, `/sitemap.xml`, and `/llms.txt` are
       reachable and byte-identical to `public/`. Their **content types** and
       the security headers are nginx's responsibility, not the Node server's,
-      so they are verified post-deploy against the host — see
-      `docs/deploy/verification-checklist.md`. The config side of that
+      so they are verified post-deploy against the host — see the
+      post-deploy verification section of `docs/deploy/RUNTIME-ENV.md`. The config side of that
       guarantee is enforced automatically by the `llms-txt` check, which
       parses `deploy/nginx/roaya-website.conf`.
 

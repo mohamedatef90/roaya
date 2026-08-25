@@ -58,7 +58,9 @@ MEMORY_BANK=/Users/roaya/Roaya-files/Development/roaya/memory-bank/
 | **Server IP** | `10.1.2.2` |
 | **SSH User** | `roaya` |
 | **SSH Key** | `~/.ssh/roaya_server` |
-| **Frontend Path** | `/var/www/roaya-website/` |
+| **SSR runtime env** | `NG_ALLOWED_HOSTS=roaya.co,www.roaya.co` (required — see `docs/deploy/RUNTIME-ENV.md`) |
+| **Frontend Path (served)** | `/var/www/roaya-ssr/current/browser` — `current` symlinks to `/var/www/roaya-ssr/releases/<stamp>` |
+| **Frontend Path (legacy)** | `/var/www/roaya-website/` — **NOT served by nginx.** Retained only as the source of admin-uploaded `assets/images`. Never deploy here. |
 | **Backend Path** | `/opt/roaya/backend/` |
 | **PM2 Process** | `roaya-api` |
 | **Domain** | `roaya.co` |
@@ -561,31 +563,39 @@ ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
 
 ### Detailed Deployment Commands
 
+> **FRONTEND: there is exactly one supported path — `./deploy/scripts/deploy-ssr.sh`.**
+> The frontend commands that used to live in this section have been removed as
+> **FORBIDDEN/LEGACY**. They copied a browser-only build into the flat
+> `/var/www/roaya-website` root, which nginx no longer serves: it serves
+> `/var/www/roaya-ssr/current/browser` and proxies dynamic routes to the SSR
+> upstream, and the legacy directory appears in **zero** lines of the active
+> nginx config.
+>
+> Why this is recorded rather than quietly deleted — three real incidents:
+> 1. The browser-only tarball never shipped `server/server.mjs`, so no SSR
+>    process could run and every unknown route answered 200 with a stale
+>    `index.html`.
+> 2. `--exclude='assets'` (added to protect admin-uploaded images) also excluded
+>    `assets/i18n`, so translation changes were invisible in production for
+>    roughly six months.
+> 3. **2026-08-25:** a correct, fully validated build was copied into that flat
+>    root. Production kept serving the previous release for hours, with no error
+>    in any log, because nothing reads that directory.
+>
+> Do not delete `/var/www/roaya-website` — it holds admin-uploaded
+> `assets/images`, which `deploy-ssr.sh` carries forward into each release.
+>
+> Runtime prerequisites (notably `NG_ALLOWED_HOSTS`, without which every route
+> silently returns the client-rendered shell with HTTP 200):
+> see `docs/deploy/RUNTIME-ENV.md`.
+
 ```bash
 # ============================================
-# FRONTEND DEPLOYMENT
+# FRONTEND DEPLOYMENT — supported path
 # ============================================
-
-# 1. Build frontend
 cd /Users/roaya/Roaya-files/Development/roaya/roaya-website
-npm run build:prod
-
-# 2. Create tarball (excluding assets to preserve uploaded images)
-tar czf /tmp/roaya-dist.tar.gz --exclude='assets' \
-  -C dist/roaya-website/browser .
-
-# 3. Upload to server
-scp -o ControlMaster=no -o ControlPath=none \
-  -i ~/.ssh/roaya_server \
-  /tmp/roaya-dist.tar.gz roaya@10.1.2.2:/tmp/
-
-# 4. Deploy on server
-ssh -o ControlMaster=no -o ControlPath=none \
-  -i ~/.ssh/roaya_server roaya@10.1.2.2 \
-  "cd /var/www/roaya-website && \
-   find . -maxdepth 1 ! -name assets ! -name . -exec rm -rf {} + && \
-   tar xzf /tmp/roaya-dist.tar.gz && \
-   rm /tmp/roaya-dist.tar.gz"
+DRY_RUN=1 ./deploy/scripts/deploy-ssr.sh   # build + gates, uploads nothing
+./deploy/scripts/deploy-ssr.sh             # build, gate, ship, restart, verify, pm2 save
 
 # ============================================
 # BACKEND DEPLOYMENT
@@ -617,27 +627,21 @@ ssh -o ControlMaster=no -o ControlPath=none \
 # ============================================
 # COMBINED DEPLOYMENT (both frontend + backend)
 # ============================================
+# Run the two supported paths in sequence. There is no combined tarball:
+# the FORBIDDEN/LEGACY flat-root frontend upload that used to be here is gone
+# for the reasons documented above.
 
-# Build both
-cd /Users/roaya/Roaya-files/Development/roaya/roaya-website && npm run build:prod
+# 1. Frontend (build, gate, ship, restart, verify, pm2 save)
+cd /Users/roaya/Roaya-files/Development/roaya/roaya-website
+./deploy/scripts/deploy-ssr.sh
+
+# 2. Backend
 cd /Users/roaya/Roaya-files/Development/roaya/backend && npm run build
-
-# Create tarballs
-tar czf /tmp/roaya-dist.tar.gz --exclude='assets' \
-  -C /Users/roaya/Roaya-files/Development/roaya/roaya-website/dist/roaya-website/browser .
 tar czf /tmp/roaya-backend.tar.gz \
   -C /Users/roaya/Roaya-files/Development/roaya/backend \
   dist prisma package.json package-lock.json
-
-# Upload both
 scp -o ControlMaster=no -o ControlPath=none -i ~/.ssh/roaya_server \
-  /tmp/roaya-dist.tar.gz /tmp/roaya-backend.tar.gz roaya@10.1.2.2:/tmp/
-
-# Deploy frontend
-ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 \
-  "cd /var/www/roaya-website && \
-   find . -maxdepth 1 ! -name assets ! -name . -exec rm -rf {} + && \
-   tar xzf /tmp/roaya-dist.tar.gz && rm /tmp/roaya-dist.tar.gz"
+  /tmp/roaya-backend.tar.gz roaya@10.1.2.2:/tmp/
 
 # Deploy backend
 ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 \
@@ -696,7 +700,8 @@ ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "pm2 logs roaya-api --lines 50"
 ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "pm2 restart roaya-api"
 
 # Check file timestamps (verify deployment)
-ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "ls -lt /var/www/roaya-website/main-*.js | head -1"
+# Frontend: check the ACTIVE release, not the legacy flat root
+ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "readlink -f /var/www/roaya-ssr/current && ls -lt /var/www/roaya-ssr/current/browser/main-*.js | head -1"
 ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "ls -lt /opt/roaya/backend/dist/index.js | head -1"
 ```
 
@@ -714,7 +719,7 @@ ssh -i ~/.ssh/roaya_server roaya@10.1.2.2 "ls -lt /opt/roaya/backend/dist/index.
 ```bash
 # Check frontend deployment timestamp
 ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
-  "ls -lt /var/www/roaya-website/main-*.js | head -1"
+  "readlink -f /var/www/roaya-ssr/current && ls -lt /var/www/roaya-ssr/current/browser/main-*.js | head -1"
 
 # Check backend is running
 ssh -o ConnectTimeout=30 -i ~/.ssh/roaya_server roaya@10.1.2.2 \
@@ -2032,7 +2037,8 @@ bucket setup without an explicit decision — the SSR process is load-bearing
 for the AI-readiness work, and a static-only host silently defeats it.
 
 Deploy with `./deploy/scripts/deploy-ssr.sh`; see
-`docs/deploy/RUNBOOK.md` and `docs/deploy/verification-checklist.md`.
+`docs/deploy/RUNTIME-ENV.md` for the runtime contract, activation ordering,
+post-deploy host verification, and manual rollback.
 
 ### CI/CD Pipeline (Planned)
 ```
