@@ -219,6 +219,77 @@ Node server's, must be checked against the host after a deploy:
 - **Security headers and redirects** — `www` → apex, HSTS, and the
   `X-Content-Type-Options` / `Referrer-Policy` / `Permissions-Policy` set.
 
+## How the runtime contract reaches the host
+
+`deploy/scripts/deploy-ssr.sh` runs its activation logic on the server through a
+quoted heredoc, and passes the contract values in as positional arguments.
+
+**OpenSSH does not preserve `argv`.** `ssh host cmd a b c` joins the command and
+its arguments into a *single string* and hands that string to the remote **login
+shell**, which parses it again. The local shell's quotes are consumed locally and
+never reach the host.
+
+On **2026-08-26** the script still used:
+
+```bash
+ssh "$SSH_HOST" bash -s -- "$RELEASE_DIR" ... "$SSR_HEALTH_MARKER" "$TRUST"
+```
+
+`SSR_HEALTH_MARKER` is `Your Trusted Technology Partner in Egypt`. The remote
+shell split it into **six** positional parameters, so the host received **16**
+arguments instead of 11 and everything after the marker shifted:
+
+| position | intended | actually received |
+|---|---|---|
+| `${10}` | `Your Trusted Technology Partner in Egypt` | `Your` |
+| `${11}` | `x-forwarded-for,x-forwarded-proto` | `Trusted` |
+
+The release therefore started with `NG_TRUST_PROXY_HEADERS=Trusted`, which trusts
+none of the headers nginx sends, so `@angular/ssr` deoptimized and served
+`browser/index.csr.html` to every request. The activation gate caught it and the
+release was rolled back. The gate's own marker had been truncated to `Your` by
+the same shift — it still discriminated against the CSR shell only by luck.
+
+### The contract now
+
+1. **One declared vector.** `REMOTE_ARGS=( ... )` in `deploy-ssr.sh` is the
+   single place the argument order is defined. Every element is a fully quoted
+   `"$VAR"`.
+2. **One serializer.** `build_remote_bash_command` wraps each value in POSIX
+   single quotes (embedded `'` escaped as `'\''`) and returns one command string
+   beginning `bash -s --`. Deliberately **not** `printf %q`: `%q` emits
+   bash-specific `$'...'` syntax for control characters, which a non-bash remote
+   login shell parses differently. Inside single quotes nothing expands, so
+   `$(...)`, backticks, `;`, `&&`, `*`, `?`, `\` and `"` are inert.
+3. **Control characters are rejected, not encoded.** CR, LF, TAB and any other
+   non-printable byte make the serializer return non-zero and the deploy exits
+   before anything is sent. (NUL cannot occur — bash cannot hold it in a
+   variable.) There is no legitimate multi-line remote argument here, and a
+   smuggled newline is the one thing single quoting cannot neutralise on a
+   `bash -s --` line.
+4. **One command string.** `ssh "${SSH_OPTS[@]}" "$SSH_HOST" "$REMOTE_COMMAND"`
+   — nothing is ever appended after it.
+5. **A fail-closed contract on the host.** Before the tarball is unpacked,
+   before `current` is repointed and before pm2 is touched, the remote block
+   asserts the exact argument count, rejects surplus arguments, and compares
+   `NODE_ENV`, `NG_ALLOWED_HOSTS`, `NG_TRUST_PROXY_HEADERS` and the full health
+   marker for **exact equality** against literals embedded in the heredoc — a
+   substring test would have accepted `Your`. It also validates that the paths
+   are absolute and traversal-free and that `PORT` is numeric in 1–65535. On any
+   mismatch it prints the offending field and exits 1 with the host unchanged.
+
+The expected literals live inside the quoted heredoc so they cannot be corrupted
+by the seam they are checking; `npm run test:deploy-runtime-config` asserts they
+still match the configuration at the top of the script.
+
+### Guards
+
+| command | what it proves |
+|---|---|
+| `npm run test:ssh-argv` | the committed serializer round-trips the real production vector byte-exact through one remote-shell parse in `sh`, `bash`, `dash` and `zsh`; metacharacters, spaces and empty values survive; CR/LF/TAB are rejected; the committed remote contract rejects a missing argument, a surplus argument, the exact 2026-08-26 word-split vector, a truncated marker, swapped values, a bad port and a non-production `NODE_ENV` |
+| `npm run test:deploy-runtime-config` | the ssh call passes exactly one serialized command, every argument comes from `REMOTE_ARGS`, the declared order matches the remote positional assignments, and the contract runs before any host mutation |
+| `npm run test:deploy-runtime-config:selftest` | each of those checks actually fails when its own regression is seeded — including reverting to raw argv, appending a raw argument, unquoting one array element, deleting the argc check, and loosening the marker comparison |
+
 ## Activation is not atomic
 
 `deploy-ssr.sh` repoints `current` **before** pm2 restarts, so there is a

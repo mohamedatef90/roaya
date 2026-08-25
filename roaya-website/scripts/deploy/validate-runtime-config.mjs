@@ -259,8 +259,34 @@ function trustProblem(value) {
       pass('script:allowlist-value', EXPECTED_ALLOWLIST);
     else fail('script:allowlist-value', `missing NG_ALLOWED_HOSTS_VALUE="${EXPECTED_ALLOWLIST}"`);
 
-    if (/ssh[\s\S]{0,600}?"\$NG_ALLOWED_HOSTS_VALUE"/.test(active))
-      pass('script:allowlist-passed', 'passed to the remote block as an argument');
+    // The remote argument vector is declared once, in REMOTE_ARGS, and the
+    // serializer builds the whole remote command from it. Every element must be
+    // a FULLY QUOTED variable reference: an unquoted one word-splits in the
+    // LOCAL shell before the serializer ever sees it, which is the same class of
+    // defect as the 2026-08-26 incident, one layer earlier.
+    const argsBlock = active.match(/^REMOTE_ARGS=\(\n([\s\S]*?)\n\)$/m);
+    const argNames = [];
+    let argsShapeOk = argsBlock !== null;
+    if (argsBlock) {
+      for (const line of argsBlock[1].split('\n')) {
+        if (!line.trim()) continue;
+        const m = line.match(/^\s*"\$([A-Za-z_][A-Za-z0-9_]*)"$/);
+        if (m) argNames.push(m[1]);
+        else { argsShapeOk = false; argNames.push(`<malformed:${line.trim()}>`); }
+      }
+    }
+    if (argsShapeOk && argNames.length > 0)
+      pass('script:ssh-args-from-array', `${argNames.length} remote arguments, each a fully quoted variable reference`);
+    else
+      fail(
+        'script:ssh-args-from-array',
+        argsBlock
+          ? `every REMOTE_ARGS element must be exactly "$VAR"; found ${JSON.stringify(argNames.filter((n) => n.startsWith('<')))}`
+          : 'no REMOTE_ARGS=( ... ) vector found; the remote arguments must be declared once, in one array',
+      );
+
+    if (argNames.includes('NG_ALLOWED_HOSTS_VALUE'))
+      pass('script:allowlist-passed', 'passed to the remote block via REMOTE_ARGS');
     else
       fail('script:allowlist-passed', 'the allowlist is not passed into the remote activation block');
 
@@ -461,8 +487,8 @@ function trustProblem(value) {
       if (problem) fail('script:trust-value', `NG_TRUST_PROXY_HEADERS_VALUE ${problem}`);
       else pass('script:trust-value', EXPECTED_TRUST);
     }
-    if (/ssh[\s\S]{0,900}?"\$NG_TRUST_PROXY_HEADERS_VALUE"/.test(active))
-      pass('script:trust-passed', 'passed into the remote block as an argument');
+    if (argNames.includes('NG_TRUST_PROXY_HEADERS_VALUE'))
+      pass('script:trust-passed', 'passed into the remote block via REMOTE_ARGS');
     else fail('script:trust-passed', 'the trust list is not passed into the remote activation block');
 
     const trustExportIdx = idx(/^export\s+NG_TRUST_PROXY_HEADERS="\$NG_TRUST_PROXY_HEADERS_VALUE"$/m);
@@ -494,6 +520,191 @@ function trustProblem(value) {
     if (/trustProxyHeaders/.test(active))
       pass('script:gate-deopt-log', 'gate fails on an untrusted proxy-header deopt log line');
     else fail('script:gate-deopt-log', 'the gate should assert the SSR log has no trustProxyHeaders deopt notice');
+
+    // --- 3k. SSH argument serialization (the 2026-08-26 defect) -----------
+    // OpenSSH does not preserve argv: it JOINS its command arguments into one
+    // string that the remote LOGIN SHELL parses again. `ssh host bash -s --
+    // "$A" "$MARKER"` therefore delivered the multi-word marker as six
+    // positional parameters and shifted NG_TRUST_PROXY_HEADERS to "Trusted",
+    // so the release served the CSR shell. Every assertion below is anchored to
+    // executed code, never to the comments explaining it.
+    {
+      // The marker-delimited blocks are comments, so slice them from the RAW
+      // text; `active` has had every comment line removed.
+      const between = (a, b) => {
+        const i = raw.indexOf(a);
+        const j = raw.indexOf(b);
+        return i === -1 || j === -1 || j < i ? null : raw.slice(i, j + b.length);
+      };
+      const serRaw = between('# --- BEGIN remote command serializer ---', '# --- END remote command serializer ---');
+      const conRaw = between('# --- BEGIN remote argument contract ---', '# --- END remote argument contract ---');
+
+      // --- the ssh call itself: ONE constructed command string, nothing else
+      const SSH_RE = /^ssh "\$\{SSH_OPTS\[@\]\}" "\$SSH_HOST" "\$REMOTE_COMMAND" <<'REMOTE'$/m;
+      const legacyRaw = /^\s*ssh\b[^\n]*\bbash\s+-s\s+--/m.test(active);
+      const appended = /"\$REMOTE_COMMAND[^"]/.test(active);
+      if (legacyRaw)
+        fail(
+          'script:ssh-single-command',
+          'the legacy `ssh ... bash -s -- "$VALUE" ...` pattern is back; OpenSSH joins those arguments into one string that the remote shell re-splits, which is exactly what shifted NG_TRUST_PROXY_HEADERS to "Trusted" on 2026-08-26',
+        );
+      else if (appended)
+        fail(
+          'script:ssh-single-command',
+          'something is concatenated onto "$REMOTE_COMMAND"; every remote argument must go through the serializer, never be appended raw after it',
+        );
+      else if (SSH_RE.test(active))
+        pass('script:ssh-single-command', 'ssh receives exactly one serialized command string');
+      else
+        fail(
+          'script:ssh-single-command',
+          'expected the exact line: ssh "${SSH_OPTS[@]}" "$SSH_HOST" "$REMOTE_COMMAND" <<\'REMOTE\'',
+        );
+
+      // --- the serializer
+      if (!serRaw || !/^build_remote_bash_command\(\)\s*\{/m.test(serRaw)) {
+        fail('script:serializer-present', 'no build_remote_bash_command() between the serializer BEGIN/END markers; the remote command is not being quoted for the remote shell');
+        fail('script:serializer-posix-quote', 'cannot verify: serializer absent');
+        fail('script:serializer-rejects-control', 'cannot verify: serializer absent');
+      } else {
+        const body = stripHashComments(serRaw);
+        pass('script:serializer-present', 'build_remote_bash_command() is defined and extractable');
+
+        // POSIX single-quote encoding: each value wrapped in single quotes with
+        // embedded quotes escaped. Inside single quotes nothing expands, so
+        // $(...), backticks, ; && * ? \ and " are all inert.
+        const wraps = /out="\$out '\$q'"/.test(body);
+        const escapes = /q=\$\{a\/\/\\'\//.test(body);
+        const rawConcat = /out="\$out \$a"|out="\$out "?\$a\b/.test(body);
+        if (wraps && escapes && !rawConcat)
+          pass('script:serializer-posix-quote', "each argument is POSIX single-quoted with embedded ' escaped");
+        else
+          fail(
+            'script:serializer-posix-quote',
+            `the serializer must single-quote every argument and escape embedded single quotes (wraps=${wraps}, escapes=${escapes}, raw-concat=${rawConcat})`,
+          );
+
+        // Control characters must be REJECTED, not encoded: a smuggled newline
+        // is the one thing a single-quoted string cannot neutralise on a
+        // `bash -s --` command line.
+        const rejects = /\*\[!\[:print:\]\]\*\)/.test(body) && /^\s*return 1$/m.test(body);
+        if (rejects && /local LC_ALL=C/.test(body))
+          pass('script:serializer-rejects-control', 'non-printable bytes (CR, LF, TAB, NUL-equivalent) are rejected under LC_ALL=C');
+        else
+          fail(
+            'script:serializer-rejects-control',
+            `the serializer must return non-zero for an argument containing a control character, with LC_ALL=C so [[:print:]] means ASCII (rejects=${rejects})`,
+          );
+      }
+
+      // --- the remote argument contract
+      if (!conRaw || !/^EXPECTED_ARGC=(\d+)$/m.test(conRaw)) {
+        for (const c of [
+          'script:remote-argc-check', 'script:remote-argc-matches-array', 'script:remote-arg-order',
+          'script:remote-no-trailing-args', 'script:remote-marker-exact', 'script:remote-trust-exact',
+          'script:remote-hosts-exact', 'script:remote-port-range', 'script:remote-contract-order',
+        ]) fail(c, 'no remote argument contract (EXPECTED_ARGC) between the contract BEGIN/END markers; a shifted argument vector would be acted on');
+      } else {
+        const con = stripHashComments(conRaw);
+        const argc = Number(con.match(/^EXPECTED_ARGC=(\d+)$/m)[1]);
+
+        // The exact count check, and it must fail closed.
+        const argcCheck = con.match(/^if \[ "\$#" -ne "\$EXPECTED_ARGC" \]; then\n\s*contract_fail /m);
+        if (argcCheck) pass('script:remote-argc-check', `exact argument count asserted (${argc}) before any host mutation`);
+        else fail('script:remote-argc-check', 'missing `if [ "$#" -ne "$EXPECTED_ARGC" ]; then contract_fail ...`; an argument shift would go unnoticed');
+
+        if (argc === argNames.length)
+          pass('script:remote-argc-matches-array', `EXPECTED_ARGC (${argc}) equals the REMOTE_ARGS length`);
+        else
+          fail('script:remote-argc-matches-array', `EXPECTED_ARGC is ${argc} but REMOTE_ARGS declares ${argNames.length} arguments; one of them is wrong and the deploy would be rejected on the host (or worse, accepted shifted)`);
+
+        // Positional assignment order must equal the declared array order.
+        const positional = [];
+        for (const m of con.matchAll(/^([A-Za-z_][A-Za-z0-9_]*)="\$(?:(\d)|\{(\d+)\})"$/gm)) {
+          positional[Number(m[2] ?? m[3]) - 1] = m[1];
+        }
+        const sameOrder =
+          positional.length === argNames.length && positional.every((n, i) => n === argNames[i]);
+        if (sameOrder) pass('script:remote-arg-order', `all ${argc} arguments are assigned in the declared order`);
+        else
+          fail(
+            'script:remote-arg-order',
+            `REMOTE_ARGS order and the remote positional assignments disagree.\n      declared: ${JSON.stringify(argNames)}\n      received: ${JSON.stringify(positional)}`,
+          );
+
+        const shiftM = con.match(/^shift (\d+)$/m);
+        if (shiftM && Number(shiftM[1]) === argc && /^if \[ "\$#" -ne 0 \]; then\n\s*contract_fail /m.test(con))
+          pass('script:remote-no-trailing-args', 'surplus positional arguments are rejected');
+        else
+          fail('script:remote-no-trailing-args', `after assignment the contract must \`shift ${argc}\` and reject a non-empty $# (shift=${shiftM ? shiftM[1] : 'absent'})`);
+
+        // Expected values are literals INSIDE the quoted heredoc, so they cannot
+        // be corrupted by the seam they check. They must still agree with the
+        // configuration at the top of the script, and be compared with EXACT
+        // equality - a prefix or substring test would have accepted "Your".
+        const literal = (name) => {
+          const m = con.match(new RegExp(`^${name}='([^']*)'$`, 'm'));
+          return m ? m[1] : undefined;
+        };
+        // Exact `[ "$VALUE" = "$EXPECTED" ] || contract_fail`, matched as a
+        // literal line. A `case ... in *substring*)` test would have accepted
+        // the truncated "Your" and the shifted "Trusted", so nothing looser
+        // than string equality counts here.
+        const exactCmp = (v, name) => {
+          const line = '[ "$' + v + '" = "$' + name + '" ] || \\\n';
+          const i = con.indexOf(line);
+          return i !== -1 && /^\s*contract_fail /.test(con.slice(i + line.length));
+        };
+
+        for (const [check, name, expected, varName, why] of [
+          ['script:remote-marker-exact', 'EXPECTED_MARKER', HEALTH_MARKER, 'SSR_HEALTH_MARKER',
+            'the word-split delivered the 4-byte prefix "Your", which a substring test accepts'],
+          ['script:remote-trust-exact', 'EXPECTED_TRUST_PROXY', EXPECTED_TRUST, 'NG_TRUST_PROXY_HEADERS_VALUE',
+            'the word-split delivered "Trusted", which @angular/ssr silently treats as trusting nothing'],
+          ['script:remote-hosts-exact', 'EXPECTED_ALLOWED_HOSTS', EXPECTED_ALLOWLIST, 'NG_ALLOWED_HOSTS_VALUE',
+            'a widened allowlist would let an unexpected Host reach SSR'],
+        ]) {
+          const lit = literal(name);
+          if (lit === undefined) fail(check, `the contract does not declare ${name}='...'`);
+          else if (lit !== expected)
+            fail(check, `${name} is ${JSON.stringify(lit)} but this script configures ${JSON.stringify(expected)}; the host would reject every deploy`);
+          else if (!exactCmp(varName, name))
+            fail(check, `${varName} must be compared with EXACT equality ([ "$${varName}" = "$${name}" ] || contract_fail); ${why}`);
+          else pass(check, `${name} matches the configured value and is compared exactly`);
+        }
+
+        const portOk = /case "\$SSR_PORT" in\n\s*''\|\*\[!0-9\]\*\) contract_fail/.test(con)
+          && /\[ "\$SSR_PORT" -lt 1 \] \|\| \[ "\$SSR_PORT" -gt 65535 \]/.test(con);
+        if (portOk) pass('script:remote-port-range', 'PORT validated as numeric within 1-65535');
+        else fail('script:remote-port-range', 'the contract must reject a non-numeric PORT and one outside 1-65535');
+
+        // Nothing may mutate the host before the contract has passed.
+        const endIdx = raw.indexOf('# --- END remote argument contract ---');
+        const mutators = [
+          ['tar xzf', /^tar xzf /m],
+          ['mkdir -p', /^mkdir -p /m],
+          ['ln -sfn', /^ln -sfn /m],
+          ['pm2 restart', /pm2 restart "\$PM2_APP"/],
+        ];
+        const early = mutators.filter(([, re]) => {
+          const m = raw.match(re);
+          return m && m.index < endIdx;
+        });
+        if (!early.length)
+          pass('script:remote-contract-order', 'the contract is validated before unpack, symlink flip and pm2 restart');
+        else
+          fail(
+            'script:remote-contract-order',
+            `${early.map(([n]) => n).join(', ')} runs BEFORE the argument contract is validated; a shifted vector would already have changed the host`,
+          );
+      }
+
+      // The evidence-suite banner must not hardcode a count that goes stale the
+      // next time a check is added to the suite.
+      if (/must be \d+\/\d+/.test(active))
+        fail('script:no-stale-evidence-count', 'the evidence-suite log line hardcodes a "must be N/N" count; it goes stale silently whenever the suite grows');
+      else pass('script:no-stale-evidence-count', 'no hardcoded evidence-suite count');
+    }
 
     if (/https?:\/\/(www\.)?roaya\.co/.test(active))
       fail('script:health-origin-only', 'active code references the public roaya.co URL; the gate must probe the loopback upstream');

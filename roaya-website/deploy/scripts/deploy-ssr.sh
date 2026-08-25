@@ -86,7 +86,7 @@ npm run build:prod
 # This is the check that catches a silently-broken prerender: it boots the
 # built server and asserts a known static route returns 200 and an unknown
 # route returns a real 404.
-log "Verifying evidence suite (must be 9/9)"
+log "Verifying evidence suite"
 npm run verify:evidence
 
 PRERENDERED=$(find dist/roaya-website/browser -name index.html | wc -l | tr -d ' ')
@@ -115,6 +115,57 @@ TARBALL=/tmp/roaya-ssr-$(date +%Y%m%d-%H%M%S).tar.gz
 COPYFILE_DISABLE=1 tar czf "$TARBALL" -C dist roaya-website
 echo "  $TARBALL ($(du -h "$TARBALL" | cut -f1))"
 
+# --- BEGIN remote command serializer ---
+# Build the ENTIRE remote command as one string, with every argument quoted for
+# exactly one remote-shell parse.
+#
+# Why this exists (2026-08-26, release roaya-ssr-20260826-001043): the previous
+# form was
+#
+#     ssh "$SSH_HOST" bash -s -- "$A" "$B" "$SSR_HEALTH_MARKER" "$TRUST"
+#
+# and OpenSSH does NOT preserve argv. It JOINS its command arguments into a
+# single string and hands that string to the remote LOGIN SHELL, which parses it
+# again. The local quotes are consumed by the LOCAL shell and never reach the
+# host. "Your Trusted Technology Partner in Egypt" therefore arrived as SIX
+# positional parameters and shifted everything after it: ${10} became "Your" and
+# ${11} became "Trusted", so the release ran with NG_TRUST_PROXY_HEADERS=Trusted,
+# @angular/ssr refused to trust x-forwarded-for, and every response was
+# browser/index.csr.html. The activation gate caught it; the deploy was rolled
+# back.
+#
+# The encoder wraps each value in single quotes and escapes embedded single
+# quotes as '\'' - the POSIX form, valid in sh, dash, bash and zsh alike. It is
+# deliberately NOT printf %q: %q emits bash-specific $'...' ANSI-C syntax for
+# control characters, which a non-bash remote login shell would parse
+# differently. Inside single quotes nothing is expanded and nothing executes, so
+# $(...), backticks, ;, &&, *, ?, \ and " are all inert.
+#
+# NUL cannot occur: bash cannot hold it in a variable. CR, LF and every other
+# control character are REJECTED rather than encoded, because this deployment
+# contract has no legitimate multi-line argument and a smuggled newline is the
+# one thing a single-quoted string cannot neutralise on a `bash -s --` line.
+build_remote_bash_command() {
+  local LC_ALL=C          # so [[:print:]] means ASCII 0x20-0x7E, nothing wider
+  local out='bash -s --'
+  local a q
+  for a in "$@"; do
+    case "$a" in
+      *[![:print:]]*)
+        echo "FATAL: refusing to build the remote command." >&2
+        echo "An argument contains a control character (CR, LF, TAB or other" >&2
+        echo "non-printable byte). Remote arguments must be single-line" >&2
+        echo "printable ASCII. Nothing was sent to the host." >&2
+        return 1
+        ;;
+    esac
+    q=${a//\'/\'\\\'\'}
+    out="$out '$q'"
+  done
+  printf '%s' "$out"
+}
+# --- END remote command serializer ---
+
 # ---------------------------------------------------------------------------
 # 4. Ship + activate
 # ---------------------------------------------------------------------------
@@ -127,11 +178,68 @@ REMOTE_TARBALL="/tmp/$(basename "$TARBALL")"
 STAMP=$(basename "$TARBALL" .tar.gz)
 
 log "Activating release on host"
-ssh "${SSH_OPTS[@]}" "$SSH_HOST" bash -s -- \
-  "$RELEASE_DIR" "$REMOTE_ROOT" "$STAMP" "$REMOTE_TARBALL" "$PM2_APP" "$SSR_PORT" \
-  "$NODE_ENV_VALUE" "$NG_ALLOWED_HOSTS_VALUE" "$SSR_HEALTH_HOST" "$SSR_HEALTH_MARKER" \
-  "$NG_TRUST_PROXY_HEADERS_VALUE" <<'REMOTE'
+
+# The remote argument vector, declared ONCE and in one place. The order here is
+# the contract: the heredoc below asserts the same count and the same order
+# before it changes anything on the host. Nothing may be appended to the built
+# command afterwards - an argument that bypasses the serializer is exactly the
+# defect this replaced.
+REMOTE_ARGS=(
+  "$RELEASE_DIR"
+  "$REMOTE_ROOT"
+  "$STAMP"
+  "$REMOTE_TARBALL"
+  "$PM2_APP"
+  "$SSR_PORT"
+  "$NODE_ENV_VALUE"
+  "$NG_ALLOWED_HOSTS_VALUE"
+  "$SSR_HEALTH_HOST"
+  "$SSR_HEALTH_MARKER"
+  "$NG_TRUST_PROXY_HEADERS_VALUE"
+)
+
+if ! REMOTE_COMMAND=$(build_remote_bash_command "${REMOTE_ARGS[@]}"); then
+  echo "FATAL: could not serialize the remote arguments; nothing was deployed." >&2
+  exit 1
+fi
+
+ssh "${SSH_OPTS[@]}" "$SSH_HOST" "$REMOTE_COMMAND" <<'REMOTE'
 set -euo pipefail
+
+# --- BEGIN remote argument contract ---
+# NOTHING above this block may mutate the host. Every check here runs before
+# the tarball is unpacked, before `current` is repointed and before pm2 is
+# touched, so a corrupted argument vector costs a wasted upload and nothing
+# else.
+#
+# This exists because on 2026-08-26 the arguments arrived SHIFTED: OpenSSH
+# joined them into one string, the remote shell re-split the multi-word marker
+# into six parameters, and the release started with
+# NG_TRUST_PROXY_HEADERS=Trusted. The values were individually plausible, so
+# only an EXACT count-and-value contract catches it. The expected values are
+# literals HERE, in the quoted heredoc, so they cannot themselves be corrupted
+# by the same seam they are checking; the repository guard asserts these
+# literals still match the configuration values at the top of this script.
+EXPECTED_ARGC=11
+EXPECTED_MARKER='Your Trusted Technology Partner in Egypt'
+EXPECTED_ALLOWED_HOSTS='roaya.co,www.roaya.co'
+EXPECTED_TRUST_PROXY='x-forwarded-for,x-forwarded-proto'
+EXPECTED_NODE_ENV='production'
+
+contract_fail() {
+  echo "FATAL: remote argument contract violated: $1" >&2
+  echo "" >&2
+  echo "The arguments this host received do not match the deployment contract." >&2
+  echo "Nothing has been unpacked, no symlink was moved, pm2 was not touched." >&2
+  echo "This is the 2026-08-26 signature: OpenSSH joins its command arguments" >&2
+  echo "into one string that the remote shell re-splits, so an unquoted" >&2
+  echo "multi-word value shifts every argument after it." >&2
+  exit 1
+}
+
+if [ "$#" -ne "$EXPECTED_ARGC" ]; then
+  contract_fail "expected $EXPECTED_ARGC arguments, received $#"
+fi
 
 RELEASE_DIR="$1"
 REMOTE_ROOT="$2"
@@ -144,6 +252,60 @@ NG_ALLOWED_HOSTS_VALUE="$8"
 SSR_HEALTH_HOST="$9"
 SSR_HEALTH_MARKER="${10}"
 NG_TRUST_PROXY_HEADERS_VALUE="${11}"
+shift 11
+if [ "$#" -ne 0 ]; then
+  contract_fail "$# unexpected trailing argument(s) after the declared vector"
+fi
+
+# Paths: absolute, no traversal, no whitespace.
+for _p_name in RELEASE_DIR REMOTE_ROOT REMOTE_TARBALL; do
+  eval "_p_val=\"\$$_p_name\""
+  case "$_p_val" in
+    /*) ;;
+    *) contract_fail "$_p_name is not an absolute path" ;;
+  esac
+  case "$_p_val" in
+    *..*) contract_fail "$_p_name contains a '..' path traversal" ;;
+    *[[:space:]]*) contract_fail "$_p_name contains whitespace" ;;
+  esac
+done
+case "$STAMP" in
+  ''|*[!A-Za-z0-9._-]*) contract_fail "STAMP is empty or has characters outside [A-Za-z0-9._-]" ;;
+esac
+case "$PM2_APP" in
+  ''|*[!A-Za-z0-9._-]*) contract_fail "PM2_APP is empty or has characters outside [A-Za-z0-9._-]" ;;
+esac
+
+# PORT: numeric, 1-65535.
+case "$SSR_PORT" in
+  ''|*[!0-9]*) contract_fail "PORT is not numeric (got a value of length ${#SSR_PORT})" ;;
+esac
+# Bound the LENGTH before comparing numerically: `[ "<30 digits>" -lt 1 ]` exits
+# with an error rather than a verdict, and a failing `[` inside `if` reads as
+# false - the value would be accepted. Fail closed instead.
+if [ "${#SSR_PORT}" -gt 5 ]; then
+  contract_fail "PORT has ${#SSR_PORT} digits; a port is at most 5"
+fi
+if [ "$SSR_PORT" -lt 1 ] || [ "$SSR_PORT" -gt 65535 ]; then
+  contract_fail "PORT $SSR_PORT is outside 1-65535"
+fi
+
+# The three values the 2026-08-26 shift corrupted. EXACT equality only: a
+# prefix or substring test would have accepted the truncated "Your".
+[ "$NODE_ENV_VALUE" = "$EXPECTED_NODE_ENV" ] || \
+  contract_fail "NODE_ENV is not '$EXPECTED_NODE_ENV'"
+[ "$NG_ALLOWED_HOSTS_VALUE" = "$EXPECTED_ALLOWED_HOSTS" ] || \
+  contract_fail "NG_ALLOWED_HOSTS is not '$EXPECTED_ALLOWED_HOSTS'"
+[ "$NG_TRUST_PROXY_HEADERS_VALUE" = "$EXPECTED_TRUST_PROXY" ] || \
+  contract_fail "NG_TRUST_PROXY_HEADERS is not '$EXPECTED_TRUST_PROXY' (received a value of length ${#NG_TRUST_PROXY_HEADERS_VALUE}; 'Trusted' is what the 2026-08-26 word-split produced)"
+[ "$SSR_HEALTH_MARKER" = "$EXPECTED_MARKER" ] || \
+  contract_fail "SSR_HEALTH_MARKER is not the full configured marker (received ${#SSR_HEALTH_MARKER} bytes, expected ${#EXPECTED_MARKER}; the 2026-08-26 word-split delivered the 4-byte prefix 'Your', which still passed a substring test)"
+case "$SSR_HEALTH_HOST" in
+  ''|*[!A-Za-z0-9.-]*) contract_fail "SSR_HEALTH_HOST is empty or not a hostname" ;;
+esac
+
+echo "remote argument contract OK: $EXPECTED_ARGC arguments, full marker and trust list intact"
+# --- END remote argument contract ---
 
 # Validate the content marker BEFORE anything is flipped or restarted. An empty
 # or whitespace-only marker would make the gate's assertion vacuous, because

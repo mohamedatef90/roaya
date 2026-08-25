@@ -98,6 +98,35 @@ function movePrevAfterFlip(root) {
   wr(root, SH, s.replace(flip, flip + cap));
 }
 
+// The exact ssh invocation, and the legacy raw-argv form it replaced. OpenSSH
+// joins its command arguments into ONE string that the remote shell parses
+// again, so the legacy form delivered the multi-word marker as six positional
+// parameters and shifted NG_TRUST_PROXY_HEADERS to "Trusted".
+const SSH_INVOCATION = "ssh \"${SSH_OPTS[@]}\" \"$SSH_HOST\" \"$REMOTE_COMMAND\" <<'REMOTE'";
+const LEGACY_INVOCATION = "ssh \"${SSH_OPTS[@]}\" \"$SSH_HOST\" bash -s -- \\\n  \"$RELEASE_DIR\" \"$REMOTE_ROOT\" \"$STAMP\" \"$REMOTE_TARBALL\" \"$PM2_APP\" \"$SSR_PORT\" \\\n  \"$NODE_ENV_VALUE\" \"$NG_ALLOWED_HOSTS_VALUE\" \"$SSR_HEALTH_HOST\" \"$SSR_HEALTH_MARKER\" \\\n  \"$NG_TRUST_PROXY_HEADERS_VALUE\" <<'REMOTE'";
+
+/**
+ * Move the remote argument VALIDATION to after the release is unpacked, leaving
+ * the positional assignments in place so everything downstream still resolves.
+ * Ordering is the whole point: a validated-too-late contract has already let a
+ * shifted vector change the host.
+ */
+function moveContractAfterUnpack(root) {
+  let s = rd(root, SH);
+  const begin = '# --- BEGIN remote argument contract ---';
+  const end = '# --- END remote argument contract ---';
+  const i = s.indexOf(begin);
+  const j = s.indexOf(end);
+  if (i === -1 || j === -1) throw new Error('fixture drift: contract markers not found');
+  const block = s.slice(i, j + end.length);
+  const assignments = block.match(/RELEASE_DIR="\$1"[\s\S]*?NG_TRUST_PROXY_HEADERS_VALUE="\$\{11\}"/);
+  if (!assignments) throw new Error('fixture drift: positional assignments not found');
+  s = s.slice(0, i) + assignments[0] + '\n' + s.slice(j + end.length);
+  const anchor = "find \"$RELEASE_DIR/releases/$STAMP\" -name '._*' -delete";
+  if (!s.includes(anchor)) throw new Error('fixture drift: unpack anchor not found');
+  wr(root, SH, s.replace(anchor, anchor + '\n\n' + block));
+}
+
 const mutations = [
   // --- ecosystem -----------------------------------------------------------
   ['ecosystem: prod allowlist removed', 'ecosystem:prod-allowlist',
@@ -126,8 +155,8 @@ const mutations = [
   // --- script: contract plumbing ------------------------------------------
   ['script: export removed', 'script:export-NG_ALLOWED_HOSTS',
     (r) => patch(r, SH, 'export NG_ALLOWED_HOSTS="$NG_ALLOWED_HOSTS_VALUE"', ':')],
-  ['script: allowlist not passed to remote', 'script:allowlist-passed',
-    (r) => patch(r, SH, '"$NG_ALLOWED_HOSTS_VALUE" "$SSR_HEALTH_HOST"', '"$SSR_HEALTH_HOST"')],
+  ['script: allowlist dropped from REMOTE_ARGS', 'script:allowlist-passed',
+    (r) => patch(r, SH, '  "$NG_ALLOWED_HOSTS_VALUE"\n', '')],
 
   // --- script: THE restart statement (the P1 blind spot) ------------------
   ['script: --update-env removed from EXECUTED restart only (prose intact)', 'script:restart-statement',
@@ -191,8 +220,8 @@ const mutations = [
   // --- trusted-proxy contract (2026-08-25 CSR-shell incident) --------------
   ['trust: removed from the EXECUTED export only', 'script:trust-export',
     (r) => patch(r, SH, 'export NG_TRUST_PROXY_HEADERS="$NG_TRUST_PROXY_HEADERS_VALUE"', ':')],
-  ['trust: not passed into the remote block', 'script:trust-passed',
-    (r) => patch(r, SH, ' \\\n  "$NG_TRUST_PROXY_HEADERS_VALUE" <<', ' <<')],
+  ['trust: dropped from REMOTE_ARGS', 'script:trust-passed',
+    (r) => patch(r, SH, '  "$NG_TRUST_PROXY_HEADERS_VALUE"\n)', ')')],
   ['trust: script value set to true', 'script:trust-value',
     (r) => patch(r, SH, 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"', 'NG_TRUST_PROXY_HEADERS_VALUE="true"')],
   ['trust: script value gains x-forwarded-host', 'script:trust-value',
@@ -249,6 +278,51 @@ const mutations = [
       const t = fs.readFileSync(p2, 'utf8');
       fs.writeFileSync(p2, t.replace('proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;', 'proxy_set_header X-Forwarded-For $remote_addr;'));
     }],
+
+  // --- SSH argument serialization (the 2026-08-26 word-split incident) -----
+  ['ssh: reverted to the legacy raw-argv invocation', 'script:ssh-single-command',
+    (r) => patch(r, SH, SSH_INVOCATION, LEGACY_INVOCATION)],
+  ['ssh: a raw argument appended after the built command', 'script:ssh-single-command',
+    (r) => patch(r, SH, '"$SSH_HOST" "$REMOTE_COMMAND" <<', '"$SSH_HOST" "$REMOTE_COMMAND $SSR_HEALTH_MARKER" <<')],
+  ['ssh: SSR_HEALTH_MARKER unquoted in REMOTE_ARGS', 'script:ssh-args-from-array',
+    (r) => patch(r, SH, '  "$SSR_HEALTH_MARKER"\n', '  $SSR_HEALTH_MARKER\n')],
+  ['ssh: NG_TRUST_PROXY_HEADERS unquoted in REMOTE_ARGS', 'script:ssh-args-from-array',
+    (r) => patch(r, SH, '  "$NG_TRUST_PROXY_HEADERS_VALUE"\n)', '  $NG_TRUST_PROXY_HEADERS_VALUE\n)')],
+  ['ssh: marker and trust list swapped in REMOTE_ARGS', 'script:remote-arg-order',
+    (r) => patch(r, SH, '  "$SSR_HEALTH_MARKER"\n  "$NG_TRUST_PROXY_HEADERS_VALUE"\n',
+                        '  "$NG_TRUST_PROXY_HEADERS_VALUE"\n  "$SSR_HEALTH_MARKER"\n')],
+
+  ['serializer: removed entirely', 'script:serializer-present',
+    (r) => patch(r, SH, 'build_remote_bash_command() {', 'unused_helper() {')],
+  ['serializer: silently accepts a newline', 'script:serializer-rejects-control',
+    (r) => patch(r, SH, '      *[![:print:]]*)', '      *[![:print:]]zzz*)')],
+  ['serializer: concatenates raw values instead of quoting', 'script:serializer-posix-quote',
+    (r) => patch(r, SH, 'out="$out \'$q\'"', 'out="$out $a"')],
+
+  ['contract: exact argc check deleted', 'script:remote-argc-check',
+    (r) => patch(r, SH, 'if [ "$#" -ne "$EXPECTED_ARGC" ]; then', 'if false; then')],
+  ['contract: EXPECTED_ARGC off by one', 'script:remote-argc-matches-array',
+    (r) => patch(r, SH, 'EXPECTED_ARGC=11', 'EXPECTED_ARGC=10')],
+  ['contract: trailing-argument rejection removed', 'script:remote-no-trailing-args',
+    (r) => patch(r, SH, 'shift 11\nif [ "$#" -ne 0 ]; then', 'shift 11\nif false; then')],
+  ['contract: exact marker validation removed', 'script:remote-marker-exact',
+    (r) => patch(r, SH, '[ "$SSR_HEALTH_MARKER" = "$EXPECTED_MARKER" ] || \\', ': || \\')],
+  ['contract: marker literal truncated to "Your"', 'script:remote-marker-exact',
+    (r) => patch(r, SH, "EXPECTED_MARKER='Your Trusted Technology Partner in Egypt'", "EXPECTED_MARKER='Your'")],
+  ['contract: trust literal drifts from the configured value', 'script:remote-trust-exact',
+    (r) => patch(r, SH, "EXPECTED_TRUST_PROXY='x-forwarded-for,x-forwarded-proto'", "EXPECTED_TRUST_PROXY='x-forwarded-for'")],
+  ['contract: trust compared loosely instead of exactly', 'script:remote-trust-exact',
+    (r) => patch(r, SH, '[ "$NG_TRUST_PROXY_HEADERS_VALUE" = "$EXPECTED_TRUST_PROXY" ] || \\',
+                        'case "$NG_TRUST_PROXY_HEADERS_VALUE" in *x-forwarded*) : ;; *) false ;; esac || \\')],
+  ['contract: allowed-hosts literal drifts from the configured value', 'script:remote-hosts-exact',
+    (r) => patch(r, SH, "EXPECTED_ALLOWED_HOSTS='roaya.co,www.roaya.co'", "EXPECTED_ALLOWED_HOSTS='roaya.co'")],
+  ['contract: PORT range validation removed', 'script:remote-port-range',
+    (r) => patch(r, SH, 'if [ "$SSR_PORT" -lt 1 ] || [ "$SSR_PORT" -gt 65535 ]; then', 'if false; then')],
+  ['contract: validated only AFTER the release is unpacked', 'script:remote-contract-order',
+    moveContractAfterUnpack],
+
+  ['script: stale "must be N/N" evidence count reintroduced', 'script:no-stale-evidence-count',
+    (r) => patch(r, SH, 'log "Verifying evidence suite"', 'log "Verifying evidence suite (must be 9/9)"')],
 
   // --- docs ---------------------------------------------------------------
   ['docs: required value removed', 'docs:content',

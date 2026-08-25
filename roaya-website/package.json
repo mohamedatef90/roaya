@@ -21,6 +21,7 @@
     "test:deploy-runtime-config:selftest": "node scripts/deploy/validate-runtime-config.selftest.mjs",
     "test:deploy-health-gate": "bash scripts/deploy/health-gate.simulation.sh",
     "test:proxy-headers": "bash scripts/deploy/proxy-header-matrix.test.sh",
+    "test:ssh-argv": "bash scripts/deploy/ssh-argv.test.sh",
     "test:build-toolchain": "node scripts/deploy/validate-build-toolchain.mjs",
     "test:build-toolchain:selftest": "node scripts/deploy/validate-build-toolchain.selftest.mjs",
     "test:build-exit": "bash scripts/deploy/build-exit-regression.sh",
