@@ -20,7 +20,12 @@ Environment=PORT=__SSR_PORT__
 # presents these two. Do NOT add localhost, 127.0.0.1, or '*'; loopback health
 # checks must send `Host: roaya.co`. See docs/deploy/RUNTIME-ENV.md.
 Environment=NG_ALLOWED_HOSTS=roaya.co,www.roaya.co
-# NG_TRUST_PROXY_HEADERS is intentionally UNSET for this nginx configuration.
+# REQUIRED. nginx forwards X-Forwarded-For and X-Forwarded-Proto; @angular/ssr
+# silently serves the CSR shell with HTTP 200 when an X-Forwarded-* header is
+# untrusted. The explicit list REPLACES Angular's defaults, so it names exactly
+# what nginx sends. Never 'true'/wildcard. x-real-ip is not an X-Forwarded-*
+# header and is not governed by this option. See docs/deploy/RUNTIME-ENV.md.
+Environment=NG_TRUST_PROXY_HEADERS=x-forwarded-for,x-forwarded-proto
 # Add any runtime env vars the app reads (API base URL, analytics keys, etc.)
 # via EnvironmentFile instead of hardcoding secrets in this unit file:
 EnvironmentFile=-__WEBSITE_DEPLOY_PATH__/.env.production

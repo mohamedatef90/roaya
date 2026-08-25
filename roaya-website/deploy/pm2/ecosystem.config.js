@@ -35,10 +35,17 @@ module.exports = {
         // `Host: roaya.co` instead of widening the allowlist (see
         // docs/deploy/RUNTIME-ENV.md).
         NG_ALLOWED_HOSTS: 'roaya.co,www.roaya.co',
-        // NG_TRUST_PROXY_HEADERS is intentionally UNSET. It only widens the
-        // trusted X-Forwarded-* set used to construct the request URL, and
-        // this nginx config never sets X-Forwarded-Host/-Prefix while the app
-        // derives no absolute URL from the request. See docs/deploy/RUNTIME-ENV.md.
+        // REQUIRED. nginx sends X-Forwarded-For and X-Forwarded-Proto to the
+        // SSR upstream. @angular/ssr silently DEOPTIMIZES to the CSR shell
+        // (HTTP 200, browser/index.csr.html) when it receives an untrusted
+        // X-Forwarded-* header - it logs a notice, not an error. That took
+        // production down to an empty shell on 2026-08-25.
+        // This is an explicit list and REPLACES Angular's defaults, so it must
+        // name exactly the forwarded headers nginx sends - no more, no less.
+        // Never 'true' or a wildcard: that would trust attacker-supplied
+        // forwarding headers. x-real-ip is deliberately absent (not an
+        // X-Forwarded-* header, not governed by this option).
+        NG_TRUST_PROXY_HEADERS: 'x-forwarded-for,x-forwarded-proto',
       },
       error_file: './logs/pm2-ssr-error.log',
       out_file: './logs/pm2-ssr-out.log',
