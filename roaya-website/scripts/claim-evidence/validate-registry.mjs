@@ -19,17 +19,8 @@ const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 // Relative in-repo path, optionally with a '#fragment' locator. No leading
 // '/', no '..' traversal, no scheme (rules out bare URLs).
-//
-// Fragment format for exception mappings:
-//   #keyFragment|exactForbiddenString
-// or multiple mappings:
-//   #keyFragment1|string1;keyFragment2|string2
-//
-// The fragment can contain any printable characters needed for exact string
-// matching (including spaces, quotes, colons, percentages, Arabic text, etc.)
-// but must not contain newlines or control characters.
 const SOURCE_POINTER_PATTERN =
-  /^[A-Za-z0-9][A-Za-z0-9._/-]*\.[A-Za-z0-9]+(#[^\n\r\x00-\x1F]+)?$/;
+  /^[A-Za-z0-9][A-Za-z0-9._/-]*\.[A-Za-z0-9]+(#[A-Za-z0-9._:-]+)?$/;
 
 // Secrets-like value detection — deliberately generic, over-inclusive is fine
 // here since the registry should never carry credential-shaped strings.
@@ -326,6 +317,7 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
 
   // ── bank-cloud-migration (banking) ─────────────────────────────────────────
   // Blocked: 42% cost reduction, 99.94% uptime, 60% faster deployment claims
+  // Current public surface: AR meta.description contains "42%" and "دون أي توقف"
   'case-study-bank-cloud-migration': [
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
     {
@@ -342,6 +334,30 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
       path: 'src/assets/i18n/en.json',
       sourcePointer: 'src/assets/i18n/en.json#caseStudies.banking.results.metrics',
       forbidden: ['99.94%', '60% Faster Deployment'],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.meta.description',
+      forbidden: [
+        // meta.description blocked claims: 42% cost reduction + without downtime
+        'لخفض 42%',
+        'دون أي توقف',
+      ],
+    },
+    {
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.hero.title',
+      forbidden: [
+        // hero.title blocked claim: without downtime
+        'دون أي توقف',
+      ],
+    },
+    {
+      // A separate exact rule prevents a meta.description exception from
+      // authorizing the same blocked reduction token in results.metrics.
+      path: 'src/assets/i18n/ar.json',
+      sourcePointer: 'src/assets/i18n/ar.json#caseStudies.banking.results.metrics',
+      forbidden: ['لخفض 42%'],
     },
     {
       path: 'src/assets/i18n/ar.json',
@@ -444,19 +460,35 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
   ],
 
   // ── ecommerce-auto-scaling (ecommerce) ──────────────────────────────────────
-  // Blocked: 300% traffic capacity, 40% cost savings, uptime guarantees
+  // Blocked: 300% traffic capacity, 40% cost savings, uptime guarantees (zero downtime)
+  // NOTE: "Zero downtime" appears in results.metrics.metric2.description which
+  // needs to be qualified. Other occurrences in postaHybrid or banking challenge
+  // are service descriptions, not outcome claims.
   'case-study-ecommerce-auto-scaling': [
     { path: 'src/app/features/resources/case-studies/case-study-detail/case-study-detail.component.html', forbidden: ['.results.metrics.'] },
     {
       path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.title',
+      forbidden: ['300% Traffic Capacity - Roaya IT'],
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description',
+      forbidden: ['300% traffic surge', 'with zero downtime'],
+    },
+    {
+      path: 'src/assets/i18n/en.json',
+      sourcePointer: 'src/assets/i18n/en.json#caseStudies.ecommerce.hero.title',
+      forbidden: ['300% Traffic Surge', 'Zero Downtime'],
+    },
+    {
+      path: 'src/assets/i18n/en.json',
       forbidden: [
-        // meta.title blocked claim
-        '300% Traffic Capacity - Roaya IT',
-        // hero.title blocked claim
-        '300% Traffic Surge',
         // blocked savings claims
         '40% cost savings',
         '"value": "40%"',
+        // results.metrics.metric2.description blocked claim - exact match
+        'Zero downtime during all sales events',
       ],
     },
     {
@@ -469,6 +501,8 @@ const BLOCKED_PUBLIC_SURFACE_POLICY = {
         // blocked savings claims
         'وتوفير 40%',
         '"value": "40%"',
+        // results.metrics.metric2.description blocked claim - exact match
+        'صفر توقف خلال جميع',
       ],
     },
   ],
@@ -584,16 +618,102 @@ function escapeRegExp(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/**
+ * Navigate into a parsed JSON object by dot-separated key path.
+ * Returns undefined if path doesn't exist or doesn't resolve to a string/object.
+ */
+function getValueAtKeyPath(obj, keyPath) {
+  if (!keyPath || typeof obj !== 'object' || obj === null) return undefined;
+  const parts = keyPath.split('.');
+  let current = obj;
+  for (const part of parts) {
+    if (current === null || typeof current !== 'object') return undefined;
+    current = current[part];
+  }
+  return current;
+}
+
+/**
+ * Check if a forbidden string exists at a specific JSON key path.
+ * Returns true if the value at keyPath contains the forbidden string.
+ */
+function containsForbiddenAtKeyPath(parsedJson, keyPath, forbidden) {
+  const value = getValueAtKeyPath(parsedJson, keyPath);
+  if (typeof value === 'string') {
+    return value.includes(forbidden);
+  }
+  // If value is an object, stringify it to check nested content
+  if (typeof value === 'object' && value !== null) {
+    return JSON.stringify(value).includes(forbidden);
+  }
+  return false;
+}
+
+/**
+ * Parse the sourcePointer to extract the file path and key fragment.
+ * Format: "path/to/file.json#key.path" or "path/to/file.json"
+ */
+function parseSourcePointer(sourcePointer) {
+  if (!sourcePointer) return { path: null, keyPath: null };
+  const hashIndex = sourcePointer.indexOf('#');
+  if (hashIndex === -1) {
+    return { path: sourcePointer, keyPath: null };
+  }
+  return {
+    path: sourcePointer.substring(0, hashIndex),
+    keyPath: sourcePointer.substring(hashIndex + 1),
+  };
+}
+
 function validateBlockedPublicSurfacePolicy(claim, errors, publicSurfaceFiles) {
   if (claim.status !== 'blocked') return;
+
+  // Cache parsed JSON files to avoid re-parsing
+  const parsedCache = {};
+  function getParsedJson(path) {
+    if (path in parsedCache) return parsedCache[path];
+    const source = publicSurfaceFiles?.[path];
+    if (typeof source !== 'string') {
+      parsedCache[path] = null;
+      return null;
+    }
+    try {
+      parsedCache[path] = JSON.parse(source);
+    } catch {
+      // Not valid JSON - return null, fall back to string matching
+      parsedCache[path] = null;
+    }
+    return parsedCache[path];
+  }
+
   for (const rule of BLOCKED_PUBLIC_SURFACE_POLICY[claim.id] ?? []) {
     const source = publicSurfaceFiles?.[rule.path];
     if (typeof source !== 'string') {
       pushError(errors, claim.id, `Blocked public-surface policy could not inspect ${rule.path}.`);
       continue;
     }
+
+    // Parse the rule's sourcePointer to get the key path (if any)
+    const { keyPath: ruleKeyPath } = rule.sourcePointer ? parseSourcePointer(rule.sourcePointer) : { keyPath: null };
+
     for (const forbidden of rule.forbidden) {
-      if (source.includes(forbidden)) {
+      let found = false;
+
+      if (ruleKeyPath && rule.path.endsWith('.json')) {
+        // JSON-key-aware matching: only check at the specific key path
+        const parsedJson = getParsedJson(rule.path);
+        if (parsedJson) {
+          found = containsForbiddenAtKeyPath(parsedJson, ruleKeyPath, forbidden);
+        } else {
+          // Fall back to string matching if JSON parsing failed
+          found = source.includes(forbidden);
+        }
+      } else {
+        // Non-JSON files or rules without keyPath: use simple string matching
+        found = source.includes(forbidden);
+      }
+
+      if (found) {
         // Check if this specific forbidden string at this specific path is
         // authorized by a valid exception mapping in sourcePointer.
         if (isExceptionAuthorized(claim, rule)) {

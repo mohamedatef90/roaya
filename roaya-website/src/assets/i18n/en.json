@@ -4175,11 +4175,11 @@
     "ecommerce": {
       "meta": {
         "title": "E-commerce Auto-Scaling Case Study | Traffic Capacity - Roaya IT",
-        "description": "Discover how Egypt's fastest-growing e-commerce platform scaled to handle 300% traffic surge during Black Friday with zero downtime."
+        "description": "Discover how Egypt's fastest-growing e-commerce platform scaled to handle peak traffic during Black Friday. Outcome metrics pending client approval."
       },
       "hero": {
         "badge": "Retail & E-commerce",
-        "title": "E-commerce Platform Handles Traffic Surge with Zero Downtime",
+        "title": "E-commerce Platform Handles Traffic Surge Seamlessly",
         "subtitle": "Case-study outcome pending client approval"
       },
       "overview": {
@@ -4247,7 +4247,7 @@
           "metric2": {
             "value": "Pending client approval",
             "label": "Uptime",
-            "description": "Zero downtime during all sales events since implementation"
+            "description": "High availability maintained during sales events (metrics pending client approval)"
           },
           "metric3": {
             "value": "Pending client approval",

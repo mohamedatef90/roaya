@@ -53,6 +53,36 @@ function errorsFor(mutatedJson) {
   return validateRegistry(mutatedJson, { caseStudySlugs, publicSurfaceFiles }).errors;
 }
 
+/**
+ * Mutate a JSON file by setting a value at a dot-separated key path.
+ * Returns a properly stringified JSON object.
+ */
+function mutateJsonSource(jsonString, keyPath, value) {
+  const obj = JSON.parse(jsonString);
+  const parts = keyPath.split('.');
+  let current = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!(parts[i] in current)) {
+      current[parts[i]] = {};
+    }
+    current = current[parts[i]];
+  }
+  current[parts[parts.length - 1]] = value;
+  return JSON.stringify(obj, null, 2);
+}
+
+/**
+ * Create publicSurfaceFiles with a mutated JSON source.
+ */
+function withMutatedJsonSource(path, keyPath, value) {
+  const original = publicSurfaceFiles[path];
+  if (!original) throw new Error(`Unknown source path: ${path}`);
+  return {
+    ...publicSurfaceFiles,
+    [path]: mutateJsonSource(original, keyPath, value),
+  };
+}
+
 // Baseline must pass cleanly before mutations prove each rejection rule turns red.
 {
   const { errors } = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles });
@@ -367,17 +397,14 @@ for (const [label, field, value] of secretMutations) {
 {
   const mutated = mutate((c) => {
     const claim = findClaim(c, 'iso-certification');
-    // Exception mapping format: path#keyFragment:exactForbiddenString
+    // Exception mapping format: path#keyFragment
     claim.sourcePointer = 'src/assets/i18n/en.json#footer.certified';
     claim.exceptionOwner = 'Marketing Lead';
     claim.exceptionExpiry = '2027-12-31';
     claim.exceptionApproval = 'TIFO-300 exact ISO exception authorized';
   });
-  // Inject the exact forbidden string at the exact key location
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
-  };
+  // Inject the exact forbidden string at the exact key location using proper JSON mutation
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'exact valid ISO exception with sourcePointer mapping yields ZERO errors for that claim',
@@ -396,10 +423,7 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionApproval = 'TIFO-301 exact ISO exception';
   });
   // Inject blocked string at a DIFFERENT key location (about.milestones, not footer.certified)
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"about": { "milestones": { "certification": { "title": "ISO Certification" } } }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'about.milestones.certification.title', 'ISO Certification');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'ISO exception for footer.certified does NOT authorize a different policy rule (wrong-map)',
@@ -416,10 +440,7 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionExpiry = '2027-12-31';
     claim.exceptionApproval = 'TIFO-302 exception';
   });
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'missing exceptionOwner fails even with valid mapping',
@@ -436,10 +457,7 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionExpiry = '2027-12-31';
     // Missing exceptionApproval
   });
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'missing exceptionApproval fails even with valid mapping',
@@ -456,10 +474,7 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionExpiry = '2024-01-01'; // Expired
     claim.exceptionApproval = 'TIFO-303 expired exception';
   });
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "certified": "ISO Certified" }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'expired exception fails even with valid mapping',
@@ -484,11 +499,8 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionExpiry = '2027-12-31';
     claim.exceptionApproval = 'TIFO-400 meta.title exception only';
   });
-  // Inject the exact authorized string at meta.title location
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"caseStudies": { "banking": { "meta": { "title": "42% Cost Reduction - Roaya IT" } } }',
-  };
+  // Inject the exact authorized string at meta.title location using proper JSON mutation
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.meta.title', '42% Cost Reduction - Roaya IT');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   // The exact mapped forbidden string should be authorized, so no error for that specific string
   check(
@@ -508,10 +520,7 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionApproval = 'TIFO-400 meta.title exception only';
   });
   // Inject a DIFFERENT blocked string at hero.title (not covered by exception)
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"caseStudies": { "banking": { "hero": { "title": "Achieves 42% Cost Reduction" } } }',
-  };
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'caseStudies.banking.hero.title', 'Achieves 42% Cost Reduction');
   const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
   check(
     'case study meta.title exception does NOT authorize hero.title blocked string',
@@ -528,12 +537,9 @@ for (const [label, field, value] of secretMutations) {
     claim.exceptionExpiry = '2028-06-30';
     claim.exceptionApproval = 'TIFO-500 full authorization for ISO badge';
   });
-  // Inject at the exact mapped location
-  const sources = {
-    ...publicSurfaceFiles,
-    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"footer": { "badge": { "certified": "ISO Certified" } }',
-  };
-  const { errors, claimCount } = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources });
+  // Inject at the exact mapped location using proper JSON mutation
+  const sources = withMutatedJsonSource('src/assets/i18n/en.json', 'footer.certified', 'ISO Certified');
+  const { errors } = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources });
   check(
     'full clean pass: valid ISO exception with exact mapping produces zero errors',
     errors.length === 0,
@@ -1149,6 +1155,166 @@ for (const [label, field, value] of secretMutations) {
   check(
     'blocked case-study-ecommerce AR metric "value": "40%" is rejected',
     errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('40%')),
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// P0 ROUND-4 FIX: EXACT CURRENT PUBLIC SURFACE RED MUTATIONS
+// These tests verify that the exact strings observed by the reviewer in the
+// current i18n files are properly caught by the policy.
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── EN ecommerce meta.description: "300% traffic surge" + "zero downtime" ──────
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"description": "scaled to handle 300% traffic surge during Black Friday"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce EN meta.description "300% traffic surge" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('300% traffic surge')),
+  );
+}
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"description": "during Black Friday with zero downtime"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce EN meta.description "with zero downtime" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('with zero downtime')),
+  );
+}
+
+// ── EN ecommerce hero.title: "Zero Downtime" ───────────────────────────────────
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"title": "Handles Traffic Surge with Zero Downtime"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-ecommerce EN hero.title "Zero Downtime" is rejected',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('Zero Downtime')),
+  );
+}
+
+// ── AR banking meta.description: "42%" + "without downtime" (دون أي توقف) ───────
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"description": "لخفض 42% في تكاليف البنية التحتية"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank AR meta.description "لخفض 42%" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('لخفض 42%')),
+  );
+}
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"description": "الترحيل السحابي دون أي توقف"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank AR meta.description "دون أي توقف" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('دون أي توقف')),
+  );
+}
+
+// ── AR banking hero.title: "without downtime" (دون أي توقف) ─────────────────────
+{
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"title": "ترحيل سحابي دون أي توقف"',
+  };
+  const errors = validateRegistry(baselineJson, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'blocked case-study-bank AR hero.title "دون أي توقف" is rejected',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('دون أي توقف')),
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// WRONG-KEY TOKEN MUTATION TESTS
+// A token appearing at a different JSON key path must fail even if it matches
+// the forbidden string, because the exception only authorizes the exact mapped key.
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Rule: token at wrong key fails - 42% in results.metrics (wrong key) with exception for meta.description
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-bank-cloud-migration');
+    // Exception maps ONLY to meta.description
+    claim.sourcePointer = 'src/assets/i18n/ar.json#caseStudies.banking.meta.description';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-600 exception for meta.description only';
+  });
+  // Inject "لخفض 42%" at results.metrics (not meta.description)
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/ar.json': publicSurfaceFiles['src/assets/i18n/ar.json'] + '\n"results": { "metrics": { "metric1": { "description": "لخفض 42% في التكاليف" } } }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'wrong-key mutation: 42% at results.metrics fails even with meta.description exception',
+    errors.some((e) => e.includes('case-study-bank-cloud-migration') && e.includes('لخفض 42%')),
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SIBLING RULE STAYS RED TESTS
+// An exception for one policy rule must not authorize a sibling forbidden string
+// in the same claim. E.g., authorizing "300% traffic surge" should NOT authorize
+// "Zero Downtime" in the same ecommerce case study.
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Rule: sibling token stays red - exception for meta.description does not authorize hero.title
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-ecommerce-auto-scaling');
+    // Exception maps ONLY to meta.description (300% traffic surge)
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-700 exception for meta.description only';
+  });
+  // Inject "Zero Downtime" at hero.title (sibling rule not covered by exception)
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"hero": { "title": "Platform with Zero Downtime" }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  check(
+    'sibling token stays red: meta.description exception does NOT authorize hero.title "Zero Downtime"',
+    errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('Zero Downtime')),
+  );
+}
+
+// Rule: exception authorizes ONLY exact mapped token (green test)
+{
+  const mutated = mutate((c) => {
+    const claim = findClaim(c, 'case-study-ecommerce-auto-scaling');
+    // Exception maps to meta.description with 300% traffic surge
+    claim.sourcePointer = 'src/assets/i18n/en.json#caseStudies.ecommerce.meta.description';
+    claim.exceptionOwner = 'Marketing Lead';
+    claim.exceptionExpiry = '2027-12-31';
+    claim.exceptionApproval = 'TIFO-800 exact meta.description exception';
+  });
+  // Inject the exact mapped forbidden string at meta.description
+  const sources = {
+    ...publicSurfaceFiles,
+    'src/assets/i18n/en.json': publicSurfaceFiles['src/assets/i18n/en.json'] + '\n"meta": { "description": "handle 300% traffic surge during sales" }',
+  };
+  const errors = validateRegistry(mutated, { caseStudySlugs, publicSurfaceFiles: sources }).errors;
+  // Should NOT have error for the authorized string at the mapped location
+  check(
+    'exact exception green: meta.description exception authorizes 300% traffic surge at that key',
+    !errors.some((e) => e.includes('case-study-ecommerce-auto-scaling') && e.includes('300% traffic surge')),
   );
 }
 
