@@ -1,0 +1,399 @@
+<!--
+  THESIS: AWS is the platform; Roaya is the team that owns the outcome. Refuses a generic multi-cloud brochure and a logo-wall partner page.
+  OWN-WORLD: Roaya navy/teal tokens, Inter + Tajawal, glass credential card, hairline rules, one brand gradient used once on the close.
+  STORY: Visitor understands Roaya runs AWS end-to-end, believes Advanced Tier is a re-reviewed credential, books an assessment.
+  FIRST VIEWPORT: Dark split hero — pitch and dual CTAs left (~42%), operations console + credential plate right (~58%). Primary action scrolls to the architect form.
+  FORM: Established Roaya world. Composition from the AWS partnership brief; no concept-seed (precisely specified surface).
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+<div class="aws-page">
+  <section
+    class="aws-hero anr-scene"
+    data-anr-scene
+    aria-labelledby="aws-hero-title"
+    (pointermove)="onHeroPointer($event)"
+    (pointerleave)="resetHeroPointer($event)"
+  >
+    <div class="anr-scene__bg" aria-hidden="true">
+      <div class="anr-scene__gradient"></div>
+      <svg class="anr-scene__noise" xmlns="http://www.w3.org/2000/svg">
+        <filter id="aws-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#aws-noise)" />
+      </svg>
+      <svg class="anr-scene__rings" viewBox="0 0 1200 1200">
+        <circle class="anr-scene__ring" cx="600" cy="600" r="210" />
+        <circle class="anr-scene__ring" cx="600" cy="600" r="330" />
+        <circle class="anr-scene__ring anr-scene__ring--dashed" cx="600" cy="600" r="450" />
+        <circle class="anr-scene__ring" cx="600" cy="600" r="570" />
+      </svg>
+      <svg class="anr-scene__particles" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        @for (mote of motes; track $index) {
+          <circle [attr.class]="'anr-mote anr-mote--v' + mote.v" [attr.cx]="mote.x" [attr.cy]="mote.y" [attr.r]="mote.r" />
+        }
+      </svg>
+      <div class="anr-scene__streams"><i></i><i></i><i></i><i></i></div>
+      <div class="anr-scene__glow"></div>
+    </div>
+
+    <img [src]="markPath" alt="" class="aws-hero__mark" width="512" height="512" decoding="async" />
+
+    <div class="container-custom aws-hero__inner">
+      <div class="aws-hero__copy">
+        <nav aria-label="Breadcrumb" class="aws-breadcrumb" data-reveal>
+          <ol>
+            <li><a routerLink="/">{{ 'common.home' | translate }}</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a routerLink="/services">{{ 'common.services' | translate }}</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page">{{ 'services.aws.title' | translate }}</li>
+          </ol>
+        </nav>
+
+        <p class="aws-kicker" data-reveal>{{ 'services.aws.hero.kicker' | translate }}</p>
+        <h1 id="aws-hero-title" data-reveal>{{ 'services.aws.hero.title' | translate }}</h1>
+        <p class="aws-lead" data-reveal>{{ 'services.aws.hero.lead' | translate }}</p>
+
+        <ul class="aws-pills" data-reveal>
+          <li>{{ 'services.aws.hero.pill1' | translate }}</li>
+          <li>{{ 'services.aws.hero.pill2' | translate }}</li>
+          <li>{{ 'services.aws.hero.pill3' | translate }}</li>
+          <li>{{ 'services.aws.hero.pill4' | translate }}</li>
+        </ul>
+
+        <div class="aws-hero__actions" data-reveal>
+          <button type="button" class="aws-btn aws-btn--accent" (click)="scrollToQuestions()">
+            {{ 'services.aws.hero.cta' | translate }}
+          </button>
+          <button type="button" class="aws-btn aws-btn--ghost" (click)="scrollToQuestions()">
+            {{ 'services.aws.hero.ctaSecondary' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <aside class="aws-console" data-reveal role="img" [attr.aria-label]="'services.aws.hero.consoleAria' | translate">
+        <div class="aws-console__chrome">
+          <span class="aws-console__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="aws-console__title">{{ 'services.aws.hero.consoleTitle' | translate }}</span>
+          <span class="aws-console__chip">{{ 'services.aws.hero.consoleChip' | translate }}</span>
+        </div>
+
+        <div class="aws-console__lockup">
+          <img
+            [src]="lockupPath"
+            alt="Roaya"
+            class="aws-console__logo"
+            width="180"
+            height="32"
+            decoding="async"
+          />
+          <div class="aws-badge" aria-hidden="true">
+            <span class="aws-badge__kicker">AWS</span>
+            <span class="aws-badge__tier">{{ 'services.aws.hero.badgeTier' | translate }}</span>
+            <span class="aws-badge__note">{{ 'services.aws.hero.badgeNote' | translate }}</span>
+          </div>
+        </div>
+
+        <p class="aws-console__footnote">{{ 'services.aws.hero.badgeRule' | translate }}</p>
+
+        <div class="aws-ops">
+          <p class="aws-ops__label">{{ 'services.aws.hero.opsLabel' | translate }}</p>
+          @for (row of opsRows; track row.id) {
+            <div class="aws-ops__row" [attr.data-state]="row.state">
+              <span class="aws-ops__pulse" aria-hidden="true"></span>
+              <span class="aws-ops__name">{{ 'services.aws.hero.ops.' + row.id + '.name' | translate }}</span>
+              <span class="aws-ops__id">{{ 'services.aws.hero.ops.' + row.id + '.id' | translate }}</span>
+              <span class="aws-ops__state">{{ 'services.aws.hero.ops.' + row.id + '.state' | translate }}</span>
+            </div>
+          }
+          <p class="aws-ops__caption">{{ 'services.aws.hero.opsCaption' | translate }}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="why" class="aws-section" data-reveal-group aria-labelledby="aws-why-title">
+    <div class="container-custom">
+      <header class="aws-header" data-reveal>
+        <h2 id="aws-why-title">{{ 'services.aws.why.title' | translate }}</h2>
+        <p>{{ 'services.aws.why.intro' | translate }}</p>
+      </header>
+
+      <div class="aws-why-grid">
+        @for (item of whyItems; track item.id) {
+          <article class="aws-why-card" data-reveal>
+            <span class="aws-why-card__n" aria-hidden="true">{{ item.n }}</span>
+            <h3>{{ 'services.aws.why.' + item.id + '.title' | translate }}</h3>
+            <p>{{ 'services.aws.why.' + item.id + '.body' | translate }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="aws-section aws-section--sunk" data-reveal-group aria-labelledby="aws-services-title">
+    <div class="container-custom">
+      <header class="aws-header" data-reveal>
+        <h2 id="aws-services-title">{{ 'services.aws.deliver.title' | translate }}</h2>
+        <p>{{ 'services.aws.deliver.intro' | translate }}</p>
+      </header>
+
+      <div class="aws-service-grid">
+        @for (service of services; track service.id) {
+          <article class="aws-service-card" data-reveal>
+            <span class="aws-service-card__icon" aria-hidden="true">
+              <ng-icon [name]="service.icon" size="26"></ng-icon>
+            </span>
+            <h3>{{ 'services.aws.deliver.' + service.id + '.title' | translate }}</h3>
+            <p>{{ 'services.aws.deliver.' + service.id + '.body' | translate }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials" class="aws-section" data-reveal-group aria-labelledby="aws-cred-title">
+    <div class="container-custom aws-cred">
+      <header class="aws-header" data-reveal>
+        <h2 id="aws-cred-title">{{ 'services.aws.credentials.title' | translate }}</h2>
+        <p>{{ 'services.aws.credentials.intro' | translate }}</p>
+      </header>
+
+      <div class="aws-cred__split">
+        <div class="aws-cred__copy" data-reveal>
+          <p>{{ 'services.aws.credentials.body' | translate }}</p>
+          <blockquote>{{ 'services.aws.credentials.note' | translate }}</blockquote>
+        </div>
+
+        <div class="aws-cred__side" data-reveal>
+          <div class="aws-cred__slots">
+            <div class="aws-cred__slot">{{ 'services.aws.credentials.slotTier' | translate }}</div>
+            <div class="aws-cred__slot">{{ 'services.aws.credentials.slotCompetency' | translate }}</div>
+            <div class="aws-cred__slot">{{ 'services.aws.credentials.slotDelivery' | translate }}</div>
+          </div>
+
+          <div class="aws-practices">
+            <p class="aws-practices__label">{{ 'services.aws.credentials.practicesLabel' | translate }}</p>
+            <ul>
+              @for (practice of practices; track practice) {
+                <li>{{ 'services.aws.credentials.practices.' + practice | translate }}</li>
+              }
+            </ul>
+            <p>{{ 'services.aws.credentials.practicesNote' | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="regions" class="aws-section aws-section--sunk" data-reveal-group aria-labelledby="aws-regions-title">
+    <div class="container-custom">
+      <header class="aws-header" data-reveal>
+        <h2 id="aws-regions-title">{{ 'services.aws.regions.title' | translate }}</h2>
+        <p>{{ 'services.aws.regions.intro' | translate }}</p>
+      </header>
+
+      <div class="aws-tabs" role="tablist" [attr.aria-label]="'services.aws.regions.title' | translate" data-reveal>
+        @for (region of regions; track region.id) {
+          <button
+            type="button"
+            role="tab"
+            class="aws-tabs__tab"
+            [class.is-active]="activeRegion() === region.id"
+            [attr.aria-selected]="activeRegion() === region.id"
+            [attr.aria-controls]="'region-panel'"
+            [id]="'region-tab-' + region.id"
+            (click)="selectRegion(region.id)"
+          >
+            <span>{{ 'services.aws.regions.' + region.id + '.name' | translate }}</span>
+            <code>{{ region.code }}</code>
+          </button>
+        }
+      </div>
+
+      <article
+        class="aws-region"
+        data-reveal
+        role="tabpanel"
+        id="region-panel"
+        [attr.aria-labelledby]="'region-tab-' + activeRegion()"
+      >
+        <div>
+          <h3>{{ 'services.aws.regions.' + activeRegion() + '.title' | translate }}</h3>
+          <p>{{ 'services.aws.regions.' + activeRegion() + '.body' | translate }}</p>
+        </div>
+        <ol>
+          @for (point of [1, 2, 3, 4]; track point) {
+            <li>
+              <span>{{ point < 10 ? '0' + point : point }}</span>
+              {{ 'services.aws.regions.' + activeRegion() + '.p' + point | translate }}
+            </li>
+          }
+        </ol>
+      </article>
+    </div>
+  </section>
+
+  <section id="process" class="aws-section" data-reveal-group aria-labelledby="aws-process-title">
+    <div class="container-custom">
+      <header class="aws-header" data-reveal>
+        <h2 id="aws-process-title">{{ 'services.aws.process.title' | translate }}</h2>
+        <p>{{ 'services.aws.process.intro' | translate }}</p>
+      </header>
+
+      <ol class="aws-process">
+        @for (step of processSteps; track step; let i = $index) {
+          <li data-reveal>
+            <span aria-hidden="true">{{ i + 1 < 10 ? '0' + (i + 1) : i + 1 }}</span>
+            <h3>{{ 'services.aws.process.' + step + '.title' | translate }}</h3>
+            <p>{{ 'services.aws.process.' + step + '.body' | translate }}</p>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section id="questions" class="aws-section aws-section--sunk" data-reveal-group aria-labelledby="aws-faq-title">
+    <div class="container-custom aws-questions">
+      <header class="aws-header" data-reveal>
+        <h2 id="aws-faq-title">{{ 'services.aws.questions.title' | translate }}</h2>
+        <p>{{ 'services.aws.questions.intro' | translate }}</p>
+      </header>
+
+      <div class="aws-questions__grid">
+        <div class="aws-form-card" data-reveal>
+          @if (isSubmitted()) {
+            <div class="aws-form-success">
+              <span class="aws-form-success__icon" aria-hidden="true">
+                <ng-icon name="lucideCheck" size="28"></ng-icon>
+              </span>
+              <p class="aws-kicker">{{ 'services.aws.form.sentKicker' | translate }}</p>
+              <h3>{{ 'services.aws.form.sentTitle' | translate }}</h3>
+              <p>{{ 'services.aws.form.sentBody' | translate }}</p>
+            </div>
+          } @else {
+            <form [formGroup]="questionForm" (ngSubmit)="onSubmit()" novalidate>
+              <h3>{{ 'services.aws.form.title' | translate }}</h3>
+              <p class="aws-form-card__lead">{{ 'services.aws.form.lead' | translate }}</p>
+
+              <div class="aws-fields">
+                <label>
+                  <span>{{ 'services.aws.form.name' | translate }}</span>
+                  <input
+                    type="text"
+                    formControlName="name"
+                    autocomplete="name"
+                    [attr.aria-invalid]="hasFieldError('name')"
+                    [placeholder]="'services.aws.form.namePh' | translate"
+                  />
+                  @if (hasFieldError('name')) {
+                    <em>{{ 'services.aws.form.nameError' | translate }}</em>
+                  }
+                </label>
+                <label>
+                  <span>{{ 'services.aws.form.email' | translate }}</span>
+                  <input
+                    type="email"
+                    formControlName="email"
+                    autocomplete="email"
+                    [attr.aria-invalid]="hasFieldError('email')"
+                    [placeholder]="'services.aws.form.emailPh' | translate"
+                  />
+                  @if (hasFieldError('email')) {
+                    <em>{{ 'services.aws.form.emailError' | translate }}</em>
+                  }
+                </label>
+                <label>
+                  <span>{{ 'services.aws.form.company' | translate }}</span>
+                  <input
+                    type="text"
+                    formControlName="company"
+                    autocomplete="organization"
+                    [placeholder]="'services.aws.form.companyPh' | translate"
+                  />
+                </label>
+                <label>
+                  <span>{{ 'services.aws.form.market' | translate }}</span>
+                  <select formControlName="market">
+                    @for (market of markets; track market) {
+                      <option [value]="market">{{ 'services.aws.form.markets.' + market | translate }}</option>
+                    }
+                  </select>
+                </label>
+              </div>
+
+              <label class="aws-field-full">
+                <span>{{ 'services.aws.form.topic' | translate }}</span>
+                <select formControlName="topic">
+                  @for (topic of topics; track topic) {
+                    <option [value]="topic">{{ 'services.aws.form.topics.' + topic | translate }}</option>
+                  }
+                </select>
+              </label>
+
+              <label class="aws-field-full">
+                <span>{{ 'services.aws.form.message' | translate }}</span>
+                <textarea
+                  formControlName="message"
+                  rows="4"
+                  [attr.aria-invalid]="hasFieldError('message')"
+                  [placeholder]="'services.aws.form.messagePh' | translate"
+                ></textarea>
+                @if (hasFieldError('message')) {
+                  <em>{{ 'services.aws.form.messageError' | translate }}</em>
+                } @else {
+                  <small>{{ 'services.aws.form.messageHint' | translate }}</small>
+                }
+              </label>
+
+              @if (hasError()) {
+                <p class="aws-form-error" role="alert">{{ 'services.aws.form.submitError' | translate }}</p>
+              }
+
+              <div class="aws-form-card__foot">
+                <button type="submit" class="aws-btn aws-btn--primary" [disabled]="isSubmitting()">
+                  {{ isSubmitting() ? ('services.aws.form.sending' | translate) : ('services.aws.form.submit' | translate) }}
+                </button>
+                <p>{{ 'services.aws.form.privacy' | translate }}</p>
+              </div>
+            </form>
+          }
+        </div>
+
+        <div class="aws-faq" data-reveal>
+          @for (faq of faqs; track faq; let i = $index) {
+            <div class="aws-faq__item">
+              <button
+                type="button"
+                [attr.aria-expanded]="openFaq() === i"
+                [attr.aria-controls]="'faq-' + faq"
+                (click)="toggleFaq(i)"
+              >
+                <span>{{ 'services.aws.faq.' + faq + '.q' | translate }}</span>
+                <ng-icon [name]="openFaq() === i ? 'lucideMinus' : 'lucidePlus'" size="18"></ng-icon>
+              </button>
+              @if (openFaq() === i) {
+                <p [id]="'faq-' + faq">{{ 'services.aws.faq.' + faq + '.a' | translate }}</p>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="aws-cta" data-reveal-group aria-labelledby="aws-cta-title">
+    <img [src]="markPath" alt="" class="aws-cta__mark" width="512" height="512" decoding="async" />
+    <div class="container-custom">
+      <h2 id="aws-cta-title" data-reveal>{{ 'services.aws.cta.title' | translate }}</h2>
+      <p data-reveal>{{ 'services.aws.cta.body' | translate }}</p>
+      <button type="button" class="aws-btn aws-btn--inverse" data-reveal (click)="scrollToQuestions()">
+        {{ 'services.aws.hero.cta' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <p class="aws-legal">{{ 'services.aws.legal' | translate }}</p>
+</div>

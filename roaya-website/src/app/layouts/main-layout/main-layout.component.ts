@@ -47,12 +47,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Mobile menu expandable sections state
   private mobileServicesOpen = signal<boolean>(false);
   private mobileIndustriesOpen = signal<boolean>(false);
-  private mobileSecurityOpen = signal<boolean>(false);
+  private mobileExpandedServiceId = signal<string | null>(null);
 
   // Computed signals for mobile menu expandable sections
   isMobileServicesOpen = computed(() => this.mobileServicesOpen());
   isMobileIndustriesOpen = computed(() => this.mobileIndustriesOpen());
-  isMobileSecurityOpen = computed(() => this.mobileSecurityOpen());
+  isMobileSecurityOpen = computed(() => this.mobileExpandedServiceId() === 'security');
 
   // News bar height (when navbar should stick to top)
   private newsBarHeight = 38;
@@ -88,7 +88,18 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       description: 'services.cloud.description',
       icon: '&#9729;',
       faIcon: 'faSolidCloud',
-      route: '/services/cloud'
+      route: '/services/cloud',
+      children: [
+        {
+          id: 'aws',
+          title: 'services.aws.title',
+          description: 'services.aws.description',
+          icon: '&#9729;',
+          faIcon: 'faSolidCloud',
+          route: '/services/aws',
+          badge: 'Partner'
+        }
+      ]
     },
     {
       id: 'sap',
@@ -412,7 +423,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // Reset expandable sections when closing menu
     this.mobileServicesOpen.set(false);
     this.mobileIndustriesOpen.set(false);
-    this.mobileSecurityOpen.set(false);
+    this.mobileExpandedServiceId.set(null);
   }
 
   toggleMobileServices(): void {
@@ -424,7 +435,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleMobileSecurity(): void {
-    this.mobileSecurityOpen.update(state => !state);
+    this.toggleMobileServiceChildren('security');
+  }
+
+  toggleMobileServiceChildren(id: string): void {
+    this.mobileExpandedServiceId.update((current) => (current === id ? null : id));
+  }
+
+  isMobileServiceExpanded(id: string): boolean {
+    return this.mobileExpandedServiceId() === id;
   }
 
   // Check if a service item has children (for mobile nested navigation)

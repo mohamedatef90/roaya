@@ -265,9 +265,9 @@
               <!-- Service with children (collapsible) -->
               <div *ngIf="hasChildren(service)" class="flex flex-col">
                 <button
-                  (click)="toggleMobileSecurity()"
+                  (click)="toggleMobileServiceChildren(service.id)"
                   class="flex items-center justify-between px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors w-full text-start"
-                  [attr.aria-expanded]="isMobileSecurityOpen()"
+                  [attr.aria-expanded]="isMobileServiceExpanded(service.id)"
                 >
                   <span class="flex items-center gap-2">
                     {{ service.title | translate }}
@@ -277,7 +277,7 @@
                   </span>
                   <svg
                     class="h-4 w-4 transition-transform duration-200"
-                    [class.rotate-180]="isMobileSecurityOpen()"
+                    [class.rotate-180]="isMobileServiceExpanded(service.id)"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -287,9 +287,9 @@
                   </svg>
                 </button>
 
-                <!-- Security Sub-items -->
+                <!-- Nested sub-items -->
                 <div
-                  *ngIf="isMobileSecurityOpen()"
+                  *ngIf="isMobileServiceExpanded(service.id)"
                   class="flex flex-col gap-1 ps-4 mt-1 pb-1"
                 >
                   <!-- Overview link -->
@@ -527,6 +527,11 @@
           <li>
             <a routerLink="/services/cloud" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.cloud.title' | translate }}
+            </a>
+          </li>
+          <li>
+            <a routerLink="/services/aws" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+              {{ 'services.aws.title' | translate }}
             </a>
           </li>
           <li>
