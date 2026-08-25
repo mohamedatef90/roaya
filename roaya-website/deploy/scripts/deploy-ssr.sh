@@ -45,7 +45,17 @@ NODE_ENV_VALUE="production"
 # '*' OUT of it - the loopback probe sends `Host: roaya.co` instead.
 NG_ALLOWED_HOSTS_VALUE="roaya.co,www.roaya.co"
 
-# NG_TRUST_PROXY_HEADERS is deliberately not set. See docs/deploy/RUNTIME-ENV.md.
+# REQUIRED, and NOT optional hardening. nginx forwards X-Forwarded-For and
+# X-Forwarded-Proto to the SSR upstream. @angular/ssr silently deoptimizes to
+# browser/index.csr.html - HTTP 200, empty shell, only an informational log
+# line - when it receives an X-Forwarded-* header it does not trust. That is
+# what took production down on 2026-08-25 while the old status-only gate and a
+# Host-only probe both reported success.
+# The explicit list REPLACES Angular's defaults, so it must name exactly the
+# forwarded headers nginx sends. Never `true` or a wildcard: that trusts
+# attacker-supplied forwarding headers. x-real-ip is intentionally absent - it
+# is not an X-Forwarded-* header and this option does not govern it.
+NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"
 
 # Loopback activation gate. Must be a hostname present in the allowlist above,
 # never a public Cloudflare URL - this gate must test the origin we just
@@ -119,7 +129,8 @@ STAMP=$(basename "$TARBALL" .tar.gz)
 log "Activating release on host"
 ssh "${SSH_OPTS[@]}" "$SSH_HOST" bash -s -- \
   "$RELEASE_DIR" "$REMOTE_ROOT" "$STAMP" "$REMOTE_TARBALL" "$PM2_APP" "$SSR_PORT" \
-  "$NODE_ENV_VALUE" "$NG_ALLOWED_HOSTS_VALUE" "$SSR_HEALTH_HOST" "$SSR_HEALTH_MARKER" <<'REMOTE'
+  "$NODE_ENV_VALUE" "$NG_ALLOWED_HOSTS_VALUE" "$SSR_HEALTH_HOST" "$SSR_HEALTH_MARKER" \
+  "$NG_TRUST_PROXY_HEADERS_VALUE" <<'REMOTE'
 set -euo pipefail
 
 RELEASE_DIR="$1"
@@ -132,6 +143,7 @@ NODE_ENV_VALUE="$7"
 NG_ALLOWED_HOSTS_VALUE="$8"
 SSR_HEALTH_HOST="$9"
 SSR_HEALTH_MARKER="${10}"
+NG_TRUST_PROXY_HEADERS_VALUE="${11}"
 
 # Validate the content marker BEFORE anything is flipped or restarted. An empty
 # or whitespace-only marker would make the gate's assertion vacuous, because
@@ -202,8 +214,8 @@ emit_rollback() {
   if [ "$PREV_VALID" -eq 1 ]; then
     echo "Run these two commands on this host to roll back now:" >&2
     printf '  ln -sfn %q %q\n' "$PREV_TARGET" "$RELEASE_DIR/current" >&2
-    printf '  NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q pm2 restart %q --update-env\n' \
-      "$NODE_ENV_VALUE" "$SSR_PORT" "$NG_ALLOWED_HOSTS_VALUE" "$PM2_APP" >&2
+    printf '  NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q NG_TRUST_PROXY_HEADERS=%q pm2 restart %q --update-env\n' \
+      "$NODE_ENV_VALUE" "$SSR_PORT" "$NG_ALLOWED_HOSTS_VALUE" "$NG_TRUST_PROXY_HEADERS_VALUE" "$PM2_APP" >&2
     echo "Then re-verify:" >&2
     printf '  curl -s -o /tmp/probe.html -w %q --max-time 10 -H %q %q\n' \
       '%{http_code}\n' "Host: $SSR_HEALTH_HOST" "http://127.0.0.1:$SSR_PORT/about" >&2
@@ -236,6 +248,7 @@ rm -f "$REMOTE_TARBALL"
 export NODE_ENV="$NODE_ENV_VALUE"
 export PORT="$SSR_PORT"
 export NG_ALLOWED_HOSTS="$NG_ALLOWED_HOSTS_VALUE"
+export NG_TRUST_PROXY_HEADERS="$NG_TRUST_PROXY_HEADERS_VALUE"
 
 if timeout 30 pm2 jlist 2>/dev/null | grep -q "\"name\":\"$PM2_APP\""; then
   # No `|| true` here on purpose: a timed-out or failed restart must not be
@@ -257,6 +270,7 @@ else
   echo "  cd $RELEASE_DIR/current && \\" >&2
   echo "    NODE_ENV=$NODE_ENV_VALUE PORT=$SSR_PORT \\" >&2
   echo "    NG_ALLOWED_HOSTS=$NG_ALLOWED_HOSTS_VALUE \\" >&2
+  echo "    NG_TRUST_PROXY_HEADERS=$NG_TRUST_PROXY_HEADERS_VALUE \\" >&2
   echo "    pm2 start server/server.mjs --name $PM2_APP --cwd $RELEASE_DIR/current -i 1" >&2
   echo "  pm2 save" >&2
   exit 1
@@ -276,8 +290,16 @@ trap 'rm -f "$RESP_FILE"' EXIT
 
 # Explicit control flow, not `|| echo 000`: on a transport failure curl still
 # writes its own "000" to stdout, and appending another would yield "000000".
+# The probe MUST mirror the real nginx request shape. A Host-only probe passed
+# on 2026-08-25 while every real request - which also carries X-Forwarded-For -
+# was served the CSR shell, because @angular/ssr deoptimizes on an untrusted
+# X-Forwarded-* header. Sending only Host tests a shape no visitor ever sends.
 if CODE=$(curl -s -o "$RESP_FILE" -w '%{http_code}' --max-time 10 \
-  -H "Host: $SSR_HEALTH_HOST" "http://127.0.0.1:$SSR_PORT/about"); then
+  -H "Host: $SSR_HEALTH_HOST" \
+  -H "X-Forwarded-For: 127.0.0.1" \
+  -H "X-Forwarded-Proto: https" \
+  -H "X-Real-IP: 127.0.0.1" \
+  "http://127.0.0.1:$SSR_PORT/about"); then
   :
 else
   CODE="000"
@@ -305,6 +327,14 @@ CSR_SHELL="$RELEASE_DIR/current/browser/index.csr.html"
 if [ -f "$CSR_SHELL" ] && cmp -s "$RESP_FILE" "$CSR_SHELL"; then
   HEALTH_FAIL=1
   FAIL_REASON="${FAIL_REASON:+$FAIL_REASON; }response is byte-identical to index.csr.html"
+fi
+
+# Angular reports an untrusted forwarded header as an informational log line,
+# never an HTTP error, so the log is the only place this shows up early.
+if timeout 20 pm2 logs "$PM2_APP" --lines 60 --nostream --raw 2>/dev/null \
+   | grep -q 'trustProxyHeaders'; then
+  HEALTH_FAIL=1
+  FAIL_REASON="${FAIL_REASON:+$FAIL_REASON; }SSR logged an untrusted proxy-header deopt (trustProxyHeaders)"
 fi
 
 if [ "$HEALTH_FAIL" -ne 0 ]; then

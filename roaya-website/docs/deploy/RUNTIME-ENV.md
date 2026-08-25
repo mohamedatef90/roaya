@@ -35,21 +35,73 @@ nginx sends `proxy_set_header Host $host`, so real traffic only ever presents
 `roaya.co` or `www.roaya.co`. Loopback probes must send an accepted Host
 header instead of widening the allowlist — see below.
 
-### `NG_TRUST_PROXY_HEADERS` — intentionally unset
+### `NG_TRUST_PROXY_HEADERS` — REQUIRED, and exactly this value
 
-Do not set it. Its type is `boolean | readonly string[]` and it defaults to
-`undefined` (proxy headers ignored). It only widens the trusted `X-Forwarded-*`
-set used when constructing the request URL. It is unnecessary here because:
+```
+NG_TRUST_PROXY_HEADERS=x-forwarded-for,x-forwarded-proto
+```
 
-- the hostname check reads the `Host` header, which nginx already sets
-  correctly;
-- nginx never sets `X-Forwarded-Host` or `X-Forwarded-Prefix`, the headers this
-  option governs;
-- the app derives no absolute URL from the request — canonical origins are
-  hardcoded constants.
+> **Correction.** An earlier revision of this document declared this variable
+> "intentionally unset", reasoning that it only governs `X-Forwarded-Host` /
+> `-Prefix` for request-URL construction and that nginx sends neither. **That
+> was wrong and it caused a production outage on 2026-08-25.** The reasoning was
+> never tested with `X-Forwarded-For` present — which nginx sends on every
+> request.
+>
+> The release deployed cleanly, passed its activation gate, and then served
+> `browser/index.csr.html` (HTTP 200, empty shell) to every visitor: no
+> prerendered HTML, no real 404s. It was rolled back.
 
-Revisit only if nginx starts setting `X-Forwarded-Host`/`-Prefix`, or if the
-app begins deriving absolute URLs from the incoming request.
+`@angular/ssr` **deoptimizes to the CSR shell** when a request carries an
+`X-Forwarded-*` header it does not trust. It does not error and does not change
+the status code — it emits an informational log line and serves the shell:
+
+```
+Received "x-forwarded-for" header but "trustProxyHeaders" was not set up to allow it.
+```
+
+Measured on the deployed bundle, spare port, one variable at a time:
+
+| Request shape | Result |
+|---|---|
+| A. `Host` only | real SSR (132,481 B) |
+| B. `Host` + `X-Forwarded-Proto` | real SSR |
+| **C. `Host` + `X-Forwarded-Proto` + `X-Forwarded-For` + `X-Real-IP`** | **CSR shell (28,563 B)** |
+| D. `Host` + `X-Forwarded-Host` | real SSR |
+
+C is exactly what nginx sends, so **every real request** hit the shell while a
+`Host`-only probe reported success.
+
+**Why this exact list, and nothing more:**
+
+- **It replaces Angular's defaults, it is not unioned with them.** An explicit
+  list *is* the trusted set, so it must name precisely the forwarded headers
+  nginx sends to SSR: `X-Forwarded-For` and `X-Forwarded-Proto`.
+- **Never `true` or a wildcard.** That trusts arbitrary client-supplied
+  forwarding headers — a spoofing surface, and pointless when the real set is
+  two headers.
+- **`x-real-ip` is deliberately absent.** It is not an `X-Forwarded-*` header
+  and this option does not govern it; nginx still sends it, the app ignores it.
+- **`x-forwarded-host` / `-prefix` / `-port` are absent** because the active SSR
+  locations do not send them. Adding one would widen trust for no benefit — and
+  the proxy-header matrix asserts an untrusted extra header still deopts, which
+  is what keeps this list honest.
+
+If nginx ever starts sending another forwarded header to SSR, add it here **and**
+to the activation gate in the same change, or SSR will silently serve shells.
+
+### nginx must overwrite X-Forwarded-For for SSR
+
+Because Angular now *trusts* `X-Forwarded-For`, a client-supplied chain must
+never reach it. In both SSR locations (`location /` and `location @ssr`):
+
+```
+proxy_set_header X-Forwarded-For $remote_addr;    # overwrite, NOT append
+```
+
+`$proxy_add_x_forwarded_for` appends the inbound header and would forward
+attacker-controlled values into a header the application trusts. The `/api/`
+location is out of scope and keeps its existing behaviour.
 
 ## nginx must forward the real Host
 
@@ -71,7 +123,10 @@ passes while the site is broken. A valid check must:
 
 1. request the loopback upstream directly (never a public/Cloudflare URL — that
    tests the edge, not the release you just activated);
-2. send `Host: roaya.co`, a hostname the allowlist accepts;
+2. send `Host: roaya.co`, a hostname the allowlist accepts, **plus the same
+   forwarded headers nginx adds** (`X-Forwarded-For`, `X-Forwarded-Proto`,
+   `X-Real-IP`). A `Host`-only probe tests a shape no visitor ever sends, and is
+   exactly why the 2026-08-25 CSR-shell release passed its gate;
 3. assert **rendered content** — the `/about` H1 text
    `Your Trusted Technology Partner in Egypt`;
 4. reject a response byte-identical to `browser/index.csr.html`.
@@ -99,17 +154,29 @@ lost:
 `deploy/systemd/roaya-ssr.service` (`Environment=`) also declare the contract,
 for whichever supervisor is in use.
 
-Guarded by `npm run test:deploy-runtime-config`.
+Guarded by `npm run test:deploy-runtime-config` (contract, nginx SSR headers,
+gate shape) and `npm run test:proxy-headers` (the real A/B/C/D matrix against the
+built server).
 
 ## Verifying on the host (read-only)
 
+**`/proc/<pid>/environ` is NOT authoritative for this app.** `roaya-ssr` runs in
+pm2 **cluster** mode, where the worker's environment is injected via
+`cluster.fork()` rather than at exec, so these keys read as unset even when
+correctly applied. Use pm2's own view, the saved dump, and a functional probe.
+
 ```
-# does the running process actually have the allowlist?
-tr '\0' '\n' < /proc/$(pgrep -f server.mjs | head -1)/environ | grep '^NG_ALLOWED_HOSTS='
+# effective env pm2 applied (authoritative), non-secret keys only
+pm2 jlist | python3 -c "import sys,json;[print(k+'='+str(a['pm2_env'].get(k,'<UNSET>'))) for a in json.load(sys.stdin) if a['name']=='roaya-ssr' for k in ['NODE_ENV','PORT','NG_ALLOWED_HOSTS','NG_TRUST_PROXY_HEADERS']]"
+
+# what survives a reboot / pm2 resurrect
+python3 -c "import json,os;d=json.load(open(os.path.expanduser('~/.pm2/dump.pm2')));[print(k+'='+str((a.get('env') or {}).get(k,'<UNSET>'))) for a in d if a.get('name')=='roaya-ssr' for k in ['NODE_ENV','PORT','NG_ALLOWED_HOSTS','NG_TRUST_PROXY_HEADERS']]"
 
 # does the origin render, or is it the CSR shell?
 curl -s -o /tmp/probe.html -w '%{http_code} %{size_download}\n' --max-time 10 \
-  -H 'Host: roaya.co' http://127.0.0.1:4000/about
+  -H 'Host: roaya.co' -H 'X-Forwarded-For: 127.0.0.1' \
+  -H 'X-Forwarded-Proto: https' -H 'X-Real-IP: 127.0.0.1' \
+  http://127.0.0.1:4000/about
 grep -c 'Your Trusted Technology Partner in Egypt' /tmp/probe.html   # must be >= 1
 rm -f /tmp/probe.html
 ```

@@ -15,6 +15,8 @@ import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..', '..');
@@ -24,7 +26,8 @@ const ECO = 'deploy/pm2/ecosystem.config.js';
 const SVC = 'deploy/systemd/roaya-ssr.service';
 const SH = 'deploy/scripts/deploy-ssr.sh';
 const DOC = 'docs/deploy/RUNTIME-ENV.md';
-const EXTRA = ['CLAUDE.md', 'docs/ai-readiness-human-gates.md', 'deploy/nginx/roaya-website.conf'];
+const NGX = 'deploy/nginx/roaya-website.conf';
+const EXTRA = ['CLAUDE.md', 'docs/ai-readiness-human-gates.md', NGX];
 const FILES = [ECO, SVC, SH, DOC, ...EXTRA];
 
 function makeTree() {
@@ -103,8 +106,6 @@ const mutations = [
     (r) => patch(r, ECO, "NG_ALLOWED_HOSTS: 'roaya.co,www.roaya.co',", "NG_ALLOWED_HOSTS: '*',")],
   ['ecosystem: loopback added to prod', 'ecosystem:prod-no-loopback',
     (r) => patch(r, ECO, "NG_ALLOWED_HOSTS: 'roaya.co,www.roaya.co',", "NG_ALLOWED_HOSTS: 'roaya.co,www.roaya.co,localhost',")],
-  ['ecosystem: prod NG_TRUST_PROXY_HEADERS set', 'ecosystem:prod-NG_TRUST_PROXY_HEADERS',
-    (r) => patch(r, ECO, "NG_ALLOWED_HOSTS: 'roaya.co,www.roaya.co',", "NG_ALLOWED_HOSTS: 'roaya.co,www.roaya.co',\n        NG_TRUST_PROXY_HEADERS: 'true',")],
   ['ecosystem: dev allowlist removed', 'ecosystem:dev-allowlist',
     (r) => patch(r, ECO, "NG_ALLOWED_HOSTS: 'localhost,127.0.0.1',", '')],
   ['ecosystem: dev allowlist = *', 'ecosystem:dev-allowlist',
@@ -121,8 +122,6 @@ const mutations = [
   // --- systemd -------------------------------------------------------------
   ['systemd: allowlist removed', 'systemd:allowlist',
     (r) => patch(r, SVC, 'Environment=NG_ALLOWED_HOSTS=roaya.co,www.roaya.co', '')],
-  ['systemd: NG_TRUST_PROXY_HEADERS set', 'systemd:NG_TRUST_PROXY_HEADERS',
-    (r) => patch(r, SVC, 'Environment=NG_ALLOWED_HOSTS=roaya.co,www.roaya.co', 'Environment=NG_ALLOWED_HOSTS=roaya.co,www.roaya.co\nEnvironment=NG_TRUST_PROXY_HEADERS=true')],
 
   // --- script: contract plumbing ------------------------------------------
   ['script: export removed', 'script:export-NG_ALLOWED_HOSTS',
@@ -155,7 +154,7 @@ const mutations = [
   ['script: rollback reverts to a <previous> placeholder', 'script:rollback-no-placeholder',
     (r) => patch(r, SH, "printf '  ln -sfn %q %q\\n' \"$PREV_TARGET\" \"$RELEASE_DIR/current\" >&2", 'echo "  ln -sfn $RELEASE_DIR/releases/<previous> $RELEASE_DIR/current" >&2')],
   ['script: rollback drops the pm2 restart command', 'script:rollback-emitter',
-    (r) => patch(r, SH, "    printf '  NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q pm2 restart %q --update-env\\n' \\\n      \"$NODE_ENV_VALUE\" \"$SSR_PORT\" \"$NG_ALLOWED_HOSTS_VALUE\" \"$PM2_APP\" >&2", '    :')],
+    (r) => patch(r, SH, "    printf '  NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q NG_TRUST_PROXY_HEADERS=%q pm2 restart %q --update-env\\n' \\\n      \"$NODE_ENV_VALUE\" \"$SSR_PORT\" \"$NG_ALLOWED_HOSTS_VALUE\" \"$NG_TRUST_PROXY_HEADERS_VALUE\" \"$PM2_APP\" >&2", '    :')],
 
   // --- script: health gate (the second P1 blind spot) ---------------------
   ['script: gate exit removed, later exits intact', 'script:gate-exit',
@@ -167,7 +166,15 @@ const mutations = [
   ['script: CSR-shell rejection removed', 'script:health-csr-reject',
     (r) => patch(r, SH, 'CSR_SHELL="$RELEASE_DIR/current/browser/index.csr.html"', 'CSR_SHELL="$RELEASE_DIR/current/browser/index.html.disabled"')],
   ['script: CODE built with || echo 000 again', 'script:health-code-parse',
-    (r) => patch(r, SH, 'if CODE=$(curl -s -o "$RESP_FILE" -w \'%{http_code}\' --max-time 10 \\\n  -H "Host: $SSR_HEALTH_HOST" "http://127.0.0.1:$SSR_PORT/about"); then\n  :\nelse\n  CODE="000"\nfi', 'CODE=$(curl -s -o "$RESP_FILE" -w \'%{http_code}\' --max-time 10 -H "Host: $SSR_HEALTH_HOST" "http://127.0.0.1:$SSR_PORT/about" || echo 000)')],
+    (r) => {
+      const fs = require('node:fs');
+      const p2 = join(r, SH);
+      const t = fs.readFileSync(p2, 'utf8');
+      const start = t.indexOf('if CODE=$(curl');
+      const end = t.indexOf('esac', start) + 4;
+      const replacement = 'CODE=$(curl -s -o "$RESP_FILE" -w \'%{http_code}\' --max-time 10 -H "Host: $SSR_HEALTH_HOST" -H "X-Forwarded-For: 127.0.0.1" -H "X-Forwarded-Proto: https" -H "X-Real-IP: 127.0.0.1" "http://127.0.0.1:$SSR_PORT/about" || echo 000)';
+      fs.writeFileSync(p2, t.slice(0, start) + replacement + t.slice(end));
+    }],
   ['script: gate probes the public CDN URL', 'script:health-origin-only',
     (r) => patch(r, SH, '"http://127.0.0.1:$SSR_PORT/about"', '"https://roaya.co/about"')],
 
@@ -180,6 +187,68 @@ const mutations = [
   ['script: pruning moved before the gate', 'script:prune-order', movePruneBeforeGate],
   ['script: pruning removed entirely', 'script:prune-present',
     (r) => patch(r, SH, 'ls -1dt "$RELEASE_DIR"/releases/*/ | tail -n +6 | xargs -r rm -rf', ':')],
+
+  // --- trusted-proxy contract (2026-08-25 CSR-shell incident) --------------
+  ['trust: removed from the EXECUTED export only', 'script:trust-export',
+    (r) => patch(r, SH, 'export NG_TRUST_PROXY_HEADERS="$NG_TRUST_PROXY_HEADERS_VALUE"', ':')],
+  ['trust: not passed into the remote block', 'script:trust-passed',
+    (r) => patch(r, SH, ' \\\n  "$NG_TRUST_PROXY_HEADERS_VALUE" <<', ' <<')],
+  ['trust: script value set to true', 'script:trust-value',
+    (r) => patch(r, SH, 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"', 'NG_TRUST_PROXY_HEADERS_VALUE="true"')],
+  ['trust: script value gains x-forwarded-host', 'script:trust-value',
+    (r) => patch(r, SH, 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"', 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto,x-forwarded-host"')],
+  ['trust: script value omits x-forwarded-proto', 'script:trust-value',
+    (r) => patch(r, SH, 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"', 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for"')],
+  ['trust: script value omits x-forwarded-for', 'script:trust-value',
+    (r) => patch(r, SH, 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"', 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-proto"')],
+  ['trust: script value malformed (trailing comma)', 'script:trust-value',
+    (r) => patch(r, SH, 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"', 'NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto,"')],
+  ['trust: rollback command drops the trust env', 'script:trust-rollback',
+    (r) => patch(r, SH, "NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q NG_TRUST_PROXY_HEADERS=%q pm2 restart %q --update-env", "NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q pm2 restart %q --update-env")],
+  ['trust: pm2 env_production value unset', 'ecosystem:prod-trust',
+    (r) => patch(r, ECO, "NG_TRUST_PROXY_HEADERS: 'x-forwarded-for,x-forwarded-proto',", '')],
+  ['trust: pm2 env_production set to true', 'ecosystem:prod-trust',
+    (r) => patch(r, ECO, "NG_TRUST_PROXY_HEADERS: 'x-forwarded-for,x-forwarded-proto'", "NG_TRUST_PROXY_HEADERS: 'true'")],
+  ['trust: pm2 dev env gains a trust value', 'ecosystem:dev-trust',
+    (r) => patch(r, ECO, "NG_ALLOWED_HOSTS: 'localhost,127.0.0.1',", "NG_ALLOWED_HOSTS: 'localhost,127.0.0.1',\n        NG_TRUST_PROXY_HEADERS: 'x-forwarded-for',")],
+  ['trust: systemd value unset', 'systemd:trust',
+    (r) => patch(r, SVC, 'Environment=NG_TRUST_PROXY_HEADERS=x-forwarded-for,x-forwarded-proto', '')],
+  ['trust: systemd value wildcard', 'systemd:trust',
+    (r) => patch(r, SVC, 'Environment=NG_TRUST_PROXY_HEADERS=x-forwarded-for,x-forwarded-proto', 'Environment=NG_TRUST_PROXY_HEADERS=*')],
+
+  // --- activation gate must mirror the real nginx shape -------------------
+  ['gate: omits X-Forwarded-For', 'script:gate-header-X-Forwarded-For',
+    (r) => patch(r, SH, '  -H "X-Forwarded-For: 127.0.0.1" \\\n', '')],
+  ['gate: omits X-Forwarded-Proto', 'script:gate-header-X-Forwarded-Proto',
+    (r) => patch(r, SH, '  -H "X-Forwarded-Proto: https" \\\n', '')],
+  ['gate: omits X-Real-IP', 'script:gate-header-X-Real-IP',
+    (r) => patch(r, SH, '  -H "X-Real-IP: 127.0.0.1" \\\n', '')],
+
+  // --- nginx proxy hardening ---------------------------------------------
+  ['nginx: SSR location / reverts to $proxy_add_x_forwarded_for', 'nginx:ssr-xff',
+    (r) => {
+      const fs = require('node:fs');
+      const p2 = join(r, NGX);
+      const t = fs.readFileSync(p2, 'utf8');
+      // revert only the FIRST SSR occurrence
+      fs.writeFileSync(p2, t.replace('proxy_set_header X-Forwarded-For $remote_addr;', 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;'));
+    }],
+  ['nginx: only /api/ hardened while SSR locations stay wrong', 'nginx:ssr-xff',
+    (r) => {
+      const fs = require('node:fs');
+      const p2 = join(r, NGX);
+      let t = fs.readFileSync(p2, 'utf8');
+      t = t.split('proxy_set_header X-Forwarded-For $remote_addr;').join('proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;');
+      t = t.replace('proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;', 'proxy_set_header X-Forwarded-For $remote_addr;');
+      fs.writeFileSync(p2, t);
+    }],
+  ['nginx: /api/ behaviour changed (out of scope)', 'nginx:api-untouched',
+    (r) => {
+      const fs = require('node:fs');
+      const p2 = join(r, NGX);
+      const t = fs.readFileSync(p2, 'utf8');
+      fs.writeFileSync(p2, t.replace('proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;', 'proxy_set_header X-Forwarded-For $remote_addr;'));
+    }],
 
   // --- docs ---------------------------------------------------------------
   ['docs: required value removed', 'docs:content',

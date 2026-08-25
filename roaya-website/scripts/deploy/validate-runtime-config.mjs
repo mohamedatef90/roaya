@@ -37,12 +37,25 @@ const EXPECTED_HOSTS = ['roaya.co', 'www.roaya.co'];
 const EXPECTED_DEV_ALLOWLIST = 'localhost,127.0.0.1';
 const LOOPBACK_HOSTS = ['localhost', '127.0.0.1', '::1', '0.0.0.0'];
 const HEALTH_MARKER = 'Your Trusted Technology Partner in Egypt';
+// Explicit list; REPLACES Angular's defaults, so it must name exactly the
+// forwarded headers nginx sends to the SSR upstream - no more, no less.
+const EXPECTED_TRUST = 'x-forwarded-for,x-forwarded-proto';
+// Values that must never appear in the trust list.
+const FORBIDDEN_TRUST = ['true', '*', 'forwarded', 'x-forwarded-host', 'x-forwarded-prefix', 'x-forwarded-port', 'x-real-ip'];
+// Headers the activation probe must send to mirror the real nginx shape.
+const GATE_HEADERS = [
+  ['Host', /-H "Host: \$SSR_HEALTH_HOST"/],
+  ['X-Forwarded-For', /-H "X-Forwarded-For: 127\.0\.0\.1"/],
+  ['X-Forwarded-Proto', /-H "X-Forwarded-Proto: https"/],
+  ['X-Real-IP', /-H "X-Real-IP: 127\.0\.0\.1"/],
+];
 const PORT_PLACEHOLDER = '__SSR_PORT__';
 
 const ECOSYSTEM = 'deploy/pm2/ecosystem.config.js';
 const SERVICE = 'deploy/systemd/roaya-ssr.service';
 const SCRIPT = 'deploy/scripts/deploy-ssr.sh';
 const DOC = 'docs/deploy/RUNTIME-ENV.md';
+const NGINX = 'deploy/nginx/roaya-website.conf';
 // Every file below must only reference docs/deploy/*.md files that exist.
 // deploy/nginx/roaya-website.conf is included: its comments were repointed to
 // RUNTIME-ENV.md rather than citing a runbook that was never written.
@@ -82,6 +95,30 @@ function sliceIfBlock(text, startRe) {
 
 /** Split a comma-separated allowlist literal into hostnames. */
 const hosts = (v) => String(v).split(',').map((h) => h.trim()).filter(Boolean);
+
+/**
+ * Validate a NG_TRUST_PROXY_HEADERS literal. Returns null when correct, else a
+ * reason. Exact-string contract: the list replaces Angular's defaults, so an
+ * extra entry widens trust and a missing entry silently deopts SSR to the CSR
+ * shell with HTTP 200.
+ */
+function trustProblem(value) {
+  if (value === undefined || value === null || value === '')
+    return `must be set to exactly "${EXPECTED_TRUST}"; unset makes @angular/ssr serve the CSR shell (HTTP 200) for every real nginx request`;
+  const raw = String(value);
+  if (raw !== raw.trim() || /,\s*,|,\s*$|^\s*,/.test(raw))
+    return `malformed list ${JSON.stringify(raw)} (stray/empty comma or padding)`;
+  const parts = raw.split(',').map((h) => h.trim());
+  if (parts.some((h) => h === '')) return `malformed list ${JSON.stringify(raw)} (empty entry)`;
+  const lowered = parts.map((h) => h.toLowerCase());
+  for (const bad of FORBIDDEN_TRUST) {
+    if (lowered.includes(bad))
+      return `must not contain ${JSON.stringify(bad)} — trusting it would either accept attacker-supplied forwarding headers or name a header nginx does not send`;
+  }
+  if (raw !== EXPECTED_TRUST)
+    return `must be exactly "${EXPECTED_TRUST}" (order and spelling included), got ${JSON.stringify(raw)}`;
+  return null;
+}
 
 // ---------------------------------------------------------------------------
 // 1. PM2 ecosystem
@@ -159,11 +196,16 @@ const hosts = (v) => String(v).split(',').map((h) => h.trim()).filter(Boolean);
         }
       }
 
-      for (const [label, env] of [['prod', prod], ['dev', dev]]) {
-        if ('NG_TRUST_PROXY_HEADERS' in env)
-          fail(`ecosystem:${label}-NG_TRUST_PROXY_HEADERS`, 'must remain UNSET');
-        else pass(`ecosystem:${label}-NG_TRUST_PROXY_HEADERS`, 'unset');
+      // Production MUST carry the exact trust list; development must NOT (a
+      // local `pm2 start` has no proxy in front of it).
+      {
+        const problem = trustProblem(prod.NG_TRUST_PROXY_HEADERS);
+        if (problem) fail('ecosystem:prod-trust', `env_production.NG_TRUST_PROXY_HEADERS ${problem}`);
+        else pass('ecosystem:prod-trust', EXPECTED_TRUST);
       }
+      if ('NG_TRUST_PROXY_HEADERS' in dev)
+        fail('ecosystem:dev-trust', 'env.NG_TRUST_PROXY_HEADERS must stay UNSET — a local run has no reverse proxy, so trusting forwarded headers there only widens attack surface');
+      else pass('ecosystem:dev-trust', 'unset (no proxy in local runs)');
     }
   }
 }
@@ -192,9 +234,12 @@ const hosts = (v) => String(v).split(',').map((h) => h.trim()).filter(Boolean);
     if (/^EnvironmentFile=/m.test(active)) pass('systemd:EnvironmentFile', 'retained');
     else fail('systemd:EnvironmentFile', 'optional EnvironmentFile behaviour was removed');
 
-    if (/^Environment=NG_TRUST_PROXY_HEADERS=/m.test(active))
-      fail('systemd:NG_TRUST_PROXY_HEADERS', 'must remain UNSET');
-    else pass('systemd:NG_TRUST_PROXY_HEADERS', 'unset');
+    {
+      const m = active.match(/^Environment=NG_TRUST_PROXY_HEADERS=(.*)$/m);
+      const problem = trustProblem(m ? m[1] : undefined);
+      if (problem) fail('systemd:trust', `Environment=NG_TRUST_PROXY_HEADERS ${problem}`);
+      else pass('systemd:trust', EXPECTED_TRUST);
+    }
   }
 }
 
@@ -409,15 +454,127 @@ const hosts = (v) => String(v).split(',').map((h) => h.trim()).filter(Boolean);
     }
 
     // --- 3j. misc ---------------------------------------------------------
-    if (/export\s+NG_TRUST_PROXY_HEADERS=/.test(active) || /NG_TRUST_PROXY_HEADERS=\S/.test(active))
-      fail('script:NG_TRUST_PROXY_HEADERS', 'must remain UNSET');
-    else pass('script:NG_TRUST_PROXY_HEADERS', 'unset');
+    // --- trusted-proxy contract: value, plumbing, export, rollback ---------
+    {
+      const m = active.match(/^NG_TRUST_PROXY_HEADERS_VALUE="([^"]*)"$/m);
+      const problem = trustProblem(m ? m[1] : undefined);
+      if (problem) fail('script:trust-value', `NG_TRUST_PROXY_HEADERS_VALUE ${problem}`);
+      else pass('script:trust-value', EXPECTED_TRUST);
+    }
+    if (/ssh[\s\S]{0,900}?"\$NG_TRUST_PROXY_HEADERS_VALUE"/.test(active))
+      pass('script:trust-passed', 'passed into the remote block as an argument');
+    else fail('script:trust-passed', 'the trust list is not passed into the remote activation block');
+
+    const trustExportIdx = idx(/^export\s+NG_TRUST_PROXY_HEADERS="\$NG_TRUST_PROXY_HEADERS_VALUE"$/m);
+    if (trustExportIdx !== -1) {
+      pass('script:trust-export', 'exported in the remote block');
+      if (restartIdx !== -1 && trustExportIdx < restartIdx)
+        pass('script:trust-export-order', 'exported before pm2 restart');
+      else fail('script:trust-export-order', 'NG_TRUST_PROXY_HEADERS must be exported BEFORE pm2 restart --update-env');
+    } else {
+      fail('script:trust-export', 'missing `export NG_TRUST_PROXY_HEADERS="$NG_TRUST_PROXY_HEADERS_VALUE"` — the restart would drop it and SSR would serve the CSR shell');
+      fail('script:trust-export-order', 'cannot verify ordering: export absent');
+    }
+
+    // Rollback must restore the SAME runtime contract, or a rollback restart
+    // reintroduces the very failure it is recovering from.
+    if (emit && /NG_TRUST_PROXY_HEADERS=%q/.test(emit[0]) && /"\$NG_TRUST_PROXY_HEADERS_VALUE"/.test(emit[0]))
+      pass('script:trust-rollback', 'rollback restart carries the trust list');
+    else fail('script:trust-rollback', 'the printed rollback command must set NG_TRUST_PROXY_HEADERS');
+
+    // --- the gate must mirror the real nginx request shape ----------------
+    for (const [name, re] of GATE_HEADERS) {
+      if (re.test(active)) pass(`script:gate-header-${name}`, 'sent by the activation probe');
+      else
+        fail(
+          `script:gate-header-${name}`,
+          `the activation probe must send ${name}; a probe that omits the forwarded headers nginx adds tests a request shape no visitor ever sends (this is how the 2026-08-25 CSR-shell release passed its gate)`,
+        );
+    }
+    if (/trustProxyHeaders/.test(active))
+      pass('script:gate-deopt-log', 'gate fails on an untrusted proxy-header deopt log line');
+    else fail('script:gate-deopt-log', 'the gate should assert the SSR log has no trustProxyHeaders deopt notice');
 
     if (/https?:\/\/(www\.)?roaya\.co/.test(active))
       fail('script:health-origin-only', 'active code references the public roaya.co URL; the gate must probe the loopback upstream');
     else if (/"http:\/\/127\.0\.0\.1:\$SSR_PORT\/about"/.test(active))
       pass('script:health-origin-only', 'probes 127.0.0.1 upstream');
     else fail('script:health-origin-only', 'the gate must request http://127.0.0.1:$SSR_PORT/about');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 3b. nginx template: SSR locations must overwrite X-Forwarded-For
+// ---------------------------------------------------------------------------
+// @angular/ssr TRUSTS X-Forwarded-For (see NG_TRUST_PROXY_HEADERS), so an
+// appended client chain must never reach it. /api/ is out of scope here and
+// must keep its existing behaviour.
+{
+  const raw = read(NGINX);
+  if (!raw) {
+    fail('nginx:exists', `${NGINX} is missing`);
+  } else {
+    const active = stripHashComments(raw);
+    // Slice each location block by brace depth so a directive in one location
+    // can never satisfy an assertion about another.
+    // Collect every `location ... {` block, then pick by content. NOTE: there
+    // are two `location / {` blocks (the :80 redirect server and the SSR
+    // server), so selecting by name alone picks the wrong one.
+    const allBlocks = [];
+    const locRe = /^ {4}location ([^\n{]+)\{$/gm;
+    let lm;
+    while ((lm = locRe.exec(active))) {
+      const rest = active.slice(lm.index);
+      const end = rest.indexOf('\n    }');
+      allBlocks.push({ name: `location ${lm[1].trim()}`, body: end === -1 ? rest : rest.slice(0, end) });
+    }
+    const ssrBlocks = allBlocks
+      .filter((b) => /proxy_pass http:\/\/roaya_ssr;/.test(b.body))
+      .map((b) => [b.name, b.body]);
+    if (ssrBlocks.length !== 2)
+      fail('nginx:ssr-xff', `expected 2 SSR proxy locations, found ${ssrBlocks.length}`);
+    let ok = 0;
+    for (const [label, block] of ssrBlocks) {
+      if (!block) {
+        fail('nginx:ssr-xff', `could not locate the ${label} block`);
+        continue;
+      }
+      if (/proxy_add_x_forwarded_for/.test(block)) {
+        fail(
+          'nginx:ssr-xff',
+          `${label} still forwards $proxy_add_x_forwarded_for; @angular/ssr trusts X-Forwarded-For, so an appended client-supplied chain would reach a trusted header`,
+        );
+      } else if (/proxy_set_header X-Forwarded-For \$remote_addr;/.test(block)) {
+        ok++;
+      } else {
+        fail('nginx:ssr-xff', `${label} does not set X-Forwarded-For to $remote_addr`);
+      }
+      // The other forwarded headers the app and gate depend on must stay.
+      for (const [h, re] of [
+        ['Host', /proxy_set_header Host \$host;/],
+        ['X-Forwarded-Proto', /proxy_set_header X-Forwarded-Proto \$scheme;/],
+        ['X-Real-IP', /proxy_set_header X-Real-IP \$remote_addr;/],
+      ]) {
+        if (!re.test(block)) fail('nginx:ssr-headers', `${label} no longer sets ${h}`);
+      }
+    }
+    if (ok === 2) pass('nginx:ssr-xff', 'both SSR locations overwrite X-Forwarded-For with $remote_addr');
+    if (!failures.some((f) => f.check === 'nginx:ssr-headers'))
+      pass('nginx:ssr-headers', 'Host / X-Forwarded-Proto / X-Real-IP retained in both SSR locations');
+
+    // /api/ must be untouched by this change.
+    const api = (() => {
+      const i = active.search(/^ {4}location \^~ \/api\/ \{$/m);
+      if (i === -1) return null;
+      const rest = active.slice(i);
+      const end = rest.indexOf('\n    }');
+      return end === -1 ? rest : rest.slice(0, end);
+    })();
+    if (!api) fail('nginx:api-untouched', 'could not locate the /api/ block');
+    else if (/proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;/.test(api))
+      pass('nginx:api-untouched', '/api/ keeps $proxy_add_x_forwarded_for (out of scope)');
+    else
+      fail('nginx:api-untouched', '/api/ X-Forwarded-For changed; this task must not alter backend proxy behaviour');
   }
 }
 
