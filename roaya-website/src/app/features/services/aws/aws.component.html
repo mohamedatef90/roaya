@@ -79,7 +79,6 @@
         </h1>
 
         <p class="aws-lead" data-reveal>{{ 'services.aws.hero.lead' | translate }}</p>
-        <p class="aws-value-prop" data-reveal>{{ 'services.aws.hero.valueProp' | translate }}</p>
 
         <div class="aws-hero__actions" data-reveal>
           <button type="button" class="aws-btn aws-btn--glow" (click)="scrollToQuestions()">
@@ -91,17 +90,6 @@
           </button>
         </div>
 
-        <ul class="aws-proofstrip" data-reveal>
-          @for (proof of heroProofs; track proof.id) {
-            <li>
-              <ng-icon [name]="proof.icon" size="16" class="aws-proofstrip__icon" aria-hidden="true"></ng-icon>
-              <span class="aws-proofstrip__copy">
-                <strong>{{ 'services.aws.hero.proof.' + proof.id + '.value' | translate }}</strong>
-                <span>{{ 'services.aws.hero.proof.' + proof.id + '.label' | translate }}</span>
-              </span>
-            </li>
-          }
-        </ul>
       </div>
 
       <!-- Journey instrument: a small rail drives one dominant scene -->
@@ -315,6 +303,21 @@
         </div>
 
       </aside>
+
+      <!-- Credential bar: one level, spanning the hero, under both columns -->
+      <ul class="aws-proofstrip" data-reveal>
+        @for (proof of heroProofs; track proof.id) {
+          <li>
+            <span class="aws-proofstrip__badge" aria-hidden="true">
+              <ng-icon [name]="proof.icon" size="18" class="aws-proofstrip__icon"></ng-icon>
+            </span>
+            <span class="aws-proofstrip__copy">
+              <strong>{{ 'services.aws.hero.proof.' + proof.id + '.value' | translate }}</strong>
+              <span>{{ 'services.aws.hero.proof.' + proof.id + '.label' | translate }}</span>
+            </span>
+          </li>
+        }
+      </ul>
     </div>
 
   </section>
@@ -858,6 +861,71 @@
     </div>
   </section>
 
+
+  <!-- ============================================================
+       OPERATIONS AND SUPPORT — the strength the relationship rests on,
+       so it gets a lit band of its own rather than a row in a grid.
+       ============================================================ -->
+  <section id="support" class="aws-support" data-reveal-group aria-labelledby="aws-support-title">
+    <div class="aws-support__aura" aria-hidden="true"></div>
+
+    <div class="container-custom aws-support__inner">
+      <header class="aws-support__head" data-reveal>
+        <p class="aws-support__eyebrow">
+          <span class="aws-support__live" aria-hidden="true"></span>
+          {{ 'services.aws.support.eyebrow' | translate }}
+        </p>
+        <h2 id="aws-support-title">{{ 'services.aws.support.title' | translate }}</h2>
+        <p class="aws-support__lead">{{ 'services.aws.support.intro' | translate }}</p>
+      </header>
+
+      <ul class="aws-support__stats" data-reveal>
+        @for (stat of supportStats; track stat.id) {
+          <li>
+            <span class="aws-support__stat-icon" aria-hidden="true">
+              <ng-icon [name]="stat.icon" size="20"></ng-icon>
+            </span>
+            <strong>{{ 'services.aws.support.stats.' + stat.id + '.value' | translate }}</strong>
+            <span>{{ 'services.aws.support.stats.' + stat.id + '.label' | translate }}</span>
+          </li>
+        }
+      </ul>
+
+      <div class="aws-support__channels" data-reveal>
+        <div class="aws-support__channels-head">
+          <h3>{{ 'services.aws.support.channels.title' | translate }}</h3>
+          <p>{{ 'services.aws.support.channels.note' | translate }}</p>
+        </div>
+
+        <ul class="aws-support__channel-list">
+          @for (channel of supportChannels; track channel.id) {
+            <li>
+              <a
+                class="aws-support__channel"
+                [href]="channel.href"
+                [attr.target]="channel.external ? '_blank' : null"
+                [attr.rel]="channel.external ? 'noopener noreferrer' : null"
+              >
+                <span class="aws-support__channel-icon" aria-hidden="true">
+                  <ng-icon [name]="channel.icon" size="18"></ng-icon>
+                </span>
+                <span class="aws-support__channel-copy">
+                  <strong>{{ 'services.aws.support.channels.' + channel.id + '.name' | translate }}</strong>
+                  <span>{{ 'services.aws.support.channels.' + channel.id + '.detail' | translate }}</span>
+                </span>
+                <ng-icon
+                  name="lucideArrowRight"
+                  size="16"
+                  class="aws-support__channel-go"
+                  aria-hidden="true"
+                ></ng-icon>
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
   <section id="questions" class="aws-section" data-reveal-group aria-labelledby="aws-faq-title">
     <div class="container-custom aws-questions">
       <header class="aws-header" data-reveal>

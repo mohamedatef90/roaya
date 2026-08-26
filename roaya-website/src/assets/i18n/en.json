@@ -2399,12 +2399,11 @@
       "hero": {
         "kicker": "AWS Advanced Tier Services Partner",
         "lockupAria": "Roaya and AWS partnership",
-        "titleLine1": "Roaya is now an AWS",
-        "titleLine2Pre": "",
+        "titleLine1": "Roaya is now an",
+        "titleLine2Pre": "AWS ",
         "titleBrand": "Advanced Tier",
-        "titleLine2Post": " Services Partner.",
-        "lead": "A new milestone for Roaya — and a faster, safer path to AWS for enterprises across Egypt, Saudi Arabia and the UAE.",
-        "valueProp": "Build on AWS. Delivered and operated by Roaya.",
+        "titleLine2Post": " Partner.",
+        "lead": "A faster, safer path to AWS for enterprises across Egypt, Saudi Arabia and the UAE — delivered and operated by Roaya.",
         "cta": "Book an AWS assessment",
         "ctaSecondary": "Explore the partnership",
         "proof": {
@@ -2759,7 +2758,7 @@
       },
       "regions": {
         "title": "Where the workload lives changes the architecture",
-        "intro": "Three markets, three delivery patterns — and one team behind all of them.",
+        "intro": "Four markets, four delivery patterns — and one team behind all of them.",
         "egypt": {
           "name": "Egypt",
           "code": "HYBRID",
@@ -2789,6 +2788,59 @@
           "p2": "Fintech, retail and hospitality platforms",
           "p3": "Data and analytics modernisation",
           "p4": "Managed operations and cost governance"
+        },
+        "pakistan": {
+          "name": "Pakistan",
+          "code": "NEAREST REGION",
+          "title": "Pakistan — nearest-region design and low-latency delivery",
+          "body": "AWS has no Region inside Pakistan, so residency and latency have to be designed rather than assumed. We select the nearest available Region for each workload, keep user-facing traffic close through edge delivery, and document what that means for every dataset before anything moves.",
+          "p1": "Region selection weighed against latency and residency",
+          "p2": "Edge delivery and caching for user-facing traffic",
+          "p3": "Connectivity and hybrid links to on-premises systems",
+          "p4": "Operations and escalation on local hours"
+        }
+      },
+      "support": {
+        "eyebrow": "Always on",
+        "title": "Operations and support that answer, whatever the hour",
+        "intro": "Migration is a project. Running the platform is the relationship — and it is the part we are strongest at. A named team watches your AWS environment around the clock, and you reach them the way you already work.",
+        "stats": {
+          "clock": {
+            "value": "24/7",
+            "label": "Monitoring and response through nights, weekends and public holidays"
+          },
+          "team": {
+            "value": "One team",
+            "label": "Named engineers and a single escalation path, agreed before go-live"
+          },
+          "lang": {
+            "value": "AR / EN",
+            "label": "Support, documentation and reviews in Arabic and English"
+          }
+        },
+        "channels": {
+          "title": "Reach us wherever you already are",
+          "note": "Every channel lands with the same operations team, so you never restart the conversation.",
+          "whatsapp": {
+            "name": "WhatsApp",
+            "detail": "Message the operations team"
+          },
+          "phone": {
+            "name": "Phone",
+            "detail": "+20 2 2746 9708"
+          },
+          "email": {
+            "name": "Email",
+            "detail": "info@roaya.co"
+          },
+          "linkedin": {
+            "name": "LinkedIn",
+            "detail": "Message us on LinkedIn"
+          },
+          "facebook": {
+            "name": "Facebook",
+            "detail": "Message our page"
+          }
         }
       },
       "process": {
@@ -3034,6 +3086,9 @@
       "viewAllDescription": "Explore all our enterprise IT solutions designed to transform your business."
     },
     "featuredServices": {
+        "aws": {
+          "badge": "AWS Advanced Tier Partner"
+        },
       "cloud": {
         "badge": "Cloud Solutions"
       },

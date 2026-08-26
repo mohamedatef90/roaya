@@ -281,6 +281,24 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   // Services cards for ineo-sense style stacking effect
   servicesStackCards: StackCard[] = [
     {
+      // The AWS partnership leads the stack: it is the newest capability and
+      // the only one with a named partner tier behind it.
+      id: 'aws-service',
+      subtitle: 'home.featuredServices.aws.badge',
+      title: 'services.aws.title',
+      description: 'services.aws.description',
+      features: [
+        'services.aws.deliver.assess.title',
+        'services.aws.deliver.migrate.title',
+        'services.aws.deliver.operate.title'
+      ],
+      link: '/services/aws',
+      linkText: 'common.learnMore',
+      // reversed mark: the stack cards are dark gradients
+      image: '/assets/images/aws/aws-mark-reversed.png',
+      gradient: 'secondary-to-accent'
+    },
+    {
       id: 'cloud-service',
       subtitle: 'home.featuredServices.cloud.badge',
       title: 'services.cloud.title',

@@ -340,63 +340,92 @@ h1 {
   text-wrap: pretty;
 }
 
-.aws-value-prop {
-  margin: -0.25rem 0 0;
-  max-width: 34rem;
-  font-size: 0.875rem;
-  font-weight: 650;
-  letter-spacing: 0.01em;
-  color: var(--anr-accent-bright);
-}
-
+/* Credential bar. The proof the page rests on, so it reads as one deliberate
+   instrument spanning the hero rather than a footnote inside the copy column. */
 .aws-proofstrip {
+  position: relative;
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
-  margin: 0.15rem 0 0;
-  padding: 0.4rem 0;
+  margin: clamp(1.5rem, 3vw, 2.75rem) 0 0;
+  padding: 1.05rem 0.35rem;
   list-style: none;
-  border-block: 1px solid var(--anr-border);
+  overflow: hidden;
+  border: 1px solid var(--anr-border);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(var(--aws-cyan-rgb), 0.09),
+      rgba(var(--aws-blue-rgb), 0.05)
+    );
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+  /* accent hairline along the top edge — the tell that these are credentials */
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--anr-accent-bright),
+      transparent
+    );
+    opacity: 0.6;
+  }
 
   > li {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.75rem;
     min-width: 0;
-    padding-block: 0.55rem;
+    padding-inline: clamp(0.9rem, 1.8vw, 1.5rem);
+    border-inline-start: 1px solid var(--anr-border);
 
-    &:nth-child(even) {
-      padding-inline-start: 1rem;
-      border-inline-start: 1px solid var(--anr-border);
-    }
-
-    &:nth-child(n + 3) {
-      border-top: 1px solid var(--anr-border);
-    }
+    &:first-child { border-inline-start: 0; }
   }
+}
+
+.aws-proofstrip__badge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgba(var(--aws-cyan-rgb), 0.3);
+  border-radius: 11px;
+  background: rgba(var(--aws-cyan-rgb), 0.14);
 }
 
 .aws-proofstrip__icon {
   flex: none;
-  color: var(--aws-cyan-hot);
+  color: var(--anr-accent-bright);
 }
 
 .aws-proofstrip__copy {
   display: flex;
   flex-direction: column;
-  gap: 0.08rem;
+  gap: 0.15rem;
   min-width: 0;
 
   strong {
-    font-size: 0.875rem;
-    line-height: 1.25;
+    font-size: clamp(1rem, 1.4vw, 1.1875rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--anr-text);
   }
 
   > span {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1.35;
-    color: var(--anr-text-faint);
+    letter-spacing: 0.01em;
+    color: var(--anr-text-muted);
   }
 }
 
@@ -3455,6 +3484,275 @@ h1 {
 
 .aws-cta .container-custom { position: relative; z-index: 1; }
 
+/* ============================================================
+   OPERATIONS AND SUPPORT
+   A lit band, not another card grid — this is the page's strongest
+   claim, so it carries its own ground and its own glow.
+   ============================================================ */
+.aws-support {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4rem, 7vw, 6.5rem) 0;
+  color: #fff;
+  background:
+    radial-gradient(38rem 22rem at 12% 0%, rgba(var(--aws-cyan-rgb), 0.16), transparent 64%),
+    radial-gradient(34rem 24rem at 88% 110%, rgba(var(--aws-violet-rgb), 0.16), transparent 66%),
+    linear-gradient(140deg, #060c17 0%, #0a1b2b 54%, #06131e 100%);
+  border-block: 1px solid var(--anr-border);
+}
+
+/* one slow sweep of light so the band reads as live, not printed */
+.aws-support__aura {
+  position: absolute;
+  inset: -40% -10% auto -10%;
+  height: 90%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--aws-cyan-rgb), 0.16),
+    transparent 70%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+  animation: aws-support-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes aws-support-drift {
+  from { transform: translate3d(-6%, 0, 0) scale(1); }
+  to { transform: translate3d(6%, 6%, 0) scale(1.12); }
+}
+
+.aws-support__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 3.5vw, 3rem);
+}
+
+.aws-support__head {
+  max-width: 52rem;
+}
+
+.aws-support__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.85rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aws-cyan-hot);
+  border: 1px solid rgba(var(--aws-cyan-rgb), 0.35);
+  border-radius: var(--radius-pill);
+  background: rgba(var(--aws-cyan-rgb), 0.12);
+}
+
+/* the live dot: the section says "always on", so something has to be on */
+.aws-support__live {
+  position: relative;
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--aws-cyan-hot);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.3rem;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--aws-cyan-rgb), 0.7);
+    animation: aws-support-ping 2.4s cubic-bezier(0.2, 0.6, 0.2, 1) infinite;
+  }
+}
+
+@keyframes aws-support-ping {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.aws-support h2 {
+  margin: 0 0 0.85rem;
+  max-width: 24ch;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.aws-support__lead {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.aws-support__stats {
+  display: grid;
+  /* three across on desktop, folding on its own as the band narrows */
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.35rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-xl);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+
+    strong {
+      font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #fff;
+    }
+
+    > span:last-child {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.72);
+    }
+  }
+}
+
+.aws-support__stat-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid rgba(var(--aws-cyan-rgb), 0.35);
+  border-radius: 12px;
+  background: rgba(var(--aws-cyan-rgb), 0.16);
+  color: var(--aws-cyan-hot);
+}
+
+.aws-support__channels {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+}
+
+.aws-support__channels-head {
+  margin-bottom: 1.25rem;
+
+  h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    color: #fff;
+  }
+
+  p {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.72);
+  }
+}
+
+.aws-support__channel-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aws-support__channel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 0.85rem 0.95rem;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 180ms cubic-bezier(0.2, 0.6, 0.2, 1),
+    background-color 180ms cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 180ms cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--aws-cyan-rgb), 0.5);
+    background: rgba(var(--aws-cyan-rgb), 0.12);
+
+    .aws-support__channel-go {
+      opacity: 1;
+      transform: translateX(calc(var(--aws-dir) * 3px));
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--aws-cyan-hot);
+    outline-offset: 3px;
+  }
+}
+
+.aws-support__channel-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgba(var(--aws-cyan-rgb), 0.3);
+  border-radius: 11px;
+  background: rgba(var(--aws-cyan-rgb), 0.14);
+  color: var(--aws-cyan-hot);
+}
+
+.aws-support__channel-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+
+  strong {
+    font-size: 0.9375rem;
+    font-weight: 650;
+    line-height: 1.25;
+    color: #fff;
+  }
+
+  > span {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.68);
+    overflow-wrap: anywhere;
+  }
+}
+
+.aws-support__channel-go {
+  flex: none;
+  margin-inline-start: auto;
+  color: var(--aws-cyan-hot);
+  opacity: 0;
+  transform: rotate(calc((1 - var(--aws-dir)) * 90deg));
+  transition:
+    opacity 180ms cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 180ms cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+
 .aws-legal {
   margin: 0;
   padding: 1.25rem clamp(1.5rem, 6vw, 7.5rem) 2rem;
@@ -3761,6 +4059,61 @@ h1 {
     color: rgba(47, 91, 137, 0.68);
   }
 
+  /* The support band stays the loudest thing on the page in light theme too —
+     a tinted ground rather than an inverted one, so it lifts without shouting. */
+  .aws-support {
+    color: var(--anr-text);
+    background:
+      radial-gradient(38rem 22rem at 12% 0%, rgba(var(--aws-cyan-rgb), 0.16), transparent 64%),
+      radial-gradient(34rem 24rem at 88% 110%, rgba(var(--aws-violet-rgb), 0.12), transparent 66%),
+      linear-gradient(140deg, #eaf3fb 0%, #f6fbff 54%, #e9f6f7 100%);
+
+    h2 { color: var(--anr-text); }
+  }
+
+  .aws-support__aura {
+    background: radial-gradient(
+      closest-side,
+      rgba(var(--aws-cyan-rgb), 0.12),
+      transparent 70%
+    );
+  }
+
+  .aws-support__lead { color: var(--color-text-secondary); }
+
+  .aws-support__stats > li {
+    border-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.72);
+
+    strong { color: var(--anr-text); }
+    > span:last-child { color: var(--color-text-secondary); }
+  }
+
+  .aws-support__channels {
+    border-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .aws-support__channels-head {
+    h3 { color: var(--anr-text); }
+    p { color: var(--color-text-secondary); }
+  }
+
+  .aws-support__channel {
+    border-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.82);
+
+    &:hover {
+      border-color: rgba(var(--aws-cyan-rgb), 0.55);
+      background: rgba(var(--aws-cyan-rgb), 0.1);
+    }
+  }
+
+  .aws-support__channel-copy {
+    strong { color: var(--anr-text); }
+    > span { color: var(--color-text-secondary); }
+  }
+
   .aws-cta {
     color: var(--color-text-primary);
     background:
@@ -3977,9 +4330,29 @@ h1 {
   .aws-jn__stage-body { min-height: 0; }
   .aws-jn__readout { margin-top: 0.85rem; }
 
-  /* Keep the DOM reading order: proposition -> actions -> proof. */
   .aws-hero__actions { margin-top: 0; }
-  .aws-proofstrip { margin-top: 0.15rem; }
+}
+
+/* The bar folds two-up, then stacks, rather than squeezing four across. */
+@media (max-width: 900px) {
+  .aws-proofstrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 0.9rem;
+  }
+
+  .aws-proofstrip > li:nth-child(odd) { border-inline-start: 0; }
+}
+
+@media (max-width: 560px) {
+  .aws-proofstrip {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 1.1rem;
+  }
+
+  .aws-proofstrip > li {
+    padding-inline: 0;
+    border-inline-start: 0;
+  }
 }
 
 /* Credibility bar: vertical dividers give way to a quiet grid. */
@@ -4331,6 +4704,8 @@ h1 {
   .aws-network__pulse,
   .aws-network__cloud,
   .aws-network__cloud-ring,
+  .aws-support__aura,
+  .aws-support__live::after,
   .aws-lc__glow,
   .lcviz-pulse,
   .aws-why__story-head,
@@ -4398,4 +4773,7 @@ h1 {
   .aws-viz .viz-cloud__glow {
     transition: none;
   }
+
+  .aws-support__channel:hover { transform: none; }
+
 }

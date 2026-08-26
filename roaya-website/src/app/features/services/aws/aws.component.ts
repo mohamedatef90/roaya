@@ -43,6 +43,11 @@ import {
   lucideKeyRound,
   lucideDatabaseBackup,
   lucideRocket,
+  lucideMessageCircle,
+  lucidePhone,
+  lucideMail,
+  lucideLinkedin,
+  lucideFacebook,
 } from '@ng-icons/lucide';
 import { firstValueFrom, filter, take } from 'rxjs';
 import { gsap } from 'gsap';
@@ -52,7 +57,7 @@ import { AnalyticsService } from '../../../core/services/analytics.service';
 import { ScrollSmootherService } from '../../../core/services/scroll-smoother.service';
 import { SEOService } from '../../../core/services/seo.service';
 
-type RegionId = 'egypt' | 'ksa' | 'uae';
+type RegionId = 'egypt' | 'ksa' | 'uae' | 'pakistan';
 type StageId = 'assess' | 'design' | 'migrate' | 'secure' | 'operate' | 'optimize';
 type PillarId = 'local' | 'delivery' | 'security' | 'programmes';
 
@@ -100,7 +105,12 @@ type PillarId = 'local' | 'delivery' | 'security' | 'programmes';
       lucideCircleCheckBig,
       lucideKeyRound,
       lucideDatabaseBackup,
-      lucideRocket
+      lucideRocket,
+      lucideMessageCircle,
+      lucidePhone,
+      lucideMail,
+      lucideLinkedin,
+      lucideFacebook
     })
   ]
 })
@@ -187,8 +197,28 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly regions: { id: RegionId }[] = [
     { id: 'egypt' },
     { id: 'ksa' },
-    { id: 'uae' }
+    { id: 'uae' },
+    { id: 'pakistan' }
   ];
+
+  /**
+   * Operations and support. The stats restate commitments the page already
+   * makes elsewhere — no response-time figure is claimed here that an
+   * engagement has not agreed. Channels point at the live contact details.
+   */
+  readonly supportStats = [
+    { id: 'clock', icon: 'lucideClock' },
+    { id: 'team', icon: 'lucideHeadset' },
+    { id: 'lang', icon: 'lucideGlobe' }
+  ] as const;
+
+  readonly supportChannels = [
+    { id: 'whatsapp', icon: 'lucideMessageCircle', href: 'https://wa.me/201096274996', external: true },
+    { id: 'phone', icon: 'lucidePhone', href: 'tel:+20227469708', external: false },
+    { id: 'email', icon: 'lucideMail', href: 'mailto:info@roaya.co', external: false },
+    { id: 'linkedin', icon: 'lucideLinkedin', href: 'https://www.linkedin.com/company/19047659', external: true },
+    { id: 'facebook', icon: 'lucideFacebook', href: 'https://www.facebook.com/RoayaIT', external: true }
+  ] as const;
 
   readonly practices = ['cloud', 'security', 'email', 'managed'] as const;
   readonly markets = ['egypt', 'ksa', 'uae', 'other'] as const;
