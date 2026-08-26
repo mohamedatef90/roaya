@@ -479,9 +479,6 @@
       <router-outlet />
     </main>
 
-    <!-- Scroll Indicator (Right Sidebar) -->
-    <app-scroll-indicator />
-
     <!-- Footer -->
     <footer class="site-footer" role="contentinfo">
   <!-- Main Footer -->
@@ -669,6 +666,11 @@
 
   </div>
 </div>
+
+<!-- Fixed overlays must sit outside ScrollSmoother's transformed content. -->
+@if (showScrollIndicator) {
+  <app-scroll-indicator />
+}
 
 <!-- GDPR Consent Banner (position: fixed, bottom) -->
 <app-consent-banner class="page-reveal" [class.page-reveal--held]="isPageDimmed()"></app-consent-banner>

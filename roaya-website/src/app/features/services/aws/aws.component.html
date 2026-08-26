@@ -7,6 +7,14 @@
   FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->
 <div class="aws-page">
+  <!-- ============================================================
+       HERO — three beats, in the order the eye should take them:
+         1. proposition (42%)   Build on AWS. Let Roaya run it. + one action
+         2. journey    (58%)    six stages driving ONE scene, not six pictures
+         3. credibility          a quiet glass bar of five proof points
+       The background supports the journey and never competes with it:
+       one orbital curve, a faint grid, sparse motes, restrained glow.
+       ============================================================ -->
   <section
     class="aws-hero anr-scene"
     data-anr-scene
@@ -16,6 +24,7 @@
   >
     <div class="anr-scene__bg" aria-hidden="true">
       <div class="anr-scene__gradient"></div>
+      <div class="anr-scene__grid"></div>
       <svg class="anr-scene__noise" xmlns="http://www.w3.org/2000/svg">
         <filter id="aws-noise">
           <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" />
@@ -23,158 +32,421 @@
         </filter>
         <rect width="100%" height="100%" filter="url(#aws-noise)" />
       </svg>
-      <svg class="anr-scene__rings" viewBox="0 0 1200 1200">
-        <circle class="anr-scene__ring" cx="600" cy="600" r="210" />
-        <circle class="anr-scene__ring" cx="600" cy="600" r="330" />
-        <circle class="anr-scene__ring anr-scene__ring--dashed" cx="600" cy="600" r="450" />
-        <circle class="anr-scene__ring" cx="600" cy="600" r="570" />
+      <!-- one large orbital curve behind the journey panel -->
+      <svg class="anr-scene__orbit" viewBox="0 0 1200 1200">
+        <circle class="anr-scene__ring" cx="600" cy="600" r="560" />
+        <circle class="anr-scene__ring anr-scene__ring--dashed" cx="600" cy="600" r="428" />
       </svg>
       <svg class="anr-scene__particles" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
         @for (mote of motes; track $index) {
           <circle [attr.class]="'anr-mote anr-mote--v' + mote.v" [attr.cx]="mote.x" [attr.cy]="mote.y" [attr.r]="mote.r" />
         }
       </svg>
-      <div class="anr-scene__streams"><i></i><i></i><i></i><i></i></div>
       <div class="anr-scene__glow"></div>
+      <div class="anr-scene__glow anr-scene__glow--violet"></div>
     </div>
-
-    <img [src]="markPath" alt="" class="aws-hero__mark" width="512" height="512" decoding="async" />
 
     <div class="container-custom aws-hero__inner">
       <div class="aws-hero__copy">
-        <nav aria-label="Breadcrumb" class="aws-breadcrumb" data-reveal>
-          <ol>
-            <li><a routerLink="/">{{ 'common.home' | translate }}</a></li>
-            <li aria-hidden="true">/</li>
-            <li><a routerLink="/services">{{ 'common.services' | translate }}</a></li>
-            <li aria-hidden="true">/</li>
-            <li aria-current="page">{{ 'services.aws.title' | translate }}</li>
-          </ol>
-        </nav>
+        <div class="aws-lockup" data-reveal>
+          <!-- No plate: each brand ships a light and a reversed mark, so the
+               theme selects the artwork rather than a box rescuing contrast.
+               Both images are decorative; the row carries the name. -->
+          <div
+            class="aws-lockup__brands"
+            dir="ltr"
+            role="img"
+            [attr.aria-label]="'services.aws.hero.lockupAria' | translate"
+          >
+            <span class="aws-lockup__mark aws-lockup__mark--roaya">
+              <img class="aws-lockup__img aws-lockup__img--light" [src]="roayaLogoPath" alt="" aria-hidden="true" />
+              <img class="aws-lockup__img aws-lockup__img--dark" [src]="roayaLogoReversedPath" alt="" aria-hidden="true" />
+            </span>
 
-        <p class="aws-kicker" data-reveal>{{ 'services.aws.hero.kicker' | translate }}</p>
-        <h1 id="aws-hero-title" data-reveal>{{ 'services.aws.hero.title' | translate }}</h1>
+            <span class="aws-lockup__times" aria-hidden="true"></span>
+
+            <span class="aws-lockup__mark aws-lockup__mark--aws">
+              <img class="aws-lockup__img aws-lockup__img--light" [src]="awsLogoPath" alt="" aria-hidden="true" />
+              <img class="aws-lockup__img aws-lockup__img--dark" [src]="awsLogoReversedPath" alt="" aria-hidden="true" />
+            </span>
+          </div>
+          <p class="aws-lockup__badge">{{ 'services.aws.hero.kicker' | translate }}</p>
+        </div>
+
+        <h1 id="aws-hero-title" data-reveal>
+          <span class="aws-hero__line">{{ 'services.aws.hero.titleLine1' | translate }}</span>
+          <span class="aws-hero__line">{{ 'services.aws.hero.titleLine2Pre' | translate }}<span class="aws-hero__mark">{{ 'services.aws.hero.titleBrand' | translate }}</span>{{ 'services.aws.hero.titleLine2Post' | translate }}</span>
+        </h1>
+
         <p class="aws-lead" data-reveal>{{ 'services.aws.hero.lead' | translate }}</p>
-
-        <ul class="aws-pills" data-reveal>
-          <li>{{ 'services.aws.hero.pill1' | translate }}</li>
-          <li>{{ 'services.aws.hero.pill2' | translate }}</li>
-          <li>{{ 'services.aws.hero.pill3' | translate }}</li>
-          <li>{{ 'services.aws.hero.pill4' | translate }}</li>
-        </ul>
+        <p class="aws-value-prop" data-reveal>{{ 'services.aws.hero.valueProp' | translate }}</p>
 
         <div class="aws-hero__actions" data-reveal>
-          <button type="button" class="aws-btn aws-btn--accent" (click)="scrollToQuestions()">
-            {{ 'services.aws.hero.cta' | translate }}
+          <button type="button" class="aws-btn aws-btn--glow" (click)="scrollToQuestions()">
+            <span>{{ 'services.aws.hero.cta' | translate }}</span>
+            <ng-icon name="lucideArrowRight" size="18" class="aws-btn__arrow" aria-hidden="true"></ng-icon>
           </button>
-          <button type="button" class="aws-btn aws-btn--ghost" (click)="scrollToQuestions()">
+          <button type="button" class="aws-btn aws-btn--ghost" (click)="scrollToCredentials()">
             {{ 'services.aws.hero.ctaSecondary' | translate }}
           </button>
         </div>
+
+        <ul class="aws-proofstrip" data-reveal>
+          @for (proof of heroProofs; track proof.id) {
+            <li>
+              <ng-icon [name]="proof.icon" size="16" class="aws-proofstrip__icon" aria-hidden="true"></ng-icon>
+              <span class="aws-proofstrip__copy">
+                <strong>{{ 'services.aws.hero.proof.' + proof.id + '.value' | translate }}</strong>
+                <span>{{ 'services.aws.hero.proof.' + proof.id + '.label' | translate }}</span>
+              </span>
+            </li>
+          }
+        </ul>
       </div>
 
-      <aside class="aws-console" data-reveal role="img" [attr.aria-label]="'services.aws.hero.consoleAria' | translate">
-        <div class="aws-console__chrome">
-          <span class="aws-console__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="aws-console__title">{{ 'services.aws.hero.consoleTitle' | translate }}</span>
-          <span class="aws-console__chip">{{ 'services.aws.hero.consoleChip' | translate }}</span>
-        </div>
+      <!-- Journey instrument: a small rail drives one dominant scene -->
+      <aside class="aws-jn" data-reveal>
+        <header class="aws-jn__head">
+          <h2 class="aws-jn__title" id="aws-jn-title">{{ 'services.aws.hero.journey.title' | translate }}</h2>
+          <p class="aws-jn__counter">
+            <span class="aws-jn__counter-n">{{ activeStageNumber() }} / 06</span>
+            <span class="aws-jn__counter-sep" aria-hidden="true">—</span>
+            <span class="aws-jn__counter-name">{{ 'services.aws.hero.journey.' + activeStage() + '.name' | translate }}</span>
+          </p>
+        </header>
 
-        <div class="aws-console__lockup">
-          <img
-            [src]="lockupPath"
-            alt="Roaya"
-            class="aws-console__logo"
-            width="180"
-            height="32"
-            decoding="async"
-          />
-          <div class="aws-badge" aria-hidden="true">
-            <span class="aws-badge__kicker">AWS</span>
-            <span class="aws-badge__tier">{{ 'services.aws.hero.badgeTier' | translate }}</span>
-            <span class="aws-badge__note">{{ 'services.aws.hero.badgeNote' | translate }}</span>
+        <div class="aws-jn__body">
+          <div
+            class="aws-jn__rail"
+            role="tablist"
+            aria-orientation="vertical"
+            [attr.aria-label]="'services.aws.hero.journey.title' | translate"
+            (keydown)="onRailKeydown($event)"
+          >
+            @for (stage of journey; track stage.id; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="aws-jn__step"
+                [class.is-active]="activeStage() === stage.id"
+                [class.is-done]="i < activeStageIndex()"
+                [attr.aria-selected]="activeStage() === stage.id"
+                [attr.tabindex]="activeStage() === stage.id ? 0 : -1"
+                [id]="'aws-stage-tab-' + stage.id"
+                aria-controls="aws-stage-panel"
+                (click)="selectStage(stage.id)"
+              >
+                <span class="aws-jn__step-n" aria-hidden="true">{{ stage.n }}</span>
+                <span class="aws-jn__step-name">{{ 'services.aws.hero.journey.' + stage.id + '.name' | translate }}</span>
+              </button>
+            }
+          </div>
+
+          <div
+            class="aws-jn__stage"
+            role="tabpanel"
+            id="aws-stage-panel"
+            tabindex="0"
+            [attr.aria-labelledby]="'aws-stage-tab-' + activeStage()"
+          >
+            <h3 class="aws-jn__stage-title">{{ 'services.aws.hero.journey.' + activeStage() + '.title' | translate }}</h3>
+            <p class="aws-jn__stage-body">{{ 'services.aws.hero.journey.' + activeStage() + '.body' | translate }}</p>
+
+            <!-- ONE scene, six lit states. Geometry only — every colour,
+                 reveal and loop is driven from data-stage in the stylesheet. -->
+            <div
+              class="aws-viz"
+              [attr.data-stage]="activeStage()"
+              role="img"
+              [attr.aria-label]="'services.aws.hero.journey.' + activeStage() + '.vizAlt' | translate"
+            >
+              <svg class="aws-viz__svg" viewBox="10 44 470 190" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                  <radialGradient id="aws-cloud-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" class="viz-glow-in" />
+                    <stop offset="100%" class="viz-glow-out" />
+                  </radialGradient>
+                </defs>
+
+                <!-- ENTERPRISE: three stacked isometric slabs -->
+                <g class="viz-onprem">
+                  <g class="viz-slab">
+                    <path class="viz-slab__side" d="M26 172 L26 182 L78 208 L78 198 Z" />
+                    <path class="viz-slab__side viz-slab__side--b" d="M130 172 L130 182 L78 208 L78 198 Z" />
+                    <path class="viz-slab__top" d="M26 172 L78 146 L130 172 L78 198 Z" />
+                    <path class="viz-slab__rule" d="M52 172 L78 159 M64 179 L90 166 M76 186 L102 173" />
+                  </g>
+                  <g class="viz-slab">
+                    <path class="viz-slab__side" d="M26 146 L26 156 L78 182 L78 172 Z" />
+                    <path class="viz-slab__side viz-slab__side--b" d="M130 146 L130 156 L78 182 L78 172 Z" />
+                    <path class="viz-slab__top" d="M26 146 L78 120 L130 146 L78 172 Z" />
+                    <path class="viz-slab__rule" d="M52 146 L78 133 M64 153 L90 140 M76 160 L102 147" />
+                  </g>
+                  <g class="viz-slab">
+                    <path class="viz-slab__side" d="M26 120 L26 130 L78 156 L78 146 Z" />
+                    <path class="viz-slab__side viz-slab__side--b" d="M130 120 L130 130 L78 156 L78 146 Z" />
+                    <path class="viz-slab__top" d="M26 120 L78 94 L130 120 L78 146 Z" />
+                    <path class="viz-slab__rule" d="M52 120 L78 107 M64 127 L90 114 M76 134 L102 121" />
+                  </g>
+                </g>
+
+                <!-- FLOW: dim lanes, long tracers, and small light particles -->
+                <g class="viz-lanes">
+                  <path class="viz-lane" d="M136 132 C186 108 234 100 288 96" />
+                  <path class="viz-lane" d="M136 144 C188 140 236 136 288 134" />
+                  <path class="viz-lane" d="M136 156 C188 172 236 176 288 174" />
+
+                  <path class="viz-tracer" d="M136 132 C186 108 234 100 288 96" />
+                  <path class="viz-tracer viz-tracer--b" d="M136 144 C188 140 236 136 288 134" />
+                  <path class="viz-tracer viz-tracer--c" d="M136 156 C188 172 236 176 288 174" />
+
+                  <path class="viz-spark-dot" d="M136 132 C186 108 234 100 288 96" />
+                  <path class="viz-spark-dot viz-spark-dot--b" d="M136 144 C188 140 236 136 288 134" />
+                  <path class="viz-spark-dot viz-spark-dot--c" d="M136 156 C188 172 236 176 288 174" />
+                  <path class="viz-spark-dot viz-spark-dot--d" d="M136 144 C188 140 236 136 288 134" />
+                </g>
+
+                <!-- the encrypted gate every workload passes through -->
+                <g class="viz-gate">
+                  <path class="viz-gate__plate" d="M206 100 L224 109 L224 182 L206 173 Z" />
+                  <path class="viz-gate__edge" d="M206 100 L224 109" />
+                  <path class="viz-gate__mark" d="M215 128 L222 131 V138 C222 142 219 145 215 146 C211 145 208 142 208 138 V131 Z" />
+                </g>
+
+                <!-- AWS: a soft luminous platform, not a boxed diagram -->
+                <g class="viz-cloud">
+                  <ellipse class="viz-cloud__glow" cx="378" cy="112" rx="98" ry="66" fill="url(#aws-cloud-glow)" />
+                  <rect class="viz-region" x="288" y="58" width="180" height="132" rx="22" />
+                  <g class="viz-cloudmark">
+                    <g class="viz-cloudmark__body">
+                      <circle cx="352" cy="96" r="20" />
+                      <circle cx="386" cy="88" r="25" />
+                      <circle cx="417" cy="98" r="18" />
+                      <rect x="332" y="94" width="103" height="24" rx="12" />
+                    </g>
+                    <image
+                      class="viz-cloudmark__logo"
+                      [attr.href]="awsLogoPath"
+                      x="358"
+                      y="84"
+                      width="54"
+                      height="32"
+                      preserveAspectRatio="xMidYMid meet"
+                    />
+                  </g>
+                  <g class="viz-az">
+                    <path class="viz-az__side" d="M312 158 L312 170 L332 180 L332 168 Z" />
+                    <path class="viz-az__side viz-az__side--b" d="M352 158 L352 170 L332 180 L332 168 Z" />
+                    <path class="viz-az__top" d="M312 158 L332 148 L352 158 L332 168 Z" />
+                  </g>
+                  <g class="viz-az viz-az--b">
+                    <path class="viz-az__side" d="M358 158 L358 170 L378 180 L378 168 Z" />
+                    <path class="viz-az__side viz-az__side--b" d="M398 158 L398 170 L378 180 L378 168 Z" />
+                    <path class="viz-az__top" d="M358 158 L378 148 L398 158 L378 168 Z" />
+                  </g>
+                  <g class="viz-az viz-az--c">
+                    <path class="viz-az__side" d="M404 158 L404 170 L424 180 L424 168 Z" />
+                    <path class="viz-az__side viz-az__side--b" d="M444 158 L444 170 L424 180 L424 168 Z" />
+                    <path class="viz-az__top" d="M404 158 L424 148 L444 158 L424 168 Z" />
+                  </g>
+                </g>
+
+                <!-- 01 ASSESS — the estate is discovered and mapped -->
+                <g class="viz-layer viz-layer--assess">
+                  <path class="viz-sweep" d="M16 118 L80 82 L80 96 L16 132 Z" />
+                  <g class="viz-find">
+                    <circle cx="48" cy="118" r="4" />
+                    <circle cx="78" cy="140" r="4" />
+                    <circle cx="104" cy="164" r="4" />
+                  </g>
+                </g>
+
+                <!-- 02 DESIGN — the target assembles before anything moves -->
+                <g class="viz-layer viz-layer--design">
+                  <rect class="viz-blueprint" x="300" y="70" width="156" height="108" rx="14" />
+                  <path class="viz-blueprint viz-blueprint--line" d="M300 124 H456 M378 70 V178" />
+                  <path class="viz-plumb" d="M332 148 V112 M378 148 V102 M424 148 V112" />
+                </g>
+
+                <!-- 03 MIGRATE — waves crossing, both ends alive -->
+                <g class="viz-layer viz-layer--migrate">
+                  <path class="viz-wavearc" d="M136 144 C188 126 238 118 288 116" />
+                </g>
+
+                <!-- 04 SECURE — the perimeter closes, one path is refused -->
+                <g class="viz-layer viz-layer--secure">
+                  <rect class="viz-perimeter" x="278" y="48" width="200" height="152" rx="28" />
+                  <circle class="viz-denyring" cx="172" cy="164" r="11" />
+                  <path class="viz-deny" d="M167 159 L177 169 M177 159 L167 169" />
+                </g>
+
+                <!-- 05 OPERATE — watched, around the clock -->
+                <g class="viz-layer viz-layer--operate">
+                  <path class="viz-pulseline" d="M304 112 L322 112 L330 100 L340 124 L350 106 L360 116 L372 116 L380 104 L390 118 L400 112 L452 112" />
+                  <circle class="viz-watch" cx="332" cy="158" r="10" />
+                  <circle class="viz-watch viz-watch--b" cx="378" cy="158" r="10" />
+                  <circle class="viz-watch viz-watch--c" cx="424" cy="158" r="10" />
+                </g>
+
+                <!-- 06 OPTIMIZE — cost down, efficiency up -->
+                <g class="viz-layer viz-layer--optimize">
+                  <g class="viz-bars">
+                    <rect x="308" y="84" width="14" height="40" rx="3" />
+                    <rect x="334" y="94" width="14" height="30" rx="3" />
+                    <rect x="360" y="102" width="14" height="22" rx="3" />
+                    <rect x="386" y="108" width="14" height="16" rx="3" />
+                    <rect x="412" y="114" width="14" height="10" rx="3" />
+                  </g>
+                  <path class="viz-trend" d="M308 78 L426 110" />
+                  <path class="viz-trend viz-trend--head" d="M418 100 L428 111 L416 113" />
+                </g>
+
+                <text class="viz-label" x="78" y="226">{{ 'services.aws.hero.journey.vizOnPrem' | translate }}</text>
+                <text class="viz-label viz-label--gate" x="215" y="226">{{ 'services.aws.hero.journey.vizGate' | translate }}</text>
+                <text class="viz-label" x="378" y="226">{{ 'services.aws.hero.journey.vizCloud' | translate }}</text>
+              </svg>
+            </div>
+
+            <p class="aws-jn__readout">
+              <span class="aws-jn__readout-dot" aria-hidden="true"></span>
+              <span class="aws-jn__readout-text">{{ 'services.aws.hero.journey.' + activeStage() + '.readout' | translate }}</span>
+            </p>
           </div>
         </div>
 
-        <p class="aws-console__footnote">{{ 'services.aws.hero.badgeRule' | translate }}</p>
-
-        <div class="aws-ops">
-          <p class="aws-ops__label">{{ 'services.aws.hero.opsLabel' | translate }}</p>
-          @for (row of opsRows; track row.id) {
-            <div class="aws-ops__row" [attr.data-state]="row.state">
-              <span class="aws-ops__pulse" aria-hidden="true"></span>
-              <span class="aws-ops__name">{{ 'services.aws.hero.ops.' + row.id + '.name' | translate }}</span>
-              <span class="aws-ops__id">{{ 'services.aws.hero.ops.' + row.id + '.id' | translate }}</span>
-              <span class="aws-ops__state">{{ 'services.aws.hero.ops.' + row.id + '.state' | translate }}</span>
-            </div>
-          }
-          <p class="aws-ops__caption">{{ 'services.aws.hero.opsCaption' | translate }}</p>
-        </div>
       </aside>
     </div>
+
   </section>
 
-  <section id="why" class="aws-section" data-reveal-group aria-labelledby="aws-why-title">
-    <div class="container-custom">
-      <header class="aws-header" data-reveal>
-        <h2 id="aws-why-title">{{ 'services.aws.why.title' | translate }}</h2>
-        <p>{{ 'services.aws.why.intro' | translate }}</p>
-      </header>
-
-      <div class="aws-why-grid">
-        @for (item of whyItems; track item.id) {
-          <article class="aws-why-card" data-reveal>
-            <span class="aws-why-card__n" aria-hidden="true">{{ item.n }}</span>
-            <h3>{{ 'services.aws.why.' + item.id + '.title' | translate }}</h3>
-            <p>{{ 'services.aws.why.' + item.id + '.body' | translate }}</p>
-          </article>
-        }
-      </div>
+  <!-- ============================================================
+       PARTNERSHIP MEANING — the announcement is immediately translated
+       into customer value before the page expands into delivery detail.
+       ============================================================ -->
+  <section id="credentials" class="aws-section aws-meaning" data-reveal-group aria-labelledby="aws-cred-title">
+    <div class="aws-meaning__ambient" aria-hidden="true">
+      <span class="aws-meaning__glow aws-meaning__glow--blue"></span>
+      <span class="aws-meaning__glow aws-meaning__glow--violet"></span>
+      <span class="aws-meaning__grid"></span>
     </div>
-  </section>
 
-  <section id="services" class="aws-section aws-section--sunk" data-reveal-group aria-labelledby="aws-services-title">
-    <div class="container-custom">
-      <header class="aws-header" data-reveal>
-        <h2 id="aws-services-title">{{ 'services.aws.deliver.title' | translate }}</h2>
-        <p>{{ 'services.aws.deliver.intro' | translate }}</p>
-      </header>
-
-      <div class="aws-service-grid">
-        @for (service of services; track service.id) {
-          <article class="aws-service-card" data-reveal>
-            <span class="aws-service-card__icon" aria-hidden="true">
-              <ng-icon [name]="service.icon" size="26"></ng-icon>
-            </span>
-            <h3>{{ 'services.aws.deliver.' + service.id + '.title' | translate }}</h3>
-            <p>{{ 'services.aws.deliver.' + service.id + '.body' | translate }}</p>
-          </article>
-        }
-      </div>
-    </div>
-  </section>
-
-  <section id="credentials" class="aws-section" data-reveal-group aria-labelledby="aws-cred-title">
     <div class="container-custom aws-cred">
-      <header class="aws-header" data-reveal>
-        <h2 id="aws-cred-title">{{ 'services.aws.credentials.title' | translate }}</h2>
-        <p>{{ 'services.aws.credentials.intro' | translate }}</p>
-      </header>
-
-      <div class="aws-cred__split">
-        <div class="aws-cred__copy" data-reveal>
-          <p>{{ 'services.aws.credentials.body' | translate }}</p>
+      <div class="aws-cred__layout">
+        <header class="aws-cred__copy" data-reveal>
+          <p class="aws-cred__eyebrow">{{ 'services.aws.credentials.eyebrow' | translate }}</p>
+          <h2 id="aws-cred-title">{{ 'services.aws.credentials.title' | translate }}</h2>
+          <p class="aws-cred__intro">{{ 'services.aws.credentials.intro' | translate }}</p>
+          <p class="aws-cred__body">{{ 'services.aws.credentials.body' | translate }}</p>
           <blockquote>{{ 'services.aws.credentials.note' | translate }}</blockquote>
-        </div>
+        </header>
 
-        <div class="aws-cred__side" data-reveal>
-          <div class="aws-cred__slots">
-            <div class="aws-cred__slot">{{ 'services.aws.credentials.slotTier' | translate }}</div>
-            <div class="aws-cred__slot">{{ 'services.aws.credentials.slotCompetency' | translate }}</div>
-            <div class="aws-cred__slot">{{ 'services.aws.credentials.slotDelivery' | translate }}</div>
+        <figure
+          class="aws-network"
+          data-reveal
+          role="img"
+          [attr.aria-label]="'services.aws.credentials.visualLabel' | translate"
+        >
+          <div class="aws-network__proof">
+            <div class="aws-network__proof-item">
+              <ng-icon name="lucideAward" size="20" aria-hidden="true"></ng-icon>
+              <span>
+                <strong>{{ 'services.aws.credentials.slotTier' | translate }}</strong>
+                <small>{{ 'services.aws.credentials.tierNote' | translate }}</small>
+              </span>
+            </div>
+            <div class="aws-network__proof-item">
+              <ng-icon name="lucideGlobe" size="20" aria-hidden="true"></ng-icon>
+              <span>
+                <strong>{{ 'services.aws.credentials.slotCompetency' | translate }}</strong>
+                <small>{{ 'services.aws.credentials.localNote' | translate }}</small>
+              </span>
+            </div>
+            <div class="aws-network__proof-item">
+              <ng-icon name="lucideHeadset" size="20" aria-hidden="true"></ng-icon>
+              <span>
+                <strong>{{ 'services.aws.credentials.slotDelivery' | translate }}</strong>
+                <small>{{ 'services.aws.credentials.operationsNote' | translate }}</small>
+              </span>
+            </div>
           </div>
 
-          <div class="aws-practices">
+          <div class="aws-network__canvas" aria-hidden="true">
+            <svg class="aws-network__globe" viewBox="0 0 760 365" focusable="false">
+              <defs>
+                <linearGradient id="aws-meaning-horizon" x1="0" x2="1">
+                  <stop offset="0" stop-color="var(--aws-blue)" stop-opacity="0"></stop>
+                  <stop offset=".5" stop-color="var(--aws-cyan)" stop-opacity=".9"></stop>
+                  <stop offset="1" stop-color="var(--aws-blue)" stop-opacity="0"></stop>
+                </linearGradient>
+                <linearGradient id="aws-meaning-route" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="var(--aws-cyan-hot)"></stop>
+                  <stop offset="1" stop-color="var(--aws-blue)"></stop>
+                </linearGradient>
+                <radialGradient id="aws-meaning-fill" cx=".5" cy=".18" r=".85">
+                  <stop offset="0" stop-color="var(--aws-blue)" stop-opacity=".16"></stop>
+                  <stop offset="1" stop-color="var(--aws-ink)" stop-opacity=".02"></stop>
+                </radialGradient>
+                <filter id="aws-meaning-glow">
+                  <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+                  <feMerge>
+                    <feMergeNode in="blur"></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <path class="aws-network__hemisphere" d="M52 338C96 138 246 62 380 62s284 76 328 276H52Z"></path>
+              <path class="aws-network__latitude" d="M83 277c113-70 481-70 594 0"></path>
+              <path class="aws-network__latitude" d="M141 186c102-49 376-49 478 0"></path>
+              <path class="aws-network__longitude" d="M380 62c-75 74-103 165-86 276"></path>
+              <path class="aws-network__longitude" d="M380 62c75 74 103 165 86 276"></path>
+              <path class="aws-network__longitude" d="M380 62c-166 91-213 184-194 276"></path>
+              <path class="aws-network__longitude" d="M380 62c166 91 213 184 194 276"></path>
+
+              <path class="aws-network__land" d="M191 208l38-25 46 2 32-17 54 13 25 28-17 27-48 6-23 27-64-4-35-25-8-32Z"></path>
+              <path class="aws-network__land" d="M386 205l41-21 68 7 35 20 28 38-36 21-52-13-28-31-39 7-17-28Z"></path>
+              <path class="aws-network__land aws-network__land--faint" d="M258 164l27-22 46-8 27 17-17 17-43 7-40-11Zm275 40 39-11 31 18-9 18-37-2-24-23Z"></path>
+
+              <path class="aws-network__route" d="M380 105C316 126 259 190 229 277"></path>
+              <path class="aws-network__route aws-network__route--two" d="M380 105c18 61 26 124 35 191"></path>
+              <path class="aws-network__route aws-network__route--three" d="M380 105c89 30 151 91 180 169"></path>
+              <path class="aws-network__horizon" d="M48 338h664"></path>
+
+              <g class="aws-network__point aws-network__point--egypt" transform="translate(229 277)">
+                <circle class="aws-network__pulse" r="15"></circle>
+                <circle class="aws-network__dot" r="5"></circle>
+              </g>
+              <g class="aws-network__point aws-network__point--ksa" transform="translate(415 296)">
+                <circle class="aws-network__pulse" r="15"></circle>
+                <circle class="aws-network__dot" r="5"></circle>
+              </g>
+              <g class="aws-network__point aws-network__point--uae" transform="translate(560 274)">
+                <circle class="aws-network__pulse" r="15"></circle>
+                <circle class="aws-network__dot" r="5"></circle>
+              </g>
+            </svg>
+
+            <div class="aws-network__cloud">
+              <span class="aws-network__cloud-ring"></span>
+              <img class="aws-network__logo aws-network__logo--dark" [src]="awsLogoReversedPath" alt="">
+              <img class="aws-network__logo aws-network__logo--light" [src]="awsLogoPath" alt="">
+            </div>
+
+            <div class="aws-network__market aws-network__market--egypt">
+              <strong>{{ 'services.aws.regions.egypt.name' | translate }}</strong>
+              <span>{{ 'services.aws.credentials.regionNote' | translate }}</span>
+            </div>
+            <div class="aws-network__market aws-network__market--ksa">
+              <strong>{{ 'services.aws.regions.ksa.name' | translate }}</strong>
+              <span>{{ 'services.aws.credentials.regionNote' | translate }}</span>
+            </div>
+            <div class="aws-network__market aws-network__market--uae">
+              <strong>{{ 'services.aws.regions.uae.name' | translate }}</strong>
+              <span>{{ 'services.aws.credentials.regionNote' | translate }}</span>
+            </div>
+          </div>
+
+          <figcaption class="aws-practices">
             <p class="aws-practices__label">{{ 'services.aws.credentials.practicesLabel' | translate }}</p>
             <ul>
               @for (practice of practices; track practice) {
@@ -182,9 +454,359 @@
               }
             </ul>
             <p>{{ 'services.aws.credentials.practicesNote' | translate }}</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHY ROAYA — no outer card: the proposition and its navigation sit
+       directly on the page ground (38%), and one glass panel carries the
+       active story (62%). The four rows ARE the navigation, so there are
+       no arrows or dots competing with them.
+       ============================================================ -->
+  <section id="why" class="aws-why" data-reveal-group aria-labelledby="aws-why-title">
+    <div class="aws-why__bg" aria-hidden="true">
+      <div class="aws-why__glow"></div>
+      <div class="aws-why__grid-lines"></div>
+    </div>
+
+    <div class="container-custom aws-why__inner">
+      <div class="aws-why__split">
+        <div class="aws-why__nav">
+          <p class="aws-kicker" data-reveal>{{ 'services.aws.why.eyebrow' | translate }}</p>
+          <h2 id="aws-why-title" data-reveal>
+            <span class="aws-why__line">{{ 'services.aws.why.titleLine1' | translate }}</span>
+            <span class="aws-why__line"><span class="aws-hero__mark">{{ 'services.aws.why.titleBrand' | translate }}</span>{{ 'services.aws.why.titleLine2Post' | translate }}</span>
+          </h2>
+          <p class="aws-why__lead" data-reveal>{{ 'services.aws.why.intro' | translate }}</p>
+
+          <div
+            class="aws-why__rail"
+            role="tablist"
+            aria-orientation="vertical"
+            [attr.aria-label]="'services.aws.why.eyebrow' | translate"
+            (keydown)="onPillarKeydown($event)"
+            data-reveal
+          >
+            @for (pillar of pillars; track pillar.id) {
+              <button
+                type="button"
+                role="tab"
+                class="aws-pillar"
+                [class.is-active]="activePillar() === pillar.id"
+                [attr.aria-selected]="activePillar() === pillar.id"
+                [attr.tabindex]="activePillar() === pillar.id ? 0 : -1"
+                [id]="'aws-pillar-tab-' + pillar.id"
+                aria-controls="aws-pillar-panel"
+                (click)="selectPillar(pillar.id)"
+              >
+                <span class="aws-pillar__bar" aria-hidden="true"></span>
+                <span class="aws-pillar__n" aria-hidden="true">{{ pillar.n }}</span>
+                <ng-icon [name]="pillar.icon" size="22" class="aws-pillar__icon" aria-hidden="true"></ng-icon>
+                <span class="aws-pillar__text">
+                  <span class="aws-pillar__title">{{ 'services.aws.why.pillars.' + pillar.id + '.title' | translate }}</span>
+                  <span class="aws-pillar__note">{{ 'services.aws.why.pillars.' + pillar.id + '.note' | translate }}</span>
+                </span>
+                <ng-icon name="lucideChevronRight" size="16" class="aws-pillar__go" aria-hidden="true"></ng-icon>
+              </button>
+            }
           </div>
         </div>
+
+        <div
+          class="aws-why__story"
+          role="tabpanel"
+          id="aws-pillar-panel"
+          tabindex="0"
+          [attr.aria-labelledby]="'aws-pillar-tab-' + activePillar()"
+          data-reveal
+        >
+          <div class="aws-why__story-head">
+            <p class="aws-why__label">
+              <span>{{ activePillarNumber() }}</span>
+              <span aria-hidden="true">—</span>
+              <span>{{ 'services.aws.why.pillars.' + activePillar() + '.title' | translate }}</span>
+            </p>
+
+            <h3 class="aws-why__story-title">
+              <span>{{ 'services.aws.why.pillars.' + activePillar() + '.headline1' | translate }}</span>
+              <span class="aws-why__story-accent">{{ 'services.aws.why.pillars.' + activePillar() + '.headline2' | translate }}</span>
+            </h3>
+
+            <p class="aws-why__story-body">{{ 'services.aws.why.pillars.' + activePillar() + '.body' | translate }}</p>
+          </div>
+
+          <!-- Four scenes, one frame. Only the active one is painted. -->
+          <div
+            class="aws-why__viz"
+            [attr.data-pillar]="activePillar()"
+            role="img"
+            [attr.aria-label]="'services.aws.why.pillars.' + activePillar() + '.vizAlt' | translate"
+          >
+            <!-- 01 — one AWS cloud, three regional deliveries -->
+            <svg class="aws-why__scene aws-why__scene--local" viewBox="0 0 560 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <radialGradient id="aws-region-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" class="viz-glow-in" />
+                  <stop offset="100%" class="viz-glow-out" />
+                </radialGradient>
+              </defs>
+
+              <ellipse class="wviz-halo" cx="280" cy="58" rx="150" ry="56" fill="url(#aws-region-glow)" />
+
+              <!-- the official AWS logo, carried by the luminous cloud. The
+                   asset has an opaque white ground, so the cloud is filled
+                   white and the logo sits wholly inside it. -->
+              <g class="wviz-cloud">
+                <g class="wviz-cloud__body">
+                  <circle cx="240" cy="60" r="26" />
+                  <circle cx="284" cy="50" r="32" />
+                  <circle cx="324" cy="64" r="24" />
+                  <rect x="212" y="60" width="132" height="30" rx="15" />
+                </g>
+                <image
+                  class="wviz-cloud__logo"
+                  [attr.href]="awsLogoPath"
+                  x="248"
+                  y="46"
+                  width="64"
+                  height="38"
+                  preserveAspectRatio="xMidYMid meet"
+                />
+              </g>
+
+              <!-- the region field: three abstract territories, not a claim
+                   about borders -->
+              <g class="wviz-field">
+                <path class="wviz-contour" d="M64 214 C126 190 176 202 244 196 C312 190 372 204 452 190 C486 184 500 194 504 206" />
+                @for (dot of regionDots; track $index) {
+                  <circle [attr.class]="'wviz-dot wviz-dot--' + dot.z" [attr.cx]="dot.x" [attr.cy]="dot.y + 26" r="1.6" />
+                }
+              </g>
+
+              <path class="wviz-path" d="M254 84 C222 122 174 152 130 186" />
+              <path class="wviz-path wviz-path--b" d="M280 88 C280 126 280 158 280 192" />
+              <path class="wviz-path wviz-path--c" d="M306 84 C338 122 386 152 430 186" />
+
+              <path class="wviz-pulse" d="M254 84 C222 122 174 152 130 186" />
+              <path class="wviz-pulse wviz-pulse--b" d="M280 88 C280 126 280 158 280 192" />
+              <path class="wviz-pulse wviz-pulse--c" d="M306 84 C338 122 386 152 430 186" />
+
+              <!-- Egypt: pyramids and a minaret -->
+              <g class="wviz-site">
+                <path class="wviz-city" d="M96 246 L108 226 L120 246 M118 246 L128 231 L138 246 M144 246 V222 M141 222 h6 M144 222 l0 -6" />
+                <circle class="wviz-ring" cx="130" cy="186" r="10" />
+                <circle class="wviz-pin" cx="130" cy="186" r="3.5" />
+                <text class="wviz-label" x="130" y="272">{{ 'services.aws.why.map.egypt' | translate }}</text>
+              </g>
+              <!-- Saudi Arabia: the central anchor -->
+              <g class="wviz-site wviz-site--b">
+                <path class="wviz-city" d="M252 246 V230 h9 v16 M266 246 V214 h6 v32 M276 246 V222 l7 -8 l7 8 v24 M296 246 V234 h9 v12" />
+                <circle class="wviz-ring" cx="280" cy="192" r="12" />
+                <circle class="wviz-pin" cx="280" cy="192" r="4" />
+                <text class="wviz-label" x="280" y="272">{{ 'services.aws.why.map.ksa' | translate }}</text>
+              </g>
+              <!-- UAE: a tapering tower -->
+              <g class="wviz-site wviz-site--c">
+                <path class="wviz-city" d="M400 246 V232 h8 v14 M414 246 V216 h7 v30 M428 246 l4 -34 l4 34 M442 246 V226 h8 v20" />
+                <circle class="wviz-ring" cx="430" cy="186" r="10" />
+                <circle class="wviz-pin" cx="430" cy="186" r="3.5" />
+                <text class="wviz-label" x="430" y="272">{{ 'services.aws.why.map.uae' | translate }}</text>
+              </g>
+            </svg>
+
+            <!-- 02 — a controlled delivery path -->
+            <svg class="aws-why__scene aws-why__scene--delivery" viewBox="0 0 560 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <path class="wviz-track" d="M96 148 H480" />
+              <path class="wviz-track wviz-track--fill" d="M96 148 H480" />
+              @for (step of deliverySteps; track step.id; let i = $index) {
+                <g [attr.class]="'wviz-node wviz-node--' + i">
+                  <circle class="wviz-node__halo" [attr.cx]="step.x" cy="148" r="22" />
+                  <circle class="wviz-node__dot" [attr.cx]="step.x" cy="148" r="7" />
+                  <text class="wviz-cap wviz-cap--n" [attr.x]="step.x" y="118">{{ step.n }}</text>
+                  <text class="wviz-label" [attr.x]="step.x" y="192">{{ 'services.aws.why.flow.' + step.id | translate }}</text>
+                </g>
+              }
+              <g class="wviz-chips">
+                <rect class="wviz-chip" x="96" y="228" width="124" height="34" rx="17" />
+                <text class="wviz-chip__t" x="158" y="249">{{ 'services.aws.why.defined.scope' | translate }}</text>
+                <rect class="wviz-chip" x="234" y="228" width="124" height="34" rx="17" />
+                <text class="wviz-chip__t" x="296" y="249">{{ 'services.aws.why.defined.cost' | translate }}</text>
+                <rect class="wviz-chip" x="372" y="228" width="124" height="34" rx="17" />
+                <text class="wviz-chip__t" x="434" y="249">{{ 'services.aws.why.defined.outcomes' | translate }}</text>
+              </g>
+            </svg>
+
+            <!-- 03 — layered controls around the workload -->
+            <svg class="aws-why__scene aws-why__scene--security" viewBox="0 0 560 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <g class="wviz-shells">
+                <circle class="wviz-shell wviz-shell--4" cx="280" cy="118" r="94" />
+                <circle class="wviz-shell wviz-shell--3" cx="280" cy="118" r="74" />
+                <circle class="wviz-shell wviz-shell--2" cx="280" cy="118" r="54" />
+                <circle class="wviz-shell wviz-shell--1" cx="280" cy="118" r="34" />
+              </g>
+              <g class="wviz-core">
+                <rect x="254" y="102" width="52" height="32" rx="9" />
+                <text class="wviz-cap" x="280" y="123">AWS</text>
+              </g>
+
+              <path class="wviz-track" d="M62 236 H498" />
+              @for (layer of securityLayers; track layer.id; let i = $index) {
+                <g [attr.class]="'wviz-layer wviz-layer--' + i">
+                  <circle class="wviz-layer__dot" [attr.cx]="layer.x" cy="236" r="13" />
+                  <text class="wviz-label wviz-label--sm" [attr.x]="layer.x" y="268">{{ 'services.aws.why.layers.' + layer.id | translate }}</text>
+                </g>
+              }
+            </svg>
+
+            <!-- 04 — how a programme is actually reached -->
+            <svg class="aws-why__scene aws-why__scene--programmes" viewBox="0 0 560 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              @for (stop of programmeStops; track stop.id; let i = $index) {
+                <g [attr.class]="'wviz-stop wviz-stop--' + i">
+                  <rect class="wviz-stop__plate" [attr.x]="stop.x" y="106" width="112" height="66" rx="15" />
+                  <text class="wviz-cap wviz-cap--n" [attr.x]="stop.x + 56" y="98">{{ stop.n }}</text>
+                  <text class="wviz-stop__t" [attr.x]="stop.x + 56" y="134">{{ 'services.aws.why.stops.' + stop.id + '.a' | translate }}</text>
+                  <text class="wviz-stop__t wviz-stop__t--b" [attr.x]="stop.x + 56" y="152">{{ 'services.aws.why.stops.' + stop.id + '.b' | translate }}</text>
+                </g>
+              }
+              @for (link of programmeLinks; track $index) {
+                <g class="wviz-link">
+                  <path class="wviz-track" [attr.d]="'M' + link.from + ' 139 H' + link.to" />
+                  <path class="wviz-arrow" [attr.d]="'M' + (link.to - 7) + ' 134 L' + link.to + ' 139 L' + (link.to - 7) + ' 144'" />
+                </g>
+              }
+              <text class="wviz-note" x="280" y="216">{{ 'services.aws.why.programmeNote' | translate }}</text>
+            </svg>
+          </div>
+
+          <ul class="aws-why__proof">
+            @for (icon of pillarSignals[activePillar()]; track $index; let i = $index) {
+              <li>
+                <ng-icon [name]="icon" size="20" aria-hidden="true"></ng-icon>
+                <span class="aws-why__proof-text">
+                  <span class="aws-why__proof-t">{{ 'services.aws.why.pillars.' + activePillar() + '.signal' + (i + 1) | translate }}</span>
+                  <span class="aws-why__proof-d">{{ 'services.aws.why.pillars.' + activePillar() + '.signalNote' + (i + 1) | translate }}</span>
+                </span>
+              </li>
+            }
+          </ul>
+        </div>
       </div>
+
+      <!-- One accountable team: the business enters through one owner, four
+           capabilities reinforce that owner, and one delivery path lands on
+           AWS. All copy stays live and selectable; the lines are decorative. -->
+      <div
+        class="aws-account"
+        role="group"
+        [attr.data-active]="activePillar()"
+        [attr.aria-label]="'services.aws.why.accountable.aria' | translate"
+        data-reveal
+      >
+        <svg class="aws-account__flows" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+          <path class="aws-account__flow aws-account__flow--business" d="M600 74 V142" />
+          <path class="aws-account__flow aws-account__flow--local" d="M278 206 C338 206 360 226 420 236" />
+          <path class="aws-account__flow aws-account__flow--security" d="M278 340 C338 340 360 318 420 306" />
+          <path class="aws-account__flow aws-account__flow--delivery" d="M922 206 C862 206 840 226 780 236" />
+          <path class="aws-account__flow aws-account__flow--programmes" d="M922 340 C862 340 840 318 780 306" />
+          <path class="aws-account__flow aws-account__flow--outcome" d="M600 392 V456" />
+          <path class="aws-account__flow aws-account__flow--platform" d="M600 548 V598" />
+          <circle class="aws-account__pulse aws-account__pulse--a" cx="600" cy="142" r="4" />
+          <circle class="aws-account__pulse aws-account__pulse--b" cx="600" cy="456" r="4" />
+          <circle class="aws-account__pulse aws-account__pulse--c" cx="600" cy="598" r="4" />
+        </svg>
+
+        <div class="aws-account__business">
+          <ng-icon name="lucideBuilding2" size="19" aria-hidden="true"></ng-icon>
+          <span>
+            <strong>{{ 'services.aws.why.accountable.business' | translate }}</strong>
+            <small>{{ 'services.aws.why.accountable.businessNote' | translate }}</small>
+          </span>
+        </div>
+
+        <div class="aws-account__core">
+          <div class="aws-account__brand" aria-hidden="true">
+            <img class="aws-account__logo aws-account__logo--light" [src]="roayaLogoPath" alt="" />
+            <img class="aws-account__logo aws-account__logo--dark" [src]="roayaLogoReversedPath" alt="" />
+          </div>
+          <h3>{{ 'services.aws.why.accountable.coreTitle' | translate }}</h3>
+          <p class="aws-account__core-note">{{ 'services.aws.why.accountable.coreNote' | translate }}</p>
+
+          <div
+            class="aws-account__detail"
+            role="tabpanel"
+            id="aws-account-detail"
+            [attr.aria-labelledby]="'aws-account-tab-' + activePillar()"
+          >
+            <span>{{ activePillarNumber() }}</span>
+            <p>{{ 'services.aws.why.pillars.' + activePillar() + '.body' | translate }}</p>
+          </div>
+        </div>
+
+        <div
+          class="aws-account__advantages"
+          role="tablist"
+          [attr.aria-label]="'services.aws.why.eyebrow' | translate"
+          (keydown)="onPillarKeydown($event)"
+        >
+          @for (pillar of pillars; track pillar.id) {
+            <button
+              type="button"
+              role="tab"
+              class="aws-account__adv"
+              [attr.data-pillar]="pillar.id"
+              [class.is-active]="activePillar() === pillar.id"
+              [attr.aria-selected]="activePillar() === pillar.id"
+              [attr.tabindex]="activePillar() === pillar.id ? 0 : -1"
+              [id]="'aws-account-tab-' + pillar.id"
+              aria-controls="aws-account-detail"
+              (click)="selectPillar(pillar.id)"
+            >
+              <span class="aws-account__adv-icon">
+                <ng-icon [name]="pillar.icon" size="20" aria-hidden="true"></ng-icon>
+              </span>
+              <span class="aws-account__adv-copy">
+                <strong>{{ 'services.aws.why.pillars.' + pillar.id + '.title' | translate }}</strong>
+                <small>{{ 'services.aws.why.pillars.' + pillar.id + '.note' | translate }}</small>
+              </span>
+              <span class="aws-account__adv-n" aria-hidden="true">{{ pillar.n }}</span>
+            </button>
+          }
+        </div>
+
+        <div class="aws-account__stages" role="group" [attr.aria-label]="'services.aws.why.accountable.stagesAria' | translate">
+          @for (stage of accountStages; track stage.id) {
+            <div class="aws-account__stage">
+              <ng-icon [name]="stage.icon" size="19" aria-hidden="true"></ng-icon>
+              <span>
+                <strong>{{ 'services.aws.why.accountable.stages.' + stage.id + '.title' | translate }}</strong>
+                <small>{{ 'services.aws.why.accountable.stages.' + stage.id + '.note' | translate }}</small>
+              </span>
+            </div>
+          }
+        </div>
+
+        <div class="aws-account__platform">
+          <span class="aws-account__platform-brand" aria-hidden="true">
+            <img class="aws-account__platform-logo aws-account__platform-logo--light" [src]="awsLogoPath" alt="" />
+            <img class="aws-account__platform-logo aws-account__platform-logo--dark" [src]="awsLogoReversedPath" alt="" />
+          </span>
+          <span>
+            <strong>{{ 'services.aws.why.accountable.platform' | translate }}</strong>
+            <small>{{ 'services.aws.why.accountable.platformNote' | translate }}</small>
+          </span>
+        </div>
+      </div>
+
+      <p class="aws-why__closing" data-reveal>
+        <ng-icon name="lucideShieldCheck" size="18" aria-hidden="true"></ng-icon>
+        <span>
+          {{ 'services.aws.why.closing1' | translate }}
+          <span class="aws-hero__mark">{{ 'services.aws.why.closing2' | translate }}</span>
+        </span>
+      </p>
     </div>
   </section>
 
@@ -208,7 +830,7 @@
             (click)="selectRegion(region.id)"
           >
             <span>{{ 'services.aws.regions.' + region.id + '.name' | translate }}</span>
-            <code>{{ region.code }}</code>
+            <code>{{ 'services.aws.regions.' + region.id + '.code' | translate }}</code>
           </button>
         }
       </div>
@@ -236,26 +858,7 @@
     </div>
   </section>
 
-  <section id="process" class="aws-section" data-reveal-group aria-labelledby="aws-process-title">
-    <div class="container-custom">
-      <header class="aws-header" data-reveal>
-        <h2 id="aws-process-title">{{ 'services.aws.process.title' | translate }}</h2>
-        <p>{{ 'services.aws.process.intro' | translate }}</p>
-      </header>
-
-      <ol class="aws-process">
-        @for (step of processSteps; track step; let i = $index) {
-          <li data-reveal>
-            <span aria-hidden="true">{{ i + 1 < 10 ? '0' + (i + 1) : i + 1 }}</span>
-            <h3>{{ 'services.aws.process.' + step + '.title' | translate }}</h3>
-            <p>{{ 'services.aws.process.' + step + '.body' | translate }}</p>
-          </li>
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section id="questions" class="aws-section aws-section--sunk" data-reveal-group aria-labelledby="aws-faq-title">
+  <section id="questions" class="aws-section" data-reveal-group aria-labelledby="aws-faq-title">
     <div class="container-custom aws-questions">
       <header class="aws-header" data-reveal>
         <h2 id="aws-faq-title">{{ 'services.aws.questions.title' | translate }}</h2>
@@ -385,7 +988,6 @@
   </section>
 
   <section class="aws-cta" data-reveal-group aria-labelledby="aws-cta-title">
-    <img [src]="markPath" alt="" class="aws-cta__mark" width="512" height="512" decoding="async" />
     <div class="container-custom">
       <h2 id="aws-cta-title" data-reveal>{{ 'services.aws.cta.title' | translate }}</h2>
       <p data-reveal>{{ 'services.aws.cta.body' | translate }}</p>

@@ -81,6 +81,10 @@ export class SEOService {
       this.setKeywords(data.keywords);
     }
 
+    // Route-level SEO calls can run after the initial NavigationEnd event.
+    // Set the canonical here as well so direct visits always receive one.
+    this.setCanonicalUrl(data.url || window.location.href);
+
     // Open Graph tags
     this.setOpenGraphTags({
       title: data.title || this.defaultTitle,

@@ -2398,31 +2398,142 @@
       "description": "Assess, migrate, secure and operate AWS with a local team that owns the outcome",
       "hero": {
         "kicker": "AWS Advanced Tier Services Partner",
-        "title": "Build on AWS. Let Roaya run it.",
-        "lead": "We assess, design, migrate, secure and operate AWS environments for enterprises across Egypt, Saudi Arabia and the United Arab Emirates — with local teams that own the outcome.",
-        "pill1": "AWS-certified team",
-        "pill2": "Fixed scope and pricing",
-        "pill3": "24/7 local support",
-        "pill4": "Arabic and English",
+        "lockupAria": "Roaya and AWS partnership",
+        "titleLine1": "Roaya is now an AWS",
+        "titleLine2Pre": "",
+        "titleBrand": "Advanced Tier",
+        "titleLine2Post": " Services Partner.",
+        "lead": "A new milestone for Roaya — and a faster, safer path to AWS for enterprises across Egypt, Saudi Arabia and the UAE.",
+        "valueProp": "Build on AWS. Delivered and operated by Roaya.",
         "cta": "Book an AWS assessment",
-        "ctaSecondary": "Talk to a cloud architect",
-        "consoleAria": "Illustrative Roaya AWS operations console with partner credential and live status rows",
-        "consoleTitle": "Roaya AWS operations",
-        "consoleChip": "Illustrative state",
-        "badgeTier": "Advanced Tier Services Partner",
-        "badgeNote": "Place the approved badge from AWS Partner Central here.",
-        "badgeRule": "Only the approved partner badge appears here, never larger than the Roaya lockup, per AWS trademark rules.",
-        "opsLabel": "Named operating picture",
-        "opsCaption": "What just happened: landing zone controls are green; cost review is in flight.",
-        "ops": {
-          "landing": { "name": "Landing zone", "id": "lz-prod-01", "state": "Ready" },
-          "cost": { "name": "Cost review", "id": "finops-w12", "state": "In progress" },
-          "watch": { "name": "Incident path", "id": "watch-24/7", "state": "Live" }
+        "ctaSecondary": "Explore the partnership",
+        "proof": {
+          "tier": {
+            "value": "Advanced Tier",
+            "label": "AWS Services Partner"
+          },
+          "years": {
+            "value": "10+",
+            "label": "Years of cloud experience"
+          },
+          "support": {
+            "value": "24/7",
+            "label": "Local support"
+          },
+          "markets": {
+            "value": "MENA",
+            "label": "Egypt · KSA · UAE"
+          }
+        },
+        "trust": {
+          "certified": "AWS-certified experts",
+          "local": "Local teams in MENA",
+          "support": "24/7 operations & support"
+        },
+        "journey": {
+          "title": "Your AWS journey with Roaya",
+          "prev": "Previous stage",
+          "next": "Next stage",
+          "vizOnPrem": "On-premises",
+          "vizCloud": "AWS Cloud",
+          "vizGate": "Encrypted",
+          "assess": {
+            "name": "Assess",
+            "title": "See the estate before you commit",
+            "body": "A workload inventory, a cost baseline and a prioritised roadmap — so the business case is defensible before anything moves.",
+            "readout": "Illustrative readiness view: workloads inventoried and redesign candidates identified.",
+            "ref": "assess-01",
+            "vizAlt": "The on-premises estate is being scanned and inventoried; nothing has moved to AWS yet."
+          },
+          "design": {
+            "name": "Design",
+            "title": "Design the target, then build it",
+            "body": "Accounts, networking, identity and availability decided up front — a landing zone your team can operate, not only launch.",
+            "readout": "Illustrative landing zone: availability, networking and guardrails defined.",
+            "ref": "design-02",
+            "vizAlt": "The AWS target architecture is drawn as a blueprint across three availability zones."
+          },
+          "migrate": {
+            "name": "Migrate",
+            "title": "Migrate with confidence",
+            "body": "Move workloads to AWS securely and efficiently using proven methodologies and automation, with minimal risk and disruption.",
+            "readout": "Illustrative migration wave: cutover tested and rollback ready.",
+            "ref": "migrate-03",
+            "vizAlt": "Encrypted data flows from the on-premises estate through the Roaya guardrail into the AWS Region."
+          },
+          "secure": {
+            "name": "Secure",
+            "title": "Secure by design, not after the fact",
+            "body": "Identity, logging, threat detection and tested backup are part of the build, enforced by guardrails every workload passes through.",
+            "readout": "Illustrative guardrail view: non-compliant paths blocked at the boundary.",
+            "ref": "secure-04",
+            "vizAlt": "The AWS perimeter is closed and one non-conforming path is refused at the guardrail."
+          },
+          "operate": {
+            "name": "Operate",
+            "title": "Run it with one accountable team",
+            "body": "Monitoring, patching and incident response from a named local team — on your hours, in your language, with clear monthly reporting.",
+            "readout": "Illustrative operations view: health monitored with one named escalation path.",
+            "ref": "operate-05",
+            "vizAlt": "The AWS environment is monitored continuously, with all three availability zones healthy."
+          },
+          "optimize": {
+            "name": "Optimize",
+            "title": "Keep the bill and the architecture honest",
+            "body": "Tagging, budgets and recurring reviews turn spend into something you can steer, with rightsizing and commitments where they genuinely pay.",
+            "readout": "Illustrative cost review: rightsizing and commitments applied over time.",
+            "ref": "optimize-06",
+            "vizAlt": "Monthly AWS spend steps down as rightsizing and commitments take effect."
+          }
+        },
+        "cred": {
+          "partner": "AWS Partner",
+          "partnerTier": "Advanced Tier Services",
+          "certs": {
+            "value": "AWS",
+            "label": "Certified expertise"
+          },
+          "years": {
+            "value": "10+",
+            "label": "Years of cloud experience"
+          },
+          "support": {
+            "value": "24/7",
+            "label": "Local support"
+          },
+          "markets": {
+            "value": "Egypt · KSA · UAE",
+            "label": "Local presence"
+          }
         }
       },
       "why": {
         "title": "AWS is the platform. Roaya is the team that owns the outcome.",
-        "intro": "Planning, delivery and day-to-day operation sit with one accountable team — the same team after go-live as before it.",
+        "intro": "From architecture to day-to-day operations, one accountable team stays with your AWS environment throughout its lifecycle.",
+        "accountable": {
+          "aria": "Your business connects to AWS through one accountable Roaya team, supported by four integrated capabilities and one delivery path.",
+          "business": "Your business",
+          "businessNote": "Priorities, workloads and outcomes",
+          "coreTitle": "One accountable team",
+          "coreNote": "One owner across every stage",
+          "stagesAria": "Roaya delivery stages",
+          "stages": {
+            "design": {
+              "title": "Design",
+              "note": "Architecture and guardrails"
+            },
+            "deliver": {
+              "title": "Deliver",
+              "note": "Migration and modernisation"
+            },
+            "operate": {
+              "title": "Operate",
+              "note": "Run, support and optimise"
+            }
+          },
+          "platform": "AWS Cloud platform",
+          "platformNote": "Built on AWS. Delivered and operated by Roaya."
+        },
         "local": {
           "title": "Local expertise on a global cloud",
           "body": "Teams in Egypt, Saudi Arabia and the UAE working in your timezone and your language, with one named escalation path."
@@ -2438,44 +2549,205 @@
         "programmes": {
           "title": "Navigating the AWS programmes",
           "body": "We help eligible customers identify and navigate AWS programmes such as the Migration Acceleration Program. Eligibility and terms are set by AWS."
+        },
+        "eyebrow": "Why Roaya for AWS",
+        "titleLine1": "AWS is the platform.",
+        "titleBrand": "Roaya",
+        "titleLine2Post": " owns the outcome.",
+        "closing1": "One partner. One escalation path.",
+        "closing2": "One accountable outcome.",
+        "map": {
+          "egypt": "Egypt",
+          "ksa": "Saudi Arabia",
+          "uae": "UAE"
+        },
+        "flow": {
+          "scope": "Scope",
+          "plan": "Plan",
+          "deliver": "Deliver",
+          "operate": "Operate",
+          "discover": "Discover",
+          "validate": "Validate"
+        },
+        "defined": {
+          "scope": "Defined scope",
+          "cost": "Defined cost",
+          "outcomes": "Defined outcomes"
+        },
+        "layers": {
+          "identity": "Identity",
+          "protect": "Protect",
+          "monitor": "Monitor",
+          "backup": "Backup",
+          "recover": "Recover",
+          "network": "Network",
+          "detection": "Detection",
+          "compliance": "Compliance"
+        },
+        "stops": {
+          "workloads": {
+            "a": "Your",
+            "b": "workloads"
+          },
+          "roaya": {
+            "a": "Roaya",
+            "b": "accountable team"
+          },
+          "programmes": {
+            "a": "AWS",
+            "b": "programmes"
+          },
+          "outcome": {
+            "a": "Migration &",
+            "b": "modernisation"
+          },
+          "assess": {
+            "a": "Assess",
+            "b": "Workload review"
+          },
+          "mobilise": {
+            "a": "Mobilise",
+            "b": "Plan & eligibility"
+          },
+          "migrate": {
+            "a": "Migrate",
+            "b": "Waves & cutover"
+          },
+          "optimise": {
+            "a": "Optimise",
+            "b": "Cost & performance"
+          }
+        },
+        "programmeNote": "Eligibility and programme terms are determined by AWS.",
+        "pillars": {
+          "local": {
+            "title": "Local MENA expertise",
+            "note": "Egypt · Saudi Arabia · UAE",
+            "headline1": "Global AWS capability.",
+            "headline2": "Local accountability.",
+            "body": "Teams across Egypt, Saudi Arabia and the UAE work in your timezone, understand your market and give you one clear escalation path.",
+            "signal1": "Same timezone",
+            "signal2": "Local teams",
+            "signal3": "24/7 support",
+            "vizAlt": "A luminous AWS cloud connected by curved data paths to illuminated nodes in Egypt, Saudi Arabia and the UAE.",
+            "signalNote1": "Work with teams in your time",
+            "signalNote2": "On-the-ground experts across MENA",
+            "signalNote3": "Round-the-clock operations and support"
+          },
+          "delivery": {
+            "title": "Predictable delivery",
+            "note": "Defined scope · Clear commercials",
+            "headline1": "Clarity before",
+            "headline2": "delivery begins.",
+            "body": "Scope, commercials and deliverables are agreed before work starts, so execution stays predictable and free of hidden complexity.",
+            "signal1": "Defined scope",
+            "signal2": "Clear commercials",
+            "signal3": "Named deliverables",
+            "vizAlt": "A controlled delivery path: discover, scope, deliver, validate, with scope, cost and outcomes defined.",
+            "signalNote1": "Documented before kickoff",
+            "signalNote2": "Commercial model agreed per stage",
+            "signalNote3": "You know what arrives at each stage"
+          },
+          "security": {
+            "title": "Security by design",
+            "note": "Cybersecurity embedded from day one",
+            "headline1": "Security starts with",
+            "headline2": "the architecture.",
+            "body": "Identity, monitoring, logging, backup and recovery are designed into the environment from day one, backed by the Roaya cybersecurity practice.",
+            "signal1": "Identity first",
+            "signal2": "Always monitored",
+            "signal3": "Tested recovery",
+            "vizAlt": "An AWS workload surrounded by layered controls: identity, network, detection, backup and compliance.",
+            "signalNote1": "Access designed before workloads move",
+            "signalNote2": "Detection and logging from day one",
+            "signalNote3": "Backups proven, not assumed"
+          },
+          "programmes": {
+            "title": "AWS programme guidance",
+            "note": "Navigate migration and funding programmes",
+            "headline1": "Navigate AWS programmes",
+            "headline2": "with confidence.",
+            "body": "We help eligible customers identify and navigate relevant AWS programmes, including migration acceleration opportunities. Eligibility and programme terms remain subject to AWS requirements.",
+            "signal1": "Assessment first",
+            "signal2": "Programme mapping",
+            "signal3": "AWS-governed terms",
+            "vizAlt": "A guided route through the AWS programmes: assess, mobilise, migrate, optimise.",
+            "signalNote1": "Eligibility checked before any claim",
+            "signalNote2": "The right programme for the workload",
+            "signalNote3": "Eligibility always determined by AWS"
+          }
         }
       },
       "deliver": {
         "title": "One journey, from the first assessment to continuous operation",
-        "intro": "Each stage has a named deliverable, a fixed scope and a price agreed before it starts.",
+        "intro": "A proven end-to-end AWS lifecycle with clear deliverables, fixed scope and pricing agreed before we begin.",
         "assess": {
           "title": "Assess and plan",
-          "body": "Workload inventory, a total-cost baseline, a prioritised roadmap and a business case you can defend internally."
+          "body": "We assess your environment, establish a total-cost baseline and build a prioritised AWS roadmap aligned to the business.",
+          "deliverable": "Assessment report & roadmap"
         },
         "migrate": {
           "title": "Migrate",
-          "body": "Data-centre and VMware exit, databases, SAP and business applications moved in waves, each with testing and a rollback plan."
+          "body": "Workloads, databases, SAP and business applications move to AWS in controlled waves, with testing and rollback built in.",
+          "deliverable": "Migration report & runbook"
         },
         "modernise": {
           "title": "Modernise",
-          "body": "Containers, managed databases and delivery pipelines, with serverless where it genuinely fits the workload."
+          "body": "Re-architect workloads with containers, managed databases and serverless where they create measurable value.",
+          "deliverable": "Target architecture & modernisation plan"
         },
         "secure": {
           "title": "Secure and comply",
-          "body": "A secure landing zone, account and identity governance, logging, threat detection, and backup with tested recovery."
+          "body": "Security is built into the AWS foundation: identity governance, logging, threat detection, backup and tested recovery.",
+          "deliverable": "Security & compliance baseline"
         },
         "data": {
           "title": "Data and AI",
-          "body": "A data foundation and analytics layer, then AI use cases scoped to one clear business outcome at a time."
+          "body": "Establish a trusted AWS data foundation, then introduce focused AI use cases tied to measurable business outcomes.",
+          "deliverable": "Data foundation & AI use-case roadmap"
         },
         "operate": {
           "title": "Operate and optimise",
-          "body": "Managed AWS operations: monitoring, patching, incident response, and cost reviews that keep the bill under control."
+          "body": "Run, monitor and continuously optimise the AWS environment for reliability, security, performance and cost.",
+          "deliverable": "Operations & optimisation report"
+        },
+        "eyebrow": "Your AWS journey with Roaya",
+        "titleLine1": "One journey, from the first",
+        "titleLine2": "assessment to continuous operation.",
+        "deliverableLabel": "Deliverable",
+        "proof": {
+          "deliverables": {
+            "title": "Named deliverables",
+            "note": "For every stage"
+          },
+          "scope": {
+            "title": "Fixed scope & price",
+            "note": "Agreed before we start"
+          },
+          "method": {
+            "title": "Proven methodology",
+            "note": "Built on AWS best practices"
+          },
+          "partner": {
+            "title": "One accountable partner",
+            "note": "From start to scale"
+          }
         }
       },
       "credentials": {
-        "title": "What AWS Advanced Tier actually means",
-        "intro": "A credential AWS re-reviews, not a logo a partner requests.",
-        "body": "Advanced Tier requires proven delivery volume on AWS, a minimum number of active technical certifications held by the team, and a validation review run by AWS. It is a credential that is re-reviewed, not a logo you request.",
-        "note": "Before publishing, confirm the current tier, specialisations, certification count and approved badge assets in AWS Partner Central. Nothing unverified ships on this page.",
-        "slotTier": "Tier badge",
-        "slotCompetency": "Competency",
-        "slotDelivery": "Service delivery",
+        "eyebrow": "AWS Advanced Tier Services Partner",
+        "title": "What our AWS partnership means for you",
+        "intro": "AWS capability, delivered with local accountability.",
+        "body": "Roaya brings AWS expertise together with local teams across Egypt, Saudi Arabia and the UAE — from readiness and migration through security, managed operations and ongoing optimisation.",
+        "note": "One team, one escalation path and a clear outcome at every stage.",
+        "slotTier": "Advanced Tier",
+        "slotCompetency": "Local MENA delivery",
+        "slotDelivery": "24/7 managed operations",
+        "tierNote": "AWS Partner",
+        "localNote": "Egypt · Saudi Arabia · UAE",
+        "operationsNote": "Monitoring and support",
+        "regionNote": "Local team",
+        "visualLabel": "AWS capability connected to Roaya local delivery teams in Egypt, Saudi Arabia and the UAE",
         "practicesLabel": "Roaya capabilities behind the AWS work",
         "practicesNote": "The same four practices that run client environments today deliver and operate the AWS work.",
         "practices": {
@@ -2490,6 +2762,7 @@
         "intro": "Three markets, three delivery patterns — and one team behind all of them.",
         "egypt": {
           "name": "Egypt",
+          "code": "HYBRID",
           "title": "Egypt — hybrid operation and continuity",
           "body": "Most Egyptian organisations do not move in one step. We design hybrid patterns that link the local data centre to AWS, then migrate in waves while business continuity and branch connectivity stay intact.",
           "p1": "VMware exit and data-centre migration",
@@ -2499,8 +2772,9 @@
         },
         "ksa": {
           "name": "Saudi Arabia",
+          "code": "COMING SOON",
           "title": "Saudi Arabia — governance and enterprise modernisation",
-          "body": "Design starts with governance: identity, account boundaries, logging and controls that map to a real regulatory requirement. Every claim about data location is validated against current official AWS information before it is made.",
+          "body": "The AWS Saudi Arabia Region has been announced but is not yet generally available. We design for the AWS footprint available today and validate every residency and deployment decision against current official AWS information.",
           "p1": "Data-governance and compliance readiness",
           "p2": "Secure landing zones at enterprise scale",
           "p3": "Resilience for regulated workloads",
@@ -2508,6 +2782,7 @@
         },
         "uae": {
           "name": "United Arab Emirates",
+          "code": "ME-CENTRAL-1",
           "title": "United Arab Emirates — residency and modernisation",
           "body": "The AWS UAE Region is me-central-1 with three Availability Zones. We use it for high-availability designs in regulated and digital-native sectors, and scope any sovereignty requirement to a defined architecture before committing to it.",
           "p1": "Multi-AZ designs in me-central-1",
@@ -2544,7 +2819,7 @@
         "title": "Ask a cloud architect",
         "lead": "If your question is not answered here, send it and we reply directly.",
         "name": "Full name",
-        "namePh": "Nour Hassan",
+        "namePh": "Your full name",
         "nameError": "Enter your name.",
         "email": "Work email",
         "emailPh": "name@company.com",
@@ -2582,7 +2857,7 @@
       "faq": {
         "tier": {
           "q": "What does Roaya's AWS partner tier mean?",
-          "a": "Advanced Tier means AWS has validated our delivery volume, the number of active technical certifications held by the team, and customer outcomes. The tier and specialisations shown on this page match what is current in AWS Partner Central."
+          "a": "Roaya's Advanced Tier Services Partner status reflects demonstrated AWS expertise and delivery capability. For customers, that means access to certified specialists and a local team that can assess, migrate, secure and operate AWS environments end to end."
         },
         "residency": {
           "q": "Can our data stay in Egypt or Saudi Arabia?",

@@ -14,45 +14,45 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
     @if (showBanner()) {
-      <div class="fixed bottom-0 inset-x-0 z-50 p-4 bg-surface-elevated border-t border-edge-subtle shadow-2xl">
-        <div class="container mx-auto max-w-5xl">
-          <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+      <div class="fixed bottom-0 inset-x-0 z-50 p-3 bg-surface-elevated border-t border-edge-subtle shadow-2xl">
+        <div class="container mx-auto max-w-7xl">
+          <div class="flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-5">
             <!-- Icon & Message -->
-            <div class="flex items-start gap-3 flex-1">
-              <svg class="h-6 w-6 text-[#3D5A80] dark:text-[#5DB7C2] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div class="flex items-start sm:items-center gap-2.5 flex-1">
+              <svg class="h-5 w-5 text-primary-600 dark:text-secondary-400 flex-shrink-0 mt-0.5 sm:mt-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
                 <path d="m9 12 2 2 4-4"/>
               </svg>
-              <div class="flex-1">
-                <p class="text-sm text-content-secondary leading-relaxed">
-                  We use cookies and analytics to improve your experience. This includes visitor tracking and session recordings to enhance our services.
-                  <a [routerLink]="['/privacy']" class="text-[#3D5A80] dark:text-[#5DB7C2] underline hover:no-underline">Learn more</a>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1">
+                <p class="text-sm text-content-secondary leading-snug">
+                  We use analytics cookies to improve your experience. Session recording stays off unless you enable it.
+                  <a [routerLink]="['/privacy']" class="text-primary-600 dark:text-secondary-400 underline hover:no-underline">Learn more</a>
                 </p>
                 <!-- Recording Checkbox -->
-                <label class="flex items-center gap-2 mt-3 cursor-pointer">
+                <label class="flex items-center gap-2 shrink-0 cursor-pointer">
                   <input
                     type="checkbox"
                     [(ngModel)]="allowRecording"
-                    class="w-4 h-4 rounded border-edge-strong text-[#3D5A80] dark:text-[#5DB7C2] focus:ring-[#5DB7C2] dark:focus:ring-[#3D5A80]"
+                    class="w-4 h-4 rounded border-edge-strong text-primary-600 focus:ring-secondary-500"
                   />
-                  <span class="text-sm text-content-secondary">
-                    Allow session recording (helps us improve UX)
+                  <span class="text-sm text-content-secondary whitespace-nowrap">
+                    Allow session recording
                   </span>
                 </label>
               </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-3 w-full md:w-auto">
+            <div class="flex items-center gap-2 w-full lg:w-auto">
               <button
                 (click)="decline()"
-                class="flex-1 md:flex-initial px-4 py-2 text-sm font-medium text-content-secondary bg-surface-secondary rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                class="flex-1 lg:flex-initial px-4 py-1.5 text-sm font-medium text-content-secondary bg-surface-secondary rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
               >
                 Decline
               </button>
               <button
                 (click)="accept()"
-                class="flex-1 md:flex-initial px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] rounded-lg hover:shadow-lg transition-all"
+                class="flex-1 lg:flex-initial px-5 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-primary-700 to-secondary-500 rounded-lg hover:shadow-lg transition-all"
               >
                 Accept
               </button>

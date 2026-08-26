@@ -5,24 +5,44 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   PLATFORM_ID,
+  computed,
   inject,
   signal
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideClipboardList,
   lucideArrowLeftRight,
-  lucideBoxes,
   lucideShieldCheck,
-  lucideDatabase,
-  lucideGauge,
   lucidePlus,
   lucideMinus,
-  lucideCheck
+  lucideCheck,
+  lucideScanSearch,
+  lucideDraftingCompass,
+  lucideActivity,
+  lucideTrendingDown,
+  lucideBadgeCheck,
+  lucideMapPin,
+  lucideHeadset,
+  lucideArrowRight,
+  lucideChevronLeft,
+  lucideChevronRight,
+  lucideAward,
+  lucideClock,
+  lucideLifeBuoy,
+  lucideGlobe,
+  lucideTarget,
+  lucideCloud,
+  lucideBuilding2,
+  lucideFileText,
+  lucideCoins,
+  lucideCircleCheckBig,
+  lucideKeyRound,
+  lucideDatabaseBackup,
+  lucideRocket,
 } from '@ng-icons/lucide';
 import { firstValueFrom, filter, take } from 'rxjs';
 import { gsap } from 'gsap';
@@ -33,6 +53,8 @@ import { ScrollSmootherService } from '../../../core/services/scroll-smoother.se
 import { SEOService } from '../../../core/services/seo.service';
 
 type RegionId = 'egypt' | 'ksa' | 'uae';
+type StageId = 'assess' | 'design' | 'migrate' | 'secure' | 'operate' | 'optimize';
+type PillarId = 'local' | 'delivery' | 'security' | 'programmes';
 
 /**
  * AWS Partnership landing page.
@@ -44,7 +66,7 @@ type RegionId = 'egypt' | 'ksa' | 'uae';
 @Component({
   selector: 'app-aws',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslateModule, NgIcon],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, NgIcon],
   templateUrl: './aws.component.html',
   styleUrl: './aws.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,13 +74,33 @@ type RegionId = 'egypt' | 'ksa' | 'uae';
     provideIcons({
       lucideClipboardList,
       lucideArrowLeftRight,
-      lucideBoxes,
       lucideShieldCheck,
-      lucideDatabase,
-      lucideGauge,
       lucidePlus,
       lucideMinus,
-      lucideCheck
+      lucideCheck,
+      lucideScanSearch,
+      lucideDraftingCompass,
+      lucideActivity,
+      lucideTrendingDown,
+      lucideBadgeCheck,
+      lucideMapPin,
+      lucideHeadset,
+      lucideArrowRight,
+      lucideChevronLeft,
+      lucideChevronRight,
+      lucideAward,
+      lucideClock,
+      lucideLifeBuoy,
+      lucideGlobe,
+      lucideTarget,
+      lucideCloud,
+      lucideBuilding2,
+      lucideFileText,
+      lucideCoins,
+      lucideCircleCheckBig,
+      lucideKeyRound,
+      lucideDatabaseBackup,
+      lucideRocket
     })
   ]
 })
@@ -72,26 +114,66 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
   private scrollTriggers: ScrollTrigger[] = [];
   private animationsStarted = false;
 
-  readonly markPath = '/assets/images/aws/roaya-mark.png';
-  readonly lockupPath = '/assets/images/aws/roaya-horizontal-reversed.png';
+  /**
+   * Brand marks for the partnership lockup. Both brands ship a light and a
+   * reversed variant so the lockup needs no plate behind it: the theme picks
+   * the artwork instead of a box being drawn to rescue contrast.
+   *
+   * aws-mark*.png are un-matted from the supplied logo (the original was
+   * matted onto opaque white); the reversed pair keeps the official orange.
+   */
+  readonly awsLogoPath = '/assets/images/aws/aws-mark.png';
+  readonly awsLogoReversedPath = '/assets/images/aws/aws-mark-reversed.png';
+  readonly roayaLogoPath = '/assets/images/aws/roaya-mark-ink.png';
+  readonly roayaLogoReversedPath = '/assets/images/aws/roaya-mark-reversed.png';
 
-  readonly whyItems = [
-    { id: 'local', n: '01' },
-    { id: 'pricing', n: '02' },
-    { id: 'security', n: '03' },
-    { id: 'programmes', n: '04' }
+  /** High-signal proof points kept in the first fold beside the main CTA. */
+  readonly heroProofs = [
+    { id: 'tier', icon: 'lucideAward' },
+    { id: 'years', icon: 'lucideClock' },
+    { id: 'support', icon: 'lucideLifeBuoy' },
+    { id: 'markets', icon: 'lucideGlobe' }
   ] as const;
 
-  readonly services = [
-    { id: 'assess', icon: 'lucideClipboardList' },
-    { id: 'migrate', icon: 'lucideArrowLeftRight' },
-    { id: 'modernise', icon: 'lucideBoxes' },
-    { id: 'secure', icon: 'lucideShieldCheck' },
-    { id: 'data', icon: 'lucideDatabase' },
-    { id: 'operate', icon: 'lucideGauge' }
+  /**
+   * The six stages of the engagement. They drive one shared topology in the
+   * hero — the same estate/transit/AWS mechanism re-lit per stage — rather
+   * than six unrelated illustrations.
+   */
+  readonly journey: { id: StageId; n: string; icon: string }[] = [
+    { id: 'assess', n: '01', icon: 'lucideScanSearch' },
+    { id: 'design', n: '02', icon: 'lucideDraftingCompass' },
+    { id: 'migrate', n: '03', icon: 'lucideArrowLeftRight' },
+    { id: 'secure', n: '04', icon: 'lucideShieldCheck' },
+    { id: 'operate', n: '05', icon: 'lucideActivity' },
+    { id: 'optimize', n: '06', icon: 'lucideTrendingDown' }
+  ];
+
+  /**
+   * 'Why Roaya' pillars. Like the hero journey, the rail drives one panel:
+   * selecting a pillar swaps the story AND its visualisation together.
+   */
+  readonly pillars: { id: PillarId; n: string; icon: string }[] = [
+    { id: 'local', n: '01', icon: 'lucideGlobe' },
+    { id: 'delivery', n: '02', icon: 'lucideTarget' },
+    { id: 'security', n: '03', icon: 'lucideShieldCheck' },
+    { id: 'programmes', n: '04', icon: 'lucideCloud' }
+  ];
+
+  /** The single accountable delivery path below the Roaya core. */
+  readonly accountStages = [
+    { id: 'design', icon: 'lucideDraftingCompass' },
+    { id: 'deliver', icon: 'lucideRocket' },
+    { id: 'operate', icon: 'lucideActivity' }
   ] as const;
 
-  readonly processSteps = ['discover', 'propose', 'migrate', 'operate'] as const;
+  /** Three secondary indicators per pillar, in template order. */
+  readonly pillarSignals: Record<PillarId, string[]> = {
+    local: ['lucideClock', 'lucideMapPin', 'lucideLifeBuoy'],
+    delivery: ['lucideFileText', 'lucideCoins', 'lucideCircleCheckBig'],
+    security: ['lucideKeyRound', 'lucideActivity', 'lucideDatabaseBackup'],
+    programmes: ['lucideClipboardList', 'lucideRocket', 'lucideBadgeCheck']
+  };
 
   readonly faqs = [
     'tier',
@@ -102,30 +184,68 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
     'arabic'
   ] as const;
 
-  readonly regions: { id: RegionId; code: string }[] = [
-    { id: 'egypt', code: 'CAI-HYB' },
-    { id: 'ksa', code: 'ME-SOUTH-1' },
-    { id: 'uae', code: 'ME-CENTRAL-1' }
+  readonly regions: { id: RegionId }[] = [
+    { id: 'egypt' },
+    { id: 'ksa' },
+    { id: 'uae' }
   ];
 
   readonly practices = ['cloud', 'security', 'email', 'managed'] as const;
   readonly markets = ['egypt', 'ksa', 'uae', 'other'] as const;
   readonly topics = ['migration', 'security', 'cost', 'ops', 'data', 'other'] as const;
 
-  readonly opsRows = [
-    { id: 'landing', state: 'ready' },
-    { id: 'cost', state: 'progress' },
-    { id: 'watch', state: 'live' }
+  readonly motes = this.seedMotes(14, 20260824);
+
+  /** Three abstract territory clusters — a region field, not a coastline. */
+  readonly regionDots = this.seedRegion();
+
+  readonly deliverySteps = [
+    { id: 'discover', n: '01', x: 96 },
+    { id: 'scope', n: '02', x: 224 },
+    { id: 'deliver', n: '03', x: 352 },
+    { id: 'validate', n: '04', x: 480 }
   ] as const;
 
-  readonly motes = this.seedMotes(26, 20260824);
+  readonly securityLayers = [
+    { id: 'identity', x: 62 },
+    { id: 'network', x: 171 },
+    { id: 'detection', x: 280 },
+    { id: 'backup', x: 389 },
+    { id: 'compliance', x: 498 }
+  ] as const;
+
+  readonly programmeStops = [
+    { id: 'assess', n: '01', x: 12 },
+    { id: 'mobilise', n: '02', x: 152 },
+    { id: 'migrate', n: '03', x: 292 },
+    { id: 'optimise', n: '04', x: 432 }
+  ] as const;
+
+  readonly programmeLinks = [
+    { from: 124, to: 152 },
+    { from: 264, to: 292 },
+    { from: 404, to: 432 }
+  ] as const;
 
   readonly activeRegion = signal<RegionId>('egypt');
+  readonly activeStage = signal<StageId>('assess');
+  readonly activeStageIndex = computed(() =>
+    this.journey.findIndex((stage) => stage.id === this.activeStage())
+  );
+  readonly activeStageNumber = computed(() => this.journey[this.activeStageIndex()].n);
+  readonly activePillar = signal<PillarId>('local');
+  readonly activePillarIndex = computed(() =>
+    this.pillars.findIndex((pillar) => pillar.id === this.activePillar())
+  );
+  readonly activePillarNumber = computed(() => this.pillars[this.activePillarIndex()].n);
   readonly openFaq = signal<number | null>(null);
   readonly isSubmitting = signal(false);
   readonly isSubmitted = signal(false);
   readonly hasError = signal(false);
-  readonly prefersReducedMotion = signal(false);
+  readonly prefersReducedMotion = signal(
+    isPlatformBrowser(inject(PLATFORM_ID)) &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 
   readonly questionForm = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -138,11 +258,12 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.seo.updateSEO({
-      title: 'AWS Advanced Tier Partner — Roaya IT',
+      title: 'Roaya Is Now an AWS Advanced Tier Services Partner',
       description:
-        'Roaya assesses, designs, migrates, secures and operates AWS environments for enterprises across Egypt, Saudi Arabia and the UAE.',
+        'Roaya is now an AWS Advanced Tier Services Partner, helping enterprises across Egypt, Saudi Arabia and the UAE assess, migrate, secure and operate AWS environments.',
       keywords:
         'AWS partner Egypt, AWS Advanced Tier, AWS migration, AWS managed services, Roaya AWS, cloud Egypt, AWS Saudi Arabia, AWS UAE me-central-1',
+      url: 'https://roaya.co/services/aws',
       type: 'website'
     });
   }
@@ -176,17 +297,130 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeRegion.set(id);
   }
 
+  selectStage(id: StageId): void {
+    this.activeStage.set(id);
+  }
+
+  nextStage(): void {
+    const last = this.journey.length - 1;
+    const index = this.activeStageIndex();
+    this.activeStage.set(this.journey[index === last ? 0 : index + 1].id);
+  }
+
+  prevStage(): void {
+    const last = this.journey.length - 1;
+    const index = this.activeStageIndex();
+    this.activeStage.set(this.journey[index === 0 ? last : index - 1].id);
+  }
+
+  /**
+   * Vertical tablist keyboard model: Up/Down cycle, Home/End jump. Roving
+   * tabindex means focus has to follow the selection once Angular has
+   * rendered the new `tabindex`, hence the deferred focus call.
+   */
+  selectPillar(id: PillarId): void {
+    this.activePillar.set(id);
+  }
+
+  nextPillar(): void {
+    const last = this.pillars.length - 1;
+    const index = this.activePillarIndex();
+    this.activePillar.set(this.pillars[index === last ? 0 : index + 1].id);
+  }
+
+  prevPillar(): void {
+    const last = this.pillars.length - 1;
+    const index = this.activePillarIndex();
+    this.activePillar.set(this.pillars[index === 0 ? last : index - 1].id);
+  }
+
+  /** Keyboard model for the four capability nodes in the accountable team. */
+  onPillarKeydown(event: KeyboardEvent): void {
+    const last = this.pillars.length - 1;
+    const from = this.activePillarIndex();
+    let next: number;
+
+    switch (event.key) {
+      case 'ArrowDown':
+        next = from === last ? 0 : from + 1;
+        break;
+      case 'ArrowUp':
+        next = from === 0 ? last : from - 1;
+        break;
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = last;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    this.activePillar.set(this.pillars[next].id);
+
+    if (!isPlatformBrowser(this.platformId)) return;
+    const rail = event.currentTarget as HTMLElement;
+    const id = this.pillars[next].id;
+    setTimeout(() => rail.querySelector<HTMLElement>('#aws-account-tab-' + id)?.focus(), 0);
+  }
+
+  onRailKeydown(event: KeyboardEvent): void {
+    const last = this.journey.length - 1;
+    const from = this.activeStageIndex();
+    let next: number;
+
+    switch (event.key) {
+      case 'ArrowDown':
+        next = from === last ? 0 : from + 1;
+        break;
+      case 'ArrowUp':
+        next = from === 0 ? last : from - 1;
+        break;
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = last;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    this.activeStage.set(this.journey[next].id);
+
+    if (!isPlatformBrowser(this.platformId)) return;
+    const rail = event.currentTarget as HTMLElement;
+    const id = this.journey[next].id;
+    setTimeout(() => rail.querySelector<HTMLElement>('#aws-stage-tab-' + id)?.focus(), 0);
+  }
+
   toggleFaq(index: number): void {
     this.openFaq.update((open) => (open === index ? null : index));
   }
 
   scrollToQuestions(): void {
+    this.scrollToSection('questions');
+  }
+
+  scrollToCredentials(): void {
+    this.scrollToSection('credentials');
+  }
+
+  private scrollToSection(id: string): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    const target = document.getElementById('questions');
+    const target = document.getElementById(id);
     if (!target) return;
 
     if (this.smoother.isReady()) {
-      this.smoother.scrollTo(target, true, 'top 96px');
+      // ScrollSmoother can ignore transformed element targets on touch-sized
+      // viewports. A numeric position is reliable and keeps ScrollTrigger in
+      // sync so the destination's reveal animations still run.
+      const headerOffset = 96;
+      const top = target.getBoundingClientRect().top + this.smoother.scrollTop() - headerOffset;
+      this.smoother.scrollTo(Math.max(0, top), !this.prefersReducedMotion());
       return;
     }
 
@@ -295,6 +529,33 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.scrollTriggers.push(trigger);
     });
+  }
+
+  /**
+   * A deterministic dot field in three clusters, sized so the shape reads as
+   * "three markets" without asserting real borders.
+   */
+  private seedRegion(): { x: number; y: number; z: number }[] {
+    let seed = 19470723;
+    const prand = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
+    const clusters = [
+      { cx: 128, cy: 172, rx: 46, ry: 26 },
+      { cx: 280, cy: 176, rx: 58, ry: 28 },
+      { cx: 432, cy: 172, rx: 46, ry: 26 }
+    ];
+    const dots: { x: number; y: number; z: number }[] = [];
+    clusters.forEach((cluster, ci) => {
+      for (let i = 0; i < 34; i++) {
+        const angle = prand() * Math.PI * 2;
+        const radius = Math.sqrt(prand());
+        dots.push({
+          x: Math.round(cluster.cx + Math.cos(angle) * radius * cluster.rx),
+          y: Math.round(cluster.cy + Math.sin(angle) * radius * cluster.ry),
+          z: (ci + i) % 3
+        });
+      }
+    });
+    return dots;
   }
 
   private seedMotes(count: number, seedStart: number): { x: number; y: number; r: number; v: number }[] {

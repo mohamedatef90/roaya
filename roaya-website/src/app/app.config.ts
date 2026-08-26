@@ -59,7 +59,7 @@ export const appConfig: ApplicationConfig = {
     // ngx-translate for i18n with AI translation support
     importProvidersFrom(
       TranslateModule.forRoot({
-        defaultLanguage: 'en',
+        fallbackLang: 'en',
         loader: {
           provide: TranslateLoader,
           useFactory: HybridTranslationLoaderFactory,

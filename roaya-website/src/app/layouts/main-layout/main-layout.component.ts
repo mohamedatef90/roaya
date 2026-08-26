@@ -37,6 +37,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Content entrance animation gate
   contentEntered = false;
   isHomeRoute = true;
+  showScrollIndicator = true;
   scrollProgress = 0;
 
   // Scroll state signal
@@ -404,6 +405,8 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateRouteState(url: string): void {
     // Treat root as home; everything else as non-home
     this.isHomeRoute = url === '/' || url === '';
+    const pathname = url.split(/[?#]/, 1)[0].replace(/\/+$/, '');
+    this.showScrollIndicator = pathname !== '/services/aws';
   }
 
   toggleTheme(): void {
