@@ -72,6 +72,7 @@ export const BREADCRUMB_LABEL_KEYS: Readonly<Record<string, string>> = {
   '/': 'common.home',
   '/services': 'common.services',
   '/services/automation': 'services.automation.title',
+  '/services/aws': 'services.aws.title',
   '/services/backup': 'services.backup.title',
   '/services/cloud': 'services.cloud.title',
   '/services/consulting': 'services.consulting.title',

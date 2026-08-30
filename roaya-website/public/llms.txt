@@ -30,6 +30,7 @@ Every page below exists in English at its listed URL and in Arabic at the same p
 - [SAP cloud operations](https://roaya.co/services/sap)
 - [DevOps services](https://roaya.co/services/devops)
 - [IT automation & AI solutions](https://roaya.co/services/automation)
+- [AWS partnership](https://roaya.co/services/aws): Assess, migrate, secure and operate AWS with a local team that owns the outcome.
 - [WorldPosta cloud services](https://roaya.co/services/worldposta): Roaya is the Exclusive MENA partner of WorldPosta. WorldPosta's CloudEdge product: "Welcome to CloudEdge by WorldPosta, your all-in-one secure, scalable cloud hosting solution. Designed to handle mission-critical applications with ease, CloudEdge offers flexibility, robust security, and high performance perfect for businesses of all sizes." CloudEdge and Posta are published at 99.99% uptime; this figure applies only to CloudEdge and Posta, not to other Roaya or WorldPosta products.
 
 ## Industries

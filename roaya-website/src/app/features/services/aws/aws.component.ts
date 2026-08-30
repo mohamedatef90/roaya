@@ -55,7 +55,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ApiService } from '../../../core/services/api.service';
 import { AnalyticsService } from '../../../core/services/analytics.service';
 import { ScrollSmootherService } from '../../../core/services/scroll-smoother.service';
-import { SEOService } from '../../../core/services/seo.service';
 
 type RegionId = 'egypt' | 'ksa' | 'uae' | 'pakistan';
 type StageId = 'assess' | 'design' | 'migrate' | 'secure' | 'operate' | 'optimize';
@@ -119,7 +118,6 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly api = inject(ApiService);
   private readonly analytics = inject(AnalyticsService);
   private readonly smoother = inject(ScrollSmootherService);
-  private readonly seo = inject(SEOService);
   private readonly platformId = inject(PLATFORM_ID);
   private scrollTriggers: ScrollTrigger[] = [];
   private animationsStarted = false;
@@ -292,15 +290,8 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.seo.updateSEO({
-      title: 'Roaya Is Now an AWS Advanced Tier Services Partner',
-      description:
-        'Roaya is now an AWS Advanced Tier Services Partner, helping enterprises across Egypt, Saudi Arabia and the UAE assess, migrate, secure and operate AWS environments.',
-      keywords:
-        'AWS partner Egypt, AWS Advanced Tier, AWS migration, AWS managed services, Roaya AWS, cloud Egypt, AWS Saudi Arabia, AWS UAE me-central-1',
-      url: 'https://roaya.co/services/aws',
-      type: 'website'
-    });
+    // SEO metadata for this route comes from the ROUTE_METADATA registry
+    // (single SEO writer, TIFO-14) — bilingual and applied on lang change.
   }
 
   ngAfterViewInit(): void {

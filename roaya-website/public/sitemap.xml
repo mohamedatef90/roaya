@@ -52,6 +52,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/automation"/>
   </url>
   <url>
+    <loc>https://roaya.co/services/aws</loc>
+    <lastmod>2026-08-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/aws"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/aws"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/aws"/>
+  </url>
+  <url>
+    <loc>https://roaya.co/ar/services/aws</loc>
+    <lastmod>2026-08-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/aws"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/services/aws"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/services/aws"/>
+  </url>
+  <url>
     <loc>https://roaya.co/services/backup</loc>
     <lastmod>2026-01-20</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/services/backup"/>

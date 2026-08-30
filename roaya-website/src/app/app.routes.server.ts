@@ -43,6 +43,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'ar/services', renderMode: RenderMode.Prerender },
   { path: 'services/automation', renderMode: RenderMode.Prerender },
   { path: 'ar/services/automation', renderMode: RenderMode.Prerender },
+  { path: 'services/aws', renderMode: RenderMode.Prerender },
+  { path: 'ar/services/aws', renderMode: RenderMode.Prerender },
   { path: 'services/backup', renderMode: RenderMode.Prerender },
   { path: 'ar/services/backup', renderMode: RenderMode.Prerender },
   { path: 'services/cloud', renderMode: RenderMode.Prerender },
