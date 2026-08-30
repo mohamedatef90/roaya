@@ -70,7 +70,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.keyFeatures' | translate }}
         </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-2xl mx-auto">
           {{ 'services.' + serviceId() + '.description' | translate }}
         </p>
       </div>
@@ -79,7 +79,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
         @for (featureKey of ['infrastructure', 'migration', 'optimization', 'monitoring']; track featureKey; let i = $index) {
           <div
-            class="group p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-2 animate-fade-in-up"
+            class="group p-6 bg-surface-elevated rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-edge-subtle hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-2 animate-fade-in-up"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Feature Icon -->
             <div class="w-14 h-14 mb-4 bg-gradient-to-br from-[var(--color-primary-500)] to-[var(--color-secondary-500)] rounded-xl flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
@@ -104,7 +104,7 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.detail.whyChoose.title' | translate }}
           </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.detail.whyChoose.description' | translate }}
           </p>
         </div>
@@ -113,16 +113,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           @for (benefit of benefits; track benefit.key; let i = $index) {
             <div
-              class="group flex items-start gap-4 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-[var(--color-primary-300)] dark:hover:border-[var(--color-primary-600)] animate-fade-in-up"
+              class="group flex items-start gap-4 p-6 bg-surface-elevated rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-[var(--color-primary-300)] dark:hover:border-[var(--color-primary-600)] animate-fade-in-up"
               [style.animation-delay]="i * 100 + 'ms'">
               <div class="flex-shrink-0 w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform">
                 <ng-icon [name]="benefit.icon" size="24"></ng-icon>
               </div>
               <div>
-                <h4 class="font-semibold mb-2 text-gray-900 dark:text-gray-100 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">
+                <h4 class="font-semibold mb-2 text-content-primary group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">
                   {{ 'services.detail.benefits.' + benefit.key + '.title' | translate }}
                 </h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p class="text-sm text-content-secondary leading-relaxed">
                   {{ 'services.detail.benefits.' + benefit.key + '.description' | translate }}
                 </p>
               </div>
@@ -141,7 +141,7 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             {{ 'services.detail.industries.title' | translate }}
           </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
+          <p class="text-lg text-content-secondary">
             {{ 'services.detail.industries.description' | translate }}
           </p>
         </div>
@@ -150,7 +150,7 @@
         <div class="flex flex-wrap justify-center gap-4">
           @for (industry of industries; track industry; let i = $index) {
             <div
-              class="group px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full font-medium hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:bg-gradient-to-r hover:from-[var(--color-primary-50)] hover:to-[var(--color-secondary-50)] dark:hover:from-[var(--color-primary-900)] dark:hover:to-[var(--color-secondary-900)] transition-all duration-300 cursor-default animate-fade-in-up hover:shadow-md"
+              class="group px-6 py-3 bg-surface-elevated border-2 border-edge-subtle rounded-full font-medium hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:bg-gradient-to-r hover:from-[var(--color-primary-50)] hover:to-[var(--color-secondary-50)] dark:hover:from-[var(--color-primary-900)] dark:hover:to-[var(--color-secondary-900)] transition-all duration-300 cursor-default animate-fade-in-up hover:shadow-md"
               [style.animation-delay]="i * 50 + 'ms'">
               <ng-icon name="faBuilding" class="inline-block mr-2 rtl:ml-2 rtl:mr-0 group-hover:scale-110 transition-transform" size="16"></ng-icon>
               {{ 'services.detail.industries.' + industry.toLowerCase().replace(' ', '_') | translate }}
@@ -169,7 +169,7 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
             Transparent Pricing
           </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
+          <p class="text-lg text-content-secondary">
             No hidden fees. No surprises. Choose the plan that fits your needs.
           </p>
         </div>
@@ -178,14 +178,14 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           @for (tier of pricingTiers(); track tier.name; let i = $index) {
             <div
-              class="group h-full flex flex-col bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-1 animate-fade-in-up"
+              class="group h-full flex flex-col bg-surface-elevated rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-edge-subtle hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-1 animate-fade-in-up"
               [style.animation-delay]="i * 100 + 'ms'">
               <h3 class="text-xl font-bold mb-4 group-hover:text-[var(--color-primary-600)] dark:group-hover:text-[var(--color-primary-400)] transition-colors">{{ tier.name }}</h3>
               <div class="mb-6 flex-grow">
                 <div class="text-2xl font-bold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]">
                   Get Your Custom Quote
                 </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                <p class="text-sm text-content-secondary mt-2">
                   Tailored to your needs
                 </p>
               </div>
@@ -220,7 +220,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           {{ 'services.detail.relatedServices.title' | translate }}
         </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400">
+        <p class="text-lg text-content-secondary">
           {{ 'services.detail.relatedServices.description' | translate }}
         </p>
       </div>
@@ -230,7 +230,7 @@
         @for (relatedService of relatedServices(); track relatedService.id; let i = $index) {
           <a
             [routerLink]="[relatedService.route]"
-            class="group block p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-200 dark:border-gray-700 hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-2 animate-fade-in-up"
+            class="group block p-6 bg-surface-elevated rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-edge-subtle hover:border-[var(--color-primary-500)] dark:hover:border-[var(--color-primary-500)] hover:-translate-y-2 animate-fade-in-up"
             [style.animation-delay]="i * 100 + 'ms'">
             <!-- Service Icon -->
             <div class="w-16 h-16 mb-4 rounded-xl bg-gradient-to-br from-[var(--color-primary-500)] to-[var(--color-secondary-500)] flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden shadow-lg">
@@ -244,7 +244,7 @@
             </h3>
 
             <!-- Service Description -->
-            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+            <p class="text-content-secondary text-sm mb-4 leading-relaxed">
               {{ relatedService.description | translate }}
             </p>
 

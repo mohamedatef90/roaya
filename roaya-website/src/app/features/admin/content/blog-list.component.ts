@@ -47,16 +47,16 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
   template: `
     <div class="content-page p-6">
       <!-- Page Header -->
-      <div class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="mb-6 pb-6 border-b border-edge-subtle">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 class="flex items-center gap-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-content-primary">
               <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
               </svg>
               {{ 'Blog Posts' | translate }}
             </h1>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-sm text-content-muted mt-1">
               {{ 'Manage your blog content' | translate }}
             </p>
           </div>
@@ -73,7 +73,7 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
       </div>
 
       <!-- Filters -->
-      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 mb-6">
+      <div class="bg-surface-elevated rounded-xl border border-edge-subtle p-4 mb-6">
         <div class="flex flex-col sm:flex-row gap-4">
           <!-- Search -->
           <div class="flex-1 relative">
@@ -85,7 +85,7 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
               [(ngModel)]="searchQuery"
               (keyup.enter)="loadContent()"
               placeholder="Search posts..."
-              class="w-full h-10 pl-10 pr-4 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              class="w-full h-10 pl-10 pr-4 rounded-lg border border-edge-subtle bg-surface-elevated text-sm text-content-primary placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
           <!-- Status Filter -->
@@ -100,7 +100,7 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
           <!-- Search Button -->
           <button
             (click)="loadContent()"
-            class="h-10 px-4 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+            class="h-10 px-4 rounded-lg bg-surface-secondary text-content-secondary hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
           >
             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
@@ -113,24 +113,24 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-16">
           <ui-spinner size="lg" variant="default"></ui-spinner>
-          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">Loading posts...</p>
+          <p class="mt-4 text-sm text-content-muted">Loading posts...</p>
         </div>
       } @else {
         <!-- Content Table -->
-        <div class="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-x-auto">
+        <div class="bg-surface-elevated rounded-xl border border-edge-subtle overflow-x-auto">
           <!-- Table Header -->
-          <div class="hidden lg:grid grid-cols-[minmax(200px,1fr)_100px_60px_120px_100px] gap-4 px-6 py-3 bg-neutral-50 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 min-w-[600px]">
-            <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Title</span>
-            <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Status</span>
-            <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 text-center">Views</span>
-            <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Published</span>
-            <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 text-center">Actions</span>
+          <div class="hidden lg:grid grid-cols-[minmax(200px,1fr)_100px_60px_120px_100px] gap-4 px-6 py-3 bg-surface-secondary border-b border-edge-subtle min-w-[600px]">
+            <span class="text-xs font-semibold uppercase tracking-wide text-content-muted">Title</span>
+            <span class="text-xs font-semibold uppercase tracking-wide text-content-muted">Status</span>
+            <span class="text-xs font-semibold uppercase tracking-wide text-content-muted text-center">Views</span>
+            <span class="text-xs font-semibold uppercase tracking-wide text-content-muted">Published</span>
+            <span class="text-xs font-semibold uppercase tracking-wide text-content-muted text-center">Actions</span>
           </div>
 
           <!-- Table Body -->
           @if (contents().length > 0) {
             @for (item of contents(); track item.id) {
-              <div class="grid grid-cols-1 lg:grid-cols-[minmax(200px,1fr)_100px_60px_120px_100px] gap-4 px-6 py-4 items-center border-b border-neutral-100 dark:border-neutral-800 last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors min-w-[600px]">
+              <div class="grid grid-cols-1 lg:grid-cols-[minmax(200px,1fr)_100px_60px_120px_100px] gap-4 px-6 py-4 items-center border-b border-edge-subtle last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors min-w-[600px]">
                 <!-- Title & Image -->
                 <div class="flex items-center gap-3">
                   @if (item.featuredImage) {
@@ -139,7 +139,7 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
                       [style.background-image]="'url(' + item.featuredImage + ')'"
                     ></div>
                   } @else {
-                    <div class="w-12 h-12 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center flex-shrink-0">
+                    <div class="w-12 h-12 rounded-lg bg-surface-secondary flex items-center justify-center flex-shrink-0">
                       <svg class="h-5 w-5 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
                         <circle cx="9" cy="9" r="2"/>
@@ -148,8 +148,8 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
                     </div>
                   }
                   <div class="min-w-0">
-                    <p class="font-medium text-neutral-900 dark:text-neutral-100 truncate">{{ item.titleEn }}</p>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-400 truncate">
+                    <p class="font-medium text-content-primary truncate">{{ item.titleEn }}</p>
+                    <p class="text-sm text-content-muted truncate">
                       {{ item.excerptEn || 'No excerpt' }}
                     </p>
                   </div>
@@ -166,12 +166,12 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
                 </div>
 
                 <!-- Views -->
-                <div class="text-center text-sm text-neutral-600 dark:text-neutral-400">
+                <div class="text-center text-sm text-content-secondary">
                   {{ item.viewCount || 0 }}
                 </div>
 
                 <!-- Published Date -->
-                <div class="text-sm text-neutral-600 dark:text-neutral-400">
+                <div class="text-sm text-content-secondary">
                   {{ item.publishedAt ? formatDate(item.publishedAt) : 'Not published' }}
                 </div>
 
@@ -224,20 +224,20 @@ import { ContentEditorDialogComponent } from './components/content-editor-dialog
           } @else {
             <!-- Empty State -->
             <div class="flex flex-col items-center justify-center py-16 text-center">
-              <div class="w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
+              <div class="w-16 h-16 rounded-full bg-surface-secondary flex items-center justify-center mb-4">
                 <svg class="h-8 w-8 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+              <h3 class="text-lg font-semibold text-content-primary mb-2">
                 No blog posts found
               </h3>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">
+              <p class="text-sm text-content-muted mb-6">
                 Create your first blog post to share with your audience.
               </p>
               <button
                 (click)="openEditorDialog()"
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-edge-subtle text-content-secondary hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
               >
                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 12h14"/><path d="M12 5v14"/>

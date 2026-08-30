@@ -65,7 +65,7 @@ interface ClickPoint {
       <div class="page-header">
         <div>
           <h1>Heatmaps</h1>
-          <p class="text-slate-500 dark:text-slate-400">
+          <p class="text-content-muted">
             Visualize where users click and how far they scroll
           </p>
         </div>
@@ -96,7 +96,7 @@ interface ClickPoint {
                 <i class="pi pi-list mr-2 text-teal-500"></i>
                 Pages
               </h3>
-              <span class="text-xs text-slate-500 dark:text-slate-400">
+              <span class="text-xs text-content-muted">
                 {{ pages().length }} tracked
               </span>
             </div>
@@ -173,7 +173,7 @@ interface ClickPoint {
               <div class="flex items-center gap-4">
                 <!-- Radius Control -->
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Radius:</span>
+                  <span class="text-xs font-semibold text-content-secondary">Radius:</span>
                   @for (option of radiusOptions; track option.value) {
                     <button
                       class="radius-btn"
@@ -356,7 +356,7 @@ interface ClickPoint {
               <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Select a Page
               </h3>
-              <p class="text-slate-500 dark:text-slate-400">
+              <p class="text-content-muted">
                 Choose a page from the list to view its heatmap
               </p>
             </div>

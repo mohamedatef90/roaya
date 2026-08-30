@@ -50,8 +50,9 @@ export class NavigationService {
   currentRoute = signal<string>('');
 
   // Main navigation items (Services is handled by mega menu in header)
+  // No 'common.home' entry: the header/drawer logo is the Home link, so a
+  // separate menu item pointed at the same route.
   navItems: NavItem[] = [
-    { label: 'common.home', route: '/' },
     { label: 'common.industries', route: '/industries' },
     { label: 'common.resources', route: '/resources' },
     { label: 'common.about', route: '/about' },

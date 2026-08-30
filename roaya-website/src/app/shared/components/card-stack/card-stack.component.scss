@@ -65,7 +65,35 @@
 .card-stack-section {
   position: relative;
   overflow: visible; // Changed from hidden to allow cards to be seen
-  background-color: var(--stack-color-mint-bg);
+
+  // The site's cinematic ramp — the same stops as the hero, and as the
+  // `.cinematic-ramp` class in src/styles.scss that the "Why Choose Us" and
+  // penetration-testing brief sections use. The 0.2 black layer sits on top
+  // and stands in for the hero's bg-black/20 veil so all four composite alike.
+  //
+  // Set unconditionally rather than per-theme on purpose. Theme-conditional
+  // rules cannot work from inside this file: Angular's emulated encapsulation
+  // appends the component's content attribute to EVERY compound selector, so
+  // an ancestor condition compiles to `[data-theme="dark"][_ngcontent-x]` and
+  // never matches <html>. That is exactly why the "Dark Mode Overrides" block
+  // that used to live at the bottom of this file never applied — the section
+  // rendered pale mint in dark mode too. Keeping one dark ground for both
+  // themes removes the need for the condition at all.
+  background-color: rgb(15, 23, 42);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(
+      -45deg,
+      #0f172a,
+      #1e3a5f,
+      #0c4a6e,
+      #164e63,
+      #134e4a,
+      #1e3a5f,
+      #312e81,
+      #1e1b4b,
+      #0f172a
+    );
 
   // CSS fallback height before GSAP initializes
   min-height: 100vh;
@@ -101,7 +129,9 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--stack-color-teal-medium);
-  background-color: rgba(93, 183, 194, 0.15);
+  // Plate is a touch stronger than it was on the old pale-mint ground, now
+  // that the section sits on the dark cinematic ramp.
+  background-color: rgba(93, 183, 194, 0.2);
   border-radius: 9999px;
   backdrop-filter: blur(8px);
 }
@@ -112,7 +142,10 @@
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: var(--stack-letter-spacing-tight);
-  color: var(--stack-color-navy);
+  // On-dark: the section ground is the cinematic ramp in both themes.
+  // --stack-color-navy is left alone because .card-stack-item still uses it as
+  // its text fallback.
+  color: rgb(248, 250, 252);
   margin: 0 0 1rem;
 }
 
@@ -121,8 +154,8 @@
   font-size: clamp(1rem, 2vw, 1.25rem);
   line-height: 1.6;
   letter-spacing: var(--stack-letter-spacing-tight);
-  color: var(--stack-color-navy);
-  opacity: 0.7;
+  color: rgb(248, 250, 252);
+  opacity: 0.75;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -540,22 +573,27 @@
 }
 
 // ============================================================
-// Dark Mode Overrides
+// Theme handling — deliberately absent
 // ============================================================
-.dark .card-stack-section,
-[data-theme='dark'] .card-stack-section {
-  --stack-color-mint-bg: rgb(15, 23, 42);
-  background-color: var(--stack-color-mint-bg);
-
-  .card-stack-badge {
-    background-color: rgba(93, 183, 194, 0.2);
-  }
-
-  .card-stack-title,
-  .card-stack-subtitle {
-    color: rgb(248, 250, 252);
-  }
-}
+// There is no per-theme override here, and none can work from this file.
+// Angular's emulated view encapsulation appends the component's content
+// attribute to EVERY compound selector, so an ancestor condition such as
+//
+//   [data-theme='dark'] .card-stack-section
+//
+// compiles to
+//
+//   [data-theme="dark"][_ngcontent-xxx] .card-stack-section[_ngcontent-xxx]
+//
+// and <html> never carries that attribute. A "Dark Mode Overrides" block used
+// to live here doing exactly that, so it never applied: the section rendered
+// on its pale mint ground in dark mode too, with dark navy heading text —
+// the opposite of what it intended.
+//
+// The section now uses one dark ground (the cinematic ramp, set on
+// .card-stack-section above) in both themes, so no condition is needed. If a
+// real per-theme difference is ever wanted here, use :host-context() or put
+// the rule in the global src/styles.scss, which is not scoped.
 
 // ============================================================
 // Print Styles

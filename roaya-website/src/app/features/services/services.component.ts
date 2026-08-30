@@ -77,6 +77,21 @@ export class ServicesComponent {
       ]
     },
     {
+      id: 'aws',
+      title: 'services.aws.title',
+      description: 'services.aws.description',
+      icon: '&#9729;',
+      faIcon: 'faSolidCloud',
+      route: '/services/aws',
+      badge: 'Partner',
+      features: [
+        'services.aws.deliver.assess.title',
+        'services.aws.deliver.migrate.title',
+        'services.aws.deliver.secure.title',
+        'services.aws.deliver.operate.title'
+      ]
+    },
+    {
       id: 'security',
       title: 'services.security.title',
       description: 'services.security.fullDescription',

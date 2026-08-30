@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-23T09:11:35.225Z",
+        "reason": "mirrors the live site's existing font stack (roaya-website/src/styles.scss:37, src/index.html:91); this file generates a faithful standalone copy of roaya.co/services/aws, so the face must match the deployed page rather than be chosen fresh"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "roaya-website/src/app/shared/components/init-loader/init-loader.component.scss"
+        ],
+        "createdAt": "2026-08-23T09:11:51.867Z",
+        "reason": "User confirmed: the brief for this loader explicitly listed 'thin perspective grid' among the requested background infrastructure graphics. It is perspective-transformed and mask-faded as a data-centre floor, not a flat blueprint overlay."
+      }
+    ]
+  }
+}

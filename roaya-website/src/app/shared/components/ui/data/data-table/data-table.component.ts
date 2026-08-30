@@ -44,7 +44,7 @@ export interface TableLazyLoadEvent {
         <div *ngIf="globalFilterable" class="relative w-full sm:w-64">
           <input
             type="text"
-            class="w-full rounded-lg border border-neutral-300 bg-white py-2 pl-10 pr-4 text-sm placeholder-neutral-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-neutral-700 dark:bg-neutral-900"
+            class="w-full rounded-lg border border-edge-strong bg-surface-elevated py-2 pl-10 pr-4 text-sm placeholder-neutral-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             [placeholder]="searchPlaceholder"
             [value]="globalFilter()"
             (input)="onGlobalFilterChange($event)"
@@ -71,7 +71,7 @@ export interface TableLazyLoadEvent {
       </div>
 
       <!-- Table container -->
-      <div class="relative overflow-x-auto rounded-lg border border-neutral-200 dark:border-neutral-800">
+      <div class="relative overflow-x-auto rounded-lg border border-edge-subtle">
         <!-- Loading overlay -->
         <div
           *ngIf="loading"
@@ -82,13 +82,13 @@ export interface TableLazyLoadEvent {
 
         <table class="w-full text-left text-sm">
           <!-- Header -->
-          <thead class="bg-neutral-50 text-xs uppercase text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+          <thead class="bg-surface-secondary text-xs uppercase text-content-secondary">
             <tr>
               <!-- Selection checkbox -->
               <th *ngIf="selectable" class="w-10 px-4 py-3">
                 <input
                   type="checkbox"
-                  class="h-4 w-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 dark:border-neutral-600"
+                  class="h-4 w-4 rounded border-edge-strong text-primary-500 focus:ring-primary-500"
                   [checked]="allSelected()"
                   [indeterminate]="someSelected() && !allSelected()"
                   (change)="toggleSelectAll()"
@@ -151,7 +151,7 @@ export interface TableLazyLoadEvent {
           <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
             <tr
               *ngFor="let row of displayData(); let i = index; trackBy: trackByFn"
-              class="bg-white hover:bg-neutral-50 dark:bg-neutral-900 dark:hover:bg-neutral-800/50 transition-colors"
+              class="bg-surface-elevated hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors"
               [class.bg-primary-50]="isSelected(row)"
               [class.dark:bg-primary-900/20]="isSelected(row)"
             >
@@ -159,7 +159,7 @@ export interface TableLazyLoadEvent {
               <td *ngIf="selectable" class="w-10 px-4 py-3">
                 <input
                   type="checkbox"
-                  class="h-4 w-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 dark:border-neutral-600"
+                  class="h-4 w-4 rounded border-edge-strong text-primary-500 focus:ring-primary-500"
                   [checked]="isSelected(row)"
                   (change)="toggleSelect(row)"
                 />

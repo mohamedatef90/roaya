@@ -24,7 +24,7 @@ import { LanguageService } from '../../../core/services/language.service';
   ],
   template: `
     @if (author) {
-      <div class="author-card rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700">
+      <div class="author-card rounded-2xl p-6 bg-surface-secondary border border-edge-subtle">
         <!-- Header -->
         <div class="flex items-center gap-4 mb-4">
           <!-- Avatar -->
@@ -70,12 +70,12 @@ import { LanguageService } from '../../../core/services/language.service';
 
         <!-- Social Links -->
         @if (author.linkedin) {
-          <div class="flex items-center gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+          <div class="flex items-center gap-3 pt-4 border-t border-edge-subtle">
             <a
               [href]="author.linkedin"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-black/70 dark:text-neutral-400 hover:text-navy dark:hover:text-teal hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-black/70 dark:text-neutral-400 hover:text-navy dark:hover:text-teal hover:bg-surface-hover transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               [attr.aria-label]="'LinkedIn profile of ' + currentName"
             >
               <ng-icon name="lucideLinkedin" size="18" aria-hidden="true"></ng-icon>

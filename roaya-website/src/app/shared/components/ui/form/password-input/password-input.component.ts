@@ -58,7 +58,7 @@ type PasswordInputVariants = VariantProps<typeof passwordInputVariants>;
       />
       <button
         type="button"
-        class="flex items-center justify-center px-3 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors"
+        class="flex items-center justify-center px-3 text-content-muted hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
         (click)="togglePasswordVisibility()"
         [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
         tabindex="-1"

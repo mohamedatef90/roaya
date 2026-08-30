@@ -26,7 +26,7 @@
         <div class="text-4xl md:text-5xl font-bold text-primary-500 dark:text-secondary-400 mb-2">
           {{ averageCostReduction() }}%
         </div>
-        <p class="text-neutral-600 dark:text-neutral-400">
+        <p class="text-content-secondary">
           {{ 'caseStudies.stats.costReduction' | translate }}
         </p>
       </div>
@@ -34,7 +34,7 @@
         <div class="text-4xl md:text-5xl font-bold text-primary-500 dark:text-secondary-400 mb-2">
           {{ averageUptime() }}%
         </div>
-        <p class="text-neutral-600 dark:text-neutral-400">
+        <p class="text-content-secondary">
           {{ 'caseStudies.stats.uptime' | translate }}
         </p>
       </div>
@@ -42,7 +42,7 @@
         <div class="text-4xl md:text-5xl font-bold text-primary-500 dark:text-secondary-400 mb-2">
           {{ totalClients() }}+
         </div>
-        <p class="text-neutral-600 dark:text-neutral-400">
+        <p class="text-content-secondary">
           {{ 'caseStudies.stats.clients' | translate }}
         </p>
       </div>
@@ -55,7 +55,7 @@
   <div class="container-custom">
     <!-- Industry Filters -->
     <div class="mb-8">
-      <h3 class="text-sm font-semibold mb-4 text-neutral-700 dark:text-neutral-300">
+      <h3 class="text-sm font-semibold mb-4 text-content-secondary">
         {{ 'caseStudies.filters.byIndustry' | translate }}
       </h3>
       <div class="flex flex-wrap gap-3">
@@ -74,7 +74,7 @@
 
     <!-- Service Filters -->
     <div>
-      <h3 class="text-sm font-semibold mb-4 text-neutral-700 dark:text-neutral-300">
+      <h3 class="text-sm font-semibold mb-4 text-content-secondary">
         {{ 'caseStudies.filters.byService' | translate }}
       </h3>
       <div class="flex flex-wrap gap-3">
@@ -144,7 +144,7 @@
             {{ caseStudy.title | translate }}
           </h2>
 
-          <p class="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3 text-sm">
+          <p class="text-content-secondary mb-4 line-clamp-3 text-sm">
             {{ caseStudy.excerpt | translate }}
           </p>
 
@@ -154,13 +154,13 @@
               <div class="text-lg font-bold text-primary-500 dark:text-secondary-400">
                 {{ result.metric }}
               </div>
-              <div class="text-xs text-neutral-500 dark:text-neutral-400">
+              <div class="text-xs text-content-muted">
                 {{ result.value }}
               </div>
             </div>
           </div>
 
-          <div class="flex items-center justify-between text-sm text-neutral-500 dark:text-neutral-400">
+          <div class="flex items-center justify-between text-sm text-content-muted">
             <span *ngIf="caseStudy.companySize">{{ caseStudy.companySize }} {{ 'caseStudies.employees' | translate }}</span>
             <span *ngIf="!caseStudy.companySize"></span>
             <span class="text-primary-500 font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
@@ -181,7 +181,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <h3 class="text-2xl font-bold mb-2">{{ 'caseStudies.empty.title' | translate }}</h3>
-        <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ 'caseStudies.empty.description' | translate }}</p>
+        <p class="text-content-secondary mb-6">{{ 'caseStudies.empty.description' | translate }}</p>
         <button
           (click)="filterByIndustry('all'); filterByService('all')"
           class="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"

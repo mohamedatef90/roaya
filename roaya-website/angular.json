@@ -36,6 +36,9 @@
               }
             ],
             "styles": [
+              "src/styles/tokens.css",
+              "src/styles/themes/light.css",
+              "src/styles/themes/dark.css",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/rrweb-player/dist/style.css"

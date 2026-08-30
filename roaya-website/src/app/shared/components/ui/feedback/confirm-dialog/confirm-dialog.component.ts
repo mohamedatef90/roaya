@@ -79,7 +79,7 @@ type ConfirmDialogVariants = VariantProps<typeof confirmDialogVariants>;
         <!-- Message -->
         <p
           id="confirm-dialog-description"
-          class="text-sm text-neutral-500 dark:text-neutral-400 text-center"
+          class="text-sm text-content-muted text-center"
         >
           {{ message }}
         </p>
@@ -88,7 +88,7 @@ type ConfirmDialogVariants = VariantProps<typeof confirmDialogVariants>;
         <div class="flex flex-col-reverse sm:flex-row sm:justify-center gap-2 mt-4">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+            class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors border border-edge-strong bg-surface-elevated text-content-secondary hover:bg-surface-hover"
             (click)="onCancel()"
           >
             {{ cancelLabel }}

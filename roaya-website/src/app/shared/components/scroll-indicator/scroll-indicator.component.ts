@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
+import { ScrollSmootherService } from '../../../core/services/scroll-smoother.service';
 
 /**
  * Scroll Indicator Component
@@ -44,20 +45,30 @@ import { throttleTime } from 'rxjs/operators';
     }
 
     .bar {
-      width: 1px;
+      width: 32px;
       height: 50px;
-      background-color: rgba(255, 255, 255, 0.3);
+      background: transparent;
       position: relative;
       cursor: pointer;
-      transition: background-color 0.3s ease;
       border-radius: 0;
     }
 
-    .bar:hover {
+    .bar::before {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      left: 50%;
+      width: 1px;
+      transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .bar:hover::before {
       background-color: rgba(255, 255, 255, 0.5);
     }
 
-    .bar.active {
+    .bar.active::before {
       background-color: rgba(255, 255, 255, 0.5);
     }
 
@@ -103,15 +114,15 @@ import { throttleTime } from 'rxjs/operators';
     }
 
     /* Dark mode adjustments */
-    :host-context(.dark) .bar {
+    :host-context(.dark) .bar::before {
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    :host-context(.dark) .bar:hover {
+    :host-context(.dark) .bar:hover::before {
       background-color: rgba(255, 255, 255, 0.5);
     }
 
-    :host-context(.dark) .bar.active {
+    :host-context(.dark) .bar.active::before {
       background-color: rgba(255, 255, 255, 0.5);
     }
 
@@ -123,6 +134,8 @@ import { throttleTime } from 'rxjs/operators';
 export class ScrollIndicatorComponent implements OnInit, OnDestroy {
   sections = signal<string[]>([]);
   activeIndex = signal<number>(0);
+
+  private readonly scrollSmoother = inject(ScrollSmootherService);
   
   private scrollSubscription?: any;
   private intersectionObserver?: IntersectionObserver;
@@ -202,14 +215,17 @@ export class ScrollIndicatorComponent implements OnInit, OnDestroy {
     const sections = this.sections();
     if (sections.length === 0) return;
 
-    const scrollPosition = window.scrollY + window.innerHeight / 3; // Check at 1/3 from top
+    const currentScroll = this.scrollSmoother.isReady()
+      ? this.scrollSmoother.scrollTop()
+      : window.scrollY;
+    const scrollPosition = currentScroll + window.innerHeight / 3; // Check at 1/3 from top
 
     let activeIndex = 0;
     sections.forEach((sectionId, index) => {
       const element = document.getElementById(sectionId) || document.querySelector(`[data-section="${sectionId}"]`);
       if (element) {
         const rect = element.getBoundingClientRect();
-        const elementTop = rect.top + window.scrollY;
+        const elementTop = rect.top + currentScroll;
         const elementBottom = elementTop + rect.height;
 
         if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
@@ -227,10 +243,14 @@ export class ScrollIndicatorComponent implements OnInit, OnDestroy {
       const element = document.getElementById(sectionId) || document.querySelector(`[data-section="${sectionId}"]`);
       
       if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        if (this.scrollSmoother.isReady()) {
+          this.scrollSmoother.scrollTo(element, true, 'top 96px');
+        } else {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
         
         // Update active index immediately for better UX
         this.activeIndex.set(index);

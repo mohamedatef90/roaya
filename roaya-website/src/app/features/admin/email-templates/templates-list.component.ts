@@ -70,12 +70,12 @@ type TemplateCategory = EmailTemplate['category'];
   template: `
     <div class="p-6 min-h-screen">
       <!-- Page Header -->
-      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8 pb-6 border-b border-neutral-200 dark:border-neutral-700">
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8 pb-6 border-b border-edge-subtle">
         <div>
           <h1 class="text-2xl font-bold bg-gradient-to-r from-[#3D5A80] via-[#5DB7C2] to-[#6B4C9A] bg-clip-text text-transparent">
             Email Templates
           </h1>
-          <p class="text-neutral-500 dark:text-neutral-400 mt-1">
+          <p class="text-content-muted mt-1">
             Manage email templates for automated communications
           </p>
         </div>
@@ -139,7 +139,7 @@ type TemplateCategory = EmailTemplate['category'];
       @if (loading()) {
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           @for (i of [1,2,3,4,5,6]; track i) {
-            <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 p-6 animate-pulse">
+            <div class="bg-surface-elevated rounded-2xl border border-edge-subtle p-6 animate-pulse">
               <div class="flex justify-between mb-4">
                 <div class="h-6 bg-neutral-200 dark:bg-neutral-700 rounded-lg w-1/2"></div>
                 <div class="h-6 w-12 bg-neutral-200 dark:bg-neutral-700 rounded-full"></div>
@@ -158,7 +158,7 @@ type TemplateCategory = EmailTemplate['category'];
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           @for (template of filteredTemplates(); track template.id) {
             <div
-              class="group relative bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              class="group relative bg-surface-elevated rounded-2xl border border-edge-subtle overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               [class.opacity-60]="!template.isActive"
             >
               <!-- Category Accent -->
@@ -171,7 +171,7 @@ type TemplateCategory = EmailTemplate['category'];
                 <!-- Header -->
                 <div class="flex items-start justify-between mb-4">
                   <div>
-                    <h4 class="font-semibold text-neutral-900 dark:text-white mb-2">{{ template.name }}</h4>
+                    <h4 class="font-semibold text-content-primary mb-2">{{ template.name }}</h4>
                     <ui-tag [variant]="getCategoryVariant(template.category)" size="sm">
                       {{ getCategoryLabel(template.category) }}
                     </ui-tag>
@@ -191,13 +191,13 @@ type TemplateCategory = EmailTemplate['category'];
 
                 <!-- Subject Preview -->
                 <div class="mb-4">
-                  <span class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Subject</span>
-                  <p class="text-sm text-neutral-700 dark:text-neutral-300 mt-1 line-clamp-2">{{ template.subjectEn }}</p>
+                  <span class="text-xs font-semibold text-content-muted uppercase tracking-wider">Subject</span>
+                  <p class="text-sm text-content-secondary mt-1 line-clamp-2">{{ template.subjectEn }}</p>
                 </div>
 
                 <!-- Variables -->
                 <div class="mb-4">
-                  <span class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Variables</span>
+                  <span class="text-xs font-semibold text-content-muted uppercase tracking-wider">Variables</span>
                   <div class="flex flex-wrap gap-1.5 mt-2">
                     @for (v of template.variables.slice(0, 4); track v) {
                       <span class="px-2 py-0.5 bg-[#6B4C9A]/10 text-[#6B4C9A] dark:text-purple-400 rounded-lg text-xs font-medium">
@@ -205,7 +205,7 @@ type TemplateCategory = EmailTemplate['category'];
                       </span>
                     }
                     @if (template.variables.length > 4) {
-                      <span class="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-700 text-neutral-500 rounded-lg text-xs">
+                      <span class="px-2 py-0.5 bg-surface-secondary text-neutral-500 rounded-lg text-xs">
                         +{{ template.variables.length - 4 }} more
                       </span>
                     }
@@ -213,7 +213,7 @@ type TemplateCategory = EmailTemplate['category'];
                 </div>
 
                 <!-- Actions -->
-                <div class="flex items-center justify-end gap-1 pt-4 border-t border-neutral-100 dark:border-neutral-700">
+                <div class="flex items-center justify-end gap-1 pt-4 border-t border-edge-subtle">
                   <button
                     (click)="previewTemplate(template)"
                     class="w-9 h-9 rounded-xl flex items-center justify-center text-neutral-500 hover:bg-[#5DB7C2]/10 hover:text-[#5DB7C2] transition-colors"
@@ -268,8 +268,8 @@ type TemplateCategory = EmailTemplate['category'];
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold text-neutral-900 dark:text-white mb-2">No templates found</h3>
-            <p class="text-neutral-500 dark:text-neutral-400 mb-6">Create your first email template to get started</p>
+            <h3 class="text-xl font-semibold text-content-primary mb-2">No templates found</h3>
+            <p class="text-content-muted mb-6">Create your first email template to get started</p>
             <button
               (click)="openTemplateDialog()"
               class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
@@ -300,7 +300,7 @@ type TemplateCategory = EmailTemplate['category'];
 
       <ui-dialog-content class="p-0">
         <!-- Tabs -->
-        <div class="border-b border-neutral-200 dark:border-neutral-700 px-6 pt-4">
+        <div class="border-b border-edge-subtle px-6 pt-4">
           <div class="flex gap-1">
             @for (tab of editorTabs; track tab.id) {
               <button
@@ -321,25 +321,25 @@ type TemplateCategory = EmailTemplate['category'];
           @if (activeEditorTab() === 'settings') {
             <div class="grid grid-cols-2 gap-6">
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Template Name *</label>
+                <label class="text-sm font-semibold text-content-secondary">Template Name *</label>
                 <input
                   type="text"
                   [(ngModel)]="templateForm.name"
                   placeholder="Welcome Email"
-                  class="w-full h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+                  class="w-full h-11 px-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
                 />
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Slug *</label>
+                <label class="text-sm font-semibold text-content-secondary">Slug *</label>
                 <input
                   type="text"
                   [(ngModel)]="templateForm.slug"
                   placeholder="welcome-email"
-                  class="w-full h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+                  class="w-full h-11 px-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
                 />
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Category *</label>
+                <label class="text-sm font-semibold text-content-secondary">Category *</label>
                 <ui-select
                   [(ngModel)]="templateForm.category"
                   [options]="categoryOptions"
@@ -347,7 +347,7 @@ type TemplateCategory = EmailTemplate['category'];
                 ></ui-select>
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Status</label>
+                <label class="text-sm font-semibold text-content-secondary">Status</label>
                 <div class="flex items-center gap-3 h-11">
                   <button
                     (click)="templateForm.isActive = !templateForm.isActive"
@@ -359,16 +359,16 @@ type TemplateCategory = EmailTemplate['category'];
                       [class]="templateForm.isActive ? 'translate-x-7' : 'translate-x-1'"
                     ></span>
                   </button>
-                  <span class="text-sm text-neutral-600 dark:text-neutral-400">{{ templateForm.isActive ? 'Active' : 'Inactive' }}</span>
+                  <span class="text-sm text-content-secondary">{{ templateForm.isActive ? 'Active' : 'Inactive' }}</span>
                 </div>
               </div>
               <div class="col-span-2 space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Variables (comma-separated)</label>
+                <label class="text-sm font-semibold text-content-secondary">Variables (comma-separated)</label>
                 <input
                   type="text"
                   [(ngModel)]="variablesInput"
                   placeholder="firstName, lastName, companyName"
-                  class="w-full h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+                  class="w-full h-11 px-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
                 />
                 <p class="text-xs text-neutral-500">Use double curly braces like variableName in templates</p>
               </div>
@@ -379,25 +379,25 @@ type TemplateCategory = EmailTemplate['category'];
           @if (activeEditorTab() === 'english') {
             <div class="space-y-6">
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Subject Line *</label>
+                <label class="text-sm font-semibold text-content-secondary">Subject Line *</label>
                 <input
                   type="text"
                   [(ngModel)]="templateForm.subjectEn"
                   placeholder="Welcome to Roaya IT, [firstName]!"
-                  class="w-full h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+                  class="w-full h-11 px-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
                 />
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">HTML Content *</label>
+                <label class="text-sm font-semibold text-content-secondary">HTML Content *</label>
                 <p-editor [(ngModel)]="templateForm.bodyHtmlEn" [style]="{ height: '300px' }"></p-editor>
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Plain Text Version</label>
+                <label class="text-sm font-semibold text-content-secondary">Plain Text Version</label>
                 <textarea
                   [(ngModel)]="templateForm.bodyTextEn"
                   rows="4"
                   placeholder="Plain text fallback for email clients that don't support HTML..."
-                  class="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all font-mono text-sm"
+                  class="w-full px-4 py-3 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all font-mono text-sm"
                 ></textarea>
               </div>
             </div>
@@ -407,27 +407,27 @@ type TemplateCategory = EmailTemplate['category'];
           @if (activeEditorTab() === 'arabic') {
             <div class="space-y-6">
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Subject Line *</label>
+                <label class="text-sm font-semibold text-content-secondary">Subject Line *</label>
                 <input
                   type="text"
                   dir="rtl"
                   [(ngModel)]="templateForm.subjectAr"
                   placeholder="مرحبا بك في روعة، [firstName]!"
-                  class="w-full h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+                  class="w-full h-11 px-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
                 />
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">HTML Content *</label>
+                <label class="text-sm font-semibold text-content-secondary">HTML Content *</label>
                 <p-editor [(ngModel)]="templateForm.bodyHtmlAr" [style]="{ height: '300px' }"></p-editor>
               </div>
               <div class="space-y-2">
-                <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Plain Text Version</label>
+                <label class="text-sm font-semibold text-content-secondary">Plain Text Version</label>
                 <textarea
                   [(ngModel)]="templateForm.bodyTextAr"
                   rows="4"
                   dir="rtl"
                   placeholder="نسخة النص العادي..."
-                  class="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all font-mono text-sm"
+                  class="w-full px-4 py-3 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all font-mono text-sm"
                 ></textarea>
               </div>
             </div>
@@ -438,7 +438,7 @@ type TemplateCategory = EmailTemplate['category'];
       <ui-dialog-footer>
         <button
           (click)="showTemplateDialog = false"
-          class="px-4 py-2 rounded-xl text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+          class="px-4 py-2 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>
@@ -489,12 +489,12 @@ type TemplateCategory = EmailTemplate['category'];
         </div>
 
         <!-- Email Preview -->
-        <div class="border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
-          <div class="bg-neutral-100 dark:bg-neutral-800 px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
-            <p class="text-sm"><span class="font-semibold text-neutral-500">Subject:</span> <span class="text-neutral-900 dark:text-white">{{ previewLanguage === 'en' ? templateToPreview?.subjectEn : templateToPreview?.subjectAr }}</span></p>
+        <div class="border border-edge-subtle rounded-xl overflow-hidden">
+          <div class="bg-surface-secondary px-4 py-3 border-b border-edge-subtle">
+            <p class="text-sm"><span class="font-semibold text-neutral-500">Subject:</span> <span class="text-content-primary">{{ previewLanguage === 'en' ? templateToPreview?.subjectEn : templateToPreview?.subjectAr }}</span></p>
           </div>
           <div
-            class="p-6 bg-white dark:bg-neutral-900 min-h-[300px]"
+            class="p-6 bg-surface-elevated min-h-[300px]"
             [dir]="previewLanguage === 'ar' ? 'rtl' : 'ltr'"
             [innerHTML]="previewHtml"
           ></div>
@@ -518,16 +518,16 @@ type TemplateCategory = EmailTemplate['category'];
       <ui-dialog-content>
         <div class="space-y-4">
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Send To Email *</label>
+            <label class="text-sm font-semibold text-content-secondary">Send To Email *</label>
             <input
               type="email"
               [(ngModel)]="testEmail"
               placeholder="test@example.com"
-              class="w-full h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+              class="w-full h-11 px-4 rounded-xl border border-edge-subtle bg-surface-secondary text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
             />
           </div>
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Language</label>
+            <label class="text-sm font-semibold text-content-secondary">Language</label>
             <ui-select
               [(ngModel)]="testLanguage"
               [options]="languageOptions"
@@ -540,7 +540,7 @@ type TemplateCategory = EmailTemplate['category'];
       <ui-dialog-footer>
         <button
           (click)="showTestSendDialog = false"
-          class="px-4 py-2 rounded-xl text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+          class="px-4 py-2 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>

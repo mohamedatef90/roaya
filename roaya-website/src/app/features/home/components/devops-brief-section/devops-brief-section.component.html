@@ -70,7 +70,7 @@
         </p>
 
         <!-- Description -->
-        <p class="text-base text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl">
+        <p class="text-base text-content-secondary mb-8 leading-relaxed max-w-2xl">
           {{ 'home.serviceBriefs.devops.description' | translate }}
         </p>
 
@@ -100,10 +100,10 @@
 
               <div class="flex-1 min-w-0">
                 <h3
-                  class="text-base font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-violet-700 dark:group-hover:text-teal-300 transition-colors duration-300">
+                  class="text-base font-semibold text-content-primary mb-1 group-hover:text-violet-700 dark:group-hover:text-teal-300 transition-colors duration-300">
                   {{ highlight.titleKey | translate }}
                 </h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p class="text-sm text-content-secondary leading-relaxed">
                   {{ highlight.descriptionKey | translate }}
                 </p>
               </div>
@@ -158,7 +158,7 @@
                       'devops-pipeline-icon-pending': stage.status === 'pending'
                     }" size="24" />
                 </div>
-                <span class="text-xs font-medium text-gray-600 dark:text-gray-400">{{ stage.label }}</span>
+                <span class="text-xs font-medium text-content-secondary">{{ stage.label }}</span>
               </div>
 
               <!-- Connector -->
@@ -174,7 +174,7 @@
 
           <!-- Pipeline Label -->
           <div class="text-center mt-4">
-            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">CI/CD Pipeline</span>
+            <span class="text-sm font-medium text-content-muted">CI/CD Pipeline</span>
           </div>
         </div>
 
@@ -190,7 +190,7 @@
             <div class="devops-stat-value text-2xl sm:text-3xl font-bold mb-1">
               {{ stat.value }}
             </div>
-            <div class="text-xs text-gray-600 dark:text-gray-400 text-center uppercase tracking-wide">
+            <div class="text-xs text-content-secondary text-center uppercase tracking-wide">
               {{ stat.labelKey | translate }}
             </div>
           </div>

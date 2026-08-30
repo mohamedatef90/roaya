@@ -11,7 +11,7 @@ import { MegaMenuComponent, MegaMenuItem } from '../../shared/components/mega-me
 import { ScrollIndicatorComponent } from '../../shared/components/scroll-indicator/scroll-indicator.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
-import { CosmicLoaderComponent } from '../../shared/components/cosmic-loader/cosmic-loader.component';
+import { InitLoaderComponent } from '../../shared/components/init-loader/init-loader.component';
 import { ConsentBannerComponent } from '../../shared/components/consent-banner/consent-banner.component';
 import { Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
@@ -20,7 +20,7 @@ import { throttleTime } from 'rxjs/operators';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent, ConsentBannerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, InitLoaderComponent, ConsentBannerComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
@@ -37,6 +37,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Content entrance animation gate
   contentEntered = false;
   isHomeRoute = true;
+  showScrollIndicator = true;
   scrollProgress = 0;
 
   // Scroll state signal
@@ -47,12 +48,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Mobile menu expandable sections state
   private mobileServicesOpen = signal<boolean>(false);
   private mobileIndustriesOpen = signal<boolean>(false);
-  private mobileSecurityOpen = signal<boolean>(false);
+  private mobileExpandedServiceId = signal<string | null>(null);
 
   // Computed signals for mobile menu expandable sections
   isMobileServicesOpen = computed(() => this.mobileServicesOpen());
   isMobileIndustriesOpen = computed(() => this.mobileIndustriesOpen());
-  isMobileSecurityOpen = computed(() => this.mobileSecurityOpen());
+  isMobileSecurityOpen = computed(() => this.mobileExpandedServiceId() === 'security');
 
   // News bar height (when navbar should stick to top)
   private newsBarHeight = 38;
@@ -70,6 +71,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   isRTL = computed(() => this.languageService.isRTL());
   isMobileMenuOpen = computed(() => this.navigationService.mobileMenuOpen());
 
+  // Holds the page back at a lower opacity while the initialization intro is
+  // on screen. Released the moment the intro *starts* exiting rather than when
+  // it is removed, so the loader fading out and the page coming up overlap as
+  // one cross-fade instead of running back to back.
+  isPageDimmed = computed(
+    () => this.loadingService.isLoading() && !this.loadingService.isExiting()
+  );
+
   // Mega menu items for all services (with Font Awesome icons)
   // Order: Left column (1-5), Right column (6-10), Featured (WorldPosta)
   megaMenuItems: MegaMenuItem[] = [
@@ -80,7 +89,18 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       description: 'services.cloud.description',
       icon: '&#9729;',
       faIcon: 'faSolidCloud',
-      route: '/services/cloud'
+      route: '/services/cloud',
+      children: [
+        {
+          id: 'aws',
+          title: 'services.aws.title',
+          description: 'services.aws.description',
+          icon: '&#9729;',
+          faIcon: 'faSolidCloud',
+          route: '/services/aws',
+          badge: 'Partner'
+        }
+      ]
     },
     {
       id: 'sap',
@@ -301,11 +321,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // Loading screen and scroll state are browser-only; running them during
     // SSR would schedule zone timers that delay server response stability.
     if (isPlatformBrowser(this.platformId)) {
-      // Show loading screen on app initialization
-      this.loadingService.show('Loading Roaya IT...');
+      // Show the initialization intro on app start
+      this.loadingService.show('Building your digital environment');
 
-      // Simple approach: Just mark content ready after a short delay
-      // The LoadingService will wait for minimum time (3s) then hide
+      // Signal that the shell is mounted and the page can be revealed. The
+      // intro holds at its MANAGED stage until this lands, then finishes.
       setTimeout(() => {
         this.loadingService.setContentReady();
       }, 500);
@@ -389,6 +409,8 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateRouteState(url: string): void {
     // Treat root as home; everything else as non-home
     this.isHomeRoute = url === '/' || url === '';
+    const pathname = url.split(/[?#]/, 1)[0].replace(/\/+$/, '');
+    this.showScrollIndicator = pathname !== '/services/aws';
   }
 
   toggleTheme(): void {
@@ -408,7 +430,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // Reset expandable sections when closing menu
     this.mobileServicesOpen.set(false);
     this.mobileIndustriesOpen.set(false);
-    this.mobileSecurityOpen.set(false);
+    this.mobileExpandedServiceId.set(null);
   }
 
   toggleMobileServices(): void {
@@ -420,7 +442,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleMobileSecurity(): void {
-    this.mobileSecurityOpen.update(state => !state);
+    this.toggleMobileServiceChildren('security');
+  }
+
+  toggleMobileServiceChildren(id: string): void {
+    this.mobileExpandedServiceId.update((current) => (current === id ? null : id));
+  }
+
+  isMobileServiceExpanded(id: string): boolean {
+    return this.mobileExpandedServiceId() === id;
   }
 
   // Check if a service item has children (for mobile nested navigation)

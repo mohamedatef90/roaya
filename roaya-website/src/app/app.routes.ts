@@ -30,6 +30,11 @@ const publicRoutes: Routes = [
       },
       // Dedicated Service Routes (alphabetical order, before generic :id route)
       {
+        path: 'services/aws',
+        loadComponent: () => import('./features/services/aws/aws.component').then(m => m.AwsComponent),
+        title: 'AWS Advanced Tier Partner - Roaya IT'
+      },
+      {
         path: 'services/automation',
         loadComponent: () => import('./features/services/automation/automation.component').then(m => m.AutomationComponent),
         title: 'IT Automation & AI Solutions - Roaya IT'

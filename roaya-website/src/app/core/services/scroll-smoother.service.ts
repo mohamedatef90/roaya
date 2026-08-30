@@ -126,6 +126,17 @@ export class ScrollSmootherService {
       // Create ScrollSmoother instance
       this._smoother = ScrollSmoother.create(finalConfig);
 
+      // Start at the top. index.html sets history.scrollRestoration to
+      // 'manual' so the browser no longer restores an offset, but the window
+      // can still carry a non-zero scroll by the time GSAP initialises (a
+      // reload mid-page, or bfcache restore). Without this the smoother syncs
+      // to that offset and the visitor lands below the hero.
+      // Skipped when the URL targets an anchor — that scroll is intentional
+      // and anchorScrolling handles it.
+      if (!window.location.hash) {
+        this._smoother.scrollTop(0);
+      }
+
       // Mark as initialized
       this._initialized.next(true);
 

@@ -105,16 +105,16 @@ type MultiSelectVariants = VariantProps<typeof multiSelectVariants>;
       <!-- Dropdown -->
       <div
         *ngIf="isOpen()"
-        class="absolute z-[9999] mt-2 w-full rounded-xl border border-neutral-200 bg-white py-1 shadow-xl dark:border-neutral-700 dark:bg-neutral-900"
+        class="absolute z-[9999] mt-2 w-full rounded-xl border border-edge-subtle bg-surface-elevated py-1 shadow-xl"
         role="listbox"
         aria-multiselectable="true"
         [attr.aria-label]="ariaLabel || 'Options'"
       >
         <!-- Search filter -->
-        <div *ngIf="filterable" class="px-2 py-2 border-b border-neutral-200 dark:border-neutral-700">
+        <div *ngIf="filterable" class="px-2 py-2 border-b border-edge-subtle">
           <input
             type="text"
-            class="w-full rounded-md border border-neutral-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800"
+            class="w-full rounded-md border border-edge-strong px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-800"
             placeholder="Search..."
             [value]="filterText()"
             (input)="onFilterInput($event)"
@@ -124,10 +124,10 @@ type MultiSelectVariants = VariantProps<typeof multiSelectVariants>;
         <!-- Select all -->
         <div
           *ngIf="showSelectAll && filteredOptions().length > 0"
-          class="flex items-center px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer border-b border-neutral-200 dark:border-neutral-700"
+          class="flex items-center px-3 py-2 text-sm hover:bg-surface-hover cursor-pointer border-b border-edge-subtle"
           (click)="toggleSelectAll()"
         >
-          <div class="flex h-4 w-4 items-center justify-center rounded border border-neutral-300 mr-2 dark:border-neutral-600"
+          <div class="flex h-4 w-4 items-center justify-center rounded border border-edge-strong mr-2"
                [class.bg-primary-500]="isAllSelected()"
                [class.border-primary-500]="isAllSelected()">
             <svg *ngIf="isAllSelected()" class="h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -144,7 +144,7 @@ type MultiSelectVariants = VariantProps<typeof multiSelectVariants>;
         <div class="max-h-60 overflow-auto">
           <div
             *ngFor="let option of filteredOptions(); let i = index"
-            class="flex cursor-pointer select-none items-center px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            class="flex cursor-pointer select-none items-center px-3 py-2 text-sm hover:bg-surface-hover"
             [class.opacity-50]="option.disabled"
             [class.pointer-events-none]="option.disabled"
             [class.bg-neutral-100]="focusedIndex() === i"
@@ -154,7 +154,7 @@ type MultiSelectVariants = VariantProps<typeof multiSelectVariants>;
             [attr.aria-selected]="isSelected(option)"
             [attr.aria-disabled]="option.disabled"
           >
-            <div class="flex h-4 w-4 items-center justify-center rounded border border-neutral-300 mr-2 dark:border-neutral-600"
+            <div class="flex h-4 w-4 items-center justify-center rounded border border-edge-strong mr-2"
                  [class.bg-primary-500]="isSelected(option)"
                  [class.border-primary-500]="isSelected(option)">
               <svg *ngIf="isSelected(option)" class="h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">

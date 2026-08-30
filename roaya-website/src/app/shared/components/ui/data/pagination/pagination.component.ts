@@ -45,7 +45,7 @@ export interface PageChangeEvent {
   template: `
     <nav class="flex items-center justify-between" [attr.aria-label]="ariaLabel">
       <!-- Page info (optional) -->
-      <div *ngIf="showInfo" class="text-sm text-neutral-500 dark:text-neutral-400">
+      <div *ngIf="showInfo" class="text-sm text-content-muted">
         Showing {{ firstItem() }} to {{ lastItem() }} of {{ totalRecords }} entries
       </div>
 
@@ -129,9 +129,9 @@ export interface PageChangeEvent {
 
       <!-- Rows per page selector -->
       <div *ngIf="showRowsPerPage" class="flex items-center gap-2">
-        <span class="text-sm text-neutral-500 dark:text-neutral-400">Rows per page:</span>
+        <span class="text-sm text-content-muted">Rows per page:</span>
         <select
-          class="rounded-md border border-neutral-200 bg-transparent px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-700"
+          class="rounded-md border border-edge-subtle bg-transparent px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           [value]="rows"
           (change)="onRowsChange($event)"
         >

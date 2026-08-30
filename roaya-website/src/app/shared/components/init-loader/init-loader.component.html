@@ -1,0 +1,174 @@
+<div class="init-loader" role="status" aria-label="Preparing the Roaya enterprise experience">
+  <!-- Background: enterprise infrastructure references, all kept at low opacity
+       so they support the logo rather than compete with it. -->
+  <div class="fx" aria-hidden="true">
+    <span class="fx__wash"></span>
+    <span class="fx__grid"></span>
+
+    <svg class="fx__network" viewBox="0 0 1440 640" preserveAspectRatio="xMidYMid slice">
+      <g class="fx__network-links">
+        <path d="M120 470 C 320 400, 440 250, 640 210" />
+        <path d="M640 210 C 860 170, 1000 300, 1300 250" />
+        <path d="M200 200 C 420 260, 520 420, 760 470" />
+        <path d="M760 470 C 980 520, 1120 420, 1340 460" />
+        <path d="M120 470 C 300 560, 560 560, 760 470" />
+        <path d="M200 200 C 400 130, 520 150, 640 210" />
+      </g>
+      <g class="fx__network-pulses">
+        <path d="M120 470 C 320 400, 440 250, 640 210" />
+        <path d="M640 210 C 860 170, 1000 300, 1300 250" />
+        <path d="M200 200 C 420 260, 520 420, 760 470" />
+      </g>
+      <g class="fx__network-nodes">
+        <circle cx="120" cy="470" r="3" />
+        <circle cx="640" cy="210" r="3.5" />
+        <circle cx="1300" cy="250" r="3" />
+        <circle cx="200" cy="200" r="3" />
+        <circle cx="760" cy="470" r="3.5" />
+        <circle cx="1340" cy="460" r="3" />
+      </g>
+    </svg>
+
+    <!-- Cloud + shield outlines: the two anchors of Roaya's offering. -->
+    <svg class="fx__mark fx__mark--cloud" viewBox="0 0 120 80" aria-hidden="true">
+      <path
+        d="M30 62h58a17 17 0 0 0 2-33.8A25 25 0 0 0 34 24.5A16 16 0 0 0 30 62Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <svg class="fx__mark fx__mark--shield" viewBox="0 0 90 100" aria-hidden="true">
+      <path
+        d="M45 6 78 18v34c0 22-14 34-33 42C26 86 12 74 12 52V18Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linejoin="round"
+      />
+      <path d="M32 50l10 10 18-19" fill="none" stroke="currentColor" stroke-width="1.4" />
+    </svg>
+
+    <!-- Abstract server racks, grounding the composition. -->
+    <svg class="fx__rack fx__rack--start" viewBox="0 0 72 132" aria-hidden="true">
+      <rect x="1" y="1" width="70" height="130" rx="4" fill="none" stroke="currentColor" />
+      @for (unit of rackUnits; track unit) {
+        <g [attr.transform]="'translate(0 ' + (10 + unit * 20) + ')'">
+          <rect x="9" y="0" width="54" height="13" rx="2" fill="none" stroke="currentColor" />
+          <circle class="fx__led" [style.animation-delay]="unit * 0.42 + 's'" cx="56" cy="6.5" r="1.6" />
+        </g>
+      }
+    </svg>
+    <svg class="fx__rack fx__rack--end" viewBox="0 0 72 132" aria-hidden="true">
+      <rect x="1" y="1" width="70" height="130" rx="4" fill="none" stroke="currentColor" />
+      @for (unit of rackUnits; track unit) {
+        <g [attr.transform]="'translate(0 ' + (10 + unit * 20) + ')'">
+          <rect x="9" y="0" width="54" height="13" rx="2" fill="none" stroke="currentColor" />
+          <circle class="fx__led" [style.animation-delay]="0.2 + unit * 0.36 + 's'" cx="56" cy="6.5" r="1.6" />
+        </g>
+      }
+    </svg>
+
+    <span class="fx__vignette"></span>
+  </div>
+
+  <!-- Foreground composition -->
+  <div class="stack">
+    <div class="stack__brand">
+      <img
+        src="/assets/images/roaya-logo.png"
+        alt="Roaya"
+        class="stack__logo"
+        width="420"
+        height="120"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <p class="stack__heading">{{ heading }}</p>
+    </div>
+
+    <div class="flow" aria-hidden="true">
+      <div class="flow__track">
+        <span class="flow__track-fill" [style.transform]="'scaleX(' + trackFill() + ')'"></span>
+      </div>
+
+      <ol class="flow__stages">
+        @for (stage of renderStages(); track stage.id) {
+          <li class="flow__stage" [attr.data-state]="stage.state">
+            <span class="flow__node">
+              <svg class="flow__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                @switch (stage.id) {
+                  @case ('connect') {
+                    <!-- Cloud infrastructure -->
+                    <path
+                      d="M6.8 18.5h10.4a3.6 3.6 0 0 0 .5-7.16A5.4 5.4 0 0 0 7.9 9.2a3.7 3.7 0 0 0-1.1 9.3Z"
+                      stroke-linejoin="round"
+                    />
+                    <path d="M9.6 14.6h4.8M12 12.4v4.4" stroke-linecap="round" opacity="0.75" />
+                  }
+                  @case ('secure') {
+                    <!-- Shield -->
+                    <path d="M12 3l7 2.6v5.9c0 4.7-2.9 7.6-7 9.5-4.1-1.9-7-4.8-7-9.5V5.6Z" stroke-linejoin="round" />
+                    <path d="M9 12.2l2.2 2.2L15.2 10" stroke-linecap="round" stroke-linejoin="round" />
+                  }
+                  @case ('optimize') {
+                    <!-- Server / performance -->
+                    <rect x="3.5" y="3.8" width="17" height="5.6" rx="1.6" />
+                    <rect x="3.5" y="14.6" width="17" height="5.6" rx="1.6" />
+                    <path d="M7 6.6h.01M7 17.4h.01" stroke-linecap="round" stroke-width="2.2" />
+                    <path d="M11.4 6.6h5.2M11.4 17.4h5.2" stroke-linecap="round" opacity="0.7" />
+                  }
+                  @case ('managed') {
+                    <!-- Connected nodes -->
+                    <circle cx="12" cy="5.4" r="2.3" />
+                    <circle cx="5.4" cy="17.6" r="2.3" />
+                    <circle cx="18.6" cy="17.6" r="2.3" />
+                    <path d="M10.6 7.4 6.7 15.5M13.4 7.4l3.9 8.1M7.7 17.6h8.6" stroke-linecap="round" opacity="0.8" />
+                  }
+                  @case ('ready') {
+                    <!-- Checkmark -->
+                    <circle cx="12" cy="12" r="8.4" />
+                    <path class="flow__check" d="M8.3 12.3l2.7 2.7 5-5.4" stroke-linecap="round" stroke-linejoin="round" />
+                  }
+                }
+              </svg>
+            </span>
+            <span class="flow__label">{{ stage.label }}</span>
+            <span class="flow__sublabel">{{ stage.sublabel }}</span>
+          </li>
+        }
+      </ol>
+    </div>
+
+    <div class="meter">
+      <p class="meter__status">
+        @if (activeStageLabel()) {
+          <span class="meter__stage-chip">{{ activeStageLabel() }}</span>
+        }
+        <span class="meter__status-text">{{ statusText() }}</span>
+      </p>
+      <div class="meter__row">
+        <div class="meter__track" [class.is-idle]="percent() === 0">
+          <span class="meter__fill" [style.width.%]="progress()">
+            <span class="meter__edge"></span>
+          </span>
+        </div>
+        <span class="meter__percent">{{ percent() }}%</span>
+      </div>
+    </div>
+
+    <p class="pillars" aria-hidden="true">
+      @for (pillar of serviceLine; track pillar; let last = $last) {
+        <span class="pillars__item">{{ pillar }}</span>
+        @if (!last) {
+          <span class="pillars__dot">&bull;</span>
+        }
+      }
+    </p>
+
+    <p class="footnote">{{ footnote }}</p>
+  </div>
+
+  <span class="sr-only" aria-live="polite">{{ statusText() }}</span>
+</div>

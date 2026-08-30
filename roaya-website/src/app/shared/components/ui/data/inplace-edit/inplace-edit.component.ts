@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
       <!-- Display mode -->
       <div
         *ngIf="!editing()"
-        class="group flex items-center gap-2 cursor-pointer rounded px-2 py-1 -mx-2 -my-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+        class="group flex items-center gap-2 cursor-pointer rounded px-2 py-1 -mx-2 -my-1 hover:bg-surface-hover transition-colors"
         (click)="startEditing()"
         (keydown.enter)="startEditing()"
         [attr.tabindex]="disabled ? -1 : 0"
@@ -44,7 +44,7 @@ import { FormsModule } from '@angular/forms';
             *ngSwitchCase="'text'"
             #inputRef
             type="text"
-            class="rounded-md border border-neutral-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800"
+            class="rounded-md border border-edge-strong px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-800"
             [value]="editValue()"
             (input)="onInput($event)"
             (keydown.enter)="save()"
@@ -56,7 +56,7 @@ import { FormsModule } from '@angular/forms';
           <textarea
             *ngSwitchCase="'textarea'"
             #inputRef
-            class="rounded-md border border-neutral-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 min-w-[200px]"
+            class="rounded-md border border-edge-strong px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-800 min-w-[200px]"
             [rows]="rows"
             [value]="editValue()"
             (input)="onInput($event)"
@@ -68,7 +68,7 @@ import { FormsModule } from '@angular/forms';
           <select
             *ngSwitchCase="'select'"
             #inputRef
-            class="rounded-md border border-neutral-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800"
+            class="rounded-md border border-edge-strong px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-800"
             [value]="editValue()"
             (change)="onSelectChange($event)"
             (blur)="onBlur()"

@@ -10,6 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "build:standalone": "node tools/build-aws-standalone.js",
     "serve:ssr:roaya-website": "node dist/roaya-website/server/server.mjs",
     "validate:llms-txt": "node scripts/validate-llms-txt.mjs",
     "test:llms-txt:selftest": "node scripts/validate-llms-txt.selftest.mjs",

@@ -23,6 +23,14 @@
 // ============================================
 // Animated Gradient Background
 // ============================================
+// The hero's signature background: the site's cinematic ramp, animated.
+// The static version of these stops is the global `.cinematic-ramp` class in
+// src/styles.scss, which the "Why Choose Us" and penetration-testing brief
+// sections use as their light-mode ground. This copy exists separately because
+// it adds background-size and the 20s background-position animation, and the
+// other sections deliberately stay static — a second infinite animation would
+// keep the compositor busy for content well below the fold. Change the ramp in
+// both places.
 .hero-animated-gradient {
   background: linear-gradient(
     -45deg,

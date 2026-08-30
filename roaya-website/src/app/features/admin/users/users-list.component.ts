@@ -36,7 +36,7 @@ import {
     <div class="users-page p-8 min-h-screen">
       <!-- Page Header -->
       <div class="mb-8">
-        <div class="flex justify-between items-start pb-6 border-b border-neutral-200 dark:border-neutral-700">
+        <div class="flex justify-between items-start pb-6 border-b border-edge-subtle">
           <div>
             <h1 class="flex items-center gap-3 text-3xl font-bold bg-gradient-to-r from-[#3D5A80] via-[#5DB7C2] to-[#6B4C9A] bg-clip-text text-transparent">
               <svg class="h-7 w-7 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -47,7 +47,7 @@ import {
               </svg>
               User Management
             </h1>
-            <p class="mt-1 text-neutral-500 dark:text-neutral-400">Manage admin users and their access permissions</p>
+            <p class="mt-1 text-content-muted">Manage admin users and their access permissions</p>
           </div>
           @if (canManageUsers) {
             <button
@@ -60,7 +60,7 @@ import {
               Add User
             </button>
           } @else {
-            <span class="flex items-center gap-2 px-4 py-2 text-neutral-500 dark:text-neutral-400 text-sm bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+            <span class="flex items-center gap-2 px-4 py-2 text-content-muted text-sm bg-surface-secondary rounded-lg">
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
               </svg>
@@ -71,11 +71,11 @@ import {
       </div>
 
       <!-- Filters Card -->
-      <div class="bg-white/80 dark:bg-neutral-800/80 backdrop-blur-xl border border-neutral-200 dark:border-neutral-700 rounded-2xl p-5 mb-6 shadow-sm">
+      <div class="bg-white/80 dark:bg-neutral-800/80 backdrop-blur-xl border border-edge-subtle rounded-2xl p-5 mb-6 shadow-sm">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_180px_150px_auto] gap-4 items-end">
           <!-- Search Input -->
           <div class="flex flex-col">
-            <label class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-2">Search</label>
+            <label class="text-xs font-semibold uppercase tracking-wide text-content-muted mb-2">Search</label>
             <div class="relative">
               <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
@@ -85,18 +85,18 @@ import {
                 [(ngModel)]="searchQuery"
                 (keyup.enter)="onSearch()"
                 placeholder="Search by name or email..."
-                class="w-full h-11 pl-10 pr-4 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+                class="w-full h-11 pl-10 pr-4 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-surface-elevated text-sm text-content-primary placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
               />
             </div>
           </div>
 
           <!-- Role Filter -->
           <div class="flex flex-col">
-            <label class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-2">Role</label>
+            <label class="text-xs font-semibold uppercase tracking-wide text-content-muted mb-2">Role</label>
             <select
               [(ngModel)]="selectedRole"
               (ngModelChange)="onFilterChange()"
-              class="h-11 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 text-sm text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
+              class="h-11 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-surface-elevated px-3 text-sm text-content-primary focus:outline-none focus:ring-2 focus:ring-[#5DB7C2] transition-all"
             >
               @for (opt of roleOptions; track opt.value) {
                 <option [ngValue]="opt.value">{{ opt.label }}</option>
@@ -106,15 +106,15 @@ import {
 
           <!-- Active Only Toggle -->
           <div class="flex flex-col">
-            <label class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-2">Status</label>
-            <label class="flex items-center gap-2 h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-900 cursor-pointer">
+            <label class="text-xs font-semibold uppercase tracking-wide text-content-muted mb-2">Status</label>
+            <label class="flex items-center gap-2 h-11 px-4 rounded-xl border border-neutral-200 dark:border-neutral-600 bg-surface-elevated cursor-pointer">
               <input
                 type="checkbox"
                 [(ngModel)]="showActiveOnly"
                 (change)="onFilterChange()"
                 class="w-4 h-4 accent-[#5DB7C2] rounded"
               />
-              <span class="text-sm text-neutral-700 dark:text-neutral-300">Active only</span>
+              <span class="text-sm text-content-secondary">Active only</span>
             </label>
           </div>
 
@@ -132,7 +132,7 @@ import {
             <button
               (click)="loadUsers()"
               title="Refresh"
-              class="flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-[#5DB7C2]/10 hover:border-[#5DB7C2] hover:text-[#5DB7C2] transition-all"
+              class="flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 dark:border-neutral-600 text-content-secondary hover:bg-[#5DB7C2]/10 hover:border-[#5DB7C2] hover:text-[#5DB7C2] transition-all"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
@@ -146,7 +146,7 @@ import {
       </div>
 
       <!-- Users Table Card -->
-      <div class="bg-white/85 dark:bg-neutral-800/85 backdrop-blur-xl border border-neutral-200 dark:border-neutral-700 rounded-2xl shadow-lg overflow-hidden">
+      <div class="bg-white/85 dark:bg-neutral-800/85 backdrop-blur-xl border border-edge-subtle rounded-2xl shadow-lg overflow-hidden">
         @if (loading()) {
           <div class="flex flex-col items-center justify-center py-16 text-neutral-400">
             <svg class="animate-spin h-10 w-10 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -157,13 +157,13 @@ import {
           </div>
         } @else {
           <!-- Table Header -->
-          <div class="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_1fr_140px] gap-4 px-6 py-3 bg-neutral-50 dark:bg-neutral-900/50 border-b border-neutral-200 dark:border-neutral-700">
-            <span class="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">User</span>
-            <span class="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Role</span>
-            <span class="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 text-center">Status</span>
-            <span class="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 text-center">Last Login</span>
-            <span class="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 text-center">Assigned Leads</span>
-            <span class="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 text-center">Actions</span>
+          <div class="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_1fr_140px] gap-4 px-6 py-3 bg-neutral-50 dark:bg-neutral-900/50 border-b border-edge-subtle">
+            <span class="text-xs font-bold uppercase tracking-wide text-content-muted">User</span>
+            <span class="text-xs font-bold uppercase tracking-wide text-content-muted">Role</span>
+            <span class="text-xs font-bold uppercase tracking-wide text-content-muted text-center">Status</span>
+            <span class="text-xs font-bold uppercase tracking-wide text-content-muted text-center">Last Login</span>
+            <span class="text-xs font-bold uppercase tracking-wide text-content-muted text-center">Assigned Leads</span>
+            <span class="text-xs font-bold uppercase tracking-wide text-content-muted text-center">Actions</span>
           </div>
 
           <!-- Table Body -->
@@ -184,8 +184,8 @@ import {
                   {{ getInitials(user) }}
                 </div>
                 <div class="flex flex-col min-w-0">
-                  <span class="font-semibold text-sm text-neutral-900 dark:text-neutral-100 truncate">{{ user.firstName }} {{ user.lastName }}</span>
-                  <span class="text-xs text-neutral-500 dark:text-neutral-400 truncate">{{ user.email }}</span>
+                  <span class="font-semibold text-sm text-content-primary truncate">{{ user.firstName }} {{ user.lastName }}</span>
+                  <span class="text-xs text-content-muted truncate">{{ user.email }}</span>
                 </div>
               </div>
 
@@ -226,10 +226,10 @@ import {
               <!-- Last Login -->
               <div class="flex flex-col items-center gap-0.5">
                 @if (user.lastLoginAt) {
-                  <span class="text-sm font-medium text-neutral-900 dark:text-neutral-100">{{ formatDate(user.lastLoginAt) }}</span>
-                  <span class="text-xs text-neutral-500 dark:text-neutral-400">{{ formatTime(user.lastLoginAt) }}</span>
+                  <span class="text-sm font-medium text-content-primary">{{ formatDate(user.lastLoginAt) }}</span>
+                  <span class="text-xs text-content-muted">{{ formatTime(user.lastLoginAt) }}</span>
                 } @else {
-                  <span class="text-sm text-neutral-400 dark:text-neutral-500 italic">Never logged in</span>
+                  <span class="text-sm text-content-muted italic">Never logged in</span>
                 }
               </div>
 
@@ -307,12 +307,12 @@ import {
                 <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
-              <h4 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">No Users Found</h4>
-              <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6 max-w-xs">No users match your current filters. Try adjusting your search criteria.</p>
+              <h4 class="text-lg font-semibold text-content-primary mb-2">No Users Found</h4>
+              <p class="text-sm text-content-muted mb-6 max-w-xs">No users match your current filters. Try adjusting your search criteria.</p>
               @if (canManageUsers) {
                 <button
                   (click)="createUser()"
-                  class="flex items-center gap-2 px-5 py-2.5 border-2 border-neutral-200 dark:border-neutral-600 rounded-xl text-neutral-700 dark:text-neutral-300 font-semibold text-sm hover:border-[#5DB7C2] hover:text-[#5DB7C2] hover:bg-[#5DB7C2]/5 transition-all"
+                  class="flex items-center gap-2 px-5 py-2.5 border-2 border-neutral-200 dark:border-neutral-600 rounded-xl text-content-secondary font-semibold text-sm hover:border-[#5DB7C2] hover:text-[#5DB7C2] hover:bg-[#5DB7C2]/5 transition-all"
                 >
                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"/><path d="M12 5v14"/>
@@ -325,9 +325,9 @@ import {
 
           <!-- Pagination Info -->
           @if (users().length > 0) {
-            <div class="flex justify-between items-center px-6 py-3 bg-neutral-50 dark:bg-neutral-900/50 border-t border-neutral-200 dark:border-neutral-700">
-              <span class="text-sm text-neutral-500 dark:text-neutral-400">
-                Showing <strong class="text-neutral-900 dark:text-neutral-100">{{ users().length }}</strong> users
+            <div class="flex justify-between items-center px-6 py-3 bg-neutral-50 dark:bg-neutral-900/50 border-t border-edge-subtle">
+              <span class="text-sm text-content-muted">
+                Showing <strong class="text-content-primary">{{ users().length }}</strong> users
               </span>
             </div>
           }
@@ -339,7 +339,7 @@ import {
     @if (showResetDialog) {
       <div class="dialog-root">
         <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" (click)="closeResetDialog()" aria-hidden="true"></div>
-        <div class="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 bg-surface-elevated border border-edge-subtle rounded-2xl shadow-2xl overflow-hidden">
           <!-- Header -->
           <div class="bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] px-6 py-4">
             <h2 class="text-lg font-semibold text-white">Password Reset Successful</h2>
@@ -353,12 +353,12 @@ import {
                 <polyline points="22 4 12 14.01 9 11.01"/>
               </svg>
             </div>
-            <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            <p class="text-content-secondary mb-6">
               Password has been reset for
               <strong class="text-[#5DB7C2]">{{ selectedUser?.firstName }} {{ selectedUser?.lastName }}</strong>
             </p>
-            <div class="bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl p-4 mb-5">
-              <label class="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-2">Temporary Password</label>
+            <div class="bg-surface-secondary border border-edge-subtle rounded-xl p-4 mb-5">
+              <label class="block text-xs uppercase tracking-wide text-content-muted mb-2">Temporary Password</label>
               <div class="flex items-center justify-center gap-3">
                 <code class="text-xl font-mono text-neutral-900 dark:text-[#5DB7C2] tracking-wider">{{ resetPasswordResult }}</code>
                 <button
@@ -373,7 +373,7 @@ import {
                 </button>
               </div>
             </div>
-            <p class="flex items-center justify-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+            <p class="flex items-center justify-center gap-2 text-sm text-content-muted">
               <svg class="h-4 w-4 text-[#5DB7C2]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
               </svg>
@@ -382,7 +382,7 @@ import {
           </div>
 
           <!-- Footer -->
-          <div class="px-6 py-4 bg-neutral-50 dark:bg-neutral-900/50 border-t border-neutral-200 dark:border-neutral-700">
+          <div class="px-6 py-4 bg-neutral-50 dark:bg-neutral-900/50 border-t border-edge-subtle">
             <button
               (click)="closeResetDialog()"
               class="w-full py-3 bg-gradient-to-r from-[#3D5A80] to-[#5DB7C2] text-white rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-md transition-all"

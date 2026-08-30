@@ -217,3 +217,25 @@ footer {
 html {
   overflow-y: scroll;
 }
+
+// Page reveal — pairs with the initialization intro (InitLoaderComponent).
+// The page is held at a lower opacity behind the loader and comes up as the
+// loader fades, so the two overlap as a single cross-fade rather than the
+// page snapping in once the loader is gone.
+//
+// Only `opacity` is animated here: unlike transform/filter it does not
+// establish a containing block, so the fixed navbar and GSAP ScrollSmoother's
+// own transforms on #smooth-content are left untouched.
+.page-reveal {
+  transition: opacity 520ms cubic-bezier(0.22, 0.9, 0.28, 1);
+}
+
+.page-reveal--held {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-reveal {
+    transition: opacity 160ms linear;
+  }
+}

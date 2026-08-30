@@ -44,10 +44,10 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
   template: `
     <div class="team-page p-6">
       <!-- Page Header -->
-      <div class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="mb-6 pb-6 border-b border-edge-subtle">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 class="flex items-center gap-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-content-primary">
               <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
@@ -56,7 +56,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
               </svg>
               {{ 'Team Members' | translate }}
             </h1>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-sm text-content-muted mt-1">
               {{ 'Manage your team directory' | translate }}
             </p>
           </div>
@@ -76,7 +76,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-16">
           <ui-spinner size="lg" variant="default"></ui-spinner>
-          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">Loading team members...</p>
+          <p class="mt-4 text-sm text-content-muted">Loading team members...</p>
         </div>
       } @else {
         <!-- Team Grid -->
@@ -84,7 +84,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             @for (member of members(); track member.id; let i = $index) {
               <div
-                class="group relative rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 transition-all"
+                class="group relative rounded-xl border border-edge-subtle bg-surface-elevated p-5 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 transition-all"
                 [class.opacity-60]="!member.isActive"
               >
                 <div class="flex flex-col items-center text-center">
@@ -113,10 +113,10 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
                   </div>
 
                   <!-- Name & Title -->
-                  <h3 class="font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
+                  <h3 class="font-semibold text-content-primary mb-1">
                     {{ member.nameEn }}
                   </h3>
-                  <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+                  <p class="text-sm text-content-muted mb-3">
                     {{ member.titleEn }}
                   </p>
 
@@ -142,7 +142,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
                       @if (member.email) {
                         <a
                           [href]="'mailto:' + member.email"
-                          class="flex items-center justify-center w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-primary-100 hover:text-primary-600 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 transition-colors"
+                          class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-secondary text-content-secondary hover:bg-primary-100 hover:text-primary-600 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 transition-colors"
                           title="Email"
                         >
                           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -155,7 +155,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
                           [href]="member.linkedin"
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="flex items-center justify-center w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-[#0077B5]/10 hover:text-[#0077B5] transition-colors"
+                          class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-secondary text-content-secondary hover:bg-[#0077B5]/10 hover:text-[#0077B5] transition-colors"
                           title="LinkedIn"
                         >
                           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -168,7 +168,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
                           [href]="member.twitter"
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="flex items-center justify-center w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2] transition-colors"
+                          class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-secondary text-content-secondary hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2] transition-colors"
                           title="Twitter"
                         >
                           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -229,7 +229,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
         } @else {
           <!-- Empty State -->
           <div class="flex flex-col items-center justify-center py-16 text-center">
-            <div class="w-20 h-20 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
+            <div class="w-20 h-20 rounded-full bg-surface-secondary flex items-center justify-center mb-4">
               <svg class="h-10 w-10 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
@@ -237,15 +237,15 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+            <h3 class="text-lg font-semibold text-content-primary mb-2">
               No Team Members
             </h3>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6 max-w-sm">
+            <p class="text-sm text-content-muted mb-6 max-w-sm">
               Your team directory is empty. Add your first team member to get started.
             </p>
             <button
               (click)="openCreateDialog()"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-edge-subtle text-content-secondary hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="M12 5v14"/>
@@ -399,7 +399,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
                 formControlName="isActive"
                 class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
               />
-              <label for="isActive" class="text-sm text-neutral-700 dark:text-neutral-300">
+              <label for="isActive" class="text-sm text-content-secondary">
                 Active
               </label>
             </div>
@@ -410,7 +410,7 @@ import { ContentAdminService, TeamMember } from '../../../core/services/content-
       <ui-dialog-footer>
         <button
           (click)="closeDialog()"
-          class="px-4 py-2 rounded-lg text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>

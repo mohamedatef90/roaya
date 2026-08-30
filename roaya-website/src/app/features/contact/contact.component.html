@@ -88,7 +88,7 @@
             <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4">
               {{ 'contact.info.title' | translate }}
             </h2>
-            <p class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p class="text-base md:text-lg text-content-secondary leading-relaxed">
               {{ 'contact.info.description' | translate }}
             </p>
           </div>
@@ -130,7 +130,7 @@
                     {{ info.value }}
                   </a>
                   <ng-template #plainText>
-                    <p class="text-sm md:text-base text-neutral-600 dark:text-neutral-400">
+                    <p class="text-sm md:text-base text-content-secondary">
                       {{ info.value | translate }}
                     </p>
                   </ng-template>
@@ -149,7 +149,7 @@
                 #linkedinBtn
                 (mousemove)="onButtonMouseMove($event, linkedinBtn)"
                 (mouseleave)="onButtonMouseLeave(linkedinBtn)"
-                class="group relative w-12 h-12 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white transition-colors overflow-hidden"
+                class="group relative w-12 h-12 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 flex items-center justify-center text-content-secondary hover:text-white transition-colors overflow-hidden"
                 aria-label="LinkedIn"
               >
                 <div class="absolute inset-0 bg-gradient-to-br from-[#0077B5] to-[#005885] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -164,7 +164,7 @@
                 #facebookBtn
                 (mousemove)="onButtonMouseMove($event, facebookBtn)"
                 (mouseleave)="onButtonMouseLeave(facebookBtn)"
-                class="group relative w-12 h-12 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white transition-colors overflow-hidden"
+                class="group relative w-12 h-12 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 flex items-center justify-center text-content-secondary hover:text-white transition-colors overflow-hidden"
                 aria-label="Facebook"
               >
                 <div class="absolute inset-0 bg-gradient-to-br from-[#1877F2] to-[#0d65d9] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -179,7 +179,7 @@
                 #whatsappBtn
                 (mousemove)="onButtonMouseMove($event, whatsappBtn)"
                 (mouseleave)="onButtonMouseLeave(whatsappBtn)"
-                class="group relative w-12 h-12 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white transition-colors overflow-hidden"
+                class="group relative w-12 h-12 rounded-xl bg-white/70 dark:bg-primary-900/50 backdrop-blur-xl border border-white/60 dark:border-primary-700/40 flex items-center justify-center text-content-secondary hover:text-white transition-colors overflow-hidden"
                 aria-label="WhatsApp"
               >
                 <div class="absolute inset-0 bg-gradient-to-br from-[#25D366] to-[#128C7E] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -211,7 +211,7 @@
               <h3 class="text-2xl md:text-3xl font-bold text-foreground mb-3">
                 {{ 'contact.form.success.title' | translate }}
               </h3>
-              <p class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 mb-8 max-w-md mx-auto">
+              <p class="text-base md:text-lg text-content-secondary mb-8 max-w-md mx-auto">
                 {{ 'contact.form.success.description' | translate }}
               </p>
               <button
@@ -229,7 +229,7 @@
                 <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-2">
                   {{ 'contact.form.title' | translate }}
                 </h2>
-                <p class="text-neutral-600 dark:text-neutral-400">
+                <p class="text-content-secondary">
                   {{ 'contact.form.subtitle' | translate }}
                 </p>
               </div>
@@ -448,7 +448,7 @@
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
         {{ 'contact.map.title' | translate }}
       </h2>
-      <p class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 mb-6">
+      <p class="text-base md:text-lg text-content-secondary mb-6">
         {{ 'contact.map.description' | translate }}
       </p>
 

@@ -70,7 +70,7 @@
   </section>
 
   <!-- Statistics Section -->
-  <section class="py-12 md:py-16 bg-white dark:bg-gray-900 -mt-1">
+  <section class="py-12 md:py-16 bg-surface-elevated -mt-1">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (stat of statistics; track stat.label; let i = $index) {
@@ -87,7 +87,7 @@
               <div class="text-lg font-semibold text-foreground mb-2">
                 {{ stat.label }}
               </div>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              <p class="text-sm text-content-secondary">
                 {{ stat.description }}
               </p>
             </div>
@@ -109,7 +109,7 @@
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-primary-900 dark:text-primary-100 tracking-tight">
           Comprehensive Automation & AI Services
         </h2>
-        <p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto font-light leading-relaxed">
+        <p class="text-lg md:text-xl text-content-secondary max-w-3xl mx-auto font-light leading-relaxed">
           Five specialized service categories to automate and optimize your business operations
         </p>
       </div>
@@ -151,14 +151,14 @@
                   {{ category.title }}
                 </h3>
 
-                <p class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+                <p class="text-base md:text-lg text-content-secondary leading-relaxed mb-6">
                   {{ category.description }}
                 </p>
 
                 <!-- Features as pills/tags -->
                 <div class="flex flex-wrap gap-2 mb-6">
                   @for (feature of category.features; track feature) {
-                    <span class="px-3 py-1.5 bg-white dark:bg-primary-900/60 border border-neutral-200 dark:border-neutral-700 rounded-full text-sm text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-default">
+                    <span class="px-3 py-1.5 bg-white dark:bg-primary-900/60 border border-edge-subtle rounded-full text-sm text-content-secondary hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-default">
                       {{ feature }}
                     </span>
                   }
@@ -191,7 +191,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Why Choose Our Automation & AI Solutions
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Six compelling reasons to automate your business with Roaya IT
         </p>
       </div>
@@ -215,7 +215,7 @@
               </h3>
 
               <!-- Description -->
-              <p class="text-neutral-600 dark:text-neutral-200 text-sm leading-relaxed">
+              <p class="text-content-secondary text-sm leading-relaxed">
                 {{ benefit.description }}
               </p>
             </div>
@@ -232,7 +232,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Industries We Serve
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Specialized automation solutions across multiple sectors
         </p>
       </div>
@@ -257,7 +257,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           What Sets Us Apart
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Our unique approach to automation and AI solutions
         </p>
       </div>
@@ -279,7 +279,7 @@
               <h3 class="text-xl font-bold mb-3 pr-24 rtl:pr-0 rtl:pl-24 group-hover:text-primary-600 dark:group-hover:text-secondary-400 transition-colors">
                 {{ diff.title }}
               </h3>
-              <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <p class="text-content-secondary leading-relaxed">
                 {{ diff.description }}
               </p>
             </div>
@@ -296,7 +296,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Transparent Automation Pricing
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Flexible pricing plans designed to match your automation needs and business scale
         </p>
       </div>
@@ -324,7 +324,7 @@
                 {{ tier.name }}
               </h3>
 
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-6">
+              <p class="text-sm text-content-secondary mb-6">
                 {{ tier.description }}
               </p>
 
@@ -332,7 +332,7 @@
                 <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">
                   Get Your Custom Quote
                 </div>
-                <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+                <p class="text-sm text-content-secondary mt-2">
                   Tailored to your needs
                 </p>
               </div>
@@ -342,7 +342,7 @@
                 @for (feature of tier.features; track feature) {
                   <li class="flex items-start gap-2">
                     <ng-icon name="faCircleCheck" class="text-green-600 dark:text-green-400 mt-1 flex-shrink-0" size="16"></ng-icon>
-                    <span class="text-sm text-neutral-700 dark:text-neutral-300">{{ feature }}</span>
+                    <span class="text-sm text-content-secondary">{{ feature }}</span>
                   </li>
                 }
               </ul>
@@ -380,7 +380,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Complementary Services
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        <p class="text-lg text-content-secondary max-w-3xl mx-auto">
           Enhance your automation solutions with these related services
         </p>
       </div>
@@ -407,7 +407,7 @@
               </h3>
 
               <!-- Service Description -->
-              <p class="text-neutral-600 dark:text-neutral-200 text-sm mb-4 leading-relaxed">
+              <p class="text-content-secondary text-sm mb-4 leading-relaxed">
                 {{ service.description }}
               </p>
 

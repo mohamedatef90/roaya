@@ -87,12 +87,12 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
   template: `
     <div class="p-6 lg:p-8 min-h-screen">
       <!-- Page Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-neutral-200 dark:border-neutral-700">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-edge-subtle">
         <div>
           <h1 class="text-2xl font-bold bg-gradient-to-r from-primary-600 via-secondary-500 to-accent-500 bg-clip-text text-transparent">
             Logo Management
           </h1>
-          <p class="text-neutral-500 dark:text-neutral-400 mt-1">
+          <p class="text-content-muted mt-1">
             Manage industry and client logos displayed on your website
           </p>
         </div>
@@ -100,7 +100,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
           <button
             (click)="openSortDialog()"
             [disabled]="filteredLogos().length < 2"
-            class="inline-flex items-center gap-2 px-4 py-2.5 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-xl font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            class="inline-flex items-center gap-2 px-4 py-2.5 border border-edge-strong text-content-secondary rounded-xl font-medium hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             <ng-icon name="lucideArrowUpDown" size="18"></ng-icon>
             Sort
@@ -117,7 +117,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
 
       <!-- Category Tabs -->
       <div class="mb-6">
-        <div class="inline-flex rounded-xl bg-neutral-100 dark:bg-neutral-800 p-1 gap-1">
+        <div class="inline-flex rounded-xl bg-surface-secondary p-1 gap-1">
           <button
             *ngFor="let cat of categoryTabs"
             (click)="selectCategory(cat.id)"
@@ -168,7 +168,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
       @if (loading()) {
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           @for (i of [1,2,3,4,5,6,7,8]; track i) {
-            <div class="p-4 rounded-2xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+            <div class="p-4 rounded-2xl bg-surface-elevated border border-edge-subtle">
               <ui-skeleton class="w-full h-20 rounded-lg mb-3"></ui-skeleton>
               <ui-skeleton class="w-3/4 h-4 mb-2"></ui-skeleton>
               <ui-skeleton class="w-1/2 h-3"></ui-skeleton>
@@ -182,11 +182,11 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           @for (logo of filteredLogos(); track logo.id) {
             <div
-              class="group relative p-4 rounded-2xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 transition-all hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 hover:-translate-y-1"
+              class="group relative p-4 rounded-2xl bg-surface-elevated border border-edge-subtle transition-all hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 hover:-translate-y-1"
               [class.opacity-50]="!logo.isActive"
             >
               <!-- Order Badge -->
-              <div class="absolute top-2 left-2 w-6 h-6 flex items-center justify-center rounded-md bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 text-xs font-medium">
+              <div class="absolute top-2 left-2 w-6 h-6 flex items-center justify-center rounded-md bg-neutral-200 dark:bg-neutral-700 text-content-muted text-xs font-medium">
                 {{ logo.order }}
               </div>
 
@@ -201,7 +201,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
               }
 
               <!-- Logo Image -->
-              <div class="h-20 flex items-center justify-center rounded-xl bg-neutral-50 dark:bg-neutral-900 mb-3 overflow-hidden">
+              <div class="h-20 flex items-center justify-center rounded-xl bg-surface-secondary mb-3 overflow-hidden">
                 <img
                   [src]="logo.logo"
                   [alt]="logo.name"
@@ -213,10 +213,10 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
 
               <!-- Logo Info -->
               <div class="mb-3">
-                <h4 class="font-medium text-sm text-neutral-900 dark:text-white truncate" [title]="logo.name">
+                <h4 class="font-medium text-sm text-content-primary truncate" [title]="logo.name">
                   {{ logo.name }}
                 </h4>
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 truncate" [title]="logo.nameAr">
+                <p class="text-xs text-content-muted truncate" [title]="logo.nameAr">
                   {{ logo.nameAr }}
                 </p>
               </div>
@@ -225,7 +225,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
               <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   (click)="editLogo(logo)"
-                  class="p-2 rounded-lg text-neutral-600 hover:text-primary-600 hover:bg-primary-50 dark:text-neutral-400 dark:hover:text-secondary-400 dark:hover:bg-primary-900/30 transition-colors"
+                  class="p-2 rounded-lg text-content-secondary hover:text-primary-600 hover:bg-primary-50 dark:hover:text-secondary-400 dark:hover:bg-primary-900/30 transition-colors"
                   title="Edit"
                 >
                   <ng-icon name="lucidePencil" size="16"></ng-icon>
@@ -246,7 +246,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
                 </button>
                 <button
                   (click)="confirmDelete(logo)"
-                  class="p-2 rounded-lg text-neutral-600 hover:text-red-600 hover:bg-red-50 dark:text-neutral-400 dark:hover:text-red-400 dark:hover:bg-red-900/30 transition-colors"
+                  class="p-2 rounded-lg text-content-secondary hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 dark:hover:bg-red-900/30 transition-colors"
                   title="Delete"
                 >
                   <ng-icon name="lucideTrash2" size="16"></ng-icon>
@@ -260,13 +260,13 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
       <!-- Empty State -->
       @if (!loading() && filteredLogos().length === 0) {
         <div class="text-center py-16">
-          <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-surface-secondary flex items-center justify-center">
             <ng-icon name="lucideImage" size="40" class="text-neutral-300 dark:text-neutral-600"></ng-icon>
           </div>
-          <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-2">
+          <h3 class="text-lg font-semibold text-content-primary mb-2">
             No {{ selectedCategory() === 'sector' ? 'industry' : 'client' }} logos yet
           </h3>
-          <p class="text-neutral-500 dark:text-neutral-400 mb-6 max-w-md mx-auto">
+          <p class="text-content-muted mb-6 max-w-md mx-auto">
             Add your first {{ selectedCategory() === 'sector' ? 'industry/sector' : 'client' }} logo to display in the
             "{{ selectedCategory() === 'sector' ? 'Sectors We Serve' : 'Trusted By' }}" section of your website.
           </p>
@@ -299,20 +299,20 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
         <div class="space-y-5">
           <!-- Name (English) -->
           <div>
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+            <label class="block text-sm font-medium text-content-secondary mb-1.5">
               Name (English) <span class="text-red-500">*</span>
             </label>
             <input
               type="text"
               [(ngModel)]="formData.name"
               placeholder="e.g., Cairo University"
-              class="w-full px-4 py-2.5 rounded-xl border-0 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
+              class="w-full px-4 py-2.5 rounded-xl border-0 bg-surface-secondary text-content-primary placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
             />
           </div>
 
           <!-- Name (Arabic) -->
           <div>
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+            <label class="block text-sm font-medium text-content-secondary mb-1.5">
               Name (Arabic) <span class="text-red-500">*</span>
             </label>
             <input
@@ -320,13 +320,13 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
               [(ngModel)]="formData.nameAr"
               placeholder="e.g., جامعة القاهرة"
               dir="rtl"
-              class="w-full px-4 py-2.5 rounded-xl border-0 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
+              class="w-full px-4 py-2.5 rounded-xl border-0 bg-surface-secondary text-content-primary placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
             />
           </div>
 
           <!-- Logo Image URL -->
           <div>
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+            <label class="block text-sm font-medium text-content-secondary mb-1.5">
               Logo Image <span class="text-red-500">*</span>
             </label>
             <div class="flex gap-3">
@@ -334,9 +334,9 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
                 type="text"
                 [(ngModel)]="formData.logo"
                 placeholder="/assets/images/logos/..."
-                class="flex-1 px-4 py-2.5 rounded-xl border-0 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
+                class="flex-1 px-4 py-2.5 rounded-xl border-0 bg-surface-secondary text-content-primary placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
               />
-              <label class="px-4 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
+              <label class="px-4 py-2.5 rounded-xl bg-surface-secondary text-content-secondary hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
                 <ng-icon name="lucideUpload" size="18"></ng-icon>
                 <input
                   type="file"
@@ -347,7 +347,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
               </label>
             </div>
             @if (formData.logo) {
-              <div class="mt-3 p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center">
+              <div class="mt-3 p-3 rounded-xl bg-surface-secondary flex items-center justify-center">
                 <img
                   [src]="formData.logo"
                   alt="Preview"
@@ -359,7 +359,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
 
           <!-- Dark Mode Logo (Optional) -->
           <div>
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+            <label class="block text-sm font-medium text-content-secondary mb-1.5">
               Dark Mode Variant (Optional)
             </label>
             <div class="flex gap-3">
@@ -367,9 +367,9 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
                 type="text"
                 [(ngModel)]="formData.darkModeLogo"
                 placeholder="/assets/images/logos/...-dark.png"
-                class="flex-1 px-4 py-2.5 rounded-xl border-0 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
+                class="flex-1 px-4 py-2.5 rounded-xl border-0 bg-surface-secondary text-content-primary placeholder-neutral-400 focus:ring-2 focus:ring-primary-500/50 focus:bg-white dark:focus:bg-neutral-900 transition-all"
               />
-              <label class="px-4 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
+              <label class="px-4 py-2.5 rounded-xl bg-surface-secondary text-content-secondary hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
                 <ng-icon name="lucideUpload" size="18"></ng-icon>
                 <input
                   type="file"
@@ -392,7 +392,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
 
           <!-- Scale Option -->
           <div>
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+            <label class="block text-sm font-medium text-content-secondary mb-1.5">
               Display Scale
             </label>
             <ui-select
@@ -400,7 +400,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
               [(ngModel)]="formData.scale"
               placeholder="Normal (default)"
             ></ui-select>
-            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-xs text-content-muted mt-1">
               Adjust if the logo appears too small in the grid
             </p>
           </div>
@@ -421,7 +421,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
                 [class.left-5]="formData.isActive"
               ></span>
             </button>
-            <span class="text-sm text-neutral-700 dark:text-neutral-300">
+            <span class="text-sm text-content-secondary">
               {{ formData.isActive ? 'Active - Visible on website' : 'Inactive - Hidden from website' }}
             </span>
           </div>
@@ -432,7 +432,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
         <div class="flex gap-3 justify-end">
           <button
             (click)="closeDialog()"
-            class="px-4 py-2 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+            class="px-4 py-2 text-sm font-medium text-content-secondary hover:text-content-primary transition-colors"
           >
             Cancel
           </button>
@@ -475,7 +475,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
           @for (logo of sortLogos(); track logo.id; let i = $index) {
             <div
               cdkDrag
-              class="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 cursor-move"
+              class="flex items-center gap-3 p-3 rounded-xl bg-surface-secondary border border-edge-subtle cursor-move"
             >
               <div cdkDragHandle class="p-1 text-neutral-400 hover:text-primary-500 cursor-grab">
                 <ng-icon name="lucideGripVertical" size="18"></ng-icon>
@@ -483,7 +483,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
               <span class="w-6 h-6 flex items-center justify-center rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-bold">
                 {{ i + 1 }}
               </span>
-              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-white dark:bg-neutral-900 overflow-hidden">
+              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-surface-elevated overflow-hidden">
                 <img
                   [src]="logo.logo"
                   [alt]="logo.name"
@@ -491,11 +491,11 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
                 />
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-neutral-900 dark:text-white truncate">{{ logo.name }}</p>
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 truncate">{{ logo.nameAr }}</p>
+                <p class="text-sm font-medium text-content-primary truncate">{{ logo.name }}</p>
+                <p class="text-xs text-content-muted truncate">{{ logo.nameAr }}</p>
               </div>
               @if (!logo.isActive) {
-                <span class="px-2 py-0.5 text-xs rounded-full bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400">
+                <span class="px-2 py-0.5 text-xs rounded-full bg-neutral-200 dark:bg-neutral-700 text-content-muted">
                   Hidden
                 </span>
               }
@@ -509,7 +509,7 @@ import { LogoService, Logo, LogoCategory } from '../../../core/services/logo.ser
         <div class="flex gap-3 justify-end">
           <button
             (click)="closeSortDialog()"
-            class="px-4 py-2 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+            class="px-4 py-2 text-sm font-medium text-content-secondary hover:text-content-primary transition-colors"
           >
             Cancel
           </button>

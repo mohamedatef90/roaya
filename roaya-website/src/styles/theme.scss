@@ -118,14 +118,13 @@ $roaya-slate-900: #0f172a;
   --glass-border: rgba(226, 232, 240, 0.9);
   --glass-shadow: 0 8px 32px rgba(61, 90, 128, 0.12);
 
-  // Shadows (Premium elevated design)
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  // Shadows
+  // --shadow-sm/-md/-lg/-xl/-2xl and --shadow-brand are NOT declared here.
+  // They live in styles/themes/light.css and dark.css. This file loads last,
+  // so redeclaring them here silently overrode the design system's two-layer
+  // scale with a flatter single-layer one — everywhere, not just in /admin.
+  // --shadow has no counterpart there, so it stays.
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-brand: 0 4px 14px 0 rgba(61, 90, 128, 0.25);
 
   // Misc
   --content-padding: 1.5rem;
@@ -205,14 +204,8 @@ $roaya-slate-900: #0f172a;
   --glass-border: rgba(51, 65, 85, 0.9);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 
-  // Shadows (Premium deep shadows for dark mode)
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  // Shadows — see the note in the light block above. Only --shadow is ours.
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-  --shadow-brand: 0 4px 14px 0 rgba(93, 183, 194, 0.3);
 
   // Misc
   --content-padding: 1.5rem;
@@ -663,68 +656,58 @@ body {
 // UTILITY CLASSES (Modern CRM Admin)
 // ============================================================================
 
-// Text Colors
-.text-primary {
-  color: var(--primary-color);
-}
+// ----------------------------------------------------------------------------
+// Removed: .text-primary, .text-secondary, .bg-surface, .shadow-sm, .shadow,
+// .shadow-md, .shadow-lg, .shadow-xl, .shadow-brand
+// ----------------------------------------------------------------------------
+// This file is the admin panel's PrimeNG theme, but it is imported from
+// styles.scss and so ships on every public page. These nine class names
+// collided with Tailwind utilities of the same name, and because the import
+// sits after `@tailwind utilities` they won at equal specificity — site-wide,
+// not just in /admin:
+//
+//   .bg-surface   -> --surface-card (#ffffff light / #1E293B slate dark)
+//                    instead of the design system's --color-surface, on 73
+//                    public elements. Light-mode section bands rendered pure
+//                    white against a white page, and dark-mode cards picked up
+//                    a slate tint inside a navy palette.
+//   .shadow-*     -> single-layer PrimeNG shadows on 400+ public elements,
+//                    replacing Tailwind's two-layer scale.
+//   .text-primary/-secondary -> the brand navy and PrimeNG's secondary text
+//                    colour, inverting what the design system means by those
+//                    names (see the semantic utilities in styles.scss).
+//
+// Tailwind now owns all nine. Its shadow scale reads the theme tokens in
+// styles/themes/*.css, so admin keeps theme-aware elevation without these.
+// The helpers below have no Tailwind counterpart, so they stay — scoped to the
+// admin shell so they cannot leak onto public pages the way the above did.
+.admin-layout {
+  // Text Colors
+  .text-success {
+    color: var(--success-color);
+  }
 
-.text-secondary {
-  color: var(--text-color-secondary);
-}
+  .text-warning {
+    color: var(--warning-color);
+  }
 
-.text-success {
-  color: var(--success-color);
-}
+  .text-danger {
+    color: var(--danger-color);
+  }
 
-.text-warning {
-  color: var(--warning-color);
-}
+  .text-info {
+    color: var(--info-color);
+  }
 
-.text-danger {
-  color: var(--danger-color);
-}
+  // Background Colors
+  .bg-primary {
+    background-color: var(--primary-color);
+    color: var(--primary-color-text);
+  }
 
-.text-info {
-  color: var(--info-color);
-}
-
-// Background Colors
-.bg-primary {
-  background-color: var(--primary-color);
-  color: var(--primary-color-text);
-}
-
-.bg-surface {
-  background-color: var(--surface-card);
-}
-
-.border-surface {
-  border-color: var(--surface-border);
-}
-
-// Shadows
-.shadow-sm {
-  box-shadow: var(--shadow-sm);
-}
-
-.shadow {
-  box-shadow: var(--shadow);
-}
-
-.shadow-md {
-  box-shadow: var(--shadow-md);
-}
-
-.shadow-lg {
-  box-shadow: var(--shadow-lg);
-}
-
-.shadow-xl {
-  box-shadow: var(--shadow-xl);
-}
-
-.shadow-brand {
-  box-shadow: var(--shadow-brand);
+  .border-surface {
+    border-color: var(--surface-border);
+  }
 }
 
 // Glassmorphism Utility

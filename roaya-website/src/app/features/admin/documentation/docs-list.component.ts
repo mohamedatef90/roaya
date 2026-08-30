@@ -85,10 +85,10 @@ interface TreeNode {
   template: `
     <div class="docs-page p-6">
       <!-- Page Header -->
-      <div class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="mb-6 pb-6 border-b border-edge-subtle">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 class="flex items-center gap-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-content-primary">
               <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
                 <path d="M9 10h6"/>
@@ -96,14 +96,14 @@ interface TreeNode {
               </svg>
               {{ 'Documentation' | translate }}
             </h1>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-sm text-content-muted mt-1">
               {{ 'Manage knowledge base articles and documentation' | translate }}
             </p>
           </div>
           <div class="flex gap-2">
             <button
               (click)="openCategoryDialog()"
-              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border border-edge-subtle text-content-secondary hover:bg-surface-hover transition-colors"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
@@ -139,7 +139,7 @@ interface TreeNode {
             [(ngModel)]="searchQuery"
             (input)="onSearch()"
             placeholder="Search documentation..."
-            class="w-full h-10 pl-10 pr-4 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="w-full h-10 pl-10 pr-4 rounded-lg border border-edge-subtle bg-surface-elevated text-sm text-content-primary placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
       </div>
@@ -148,15 +148,15 @@ interface TreeNode {
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-16">
           <ui-spinner size="lg" variant="default"></ui-spinner>
-          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">Loading documentation...</p>
+          <p class="mt-4 text-sm text-content-muted">Loading documentation...</p>
         </div>
       } @else {
         <!-- Main Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
           <!-- Category Sidebar -->
-          <div class="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
-            <div class="px-4 py-3 bg-neutral-50 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
-              <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+          <div class="bg-surface-elevated rounded-xl border border-edge-subtle overflow-hidden">
+            <div class="px-4 py-3 bg-surface-secondary border-b border-edge-subtle">
+              <h3 class="flex items-center gap-2 text-sm font-semibold text-content-secondary">
                 <svg class="h-4 w-4 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect width="7" height="7" x="3" y="3" rx="1"/>
                   <rect width="7" height="7" x="14" y="3" rx="1"/>
@@ -185,7 +185,7 @@ interface TreeNode {
                   <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
                 </svg>
                 <span class="flex-1">All Pages</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400">
+                <span class="text-xs px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-neutral-700 text-content-secondary">
                   {{ pages().length }}
                 </span>
               </button>
@@ -208,7 +208,7 @@ interface TreeNode {
                     <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
                   </svg>
                   <span class="flex-1 truncate">{{ node.label }}</span>
-                  <span class="text-xs px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400">
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-neutral-700 text-content-secondary">
                     {{ node.data.pageCount }}
                   </span>
                 </button>
@@ -217,16 +217,16 @@ interface TreeNode {
           </div>
 
           <!-- Pages Grid -->
-          <div class="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
-            <div class="px-4 py-3 bg-neutral-50 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
-              <h3 class="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+          <div class="bg-surface-elevated rounded-xl border border-edge-subtle overflow-hidden">
+            <div class="px-4 py-3 bg-surface-secondary border-b border-edge-subtle flex items-center justify-between">
+              <h3 class="flex items-center gap-2 text-sm font-semibold text-content-secondary">
                 <svg class="h-4 w-4 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
                   <polyline points="14 2 14 8 20 8"/>
                 </svg>
                 {{ selectedCategoryName() || 'All Pages' }}
               </h3>
-              <span class="text-xs text-neutral-500 dark:text-neutral-400">
+              <span class="text-xs text-content-muted">
                 {{ filteredPages().length }} pages
               </span>
             </div>
@@ -234,21 +234,21 @@ interface TreeNode {
             @if (filteredPages().length === 0) {
               <!-- Empty State -->
               <div class="flex flex-col items-center justify-center py-16 text-center">
-                <div class="w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
+                <div class="w-16 h-16 rounded-full bg-surface-secondary flex items-center justify-center mb-4">
                   <svg class="h-8 w-8 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
                     <polyline points="14 2 14 8 20 8"/>
                   </svg>
                 </div>
-                <h4 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+                <h4 class="text-lg font-semibold text-content-primary mb-2">
                   No pages yet
                 </h4>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">
+                <p class="text-sm text-content-muted mb-6">
                   Create your first documentation page
                 </p>
                 <button
                   (click)="openPageDialog()"
-                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-edge-subtle text-content-secondary hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"/><path d="M12 5v14"/>
@@ -262,10 +262,10 @@ interface TreeNode {
                 @for (page of filteredPages(); track page.id) {
                   <div
                     (click)="editPage(page)"
-                    class="group p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-md cursor-pointer transition-all"
+                    class="group p-4 rounded-lg border border-edge-subtle hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-md cursor-pointer transition-all"
                   >
                     <div class="flex items-start justify-between mb-2">
-                      <h4 class="font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                      <h4 class="font-medium text-content-primary group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {{ page.titleEn }}
                       </h4>
                       <ui-tag
@@ -275,10 +275,10 @@ interface TreeNode {
                         {{ page.accessLevel }}
                       </ui-tag>
                     </div>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3" dir="rtl">
+                    <p class="text-sm text-content-muted mb-3" dir="rtl">
                       {{ page.titleAr }}
                     </p>
-                    <div class="flex items-center gap-3 text-xs text-neutral-400 dark:text-neutral-500 mb-3">
+                    <div class="flex items-center gap-3 text-xs text-content-muted mb-3">
                       <span class="flex items-center gap-1">
                         <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <circle cx="12" cy="12" r="10"/>
@@ -297,7 +297,7 @@ interface TreeNode {
                         <ui-tag variant="warning" size="sm">Draft</ui-tag>
                       }
                     </div>
-                    <div class="flex items-center justify-end gap-1 pt-3 border-t border-neutral-100 dark:border-neutral-800">
+                    <div class="flex items-center justify-end gap-1 pt-3 border-t border-edge-subtle">
                       <button
                         (click)="editPage(page); $event.stopPropagation()"
                         class="action-btn"
@@ -393,7 +393,7 @@ interface TreeNode {
       <ui-dialog-footer>
         <button
           (click)="showCategoryDialog = false"
-          class="px-4 py-2 rounded-lg text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>
@@ -417,7 +417,7 @@ interface TreeNode {
       <ui-dialog-content>
         <!-- Custom Tabs -->
         <div class="mb-4">
-          <div class="inline-flex rounded-lg bg-neutral-100 dark:bg-neutral-800 p-1">
+          <div class="inline-flex rounded-lg bg-surface-secondary p-1">
             <button
               (click)="activePageTab = 'english'"
               class="px-4 py-2 text-sm font-medium rounded-md transition-colors"
@@ -543,7 +543,7 @@ interface TreeNode {
                 id="published"
                 class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
               />
-              <label for="published" class="text-sm text-neutral-700 dark:text-neutral-300">
+              <label for="published" class="text-sm text-content-secondary">
                 Published
               </label>
             </div>
@@ -554,14 +554,14 @@ interface TreeNode {
       <ui-dialog-footer>
         <button
           (click)="showPageDialog = false"
-          class="px-4 py-2 rounded-lg text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>
         @if (!pageForm.isPublished) {
           <button
             (click)="savePage(false)"
-            class="px-4 py-2 rounded-lg text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+            class="px-4 py-2 rounded-lg text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
           >
             Save as Draft
           </button>

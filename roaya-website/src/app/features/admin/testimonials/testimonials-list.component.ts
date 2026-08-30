@@ -44,16 +44,16 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
   template: `
     <div class="testimonials-page p-6">
       <!-- Page Header -->
-      <div class="mb-6 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="mb-6 pb-6 border-b border-edge-subtle">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 class="flex items-center gap-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-content-primary">
               <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>
               {{ 'Testimonials' | translate }}
             </h1>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-sm text-content-muted mt-1">
               {{ 'Manage client reviews and testimonials' | translate }}
             </p>
           </div>
@@ -73,7 +73,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-16">
           <ui-spinner size="lg" variant="default"></ui-spinner>
-          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">Loading testimonials...</p>
+          <p class="mt-4 text-sm text-content-muted">Loading testimonials...</p>
         </div>
       } @else {
         <!-- Testimonials Grid -->
@@ -81,7 +81,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             @for (testimonial of testimonials(); track testimonial.id; let i = $index) {
               <div
-                class="group relative rounded-xl border bg-white dark:bg-neutral-900 overflow-hidden transition-all hover:shadow-lg"
+                class="group relative rounded-xl border bg-surface-elevated overflow-hidden transition-all hover:shadow-lg"
                 [class.border-amber-400]="testimonial.isFeatured"
                 [class.border-neutral-200]="!testimonial.isFeatured"
                 [class.dark:border-amber-600]="testimonial.isFeatured"
@@ -106,7 +106,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
                     <svg class="absolute -top-1 -left-1 h-8 w-8 text-primary-200 dark:text-primary-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
                     </svg>
-                    <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed pl-6 italic">
+                    <p class="text-sm text-content-secondary leading-relaxed pl-6 italic">
                       "{{ truncateQuote(testimonial.quoteEn) }}"
                     </p>
                   </div>
@@ -147,14 +147,14 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
                       </div>
                     }
                     <div class="flex-1 min-w-0">
-                      <p class="font-semibold text-neutral-900 dark:text-neutral-100 truncate">
+                      <p class="font-semibold text-content-primary truncate">
                         {{ testimonial.authorName }}
                       </p>
-                      <p class="text-sm text-neutral-500 dark:text-neutral-400 truncate">
+                      <p class="text-sm text-content-muted truncate">
                         {{ testimonial.authorTitleEn }}
                       </p>
                       @if (testimonial.authorCompany) {
-                        <p class="text-xs text-neutral-400 dark:text-neutral-500 truncate">
+                        <p class="text-xs text-content-muted truncate">
                           {{ testimonial.authorCompany }}
                         </p>
                       }
@@ -177,7 +177,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
                   </div>
 
                   <!-- Actions -->
-                  <div class="flex items-center justify-between pt-4 border-t border-neutral-100 dark:border-neutral-800">
+                  <div class="flex items-center justify-between pt-4 border-t border-edge-subtle">
                     <div class="flex items-center gap-1">
                       <button
                         (click)="moveUp(i)"
@@ -240,20 +240,20 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
         } @else {
           <!-- Empty State -->
           <div class="flex flex-col items-center justify-center py-16 text-center">
-            <div class="w-20 h-20 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
+            <div class="w-20 h-20 rounded-full bg-surface-secondary flex items-center justify-center mb-4">
               <svg class="h-10 w-10 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+            <h3 class="text-lg font-semibold text-content-primary mb-2">
               No Testimonials
             </h3>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6 max-w-sm">
+            <p class="text-sm text-content-muted mb-6 max-w-sm">
               Start collecting client testimonials to showcase your work and build trust.
             </p>
             <button
               (click)="openCreateDialog()"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 border-edge-subtle text-content-secondary hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="M12 5v14"/>
@@ -417,7 +417,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
                   formControlName="isActive"
                   class="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
                 />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Active</span>
+                <span class="text-sm text-content-secondary">Active</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input
@@ -425,7 +425,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
                   formControlName="isFeatured"
                   class="w-4 h-4 rounded border-neutral-300 text-amber-500 focus:ring-amber-500"
                 />
-                <span class="text-sm text-neutral-700 dark:text-neutral-300">Featured</span>
+                <span class="text-sm text-content-secondary">Featured</span>
               </label>
             </div>
           }
@@ -435,7 +435,7 @@ import { ContentAdminService, Testimonial } from '../../../core/services/content
       <ui-dialog-footer>
         <button
           (click)="closeDialog()"
-          class="px-4 py-2 rounded-lg text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-sm font-medium border border-edge-strong text-content-secondary hover:bg-surface-hover transition-colors"
         >
           Cancel
         </button>

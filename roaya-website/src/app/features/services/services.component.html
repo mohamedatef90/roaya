@@ -54,14 +54,14 @@
           <h2 class="text-xl font-bold mb-2 group-hover:text-primary-500 dark:group-hover:text-secondary-400 transition-colors">
             {{ service.title | translate }}
           </h2>
-          <p class="text-neutral-600 dark:text-neutral-400">
+          <p class="text-content-secondary">
             {{ service.description | translate }}
           </p>
         </div>
 
         <!-- Features List -->
         <div class="p-6 flex-grow">
-          <h3 class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
+          <h3 class="text-sm font-semibold text-content-muted uppercase tracking-wider mb-4">
             {{ 'services.keyFeatures' | translate }}
           </h3>
           <ul class="space-y-3">
@@ -69,7 +69,7 @@
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-neutral-700 dark:text-neutral-300">
+              <span class="text-content-secondary">
                 {{ feature | translate }}
               </span>
             </li>
@@ -106,7 +106,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-6">
           {{ 'services.whyChoose.title' | translate }}
         </h2>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        <p class="text-lg text-content-secondary mb-8">
           {{ 'services.whyChoose.description' | translate }}
         </p>
 
@@ -120,7 +120,7 @@
             </div>
             <div>
               <h3 class="font-semibold mb-1">{{ 'services.whyChoose.benefit1.title' | translate }}</h3>
-              <p class="text-neutral-600 dark:text-neutral-400">{{ 'services.whyChoose.benefit1.description' | translate }}</p>
+              <p class="text-content-secondary">{{ 'services.whyChoose.benefit1.description' | translate }}</p>
             </div>
           </div>
 
@@ -132,7 +132,7 @@
             </div>
             <div>
               <h3 class="font-semibold mb-1">{{ 'services.whyChoose.benefit2.title' | translate }}</h3>
-              <p class="text-neutral-600 dark:text-neutral-400">{{ 'services.whyChoose.benefit2.description' | translate }}</p>
+              <p class="text-content-secondary">{{ 'services.whyChoose.benefit2.description' | translate }}</p>
             </div>
           </div>
 
@@ -144,7 +144,7 @@
             </div>
             <div>
               <h3 class="font-semibold mb-1">{{ 'services.whyChoose.benefit3.title' | translate }}</h3>
-              <p class="text-neutral-600 dark:text-neutral-400">{{ 'services.whyChoose.benefit3.description' | translate }}</p>
+              <p class="text-content-secondary">{{ 'services.whyChoose.benefit3.description' | translate }}</p>
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
         {{ 'services.cta.title' | translate }}
       </h2>
-      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto">
+      <p class="text-lg text-content-secondary mb-8 max-w-2xl mx-auto">
         {{ 'services.cta.description' | translate }}
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -198,7 +198,7 @@
         </a>
         <a
           routerLink="/contact"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-surface border border-border rounded-xl font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-surface border border-border rounded-xl font-semibold hover:bg-surface-hover transition-colors"
         >
           {{ 'services.cta.secondaryButton' | translate }}
         </a>

@@ -1,4 +1,24 @@
 /**
+ * DEPRECATED — THIS FILE IS NOT LOADED
+ * ====================================
+ *
+ * Nothing references it: not angular.json, not any @import, not any
+ * component styleUrls. Editing it has no effect on the built site. It is
+ * kept only as a record of the pre-token-layer styles.
+ *
+ * Its brand ramps were moved into src/styles/tokens.css, which is loaded.
+ * While this file was the only declaration of --color-primary-500 and its
+ * siblings, roughly 67 var() references in component SCSS resolved to
+ * nothing.
+ *
+ * The live style entry points are, in load order (angular.json > styles):
+ *     src/styles/tokens.css        theme-agnostic scales, brand ramps
+ *     src/styles/themes/light.css  [data-theme="light"] colour
+ *     src/styles/themes/dark.css   [data-theme="dark"] colour
+ *     src/styles.scss              base + utilities, imports styles/theme.scss
+ */
+
+/**
  * CSS Custom Properties for Theming
  * Roaya IT - Brand Colors and Design Tokens
  */

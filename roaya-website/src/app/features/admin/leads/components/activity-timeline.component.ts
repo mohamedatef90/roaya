@@ -29,12 +29,12 @@ interface ActivityOption {
     <div class="activity-timeline">
       <!-- Header with filter -->
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Activity Timeline</h3>
+        <h3 class="text-lg font-semibold text-content-primary">Activity Timeline</h3>
         <select
           [(ngModel)]="selectedType"
           [ngModelOptions]="{ standalone: true }"
           (change)="onFilterChange()"
-          class="h-9 rounded-md border border-neutral-300 bg-white px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100"
+          class="h-9 rounded-md border border-edge-strong bg-surface-elevated px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-neutral-100"
         >
           @for (opt of activityTypeOptions; track opt.label) {
             <option [ngValue]="opt.value">{{ opt.label }}</option>
@@ -75,18 +75,18 @@ interface ActivityOption {
 
                 <!-- Content -->
                 <div class="min-w-0 flex-1 px-4">
-                  <div class="p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+                  <div class="p-3 bg-surface-secondary rounded-lg">
                     <div class="flex justify-between items-start mb-1">
-                      <span class="font-medium text-sm text-neutral-900 dark:text-neutral-100">{{ getActivityLabel(activity.type) }}</span>
-                      <span class="text-xs text-neutral-500 dark:text-neutral-400">
+                      <span class="font-medium text-sm text-content-primary">{{ getActivityLabel(activity.type) }}</span>
+                      <span class="text-xs text-content-muted">
                         {{ formatDate(activity.createdAt) }}
                       </span>
                     </div>
-                    <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-1">
+                    <p class="text-sm text-content-secondary mb-1">
                       {{ activity.description }}
                     </p>
                     @if (activity.performedBy) {
-                      <span class="text-xs text-neutral-500 dark:text-neutral-400">
+                      <span class="text-xs text-content-muted">
                         by {{ activity.performedBy.firstName }} {{ activity.performedBy.lastName }}
                       </span>
                     }
@@ -99,7 +99,7 @@ interface ActivityOption {
 
         <!-- Pagination -->
         @if (meta && meta.total > meta.limit) {
-          <div class="flex items-center justify-between border-t border-neutral-200 dark:border-neutral-700 pt-4 mt-4">
+          <div class="flex items-center justify-between border-t border-edge-subtle pt-4 mt-4">
             <span class="text-sm text-neutral-500">
               Showing {{ ((meta.page - 1) * meta.limit) + 1 }} to {{ Math.min(meta.page * meta.limit, meta.total) }} of {{ meta.total }}
             </span>
@@ -107,14 +107,14 @@ interface ActivityOption {
               <button
                 (click)="goToPage(meta.page - 1)"
                 [disabled]="meta.page <= 1"
-                class="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+                class="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm border border-edge-strong hover:bg-surface-hover disabled:opacity-50 disabled:pointer-events-none transition-colors"
               >
                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
               </button>
               <button
                 (click)="goToPage(meta.page + 1)"
                 [disabled]="meta.page >= Math.ceil(meta.total / meta.limit)"
-                class="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+                class="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm border border-edge-strong hover:bg-surface-hover disabled:opacity-50 disabled:pointer-events-none transition-colors"
               >
                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
               </button>
@@ -125,7 +125,7 @@ interface ActivityOption {
 
       <!-- Empty state -->
       @if (!loading && activities.length === 0) {
-        <div class="text-center py-8 text-neutral-500 dark:text-neutral-400">
+        <div class="text-center py-8 text-content-muted">
           <svg class="h-12 w-12 mx-auto mb-3 text-neutral-300 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
             <path d="M3 3v5h5"/>

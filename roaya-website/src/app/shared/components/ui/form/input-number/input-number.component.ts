@@ -45,7 +45,7 @@ type InputNumberVariants = VariantProps<typeof inputNumberVariants>;
       <button
         *ngIf="showButtons"
         type="button"
-        class="flex items-center justify-center px-3 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors border-r border-neutral-300 dark:border-neutral-700"
+        class="flex items-center justify-center px-3 text-content-muted hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-surface-hover transition-colors border-r border-edge-strong"
         (click)="decrement()"
         [disabled]="disabled || (min !== undefined && value() !== null && value()! <= min)"
         [attr.aria-label]="'Decrease value'"
@@ -78,7 +78,7 @@ type InputNumberVariants = VariantProps<typeof inputNumberVariants>;
       <button
         *ngIf="showButtons"
         type="button"
-        class="flex items-center justify-center px-3 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors border-l border-neutral-300 dark:border-neutral-700"
+        class="flex items-center justify-center px-3 text-content-muted hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-surface-hover transition-colors border-l border-edge-strong"
         (click)="increment()"
         [disabled]="disabled || (max !== undefined && value() !== null && value()! >= max)"
         [attr.aria-label]="'Increase value'"

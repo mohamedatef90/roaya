@@ -42,6 +42,7 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 .env*.local
+dist-standalone/
 
 # Generated AI-readiness JSON report (TIFO-16) — regenerate with `npm run ai-readiness`
 /scripts/ai-readiness/report.json

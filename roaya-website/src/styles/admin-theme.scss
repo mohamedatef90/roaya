@@ -1,4 +1,22 @@
 /**
+ * DEPRECATED — THIS FILE IS NOT LOADED
+ * ====================================
+ *
+ * Nothing references it: not angular.json, not any @import, not any
+ * component styleUrls. Editing it has no effect on the built site. It is
+ * kept only as a record of the pre-token-layer styles.
+ *
+ * The admin panel's live theme is src/styles/theme.scss, which styles.scss
+ * imports. This file is an earlier draft of it.
+ *
+ * The live style entry points are, in load order (angular.json > styles):
+ *     src/styles/tokens.css        theme-agnostic scales, brand ramps
+ *     src/styles/themes/light.css  [data-theme="light"] colour
+ *     src/styles/themes/dark.css   [data-theme="dark"] colour
+ *     src/styles.scss              base + utilities, imports styles/theme.scss
+ */
+
+/**
  * Admin Panel Theme
  * Extends Tailwind with shadcn-style semantic tokens
  */
