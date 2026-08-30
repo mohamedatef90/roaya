@@ -336,127 +336,126 @@
     <div class="container-custom aws-cred">
       <div class="aws-cred__layout">
         <header class="aws-cred__copy" data-reveal>
-          <p class="aws-cred__eyebrow">{{ 'services.aws.credentials.eyebrow' | translate }}</p>
-          <h2 id="aws-cred-title">{{ 'services.aws.credentials.title' | translate }}</h2>
+          <p class="aws-cred__eyebrow">
+            <ng-icon name="lucideBadgeCheck" size="16" aria-hidden="true"></ng-icon>
+            <span>{{ 'services.aws.credentials.eyebrow' | translate }}</span>
+          </p>
+          <h2 id="aws-cred-title">
+            <span class="aws-cred__title-line">{{ 'services.aws.credentials.titleLine1' | translate }}</span>
+            <span class="aws-cred__title-line aws-cred__title-line--accent">{{ 'services.aws.credentials.titleLine2' | translate }}</span>
+          </h2>
           <p class="aws-cred__intro">{{ 'services.aws.credentials.intro' | translate }}</p>
           <p class="aws-cred__body">{{ 'services.aws.credentials.body' | translate }}</p>
           <blockquote>{{ 'services.aws.credentials.note' | translate }}</blockquote>
+
+          <div class="aws-cred__actions">
+            <button type="button" class="aws-btn aws-btn--glow" (click)="scrollToQuestions()">
+              {{ 'services.aws.credentials.ctaPrimary' | translate }}
+              <ng-icon name="lucideArrowRight" size="18" class="aws-btn__arrow" aria-hidden="true"></ng-icon>
+            </button>
+            <button type="button" class="aws-btn aws-btn--ghost" (click)="scrollToWhy()">
+              {{ 'services.aws.credentials.ctaSecondary' | translate }}
+            </button>
+          </div>
         </header>
 
         <figure
-          class="aws-network"
+          class="aws-ops"
           data-reveal
           role="img"
           [attr.aria-label]="'services.aws.credentials.visualLabel' | translate"
         >
-          <div class="aws-network__proof">
-            <div class="aws-network__proof-item">
-              <ng-icon name="lucideAward" size="20" aria-hidden="true"></ng-icon>
+          <div class="aws-ops__bar" aria-hidden="true">
+            <div class="aws-ops__partner">
+              <span class="aws-ops__aws-mark">
+                <img class="aws-ops__logo aws-ops__logo--dark" [src]="awsLogoReversedPath" alt="">
+                <img class="aws-ops__logo aws-ops__logo--light" [src]="awsLogoPath" alt="">
+              </span>
               <span>
-                <strong>{{ 'services.aws.credentials.slotTier' | translate }}</strong>
                 <small>{{ 'services.aws.credentials.tierNote' | translate }}</small>
+                <strong>{{ 'services.aws.credentials.slotTier' | translate }}</strong>
               </span>
             </div>
-            <div class="aws-network__proof-item">
-              <ng-icon name="lucideGlobe" size="20" aria-hidden="true"></ng-icon>
-              <span>
-                <strong>{{ 'services.aws.credentials.slotCompetency' | translate }}</strong>
-                <small>{{ 'services.aws.credentials.localNote' | translate }}</small>
-              </span>
-            </div>
-            <div class="aws-network__proof-item">
-              <ng-icon name="lucideHeadset" size="20" aria-hidden="true"></ng-icon>
-              <span>
-                <strong>{{ 'services.aws.credentials.slotDelivery' | translate }}</strong>
-                <small>{{ 'services.aws.credentials.operationsNote' | translate }}</small>
-              </span>
+            <div class="aws-ops__status">
+              <i></i>
+              <span>{{ 'services.aws.credentials.statusLabel' | translate }}</span>
             </div>
           </div>
 
-          <div class="aws-network__canvas" aria-hidden="true">
-            <svg class="aws-network__globe" viewBox="0 0 760 365" focusable="false">
+          <div class="aws-ops__canvas" aria-hidden="true">
+            <svg class="aws-ops__links" viewBox="0 0 760 330" focusable="false">
               <defs>
-                <linearGradient id="aws-meaning-horizon" x1="0" x2="1">
-                  <stop offset="0" stop-color="var(--aws-blue)" stop-opacity="0"></stop>
-                  <stop offset=".5" stop-color="var(--aws-cyan)" stop-opacity=".9"></stop>
-                  <stop offset="1" stop-color="var(--aws-blue)" stop-opacity="0"></stop>
+                <linearGradient id="aws-ops-flow" x1="0" x2="1">
+                  <stop offset="0" stop-color="var(--aws-blue)" stop-opacity=".25"></stop>
+                  <stop offset=".5" stop-color="var(--aws-cyan-hot)"></stop>
+                  <stop offset="1" stop-color="var(--aws-blue)" stop-opacity=".25"></stop>
                 </linearGradient>
-                <linearGradient id="aws-meaning-route" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="var(--aws-cyan-hot)"></stop>
-                  <stop offset="1" stop-color="var(--aws-blue)"></stop>
-                </linearGradient>
-                <radialGradient id="aws-meaning-fill" cx=".5" cy=".18" r=".85">
-                  <stop offset="0" stop-color="var(--aws-blue)" stop-opacity=".16"></stop>
-                  <stop offset="1" stop-color="var(--aws-ink)" stop-opacity=".02"></stop>
-                </radialGradient>
-                <filter id="aws-meaning-glow">
-                  <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+                <filter id="aws-ops-glow">
+                  <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
                   <feMerge>
                     <feMergeNode in="blur"></feMergeNode>
                     <feMergeNode in="SourceGraphic"></feMergeNode>
                   </feMerge>
                 </filter>
               </defs>
-
-              <path class="aws-network__hemisphere" d="M52 338C96 138 246 62 380 62s284 76 328 276H52Z"></path>
-              <path class="aws-network__latitude" d="M83 277c113-70 481-70 594 0"></path>
-              <path class="aws-network__latitude" d="M141 186c102-49 376-49 478 0"></path>
-              <path class="aws-network__longitude" d="M380 62c-75 74-103 165-86 276"></path>
-              <path class="aws-network__longitude" d="M380 62c75 74 103 165 86 276"></path>
-              <path class="aws-network__longitude" d="M380 62c-166 91-213 184-194 276"></path>
-              <path class="aws-network__longitude" d="M380 62c166 91 213 184 194 276"></path>
-
-              <path class="aws-network__land" d="M191 208l38-25 46 2 32-17 54 13 25 28-17 27-48 6-23 27-64-4-35-25-8-32Z"></path>
-              <path class="aws-network__land" d="M386 205l41-21 68 7 35 20 28 38-36 21-52-13-28-31-39 7-17-28Z"></path>
-              <path class="aws-network__land aws-network__land--faint" d="M258 164l27-22 46-8 27 17-17 17-43 7-40-11Zm275 40 39-11 31 18-9 18-37-2-24-23Z"></path>
-
-              <path class="aws-network__route" d="M380 105C316 126 259 190 229 277"></path>
-              <path class="aws-network__route aws-network__route--two" d="M380 105c18 61 26 124 35 191"></path>
-              <path class="aws-network__route aws-network__route--three" d="M380 105c89 30 151 91 180 169"></path>
-              <path class="aws-network__horizon" d="M48 338h664"></path>
-
-              <g class="aws-network__point aws-network__point--egypt" transform="translate(229 277)">
-                <circle class="aws-network__pulse" r="15"></circle>
-                <circle class="aws-network__dot" r="5"></circle>
-              </g>
-              <g class="aws-network__point aws-network__point--ksa" transform="translate(415 296)">
-                <circle class="aws-network__pulse" r="15"></circle>
-                <circle class="aws-network__dot" r="5"></circle>
-              </g>
-              <g class="aws-network__point aws-network__point--uae" transform="translate(560 274)">
-                <circle class="aws-network__pulse" r="15"></circle>
-                <circle class="aws-network__dot" r="5"></circle>
-              </g>
+              <path class="aws-ops__flow aws-ops__flow--in" d="M185 148C252 148 270 165 321 165"></path>
+              <path class="aws-ops__flow aws-ops__flow--out" d="M439 165C490 165 509 148 576 148"></path>
+              <path class="aws-ops__flow aws-ops__flow--return" d="M576 182C503 182 486 201 438 201"></path>
             </svg>
 
-            <div class="aws-network__cloud">
-              <span class="aws-network__cloud-ring"></span>
-              <img class="aws-network__logo aws-network__logo--dark" [src]="awsLogoReversedPath" alt="">
-              <img class="aws-network__logo aws-network__logo--light" [src]="awsLogoPath" alt="">
+            <div class="aws-ops__module aws-ops__module--estate">
+              <span class="aws-ops__module-icon"><ng-icon name="lucideBuilding2" size="22"></ng-icon></span>
+              <span class="aws-ops__module-copy">
+                <strong>{{ 'services.aws.credentials.estateTitle' | translate }}</strong>
+                <small>{{ 'services.aws.credentials.estateNote' | translate }}</small>
+              </span>
+              <span class="aws-ops__servers"><i></i><i></i><i></i></span>
             </div>
 
-            <div class="aws-network__market aws-network__market--egypt">
-              <strong>{{ 'services.aws.regions.egypt.name' | translate }}</strong>
-              <span>{{ 'services.aws.credentials.regionNote' | translate }}</span>
+            <div class="aws-ops__core">
+              <span class="aws-ops__core-ring aws-ops__core-ring--outer"></span>
+              <span class="aws-ops__core-ring aws-ops__core-ring--inner"></span>
+              <span class="aws-ops__core-mark">
+                <img [src]="roayaLogoReversedPath" alt="">
+              </span>
+              <strong>{{ 'services.aws.credentials.coreTitle' | translate }}</strong>
+              <small>{{ 'services.aws.credentials.coreNote' | translate }}</small>
             </div>
-            <div class="aws-network__market aws-network__market--ksa">
-              <strong>{{ 'services.aws.regions.ksa.name' | translate }}</strong>
-              <span>{{ 'services.aws.credentials.regionNote' | translate }}</span>
+
+            <div class="aws-ops__module aws-ops__module--cloud">
+              <span class="aws-ops__cloud-logo">
+                <img class="aws-ops__logo aws-ops__logo--dark" [src]="awsLogoReversedPath" alt="">
+                <img class="aws-ops__logo aws-ops__logo--light" [src]="awsLogoPath" alt="">
+              </span>
+              <span class="aws-ops__module-copy">
+                <strong>{{ 'services.aws.credentials.cloudTitle' | translate }}</strong>
+                <small>{{ 'services.aws.credentials.cloudNote' | translate }}</small>
+              </span>
+              <span class="aws-ops__zones"><i></i><i></i><i></i></span>
             </div>
-            <div class="aws-network__market aws-network__market--uae">
-              <strong>{{ 'services.aws.regions.uae.name' | translate }}</strong>
-              <span>{{ 'services.aws.credentials.regionNote' | translate }}</span>
+
+            <div class="aws-ops__markets">
+              <span>{{ 'services.aws.regions.egypt.name' | translate }}</span>
+              <span>{{ 'services.aws.regions.ksa.name' | translate }}</span>
+              <span>{{ 'services.aws.regions.uae.name' | translate }}</span>
+              <span>{{ 'services.aws.regions.pakistan.name' | translate }}</span>
             </div>
           </div>
 
-          <figcaption class="aws-practices">
-            <p class="aws-practices__label">{{ 'services.aws.credentials.practicesLabel' | translate }}</p>
-            <ul>
-              @for (practice of practices; track practice) {
-                <li>{{ 'services.aws.credentials.practices.' + practice | translate }}</li>
+          <figcaption class="aws-ops__journey">
+            <p class="aws-ops__journey-label">{{ 'services.aws.credentials.pathLabel' | translate }}</p>
+            <ol>
+              @for (step of credentialPath; track step.id) {
+                <li>
+                  <span class="aws-ops__step-icon"><ng-icon [name]="step.icon" size="17"></ng-icon></span>
+                  <span>
+                    <small>{{ step.n }}</small>
+                    <strong>{{ 'services.aws.credentials.deliveryPath.' + step.id | translate }}</strong>
+                  </span>
+                </li>
               }
-            </ul>
-            <p>{{ 'services.aws.credentials.practicesNote' | translate }}</p>
+            </ol>
+            <p>{{ 'services.aws.credentials.pathNote' | translate }}</p>
           </figcaption>
         </figure>
       </div>
@@ -814,8 +813,14 @@
   </section>
 
   <section id="regions" class="aws-section aws-section--sunk" data-reveal-group aria-labelledby="aws-regions-title">
+    <div class="aws-regions__ambient" aria-hidden="true">
+      <span class="aws-regions__grid"></span>
+      <span class="aws-regions__glow"></span>
+    </div>
+
     <div class="container-custom">
-      <header class="aws-header" data-reveal>
+      <header class="aws-header aws-regions__header" data-reveal>
+        <p class="aws-kicker">{{ 'services.aws.regions.visual.eyebrow' | translate }}</p>
         <h2 id="aws-regions-title">{{ 'services.aws.regions.title' | translate }}</h2>
         <p>{{ 'services.aws.regions.intro' | translate }}</p>
       </header>
@@ -845,18 +850,65 @@
         id="region-panel"
         [attr.aria-labelledby]="'region-tab-' + activeRegion()"
       >
-        <div>
+        <div class="aws-region__copy">
+          <span class="aws-region__status">
+            <i aria-hidden="true"></i>
+            <code>{{ 'services.aws.regions.' + activeRegion() + '.code' | translate }}</code>
+          </span>
           <h3>{{ 'services.aws.regions.' + activeRegion() + '.title' | translate }}</h3>
           <p>{{ 'services.aws.regions.' + activeRegion() + '.body' | translate }}</p>
+
+          <ol>
+            @for (point of [1, 2, 3, 4]; track point) {
+              <li>
+                <span>{{ point < 10 ? '0' + point : point }}</span>
+                {{ 'services.aws.regions.' + activeRegion() + '.p' + point | translate }}
+              </li>
+            }
+          </ol>
         </div>
-        <ol>
-          @for (point of [1, 2, 3, 4]; track point) {
-            <li>
-              <span>{{ point < 10 ? '0' + point : point }}</span>
-              {{ 'services.aws.regions.' + activeRegion() + '.p' + point | translate }}
-            </li>
-          }
-        </ol>
+
+        <div
+          class="aws-route"
+          role="img"
+          [attr.aria-label]="'services.aws.regions.visual.aria' | translate"
+        >
+          <div class="aws-route__head" aria-hidden="true">
+            <span>{{ 'services.aws.regions.visual.label' | translate }}</span>
+            <code>{{ 'services.aws.regions.' + activeRegion() + '.code' | translate }}</code>
+          </div>
+
+          <div class="aws-route__canvas" aria-hidden="true">
+            <div class="aws-route__node aws-route__node--workload">
+              <span class="aws-route__icon"><ng-icon name="lucideBuilding2" size="20"></ng-icon></span>
+              <strong>{{ 'services.aws.regions.visual.workload' | translate }}</strong>
+              <small>{{ 'services.aws.regions.' + activeRegion() + '.name' | translate }}</small>
+            </div>
+
+            <span class="aws-route__link"><i></i></span>
+
+            <div class="aws-route__core">
+              <span class="aws-route__core-ring"></span>
+              <img class="aws-route__logo aws-route__logo--dark" [src]="roayaLogoReversedPath" alt="">
+              <img class="aws-route__logo aws-route__logo--light" [src]="roayaLogoPath" alt="">
+              <small>{{ 'services.aws.regions.visual.route' | translate }}</small>
+            </div>
+
+            <span class="aws-route__link aws-route__link--out"><i></i></span>
+
+            <div class="aws-route__node aws-route__node--aws">
+              <img class="aws-route__aws-logo aws-route__aws-logo--dark" [src]="awsLogoReversedPath" alt="">
+              <img class="aws-route__aws-logo aws-route__aws-logo--light" [src]="awsLogoPath" alt="">
+              <strong>{{ 'services.aws.regions.visual.aws' | translate }}</strong>
+              <small>{{ 'services.aws.regions.' + activeRegion() + '.code' | translate }}</small>
+            </div>
+          </div>
+
+          <p class="aws-route__note" aria-hidden="true">
+            <span></span>
+            {{ 'services.aws.regions.visual.note' | translate }}
+          </p>
+        </div>
       </article>
     </div>
   </section>
@@ -1008,7 +1060,7 @@
                 <span>{{ 'services.aws.form.message' | translate }}</span>
                 <textarea
                   formControlName="message"
-                  rows="4"
+                  rows="3"
                   [attr.aria-invalid]="hasFieldError('message')"
                   [placeholder]="'services.aws.form.messagePh' | translate"
                 ></textarea>
@@ -1042,7 +1094,7 @@
                 [attr.aria-controls]="'faq-' + faq"
                 (click)="toggleFaq(i)"
               >
-                <span>{{ 'services.aws.faq.' + faq + '.q' | translate }}</span>
+                <bdi dir="auto">{{ 'services.aws.faq.' + faq + '.q' | translate }}</bdi>
                 <ng-icon [name]="openFaq() === i ? 'lucideMinus' : 'lucidePlus'" size="18"></ng-icon>
               </button>
               @if (openFaq() === i) {
@@ -1056,12 +1108,50 @@
   </section>
 
   <section class="aws-cta" data-reveal-group aria-labelledby="aws-cta-title">
-    <div class="container-custom">
-      <h2 id="aws-cta-title" data-reveal>{{ 'services.aws.cta.title' | translate }}</h2>
-      <p data-reveal>{{ 'services.aws.cta.body' | translate }}</p>
-      <button type="button" class="aws-btn aws-btn--inverse" data-reveal (click)="scrollToQuestions()">
-        {{ 'services.aws.hero.cta' | translate }}
-      </button>
+    <div class="container-custom aws-cta__layout">
+      <div class="aws-cta__copy">
+        <p class="aws-kicker" data-reveal>{{ 'services.aws.cta.eyebrow' | translate }}</p>
+        <h2 id="aws-cta-title" data-reveal>{{ 'services.aws.cta.title' | translate }}</h2>
+        <p data-reveal>{{ 'services.aws.cta.body' | translate }}</p>
+        <button type="button" class="aws-btn aws-btn--glow" data-reveal (click)="scrollToQuestions()">
+          <span>{{ 'services.aws.hero.cta' | translate }}</span>
+          <ng-icon name="lucideArrowRight" size="18" class="aws-btn__arrow" aria-hidden="true"></ng-icon>
+        </button>
+      </div>
+
+      <aside class="aws-cta__brief" data-reveal [attr.aria-label]="'services.aws.cta.panelLabel' | translate">
+        <div class="aws-cta__brief-head">
+          <span>{{ 'services.aws.cta.panelLabel' | translate }}</span>
+          <strong>01</strong>
+        </div>
+        <ul>
+          <li>
+            <span><ng-icon name="lucideClipboardList" size="19" aria-hidden="true"></ng-icon></span>
+            <div>
+              <strong>{{ 'services.aws.cta.point1' | translate }}</strong>
+              <small>{{ 'services.aws.cta.point1Note' | translate }}</small>
+            </div>
+          </li>
+          <li>
+            <span><ng-icon name="lucideCoins" size="19" aria-hidden="true"></ng-icon></span>
+            <div>
+              <strong>{{ 'services.aws.cta.point2' | translate }}</strong>
+              <small>{{ 'services.aws.cta.point2Note' | translate }}</small>
+            </div>
+          </li>
+          <li>
+            <span><ng-icon name="lucideMapPin" size="19" aria-hidden="true"></ng-icon></span>
+            <div>
+              <strong>{{ 'services.aws.cta.point3' | translate }}</strong>
+              <small>{{ 'services.aws.cta.point3Note' | translate }}</small>
+            </div>
+          </li>
+        </ul>
+        <p class="aws-cta__brief-note">
+          <span aria-hidden="true"></span>
+          {{ 'services.aws.cta.panelNote' | translate }}
+        </p>
+      </aside>
     </div>
   </section>
 

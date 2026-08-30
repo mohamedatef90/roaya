@@ -220,7 +220,12 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
     { id: 'facebook', icon: 'lucideFacebook', href: 'https://www.facebook.com/RoayaIT', external: true }
   ] as const;
 
-  readonly practices = ['cloud', 'security', 'email', 'managed'] as const;
+  readonly credentialPath = [
+    { id: 'assess', n: '01', icon: 'lucideScanSearch' },
+    { id: 'migrate', n: '02', icon: 'lucideArrowLeftRight' },
+    { id: 'secure', n: '03', icon: 'lucideShieldCheck' },
+    { id: 'operate', n: '04', icon: 'lucideActivity' }
+  ] as const;
   readonly markets = ['egypt', 'ksa', 'uae', 'other'] as const;
   readonly topics = ['migration', 'security', 'cost', 'ops', 'data', 'other'] as const;
 
@@ -437,6 +442,10 @@ export class AwsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   scrollToCredentials(): void {
     this.scrollToSection('credentials');
+  }
+
+  scrollToWhy(): void {
+    this.scrollToSection('why');
   }
 
   private scrollToSection(id: string): void {

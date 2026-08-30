@@ -2735,30 +2735,47 @@
       },
       "credentials": {
         "eyebrow": "AWS Advanced Tier Services Partner",
-        "title": "What our AWS partnership means for you",
-        "intro": "AWS capability, delivered with local accountability.",
-        "body": "Roaya brings AWS expertise together with local teams across Egypt, Saudi Arabia and the UAE — from readiness and migration through security, managed operations and ongoing optimisation.",
-        "note": "One team, one escalation path and a clear outcome at every stage.",
-        "slotTier": "Advanced Tier",
-        "slotCompetency": "Local MENA delivery",
-        "slotDelivery": "24/7 managed operations",
-        "tierNote": "AWS Partner",
+        "titleLine1": "Advanced-tier expertise.",
+        "titleLine2": "Local accountability.",
+        "intro": "From readiness to managed operations, one Roaya team stays accountable for the outcome.",
+        "body": "Local teams across Egypt, Saudi Arabia and the UAE bring AWS expertise and regional delivery together — for secure migration, continuous operations and measurable optimisation.",
+        "note": "One team. One escalation path. One clear outcome.",
+        "ctaPrimary": "Talk to an AWS engineer",
+        "ctaSecondary": "Explore our delivery model",
+        "slotTier": "Advanced Tier Services Partner",
+        "tierNote": "AWS Partner Network",
+        "statusLabel": "Accountable delivery model",
+        "estateTitle": "Your environment",
+        "estateNote": "Workloads and priorities",
+        "coreTitle": "Roaya delivery core",
+        "coreNote": "One accountable team",
+        "cloudTitle": "AWS Cloud",
+        "cloudNote": "Designed, secured and operated",
         "localNote": "Egypt · Saudi Arabia · UAE",
         "operationsNote": "Monitoring and support",
         "regionNote": "Local team",
-        "visualLabel": "AWS capability connected to Roaya local delivery teams in Egypt, Saudi Arabia and the UAE",
-        "practicesLabel": "Roaya capabilities behind the AWS work",
-        "practicesNote": "The same four practices that run client environments today deliver and operate the AWS work.",
-        "practices": {
-          "cloud": "Cloud Solutions",
-          "security": "Cybersecurity",
-          "email": "Email & Collaboration",
-          "managed": "Managed IT Services"
+        "visualLabel": "Roaya operating model connecting the customer environment to AWS through assessment, migration, security and managed operations",
+        "pathLabel": "One accountable AWS delivery path",
+        "pathNote": "From the first assessment to continuous operations, every stage has a clear owner and outcome.",
+        "deliveryPath": {
+          "assess": "Assess",
+          "migrate": "Migrate",
+          "secure": "Secure",
+          "operate": "Operate"
         }
       },
       "regions": {
         "title": "Where the workload lives changes the architecture",
         "intro": "Four markets, four delivery patterns — and one team behind all of them.",
+        "visual": {
+          "eyebrow": "REGIONAL ARCHITECTURE",
+          "label": "ACTIVE DELIVERY ROUTE",
+          "workload": "Your workload",
+          "route": "Roaya design and delivery",
+          "aws": "AWS Region",
+          "note": "A route designed around residency and latency",
+          "aria": "A diagram showing a customer workload moving through Roaya's design and delivery path to the AWS footprint best suited to the selected market"
+        },
         "egypt": {
           "name": "Egypt",
           "code": "HYBRID",
@@ -2933,8 +2950,17 @@
         }
       },
       "cta": {
+        "eyebrow": "START WITH CLARITY",
         "title": "Start with an AWS readiness assessment.",
-        "body": "A workload inventory, a cost baseline and a prioritised roadmap — before you commit to any migration."
+        "body": "A workload inventory, a cost baseline and a prioritised roadmap — before you commit to any migration.",
+        "panelLabel": "ASSESSMENT OUTPUTS",
+        "point1": "Workload inventory",
+        "point1Note": "A clear view of the current estate and its dependencies",
+        "point2": "Cost baseline",
+        "point2Note": "A measurable reference point for the decision",
+        "point3": "Prioritised roadmap",
+        "point3Note": "Clear stages, priorities and risks before delivery",
+        "panelNote": "Clear scope before any migration commitment"
       },
       "legal": "AWS and the AWS logo are trademarks of Amazon.com, Inc. or its affiliates."
     },
