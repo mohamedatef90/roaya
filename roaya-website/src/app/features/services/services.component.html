@@ -32,11 +32,12 @@
         <!-- Service Header -->
         <div class="p-6 border-b border-border">
           <div class="flex items-start justify-between mb-4">
-            <div class="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center text-white text-2xl group-hover:scale-110 transition-transform overflow-hidden">
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl group-hover:scale-110 transition-transform overflow-hidden"
+              [ngClass]="service.logoImage ? 'bg-white dark:bg-white/95 p-2 border border-border/60' : 'bg-gradient-primary'">
               <!-- Font Awesome Icon -->
-              <ng-icon *ngIf="service.faIcon" [name]="service.faIcon" class="text-3xl"></ng-icon>
-              <!-- Logo Image (for SAP) -->
-              <img *ngIf="service.logoImage" [src]="service.logoImage" [alt]="service.title | translate" class="w-10 h-10 object-contain" loading="lazy" />
+              <ng-icon *ngIf="service.faIcon && !service.logoImage" [name]="service.faIcon" class="text-3xl"></ng-icon>
+              <!-- Logo Image (SAP, AWS, etc.) -->
+              <img *ngIf="service.logoImage" [src]="service.logoImage" [alt]="service.title | translate" class="w-full h-full object-contain" loading="lazy" />
               <!-- Fallback HTML entity icon -->
               <span *ngIf="!service.faIcon && !service.logoImage" [innerHTML]="service.icon"></span>
             </div>
@@ -45,7 +46,8 @@
               class="px-3 py-1 text-xs font-semibold rounded-full"
               [ngClass]="{
                 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400': service.badge === 'Popular',
-                'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400': service.badge === 'New'
+                'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400': service.badge === 'New',
+                'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400': service.badge === 'Partner'
               }"
             >
               {{ service.badge }}

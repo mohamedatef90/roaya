@@ -81,7 +81,7 @@ export class ServicesComponent {
       title: 'services.aws.title',
       description: 'services.aws.description',
       icon: '&#9729;',
-      faIcon: 'faSolidCloud',
+      logoImage: '/assets/images/aws/aws-mark.png',
       route: '/services/aws',
       badge: 'Partner',
       features: [

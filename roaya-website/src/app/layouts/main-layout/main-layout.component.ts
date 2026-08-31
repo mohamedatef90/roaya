@@ -89,18 +89,16 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       description: 'services.cloud.description',
       icon: '&#9729;',
       faIcon: 'faSolidCloud',
-      route: '/services/cloud',
-      children: [
-        {
-          id: 'aws',
-          title: 'services.aws.title',
-          description: 'services.aws.description',
-          icon: '&#9729;',
-          faIcon: 'faSolidCloud',
-          route: '/services/aws',
-          badge: 'Partner'
-        }
-      ]
+      route: '/services/cloud'
+    },
+    {
+      id: 'aws',
+      title: 'services.aws.title',
+      description: 'services.aws.description',
+      icon: '&#9729;',
+      logoImage: '/assets/images/aws/aws-mark.png',
+      route: '/services/aws',
+      badge: 'Partner'
     },
     {
       id: 'sap',
