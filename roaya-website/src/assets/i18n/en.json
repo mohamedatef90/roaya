@@ -3114,9 +3114,9 @@
       "viewAllDescription": "Explore all our enterprise IT solutions designed to transform your business."
     },
     "featuredServices": {
-        "aws": {
-          "badge": "AWS Advanced Tier Partner"
-        },
+      "aws": {
+        "badge": "AWS Advanced Tier Partner"
+      },
       "cloud": {
         "badge": "Cloud Solutions"
       },
@@ -3544,6 +3544,9 @@
         "primaryCta": "Start DevOps Transformation",
         "secondaryCta": "Book Consultation"
       }
+    },
+    "awsPartnership": {
+      "cta": "Explore our AWS partnership"
     }
   },
   "industries": {
@@ -4356,7 +4359,12 @@
       },
       "services": {
         "title": "Services Delivered",
-        "items": ["Cloud Infrastructure", "Cloud Migration", "Security Operations", "Compliance Consulting"]
+        "items": [
+          "Cloud Infrastructure",
+          "Cloud Migration",
+          "Security Operations",
+          "Compliance Consulting"
+        ]
       }
     },
     "healthcare": {
@@ -4485,7 +4493,12 @@
       },
       "services": {
         "title": "Services Delivered",
-        "items": ["SOC Services", "SIEM Implementation", "Threat Intelligence", "Compliance Consulting"]
+        "items": [
+          "SOC Services",
+          "SIEM Implementation",
+          "Threat Intelligence",
+          "Compliance Consulting"
+        ]
       }
     },
     "government": {
@@ -4614,7 +4627,12 @@
       },
       "services": {
         "title": "Services Delivered",
-        "items": ["Cloud Infrastructure", "Workflow Automation", "System Integration", "Security Implementation"]
+        "items": [
+          "Cloud Infrastructure",
+          "Workflow Automation",
+          "System Integration",
+          "Security Implementation"
+        ]
       }
     },
     "manufacturing": {
@@ -4743,7 +4761,12 @@
       },
       "services": {
         "title": "Services Delivered",
-        "items": ["SAP S/4HANA Implementation", "Business Process Consulting", "Data Migration", "Training & Support"]
+        "items": [
+          "SAP S/4HANA Implementation",
+          "Business Process Consulting",
+          "Data Migration",
+          "Training & Support"
+        ]
       }
     },
     "ecommerce": {
@@ -4872,7 +4895,12 @@
       },
       "services": {
         "title": "Services Delivered",
-        "items": ["Cloud Infrastructure", "Auto-Scaling Architecture", "Performance Optimization", "CDN Implementation"]
+        "items": [
+          "Cloud Infrastructure",
+          "Auto-Scaling Architecture",
+          "Performance Optimization",
+          "CDN Implementation"
+        ]
       }
     }
   },

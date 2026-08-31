@@ -2290,27 +2290,63 @@
           "ecosystems": {
             "aws": {
               "title": "نظام AWS البيئي",
-              "tools": ["Amazon EKS", "Amazon ECS", "AWS CloudFormation", "AWS CloudWatch", "AWS IAM/KMS"]
+              "tools": [
+                "Amazon EKS",
+                "Amazon ECS",
+                "AWS CloudFormation",
+                "AWS CloudWatch",
+                "AWS IAM/KMS"
+              ]
             },
             "azure": {
               "title": "نظام Azure البيئي",
-              "tools": ["Azure Kubernetes Service (AKS)", "Azure DevOps Pipelines", "Azure Monitor", "Azure Key Vault"]
+              "tools": [
+                "Azure Kubernetes Service (AKS)",
+                "Azure DevOps Pipelines",
+                "Azure Monitor",
+                "Azure Key Vault"
+              ]
             },
             "gcp": {
               "title": "نظام GCP البيئي",
-              "tools": ["Google Kubernetes Engine (GKE)", "Cloud Operations Suite", "Secret Manager"]
+              "tools": [
+                "Google Kubernetes Engine (GKE)",
+                "Cloud Operations Suite",
+                "Secret Manager"
+              ]
             },
             "cicdTools": {
               "title": "أدوات CI/CD",
-              "tools": ["Jenkins", "GitHub Actions", "GitLab CI/CD", "Azure DevOps", "Argo CD", "Flux"]
+              "tools": [
+                "Jenkins",
+                "GitHub Actions",
+                "GitLab CI/CD",
+                "Azure DevOps",
+                "Argo CD",
+                "Flux"
+              ]
             },
             "infrastructure": {
               "title": "البنية التحتية",
-              "tools": ["Terraform", "Ansible", "Kubernetes", "Docker", "Helm", "Packer"]
+              "tools": [
+                "Terraform",
+                "Ansible",
+                "Kubernetes",
+                "Docker",
+                "Helm",
+                "Packer"
+              ]
             },
             "observability": {
               "title": "الرصد",
-              "tools": ["Prometheus + Grafana", "ELK Stack", "OpenTelemetry", "Datadog", "Splunk", "SAST/DAST"]
+              "tools": [
+                "Prometheus + Grafana",
+                "ELK Stack",
+                "OpenTelemetry",
+                "Datadog",
+                "Splunk",
+                "SAST/DAST"
+              ]
             }
           }
         },
@@ -3142,9 +3178,9 @@
       "viewAllDescription": "استكشف جميع حلولنا التقنية للمؤسسات المصممة لتحويل عملك."
     },
     "featuredServices": {
-        "aws": {
-          "badge": "شريك AWS من الفئة المتقدمة"
-        },
+      "aws": {
+        "badge": "شريك AWS من الفئة المتقدمة"
+      },
       "cloud": {
         "badge": "الحلول السحابية"
       },
@@ -3563,6 +3599,9 @@
         "primaryCta": "ابدأ تحول DevOps",
         "secondaryCta": "احجز استشارة"
       }
+    },
+    "awsPartnership": {
+      "cta": "استكشف شراكتنا مع AWS"
     }
   },
   "industries": {
@@ -4375,7 +4414,12 @@
       },
       "services": {
         "title": "الخدمات المقدمة",
-        "items": ["البنية التحتية السحابية", "الترحيل السحابي", "العمليات الأمنية", "استشارات الامتثال"]
+        "items": [
+          "البنية التحتية السحابية",
+          "الترحيل السحابي",
+          "العمليات الأمنية",
+          "استشارات الامتثال"
+        ]
       }
     },
     "healthcare": {
@@ -4504,7 +4548,12 @@
       },
       "services": {
         "title": "الخدمات المقدمة",
-        "items": ["خدمات مركز العمليات الأمنية", "تنفيذ SIEM", "استخبارات التهديدات", "استشارات الامتثال"]
+        "items": [
+          "خدمات مركز العمليات الأمنية",
+          "تنفيذ SIEM",
+          "استخبارات التهديدات",
+          "استشارات الامتثال"
+        ]
       }
     },
     "government": {
@@ -4633,7 +4682,12 @@
       },
       "services": {
         "title": "الخدمات المقدمة",
-        "items": ["البنية التحتية السحابية", "أتمتة سير العمل", "تكامل الأنظمة", "تنفيذ الأمان"]
+        "items": [
+          "البنية التحتية السحابية",
+          "أتمتة سير العمل",
+          "تكامل الأنظمة",
+          "تنفيذ الأمان"
+        ]
       }
     },
     "manufacturing": {
@@ -4762,7 +4816,12 @@
       },
       "services": {
         "title": "الخدمات المقدمة",
-        "items": ["تنفيذ SAP S/4HANA", "استشارات عمليات الأعمال", "ترحيل البيانات", "التدريب والدعم"]
+        "items": [
+          "تنفيذ SAP S/4HANA",
+          "استشارات عمليات الأعمال",
+          "ترحيل البيانات",
+          "التدريب والدعم"
+        ]
       }
     },
     "ecommerce": {
@@ -4891,7 +4950,12 @@
       },
       "services": {
         "title": "الخدمات المقدمة",
-        "items": ["البنية التحتية السحابية", "بنية التوسع التلقائي", "تحسين الأداء", "تنفيذ CDN"]
+        "items": [
+          "البنية التحتية السحابية",
+          "بنية التوسع التلقائي",
+          "تحسين الأداء",
+          "تنفيذ CDN"
+        ]
       }
     }
   },

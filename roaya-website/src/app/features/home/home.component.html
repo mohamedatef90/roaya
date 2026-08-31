@@ -494,6 +494,93 @@
   <app-devops-brief-section />
 </div>
 
+<!-- AWS Partnership Section — headline, lead and proof figures reuse the
+     approved services.aws.* copy (single source of truth for the claim);
+     only the CTA label is home-specific. Fully static: SSR renders the
+     complete content with no API dependency. -->
+<section id="aws-partnership" aria-labelledby="aws-partnership-title"
+  class="py-20 bg-background border-t border-border relative overflow-hidden">
+  <div class="container-custom">
+    <!-- Badge -->
+    <div class="flex justify-center mb-6">
+      <span
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+        </svg>
+        {{ 'services.aws.hero.kicker' | translate }}
+      </span>
+    </div>
+
+    <!-- Partnership lockup -->
+    <div class="flex items-center justify-center gap-5 mb-8" role="img"
+      [attr.aria-label]="'services.aws.hero.lockupAria' | translate">
+      <img src="/assets/images/aws/roaya-mark-ink.png" alt="Roaya" width="1348" height="371" loading="lazy"
+        class="h-8 md:h-10 w-auto dark:hidden" />
+      <img src="/assets/images/aws/roaya-mark-reversed.png" alt="Roaya" width="1348" height="371" loading="lazy"
+        class="h-8 md:h-10 w-auto hidden dark:block" />
+      <span class="text-2xl font-light text-muted-foreground" aria-hidden="true">&times;</span>
+      <img src="/assets/images/aws/aws-mark.png" alt="AWS" width="578" height="346" loading="lazy"
+        class="h-10 md:h-12 w-auto dark:hidden" />
+      <img src="/assets/images/aws/aws-mark-reversed.png" alt="AWS" width="578" height="346" loading="lazy"
+        class="h-10 md:h-12 w-auto hidden dark:block" />
+    </div>
+
+    <!-- Title (composed from the AWS page's approved hero copy) -->
+    <h2 id="aws-partnership-title" class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-foreground">
+      {{ 'services.aws.hero.titleLine1' | translate }}
+      {{ 'services.aws.hero.titleLine2Pre' | translate }}<span
+        class="bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">{{ 'services.aws.hero.titleBrand' | translate }}</span>{{ 'services.aws.hero.titleLine2Post' | translate }}
+    </h2>
+
+    <!-- Lead -->
+    <p class="text-lg text-center text-muted-foreground max-w-2xl mx-auto mb-12">
+      {{ 'services.aws.hero.lead' | translate }}
+    </p>
+
+    <!-- Proof points (same approved figures the AWS page states) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
+      <div
+        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
+        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
+          {{ 'services.aws.hero.proof.tier.value' | translate }}</p>
+        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.tier.label' | translate }}</p>
+      </div>
+      <div
+        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
+        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
+          {{ 'services.aws.hero.proof.years.value' | translate }}</p>
+        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.years.label' | translate }}</p>
+      </div>
+      <div
+        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
+        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
+          {{ 'services.aws.hero.proof.support.value' | translate }}</p>
+        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.support.label' | translate }}</p>
+      </div>
+      <div
+        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
+        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
+          {{ 'services.aws.hero.proof.markets.value' | translate }}</p>
+        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.markets.label' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Single primary CTA to the dedicated page -->
+    <div class="flex justify-center">
+      <a routerLink="/services/aws"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 hover:-translate-y-0.5 shadow-lg hover:shadow-xl transition-all">
+        {{ 'home.awsPartnership.cta' | translate }}
+        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+          aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ========================================== -->
 <!-- PHASE 3: EXPLORATION                      -->
 <!-- ========================================== -->
