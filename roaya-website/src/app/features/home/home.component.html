@@ -499,8 +499,28 @@
      only the CTA label is home-specific. Fully static: SSR renders the
      complete content with no API dependency. -->
 <section id="aws-partnership" aria-labelledby="aws-partnership-title"
-  class="py-20 bg-background border-t border-border relative overflow-hidden">
-  <div class="container-custom">
+  class="aws-partnership-section py-20 border-t border-border relative overflow-hidden">
+  <!-- Decorative "migration corridor" backdrop — the estate→region route the
+       AWS page draws, in that page's own palette. Pure CSS/SVG, no JS. -->
+  <div class="aws-corridor absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="aws-corridor__grid absolute inset-0"></div>
+    <div class="aws-corridor__glow aws-corridor__glow--start absolute"></div>
+    <div class="aws-corridor__glow aws-corridor__glow--end absolute"></div>
+    <svg class="aws-corridor__route absolute inset-x-0" viewBox="0 0 1440 360" fill="none"
+      preserveAspectRatio="xMidYMid slice">
+      <!-- estate: three source pips -->
+      <circle class="aws-corridor__pip" cx="86" cy="252" r="5" />
+      <circle class="aws-corridor__pip" cx="118" cy="286" r="5" />
+      <circle class="aws-corridor__pip" cx="72" cy="304" r="5" />
+      <path class="aws-corridor__spur" d="M86 252 L150 262 M118 286 L150 272 M72 304 L150 282" />
+      <!-- the route -->
+      <path class="aws-corridor__path" d="M150 272 C 430 240, 640 128, 900 108 S 1290 92, 1352 84" />
+      <!-- region: ringed destination node -->
+      <circle class="aws-corridor__ring" cx="1352" cy="84" r="16" />
+      <circle class="aws-corridor__pip aws-corridor__pip--dest" cx="1352" cy="84" r="5" />
+    </svg>
+  </div>
+  <div class="container-custom relative">
     <!-- Badge -->
     <div class="flex justify-center mb-6">
       <span

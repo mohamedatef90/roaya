@@ -1232,3 +1232,119 @@ a, button {
     background: rgba(30, 41, 59, 0.95);
   }
 }
+
+/* ==========================================================================
+   AWS Partnership — "migration corridor" backdrop
+   Palette borrowed from aws.component.scss (--aws-blue/cyan/violet) so the
+   section reads as a portal to /services/aws. Decorative only: aria-hidden,
+   pure CSS/SVG, dash drift is the single animation and stops under
+   prefers-reduced-motion.
+   ========================================================================== */
+.aws-partnership-section {
+  --aws-blue-rgb: 77, 144, 224;
+  --aws-cyan-rgb: 109, 199, 210;
+  --aws-violet-rgb: 143, 109, 201;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fafd 50%, #ffffff 100%);
+}
+
+:host-context(.dark) .aws-partnership-section {
+  /* deepen toward the AWS page's ink navy: the section is the doorway */
+  background: linear-gradient(180deg, #0f172a 0%, #0a1424 45%, #0f172a 100%);
+}
+
+.aws-corridor__grid {
+  background-image:
+    linear-gradient(to right, rgba(var(--aws-blue-rgb), 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--aws-blue-rgb), 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 42%, black 30%, transparent 80%);
+  mask-image: radial-gradient(120% 90% at 50% 42%, black 30%, transparent 80%);
+}
+
+:host-context(.dark) .aws-corridor__grid {
+  background-image:
+    linear-gradient(to right, rgba(var(--aws-blue-rgb), 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--aws-blue-rgb), 0.12) 1px, transparent 1px);
+}
+
+.aws-corridor__glow {
+  width: 42rem;
+  height: 30rem;
+  border-radius: 50%;
+  filter: blur(48px);
+}
+
+.aws-corridor__glow--start {
+  top: -12rem;
+  inset-inline-start: -10rem;
+  background: radial-gradient(circle, rgba(var(--aws-blue-rgb), 0.10), transparent 68%);
+}
+
+.aws-corridor__glow--end {
+  bottom: -12rem;
+  inset-inline-end: -10rem;
+  background: radial-gradient(circle, rgba(var(--aws-cyan-rgb), 0.10), transparent 68%);
+}
+
+:host-context(.dark) .aws-corridor__glow--start {
+  background: radial-gradient(circle, rgba(var(--aws-blue-rgb), 0.18), transparent 68%);
+}
+
+:host-context(.dark) .aws-corridor__glow--end {
+  background: radial-gradient(circle, rgba(var(--aws-violet-rgb), 0.14), transparent 68%);
+}
+
+.aws-corridor__route {
+  top: 50%;
+  height: min(360px, 82%);
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+:host-context([dir='rtl']) .aws-corridor__route {
+  /* the journey reads start→destination in the writing direction */
+  transform: translateY(-50%) scaleX(-1);
+}
+
+.aws-corridor__path {
+  stroke: rgba(var(--aws-cyan-rgb), 0.38);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 10;
+  vector-effect: non-scaling-stroke;
+  animation: aws-route-drift 32s linear infinite;
+}
+
+.aws-corridor__spur {
+  stroke: rgba(var(--aws-blue-rgb), 0.32);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.aws-corridor__pip {
+  fill: rgba(var(--aws-blue-rgb), 0.45);
+}
+
+.aws-corridor__pip--dest {
+  fill: rgba(var(--aws-cyan-rgb), 0.75);
+}
+
+.aws-corridor__ring {
+  fill: none;
+  stroke: rgba(var(--aws-cyan-rgb), 0.42);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+:host-context(.dark) .aws-corridor__path { stroke: rgba(var(--aws-cyan-rgb), 0.5); }
+:host-context(.dark) .aws-corridor__spur { stroke: rgba(var(--aws-blue-rgb), 0.45); }
+:host-context(.dark) .aws-corridor__pip { fill: rgba(var(--aws-blue-rgb), 0.6); }
+
+@keyframes aws-route-drift {
+  to { stroke-dashoffset: -160; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aws-corridor__path {
+    animation: none;
+  }
+}
