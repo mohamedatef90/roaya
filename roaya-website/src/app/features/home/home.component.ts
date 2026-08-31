@@ -1013,6 +1013,38 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.scrollTriggers.push(securityTrigger);
 
+    // AWS partnership portal animation
+    const awsPortalTrigger = ScrollTrigger.create({
+      trigger: '.aws-partnership-section',
+      start: 'top 78%',
+      onEnter: () => {
+        gsap.from('.aws-portal__showcase', {
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          ease: 'power3.out'
+        });
+        gsap.from('.aws-portal__proof-item', {
+          opacity: 0,
+          y: 24,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: 'power2.out',
+          delay: 0.25
+        });
+        gsap.from('.aws-portal__orb-ring', {
+          opacity: 0,
+          scale: 0.85,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'back.out(1.4)',
+          delay: 0.15
+        });
+      },
+      once: true
+    });
+    this.scrollTriggers.push(awsPortalTrigger);
+
     // Testimonials animation
     const testimonialsTrigger = ScrollTrigger.create({
       trigger: '.testimonials-section',

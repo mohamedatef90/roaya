@@ -499,104 +499,142 @@
      only the CTA label is home-specific. Fully static: SSR renders the
      complete content with no API dependency. -->
 <section id="aws-partnership" aria-labelledby="aws-partnership-title"
-  class="aws-partnership-section py-20 border-t border-border relative overflow-hidden">
-  <!-- Decorative "migration corridor" backdrop — the estate→region route the
-       AWS page draws, in that page's own palette. Pure CSS/SVG, no JS. -->
+  class="aws-partnership-section py-20 lg:py-28 border-t border-border relative overflow-hidden">
+  <!-- Decorative "migration corridor" backdrop -->
   <div class="aws-corridor absolute inset-0 pointer-events-none" aria-hidden="true">
     <div class="aws-corridor__grid absolute inset-0"></div>
     <div class="aws-corridor__glow aws-corridor__glow--start absolute"></div>
     <div class="aws-corridor__glow aws-corridor__glow--end absolute"></div>
     <svg class="aws-corridor__route absolute inset-x-0" viewBox="0 0 1440 360" fill="none"
       preserveAspectRatio="xMidYMid slice">
-      <!-- estate: three source pips -->
       <circle class="aws-corridor__pip" cx="86" cy="252" r="5" />
       <circle class="aws-corridor__pip" cx="118" cy="286" r="5" />
       <circle class="aws-corridor__pip" cx="72" cy="304" r="5" />
       <path class="aws-corridor__spur" d="M86 252 L150 262 M118 286 L150 272 M72 304 L150 282" />
-      <!-- the route -->
       <path class="aws-corridor__path" d="M150 272 C 430 240, 640 128, 900 108 S 1290 92, 1352 84" />
-      <!-- region: ringed destination node -->
       <circle class="aws-corridor__ring" cx="1352" cy="84" r="16" />
       <circle class="aws-corridor__pip aws-corridor__pip--dest" cx="1352" cy="84" r="5" />
     </svg>
   </div>
-  <div class="container-custom relative">
-    <!-- Badge -->
-    <div class="flex justify-center mb-6">
-      <span
-        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-primary-200/50 dark:border-primary-700/50 text-sm font-medium text-primary-600 dark:text-secondary-400">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-        </svg>
-        {{ 'services.aws.hero.kicker' | translate }}
-      </span>
-    </div>
 
-    <!-- Partnership lockup -->
-    <div class="flex items-center justify-center gap-5 mb-8" role="img"
-      [attr.aria-label]="'services.aws.hero.lockupAria' | translate">
-      <img src="/assets/images/aws/roaya-mark-ink.png" alt="Roaya" width="1348" height="371" loading="lazy"
-        class="h-8 md:h-10 w-auto dark:hidden" />
-      <img src="/assets/images/aws/roaya-mark-reversed.png" alt="Roaya" width="1348" height="371" loading="lazy"
-        class="h-8 md:h-10 w-auto hidden dark:block" />
-      <span class="text-2xl font-light text-muted-foreground" aria-hidden="true">&times;</span>
-      <img src="/assets/images/aws/aws-mark.png" alt="AWS" width="578" height="346" loading="lazy"
-        class="h-10 md:h-12 w-auto dark:hidden" />
-      <img src="/assets/images/aws/aws-mark-reversed.png" alt="AWS" width="578" height="346" loading="lazy"
-        class="h-10 md:h-12 w-auto hidden dark:block" />
-    </div>
+  <!-- Orbital rings + floating motes -->
+  <div class="aws-portal__ambient absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="aws-portal__orbit aws-portal__orbit--outer"></div>
+    <div class="aws-portal__orbit aws-portal__orbit--inner"></div>
+    <span class="aws-portal__mote aws-portal__mote--1"></span>
+    <span class="aws-portal__mote aws-portal__mote--2"></span>
+    <span class="aws-portal__mote aws-portal__mote--3"></span>
+    <span class="aws-portal__mote aws-portal__mote--4"></span>
+  </div>
 
-    <!-- Title (composed from the AWS page's approved hero copy) -->
-    <h2 id="aws-partnership-title" class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-foreground">
-      {{ 'services.aws.hero.titleLine1' | translate }}
-      {{ 'services.aws.hero.titleLine2Pre' | translate }}<span
-        class="bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">{{ 'services.aws.hero.titleBrand' | translate }}</span>{{ 'services.aws.hero.titleLine2Post' | translate }}
-    </h2>
+  <div class="container-custom relative z-10">
+    <div class="aws-portal__showcase">
+      <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+        <!-- Content column -->
+        <div class="aws-portal__content lg:w-3/5 w-full">
+          <div class="aws-portal__badge inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6">
+            <ng-icon name="lucideCloud" size="16" aria-hidden="true" />
+            <span>{{ 'services.aws.hero.kicker' | translate }}</span>
+          </div>
 
-    <!-- Lead -->
-    <p class="text-lg text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-      {{ 'services.aws.hero.lead' | translate }}
-    </p>
+          <h2 id="aws-partnership-title"
+            class="aws-portal__title text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-5">
+            {{ 'services.aws.hero.titleLine1' | translate }}
+            {{ 'services.aws.hero.titleLine2Pre' | translate }}<span class="aws-portal__title-accent">{{ 'services.aws.hero.titleBrand' | translate }}</span>{{ 'services.aws.hero.titleLine2Post' | translate }}
+          </h2>
 
-    <!-- Proof points (same approved figures the AWS page states) -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
-      <div
-        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
-        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
-          {{ 'services.aws.hero.proof.tier.value' | translate }}</p>
-        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.tier.label' | translate }}</p>
+          <p class="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl">
+            {{ 'services.aws.hero.lead' | translate }}
+          </p>
+
+          <!-- Trust signals -->
+          <ul class="aws-portal__trust flex flex-wrap gap-3 mb-10" role="list">
+            <li class="aws-portal__trust-item">
+              <ng-icon name="lucideAward" size="15" aria-hidden="true" />
+              <span>{{ 'services.aws.hero.trust.certified' | translate }}</span>
+            </li>
+            <li class="aws-portal__trust-item">
+              <ng-icon name="lucideGlobe" size="15" aria-hidden="true" />
+              <span>{{ 'services.aws.hero.trust.local' | translate }}</span>
+            </li>
+            <li class="aws-portal__trust-item">
+              <ng-icon name="lucideHeadphones" size="15" aria-hidden="true" />
+              <span>{{ 'services.aws.hero.trust.support' | translate }}</span>
+            </li>
+          </ul>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a routerLink="/services/aws" class="aws-portal__cta-primary">
+              <span>{{ 'home.awsPartnership.cta' | translate }}</span>
+              <ng-icon name="lucideArrowRight" size="18" class="rtl:rotate-180" aria-hidden="true" />
+            </a>
+            <a routerLink="/contact" class="aws-portal__cta-secondary">
+              <ng-icon name="lucidePhone" size="18" aria-hidden="true" />
+              <span>{{ 'services.aws.hero.cta' | translate }}</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual column — partnership credential orb -->
+        <div class="aws-portal__visual lg:w-2/5 w-full flex flex-col items-center">
+          <div class="aws-portal__orb relative w-full max-w-sm aspect-square">
+            <div class="aws-portal__orb-ring aws-portal__orb-ring--1"></div>
+            <div class="aws-portal__orb-ring aws-portal__orb-ring--2"></div>
+            <div class="aws-portal__orb-ring aws-portal__orb-ring--3"></div>
+
+            <div class="aws-portal__lockup" role="img"
+              [attr.aria-label]="'services.aws.hero.lockupAria' | translate">
+              <img src="/assets/images/aws/roaya-mark-ink.png" alt="" width="1348" height="371" loading="lazy"
+                class="aws-portal__lockup-logo aws-portal__lockup-logo--light" aria-hidden="true" />
+              <img src="/assets/images/aws/roaya-mark-reversed.png" alt="" width="1348" height="371" loading="lazy"
+                class="aws-portal__lockup-logo aws-portal__lockup-logo--dark" aria-hidden="true" />
+              <span class="aws-portal__lockup-times" aria-hidden="true">&times;</span>
+              <img src="/assets/images/aws/aws-mark.png" alt="" width="578" height="346" loading="lazy"
+                class="aws-portal__lockup-logo aws-portal__lockup-logo--light aws-portal__lockup-logo--aws" aria-hidden="true" />
+              <img src="/assets/images/aws/aws-mark-reversed.png" alt="" width="578" height="346" loading="lazy"
+                class="aws-portal__lockup-logo aws-portal__lockup-logo--dark aws-portal__lockup-logo--aws" aria-hidden="true" />
+            </div>
+
+            <div class="aws-portal__tier-badge">
+              <ng-icon name="lucideAward" size="14" aria-hidden="true" />
+              <span>{{ 'services.aws.hero.proof.tier.value' | translate }}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div
-        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
-        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
-          {{ 'services.aws.hero.proof.years.value' | translate }}</p>
-        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.years.label' | translate }}</p>
-      </div>
-      <div
-        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
-        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
-          {{ 'services.aws.hero.proof.support.value' | translate }}</p>
-        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.support.label' | translate }}</p>
-      </div>
-      <div
-        class="p-6 rounded-2xl text-center bg-white/85 dark:bg-primary-900/65 backdrop-blur-sm border border-neutral-200/50 dark:border-primary-700/50">
-        <p class="text-2xl font-bold text-primary-600 dark:text-secondary-400 mb-1">
-          {{ 'services.aws.hero.proof.markets.value' | translate }}</p>
-        <p class="text-sm text-muted-foreground">{{ 'services.aws.hero.proof.markets.label' | translate }}</p>
-      </div>
-    </div>
 
-    <!-- Single primary CTA to the dedicated page -->
-    <div class="flex justify-center">
-      <a routerLink="/services/aws"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 hover:-translate-y-0.5 shadow-lg hover:shadow-xl transition-all">
-        {{ 'home.awsPartnership.cta' | translate }}
-        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-          aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
+      <!-- Proof points -->
+      <div class="aws-portal__proof grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12 lg:mt-14 pt-10 border-t border-border/60">
+        <div class="aws-portal__proof-item group">
+          <div class="aws-portal__proof-icon">
+            <ng-icon name="lucideAward" size="20" aria-hidden="true" />
+          </div>
+          <p class="aws-portal__proof-value">{{ 'services.aws.hero.proof.tier.value' | translate }}</p>
+          <p class="aws-portal__proof-label">{{ 'services.aws.hero.proof.tier.label' | translate }}</p>
+        </div>
+        <div class="aws-portal__proof-item group">
+          <div class="aws-portal__proof-icon">
+            <ng-icon name="lucideClock" size="20" aria-hidden="true" />
+          </div>
+          <p class="aws-portal__proof-value">{{ 'services.aws.hero.proof.years.value' | translate }}</p>
+          <p class="aws-portal__proof-label">{{ 'services.aws.hero.proof.years.label' | translate }}</p>
+        </div>
+        <div class="aws-portal__proof-item group">
+          <div class="aws-portal__proof-icon">
+            <ng-icon name="lucideHeadphones" size="20" aria-hidden="true" />
+          </div>
+          <p class="aws-portal__proof-value">{{ 'services.aws.hero.proof.support.value' | translate }}</p>
+          <p class="aws-portal__proof-label">{{ 'services.aws.hero.proof.support.label' | translate }}</p>
+        </div>
+        <div class="aws-portal__proof-item group">
+          <div class="aws-portal__proof-icon">
+            <ng-icon name="lucideGlobe" size="20" aria-hidden="true" />
+          </div>
+          <p class="aws-portal__proof-value">{{ 'services.aws.hero.proof.markets.value' | translate }}</p>
+          <p class="aws-portal__proof-label">{{ 'services.aws.hero.proof.markets.label' | translate }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
