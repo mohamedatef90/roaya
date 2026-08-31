@@ -104,6 +104,12 @@ module.exports = {
       { from: 264, to: 292 },
       { from: 404, to: 432 }
     ],
+    credentialPath: [
+      { id: 'assess', n: '01', icon: 'lucideScanSearch' },
+      { id: 'migrate', n: '02', icon: 'lucideArrowLeftRight' },
+      { id: 'secure', n: '03', icon: 'lucideShieldCheck' },
+      { id: 'operate', n: '04', icon: 'lucideActivity' }
+    ],
     accountStages: [
       { id: 'design', icon: 'lucideDraftingCompass' },
       { id: 'deliver', icon: 'lucideRocket' },
