@@ -175,3 +175,44 @@ dead data could be pruned.
 **Deployment (unchanged):** commit, `./deploy/scripts/deploy-ssr.sh`, copy
 `deploy/nginx/roaya-website.conf` to the host and reload nginx (sitemap
 location now proxies to SSR).
+
+---
+
+## Addendum 3 — DEPLOYED TO PRODUCTION (2026-09-02)
+
+Three deploy runs via `./deploy/scripts/deploy-ssr.sh` (run 1 interrupted by a
+VPN drop after successful activation; run 2 completed the full cycle; run 3
+shipped two post-deploy fixes found by live verification):
+
+- **Fix (run 3):** server.ts sitemap/RSS fetch used `limit=100`, which the
+  backend rejects with HTTP 500 (max is 50) — feeds rendered empty. Now
+  `limit=50`.
+- **Fix (run 3):** blog-detail treated a backend 404 (unknown slug) as an
+  outage → 503. HttpClient delivers any non-2xx as an error; the handler now
+  maps error status 404 → real 404, everything else → 503.
+- Also shipped: Instagram link removed from the footer (product request).
+
+**Live verification (2026-09-02):** case-study pages 4,155 chars visible +
+Organization/WebSite/BreadcrumbList/WebPage/Article JSON-LD + correct og:url;
+AR homepage zero English-tree links (only Cloudflare's /cdn-cgi
+email-protection link remains, not ours); blog listing exposes 10 real post
+links in raw HTML; blog detail SSRs full body (H1 + sections); unknown blog
+slug → HTTP 404; robots.txt 7 training-bot disallows; llms.txt "founded in
+2012"; About shows 2012 + foundingDate 2012 in JSON-LD; /rss.xml live with 10
+items (application/rss+xml); dynamic sitemap serves 102 locs (82 static + 20
+blog EN/AR) on the SSR loopback.
+
+**One step pending (needs sudo):** the public /sitemap.xml still serves the
+static 82-URL file until the nginx sitemap location is switched to the SSR
+proxy. Staged at `/home/roaya/roaya-website.nginx.new` on the host
+(diff-verified against the live conf). Apply with:
+  sudo cp /etc/nginx/sites-available/roaya-website /etc/nginx/sites-available/roaya-website.bak.20260902
+  sudo cp /home/roaya/roaya-website.nginx.new /etc/nginx/sites-available/roaya-website
+  sudo nginx -t && sudo systemctl reload nginx
+
+**2026-09-02, final step complete:** nginx sitemap location swapped to the SSR
+proxy and reloaded (backup at
+/etc/nginx/sites-available/roaya-website.bak.20260902). Public
+https://roaya.co/sitemap.xml now serves 102 URLs (82 static + 10 blog posts ×
+EN/AR) as application/xml; robots.txt/llms.txt content types and site health
+verified unaffected. ALL audit remediation items are now live in production.

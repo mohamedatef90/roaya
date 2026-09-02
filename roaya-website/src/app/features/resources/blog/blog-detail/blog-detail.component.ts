@@ -185,12 +185,16 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         this.isLoading.set(false);
         this.cdr.markForCheck();
       },
-      error: () => {
-        // The backend could not be reached — the post may well exist, so this
-        // must NOT be a 404 (a crawler would deindex a real post over a
-        // transient outage). 503 tells crawlers to retry later.
+      error: (err: unknown) => {
+        // The backend answers an unknown slug with HTTP 404, which HttpClient
+        // delivers as an ERROR (any non-2xx lands here, not in `next`) — that
+        // is a real 404 for crawlers. Anything else means the backend could
+        // not be reached or failed: the post may well exist, so that must NOT
+        // be a 404 (a crawler would deindex a real post over a transient
+        // outage) — 503 tells crawlers to retry later.
         if (this.responseInit) {
-          this.responseInit.status = 503;
+          const status = (err as { status?: number } | null)?.status;
+          this.responseInit.status = status === 404 ? 404 : 503;
         }
         this.isLoading.set(false);
         this.cdr.markForCheck();

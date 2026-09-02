@@ -67,8 +67,11 @@ async function fetchPublishedBlogPosts(): Promise<BlogPostEntry[]> {
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), BLOG_FETCH_TIMEOUT_MS);
+    // limit=50 is the backend's validated maximum (limit=100 is rejected with
+    // HTTP 500 — verified against the live API on 2026-09-02) and matches what
+    // the blog listing itself requests.
     const res = await fetch(
-      `${apiOrigin.replace(/\/$/, '')}/api/v1/content/blog?page=1&limit=100`,
+      `${apiOrigin.replace(/\/$/, '')}/api/v1/content/blog?page=1&limit=50`,
       { signal: controller.signal },
     );
     clearTimeout(timer);
