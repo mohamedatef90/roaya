@@ -1,6 +1,6 @@
 import { Component, signal, OnInit, inject, computed, RESPONSE_INIT } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
@@ -21,6 +21,7 @@ import {
 } from '@ng-icons/lucide';
 import { AnalyticsService } from '../../../../core/services/analytics.service';
 import { SEOService } from '../../../../core/services/seo.service';
+import { LocalizeLinkPipe } from '../../../../core/i18n/localize-link.pipe';
 import { CASE_STUDY_MAP, CaseStudyRecord } from '../case-studies.data';
 
 type CaseStudyData = CaseStudyRecord;
@@ -28,7 +29,7 @@ type CaseStudyData = CaseStudyRecord;
 @Component({
   selector: 'app-case-study-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIconComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIconComponent, LocalizeLinkPipe],
   viewProviders: [
     provideIcons({
       lucideArrowLeft,
@@ -52,6 +53,7 @@ type CaseStudyData = CaseStudyRecord;
 })
 export class CaseStudyDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly analytics = inject(AnalyticsService);
   private readonly translate = inject(TranslateService);
   private readonly seo = inject(SEOService);
@@ -113,9 +115,15 @@ export class CaseStudyDetailComponent implements OnInit {
       // SSR title on every case-study page (found in production 2026-08-24).
       // translate.instant works during SSR because ServerTranslationLoader
       // provides the bundled JSON synchronously.
+      // The canonical URL is passed explicitly (built from the fixed origin +
+      // router path, locale prefix included) so SSR never depends on a
+      // browser-only fallback inside updateSEO, and og:url always matches the
+      // page's own canonical instead of the homepage.
       this.seo.updateSEO({
         title: this.translate.instant(`${caseStudy.translationKey}.meta.title`),
-        description: this.translate.instant(`${caseStudy.translationKey}.meta.description`)
+        description: this.translate.instant(`${caseStudy.translationKey}.meta.description`),
+        url: this.seo.buildCanonicalUrl(this.router.url),
+        type: 'article'
       });
 
       // Track page view

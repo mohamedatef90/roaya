@@ -19,6 +19,7 @@ import {
   faSolidGlobe
 } from '@ng-icons/font-awesome/solid';
 import { NavigationService } from '../../core/services/navigation.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 interface ServiceDetail {
   id: string;
@@ -35,7 +36,7 @@ interface ServiceDetail {
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss',
   providers: [

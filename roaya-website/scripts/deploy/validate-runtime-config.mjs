@@ -739,11 +739,16 @@ function trustProblem(value) {
       const end = rest.indexOf('\n    }');
       allBlocks.push({ name: `location ${lm[1].trim()}`, body: end === -1 ? rest : rest.slice(0, end) });
     }
+    // Three SSR proxy locations: `location /`, `location @ssr`, and
+    // `location = /sitemap.xml` (the sitemap is served by an Express route
+    // that merges the static base with published blog URLs — see
+    // docs/deploy/RUNTIME-ENV.md, NG_SSR_API_ORIGIN).
+    const EXPECTED_SSR_LOCATIONS = 3;
     const ssrBlocks = allBlocks
       .filter((b) => /proxy_pass http:\/\/roaya_ssr;/.test(b.body))
       .map((b) => [b.name, b.body]);
-    if (ssrBlocks.length !== 2)
-      fail('nginx:ssr-xff', `expected 2 SSR proxy locations, found ${ssrBlocks.length}`);
+    if (ssrBlocks.length !== EXPECTED_SSR_LOCATIONS)
+      fail('nginx:ssr-xff', `expected ${EXPECTED_SSR_LOCATIONS} SSR proxy locations, found ${ssrBlocks.length}`);
     let ok = 0;
     for (const [label, block] of ssrBlocks) {
       if (!block) {
@@ -769,9 +774,9 @@ function trustProblem(value) {
         if (!re.test(block)) fail('nginx:ssr-headers', `${label} no longer sets ${h}`);
       }
     }
-    if (ok === 2) pass('nginx:ssr-xff', 'both SSR locations overwrite X-Forwarded-For with $remote_addr');
+    if (ok === EXPECTED_SSR_LOCATIONS) pass('nginx:ssr-xff', 'all SSR locations overwrite X-Forwarded-For with $remote_addr');
     if (!failures.some((f) => f.check === 'nginx:ssr-headers'))
-      pass('nginx:ssr-headers', 'Host / X-Forwarded-Proto / X-Real-IP retained in both SSR locations');
+      pass('nginx:ssr-headers', 'Host / X-Forwarded-Proto / X-Real-IP retained in all SSR locations');
 
     // /api/ must be untouched by this change.
     const api = (() => {

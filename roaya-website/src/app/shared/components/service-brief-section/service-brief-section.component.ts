@@ -29,6 +29,7 @@ import {
   lucideClock,
   lucideZap
 } from '@ng-icons/lucide';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import type { ServiceBriefConfig } from './service-brief-section.interfaces';
 
 /**
@@ -45,7 +46,7 @@ import type { ServiceBriefConfig } from './service-brief-section.interfaces';
 @Component({
   selector: 'app-service-brief-section',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './service-brief-section.component.html',
   styleUrl: './service-brief-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

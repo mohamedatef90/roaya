@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isValidIndustryId, type IndustryId } from '../../../core/seo/industry-registry';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 /**
  * Industry Detail Interface
@@ -46,7 +47,7 @@ interface IndustryDetail {
 @Component({
   selector: 'app-industry-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, LocalizeLinkPipe],
   templateUrl: './industry-detail.component.html',
   styleUrls: ['./industry-detail.component.scss']
 })

@@ -57,6 +57,17 @@ NG_ALLOWED_HOSTS_VALUE="roaya.co,www.roaya.co"
 # is not an X-Forwarded-* header and this option does not govern it.
 NG_TRUST_PROXY_HEADERS_VALUE="x-forwarded-for,x-forwarded-proto"
 
+# Backend API origin for server-side rendering. The production apiUrl is
+# origin-relative ('/api/v1'), which Node's fetch cannot resolve during SSR.
+# With this set, ssr-api.interceptor.ts forwards GET content requests to the
+# local backend so server-rendered pages (blog listing/detail) carry their
+# real content in the first HTTP response — the HTML crawlers and AI
+# assistants read (2026-09-01 AI-readiness audit, P1). Loopback on purpose:
+# the SSR process and the backend share this host, and the render path must
+# never leave it. If unset, the interceptor falls back to blocking API calls
+# during SSR (pages render their empty/default state).
+NG_SSR_API_ORIGIN_VALUE="http://127.0.0.1:3001"
+
 # Loopback activation gate. Must be a hostname present in the allowlist above,
 # never a public Cloudflare URL - this gate must test the origin we just
 # activated, not the edge.
@@ -196,6 +207,7 @@ REMOTE_ARGS=(
   "$SSR_HEALTH_HOST"
   "$SSR_HEALTH_MARKER"
   "$NG_TRUST_PROXY_HEADERS_VALUE"
+  "$NG_SSR_API_ORIGIN_VALUE"
 )
 
 if ! REMOTE_COMMAND=$(build_remote_bash_command "${REMOTE_ARGS[@]}"); then
@@ -220,11 +232,12 @@ set -euo pipefail
 # literals HERE, in the quoted heredoc, so they cannot themselves be corrupted
 # by the same seam they are checking; the repository guard asserts these
 # literals still match the configuration values at the top of this script.
-EXPECTED_ARGC=11
+EXPECTED_ARGC=12
 EXPECTED_MARKER='Your Trusted Technology Partner in Egypt'
 EXPECTED_ALLOWED_HOSTS='roaya.co,www.roaya.co'
 EXPECTED_TRUST_PROXY='x-forwarded-for,x-forwarded-proto'
 EXPECTED_NODE_ENV='production'
+EXPECTED_SSR_API_ORIGIN='http://127.0.0.1:3001'
 
 contract_fail() {
   echo "FATAL: remote argument contract violated: $1" >&2
@@ -252,7 +265,8 @@ NG_ALLOWED_HOSTS_VALUE="$8"
 SSR_HEALTH_HOST="$9"
 SSR_HEALTH_MARKER="${10}"
 NG_TRUST_PROXY_HEADERS_VALUE="${11}"
-shift 11
+NG_SSR_API_ORIGIN_VALUE="${12}"
+shift 12
 if [ "$#" -ne 0 ]; then
   contract_fail "$# unexpected trailing argument(s) after the declared vector"
 fi
@@ -298,6 +312,8 @@ fi
   contract_fail "NG_ALLOWED_HOSTS is not '$EXPECTED_ALLOWED_HOSTS'"
 [ "$NG_TRUST_PROXY_HEADERS_VALUE" = "$EXPECTED_TRUST_PROXY" ] || \
   contract_fail "NG_TRUST_PROXY_HEADERS is not '$EXPECTED_TRUST_PROXY' (received a value of length ${#NG_TRUST_PROXY_HEADERS_VALUE}; 'Trusted' is what the 2026-08-26 word-split produced)"
+[ "$NG_SSR_API_ORIGIN_VALUE" = "$EXPECTED_SSR_API_ORIGIN" ] || \
+  contract_fail "NG_SSR_API_ORIGIN is not '$EXPECTED_SSR_API_ORIGIN' (SSR content fetches must stay on the loopback backend)"
 [ "$SSR_HEALTH_MARKER" = "$EXPECTED_MARKER" ] || \
   contract_fail "SSR_HEALTH_MARKER is not the full configured marker (received ${#SSR_HEALTH_MARKER} bytes, expected ${#EXPECTED_MARKER}; the 2026-08-26 word-split delivered the 4-byte prefix 'Your', which still passed a substring test)"
 case "$SSR_HEALTH_HOST" in
@@ -376,8 +392,8 @@ emit_rollback() {
   if [ "$PREV_VALID" -eq 1 ]; then
     echo "Run these two commands on this host to roll back now:" >&2
     printf '  ln -sfn %q %q\n' "$PREV_TARGET" "$RELEASE_DIR/current" >&2
-    printf '  NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q NG_TRUST_PROXY_HEADERS=%q pm2 restart %q --update-env\n' \
-      "$NODE_ENV_VALUE" "$SSR_PORT" "$NG_ALLOWED_HOSTS_VALUE" "$NG_TRUST_PROXY_HEADERS_VALUE" "$PM2_APP" >&2
+    printf '  NODE_ENV=%q PORT=%q NG_ALLOWED_HOSTS=%q NG_TRUST_PROXY_HEADERS=%q NG_SSR_API_ORIGIN=%q pm2 restart %q --update-env\n' \
+      "$NODE_ENV_VALUE" "$SSR_PORT" "$NG_ALLOWED_HOSTS_VALUE" "$NG_TRUST_PROXY_HEADERS_VALUE" "$NG_SSR_API_ORIGIN_VALUE" "$PM2_APP" >&2
     echo "Then re-verify:" >&2
     printf '  curl -s -o /tmp/probe.html -w %q --max-time 10 -H %q %q\n' \
       '%{http_code}\n' "Host: $SSR_HEALTH_HOST" "http://127.0.0.1:$SSR_PORT/about" >&2
@@ -411,6 +427,7 @@ export NODE_ENV="$NODE_ENV_VALUE"
 export PORT="$SSR_PORT"
 export NG_ALLOWED_HOSTS="$NG_ALLOWED_HOSTS_VALUE"
 export NG_TRUST_PROXY_HEADERS="$NG_TRUST_PROXY_HEADERS_VALUE"
+export NG_SSR_API_ORIGIN="$NG_SSR_API_ORIGIN_VALUE"
 
 if timeout 30 pm2 jlist 2>/dev/null | grep -q "\"name\":\"$PM2_APP\""; then
   # No `|| true` here on purpose: a timed-out or failed restart must not be
@@ -433,6 +450,7 @@ else
   echo "    NODE_ENV=$NODE_ENV_VALUE PORT=$SSR_PORT \\" >&2
   echo "    NG_ALLOWED_HOSTS=$NG_ALLOWED_HOSTS_VALUE \\" >&2
   echo "    NG_TRUST_PROXY_HEADERS=$NG_TRUST_PROXY_HEADERS_VALUE \\" >&2
+  echo "    NG_SSR_API_ORIGIN=$NG_SSR_API_ORIGIN_VALUE \\" >&2
   echo "    pm2 start server/server.mjs --name $PM2_APP --cwd $RELEASE_DIR/current -i 1" >&2
   echo "  pm2 save" >&2
   exit 1

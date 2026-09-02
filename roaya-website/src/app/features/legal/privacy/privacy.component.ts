@@ -1,6 +1,8 @@
 import { Component, OnInit, signal, inject, PLATFORM_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import { SEOService } from '../../../core/services/seo.service';
 import { AnalyticsService } from '../../../core/services/analytics.service';
 
@@ -13,7 +15,7 @@ interface TableOfContentsItem {
 @Component({
   selector: 'app-privacy',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, LocalizeLinkPipe],
   templateUrl: './privacy.component.html',
   styleUrl: './privacy.component.scss'
 })

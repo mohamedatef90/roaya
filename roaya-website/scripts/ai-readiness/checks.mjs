@@ -77,7 +77,22 @@ export function checkRobotsPolicy(ctx) {
     }
   }
 
-  const aiTrainingBots = ['GPTBot', 'ClaudeBot'];
+  // The full set implementing the stated "AI training crawlers opted out"
+  // policy: GPTBot (OpenAI training), ClaudeBot (Anthropic training), CCBot
+  // (Common Crawl — the largest single training corpus), Google-Extended
+  // (Gemini training; does not affect Googlebot search indexing),
+  // Applebot-Extended (Apple foundation models), meta-externalagent (Meta
+  // training), Bytespider (ByteDance; frequently ignores robots.txt, listed
+  // for policy completeness).
+  const aiTrainingBots = [
+    'GPTBot',
+    'ClaudeBot',
+    'CCBot',
+    'Google-Extended',
+    'Applebot-Extended',
+    'meta-externalagent',
+    'Bytespider',
+  ];
   for (const bot of aiTrainingBots) {
     const re = new RegExp(`User-agent:\\s*${bot}\\s*\\n\\s*Disallow:\\s*/`, 'i');
     if (!re.test(text)) {
@@ -250,9 +265,28 @@ export function checkCanonicalMetadataCoverage(ctx) {
   }
   // Extract dynamic server routes (industries/:id, services/:id, etc.) to
   // verify that sitemap detail pages are covered by a matching Server route.
-  const serverDynamicPatterns = [...serverRoutesTs.matchAll(/\{\s*path:\s*'([^']+)',\s*renderMode:\s*RenderMode\.Server\s*\}/g)]
-    .map((m) => m[1])
-    .filter((p) => p.includes(':'));
+  const serverRenderedPaths = [...serverRoutesTs.matchAll(/\{\s*path:\s*'([^']+)',\s*renderMode:\s*RenderMode\.Server\s*\}/g)]
+    .map((m) => m[1]);
+  const serverDynamicPatterns = serverRenderedPaths.filter((p) => p.includes(':'));
+
+  // API-backed listing pages are deliberately RenderMode.Server, not
+  // prerendered: prerendering them bakes an empty build-time state (no
+  // backend at build time) into static HTML forever (2026-09-01 audit, P1).
+  // They stay in the sitemap because they are served per request; verify each
+  // is actually registered as a static (non-parameterized) Server route in
+  // both locales.
+  const serverRenderedListings = ['/resources/blog'];
+  const serverRenderedListingSet = new Set();
+  for (const listing of serverRenderedListings) {
+    const bare = listing.slice(1);
+    for (const candidate of [bare, `ar/${bare}`]) {
+      if (serverRenderedPaths.includes(candidate)) {
+        serverRenderedListingSet.add(`/${candidate}`);
+      } else {
+        errors.push(`Server-rendered listing "${listing}" is not registered as a RenderMode.Server route for "${candidate}" in app.routes.server.ts.`);
+      }
+    }
+  }
 
   const isCoveredByDynamicRoute = (sitemapPath) => {
     const { path } = splitLocalePath(sitemapPath);
@@ -279,6 +313,7 @@ export function checkCanonicalMetadataCoverage(ctx) {
       }
       continue;
     }
+    if (serverRenderedListingSet.has(sitemapPath)) continue;
     if (!serverSet.has(sitemapPath)) {
       errors.push(`Sitemap route "${sitemapPath}" is not a prerendered static route in app.routes.server.ts.`);
     }
@@ -742,6 +777,231 @@ export async function checkRealUnknownRoute404(ctx) {
   }
 }
 
+/**
+ * Strip a raw HTML document down to its visible text (scripts, styles, and
+ * tags removed; entities left as-is — word counting doesn't need them).
+ */
+function visibleText(html) {
+  return html
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * SSR content-quality gate (2026-09-01 audit remediation).
+ *
+ * The existing gates reconcile registries and static files; none of them read
+ * the HTML a crawler actually receives. That is exactly how ten case-study
+ * URLs shipped as loading shells for months: every registry agreed, the build
+ * passed, and the raw response carried no H1 and no content.
+ *
+ * This check boots the production server build locally (same harness as
+ * checkRealUnknownRoute404) and asserts, for every case-study URL in both
+ * locales, that the raw first response — no JavaScript executed — contains:
+ *   - HTTP 200,
+ *   - a non-empty <h1>,
+ *   - at least MIN_VISIBLE_WORDS of visible text,
+ *   - an og:url that matches the page's own canonical URL (not the homepage).
+ *
+ * The blog listings are asserted more loosely (HTTP 200 + <h1>): without a
+ * backend in the check environment they legitimately render an empty list.
+ * Their post content is a runtime concern verified on the deployed host.
+ */
+export async function checkSsrContentQuality(ctx) {
+  const id = 'ssr-content-quality';
+  const title = 'raw SSR content quality (H1, visible text, og:url) via local production server';
+  const MIN_VISIBLE_WORDS = 50;
+
+  if (!existsSync(ctx.serverEntryFile)) {
+    return skip(id, title, `No production SSR server build found at ${relative(ctx.root, ctx.serverEntryFile)} — run "npm run build:prod" first.`);
+  }
+
+  const caseStudiesDataTs = readFileSync(
+    join(ctx.srcApp, 'features/resources/case-studies/case-studies.data.ts'),
+    'utf8',
+  );
+  const slugs = extractCaseStudySlugs(caseStudiesDataTs);
+  if (slugs.length === 0) {
+    return fail(id, title, ['case-studies.data.ts CaseStudySlug union produced zero slugs.']);
+  }
+
+  const { spawn } = await import('node:child_process');
+  const port = ctx.serverPort + 1;
+  const child = spawn(process.execPath, [ctx.serverEntryFile], {
+    cwd: ctx.root,
+    env: { ...process.env, PORT: String(port), NG_ALLOWED_HOSTS: '*' },
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+  let stderrOutput = '';
+  child.stderr.on('data', (chunk) => {
+    stderrOutput += chunk.toString();
+  });
+
+  const waitForServer = async () => {
+    const deadline = Date.now() + 20000;
+    while (Date.now() < deadline) {
+      try {
+        const res = await fetch(`http://127.0.0.1:${port}/`);
+        if (res.status) return true;
+      } catch {
+        // Not up yet.
+      }
+      await new Promise((r) => setTimeout(r, 250));
+    }
+    return false;
+  };
+
+  const errors = [];
+  try {
+    const up = await waitForServer();
+    if (!up) {
+      return fail(id, title, [`Local SSR server on port ${port} did not become ready within 20s. stderr: ${stderrOutput.slice(0, 500)}`]);
+    }
+
+    const contentPaths = [];
+    for (const slug of slugs) {
+      contentPaths.push(`/resources/case-studies/${slug}`);
+      contentPaths.push(`/ar/resources/case-studies/${slug}`);
+    }
+
+    for (const path of contentPaths) {
+      const res = await fetch(`http://127.0.0.1:${port}${path}`);
+      if (res.status !== 200) {
+        errors.push(`${path}: expected HTTP 200, got ${res.status}.`);
+        continue;
+      }
+      const html = await res.text();
+
+      const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      const h1Text = h1Match ? visibleText(h1Match[1]) : '';
+      if (!h1Text) {
+        errors.push(`${path}: raw HTML has no non-empty <h1>.`);
+      }
+
+      const words = visibleText(html).split(' ').filter(Boolean).length;
+      if (words < MIN_VISIBLE_WORDS) {
+        errors.push(`${path}: only ${words} visible word(s) in raw HTML (minimum ${MIN_VISIBLE_WORDS}) — looks like a loading/empty shell.`);
+      }
+
+      const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+      const ogUrl = html.match(/property="og:url" content="([^"]+)"/)?.[1];
+      const expectedCanonical = `${ctx.origin}${path}`;
+      if (canonical !== expectedCanonical) {
+        errors.push(`${path}: canonical is ${canonical ?? '(missing)'}, expected ${expectedCanonical}.`);
+      }
+      if (ogUrl !== expectedCanonical) {
+        errors.push(`${path}: og:url is ${ogUrl ?? '(missing)'}, expected ${expectedCanonical} (must match the page's canonical, not the homepage).`);
+      }
+
+      // Case-study structured data (emitted since the 2026-09-01 claim
+      // approvals): the graph must carry this page's WebPage and Article
+      // nodes, and the breadcrumb must end at the page itself.
+      const ldMatch = html.match(/<script id="roaya-structured-data" type="application\/ld\+json">([\s\S]*?)<\/script>/);
+      if (!ldMatch) {
+        errors.push(`${path}: no roaya-structured-data JSON-LD script in raw HTML.`);
+      } else {
+        let graph;
+        try {
+          graph = JSON.parse(ldMatch[1])['@graph'] ?? [];
+        } catch {
+          errors.push(`${path}: JSON-LD script is not valid JSON.`);
+          graph = [];
+        }
+        const webPage = graph.find((n) => n['@type'] === 'WebPage');
+        const article = graph.find((n) => n['@type'] === 'Article');
+        const breadcrumb = graph.find((n) => n['@type'] === 'BreadcrumbList');
+        if (!webPage || webPage['@id'] !== `${expectedCanonical}#webpage` || !webPage.name) {
+          errors.push(`${path}: JSON-LD is missing a named WebPage node with @id ${expectedCanonical}#webpage.`);
+        }
+        if (!article || article['@id'] !== `${expectedCanonical}#article` || !article.headline) {
+          errors.push(`${path}: JSON-LD is missing an Article node with a headline and @id ${expectedCanonical}#article.`);
+        }
+        const items = breadcrumb?.itemListElement ?? [];
+        if (items.length < 3 || items[items.length - 1]?.item !== expectedCanonical) {
+          errors.push(`${path}: BreadcrumbList must end at the page itself (${expectedCanonical}); got ${items.length} item(s), last = ${items[items.length - 1]?.item ?? '(none)'}.`);
+        }
+      }
+    }
+
+    // Locale-aware links: an Arabic page must never link into the English
+    // tree. Every same-origin <a href="/..."> on an /ar page has to stay
+    // under /ar (2026-09-01 audit follow-up: before the locale-aware link
+    // pass, every internal link on every Arabic page pointed at the
+    // unprefixed English URL).
+    for (const arPath of ['/ar', '/ar/about', '/ar/services', '/ar/resources/case-studies', `/ar/resources/case-studies/${slugs[0]}`]) {
+      const res = await fetch(`http://127.0.0.1:${port}${arPath}`);
+      if (res.status !== 200) {
+        errors.push(`${arPath}: expected HTTP 200, got ${res.status}.`);
+        continue;
+      }
+      const html = await res.text();
+      const hrefs = [...html.matchAll(/<a\s[^>]*href="(\/[^"]*)"/g)].map((m) => m[1]);
+      const leaks = [...new Set(hrefs.filter((h) => h !== '/ar' && !h.startsWith('/ar/') && !h.startsWith('/#')))];
+      if (leaks.length) {
+        errors.push(`${arPath}: Arabic page links into the English tree: ${leaks.slice(0, 8).join(', ')}${leaks.length > 8 ? ` (+${leaks.length - 8} more)` : ''}.`);
+      }
+    }
+
+    for (const path of ['/resources/blog', '/ar/resources/blog']) {
+      const res = await fetch(`http://127.0.0.1:${port}${path}`);
+      if (res.status !== 200) {
+        errors.push(`${path}: expected HTTP 200, got ${res.status}.`);
+        continue;
+      }
+      const html = await res.text();
+      const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      if (!h1Match || !visibleText(h1Match[1])) {
+        errors.push(`${path}: raw HTML has no non-empty <h1>.`);
+      }
+    }
+
+    // Dynamic machine files served by the Express routes in src/server.ts.
+    // Without a backend (this check environment) the sitemap must still be
+    // the complete static base and the feed a valid empty channel — never an
+    // error and never a truncated document.
+    {
+      const res = await fetch(`http://127.0.0.1:${port}/sitemap.xml`);
+      const body = res.status === 200 ? await res.text() : '';
+      const type = res.headers.get('content-type') ?? '';
+      if (res.status !== 200) {
+        errors.push(`/sitemap.xml: expected HTTP 200, got ${res.status}.`);
+      } else {
+        if (!type.startsWith('application/xml')) {
+          errors.push(`/sitemap.xml: content-type must be application/xml, got "${type}".`);
+        }
+        if (!body.startsWith('<?xml') || !body.includes('</urlset>')) {
+          errors.push('/sitemap.xml: response is not a complete <urlset> document.');
+        }
+      }
+    }
+    {
+      const res = await fetch(`http://127.0.0.1:${port}/rss.xml`);
+      const body = res.status === 200 ? await res.text() : '';
+      const type = res.headers.get('content-type') ?? '';
+      if (res.status !== 200) {
+        errors.push(`/rss.xml: expected HTTP 200, got ${res.status}.`);
+      } else {
+        if (!type.startsWith('application/rss+xml')) {
+          errors.push(`/rss.xml: content-type must be application/rss+xml, got "${type}".`);
+        }
+        if (!body.startsWith('<?xml') || !body.includes('</rss>')) {
+          errors.push('/rss.xml: response is not a complete <rss> document.');
+        }
+      }
+    }
+
+    return errors.length
+      ? fail(id, title, errors)
+      : ok(id, title, `${contentPaths.length} case-study URL(s) served complete raw HTML (H1, ≥${MIN_VISIBLE_WORDS} visible words, og:url = canonical, WebPage+Article JSON-LD, self-terminating breadcrumb); Arabic pages keep every internal link under /ar; blog listings render with an H1; /sitemap.xml and /rss.xml serve complete XML with correct content types.`);
+  } finally {
+    child.kill('SIGTERM');
+  }
+}
+
 export const ALL_CHECKS = [
   checkRobotsPolicy,
   checkSitemapValidity,
@@ -754,4 +1014,5 @@ export const ALL_CHECKS = [
   checkApprovedFactualConsistency,
   checkMachineFilesInBuild,
   checkRealUnknownRoute404,
+  checkSsrContentQuality,
 ];

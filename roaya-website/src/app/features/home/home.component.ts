@@ -47,6 +47,7 @@ import {
 import { NavigationService } from '../../core/services/navigation.service';
 import { LogoService, Logo } from '../../core/services/logo.service';
 import { ContentService, Testimonial as ApiTestimonial } from '../../core/services/content.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 import { CardStackComponent } from '../../shared/components/card-stack';
 import type { StackCard } from '../../shared/components/card-stack';
 import { SecurityBriefSectionComponent } from './components/security-brief-section/security-brief-section.component';
@@ -121,7 +122,7 @@ interface FAQ {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, CardStackComponent, SecurityBriefSectionComponent, PentestBriefSectionComponent, DevopsBriefSectionComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, CardStackComponent, SecurityBriefSectionComponent, PentestBriefSectionComponent, DevopsBriefSectionComponent, LocalizeLinkPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   providers: [

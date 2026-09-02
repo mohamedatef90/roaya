@@ -36,6 +36,16 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'resources/case-studies/:slug', renderMode: RenderMode.Server },
   { path: 'ar/resources/case-studies/:slug', renderMode: RenderMode.Server },
 
+  // API-backed listing pages: rendered on the server per request, NOT
+  // prerendered. Prerendering these baked an empty "No posts found" state
+  // into the static HTML forever (the backend is not reachable at build
+  // time), which is what crawlers and AI assistants then read (2026-09-01
+  // AI-readiness audit, P1). At request time the SSR runtime reaches the
+  // backend through NG_SSR_API_ORIGIN (see ssr-api.interceptor.ts), so the
+  // first HTTP response carries the real post list.
+  { path: 'resources/blog', renderMode: RenderMode.Server },
+  { path: 'ar/resources/blog', renderMode: RenderMode.Server },
+
   // Static public routes: prerendered at build time, once per locale.
   { path: '', renderMode: RenderMode.Prerender },
   { path: 'ar', renderMode: RenderMode.Prerender },
@@ -86,8 +96,6 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'ar/roi-calculator', renderMode: RenderMode.Prerender },
   { path: 'resources', renderMode: RenderMode.Prerender },
   { path: 'ar/resources', renderMode: RenderMode.Prerender },
-  { path: 'resources/blog', renderMode: RenderMode.Prerender },
-  { path: 'ar/resources/blog', renderMode: RenderMode.Prerender },
   { path: 'resources/case-studies', renderMode: RenderMode.Prerender },
   { path: 'ar/resources/case-studies', renderMode: RenderMode.Prerender },
   { path: 'resources/whitepapers', renderMode: RenderMode.Prerender },

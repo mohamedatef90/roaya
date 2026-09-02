@@ -5,12 +5,178 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+// ---------------------------------------------------------------------------
+// Dynamic machine files: /sitemap.xml (static base + published blog posts)
+// and /rss.xml (blog feed). Registered BEFORE express.static so they win over
+// the static sitemap.xml copy in the browser dist.
+//
+// Blog posts live in the backend database, so the static sitemap can never
+// list them (2026-09-01 AI-readiness audit, P1: blog detail URLs absent from
+// the sitemap). At request time the published post list is fetched from the
+// backend through NG_SSR_API_ORIGIN (the same loopback origin the SSR API
+// interceptor uses — see docs/deploy/RUNTIME-ENV.md) and appended to the
+// static base. When the variable is unset or the backend is unreachable, the
+// static sitemap is served unchanged and the feed renders with no items —
+// never an error, never a partial document.
+// ---------------------------------------------------------------------------
+
+const SITE_ORIGIN = 'https://roaya.co';
+const MACHINE_FILE_CACHE_MS = 10 * 60 * 1000;
+const BLOG_FETCH_TIMEOUT_MS = 5000;
+
+interface BlogPostEntry {
+  slug: string;
+  title: string;
+  excerpt: string;
+  lastmod: string; // YYYY-MM-DD
+  pubDate: string; // RFC 1123, for RSS
+}
+
+const xmlEscape = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+let blogPostsCache: { at: number; posts: BlogPostEntry[] } | null = null;
+
+/**
+ * Published posts from the backend, newest first. Cached for 10 minutes.
+ * Returns [] when NG_SSR_API_ORIGIN is unset (build/CI/local checks) or the
+ * backend cannot be reached — callers then serve the static-only variant.
+ */
+async function fetchPublishedBlogPosts(): Promise<BlogPostEntry[]> {
+  const apiOrigin = process.env['NG_SSR_API_ORIGIN'];
+  if (!apiOrigin) {
+    return [];
+  }
+  if (blogPostsCache && Date.now() - blogPostsCache.at < MACHINE_FILE_CACHE_MS) {
+    return blogPostsCache.posts;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), BLOG_FETCH_TIMEOUT_MS);
+    const res = await fetch(
+      `${apiOrigin.replace(/\/$/, '')}/api/v1/content/blog?page=1&limit=100`,
+      { signal: controller.signal },
+    );
+    clearTimeout(timer);
+    if (!res.ok) {
+      return blogPostsCache?.posts ?? [];
+    }
+    const body = (await res.json()) as {
+      data?: {
+        slugEn?: string;
+        titleEn?: string;
+        excerptEn?: string;
+        publishedAt?: string;
+        createdAt?: string;
+      }[];
+    };
+    const posts: BlogPostEntry[] = (body.data ?? [])
+      .filter((item) => typeof item.slugEn === 'string' && item.slugEn.length > 0)
+      .map((item) => {
+        const when = new Date(item.publishedAt ?? item.createdAt ?? Date.now());
+        const valid = Number.isNaN(when.getTime()) ? new Date() : when;
+        return {
+          slug: item.slugEn as string,
+          title: item.titleEn ?? '',
+          excerpt: item.excerptEn ?? '',
+          lastmod: valid.toISOString().slice(0, 10),
+          pubDate: valid.toUTCString(),
+        };
+      })
+      .sort((a, b) => (a.lastmod < b.lastmod ? 1 : -1));
+    blogPostsCache = { at: Date.now(), posts };
+    return posts;
+  } catch {
+    return blogPostsCache?.posts ?? [];
+  }
+}
+
+/** One bilingual sitemap <url> pair (EN + AR) matching the static file's shape. */
+function sitemapEntriesForPost(post: BlogPostEntry): string {
+  const en = `${SITE_ORIGIN}/resources/blog/${encodeURIComponent(post.slug)}`;
+  const ar = `${SITE_ORIGIN}/ar/resources/blog/${encodeURIComponent(post.slug)}`;
+  const alternates = [
+    `    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>`,
+    `    <xhtml:link rel="alternate" hreflang="ar" href="${ar}"/>`,
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>`,
+  ].join('\n');
+  return [en, ar]
+    .map((loc) =>
+      ['  <url>', `    <loc>${loc}</loc>`, `    <lastmod>${post.lastmod}</lastmod>`, alternates, '  </url>'].join('\n'),
+    )
+    .join('\n');
+}
+
+app.get('/sitemap.xml', async (_req, res) => {
+  let staticSitemap: string;
+  try {
+    staticSitemap = readFileSync(join(browserDistFolder, 'sitemap.xml'), 'utf8');
+  } catch {
+    res.status(404).type('text/plain').send('sitemap.xml is not available');
+    return;
+  }
+
+  const posts = await fetchPublishedBlogPosts();
+  const closing = '</urlset>';
+  const body =
+    posts.length > 0 && staticSitemap.includes(closing)
+      ? staticSitemap.replace(closing, `${posts.map(sitemapEntriesForPost).join('\n')}\n${closing}`)
+      : staticSitemap;
+
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=600');
+  res.send(body);
+});
+
+app.get('/rss.xml', async (_req, res) => {
+  const posts = await fetchPublishedBlogPosts();
+  const items = posts
+    .map((post) =>
+      [
+        '    <item>',
+        `      <title>${xmlEscape(post.title)}</title>`,
+        `      <link>${SITE_ORIGIN}/resources/blog/${encodeURIComponent(post.slug)}</link>`,
+        `      <guid isPermaLink="true">${SITE_ORIGIN}/resources/blog/${encodeURIComponent(post.slug)}</guid>`,
+        `      <pubDate>${post.pubDate}</pubDate>`,
+        `      <description>${xmlEscape(post.excerpt)}</description>`,
+        '    </item>',
+      ].join('\n'),
+    )
+    .join('\n');
+
+  const feed = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+    '  <channel>',
+    '    <title>Roaya IT Blog</title>',
+    `    <link>${SITE_ORIGIN}/resources/blog</link>`,
+    `    <atom:link href="${SITE_ORIGIN}/rss.xml" rel="self" type="application/rss+xml"/>`,
+    '    <description>IT insights, best practices, and updates from Roaya IT experts.</description>',
+    '    <language>en</language>',
+    items,
+    '  </channel>',
+    '</rss>',
+    '',
+  ].join('\n');
+
+  res.setHeader('Content-Type', 'application/rss+xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=600');
+  res.send(feed);
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.

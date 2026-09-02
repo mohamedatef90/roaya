@@ -8,13 +8,13 @@
         <!-- Breadcrumb -->
         <nav aria-label="Breadcrumb" class="mb-6 text-sm opacity-90">
           <ol class="flex items-center justify-center gap-2 flex-wrap">
-            <li><a routerLink="/" class="hover:underline">{{ 'common.home' | translate }}</a></li>
+            <li><a [routerLink]="'/' | localizeLink" class="hover:underline">{{ 'common.home' | translate }}</a></li>
             <li aria-hidden="true">
               <svg class="w-4 h-4 rtl:rotate-180" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
               </svg>
             </li>
-            <li><a routerLink="/services" class="hover:underline">{{ 'common.services' | translate }}</a></li>
+            <li><a [routerLink]="'/services' | localizeLink" class="hover:underline">{{ 'common.services' | translate }}</a></li>
             <li aria-hidden="true">
               <svg class="w-4 h-4 rtl:rotate-180" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
@@ -42,12 +42,12 @@
         <!-- CTA Button -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            routerLink="/contact"
+            [routerLink]="'/contact' | localizeLink"
             class="px-8 py-4 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
             Schedule Consultation
           </a>
           <a
-            routerLink="/pricing"
+            [routerLink]="'/pricing' | localizeLink"
             class="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300">
             {{ 'common.contactForPricing' | translate }}
           </a>
@@ -310,7 +310,7 @@
 
               <!-- CTA Button -->
               <a
-                routerLink="/contact"
+                [routerLink]="'/contact' | localizeLink"
                 class="mt-auto block w-full px-6 py-3 text-center font-semibold rounded-lg transition-all duration-300"
                 [ngClass]="tier.popular ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:shadow-lg hover:scale-105' : 'bg-white/50 dark:bg-primary-800/50 text-primary-600 dark:text-primary-400 hover:bg-white/70 dark:hover:bg-primary-800/70'">
                 {{ tier.cta }}
@@ -323,7 +323,7 @@
       <!-- View Full Pricing Link -->
       <div class="text-center mt-12 animate-fade-in-up" style="animation-delay: 300ms">
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           class="group inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-semibold transition-all text-lg">
           View Detailed Pricing & Custom Packages
           <svg class="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,7 +349,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         @for (service of relatedServices; track service.id; let i = $index) {
           <a
-            [routerLink]="service.route"
+            [routerLink]="service.route | localizeLink"
             [attr.aria-label]="'Learn more about ' + service.title"
             class="group relative block rounded-xl animate-fade-in-up overflow-hidden"
             [style.animation-delay]="i * 100 + 'ms'">
@@ -401,13 +401,13 @@
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            routerLink="/contact"
+            [routerLink]="'/contact' | localizeLink"
             class="group px-8 py-4 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2">
             <ng-icon name="faEnvelope" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
             Schedule Free Consultation
           </a>
           <a
-            routerLink="/contact"
+            [routerLink]="'/contact' | localizeLink"
             class="group px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 inline-flex items-center justify-center gap-2">
             <ng-icon name="faCircleCheck" size="20" class="group-hover:scale-110 transition-transform"></ng-icon>
             View Full Pricing

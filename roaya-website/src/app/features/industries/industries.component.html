@@ -69,7 +69,7 @@
         <!-- CTA -->
         <div class="px-6 pb-6 mt-auto">
           <a
-            [routerLink]="['/industries', industry.id]"
+            [routerLink]="['/industries', industry.id] | localizeLink"
             class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-secondary-50 dark:bg-secondary-900/30 text-secondary-600 dark:text-secondary-400 rounded-xl font-semibold hover:bg-secondary-100 dark:hover:bg-secondary-900/50 transition-colors"
           >
             {{ 'industries.learnMore' | translate }}
@@ -221,7 +221,7 @@
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold hover:bg-neutral-100 transition-colors"
         >
           {{ 'industries.cta.button' | translate }}
@@ -230,7 +230,7 @@
           </svg>
         </a>
         <a
-          routerLink="/services"
+          [routerLink]="'/services' | localizeLink"
           class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-xl font-semibold hover:bg-white/20 transition-colors"
         >
           {{ 'industries.cta.secondaryButton' | translate }}

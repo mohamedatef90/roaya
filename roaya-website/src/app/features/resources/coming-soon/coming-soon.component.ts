@@ -13,6 +13,7 @@ import {
 } from '@ng-icons/lucide';
 import { AnalyticsService } from '../../../core/services/analytics.service';
 import { SEOService } from '../../../core/services/seo.service';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 export type ComingSoonType = 'whitepapers' | 'documentation';
 
@@ -24,7 +25,8 @@ export type ComingSoonType = 'whitepapers' | 'documentation';
     FormsModule,
     RouterLink,
     TranslateModule,
-    NgIconComponent
+    NgIconComponent,
+    LocalizeLinkPipe
   ],
   viewProviders: [
     provideIcons({

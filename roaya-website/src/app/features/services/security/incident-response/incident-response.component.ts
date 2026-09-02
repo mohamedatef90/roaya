@@ -41,6 +41,7 @@ import {
 } from '@ng-icons/lucide';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LocalizeLinkPipe } from '../../../../core/i18n/localize-link.pipe';
 
 /**
  * Incident Response & Digital Forensics Sub-Page
@@ -50,7 +51,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 @Component({
   selector: 'app-incident-response',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './incident-response.component.html',
   styleUrl: './incident-response.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

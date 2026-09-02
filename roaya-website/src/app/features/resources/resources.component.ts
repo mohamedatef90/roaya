@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnalyticsService } from '../../core/services/analytics.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 export interface Resource {
   id: string;
@@ -18,7 +19,7 @@ export interface Resource {
 @Component({
   selector: 'app-resources',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, LocalizeLinkPipe],
   templateUrl: './resources.component.html',
   styleUrl: './resources.component.scss'
 })

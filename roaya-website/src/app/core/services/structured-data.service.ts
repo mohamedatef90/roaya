@@ -13,6 +13,7 @@ import {
 import { ROUTE_METADATA } from '../seo/route-metadata';
 import { Locale, splitLocale, withLocale } from '../i18n/locale-routing';
 import { StructuredDataGraph, StructuredDataNode } from '../seo/json-ld.types';
+import { CASE_STUDY_MAP, CaseStudyRecord } from '../../features/resources/case-studies/case-studies.data';
 
 const SCRIPT_ID = 'roaya-structured-data';
 
@@ -75,15 +76,21 @@ export class StructuredDataService {
    * Compose the page's `@graph`:
    *   Organization + WebSite   site-wide identity, every route
    *   Service                  only where ROUTE_ENTITY_MAP approves it
-   *   WebPage                  every route with approved registry metadata
+   *   WebPage                  every route with approved registry metadata,
+   *                            plus the case-study detail routes
+   *   Article                  case-study detail routes (approved 2026-09-01)
    *   BreadcrumbList           every route with a resolvable ancestry
    *
-   * Deliberately carries NO `description` on WebPage. The route's meta
-   * description is approved for a meta tag, but on the case-study routes it
-   * restates a registry-*blocked* metric claim ("42% cost reduction"), and
-   * structured data is the one surface where those must not appear. A name +
-   * URL + hierarchy is the whole value here anyway; the prose is already in
-   * the HTML the same crawler is reading.
+   * Case-study nodes were deliberately withheld while the case-study claims
+   * were registry-blocked; they are emitted since the product-owner approval
+   * of 2026-09-01 (docs/decisions/2026-09-01-claim-approvals.md, mirrored in
+   * scripts/claim-evidence/registry.json — all five case_study entries are
+   * "verified"). If a case study is ever re-blocked, remove its emission here
+   * in the same change.
+   *
+   * Still deliberately carries NO `description` on WebPage: a name + URL +
+   * hierarchy is the whole value here; the prose is already in the HTML the
+   * same crawler is reading.
    */
   private buildNodes(path: string, locale: Locale): StructuredDataNode[] {
     const origin = this.seo.buildCanonicalUrl('/');
@@ -101,8 +108,9 @@ export class StructuredDataService {
     // website" about a page that does not exist.
     const metadata = ROUTE_METADATA[path];
     const serviceIds = ROUTE_ENTITY_MAP[path]?.serviceIds ?? [];
-    const breadcrumb = this.buildBreadcrumb(path, url, locale);
-    if (!metadata && !breadcrumb && serviceIds.length === 0) {
+    const caseStudy = this.caseStudyFor(path);
+    const breadcrumb = this.buildBreadcrumb(path, url, locale, caseStudy);
+    if (!metadata && !breadcrumb && serviceIds.length === 0 && !caseStudy) {
       return [];
     }
 
@@ -141,11 +149,16 @@ export class StructuredDataService {
       nodes.push(breadcrumb);
     }
 
-    if (metadata) {
+    if (metadata || caseStudy) {
+      // A case study's page name is its rendered H1 (hero.title); registered
+      // static routes keep using their registry title key.
+      const pageName = metadata
+        ? this.translate.instant(metadata.titleKey)
+        : this.translate.instant(`${caseStudy!.translationKey}.hero.title`);
       const webPage: StructuredDataNode = {
         '@type': 'WebPage',
         '@id': `${url}#webpage`,
-        name: this.translate.instant(metadata.titleKey),
+        name: pageName,
         url,
         inLanguage: this.activeLanguage(),
         isPartOf: { '@id': websiteId },
@@ -157,20 +170,59 @@ export class StructuredDataService {
       nodes.push(webPage);
     }
 
+    if (caseStudy) {
+      // Approved 2026-09-01. No datePublished on purpose: the case studies
+      // carry no verified publication date, and structured data must not
+      // invent one.
+      nodes.push({
+        '@type': 'Article',
+        '@id': `${url}#article`,
+        headline: this.translate.instant(`${caseStudy.translationKey}.hero.title`),
+        url,
+        inLanguage: this.activeLanguage(),
+        mainEntityOfPage: { '@id': `${url}#webpage` },
+        author: { '@id': organizationId },
+        publisher: { '@id': organizationId }
+      });
+    }
+
     return nodes;
+  }
+
+  /**
+   * The registered case study for a `/resources/case-studies/<slug>` path,
+   * or null. Unknown slugs return null and keep the 404 free of structured
+   * data, exactly like any other unknown route.
+   */
+  private caseStudyFor(path: string): CaseStudyRecord | null {
+    const prefix = '/resources/case-studies/';
+    if (!path.startsWith(prefix)) {
+      return null;
+    }
+    const slug = path.slice(prefix.length);
+    if (!slug || slug.includes('/')) {
+      return null;
+    }
+    return CASE_STUDY_MAP[slug] ?? null;
   }
 
   /**
    * Ancestry-derived BreadcrumbList: every ancestor of `path` that carries a
    * visible label, then the page itself.
    *
-   * A path whose own leaf has no label (today: the case-study detail routes,
-   * whose only short titles are blocked metric claims) still gets the chain
-   * up to its parent, which is a valid BreadcrumbList - not a partial one.
-   * Anything shorter than Home + one level is dropped rather than emitted as
-   * a single-item list.
+   * A path whose own leaf has no label still gets the chain up to its parent,
+   * which is a valid BreadcrumbList - not a partial one. Case-study detail
+   * routes append their own leaf (the hero title) since the 2026-09-01
+   * approval; their titles were previously blocked metric claims. Anything
+   * shorter than Home + one level is dropped rather than emitted as a
+   * single-item list.
    */
-  private buildBreadcrumb(path: string, url: string, locale: Locale): StructuredDataNode | null {
+  private buildBreadcrumb(
+    path: string,
+    url: string,
+    locale: Locale,
+    caseStudy: CaseStudyRecord | null = null
+  ): StructuredDataNode | null {
     const segments = path === '/' ? [] : path.slice(1).split('/');
     const paths = ['/', ...segments.map((_, index) => `/${segments.slice(0, index + 1).join('/')}`)];
 
@@ -183,6 +235,15 @@ export class StructuredDataService {
         name: this.translate.instant(entry.key),
         item: this.seo.buildCanonicalUrl(withLocale(entry.path, locale))
       }));
+
+    if (caseStudy) {
+      items.push({
+        '@type': 'ListItem' as const,
+        position: items.length + 1,
+        name: this.translate.instant(`${caseStudy.translationKey}.hero.title`),
+        item: url
+      });
+    }
 
     if (items.length < 2) {
       return null;

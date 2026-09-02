@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, inject, ChangeDetectionStr
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../../../core/i18n/localize-link.pipe';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideShield,
@@ -39,7 +40,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 @Component({
   selector: 'app-soc-solutions',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './soc-solutions.component.html',
   styleUrl: './soc-solutions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

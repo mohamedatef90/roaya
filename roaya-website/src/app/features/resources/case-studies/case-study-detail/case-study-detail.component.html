@@ -19,7 +19,7 @@
       </div>
       <h1 class="text-3xl font-bold mb-4">{{ 'caseStudies.detail.notFound.title' | translate }}</h1>
       <p class="text-content-secondary mb-8">{{ 'caseStudies.detail.notFound.description' | translate }}</p>
-      <a routerLink="/resources/case-studies" class="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
+      <a [routerLink]="'/resources/case-studies' | localizeLink" class="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
         <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180"></ng-icon>
         {{ 'caseStudies.detail.notFound.back' | translate }}
       </a>
@@ -40,7 +40,7 @@
 
       <div class="container-custom relative z-10">
         <!-- Back Button -->
-        <a routerLink="/resources/case-studies" class="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors group">
+        <a [routerLink]="'/resources/case-studies' | localizeLink" class="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors group">
           <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180 group-hover:-translate-x-1 rtl:group-hover:translate-x-1 transition-transform"></ng-icon>
           {{ 'caseStudies.detail.back' | translate }}
         </a>
@@ -350,7 +350,7 @@
             <div class="grid md:grid-cols-2 gap-6">
               @for (related of relatedCaseStudies(); track related.slug) {
                 <a
-                  [routerLink]="['/resources/case-studies', related.slug]"
+                  [routerLink]="['/resources/case-studies', related.slug] | localizeLink"
                   class="group block bg-background rounded-xl border border-border p-6 hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                   [attr.aria-label]="'View case study: ' + (related.translationKey + '.hero.title' | translate)"
                 >
@@ -388,14 +388,14 @@
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              routerLink="/contact"
+              [routerLink]="'/contact' | localizeLink"
               class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold hover:bg-neutral-100 transition-all hover:scale-105"
             >
               {{ 'caseStudies.detail.cta.button' | translate }}
               <ng-icon name="lucideChevronRight" size="20" class="rtl:rotate-180"></ng-icon>
             </a>
             <a
-              routerLink="/roi-calculator"
+              [routerLink]="'/roi-calculator' | localizeLink"
               class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-xl font-semibold hover:bg-white/20 transition-all"
             >
               {{ 'cta.seeHowMuchSave' | translate }}

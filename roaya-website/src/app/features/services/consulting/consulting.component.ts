@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import {
   faCircleCheck,
   faBuilding,
@@ -21,7 +22,7 @@ import {
 @Component({
   selector: 'app-consulting',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './consulting.component.html',
   styleUrl: './consulting.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

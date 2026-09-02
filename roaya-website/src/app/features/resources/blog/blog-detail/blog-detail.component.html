@@ -18,7 +18,7 @@
   <p class="text-content-secondary mb-8">
     {{ 'blog.detail.notFound.description' | translate }}
   </p>
-  <a routerLink="/resources/blog"
+  <a [routerLink]="'/resources/blog' | localizeLink"
     class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white rounded-lg hover:bg-navy/90 transition-colors focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2">
     <ng-icon name="lucideArrowLeft" size="20" aria-hidden="true"></ng-icon>
     {{ 'blog.detail.notFound.back' | translate }}
@@ -39,7 +39,7 @@
 
     <div class="container-custom relative z-10">
       <!-- Back Link -->
-      <a routerLink="/resources/blog"
+      <a [routerLink]="'/resources/blog' | localizeLink"
         class="inline-flex items-center gap-2 text-neutral-600 hover:text-content-primary dark:text-white/80 mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy rounded-lg px-2 py-1 -mx-2 -my-1">
         <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
         {{ 'blog.detail.back' | translate }}
@@ -203,7 +203,7 @@
           </h2>
           <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
             @for (relatedPost of relatedPosts(); track relatedPost.id) {
-            <a [routerLink]="['/resources/blog', relatedPost.slug]"
+            <a [routerLink]="['/resources/blog', relatedPost.slug] | localizeLink"
               class="group block bg-surface-secondary rounded-xl border border-edge-subtle overflow-hidden hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-teal focus:ring-offset-2"
               [attr.aria-label]="'Read article: ' + getRelatedPostTitle(relatedPost)">
               <article class="h-full flex flex-col">
@@ -238,7 +238,7 @@
           <p class="text-lg text-white/90 mb-8">
             {{ 'blog.detail.cta.description' | translate }}
           </p>
-          <a routerLink="/contact"
+          <a [routerLink]="'/contact' | localizeLink"
             class="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy rounded-xl font-semibold hover:bg-neutral-100 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal">
             {{ 'blog.detail.cta.button' | translate }}
             <ng-icon name="lucideArrowRight" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
@@ -261,7 +261,7 @@
             <ul class="space-y-2.5">
               @for (service of sidebarServices; track service.id) {
               <li>
-                <a [routerLink]="service.route"
+                <a [routerLink]="service.route | localizeLink"
                   class="group flex items-center justify-between text-content-secondary hover:text-navy dark:hover:text-teal transition-colors text-sm">
                   <span>{{ service.title | translate }}</span>
                   <ng-icon name="lucideArrowRight" size="14"

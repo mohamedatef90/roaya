@@ -12,9 +12,11 @@
 
 export const ORGANIZATION_NAME = 'Roaya IT';
 
-// Approved Stage 0 fact; mirrors src/assets/i18n/en.json "about.story.p1"
-// ("Founded in 2018, Roaya IT emerged from...").
-export const ORGANIZATION_FOUNDING_DATE = '2018';
+// Approved fact (product-owner decision 2026-09-01, resolving the
+// 2018-vs-2012 ambiguity in favor of the LinkedIn company record — see
+// docs/decisions/2026-09-01-claim-approvals.md); mirrors
+// src/assets/i18n/en.json "about.story.p1" ("Founded in 2012, ...").
+export const ORGANIZATION_FOUNDING_DATE = '2012';
 
 export type ApprovedServiceId = 'cloudedge' | 'posta';
 
@@ -62,11 +64,13 @@ export const APPROVED_SERVICES: readonly ApprovedService[] = [
  * the `json-ld-exclusion-gates` evidence check, so a breadcrumb can never
  * render a raw key or silently fall back to English on the Arabic site.
  *
- * `/resources/case-studies/:slug` is deliberately absent: those pages have no
- * short label that is not also a registry-blocked metric claim (every
- * case-study title carries its headline number, e.g. "42% Cost Reduction").
- * Their breadcrumb therefore ends at the listing page, which is a complete,
- * valid BreadcrumbList - not a partial one.
+ * `/resources/case-studies/:slug` is absent from this map because the slugs
+ * are dynamic: StructuredDataService appends the case-study leaf itself,
+ * using the study's translated hero.title. Those titles were registry-blocked
+ * metric claims until the product-owner approval of 2026-09-01
+ * (docs/decisions/2026-09-01-claim-approvals.md); the leaf, WebPage, and
+ * Article nodes for case studies are emitted only because that approval
+ * stands — re-blocking a case study must remove its emission again.
  */
 export const BREADCRUMB_LABEL_KEYS: Readonly<Record<string, string>> = {
   '/': 'common.home',
@@ -120,7 +124,7 @@ export interface RouteEntityConfig {
 // and hand-written `breadcrumb` chains. Both moved out and neither is a
 // dropped fact:
 //   - Organization/WebSite are site-wide identity built from verified claims
-//     only (name, url, foundingDate 2018), so StructuredDataService now emits
+//     only (name, url, foundingDate 2012), so StructuredDataService now emits
 //     them on EVERY route instead of only on '/'. Repeating the same `@id` on
 //     every page is how consumers resolve `provider`/`isPartOf` references.
 //   - Breadcrumbs are derived from the URL hierarchy plus BREADCRUMB_LABEL_KEYS

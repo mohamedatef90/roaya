@@ -50,3 +50,48 @@ export function withLocale(path: string, locale: Locale): string {
   const base = path === '/' ? '' : path;
   return `${LOCALE_SEGMENT[locale]}${base}` || '/';
 }
+
+/**
+ * Localize Angular Router commands (a `routerLink` value or a
+ * `router.navigate` array) into `locale`'s URL tree.
+ *
+ * Every public route exists twice — unprefixed (English) and under `/ar`
+ * (Arabic) — so an ABSOLUTE link written as `/services/cloud` silently drops
+ * an Arabic reader into the English tree (2026-09-01 AI-readiness audit:
+ * every internal link on every Arabic page did exactly this). This helper is
+ * the single place that adds the locale prefix; templates reach it through
+ * `LocalizeLinkPipe` and TypeScript code through
+ * `LanguageService.localizeCommands`.
+ *
+ * Rules:
+ * - `locale === 'en'` returns the input unchanged (English is unprefixed).
+ * - Only ABSOLUTE internal paths are rewritten. Relative commands already
+ *   resolve inside the current (locale-correct) tree, and fragments, query
+ *   strings, external URLs, and `mailto:`/`tel:` are none of this helper's
+ *   business.
+ * - `/ar...` inputs are returned unchanged (already localized) and `/admin`
+ *   is never prefixed (the admin area has no Arabic mirror).
+ */
+export function localizeRouterCommands(
+  commands: string | readonly unknown[],
+  locale: Locale
+): string | unknown[] {
+  const localizePath = (path: string): string => {
+    if (locale === 'en' || !path.startsWith('/')) {
+      return path;
+    }
+    if (path === '/ar' || path.startsWith('/ar/') || path === '/admin' || path.startsWith('/admin/')) {
+      return path;
+    }
+    return withLocale(path === '/' ? '/' : path, locale);
+  };
+
+  if (typeof commands === 'string') {
+    return localizePath(commands);
+  }
+  if (Array.isArray(commands) && commands.length > 0 && typeof commands[0] === 'string') {
+    const [first, ...rest] = commands;
+    return [localizePath(first), ...rest];
+  }
+  return [...commands];
+}

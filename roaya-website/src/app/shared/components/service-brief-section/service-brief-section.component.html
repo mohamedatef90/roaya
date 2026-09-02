@@ -88,7 +88,7 @@
         <div class="flex flex-col sm:flex-row gap-4">
           <!-- Primary CTA -->
           <a
-            [routerLink]="config.primaryCta.route"
+            [routerLink]="config.primaryCta.route | localizeLink"
             class="service-brief__cta inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold
                    transition-all duration-300 transform hover:scale-105 hover:shadow-lg
                    focus:outline-none focus:ring-2 focus:ring-offset-2"
@@ -114,7 +114,7 @@
           <!-- Secondary CTA -->
           <a
             *ngIf="config.secondaryCta"
-            [routerLink]="config.secondaryCta.route"
+            [routerLink]="config.secondaryCta.route | localizeLink"
             class="service-brief__cta inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold
                    transition-all duration-300 transform hover:scale-105 hover:shadow-lg
                    focus:outline-none focus:ring-2 focus:ring-offset-2"

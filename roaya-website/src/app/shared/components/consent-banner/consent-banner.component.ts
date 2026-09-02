@@ -2,6 +2,7 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 /**
  * GDPR Consent Banner
@@ -11,7 +12,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-consent-banner',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, LocalizeLinkPipe],
   template: `
     @if (showBanner()) {
       <div class="fixed bottom-0 inset-x-0 z-50 p-3 bg-surface-elevated border-t border-edge-subtle shadow-2xl">
@@ -26,7 +27,7 @@ import { RouterLink } from '@angular/router';
               <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1">
                 <p class="text-sm text-content-secondary leading-snug">
                   We use analytics cookies to improve your experience. Session recording stays off unless you enable it.
-                  <a [routerLink]="['/privacy']" class="text-primary-600 dark:text-secondary-400 underline hover:no-underline">Learn more</a>
+                  <a [routerLink]="['/privacy'] | localizeLink" class="text-primary-600 dark:text-secondary-400 underline hover:no-underline">Learn more</a>
                 </p>
                 <!-- Recording Checkbox -->
                 <label class="flex items-center gap-2 shrink-0 cursor-pointer">

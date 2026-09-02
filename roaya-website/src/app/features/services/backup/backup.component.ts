@@ -15,6 +15,7 @@ import {
 import {
   faSolidShield
 } from '@ng-icons/font-awesome/solid';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 /**
  * Backup & Recovery Standalone Component
@@ -24,7 +25,7 @@ import {
 @Component({
   selector: 'app-backup',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './backup.component.html',
   styleUrl: './backup.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

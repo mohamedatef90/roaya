@@ -827,7 +827,7 @@
 
       <!-- CTA Buttons -->
       <div class="hero-cta">
-        <a routerLink="/contact" class="cta-button primary">
+        <a [routerLink]="'/contact' | localizeLink" class="cta-button primary">
           <ng-icon name="lucideMessageSquare" size="20"></ng-icon>
           <span>{{ 'services.ai.page.hero.ctaPrimary' | translate }}</span>
         </a>
@@ -1709,7 +1709,7 @@
 
       <!-- CTA Button -->
       <div class="destination-cta">
-        <a routerLink="/contact" class="cta-button">
+        <a [routerLink]="'/contact' | localizeLink" class="cta-button">
           <ng-icon name="lucideMessageSquare" size="24"></ng-icon>
           <span>{{ 'services.ai.page.cta.button' | translate }}</span>
           <ng-icon name="lucideArrowRight" size="20" class="rtl:rotate-180"></ng-icon>
@@ -1746,7 +1746,7 @@
 
       <div class="related-links">
         @for (service of relatedServices; track service.id) {
-          <a [routerLink]="service.route" [attr.aria-label]="'services.ai.page.related.services.' + service.id | translate" class="related-link">
+          <a [routerLink]="service.route | localizeLink" [attr.aria-label]="'services.ai.page.related.services.' + service.id | translate" class="related-link">
             <ng-icon [name]="service.icon" size="24"></ng-icon>
             <span>{{ 'services.ai.page.related.services.' + service.id | translate }}</span>
             <ng-icon name="lucideArrowRight" size="18" class="rtl:rotate-180"></ng-icon>

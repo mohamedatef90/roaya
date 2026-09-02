@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ScrollSmootherService } from './scroll-smoother.service';
+import { LanguageService } from './language.service';
 
 export interface NavItem {
   label: string;
@@ -42,6 +43,7 @@ export class NavigationService {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly scrollSmootherService = inject(ScrollSmootherService);
+  private readonly languageService = inject(LanguageService);
 
   // Signal for mobile menu state
   mobileMenuOpen = signal<boolean>(false);
@@ -242,7 +244,7 @@ export class NavigationService {
    * Navigate to route
    */
   navigateTo(route: string): void {
-    this.router.navigate([route]);
+    this.router.navigate(this.languageService.localizeCommands([route]) as any[]);
   }
 
   /**

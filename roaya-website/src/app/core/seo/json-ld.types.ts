@@ -57,12 +57,30 @@ export interface WebPageNode {
   breadcrumb?: { '@id': string };
 }
 
+/**
+ * A case-study article (emitted since the 2026-09-01 claim approvals — see
+ * docs/decisions/2026-09-01-claim-approvals.md). No datePublished on purpose:
+ * the case studies carry no verified publication date, and structured data
+ * must never invent one.
+ */
+export interface ArticleNode {
+  '@type': 'Article';
+  '@id': string;
+  headline: string;
+  url: string;
+  inLanguage: string;
+  mainEntityOfPage: { '@id': string };
+  author: { '@id': string };
+  publisher: { '@id': string };
+}
+
 export type StructuredDataNode =
   | OrganizationNode
   | WebSiteNode
   | ServiceNode
   | BreadcrumbListNode
-  | WebPageNode;
+  | WebPageNode
+  | ArticleNode;
 
 export interface StructuredDataGraph {
   '@context': 'https://schema.org';

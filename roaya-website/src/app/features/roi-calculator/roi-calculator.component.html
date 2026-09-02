@@ -219,7 +219,7 @@
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            routerLink="/contact"
+            [routerLink]="'/contact' | localizeLink"
             class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
           >
             {{ 'cta.talkToExpert' | translate }}

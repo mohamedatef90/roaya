@@ -201,7 +201,14 @@ export class SEOService {
 
     // Route-level SEO calls can run after the initial NavigationEnd event.
     // Set the canonical here as well so direct visits always receive one.
-    this.setCanonicalUrl(data.url || window.location.href);
+    // Server-safe: built from the fixed origin + router path, never from
+    // `window.location`. `window` does not exist during SSR/prerender — the
+    // old `window.location.href` fallback threw a ReferenceError on the
+    // server for any caller that omitted `url` (every case-study page), and
+    // the exception landed before the caller could clear its loading state,
+    // so crawlers received only the loading shell (found in the 2026-09-01
+    // AI-readiness audit).
+    this.setCanonicalUrl(data.url || this.buildCanonicalUrl(this.router.url));
 
     // Open Graph tags
     this.setOpenGraphTags({

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { splitLocale, withLocale } from '../i18n/locale-routing';
+import { localizeRouterCommands, splitLocale, withLocale } from '../i18n/locale-routing';
 import { TranslationCacheService } from './translation-cache.service';
 import { GoogleTranslateService } from './google-translate.service';
 
@@ -194,6 +194,17 @@ export class LanguageService {
    */
   getCurrentLanguage(): Language {
     return this.language();
+  }
+
+  /**
+   * Localize Router commands (a `router.navigate` array or a routerLink
+   * value) into the ACTIVE locale's URL tree — `/ar`-prefixed on Arabic
+   * pages, unchanged on English ones. Templates use `LocalizeLinkPipe`;
+   * TypeScript navigation goes through this so a programmatic
+   * `router.navigate(['/contact'])` from an Arabic page stays in Arabic.
+   */
+  localizeCommands(commands: string | readonly unknown[]): string | unknown[] {
+    return localizeRouterCommands(commands, this.language());
   }
 
   /**

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 interface Industry {
   id: string;
@@ -27,7 +28,7 @@ interface CaseStudy {
 @Component({
   selector: 'app-industries',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, LocalizeLinkPipe],
   templateUrl: './industries.component.html',
   styleUrl: './industries.component.scss'
 })

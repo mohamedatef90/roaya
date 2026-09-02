@@ -13,6 +13,7 @@ import {
   lucideTrendingUp,
   lucideStar
 } from '@ng-icons/lucide';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import { AnalyticsService } from '../../../core/services/analytics.service';
 import { BlogService } from '../../../core/services/blog.service';
 import { LanguageService } from '../../../core/services/language.service';
@@ -24,7 +25,7 @@ type SortOption = 'latest' | 'popular' | 'featured';
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, NewsletterSignupComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, NewsletterSignupComponent, LocalizeLinkPipe],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
   providers: [

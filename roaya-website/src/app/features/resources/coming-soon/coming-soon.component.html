@@ -93,7 +93,7 @@
     <!-- Back to Resources Link -->
     <div class="mt-10 pt-6 divider border-t">
       <a
-        routerLink="/resources"
+        [routerLink]="'/resources' | localizeLink"
         class="back-link inline-flex items-center gap-2 text-sm group"
       >
         <ng-icon

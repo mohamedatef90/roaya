@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import {
   lucideBrain,
   lucideBot,
@@ -67,7 +68,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 @Component({
   selector: 'app-ai',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './ai.component.html',
   styleUrl: './ai.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

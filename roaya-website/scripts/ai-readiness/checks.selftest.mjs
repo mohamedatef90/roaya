@@ -281,8 +281,8 @@ check(
   'approved-factual-consistency fails when a verified sourcePointer fragment is renamed away',
   withSandbox(
     (ctx) => editFile(join(ctx.srcApp, '..', 'assets/i18n/en.json'), (t) => t.replace(
-      '"p1": "Founded in 2018,',
-      '"p1renamed": "Founded in 2018,',
+      '"p1": "Founded in 2012,',
+      '"p1renamed": "Founded in 2012,',
     )),
     (ctx) => checkApprovedFactualConsistency(ctx).status === 'fail',
   ),
@@ -293,7 +293,7 @@ check(
     (ctx) => editFile(join(ctx.claimEvidenceDir, 'registry.json'), (t) => {
       const registry = JSON.parse(t);
       const dup = JSON.parse(JSON.stringify(registry.claims.find((c) => c.id === 'clients-150-plus')));
-      dup.id = 'founded-2018';
+      dup.id = 'founded-2012';
       registry.claims.push(dup);
       return JSON.stringify(registry);
     }),
@@ -305,7 +305,7 @@ check(
   withSandbox(
     (ctx) => editFile(join(ctx.claimEvidenceDir, 'registry.json'), (t) => {
       const registry = JSON.parse(t);
-      const claim = registry.claims.find((c) => c.id === 'founded-2018');
+      const claim = registry.claims.find((c) => c.id === 'founded-2012');
       claim.sourcePointer = 'src/assets/i18n/nonexistent.json#about.story.p1';
       return JSON.stringify(registry);
     }),

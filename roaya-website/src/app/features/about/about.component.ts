@@ -14,6 +14,7 @@ import {
   lucideMail
 } from '@ng-icons/lucide';
 import { ContentService, TeamMember as ApiTeamMember } from '../../core/services/content.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 interface Value {
   icon: string;
@@ -30,7 +31,7 @@ interface Milestone {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
   providers: [
@@ -104,7 +105,8 @@ export class AboutComponent implements OnInit {
 
   stats = [
     { value: '150+', label: 'about.stats.clients' },
-    { value: '6+', label: 'about.stats.years' },
+    // 14+ follows from the approved 2012 founding year (2026-09-01 decision).
+    { value: '14+', label: 'about.stats.years' },
     { value: '50+', label: 'about.stats.team' },
     { value: '99.9%', label: 'about.stats.uptime' }
   ];

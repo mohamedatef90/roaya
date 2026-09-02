@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { LocalizeLinkPipe } from '../../../../../core/i18n/localize-link.pipe';
 
 export interface SidebarItem {
   id: string;
@@ -45,7 +46,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
 @Component({
   selector: 'ui-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LocalizeLinkPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <aside [class]="sidebarClass">
@@ -96,7 +97,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                 <!-- Simple item -->
                 <a
                   *ngIf="item.route; else buttonItem"
-                  [routerLink]="item.route"
+                  [routerLink]="item.route | localizeLink"
                   routerLinkActive="bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400"
                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-content-secondary transition-colors hover:bg-surface-hover"
                   [class.justify-center]="collapsed()"
@@ -174,7 +175,7 @@ type SidebarVariants = VariantProps<typeof sidebarVariants>;
                     <li *ngFor="let child of item.children">
                       <a
                         *ngIf="child.route; else childButton"
-                        [routerLink]="child.route"
+                        [routerLink]="child.route | localizeLink"
                         routerLinkActive="text-primary-600 dark:text-primary-400"
                         class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-content-secondary transition-colors hover:bg-surface-hover"
                         [class.opacity-50]="child.disabled"

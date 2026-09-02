@@ -40,7 +40,7 @@
            name for that destination. The separate "Home" nav item was removed
            as a duplicate: it pointed at the same route as the logo. -->
       <a
-        routerLink="/"
+        [routerLink]="'/' | localizeLink"
         [attr.aria-label]="'common.home' | translate"
         class="flex items-center gap-3 focus-ring rounded-lg group"
       >
@@ -84,7 +84,7 @@
 
         <!-- About -->
         <a
-          routerLink="/about"
+          [routerLink]="'/about' | localizeLink"
           routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
           class="px-3 py-1.5 rounded-full text-content-secondary hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
         >
@@ -93,7 +93,7 @@
 
         <!-- Contact -->
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
           class="px-3 py-1.5 rounded-full text-content-secondary hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
         >
@@ -155,7 +155,7 @@
 
         <!-- CTA Button (Desktop) -->
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           class="hidden lg:inline-flex btn-primary text-sm rounded-full px-5 py-2"
         >
           {{ 'common.getStarted' | translate }}
@@ -182,7 +182,7 @@
     <div class="flex items-center justify-between p-4 border-b border-border">
       <!-- Logo -->
       <a
-        routerLink="/"
+        [routerLink]="'/' | localizeLink"
         (click)="closeMobileMenu()"
         [attr.aria-label]="'common.home' | translate"
         class="flex items-center gap-3"
@@ -251,7 +251,7 @@
             class="flex flex-col gap-1 ps-4 mt-1 pb-2"
           >
             <a
-              routerLink="/services"
+              [routerLink]="'/services' | localizeLink"
               (click)="closeMobileMenu()"
               routerLinkActive="text-primary-500 dark:text-secondary-400"
               [routerLinkActiveOptions]="{exact: true}"
@@ -294,7 +294,7 @@
                 >
                   <!-- Overview link -->
                   <a
-                    [routerLink]="service.route"
+                    [routerLink]="service.route | localizeLink"
                     (click)="closeMobileMenu()"
                     routerLinkActive="text-primary-500 dark:text-secondary-400"
                     [routerLinkActiveOptions]="{exact: true}"
@@ -309,7 +309,7 @@
                   <!-- Child items -->
                   <a
                     *ngFor="let child of service.children"
-                    [routerLink]="child.route"
+                    [routerLink]="child.route | localizeLink"
                     (click)="closeMobileMenu()"
                     routerLinkActive="text-primary-500 dark:text-secondary-400"
                     class="flex items-center gap-2 px-4 py-2 rounded-lg text-content-muted hover:bg-surface-hover transition-colors text-sm"
@@ -332,7 +332,7 @@
               <!-- Regular service item (no children) -->
               <a
                 *ngIf="!hasChildren(service)"
-                [routerLink]="service.route"
+                [routerLink]="service.route | localizeLink"
                 (click)="closeMobileMenu()"
                 routerLinkActive="text-primary-500 dark:text-secondary-400"
                 class="flex items-center gap-2 px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors"
@@ -373,7 +373,7 @@
             class="flex flex-col gap-1 ps-4 mt-1 pb-2"
           >
             <a
-              routerLink="/industries"
+              [routerLink]="'/industries' | localizeLink"
               (click)="closeMobileMenu()"
               routerLinkActive="text-primary-500 dark:text-secondary-400"
               [routerLinkActiveOptions]="{exact: true}"
@@ -383,7 +383,7 @@
             </a>
             <a
               *ngFor="let industry of industryMenuItems"
-              [routerLink]="industry.route"
+              [routerLink]="industry.route | localizeLink"
               (click)="closeMobileMenu()"
               routerLinkActive="text-primary-500 dark:text-secondary-400"
               class="px-4 py-3 rounded-lg text-content-secondary hover:bg-surface-hover transition-colors"
@@ -395,7 +395,7 @@
 
         <!-- Resources -->
         <a
-          routerLink="/resources"
+          [routerLink]="'/resources' | localizeLink"
           (click)="closeMobileMenu()"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
           class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
@@ -405,7 +405,7 @@
 
         <!-- About -->
         <a
-          routerLink="/about"
+          [routerLink]="'/about' | localizeLink"
           (click)="closeMobileMenu()"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
           class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
@@ -415,7 +415,7 @@
 
         <!-- Contact -->
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           (click)="closeMobileMenu()"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
           class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
@@ -426,7 +426,7 @@
 
       <!-- CTA Button -->
       <a
-        routerLink="/contact"
+        [routerLink]="'/contact' | localizeLink"
         (click)="closeMobileMenu()"
         class="btn-primary w-full mt-6 justify-center text-lg py-4"
       >
@@ -486,7 +486,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
       <!-- Brand Column -->
       <div class="lg:col-span-1">
-        <a routerLink="/" class="flex items-center gap-3 mb-6">
+        <a [routerLink]="'/' | localizeLink" class="flex items-center gap-3 mb-6">
           <img
             src="/assets/images/roaya-logo.png"
             alt="Enterprise IT Solutions"
@@ -522,37 +522,37 @@
         <h3 class="font-semibold text-lg mb-6">{{ 'footer.solutions' | translate }}</h3>
         <ul class="space-y-3">
           <li>
-            <a routerLink="/services/cloud" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/cloud' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.cloud.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/aws" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/aws' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.aws.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/security" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/security' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.security.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/email" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/email' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.email.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/managed" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/managed' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.managed.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/backup" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/backup' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.backup.title' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/services/consulting" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/services/consulting' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'services.consulting.title' | translate }}
             </a>
           </li>
@@ -564,17 +564,17 @@
         <h3 class="font-semibold text-lg mb-6">{{ 'footer.company' | translate }}</h3>
         <ul class="space-y-3">
           <li>
-            <a routerLink="/about" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/about' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.about' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/industries" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/industries' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.industries' | translate }}
             </a>
           </li>
           <li>
-            <a routerLink="/contact" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+            <a [routerLink]="'/contact' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.contact' | translate }}
             </a>
           </li>
@@ -671,13 +671,13 @@
           © {{ currentYear }} {{ 'footer.allRightsReserved' | translate }}
         </p>
         <div class="flex items-center gap-6 text-sm">
-          <a routerLink="/privacy" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
+          <a [routerLink]="'/privacy' | localizeLink" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
             {{ 'footer.privacyPolicy' | translate }}
           </a>
-          <a routerLink="/terms" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
+          <a [routerLink]="'/terms' | localizeLink" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
             {{ 'footer.termsOfService' | translate }}
           </a>
-          <a routerLink="/cookies" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
+          <a [routerLink]="'/cookies' | localizeLink" class="footer-muted hover:text-[var(--footer-link-hover)] transition-colors">
             {{ 'footer.cookiePolicy' | translate }}
           </a>
         </div>

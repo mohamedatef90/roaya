@@ -4,6 +4,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationStart, Na
 import { TranslateModule } from '@ngx-translate/core';
 import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 import { NavigationService } from '../../core/services/navigation.service';
 import { LoadingService } from '../../core/services/loading.service';
 import { ScrollSmootherService } from '../../core/services/scroll-smoother.service';
@@ -20,7 +21,7 @@ import { throttleTime } from 'rxjs/operators';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, InitLoaderComponent, ConsentBannerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, LocalizeLinkPipe, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, InitLoaderComponent, ConsentBannerComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })

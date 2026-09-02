@@ -57,6 +57,12 @@ Before any case study in `scripts/claim-evidence/registry.json` moves out of
       the entry's `status` changes from `"blocked"`.
 - [ ] `npm run validate:claims` is re-run after the edit and passes.
 
+**2026-09-01:** All five current case studies were approved by the product
+owner and moved to `status: "verified"` — see
+`docs/decisions/2026-09-01-claim-approvals.md`. Both registry pointers cite
+that decision record; replace them with written per-client approval documents
+and metric-evidence files when those become available.
+
 ## 2. Blocked public surface exception policy
 
 Blocked registry entries (`status: "blocked"`) are checked against the explicit
@@ -162,16 +168,17 @@ human approval.
 
 ### Organization founding year
 
-**Current value:** `2018` (in `src/app/core/seo/entity-taxonomy.ts` and
-`src/assets/i18n/en.json` "about.story.p1")
+**Current value:** `2012` (in `src/app/core/seo/entity-taxonomy.ts`,
+`src/assets/i18n/en.json` / `ar.json` "about.story.p1", and `public/llms.txt`)
 
-**Ambiguity:** Some LinkedIn references or early external sources may show
-2012 as Roaya's founding year. The approved English content ("Founded in 2018,
-Roaya IT emerged from...") uses 2018. If 2012 is actually correct, the
-translation files and `ORGANIZATION_FOUNDING_DATE` in entity-taxonomy.ts must
-both be updated by a human after verification.
+**Resolution:** The 2018-vs-2012 ambiguity was resolved by the product owner
+on 2026-09-01 in favor of **2012**, matching the LinkedIn company record —
+see `docs/decisions/2026-09-01-claim-approvals.md`. The years-experience stat
+on the About page was updated to `14+` accordingly. Marketing owns keeping
+external profiles (LinkedIn, Google Business Profile, directories, partner
+listings) consistent with 2012.
 
-**Status:** Awaiting human verification.
+**Status:** ✓ Resolved by named human decision (2026-09-01).
 
 ### pentest-v2 redirect implementation
 

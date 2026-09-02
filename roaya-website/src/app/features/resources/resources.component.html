@@ -25,7 +25,7 @@
       <a
         *ngFor="let resource of resources"
         (click)="trackResourceClick(resource.id, resource.type)"
-        [routerLink]="resource.link"
+        [routerLink]="resource.link | localizeLink"
         class="group bg-surface rounded-2xl border border-border p-8 hover:shadow-xl transition-all duration-300 cursor-pointer"
       >
         <div class="text-5xl mb-4">{{ resource.icon }}</div>
@@ -57,7 +57,7 @@
         {{ 'resources.cta.description' | translate }}
       </p>
       <a
-        routerLink="/contact"
+        [routerLink]="'/contact' | localizeLink"
         class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold hover:bg-neutral-100 transition-all hover:scale-105"
       >
         {{ 'resources.cta.button' | translate }}

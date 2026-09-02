@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LocalizeLinkPipe } from '../../../../../core/i18n/localize-link.pipe';
 
 export interface MobileNavItem {
   id: string;
@@ -16,7 +17,7 @@ export interface MobileNavItem {
 @Component({
   selector: 'ui-mobile-nav',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LocalizeLinkPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Overlay -->
@@ -65,7 +66,7 @@ export interface MobileNavItem {
                 <!-- Simple item -->
                 <a
                   *ngIf="item.route; else buttonItem"
-                  [routerLink]="item.route"
+                  [routerLink]="item.route | localizeLink"
                   routerLinkActive="bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400"
                   class="flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium text-content-secondary transition-colors hover:bg-surface-hover"
                   [class.opacity-50]="item.disabled"
@@ -135,7 +136,7 @@ export interface MobileNavItem {
                     <li *ngFor="let child of item.children">
                       <a
                         *ngIf="child.route; else childButton"
-                        [routerLink]="child.route"
+                        [routerLink]="child.route | localizeLink"
                         routerLinkActive="text-primary-600 dark:text-primary-400"
                         class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-content-secondary transition-colors hover:bg-surface-hover"
                         [class.opacity-50]="child.disabled"

@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
 import { ContentService, ServicePackage } from '../../core/services/content.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 interface FAQ {
   question: string;
@@ -26,7 +27,7 @@ interface ServiceOption {
 @Component({
   selector: 'app-pricing',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslateModule, LocalizeLinkPipe],
   templateUrl: './pricing.component.html',
   styleUrl: './pricing.component.scss'
 })

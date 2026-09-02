@@ -17,6 +17,7 @@ import {
   faSolidShieldHalved,
   faSolidBoxArchive
 } from '@ng-icons/font-awesome/solid';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 /**
  * Email Service Standalone Component
@@ -26,7 +27,7 @@ import {
 @Component({
   selector: 'app-email',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './email.component.html',
   styleUrl: './email.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

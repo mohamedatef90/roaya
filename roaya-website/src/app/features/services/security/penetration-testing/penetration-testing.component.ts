@@ -35,6 +35,7 @@ import {
 } from '@ng-icons/lucide';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LocalizeLinkPipe } from '../../../../core/i18n/localize-link.pipe';
 
 /**
  * Penetration Testing & Security Assessment Sub-Page
@@ -44,7 +45,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 @Component({
   selector: 'app-penetration-testing',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './penetration-testing.component.html',
   styleUrl: './penetration-testing.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

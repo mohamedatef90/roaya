@@ -9,6 +9,8 @@ Applies to the Angular SSR server (`dist/roaya-website/server/server.mjs`,
 NODE_ENV=production
 PORT=4000
 NG_ALLOWED_HOSTS=roaya.co,www.roaya.co
+NG_TRUST_PROXY_HEADERS=x-forwarded-for,x-forwarded-proto
+NG_SSR_API_ORIGIN=http://127.0.0.1:3001
 ```
 
 ### `NG_ALLOWED_HOSTS` — required, and it fails open
@@ -90,6 +92,44 @@ C is exactly what nginx sends, so **every real request** hit the shell while a
 If nginx ever starts sending another forwarded header to SSR, add it here **and**
 to the activation gate in the same change, or SSR will silently serve shells.
 
+### `NG_SSR_API_ORIGIN` — required for API-backed pages to server-render content
+
+```
+NG_SSR_API_ORIGIN=http://127.0.0.1:3001
+```
+
+The production `environment.apiUrl` is origin-relative (`/api/v1`). During
+server-side rendering there is no origin to resolve it against, so
+`src/app/core/interceptors/ssr-api.interceptor.ts` historically **blocked**
+every backend API call on the server and pages fell back to their empty/default
+state. That is how both blog listing pages shipped "No posts found" to every
+crawler (2026-09-01 AI-readiness audit, P1).
+
+With this variable set, the interceptor rewrites **GET** requests to the
+backend API to this absolute origin and forwards them, so server-rendered pages
+(blog listing `/resources/blog`, blog detail `/resources/blog/:slug`, and any
+other API-backed content) carry their real content in the raw first HTTP
+response. Non-GET requests are still blocked during SSR — rendering must never
+replay mutations.
+
+The Express routes in `src/server.ts` use the same variable to build the
+dynamic machine files: `/sitemap.xml` (the static base merged with the
+published blog-post URLs, proxied through the dedicated nginx location) and
+`/rss.xml` (the blog feed). Both fall back gracefully — static-only sitemap,
+empty feed — when the variable is unset or the backend is down, and cache the
+post list for 10 minutes.
+
+Rules:
+
+- **Loopback only.** The SSR process and the backend (`roaya-api`, port 3001)
+  share the host; the render path must never leave it. The deploy script's
+  remote argument contract asserts the exact value `http://127.0.0.1:3001`.
+- **Unset ⇒ old behavior.** Build-time prerendering, CI, and the local
+  AI-readiness checks run without it, so prerendered output stays
+  deterministic and independent of whatever database a build machine has.
+- If the backend is down at render time, the fetch fails and the page renders
+  its fallback state with HTTP 200 — same as before this variable existed.
+
 ### nginx must overwrite X-Forwarded-For for SSR
 
 Because Angular now *trusts* `X-Forwarded-For`, a client-supplied chain must
@@ -167,10 +207,10 @@ correctly applied. Use pm2's own view, the saved dump, and a functional probe.
 
 ```
 # effective env pm2 applied (authoritative), non-secret keys only
-pm2 jlist | python3 -c "import sys,json;[print(k+'='+str(a['pm2_env'].get(k,'<UNSET>'))) for a in json.load(sys.stdin) if a['name']=='roaya-ssr' for k in ['NODE_ENV','PORT','NG_ALLOWED_HOSTS','NG_TRUST_PROXY_HEADERS']]"
+pm2 jlist | python3 -c "import sys,json;[print(k+'='+str(a['pm2_env'].get(k,'<UNSET>'))) for a in json.load(sys.stdin) if a['name']=='roaya-ssr' for k in ['NODE_ENV','PORT','NG_ALLOWED_HOSTS','NG_TRUST_PROXY_HEADERS','NG_SSR_API_ORIGIN']]"
 
 # what survives a reboot / pm2 resurrect
-python3 -c "import json,os;d=json.load(open(os.path.expanduser('~/.pm2/dump.pm2')));[print(k+'='+str((a.get('env') or {}).get(k,'<UNSET>'))) for a in d if a.get('name')=='roaya-ssr' for k in ['NODE_ENV','PORT','NG_ALLOWED_HOSTS','NG_TRUST_PROXY_HEADERS']]"
+python3 -c "import json,os;d=json.load(open(os.path.expanduser('~/.pm2/dump.pm2')));[print(k+'='+str((a.get('env') or {}).get(k,'<UNSET>'))) for a in d if a.get('name')=='roaya-ssr' for k in ['NODE_ENV','PORT','NG_ALLOWED_HOSTS','NG_TRUST_PROXY_HEADERS','NG_SSR_API_ORIGIN']]"
 
 # does the origin render, or is it the CSR shell?
 curl -s -o /tmp/probe.html -w '%{http_code} %{size_download}\n' --max-time 10 \

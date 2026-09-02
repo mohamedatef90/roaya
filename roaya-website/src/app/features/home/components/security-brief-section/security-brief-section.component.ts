@@ -12,6 +12,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../../../core/i18n/localize-link.pipe';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -34,7 +35,7 @@ import {
 @Component({
   selector: 'app-security-brief-section',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './security-brief-section.component.html',
   styleUrl: './security-brief-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

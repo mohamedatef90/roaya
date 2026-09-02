@@ -4,12 +4,13 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnalyticsService } from '../../../core/services/analytics.service';
 import { ContentService, CaseStudy } from '../../../core/services/content.service';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import { CASE_STUDIES } from './case-studies.data';
 
 @Component({
   selector: 'app-case-studies',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, LocalizeLinkPipe],
   templateUrl: './case-studies.component.html',
   styleUrl: './case-studies.component.scss'
 })

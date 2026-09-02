@@ -96,10 +96,13 @@
                   </ul>
                 }
 
-                <!-- CTA Link (optional) -->
+                <!-- CTA Link (optional). routerLink + localizeLink, not a
+                     plain [href]: a raw href bypasses the router (full page
+                     reload) and, on an Arabic page, dropped the reader into
+                     the English tree (2026-09-01 locale-aware link pass). -->
                 @if (card.link) {
                   <a
-                    [href]="card.link"
+                    [routerLink]="card.link | localizeLink"
                     class="card-stack-item__link"
                   >
                     {{ card.linkText ? (card.linkText | translate) : 'Learn more' }}

@@ -81,7 +81,7 @@
         <!-- CTA -->
         <div class="px-6 pb-6 mt-auto">
           <a
-            [routerLink]="service.route"
+            [routerLink]="service.route | localizeLink"
             [attr.aria-label]="('common.learnMore' | translate) + ' ' + (service.title | translate)"
             class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-secondary-400 rounded-xl font-semibold hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
           >
@@ -190,7 +190,7 @@
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white rounded-xl font-semibold hover:shadow-lg transition-all"
         >
           {{ 'services.cta.button' | translate }}
@@ -199,7 +199,7 @@
           </svg>
         </a>
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localizeLink"
           class="inline-flex items-center gap-2 px-8 py-4 bg-surface border border-border rounded-xl font-semibold hover:bg-surface-hover transition-colors"
         >
           {{ 'services.cta.secondaryButton' | translate }}

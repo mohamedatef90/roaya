@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   faSolidCrosshairs,
@@ -63,7 +64,7 @@ export interface MegaMenuGroup {
 @Component({
   selector: 'app-mega-menu',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIconComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIconComponent, LocalizeLinkPipe],
   viewProviders: [provideIcons({
     faSolidCrosshairs,
     faSolidInfinity,
@@ -144,7 +145,7 @@ export interface MegaMenuGroup {
                   (mouseleave)="hasChildren(item) ? hideNestedMenu() : null"
                 >
                   <a
-                    [routerLink]="item.route"
+                    [routerLink]="item.route | localizeLink"
                     (click)="onItemClick(item)"
                     class="group flex gap-3 p-3 rounded-xl hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-200 border border-transparent hover:border-white/30 dark:hover:border-white/20"
                     [class.bg-white/90]="activeNestedParent() === item.id"
@@ -201,7 +202,7 @@ export interface MegaMenuGroup {
                   (mouseleave)="hasChildren(item) ? hideNestedMenu() : null"
                 >
                   <a
-                    [routerLink]="item.route"
+                    [routerLink]="item.route | localizeLink"
                     (click)="onItemClick(item)"
                     class="group flex gap-3 p-3 rounded-xl hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-200 border border-transparent hover:border-white/30 dark:hover:border-white/20"
                     [class.bg-white/90]="activeNestedParent() === item.id"
@@ -259,7 +260,7 @@ export interface MegaMenuGroup {
             >
               <!-- Parent Service Link -->
               <a
-                [routerLink]="nestedItem.route"
+                [routerLink]="nestedItem.route | localizeLink"
                 (click)="onItemClick(nestedItem)"
                 class="group flex items-center gap-3 px-3 py-2.5 mb-3 rounded-xl bg-gradient-to-r from-primary-500/10 to-secondary-500/10 dark:from-primary-500/20 dark:to-secondary-500/20 hover:from-primary-500/20 hover:to-secondary-500/20 transition-all"
                 role="menuitem"
@@ -274,7 +275,7 @@ export interface MegaMenuGroup {
               <div class="space-y-1">
                 <a
                   *ngFor="let child of nestedItem.children"
-                  [routerLink]="child.route"
+                  [routerLink]="child.route | localizeLink"
                   (click)="onItemClick(child)"
                   class="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-200"
                   role="menuitem"
@@ -309,7 +310,7 @@ export interface MegaMenuGroup {
             <!-- Right: Featured Card -->
             <div *ngIf="getFeaturedItem() as featured" class="w-[200px] flex-shrink-0">
               <a
-                [routerLink]="featured.route"
+                [routerLink]="featured.route | localizeLink"
                 (click)="onItemClick(featured)"
                 class="group relative block h-full rounded-2xl overflow-hidden"
                 role="menuitem"
@@ -375,7 +376,7 @@ export interface MegaMenuGroup {
         <!-- Footer CTA -->
         <div class="px-6 py-4 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-sm border-t border-white/30 dark:border-white/20 rounded-b-[23px]">
           <a
-            [routerLink]="viewAllRoute"
+            [routerLink]="viewAllRoute | localizeLink"
             (click)="closeMenu()"
             class="inline-flex items-center gap-2 text-primary-500 dark:text-secondary-400 font-medium hover:underline"
           >

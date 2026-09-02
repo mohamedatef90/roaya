@@ -116,6 +116,7 @@ argv_matches() {
 # ---------------------------------------------------------------------------
 MARKER="Your Trusted Technology Partner in Egypt"
 TRUST="x-forwarded-for,x-forwarded-proto"
+SSR_API_ORIGIN="http://127.0.0.1:3001"
 
 # The REAL production argument vector, in the deploy script's declared order.
 PROD_ARGS=(
@@ -130,6 +131,7 @@ PROD_ARGS=(
   "roaya.co"
   "$MARKER"
   "$TRUST"
+  "$SSR_API_ORIGIN"
 )
 
 META_ARGS=(

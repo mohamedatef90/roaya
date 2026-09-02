@@ -2,6 +2,7 @@ import { Component, OnInit, signal, inject, ChangeDetectionStrategy } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faCircleCheck,
@@ -21,7 +22,7 @@ import {
 @Component({
   selector: 'app-cloud',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './cloud.component.html',
   styleUrl: './cloud.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

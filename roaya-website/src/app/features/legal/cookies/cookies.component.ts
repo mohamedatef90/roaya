@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { SEOService } from '../../../core/services/seo.service';
 import { AnalyticsService } from '../../../core/services/analytics.service';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 interface TableOfContentsItem {
   id: string;
@@ -21,7 +22,7 @@ interface CookieType {
 @Component({
   selector: 'app-cookies',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule],
+  imports: [CommonModule, TranslateModule, RouterModule, LocalizeLinkPipe],
   templateUrl: './cookies.component.html',
   styleUrl: './cookies.component.scss'
 })

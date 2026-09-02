@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, RESPONSE_INIT } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 /**
  * Not Found (404) Component
@@ -10,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [RouterLink, TranslateModule],
+  imports: [RouterLink, TranslateModule, LocalizeLinkPipe],
   template: `
     <section class="min-h-[60vh] flex items-center justify-center px-6 py-24">
       <div class="text-center max-w-xl">
@@ -21,7 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
         <p class="mt-4 text-neutral-600 dark:text-neutral-400">
           {{ 'notFound.description' | translate }}
         </p>
-        <a routerLink="/"
+        <a [routerLink]="'/' | localizeLink"
            class="mt-8 inline-block rounded-lg bg-[#3D5A80] px-6 py-3 text-white hover:opacity-90 transition-opacity">
           {{ 'notFound.backHome' | translate }}
         </a>

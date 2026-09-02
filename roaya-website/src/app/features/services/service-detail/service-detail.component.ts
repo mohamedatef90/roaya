@@ -11,6 +11,8 @@ import {
 } from '@ng-icons/font-awesome/regular';
 import { faCreditCard } from '@ng-icons/font-awesome/regular';
 import { NavigationService, ServiceItem } from '../../../core/services/navigation.service';
+import { LanguageService } from '../../../core/services/language.service';
+import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 /**
  * Service Detail Component
@@ -20,7 +22,7 @@ import { NavigationService, ServiceItem } from '../../../core/services/navigatio
 @Component({
   selector: 'app-service-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
   templateUrl: './service-detail.component.html',
   styleUrl: './service-detail.component.scss',
   providers: [
@@ -37,6 +39,7 @@ export class ServiceDetailComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   readonly navigationService = inject(NavigationService);
+  private readonly languageService = inject(LanguageService);
 
   // Current service ID from route
   serviceId = signal<string>('');
@@ -120,15 +123,15 @@ export class ServiceDetailComponent implements OnInit {
 
             // Redirect to services page if service not found
             if (!this.service()) {
-              this.router.navigate(['/services']);
+              this.router.navigate(this.languageService.localizeCommands(['/services']) as any[]);
             }
           } else {
-            this.router.navigate(['/services']);
+            this.router.navigate(this.languageService.localizeCommands(['/services']) as any[]);
           }
         },
         error: (error) => {
           console.error('Error loading service:', error);
-          this.router.navigate(['/services']);
+          this.router.navigate(this.languageService.localizeCommands(['/services']) as any[]);
         }
       });
   }
@@ -137,14 +140,14 @@ export class ServiceDetailComponent implements OnInit {
    * Scroll to contact section (would need to implement contact form on page)
    */
   scrollToContact(): void {
-    this.router.navigate(['/contact']);
+    this.router.navigate(this.languageService.localizeCommands(['/contact']) as any[]);
   }
 
   /**
    * Navigate to contact page (for pricing inquiries)
    */
   goToPricing(): void {
-    this.router.navigate(['/contact']);
+    this.router.navigate(this.languageService.localizeCommands(['/contact']) as any[]);
   }
 
   /**

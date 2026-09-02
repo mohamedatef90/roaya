@@ -46,6 +46,13 @@ module.exports = {
         // forwarding headers. x-real-ip is deliberately absent (not an
         // X-Forwarded-* header, not governed by this option).
         NG_TRUST_PROXY_HEADERS: 'x-forwarded-for,x-forwarded-proto',
+        // Backend API origin for server-side rendering. The production apiUrl
+        // is origin-relative ('/api/v1'), which Node's fetch cannot resolve;
+        // with this set, the SSR API interceptor forwards GET content requests
+        // to the loopback backend so blog listing/detail pages carry real
+        // content in the raw first response. If unset, API-backed pages
+        // server-render their empty/default state (2026-09-01 audit, P1).
+        NG_SSR_API_ORIGIN: 'http://127.0.0.1:3001',
       },
       error_file: './logs/pm2-ssr-error.log',
       out_file: './logs/pm2-ssr-out.log',

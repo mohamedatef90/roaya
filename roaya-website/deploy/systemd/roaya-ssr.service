@@ -26,6 +26,12 @@ Environment=NG_ALLOWED_HOSTS=roaya.co,www.roaya.co
 # what nginx sends. Never 'true'/wildcard. x-real-ip is not an X-Forwarded-*
 # header and is not governed by this option. See docs/deploy/RUNTIME-ENV.md.
 Environment=NG_TRUST_PROXY_HEADERS=x-forwarded-for,x-forwarded-proto
+# Backend API origin for server-side rendering. The production apiUrl is
+# origin-relative ('/api/v1'); with this set, the SSR API interceptor forwards
+# GET content requests to the loopback backend so blog pages carry real
+# content in the raw first response. Unset = API-backed pages server-render
+# their empty/default state. See docs/deploy/RUNTIME-ENV.md.
+Environment=NG_SSR_API_ORIGIN=http://127.0.0.1:3001
 # Add any runtime env vars the app reads (API base URL, analytics keys, etc.)
 # via EnvironmentFile instead of hardcoding secrets in this unit file:
 EnvironmentFile=-__WEBSITE_DEPLOY_PATH__/.env.production

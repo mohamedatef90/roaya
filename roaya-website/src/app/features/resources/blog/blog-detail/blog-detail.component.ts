@@ -7,7 +7,8 @@ import {
   inject,
   PLATFORM_ID,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  RESPONSE_INIT
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -30,6 +31,7 @@ import {
 import { AnalyticsService } from '../../../../core/services/analytics.service';
 import { BlogService } from '../../../../core/services/blog.service';
 import { LanguageService } from '../../../../core/services/language.service';
+import { LocalizeLinkPipe } from '../../../../core/i18n/localize-link.pipe';
 import { BlogPost, TocItem } from '../../../../core/interfaces/blog.interface';
 import { ReadingProgressComponent } from '../../../../shared/components/reading-progress/reading-progress.component';
 import { TableOfContentsComponent } from '../../../../shared/components/table-of-contents/table-of-contents.component';
@@ -47,7 +49,8 @@ import { NewsletterSignupComponent } from '../../../../shared/components/newslet
     ReadingProgressComponent,
     TableOfContentsComponent,
     AuthorCardComponent,
-    NewsletterSignupComponent
+    NewsletterSignupComponent,
+    LocalizeLinkPipe
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.scss',
@@ -79,6 +82,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   private readonly title = inject(Title);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly responseInit = inject(RESPONSE_INIT, { optional: true });
 
   // Constants for Sidebar
   readonly sidebarServices = [
@@ -173,11 +177,21 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
           this.loadRelatedPosts(post);
           this.updateSEO(post);
           this.analytics.trackContentEngagement('blog', post.id, 'view');
+        } else if (this.responseInit) {
+          // The backend answered and the slug does not exist: a real HTTP 404
+          // during SSR, so crawlers never index unknown blog URLs as 200s.
+          this.responseInit.status = 404;
         }
         this.isLoading.set(false);
         this.cdr.markForCheck();
       },
       error: () => {
+        // The backend could not be reached — the post may well exist, so this
+        // must NOT be a 404 (a crawler would deindex a real post over a
+        // transient outage). 503 tells crawlers to retry later.
+        if (this.responseInit) {
+          this.responseInit.status = 503;
+        }
         this.isLoading.set(false);
         this.cdr.markForCheck();
       }

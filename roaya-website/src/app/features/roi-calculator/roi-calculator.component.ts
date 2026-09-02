@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
+import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 
 interface PainPoint {
   value: string;
@@ -15,7 +16,7 @@ interface PainPoint {
 @Component({
   selector: 'app-roi-calculator',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslateModule, LocalizeLinkPipe],
   templateUrl: './roi-calculator.component.html',
   styleUrl: './roi-calculator.component.scss'
 })
