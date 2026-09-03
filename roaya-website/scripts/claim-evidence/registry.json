@@ -9,9 +9,9 @@
       "scope": null,
       "sourceType": "i18n_key",
       "sourcePointer": "src/assets/i18n/en.json#about.story.p1",
-      "decisionReference": "Product-owner decision 2026-09-01: founding year resolved to 2012 per LinkedIn company record (docs/decisions/2026-09-01-claim-approvals.md)",
-      "reviewDate": "2026-09-01",
-      "notes": null
+      "decisionReference": "Product-owner decision 2026-09-01, reconfirmed 2026-09-02: founding year is 2012, per the LinkedIn company record (docs/decisions/2026-09-01-claim-approvals.md, docs/decisions/2026-09-02-founding-year-confirmation.md)",
+      "reviewDate": "2026-09-02",
+      "notes": "Six surfaces state or derive this fact: ORGANIZATION_FOUNDING_DATE in src/app/core/seo/entity-taxonomy.ts (JSON-LD foundingDate), about.story.p1 in both locales, the first About timeline milestone, public/llms.txt, and the years-experience figures in about.component.ts and home.component.ts. The ai-readiness check company-facts-consistency fails if any of them disagree, and fails when the elapsed-years figures go stale after a year rollover."
     },
     {
       "id": "clients-150-plus",
@@ -33,9 +33,21 @@
       "scope": null,
       "sourceType": "i18n_key",
       "sourcePointer": "src/assets/i18n/en.json#about.story.p2",
-      "decisionReference": "Stage 0 approved fact: Exclusive MENA WorldPosta partnership",
-      "reviewDate": "2026-08-23",
-      "notes": null
+      "decisionReference": "Stage 0 approved fact, reconfirmed by the product owner 2026-09-03 (docs/decisions/2026-09-03-partner-claims-confirmation.md)",
+      "reviewDate": "2026-09-03",
+      "notes": "First-party approval only. Checked 2026-09-03: worldposta.com does not name Roaya and has no partners page, so no third-party source corroborates this claim. Ask WorldPosta to publish a partner listing linking to roaya.co, then cite that URL here (action plan P2, external authority)."
+    },
+    {
+      "id": "aws-advanced-tier-services-partner",
+      "category": "business_decision",
+      "status": "verified",
+      "topic": null,
+      "scope": null,
+      "sourceType": "i18n_key",
+      "sourcePointer": "src/assets/i18n/en.json#services.aws.faq.tier.a",
+      "decisionReference": "Product-owner confirmation 2026-09-03 (docs/decisions/2026-09-03-partner-claims-confirmation.md)",
+      "reviewDate": "2026-09-03",
+      "notes": "Published on /services/aws since before the 2026-09-02 reconciliation but unregistered until now. First-party approval only: no public AWS Partner Finder profile for Roaya was found on 2026-09-03. Publish that profile and link it from the AWS page, then cite the URL here."
     },
     {
       "id": "cloudedge-definition-approved",

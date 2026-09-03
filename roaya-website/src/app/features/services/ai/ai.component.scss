@@ -1,3 +1,15 @@
+// Display and mono faces for this route only. They used to sit in the global
+// blocking font request in index.html, delaying first paint on every page of
+// the site for two faces used on this one (2026-09-02 AI-readiness, P1.5).
+// Loaded here they arrive with this lazy route's stylesheet, behind the
+// Inter / monospace fallbacks already declared below.
+// Weights are exactly those this stylesheet sets (500/600/700). The build
+// inlines every requested face into this route's CSS, so an unused weight is
+// bytes on the wire, not a lazily-skipped download — which is also why the
+// mono face is not requested: it styles a few progress labels and
+// 'Courier New', monospace already covers them.
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+
 /**
  * AI Services - 3D Space Journey Experience
  * Cinematic Dark Theme | Problem → Solution Narrative

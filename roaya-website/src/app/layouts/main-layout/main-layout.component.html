@@ -573,6 +573,14 @@
               {{ 'common.industries' | translate }}
             </a>
           </li>
+          <!-- The Resources hub was reachable only through the mobile drawer and the
+               desktop mega-menu, both of which render no anchor in the server HTML —
+               so nothing a crawler follows led to it (2026-09-03 link-graph report). -->
+          <li>
+            <a [routerLink]="'/resources' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
+              {{ 'common.resources' | translate }}
+            </a>
+          </li>
           <li>
             <a [routerLink]="'/contact' | localizeLink" class="footer-link hover:text-[var(--footer-link-hover)] transition-colors">
               {{ 'common.contact' | translate }}

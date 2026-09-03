@@ -145,7 +145,9 @@ export class BackupComponent implements OnInit {
     {
       icon: 'faShield',
       title: 'Protect Critical Business Data',
-      description: 'Safeguard your most important data assets with enterprise-grade backup solutions and military-grade encryption'
+      // 2026-09-02 AI-readiness reconciliation: "military-grade encryption"
+      // is unverifiable puffery; state the control and where it applies.
+      description: 'Safeguard your most important data assets with enterprise-grade backup solutions and encryption in transit and at rest'
     },
     {
       icon: 'faClock',

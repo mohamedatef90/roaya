@@ -46,9 +46,12 @@ export class SapComponent implements OnInit {
   // Statistics - Key performance metrics
   readonly statistics = [
     {
-      value: '99.95%',
+      // 2026-09-02 AI-readiness reconciliation: 99.95% was an unregistered
+      // figure. The site-wide availability figure is 99.9%; 99.99% stays
+      // scoped to WorldPosta CloudEdge/Posta (claim registry).
+      value: '99.9%',
       label: 'SAP System Uptime',
-      description: 'Guaranteed availability with proactive monitoring'
+      description: 'Availability target with proactive monitoring'
     },
     {
       value: '24/7',
@@ -165,8 +168,8 @@ export class SapComponent implements OnInit {
     },
     {
       icon: 'faClock',
-      title: 'Guaranteed SLAs',
-      description: '99.95% uptime guarantee with defined response times and resolution commitments for all critical issues'
+      title: 'Defined SLAs',
+      description: '99.9% uptime SLA with defined response times and resolution commitments for critical issues, as set out in the service agreement'
     }
   ];
 

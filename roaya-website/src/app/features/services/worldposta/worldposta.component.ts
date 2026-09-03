@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, inject, ChangeDetectionStr
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ServiceFactsComponent } from '../../../shared/components/service-facts/service-facts.component';
 import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -45,7 +46,7 @@ interface WorldPostaProduct {
 @Component({
   selector: 'app-worldposta',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe],
+  imports: [CommonModule, RouterLink, TranslateModule, NgIcon, LocalizeLinkPipe, ServiceFactsComponent],
   templateUrl: './worldposta.component.html',
   styleUrl: './worldposta.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

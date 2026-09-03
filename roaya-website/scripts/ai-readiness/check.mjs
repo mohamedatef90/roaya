@@ -27,8 +27,10 @@ const ctx = {
   browserDistDir: join(root, 'dist/roaya-website/browser'),
   serverEntryFile: join(root, 'dist/roaya-website/server/server.mjs'),
   origin: 'https://roaya.co',
-  // Fixed, deterministic port dedicated to this check — not randomized, so
-  // report output never varies run-to-run because of port selection.
+  // Fixed, deterministic base port dedicated to this check — not randomized,
+  // so report output never varies run-to-run because of port selection. The
+  // SSR checks each boot their own server: real-unknown-route-404 on
+  // serverPort, ssr-content-quality on +1, ssr-crawler-semantics on +2.
   serverPort: 42417,
 };
 
@@ -86,7 +88,21 @@ async function main() {
     console.log(JSON.stringify(report, null, 2));
   }
 
-  process.exitCode = summary.failed > 0 ? 1 : 0;
+  // A skip is an unrun check, not a passing one. The gates that read the
+  // rendered HTML skip themselves when dist/ is absent, so without this a
+  // `verify:evidence` on a stale or missing build reports all-green while the
+  // checks written to catch the production failures never executed. The deploy
+  // script builds first, so it is unaffected; `--allow-skips` is for a local
+  // run that deliberately skips the build.
+  const allowSkips = process.argv.includes('--allow-skips');
+  if (summary.skipped > 0 && !allowSkips) {
+    console.log(
+      `\n${summary.skipped} check(s) did not run. They are not passes: build first ` +
+        '("npm run build:prod"), or pass --allow-skips to accept the gap.',
+    );
+  }
+
+  process.exitCode = summary.failed > 0 || (summary.skipped > 0 && !allowSkips) ? 1 : 0;
 }
 
 main();

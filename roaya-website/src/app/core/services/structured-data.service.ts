@@ -8,11 +8,14 @@ import {
   BREADCRUMB_LABEL_KEYS,
   ORGANIZATION_FOUNDING_DATE,
   ORGANIZATION_NAME,
-  ROUTE_ENTITY_MAP
+  ROUTE_ENTITY_MAP,
+  SERVICE_ENTITY_KEYS,
+  FAQ_ENTITY_KEYS,
+  CONTACT_DETAILS
 } from '../seo/entity-taxonomy';
 import { ROUTE_METADATA } from '../seo/route-metadata';
 import { Locale, splitLocale, withLocale } from '../i18n/locale-routing';
-import { StructuredDataGraph, StructuredDataNode } from '../seo/json-ld.types';
+import { OrganizationNode, ServiceNode, StructuredDataGraph, StructuredDataNode } from '../seo/json-ld.types';
 import { CASE_STUDY_MAP, CaseStudyRecord } from '../../features/resources/case-studies/case-studies.data';
 
 const SCRIPT_ID = 'roaya-structured-data';
@@ -110,17 +113,26 @@ export class StructuredDataService {
     const serviceIds = ROUTE_ENTITY_MAP[path]?.serviceIds ?? [];
     const caseStudy = this.caseStudyFor(path);
     const breadcrumb = this.buildBreadcrumb(path, url, locale, caseStudy);
-    if (!metadata && !breadcrumb && serviceIds.length === 0 && !caseStudy) {
+    const serviceKeys = SERVICE_ENTITY_KEYS[path];
+    const faqEntries = FAQ_ENTITY_KEYS[path] ?? [];
+    if (!metadata && !breadcrumb && serviceIds.length === 0 && !caseStudy && !serviceKeys && faqEntries.length === 0) {
       return [];
     }
 
-    nodes.push({
+    const organization: OrganizationNode = {
       '@type': 'Organization',
       '@id': organizationId,
       name: ORGANIZATION_NAME,
       url: origin,
       foundingDate: ORGANIZATION_FOUNDING_DATE
-    });
+    };
+    if (path === '/contact') {
+      // Reference, not duplication: the detail lives in the nodes below, which
+      // exist only on the page that renders them.
+      organization['address'] = { '@id': `${url}#address` };
+      organization['contactPoint'] = { '@id': `${url}#contact` };
+    }
+    nodes.push(organization);
     nodes.push({
       '@type': 'WebSite',
       '@id': websiteId,
@@ -142,6 +154,66 @@ export class StructuredDataService {
         description: service.description,
         url: serviceUrl,
         provider: { '@id': organizationId }
+      });
+    }
+
+    // This page's own service. Name is the site's canonical label for it;
+    // description is emitted only where the page renders that exact sentence
+    // (see SERVICE_ENTITY_KEYS). `areaServed` mirrors the Egypt positioning
+    // and the Cairo address the Contact page already shows.
+    if (serviceKeys) {
+      const service: ServiceNode = {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: this.translate.instant(serviceKeys.nameKey),
+        url,
+        provider: { '@id': organizationId },
+        areaServed: { '@type': 'Country', name: 'Egypt' }
+      };
+      if (serviceKeys.descriptionKey) {
+        service['description'] = this.translate.instant(serviceKeys.descriptionKey);
+      }
+      nodes.push(service);
+    }
+
+    // FAQ, built from the question/answer text the page already renders.
+    if (faqEntries.length > 0) {
+      nodes.push({
+        '@type': 'FAQPage',
+        '@id': `${url}#faq`,
+        inLanguage: this.activeLanguage(),
+        mainEntity: faqEntries.map(entry => ({
+          '@type': 'Question',
+          name: this.translate.instant(entry.questionKey),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: this.translate.instant(entry.answerKey)
+          }
+        }))
+      });
+    }
+
+    // Contact details, on the page that shows them. Emitted only there: an
+    // Organization-wide ContactPoint would attach a phone number to every page
+    // of the site, including ones that never mention it.
+    if (path === '/contact') {
+      nodes.push({
+        '@type': 'PostalAddress',
+        '@id': `${url}#address`,
+        streetAddress: this.translate.instant(CONTACT_DETAILS.addressKey),
+        addressLocality: CONTACT_DETAILS.addressLocality,
+        addressCountry: CONTACT_DETAILS.addressCountry
+      });
+      nodes.push({
+        '@type': 'ContactPoint',
+        '@id': `${url}#contact`,
+        contactType: 'customer service',
+        email: CONTACT_DETAILS.email,
+        telephone: CONTACT_DETAILS.telephone,
+        areaServed: CONTACT_DETAILS.addressCountry,
+        // Both languages the site is published in, and the two the Contact
+        // page's own copy names.
+        availableLanguage: ['en', 'ar']
       });
     }
 

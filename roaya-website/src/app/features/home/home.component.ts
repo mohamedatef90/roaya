@@ -180,12 +180,16 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   // Animation state (kept for GSAP scroll animations)
   heroAnimationsStarted = signal(true); // Auto-enabled since CSS handles intro
 
-  // Stats with animated counters
+  // Stats with animated counters.
+  // `current` starts at the final value so SSR/prerender HTML carries the real
+  // figure (crawlers ignore CSS/aria). animateStatsCounters() resets it to 0 in
+  // the browser before counting up. 2026-09-02 AI-readiness reconciliation.
   stats = signal<Stat[]>([
-    { value: 150, suffix: '+', label: 'home.stats.clients', current: 0 },
-    { value: 99.9, suffix: '%', label: 'home.stats.uptime', current: 0 },
-    { value: 24, suffix: '/7', label: 'home.stats.support', current: 0 },
-    { value: 10, suffix: '+', label: 'home.stats.experience', current: 0 }
+    { value: 150, suffix: '+', label: 'home.stats.clients', current: 150 },
+    { value: 99.9, suffix: '%', label: 'home.stats.uptime', current: 99.9 },
+    { value: 24, suffix: '/7', label: 'home.stats.support', current: 24 },
+    // 14+ follows from the approved 2012 founding year (docs/decisions/2026-09-01-claim-approvals.md).
+    { value: 14, suffix: '+', label: 'home.stats.experience', current: 14 }
   ]);
 
   // Sector logos - Ministries, Banks, Universities (now dynamic from LogoService)
@@ -843,7 +847,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /** Set once initAnimations() has run, so the ScrollSmoother-ready path and
+   * the 500 ms fallback cannot both build the same triggers (which would leave
+   * a second, orphaned counter interval running past the real values). */
+  private animationsInitialized = false;
+
   private initAnimations(): void {
+    if (this.animationsInitialized) {
+      return;
+    }
+    this.animationsInitialized = true;
+
     gsap.registerPlugin(ScrollTrigger);
 
     // Hero section animations - cinematic text reveal
@@ -881,16 +895,28 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    // Stats counter animation with scroll trigger
-    const statsTrigger = ScrollTrigger.create({
-      trigger: '.stats-section',
-      start: 'top 80%',
-      onEnter: () => {
-        this.animateStatsCounters();
-      },
-      once: true
-    });
-    this.scrollTriggers.push(statsTrigger);
+    // Stats counter animation with scroll trigger.
+    //
+    // Only for a section the reader has not seen yet. The stats now render
+    // their final value in the server HTML (so crawlers read one figure, not
+    // "150+ 0+"), which means a count-up on an already-visible section would
+    // show the correct number and then snap backwards to zero. When the
+    // section is on screen at load, the final values simply stay.
+    const statsElement = document.querySelector('.stats-section');
+    const statsAlreadyVisible =
+      !!statsElement && statsElement.getBoundingClientRect().top < window.innerHeight * 0.8;
+
+    if (!statsAlreadyVisible) {
+      const statsTrigger = ScrollTrigger.create({
+        trigger: '.stats-section',
+        start: 'top 80%',
+        onEnter: () => {
+          this.animateStatsCounters();
+        },
+        once: true
+      });
+      this.scrollTriggers.push(statsTrigger);
+    }
 
     // Why Roaya feature cards stagger
     const featuresTrigger = ScrollTrigger.create({
@@ -1227,12 +1253,25 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private animateStatsCounters(): void {
+    // Never run twice: a second pass would leave the first interval running
+    // and drive the figures past their real values.
+    if (this.animationInterval) {
+      return;
+    }
+
     const duration = 2000; // 2 seconds
     const steps = 60;
     const stepDuration = duration / steps;
     let currentStep = 0;
 
-    this.animationInterval = setInterval(() => {
+    // Browser-only, fired by the scroll trigger after hydration for a section
+    // the reader has not seen yet: drop to 0 so the count-up is visible. SSR
+    // HTML keeps the final value (see stats signal).
+    this.stats.update(stats => stats.map(stat => ({ ...stat, current: 0 })));
+
+    // Clear through the same handle this run owns, so a stale closure can
+    // never cancel a later run's interval (or leave its own running).
+    const handle = setInterval(() => {
       currentStep++;
       const progress = currentStep / steps;
       const easeOutProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
@@ -1245,11 +1284,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
       if (currentStep >= steps) {
-        if (this.animationInterval) {
-          clearInterval(this.animationInterval);
+        // Land exactly on the published figures rather than on the easing's
+        // rounded approach, so the DOM ends where the server HTML started.
+        this.stats.update(stats => stats.map(stat => ({ ...stat, current: stat.value })));
+        clearInterval(handle);
+        if (this.animationInterval === handle) {
+          this.animationInterval = null;
         }
       }
     }, stepDuration);
+
+    this.animationInterval = handle;
   }
 
   // Magnetic hover effect for buttons

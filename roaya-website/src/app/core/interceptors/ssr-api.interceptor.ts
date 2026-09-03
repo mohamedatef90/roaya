@@ -44,7 +44,16 @@ export const ssrApiInterceptor: HttpInterceptorFn = (req, next) => {
       const absoluteUrl = req.url.startsWith('/')
         ? `${ssrApiOrigin.replace(/\/$/, '')}${req.url}`
         : req.url;
-      return next(req.clone({ url: absoluteUrl }));
+      // X-Roaya-SSR-Render marks the request as a server render in backend
+      // logs (2026-09-02 AI-readiness reconciliation). Informational only:
+      // the backend identifies SSR renders by the loopback req.ip, so no
+      // X-Forwarded-For is added here on purpose.
+      return next(
+        req.clone({
+          url: absoluteUrl,
+          setHeaders: { 'X-Roaya-SSR-Render': '1' }
+        })
+      );
     }
 
     return throwError(

@@ -77,7 +77,11 @@ export class AboutComponent implements OnInit {
 
   milestones: Milestone[] = [
     {
-      year: '2018',
+      // Founding year is 2012 per docs/decisions/2026-09-01-claim-approvals.md
+      // (must match about.story.p1 "Founded in 2012"). Fixed in the
+      // 2026-09-02 AI-readiness reconciliation; the remaining milestone years
+      // below are unverified and await owner confirmation.
+      year: '2012',
       title: 'about.milestones.founded.title',
       description: 'about.milestones.founded.description'
     },

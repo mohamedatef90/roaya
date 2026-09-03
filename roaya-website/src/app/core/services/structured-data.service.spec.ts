@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { StructuredDataService } from './structured-data.service';
+import { ORGANIZATION_FOUNDING_DATE } from '../seo/entity-taxonomy';
 
 describe('StructuredDataService', () => {
   let service: StructuredDataService;
@@ -75,7 +76,11 @@ describe('StructuredDataService', () => {
         '@id': 'https://roaya.co/#organization',
         name: 'Roaya IT',
         url: 'https://roaya.co/',
-        foundingDate: '2018',
+        // From the constant, not a literal: this expectation pinned '2018'
+        // and stayed red from the 2026-09-01 founding-year decision until the
+        // 2026-09-02 reconciliation found it. company-facts-consistency now
+        // guards the value itself; this only guards that it is emitted.
+        foundingDate: ORGANIZATION_FOUNDING_DATE,
       });
       expect(site).toEqual({
         '@type': 'WebSite',
@@ -199,17 +204,21 @@ describe('StructuredDataService', () => {
       ]);
     });
 
-    it('ends a case-study trail at the listing page, with no WebPage node', async () => {
+    it('ends a case-study trail at the case study itself', async () => {
       await router.navigateByUrl('/resources/case-studies/bank-cloud-migration');
 
-      // The leaf has no label that is not also a registry-blocked metric
-      // claim, so the trail stops one level up instead of inventing one.
+      // Until the 2026-09-01 approvals the leaf's only label was a blocked
+      // metric claim, so the trail stopped one level up and no WebPage was
+      // emitted. The approvals unblocked the hero title, the 2026-09-02 pass
+      // emitted the leaf, and ssr-content-quality now REQUIRES the trail to
+      // end at the page. This expectation was left behind and stayed red.
       expect(nodesOfType('BreadcrumbList')[0].itemListElement.map((item: any) => item.item)).toEqual([
         'https://roaya.co/',
         'https://roaya.co/resources',
         'https://roaya.co/resources/case-studies',
+        'https://roaya.co/resources/case-studies/bank-cloud-migration',
       ]);
-      expect(nodesOfType('WebPage').length).toBe(0);
+      expect(nodesOfType('WebPage').length).toBe(1);
     });
 
     it('emits no structured data at all on an unknown/404 route', async () => {
@@ -271,6 +280,70 @@ describe('StructuredDataService', () => {
           expect(raw).not.toContain(field);
         }
       }
+    });
+  });
+
+  // P1.2 (2026-09-02 reconciliation): before this, only /services/worldposta
+  // declared what it sells. An assistant asked "does Roaya run a SOC in
+  // Egypt?" had to infer the answer from prose on every other service page.
+  describe('service and FAQ coverage', () => {
+    it('emits a Service node naming the page, its provider and where it is offered', async () => {
+      await router.navigateByUrl('/services/security/soc-solutions');
+      const services = nodesOfType('Service');
+
+      expect(services.length).toBe(1);
+      expect(services[0]['@id']).toBe('https://roaya.co/services/security/soc-solutions#service');
+      expect(services[0].url).toBe('https://roaya.co/services/security/soc-solutions');
+      expect(services[0].provider).toEqual({ '@id': 'https://roaya.co/#organization' });
+      expect(services[0].areaServed).toEqual({ '@type': 'Country', name: 'Egypt' });
+      expect(services[0].name).toBeTruthy();
+    });
+
+    it('omits description where the page renders no summary sentence of its own', async () => {
+      // /services/cloud keeps its body copy in the component, not i18n, so
+      // there is no sentence the graph is allowed to quote. A named Service
+      // node with no description is correct; a borrowed one would assert more
+      // than the page shows.
+      await router.navigateByUrl('/services/cloud');
+
+      expect(nodesOfType('Service')[0].description).toBeUndefined();
+    });
+
+    it('describes the Arabic page in Arabic, not the English string', async () => {
+      await router.navigateByUrl('/services/security/soc-solutions');
+      const en = nodesOfType('Service')[0]['@id'];
+      await router.navigateByUrl('/ar/services/security/soc-solutions');
+      const ar = nodesOfType('Service')[0];
+
+      expect(ar['@id']).toBe('https://roaya.co/ar/services/security/soc-solutions#service');
+      expect(ar['@id']).not.toBe(en);
+      expect(ar.url).toBe('https://roaya.co/ar/services/security/soc-solutions');
+    });
+
+    it('emits the homepage FAQ as questions with answers', async () => {
+      await router.navigateByUrl('/');
+      const faq = nodesOfType('FAQPage')[0];
+
+      expect(faq['@id']).toBe('https://roaya.co/#faq');
+      expect(faq.mainEntity.length).toBe(4);
+      for (const question of faq.mainEntity) {
+        expect(question['@type']).toBe('Question');
+        expect(question.acceptedAnswer['@type']).toBe('Answer');
+        expect(question.acceptedAnswer.text).toBeTruthy();
+      }
+    });
+
+    it('emits no Service or FAQPage on a page that declares neither', async () => {
+      await router.navigateByUrl('/about');
+
+      expect(nodesOfType('Service').length).toBe(0);
+      expect(nodesOfType('FAQPage').length).toBe(0);
+    });
+
+    it('still emits nothing at all for an unknown route', async () => {
+      await router.navigateByUrl('/no-such-page-xyz');
+
+      expect(graph().length).toBe(0);
     });
   });
 

@@ -8,13 +8,18 @@ happened for the current change — it exists so the required human review
 points are explicit and cannot be silently skipped.
 
 The automated layer (`scripts/claim-evidence/` + `scripts/ai-readiness/`,
-see `npm run verify:evidence`) covers 11 evidence checks deterministically
-verifiable from local source/build state:
+see `npm run verify:evidence`) covers 13 evidence checks deterministically
+verifiable from local source/build state (ids as they appear in
+`scripts/ai-readiness/report.json`):
 
 1. **robots-policy** — robots.txt policy, bot allow/deny decisions
 2. **sitemap-validity** — sitemap.xml validity, canonical URLs, duplicates
 3. **llms-txt** — llms.txt validator, MIME config, prohibited assertions
-4. **canonical-metadata-coverage** — route registry vs sitemap reconciliation
+4. **canonical-metadata-coverage** — route registry vs sitemap reconciliation;
+   since 2026-09-02 also `NOINDEX_ROUTES` (route-metadata.ts): a prerendered
+   route may be absent from the sitemap only when listed there, a listed route
+   must be absent from sitemap.xml and llms.txt, and every entry must still
+   name a real route in both locales
 5. **json-ld-exclusion-gates** — JSON-LD validity, hard-exclusion tokens
 6. **pentest-v2-canonicalization** — Express 301 legacy redirects
 7. **industry-route-integrity** — closed industry registry enforcement
@@ -22,6 +27,25 @@ verifiable from local source/build state:
 9. **approved-factual-consistency** — claim-evidence registry + source pointers
 10. **machine-files-in-build** — machine files in production build
 11. **real-unknown-route-404** — real HTTP 404 via local SSR server
+12. **ssr-content-quality** — raw SSR HTML of every case-study URL (H1,
+    visible text, canonical = og:url, WebPage/Article JSON-LD), Arabic pages
+    keep every link under `/ar`, blog listings render an H1, `/sitemap.xml`
+    and `/rss.xml` serve complete XML — via local SSR server
+13. **ssr-crawler-semantics** — what a crawler receives on the routes the
+    2026-09-02 reconciliation changed, via local SSR server with no backend:
+    homepage (`/`, `/ar`) renders one text value per stat (`150+`, `99.9%`,
+    `24/7`, `14+` exactly once each, no zeroed count-up value, no `10+`, no
+    `99.95`), no escaped `&lt;img` `<noscript>` markup, exactly one `<h1>`;
+    an article URL with the backend unreachable answers **503 + Retry-After**
+    with an unavailable-state `<h1>`/`<title>` (never "Post Not Found" /
+    "المقال غير موجود", never the generic "Blog Post - Roaya IT") and a
+    self-referencing canonical = og:url; every `NOINDEX_ROUTES` path in both
+    locales serves 200 with `<meta name="robots" content="noindex, follow">`;
+    `/`, `/about`, `/ar/about` carry no noindex
+
+The three SSR checks boot the built server on fixed loopback ports (42417,
+42418, 42419) with `NG_ALLOWED_HOSTS='*'` and **without** `NG_SSR_API_ORIGIN`,
+so they exercise the no-backend render path deterministically.
 
 The checks verify:
 - **58 prerendered routes** emitted in the production build
@@ -39,6 +63,40 @@ The checks verify:
   `npm` marks the available remediation as a semver-major change; the **Roaya CMS
   owner** must validate editor/export compatibility and a named human security
   reviewer must approve the migration before the finding may be considered closed.
+
+### 2026-09-02 reconciliation notes
+
+- **Blog-detail SSR root cause.** Article URLs intermittently served HTTP 503
+  with a false "Post Not Found" page. The backend's rate limiter
+  (`backend/src/presentation/middleware/rate-limiter.ts`, 100 requests / 15 min
+  per `req.ip`) was applied twice to public content routes and counted every
+  server-side render — which reaches the backend on `http://127.0.0.1:3001`
+  without `X-Forwarded-For` — in one shared loopback bucket, so a handful of
+  crawler visits exhausted it for every visitor. On the resulting 429 the
+  component correctly answered 503 but reused the not-found template, the
+  generic `<title>`, and a homepage `og:url`. The backend fix is the real
+  remedy; `ssr-crawler-semantics` locks in the honest 503 + `Retry-After`
+  unavailable state so a future outage can never read as "gone" to a crawler.
+  Unknown-slug 404 semantics are unchanged (they need a backend and are
+  verified on the host, not locally).
+- **Arabic article completeness rule.** `src/server.ts` emits
+  `/ar/resources/blog/<slug>` in `/sitemap.xml` (and the article's
+  `hreflang="ar"`) only when the Arabic body is complete per
+  `src/app/core/utils/arabic-content-completeness.ts`; incomplete Arabic
+  stubs are not advertised. The local checks cannot see this (no backend, so
+  the local sitemap is the static file); it is covered on the host by the
+  **sitemap integrity gate** below.
+- **Sitemap integrity gate (post-deploy, host).**
+  `npm run gate:sitemap-integrity` (`scripts/deploy/sitemap-integrity-gate.sh`)
+  fetches the live `https://roaya.co/sitemap.xml`, requests every `<loc>`
+  sequentially with a short timeout, and fails — listing every offender —
+  if any URL answers non-200 or any article URL renders a "Post Not Found" /
+  "المقال غير موجود" `<h1>` (or no `<h1>`). It is red-capable offline:
+  `npm run test:sitemap-integrity-gate` runs the real script against a
+  stubbed `curl`. It is a separate step from `deploy-ssr.sh` on purpose: the
+  activation gate probes one prerendered route on the SSR upstream, while
+  this one needs the public origin (nginx + backend) and must run after the
+  backend is deployed.
 
 The automated layer cannot and does not substitute for the gates below.
 
@@ -123,7 +181,7 @@ PORT=4200 node dist/roaya-website/server/server.mjs
 
 Then confirm:
 
-- [ ] **Build gates passed** — `verify:evidence` reported 11/11 and the script
+- [ ] **Build gates passed** — `verify:evidence` reported 13/13 and the script
       did not abort on the prerendered-route count.
 - [ ] **58 prerendered routes emitted** —
       `find dist/roaya-website/browser -name index.html | wc -l` returns 58.
@@ -141,6 +199,11 @@ Then confirm:
       `<link rel="canonical">`.
 - [ ] **Real 404** — an unregistered path returns HTTP 404, not a 200 with a
       client-side "not found" component.
+- [ ] **Honest article 503** — with no backend reachable, an article URL
+      returns HTTP 503 with a `Retry-After` header and an "unavailable"
+      heading, not "Post Not Found"; the noindex placeholders
+      (`/resources/whitepapers`, `/resources/documentation`, both locales)
+      return 200 with `robots: noindex, follow`.
 - [ ] **Machine files** — `/robots.txt`, `/sitemap.xml`, and `/llms.txt` are
       reachable and byte-identical to `public/`. Their **content types** and
       the security headers are nginx's responsibility, not the Node server's,
@@ -155,6 +218,12 @@ Then confirm:
       checks above pass.
 - [ ] The rollback path (previous production deployment/alias) is identified
       and confirmed reachable *before* promoting, not after an incident.
+- [ ] **Sitemap integrity gate passed on the host** — after both the backend
+      and the SSR release are live, `npm run gate:sitemap-integrity` exits 0
+      against `https://roaya.co/sitemap.xml` (every `<loc>` 200, every
+      article URL a real `<h1>`). A failure lists the offending URLs; the
+      release is not verified until it passes or the offending URLs are
+      removed from the sitemap by the completeness rule.
 - [ ] DNS/CDN/WAF configuration is unchanged, or any intended change is
       separately reviewed and approved (out of scope for any agent run under
       this issue's Agent Identity).

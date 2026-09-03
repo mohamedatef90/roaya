@@ -164,6 +164,24 @@ export class ServicesComponent {
       ]
     },
     {
+      // Published and in the sitemap, but nothing linked to it until the
+      // 2026-09-03 link-graph report found it orphaned: the only routes to it
+      // were the mega-menu and the mobile drawer, neither of which renders an
+      // anchor in the server HTML.
+      id: 'worldposta',
+      title: 'services.worldposta.title',
+      description: 'services.worldposta.heroDescription',
+      icon: '&#9729;',
+      logoImage: '/assets/images/logos/partners/worldposta.png',
+      route: '/services/worldposta',
+      features: [
+        'services.worldposta.knowAboutFeature1',
+        'services.worldposta.knowAboutFeature2',
+        'services.worldposta.knowAboutFeature3',
+        'services.worldposta.knowAboutFeature4'
+      ]
+    },
+    {
       id: 'sap',
       title: 'services.sap.title',
       description: 'services.sap.fullDescription',

@@ -181,9 +181,17 @@ describe('SEOService', () => {
       // The same `NavigationEnd` this test drives explicitly is what SSR's
       // own initial navigation fires before serializing the response, so
       // this also stands in for "the raw first HTTP response is correct".
+      // Read the expected strings through the registry rather than naming the
+      // homepage's i18n keys here: the <title> key is deliberately not the
+      // <h1> key (the h1 phrasing is too long for a title tag), and a test
+      // that hardcodes one of them silently pins the wrong one.
+      const homeEntry = ROUTE_METADATA['/'];
+      const resolveKey = (key: string) =>
+        key.split('.').reduce<unknown>((value, part) => (value as Record<string, unknown>)?.[part], enTranslations) as string;
+
       await router.navigateByUrl('/');
-      expect(document.title).toBe(`${enTranslations.home.hero.title} - Roaya IT`);
-      expect(metaContent('meta[name="description"]')).toBe(enTranslations.home.hero.description);
+      expect(document.title).toBe(`${resolveKey(homeEntry.titleKey)} - Roaya IT`);
+      expect(metaContent('meta[name="description"]')).toBe(resolveKey(homeEntry.descriptionKey));
     });
 
     it('does not fabricate route-specific metadata for an unregistered/unknown route (404 surface)', async () => {
@@ -203,13 +211,42 @@ describe('SEOService', () => {
       expect(metaContent('meta[name="description"]')).toBe(descriptionBeforeUnknownRoute);
     });
 
-    it('truncates long-form approved copy to a faithful excerpt instead of the full text', async () => {
-      await router.navigateByUrl('/privacy');
-      const description = metaContent('meta[name="description"]');
-      const fullSource = enTranslations.legal.privacy.sections.introduction.content;
+    it('gives the legal pages a written description rather than a slice of their body copy', async () => {
+      // Until 2026-09-03 these routes pointed descriptionKey at a body-content
+      // key, so the description was the first ~155 characters of a legal
+      // paragraph, cut off mid-sentence — which is what search results and
+      // assistants quoted. Each now has its own metaDescription.
+      for (const path of ['/privacy', '/terms', '/cookies']) {
+        await router.navigateByUrl(path);
+        const description = metaContent('meta[name="description"]')!;
 
-      expect(description!.length).toBeLessThanOrEqual(161); // 160 chars + ellipsis
-      expect(fullSource.startsWith(description!.replace('…', '').trim())).toBe(true);
+        expect(description.length).toBeLessThanOrEqual(160);
+        expect(description.endsWith('…')).toBe(false);
+      }
+
+      await router.navigateByUrl('/privacy');
+      expect(metaContent('meta[name="description"]')).toBe(enTranslations.legal.privacy.metaDescription);
+    });
+
+    it('gives every registered route a description short enough that nothing is truncated', async () => {
+      // The service truncates an over-long description to a faithful excerpt,
+      // but that is a safety net and should never fire: a description cut
+      // mid-sentence is what a search result and an assistant then quote.
+      // Assert the invariant instead of exercising the fallback — if a route is
+      // ever pointed back at body copy, this fails before the build gate does.
+      const overLong: string[] = [];
+      for (const [path, entry] of Object.entries(ROUTE_METADATA)) {
+        for (const [locale, bundle] of [['en', enTranslations], ['ar', arTranslations]] as const) {
+          const value = entry.descriptionKey
+            .split('.')
+            .reduce<unknown>((acc, part) => (acc as Record<string, unknown>)?.[part], bundle);
+          if (typeof value === 'string' && value.length > 160) {
+            overLong.push(`${path} (${locale}, ${value.length} chars via ${entry.descriptionKey})`);
+          }
+        }
+      }
+
+      expect(overLong).toEqual([]);
     });
   });
 
@@ -277,18 +314,17 @@ describe('SEOService', () => {
 
     it('sources title/description from the same approved copy the removed component code used to hardcode', async () => {
       await router.navigateByUrl('/services/security/soc-solutions');
+      // The <title> is deliberately NOT the hero title here: that is the page's
+      // tagline ("Stop Chasing Alerts. Focus on Real Risks."), which never names
+      // the service. A result listing, or an assistant asked what this page is,
+      // needs the service named; the <h1> keeps the tagline.
       expect(document.title).toBe(
-        `${enTranslations.services.security.page.socSolutions.hero.title} - Roaya IT`
+        `${enTranslations.services.security.page.socSolutions.metaTitle} - Roaya IT`
       );
-      // Source hero copy for this route is > 160 chars, so the description
-      // is a faithful truncated excerpt of it (see the /privacy test above
-      // for the same truncation behavior), not a byte-for-byte match.
-      const socDescription = metaContent('meta[name="description"]')!;
-      expect(
-        enTranslations.services.security.page.socSolutions.hero.subtitle.startsWith(
-          socDescription.replace('…', '').trim()
-        )
-      ).toBe(true);
+      expect(document.title).not.toContain('Stop Chasing Alerts');
+      expect(metaContent('meta[name="description"]')).toBe(
+        enTranslations.services.security.page.socSolutions.metaDescription
+      );
 
       await router.navigateByUrl('/services/worldposta');
       expect(document.title).toBe(`${enTranslations.services.worldposta.heroTitle} - Roaya IT`);

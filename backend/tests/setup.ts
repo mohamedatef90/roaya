@@ -62,6 +62,15 @@ vi.mock('@prisma/client', () => {
       findMany: vi.fn(),
       upsert: vi.fn(),
     },
+    contentItem: {
+      findMany: vi.fn(),
+      findFirst: vi.fn(),
+      findUnique: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      count: vi.fn(),
+    },
     $connect: vi.fn(),
     $disconnect: vi.fn(),
     $queryRaw: vi.fn(),
@@ -102,6 +111,19 @@ vi.mock('@prisma/client', () => {
       SALES_MANAGER: 'SALES_MANAGER',
       SALES_REP: 'SALES_REP',
       VIEWER: 'VIEWER',
+    },
+    // Content enums (mirrors prisma/schema.prisma) so content.service.ts can
+    // reference ContentStatus.PUBLISHED under the global mock.
+    ContentType: {
+      BLOG_POST: 'BLOG_POST',
+      CASE_STUDY: 'CASE_STUDY',
+      WHITEPAPER: 'WHITEPAPER',
+    },
+    ContentStatus: {
+      DRAFT: 'DRAFT',
+      PENDING_REVIEW: 'PENDING_REVIEW',
+      PUBLISHED: 'PUBLISHED',
+      ARCHIVED: 'ARCHIVED',
     },
   };
 });

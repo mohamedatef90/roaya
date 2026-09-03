@@ -12,6 +12,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { ServiceFactsComponent } from '../../../shared/components/service-facts/service-facts.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideClipboardList,
@@ -70,7 +71,7 @@ type PillarId = 'local' | 'delivery' | 'security' | 'programmes';
 @Component({
   selector: 'app-aws',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, NgIcon],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, NgIcon, ServiceFactsComponent],
   templateUrl: './aws.component.html',
   styleUrl: './aws.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1097,13 +1097,27 @@
                 <bdi dir="auto">{{ 'services.aws.faq.' + faq + '.q' | translate }}</bdi>
                 <ng-icon [name]="openFaq() === i ? 'lucideMinus' : 'lucidePlus'" size="18"></ng-icon>
               </button>
-              @if (openFaq() === i) {
-                <p [id]="'faq-' + faq">{{ 'services.aws.faq.' + faq + '.a' | translate }}</p>
-              }
+              <!-- Answers stay in the DOM and collapse with CSS, rather than
+                   being removed by @if. A crawler or assistant executes no
+                   clicks: with @if, six answers this page exists to give were
+                   absent from every served response, and the FAQPage schema
+                   would have asserted content the page never showed
+                   (2026-09-02 AI-readiness reconciliation, P1.2). -->
+              <div class="aws-faq__answer" [class.aws-faq__answer--open]="openFaq() === i"
+                [attr.id]="'faq-' + faq" role="region" [attr.aria-hidden]="openFaq() === i ? null : 'true'">
+                <p>{{ 'services.aws.faq.' + faq + '.a' | translate }}</p>
+              </div>
             </div>
           }
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Buyer-answerable facts for this service (2026-09-02 AI-readiness, P1.1). -->
+  <section class="aws-section" data-reveal-group>
+    <div class="container-custom">
+      <app-service-facts path="/services/aws" />
     </div>
   </section>
 

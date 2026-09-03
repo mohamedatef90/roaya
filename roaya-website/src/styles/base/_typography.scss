@@ -21,9 +21,12 @@
  * Fluid typography with responsive scaling
  */
 
-// Import fonts
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+// No font imports here. This file is not in the global styles graph (styles.scss
+// imports theme.scss only), so these two @imports shipped nothing — but wiring
+// the file in later would have silently added two more render-blocking font
+// requests on top of index.html's, for sixteen faces the site does not use.
+// Fonts are requested in one place: index.html for the body families, and the
+// component that needs a display or mono face.
 
 // Headings
 h1, h2, h3, h4, h5, h6 {

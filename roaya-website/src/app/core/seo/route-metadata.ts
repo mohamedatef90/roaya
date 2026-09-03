@@ -34,7 +34,11 @@
  *        `resources/whitepapers` and `resources/documentation`
  *        (coming-soon.component.ts). Adding a registry entry for these
  *        paths would create a race with the component's own call and is
- *        deliberately omitted.
+ *        deliberately omitted. The two coming-soon placeholders are also
+ *        listed in `NOINDEX_ROUTES` below (2026-09-02 AI-readiness
+ *        reconciliation): the component emits `robots: noindex, follow`
+ *        and they are excluded from `public/sitemap.xml` and
+ *        `public/llms.txt` until real content ships.
  *     2. Parameterized fallback routes `services/:id` and `industries/:id`
  *        are not canonical: `public/sitemap.xml` lists only the dedicated
  *        static service/industry pages, never the generic `:id` fallback.
@@ -82,7 +86,12 @@ export interface RouteMetadataEntry {
  */
 export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
   '/': {
-    titleKey: 'home.hero.title',
+    // The <title> is deliberately shorter than the <h1>. With the " - Roaya IT"
+    // suffix the h1 phrasing runs to 77 characters in English and 88 in Arabic,
+    // past where result pages truncate — which would cut both "in Egypt" and
+    // the brand. The h1 keeps the full portfolio phrasing for readers and for
+    // assistants extracting the page's subject.
+    titleKey: 'home.hero.metaTitle',
     descriptionKey: 'home.hero.description'
   },
   '/services': {
@@ -135,11 +144,16 @@ export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
   },
   '/services/security/penetration-testing': {
     titleKey: 'services.security.page.penetrationTesting.hero.title',
-    descriptionKey: 'services.security.page.penetrationTesting.hero.subtitle'
+    // The hero subtitle is a paragraph; as a description it was cut mid-sentence.
+    descriptionKey: 'services.security.page.penetrationTesting.metaDescription'
   },
   '/services/security/soc-solutions': {
-    titleKey: 'services.security.page.socSolutions.hero.title',
-    descriptionKey: 'services.security.page.socSolutions.hero.subtitle'
+    // The hero title is the page's tagline ("Stop Chasing Alerts…"), which never
+    // names the service. A result listing or an assistant asked what this page
+    // is needs the service, so the <title> uses a dedicated key while the <h1>
+    // keeps the tagline.
+    titleKey: 'services.security.page.socSolutions.metaTitle',
+    descriptionKey: 'services.security.page.socSolutions.metaDescription'
   },
   '/services/security/incident-response': {
     titleKey: 'services.security.page.incidentResponse.hero.title',
@@ -206,17 +220,20 @@ export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
     titleKey: 'caseStudies.title',
     descriptionKey: 'caseStudies.description'
   },
+  // Legal pages pointed their descriptionKey at body copy — a 300-character
+  // legal paragraph truncated mid-sentence, which is what search results and
+  // assistants were quoting. Each now has a written description.
   '/privacy': {
     titleKey: 'legal.privacy.title',
-    descriptionKey: 'legal.privacy.sections.introduction.content'
+    descriptionKey: 'legal.privacy.metaDescription'
   },
   '/terms': {
     titleKey: 'legal.terms.title',
-    descriptionKey: 'legal.terms.sections.descriptionOfServices.content'
+    descriptionKey: 'legal.terms.metaDescription'
   },
   '/cookies': {
     titleKey: 'legal.cookies.title',
-    descriptionKey: 'legal.cookies.sections.whatAreCookies.content'
+    descriptionKey: 'legal.cookies.metaDescription'
   }
 };
 
@@ -229,3 +246,24 @@ export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
  * generic site-wide description.
  */
 export const PENDING_ROUTE_METADATA_GAPS: readonly string[] = [];
+
+/**
+ * Locale-independent paths that stay reachable for humans but are excluded
+ * from indexing and from the discovery files (2026-09-02 AI-readiness
+ * reconciliation, action plan P0.4 "no placeholder page is indexable").
+ *
+ * Each listed route renders `<meta name="robots" content="noindex, follow">`
+ * (coming-soon.component.ts) and is deliberately absent from
+ * `public/sitemap.xml` and `public/llms.txt` in both locales; the
+ * canonical-metadata-coverage gate reads this list so a prerendered route
+ * missing from the sitemap is only accepted when it appears here.
+ *
+ * To re-index a route once real content ships: remove its path from this
+ * list, drop the noindex tag from its component, and add it back to
+ * sitemap.xml (EN + AR) and llms.txt. One string literal per line so the
+ * gate's regex extraction stays reliable.
+ */
+export const NOINDEX_ROUTES: readonly string[] = [
+  '/resources/whitepapers',
+  '/resources/documentation'
+];

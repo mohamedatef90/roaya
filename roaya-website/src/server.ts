@@ -7,6 +7,7 @@ import {
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { hasCompleteArabicVersion } from './app/core/utils/arabic-content-completeness';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -38,6 +39,11 @@ interface BlogPostEntry {
   excerpt: string;
   lastmod: string; // YYYY-MM-DD
   pubDate: string; // RFC 1123, for RSS
+  // Whether the Arabic version is a complete article (shared rule in
+  // app/core/utils/arabic-content-completeness.ts). Decides whether the
+  // sitemap lists /ar/resources/blog/<slug> and an hreflang="ar" alternate
+  // at all (2026-09-02 AI-readiness reconciliation).
+  hasCompleteArabicVersion: boolean;
 }
 
 const xmlEscape = (value: string): string =>
@@ -82,7 +88,10 @@ async function fetchPublishedBlogPosts(): Promise<BlogPostEntry[]> {
       data?: {
         slugEn?: string;
         titleEn?: string;
+        titleAr?: string;
         excerptEn?: string;
+        contentEn?: string;
+        contentAr?: string;
         publishedAt?: string;
         createdAt?: string;
       }[];
@@ -98,6 +107,11 @@ async function fetchPublishedBlogPosts(): Promise<BlogPostEntry[]> {
           excerpt: item.excerptEn ?? '',
           lastmod: valid.toISOString().slice(0, 10),
           pubDate: valid.toUTCString(),
+          hasCompleteArabicVersion: hasCompleteArabicVersion({
+            titleAr: item.titleAr,
+            contentAr: item.contentAr,
+            contentEn: item.contentEn,
+          }),
         };
       })
       .sort((a, b) => (a.lastmod < b.lastmod ? 1 : -1));
@@ -108,16 +122,26 @@ async function fetchPublishedBlogPosts(): Promise<BlogPostEntry[]> {
   }
 }
 
-/** One bilingual sitemap <url> pair (EN + AR) matching the static file's shape. */
+/**
+ * Sitemap <url> entries for one post, matching the static file's shape.
+ *
+ * A post with a complete Arabic version gets the bilingual pair (EN + AR
+ * <url>, each with en/ar/x-default alternates). A post whose Arabic version
+ * is a stub gets ONLY the EN <url> with en + x-default alternates: the
+ * sitemap may not advertise an Arabic article that does not exist as a
+ * complete article (2026-09-02 AI-readiness reconciliation — every published
+ * post was listed under /ar with a few hundred characters of Arabic).
+ */
 function sitemapEntriesForPost(post: BlogPostEntry): string {
   const en = `${SITE_ORIGIN}/resources/blog/${encodeURIComponent(post.slug)}`;
   const ar = `${SITE_ORIGIN}/ar/resources/blog/${encodeURIComponent(post.slug)}`;
   const alternates = [
     `    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>`,
-    `    <xhtml:link rel="alternate" hreflang="ar" href="${ar}"/>`,
+    ...(post.hasCompleteArabicVersion ? [`    <xhtml:link rel="alternate" hreflang="ar" href="${ar}"/>`] : []),
     `    <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>`,
   ].join('\n');
-  return [en, ar]
+  const locs = post.hasCompleteArabicVersion ? [en, ar] : [en];
+  return locs
     .map((loc) =>
       ['  <url>', `    <loc>${loc}</loc>`, `    <lastmod>${post.lastmod}</lastmod>`, alternates, '  </url>'].join('\n'),
     )

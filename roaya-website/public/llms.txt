@@ -55,8 +55,6 @@ See the Company section above for the general contact form.
   - [Government digital transformation](https://roaya.co/resources/case-studies/government-digital-transformation)
   - [Manufacturing SAP implementation](https://roaya.co/resources/case-studies/manufacturing-sap-implementation)
   - [E-commerce auto-scaling](https://roaya.co/resources/case-studies/ecommerce-auto-scaling)
-- [Whitepapers](https://roaya.co/resources/whitepapers)
-- [Documentation](https://roaya.co/resources/documentation)
 
 ## Legal
 

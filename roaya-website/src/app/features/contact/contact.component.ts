@@ -1,5 +1,5 @@
 import { Component, signal, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { gsap } from 'gsap';
@@ -35,12 +35,34 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
   private readonly analytics = inject(AnalyticsService);
   private readonly scrollSmootherService = inject(ScrollSmootherService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
   private scrollTriggers: ScrollTrigger[] = [];
 
   isSubmitting = signal(false);
   isSubmitted = signal(false);
   hasError = signal(false);
   prefersReducedMotion = signal(false);
+
+  /**
+   * Set on the first rejected submit. Until then the summary stays hidden, so
+   * a reader is not told what is wrong with a form they have not sent yet.
+   */
+  submitFailed = signal(false);
+
+  /**
+   * Field names that blocked the last submit, in the order they appear in the
+   * form. Drives the error summary: a person using a screen reader, and an
+   * agent filling the form, both need one place that says what to fix — not
+   * five messages scattered beside inputs they have to hunt for.
+   */
+  invalidFields = signal<string[]>([]);
+
+  /**
+   * Reference the backend assigns to the submission. Shown on success so the
+   * sender has something to quote, and so an agent can report a verifiable
+   * outcome rather than "it seemed to work".
+   */
+  submissionReference = signal<string | null>(null);
 
   contactForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -255,6 +277,26 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
   }
 
   // Check if a field has errors and has been touched
+  /** Form order, so the summary and the focus jump agree with the layout. */
+  private readonly fieldOrder = ['name', 'email', 'phone', 'company', 'service', 'message'];
+
+  /** Label key for a field, reused by the summary links. */
+  fieldLabelKey(fieldName: string): string {
+    return `contact.form.${fieldName}`;
+  }
+
+  /** Move focus to a field named in the error summary. */
+  focusField(fieldName: string): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    const control = this.document.getElementById(fieldName);
+    if (control instanceof HTMLElement) {
+      control.focus();
+      control.scrollIntoView({ block: 'center', behavior: this.prefersReducedMotion() ? 'auto' : 'smooth' });
+    }
+  }
+
   hasFieldError(fieldName: string): boolean {
     const field = this.contactForm.get(fieldName);
     return field ? field.invalid && (field.dirty || field.touched) : false;
@@ -284,8 +326,21 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
     // Mark all fields as touched to show validation errors
     this.contactForm.markAllAsTouched();
 
-    if (this.contactForm.invalid || this.isSubmitting()) return;
+    if (this.contactForm.invalid) {
+      // Name every blocking field once, in form order, and put the reader on
+      // the first one. Without this the only signal that a submit was refused
+      // is red text somewhere below the fold.
+      const failed = this.fieldOrder.filter(field => this.contactForm.get(field)?.invalid);
+      this.invalidFields.set(failed);
+      this.submitFailed.set(true);
+      this.focusField(failed[0] ?? 'name');
+      return;
+    }
 
+    if (this.isSubmitting()) return;
+
+    this.invalidFields.set([]);
+    this.submitFailed.set(false);
     this.isSubmitting.set(true);
     this.hasError.set(false);
 
@@ -299,8 +354,12 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
         message: this.contactForm.value.message
       };
 
-      await firstValueFrom(this.apiService.submitContactForm(formData));
-      
+      const response = await firstValueFrom(this.apiService.submitContactForm(formData));
+
+      // The API answers 201 with { data: { id } }. Surface that id: a
+      // confirmation the sender can quote beats a green tick.
+      const reference = (response?.data as { id?: string } | undefined)?.id ?? null;
+      this.submissionReference.set(reference);
       this.isSubmitted.set(true);
       this.contactForm.reset();
       this.analytics.trackFormSubmission('roaya-contact-form', 'contact', true);
@@ -326,5 +385,8 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
   resetForm(): void {
     this.contactForm.reset();
     this.isSubmitted.set(false);
+    this.submissionReference.set(null);
+    this.submitFailed.set(false);
+    this.invalidFields.set([]);
   }
 }

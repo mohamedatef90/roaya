@@ -158,14 +158,30 @@ export class ContentService {
   }
 
   /**
-   * Get content by slug (for public view)
+   * Get published content by slug (for public view).
+   *
+   * Locale-agnostic: matches slugEn OR slugAr regardless of `lang`. The website
+   * addresses Arabic pages as /ar/resources/blog/<slugEn>, so Arabic requests
+   * carry the English slug; filtering on slugAr for lang=ar made every /ar blog
+   * URL a 404 (2026-09-02 AI-readiness reconciliation). `lang` is kept for API
+   * compatibility only; the frontend selects the language fields itself.
+   *
+   * `type` scopes the lookup to the content type the route serves. Without it
+   * a case study answers under /content/blog/:slug (and the reverse), giving
+   * the same article a second indexable URL under a route that is not its
+   * canonical one. Callers that legitimately accept any type omit it.
    */
-  async getContentBySlug(slug: string, lang: 'en' | 'ar' = 'en') {
-    const where: Prisma.ContentItemWhereInput = lang === 'en'
-      ? { slugEn: slug, status: ContentStatus.PUBLISHED }
-      : { slugAr: slug, status: ContentStatus.PUBLISHED };
+  async getContentBySlug(slug: string, _lang: 'en' | 'ar' = 'en', type?: ContentType) {
+    const where: Prisma.ContentItemWhereInput = {
+      status: ContentStatus.PUBLISHED,
+      ...(type ? { type } : {}),
+      OR: [{ slugEn: slug }, { slugAr: slug }],
+    };
 
-    const content = await prisma.contentItem.findFirst({ where });
+    // slugEn and slugAr are each unique, so at most two rows can match (one per
+    // column). Prefer the English-slug match if one string hits both columns.
+    const matches = await prisma.contentItem.findMany({ where, take: 2 });
+    const content = matches.find((item) => item.slugEn === slug) ?? matches[0];
 
     if (!content) {
       throw new NotFoundError('Content not found');

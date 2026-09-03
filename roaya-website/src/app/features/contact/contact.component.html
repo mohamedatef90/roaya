@@ -211,8 +211,14 @@
               <h3 class="text-2xl md:text-3xl font-bold text-foreground mb-3">
                 {{ 'contact.form.success.title' | translate }}
               </h3>
-              <p class="text-base md:text-lg text-content-secondary mb-8 max-w-md mx-auto">
+              <p class="text-base md:text-lg text-content-secondary mb-4 max-w-md mx-auto">
                 {{ 'contact.form.success.description' | translate }}
+              </p>
+              <!-- A reference the sender can quote, and a definite outcome an
+                   agent can report rather than inferring success from a tick. -->
+              <p *ngIf="submissionReference()" class="text-sm text-content-muted mb-8">
+                {{ 'contact.form.success.reference' | translate }}
+                <code class="font-mono text-content-primary" data-submission-reference>{{ submissionReference() }}</code>
               </p>
               <button
                 (click)="isSubmitted.set(false)"
@@ -224,6 +230,26 @@
 
             <!-- Form -->
             <form id="roaya-contact-form" *ngIf="!isSubmitted()" [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
+              <!-- Error summary: one place naming every field that blocked the
+                   last submit. Rendered only after a submit is refused, so it
+                   never pre-empts the reader. role="alert" announces it; each
+                   entry moves focus to its field. -->
+              <div *ngIf="submitFailed() && invalidFields().length > 0" role="alert" tabindex="-1"
+                id="contact-error-summary"
+                class="mb-6 p-4 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
+                <p class="font-semibold text-red-700 dark:text-red-400 mb-2">
+                  {{ 'contact.form.errorSummary.title' | translate: { count: invalidFields().length } }}
+                </p>
+                <ul class="list-disc ps-5 space-y-1 text-sm text-red-700 dark:text-red-400">
+                  <li *ngFor="let field of invalidFields()">
+                    <button type="button" (click)="focusField(field)"
+                      class="underline underline-offset-2 hover:no-underline focus:outline-none focus:ring-2 focus:ring-red-500 rounded">
+                      {{ fieldLabelKey(field) | translate }}<span *ngIf="getFieldError(field)">: {{ getFieldError(field)! | translate }}</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
               <!-- Form Header -->
               <div class="mb-8">
                 <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-2">
@@ -245,6 +271,7 @@
                       type="text"
                       id="name"
                       formControlName="name"
+                      autocomplete="name"
                       required
                       [attr.aria-invalid]="hasFieldError('name') ? 'true' : null"
                       [attr.aria-describedby]="hasFieldError('name') ? 'name-error' : null"
@@ -275,6 +302,7 @@
                       type="email"
                       id="email"
                       formControlName="email"
+                      autocomplete="email"
                       required
                       [attr.aria-invalid]="hasFieldError('email') ? 'true' : null"
                       [attr.aria-describedby]="hasFieldError('email') ? 'email-error' : null"
@@ -304,6 +332,7 @@
                       type="tel"
                       id="phone"
                       formControlName="phone"
+                      autocomplete="tel"
                       [attr.aria-invalid]="hasFieldError('phone') ? 'true' : null"
                       [attr.aria-describedby]="hasFieldError('phone') ? 'phone-error' : null"
                       class="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-primary-900/30 border-2 focus:ring-0 outline-none transition-all duration-300 placeholder:text-neutral-400"
@@ -332,6 +361,7 @@
                       type="text"
                       id="company"
                       formControlName="company"
+                      autocomplete="organization"
                       class="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-primary-900/30 border-2 border-neutral-200 dark:border-primary-700 focus:border-secondary-500 dark:focus:border-secondary-400 hover:border-neutral-300 dark:hover:border-primary-600 focus:ring-0 outline-none transition-all duration-300 placeholder:text-neutral-400"
                       [placeholder]="'contact.form.companyPlaceholder' | translate"
                     />

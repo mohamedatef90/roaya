@@ -514,34 +514,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/case-studies/ecommerce-auto-scaling"/>
   </url>
   <url>
-    <loc>https://roaya.co/resources/whitepapers</loc>
-    <lastmod>2026-01-03</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/whitepapers"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/whitepapers"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/whitepapers"/>
-  </url>
-  <url>
-    <loc>https://roaya.co/ar/resources/whitepapers</loc>
-    <lastmod>2026-01-03</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/whitepapers"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/whitepapers"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/whitepapers"/>
-  </url>
-  <url>
-    <loc>https://roaya.co/resources/documentation</loc>
-    <lastmod>2026-01-03</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/documentation"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/documentation"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/documentation"/>
-  </url>
-  <url>
-    <loc>https://roaya.co/ar/resources/documentation</loc>
-    <lastmod>2026-01-03</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/resources/documentation"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://roaya.co/ar/resources/documentation"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://roaya.co/resources/documentation"/>
-  </url>
-  <url>
     <loc>https://roaya.co/privacy</loc>
     <lastmod>2025-12-16</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://roaya.co/privacy"/>

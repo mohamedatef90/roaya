@@ -41,6 +41,15 @@ export class SEOService {
   // (e.g. "Services - Roaya IT"). The company name stays in English in both
   // locales per the approved bilingual content convention.
   private readonly brandSuffix = ' - Roaya IT';
+  /**
+   * The last explicit per-page alternate set (setAlternatesForLocales), keyed
+   * by locale-independent path. NavigationEnd can fire AFTER a page has
+   * already narrowed its alternates — on hydration the HTTP transfer cache
+   * resolves the page's data synchronously during route activation — so the
+   * NavigationEnd pass re-applies the page's decision for the same path
+   * instead of resetting it to both locales. A different path drops it.
+   */
+  private alternateOverride: { path: string; locales: readonly Locale[] } | null = null;
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -91,6 +100,58 @@ export class SEOService {
     const withLeadingSlash = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
     const normalized = withLeadingSlash.replace(/\/+$/, '');
     return normalized === '' ? `${this.baseUrl}/` : `${this.baseUrl}${normalized}`;
+  }
+
+  /**
+   * `title` with the brand suffix appended, matching the static route titles
+   * and the registry-driven titles (e.g. "Article not found - Roaya IT").
+   */
+  brandTitle(title: string): string {
+    return `${title}${this.brandSuffix}`;
+  }
+
+  /**
+   * Replace the page's `hreflang` alternate set with only the locales in
+   * which the page actually exists as complete content, plus `x-default`
+   * pointing at English whenever English is among them.
+   *
+   * `applyCanonicalAndAlternates` runs on NavigationEnd and has to assume
+   * every dynamic detail page exists in both locales — it knows nothing about
+   * content. A page that has loaded its data knows better and calls this
+   * afterwards (2026-09-02 AI-readiness reconciliation: sitemap/hreflang may
+   * only advertise an Arabic article that actually exists as a complete
+   * article). An empty list clears the alternates, which is right for a
+   * detail page that ended in 404/503 — it must not advertise translations
+   * of itself.
+   *
+   * `path` may carry a locale prefix or not; it is stripped so
+   * `/ar/resources/blog/x` and `/resources/blog/x` yield the same set.
+   */
+  setAlternatesForLocales(path: string, availableLocales: readonly Locale[]): void {
+    const { path: localeIndependent } = splitLocale(this.normalizeRoutePath(path));
+    const locales = SUPPORTED_LOCALES.filter(locale => availableLocales.includes(locale));
+    this.alternateOverride = { path: localeIndependent, locales };
+    this.writeAlternates(localeIndependent, locales);
+  }
+
+  private writeAlternates(localeIndependent: string, locales: readonly Locale[]): void {
+    if (locales.length === 0) {
+      this.clearAlternates();
+      return;
+    }
+
+    const alternates: { hreflang: string; href: string }[] = locales.map(locale => ({
+      hreflang: locale,
+      href: this.buildCanonicalUrl(withLocale(localeIndependent, locale))
+    }));
+    if (locales.includes('en')) {
+      alternates.push({
+        hreflang: 'x-default',
+        href: this.buildCanonicalUrl(withLocale(localeIndependent, 'en'))
+      });
+    }
+
+    this.setAlternates(alternates);
   }
 
   /**
@@ -319,20 +380,20 @@ export class SEOService {
 
     const { path: localeIndependent } = splitLocale(path);
     if (!this.hasLocaleAlternates(localeIndependent)) {
+      this.alternateOverride = null;
       this.clearAlternates();
       return;
     }
 
-    const alternates: { hreflang: string; href: string }[] = SUPPORTED_LOCALES.map(locale => ({
-      hreflang: locale,
-      href: this.buildCanonicalUrl(withLocale(localeIndependent, locale))
-    }));
-    alternates.push({
-      hreflang: 'x-default',
-      href: this.buildCanonicalUrl(withLocale(localeIndependent, 'en'))
-    });
-
-    this.setAlternates(alternates);
+    // Both locales, x-default -> en — unless the page at this very path has
+    // already narrowed the set (setAlternatesForLocales), in which case its
+    // decision stands. A different path drops any earlier decision.
+    if (this.alternateOverride?.path === localeIndependent) {
+      this.writeAlternates(localeIndependent, this.alternateOverride.locales);
+      return;
+    }
+    this.alternateOverride = null;
+    this.writeAlternates(localeIndependent, SUPPORTED_LOCALES);
   }
 
   /**

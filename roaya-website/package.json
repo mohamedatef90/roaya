@@ -21,12 +21,17 @@
     "test:deploy-runtime-config": "node scripts/deploy/validate-runtime-config.mjs",
     "test:deploy-runtime-config:selftest": "node scripts/deploy/validate-runtime-config.selftest.mjs",
     "test:deploy-health-gate": "bash scripts/deploy/health-gate.simulation.sh",
+    "gate:sitemap-integrity": "bash scripts/deploy/sitemap-integrity-gate.sh",
+    "test:sitemap-integrity-gate": "bash scripts/deploy/sitemap-integrity-gate.simulation.sh",
     "test:proxy-headers": "bash scripts/deploy/proxy-header-matrix.test.sh",
     "test:ssh-argv": "bash scripts/deploy/ssh-argv.test.sh",
     "test:build-toolchain": "node scripts/deploy/validate-build-toolchain.mjs",
     "test:build-toolchain:selftest": "node scripts/deploy/validate-build-toolchain.selftest.mjs",
     "test:build-exit": "bash scripts/deploy/build-exit-regression.sh",
-    "verify:evidence": "npm run validate:claims && npm run test:claims:selftest && npm run test:llms-txt:selftest && npm run test:ai-readiness:selftest && npm run ai-readiness"
+    "verify:evidence": "npm run validate:claims && npm run test:claims:selftest && npm run test:llms-txt:selftest && npm run test:ai-readiness:selftest && npm run ai-readiness",
+    "perf:baseline": "node scripts/perf/lighthouse-baseline.mjs",
+    "perf:baseline:prod": "node scripts/perf/lighthouse-baseline.mjs --url=https://roaya.co/",
+    "report:link-graph": "node scripts/ai-readiness/link-graph.mjs"
   },
   "prettier": {
     "printWidth": 100,

@@ -2,15 +2,15 @@
 <app-reading-progress></app-reading-progress>
 
 <!-- Loading State -->
-@if (isLoading()) {
+@if (loadState() === 'loading') {
 <div class="py-20 text-center">
   <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
   <p class="mt-4 text-content-secondary">{{ 'blog.detail.loading' | translate }}</p>
 </div>
 }
 
-<!-- Post Not Found -->
-@if (!isLoading() && !post()) {
+<!-- Post Not Found (real HTTP 404: the backend answered, the slug does not exist) -->
+@if (loadState() === 'notFound') {
 <div class="py-20 text-center">
   <h1 class="text-3xl font-bold mb-4 text-content-primary">
     {{ 'blog.detail.notFound.title' | translate }}
@@ -20,14 +20,31 @@
   </p>
   <a [routerLink]="'/resources/blog' | localizeLink"
     class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white rounded-lg hover:bg-navy/90 transition-colors focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2">
-    <ng-icon name="lucideArrowLeft" size="20" aria-hidden="true"></ng-icon>
+    <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
     {{ 'blog.detail.notFound.back' | translate }}
   </a>
 </div>
 }
 
+<!-- Post Temporarily Unavailable (HTTP 503: backend unreachable or failed; the post may well exist) -->
+@if (loadState() === 'unavailable') {
+<div class="py-20 text-center">
+  <h1 class="text-3xl font-bold mb-4 text-content-primary">
+    {{ 'blog.detail.unavailable.title' | translate }}
+  </h1>
+  <p class="text-content-secondary mb-8">
+    {{ 'blog.detail.unavailable.description' | translate }}
+  </p>
+  <a [routerLink]="'/resources/blog' | localizeLink"
+    class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white rounded-lg hover:bg-navy/90 transition-colors focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2">
+    <ng-icon name="lucideArrowLeft" size="20" class="rtl:rotate-180" aria-hidden="true"></ng-icon>
+    {{ 'blog.detail.unavailable.back' | translate }}
+  </a>
+</div>
+}
+
 <!-- Post Content -->
-@if (!isLoading() && post()) {
+@if (loadState() === 'ready' && post()) {
 <article class="bg-surface-elevated">
   <!-- Hero Section -->
   <section

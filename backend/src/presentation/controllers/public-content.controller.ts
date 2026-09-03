@@ -41,7 +41,7 @@ export class PublicContentController {
     try {
       const slug = req.params['slug'] as string;
       const lang = (req.query['lang'] as 'en' | 'ar') || 'en';
-      const content = await contentService.getContentBySlug(slug, lang);
+      const content = await contentService.getContentBySlug(slug, lang, ContentType.BLOG_POST);
       res.json({ success: true, data: content });
     } catch (error) {
       next(error);
@@ -74,7 +74,7 @@ export class PublicContentController {
     try {
       const slug = req.params['slug'] as string;
       const lang = (req.query['lang'] as 'en' | 'ar') || 'en';
-      const content = await contentService.getContentBySlug(slug, lang);
+      const content = await contentService.getContentBySlug(slug, lang, ContentType.CASE_STUDY);
       res.json({ success: true, data: content });
     } catch (error) {
       next(error);

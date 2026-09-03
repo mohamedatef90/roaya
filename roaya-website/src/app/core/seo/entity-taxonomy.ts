@@ -112,6 +112,130 @@ export const BREADCRUMB_LABEL_KEYS: Readonly<Record<string, string>> = {
   '/cookies': 'legal.cookies.title'
 };
 
+/**
+ * Service pages -> the i18n keys that page already renders (P1.2, "align
+ * structured data with visible facts", 2026-09-02 reconciliation).
+ *
+ * Before this map only `/services/worldposta` emitted a `Service` node, so an
+ * assistant asked "does Roaya run SOC services in Egypt?" had to infer the
+ * answer from prose. Every commercial service page now declares what it sells
+ * in machine-readable form.
+ *
+ * The rules that keep this honest:
+ *   - `nameKey` is the canonical label the site already uses for that service
+ *     everywhere (nav, services index, breadcrumb). A name is a label, not a
+ *     claim.
+ *   - `descriptionKey` is present ONLY where that exact string is rendered in
+ *     the page's own `<main>`, verified against the built server output. Pages
+ *     whose body copy is hard-coded in their component rather than i18n get a
+ *     Service node with no description rather than a borrowed one. Never point
+ *     it at a meta description: schema must not assert more than the page shows.
+ *   - Both keys must resolve, non-empty, in en.json AND ar.json — enforced by
+ *     the `json-ld-exclusion-gates` check, so the Arabic graph is Arabic.
+ *
+ * Adding a page here requires nothing but its label; adding a description
+ * requires putting that sentence on the page first.
+ */
+export interface ServiceEntityKeys {
+  /** Key holding the service's canonical short name. */
+  nameKey: string;
+  /** Key holding a summary sentence this page renders in <main>. */
+  descriptionKey?: string;
+}
+
+export const SERVICE_ENTITY_KEYS: Readonly<Record<string, ServiceEntityKeys>> = {
+  '/services/cloud': { nameKey: 'services.cloud.title' },
+  '/services/security': {
+    nameKey: 'services.security.title',
+    descriptionKey: 'services.security.page.threats.paragraph1'
+  },
+  '/services/security/penetration-testing': {
+    nameKey: 'services.security.page.penetrationTesting.title',
+    descriptionKey: 'services.security.page.penetrationTesting.hero.subtitle'
+  },
+  '/services/security/soc-solutions': {
+    nameKey: 'services.security.page.socSolutions.title',
+    descriptionKey: 'services.security.page.socSolutions.hero.subtitle'
+  },
+  '/services/security/incident-response': {
+    nameKey: 'services.security.page.incidentResponse.title',
+    descriptionKey: 'services.security.page.incidentResponse.hero.subtitle'
+  },
+  '/services/email': { nameKey: 'services.email.title' },
+  '/services/managed': { nameKey: 'services.managed.title' },
+  '/services/backup': { nameKey: 'services.backup.title' },
+  '/services/consulting': { nameKey: 'services.consulting.title' },
+  '/services/sap': { nameKey: 'services.sap.title' },
+  '/services/devops': {
+    nameKey: 'services.devops.title',
+    descriptionKey: 'services.devops.page.hero.subtitle'
+  },
+  '/services/automation': { nameKey: 'services.automation.title' },
+  '/services/ai': {
+    nameKey: 'services.ai.title',
+    descriptionKey: 'services.ai.page.solution.description'
+  },
+  '/services/aws': {
+    nameKey: 'services.aws.title',
+    descriptionKey: 'services.aws.hero.lead'
+  }
+};
+
+/**
+ * Pages with a visible FAQ -> the question/answer key pairs they render.
+ *
+ * `FAQPage` is emitted only from question and answer text the page already
+ * shows. Both accordions keep their answers in the served HTML (collapsed by
+ * CSS, not removed), so the schema and the page say the same thing — which is
+ * the whole condition for publishing it.
+ *
+ * These answers repeat whatever the visible copy claims. When a claim in one
+ * of them changes, the schema follows automatically; it can never be used to
+ * state something the page does not.
+ */
+export const FAQ_ENTITY_KEYS: Readonly<Record<string, readonly { questionKey: string; answerKey: string }[]>> = {
+  '/': [
+    { questionKey: 'home.faq.q1.question', answerKey: 'home.faq.q1.answer' },
+    { questionKey: 'home.faq.q2.question', answerKey: 'home.faq.q2.answer' },
+    { questionKey: 'home.faq.q3.question', answerKey: 'home.faq.q3.answer' },
+    { questionKey: 'home.faq.q4.question', answerKey: 'home.faq.q4.answer' }
+  ],
+  '/services/aws': [
+    { questionKey: 'services.aws.faq.tier.q', answerKey: 'services.aws.faq.tier.a' },
+    { questionKey: 'services.aws.faq.residency.q', answerKey: 'services.aws.faq.residency.a' },
+    { questionKey: 'services.aws.faq.map.q', answerKey: 'services.aws.faq.map.a' },
+    { questionKey: 'services.aws.faq.timeline.q', answerKey: 'services.aws.faq.timeline.a' },
+    { questionKey: 'services.aws.faq.pricing.q', answerKey: 'services.aws.faq.pricing.a' },
+    { questionKey: 'services.aws.faq.arabic.q', answerKey: 'services.aws.faq.arabic.a' }
+  ]
+};
+
+/**
+ * Contact details, exactly as the Contact page renders them.
+ *
+ * The action plan's P3 asks for ContactPoint and address markup on Contact.
+ * Every value below is already visible at /contact — the address block, the
+ * phone link and the email link — so the graph repeats the page rather than
+ * adding to it. Nothing here is inferred: no geo coordinates, no opening hours
+ * beyond the ones the page states, no second location.
+ *
+ * The published hours are the Contact page's own
+ * "Sunday - Thursday: 9:00 AM - 6:00 PM". They are NOT emitted as an
+ * openingHours claim, because the rest of the site advertises 24/7 support and
+ * the two have not been reconciled (pending decision 1). Publishing either one
+ * as structured fact would take a side in an open question.
+ */
+export const CONTACT_DETAILS = {
+  /** Rendered at /contact as the email link. */
+  email: 'info@roaya.co',
+  /** Rendered at /contact as the phone link. */
+  telephone: '+201096274996',
+  /** i18n key for the street address the page shows, resolved per locale. */
+  addressKey: 'contact.info.address.value',
+  addressLocality: 'Cairo',
+  addressCountry: 'EG'
+} as const;
+
 export interface RouteEntityConfig {
   /** Approved services to emit as `Service` nodes on this route. */
   serviceIds?: ApprovedServiceId[];

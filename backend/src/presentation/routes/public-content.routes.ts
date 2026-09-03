@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { publicContentController } from '../controllers/public-content.controller.js';
-import { apiRateLimiter } from '../middleware/rate-limiter.js';
 
 const router = Router();
 
-// All public content routes are rate limited but do NOT require authentication
-router.use(apiRateLimiter);
+// Public content routes do NOT require authentication. Rate limiting comes from
+// the app-level apiRateLimiter in app.ts; a second router.use(apiRateLimiter)
+// here used the same limiter instance and counted every request twice
+// (effective 50 per window). Removed in the 2026-09-02 AI-readiness reconciliation.
 
 // Blog posts
 router.get('/blog', publicContentController.getBlogPosts.bind(publicContentController));

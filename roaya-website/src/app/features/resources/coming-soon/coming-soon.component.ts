@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, signal, input } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Meta } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -40,13 +41,14 @@ export type ComingSoonType = 'whitepapers' | 'documentation';
   templateUrl: './coming-soon.component.html',
   styleUrl: './coming-soon.component.scss'
 })
-export class ComingSoonComponent implements OnInit {
+export class ComingSoonComponent implements OnInit, OnDestroy {
   /** Type of coming soon page - determines translations and icon */
   type = input<ComingSoonType>('whitepapers');
 
   private readonly analytics = inject(AnalyticsService);
   private readonly seo = inject(SEOService);
   private readonly translate = inject(TranslateService);
+  private readonly meta = inject(Meta);
 
   // State signals
   email = signal('');
@@ -68,6 +70,18 @@ export class ComingSoonComponent implements OnInit {
       title: this.translate.instant(titleKey),
       description: this.translate.instant(descriptionKey)
     });
+
+    // 2026-09-02 AI-readiness reconciliation: this placeholder stays reachable
+    // for humans but must not be indexed (see NOINDEX_ROUTES in
+    // core/seo/route-metadata.ts). Set on server and browser alike so the
+    // prerendered HTML carries the tag; SEOService never writes `robots`.
+    this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
+  }
+
+  ngOnDestroy(): void {
+    // index.html ships no default robots tag, so removing (not restoring) is
+    // correct; without this the noindex would follow the user to the next route.
+    this.meta.removeTag('name="robots"');
   }
 
   get translationPrefix(): string {
