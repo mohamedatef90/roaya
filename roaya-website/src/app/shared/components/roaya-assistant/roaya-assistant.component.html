@@ -1,0 +1,136 @@
+<section class="roaya-assistant" [class.roaya-assistant--open]="isOpen()" [attr.dir]="isArabic() ? 'rtl' : 'ltr'">
+  @if (isOpen()) {
+    <div class="roaya-assistant__panel" role="dialog" aria-modal="false" [attr.aria-label]="isArabic() ? 'مساعد رؤية' : 'Roaya Assistant'">
+      <header class="roaya-assistant__header">
+        <div class="roaya-assistant__identity">
+          <span class="roaya-assistant__mark" aria-hidden="true">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M7.5 20.5h13a5 5 0 0 0 .5-10 7.25 7.25 0 0 0-13.87-1.68A5.9 5.9 0 0 0 7.5 20.5Z" stroke="currentColor" stroke-width="1.8"/><path d="M14 11v6m-3-3h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <div>
+            <h2>{{ isArabic() ? 'اسأل رؤية' : 'Ask Roaya' }}</h2>
+            <p><span aria-hidden="true"></span>{{ isArabic() ? 'إجابات موثّقة من محتوى الموقع' : 'Grounded in Roaya website content' }}</p>
+          </div>
+        </div>
+        <div class="roaya-assistant__header-actions">
+          <button type="button" (click)="toggleSound()" [attr.aria-pressed]="soundEnabled()" [attr.aria-label]="soundEnabled() ? (isArabic() ? 'كتم صوت الرسائل' : 'Mute message sounds') : (isArabic() ? 'تشغيل صوت الرسائل' : 'Turn on message sounds')" [attr.title]="soundEnabled() ? (isArabic() ? 'كتم الصوت' : 'Mute sounds') : (isArabic() ? 'تشغيل الصوت' : 'Turn on sounds')">
+            @if (soundEnabled()) {
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4V5Z"/><path d="M15 9a4 4 0 0 1 0 6M17.5 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+            } @else {
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4V5ZM16 10l5 5M21 10l-5 5"/></svg>
+            }
+          </button>
+          @if (messages().length) {
+            <button class="roaya-assistant__new-chat" type="button" (click)="clearConversation()" [attr.aria-label]="isArabic() ? 'ابدأ محادثة جديدة' : 'Start a new chat'" [attr.title]="isArabic() ? 'محادثة جديدة' : 'New chat'">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 5H6.5A2.5 2.5 0 0 0 4 7.5v8A2.5 2.5 0 0 0 6.5 18H9l3 2v-2h4.5a2.5 2.5 0 0 0 2.5-2.5V11"/><path d="m13.5 10.5 5-5a1.4 1.4 0 0 1 2 2l-5 5-3 .8.8-2.8Z"/></svg>
+            </button>
+          }
+          <button class="roaya-assistant__close" type="button" (click)="close()" [attr.aria-label]="isArabic() ? 'إغلاق المساعد' : 'Close assistant'">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="roaya-assistant__scope">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.9 8.8 7 10 4.1-1.2 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <span>{{ isArabic() ? 'المساعد يجيب فقط من معلومات Roaya المنشورة.' : 'Answers are limited to published Roaya information.' }}</span>
+      </div>
+
+      <div class="roaya-assistant__messages" aria-live="polite">
+        @if (messages().length === 0) {
+          <div class="roaya-assistant__welcome">
+            <div class="roaya-assistant__scan" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="roaya-assistant__eyebrow">{{ isArabic() ? 'مركز معرفة رؤية' : 'ROAYA KNOWLEDGE DESK' }}</span>
+            <h3>{{ isArabic() ? 'إيه اللي تحب تعرفه عن رؤية؟' : 'What would you like to know about Roaya?' }}</h3>
+            <p>{{ isArabic() ? 'ابحث في الخدمات والحلول والقطاعات ودراسات الحالة.' : 'Search services, solutions, industries, and case studies.' }}</p>
+            <div class="roaya-assistant__suggestions">
+              @for (suggestion of suggestedQuestions(); track suggestion) {
+                <button type="button" (click)="askSuggested(suggestion)"><span>{{ suggestion }}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              }
+            </div>
+            <div class="roaya-assistant__divider"><span>{{ isArabic() ? 'أو تصفّح المعرفة' : 'OR EXPLORE' }}</span></div>
+            <nav class="roaya-assistant__knowledge" [attr.aria-label]="isArabic() ? 'روابط معرفة رؤية' : 'Roaya knowledge links'">
+              @for (item of knowledgeLinks(); track item.route) {
+                <a [routerLink]="item.route" (click)="close()" [attr.data-icon]="item.icon">
+                  <span><strong>{{ item.label }}</strong><small>{{ item.description }}</small></span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+              }
+            </nav>
+          </div>
+        }
+
+        @for (message of messages(); track trackMessage($index)) {
+          <article class="roaya-assistant__message" [class.roaya-assistant__message--user]="message.role === 'user'" [class.roaya-assistant__message--refusal]="message.outOfScope">
+            @if (message.role === 'assistant') {
+              <span class="roaya-assistant__answer-label">{{ isArabic() ? 'إجابة من رؤية' : 'ROAYA ANSWER' }}</span>
+            }
+            <div class="roaya-assistant__bubble">{{ message.content }}</div>
+            @if (message.sources?.length) {
+              <div class="roaya-assistant__sources" [attr.aria-label]="isArabic() ? 'المصادر' : 'Sources'">
+                <span>{{ isArabic() ? 'اقرأ المزيد من صفحات رؤية' : 'Read more on Roaya' }}</span>
+                @for (source of message.sources; track source.id) {
+                  <a [routerLink]="source.url" (click)="close()"><span>{{ source.title }}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+                }
+              </div>
+            }
+            @if (message.role === 'assistant' && !message.outOfScope) {
+              <div class="roaya-assistant__feedback">
+                <span>{{ message.feedback ? (isArabic() ? 'شكرًا لملاحظتك' : 'Thanks for your feedback') : (isArabic() ? 'هل كانت الإجابة مفيدة؟' : 'Was this helpful?') }}</span>
+                @if (!message.feedback) {
+                  <button type="button" (click)="setFeedback($index, 'helpful')" [attr.aria-label]="isArabic() ? 'نعم، مفيدة' : 'Yes, helpful'">✓</button>
+                  <button type="button" (click)="setFeedback($index, 'not-helpful')" [attr.aria-label]="isArabic() ? 'لا، غير مفيدة' : 'No, not helpful'">×</button>
+                }
+              </div>
+            }
+            @if ($last && message.role === 'assistant' && !message.outOfScope) {
+              <div class="roaya-assistant__followups">
+                @for (followUp of followUpQuestions(); track followUp) {
+                  <button type="button" (click)="askSuggested(followUp)">{{ followUp }}</button>
+                }
+              </div>
+            }
+          </article>
+        }
+
+        @if (isBusy()) {
+          <div class="roaya-assistant__typing" role="status" [attr.aria-label]="isArabic() ? 'رؤية تكتب الآن' : 'Roaya is typing'">
+            <span class="roaya-assistant__typing-mark" aria-hidden="true">
+              <svg viewBox="0 0 28 28" fill="none"><path d="M7.5 20.5h13a5 5 0 0 0 .5-10 7.25 7.25 0 0 0-13.87-1.68A5.9 5.9 0 0 0 7.5 20.5Z" stroke="currentColor" stroke-width="1.8"/></svg>
+            </span>
+            <span class="roaya-assistant__typing-bubble" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="roaya-assistant__typing-label">{{ isArabic() ? 'رؤية بتكتب…' : 'Roaya is typing…' }}</span>
+          </div>
+        }
+      </div>
+
+      <form class="roaya-assistant__composer" (ngSubmit)="submit()">
+        <label class="sr-only" for="roaya-question">{{ isArabic() ? 'اكتب سؤالك' : 'Type your question' }}</label>
+        <textarea
+          #questionInput
+          id="roaya-question"
+          name="question"
+          [(ngModel)]="question"
+          (keydown)="onComposerKeydown($event)"
+          rows="1"
+          maxlength="800"
+          [disabled]="isBusy()"
+          [placeholder]="isArabic() ? 'اسأل عن خدمات رؤية…' : 'Ask about Roaya services…'"
+        ></textarea>
+        <button type="submit" [disabled]="!question.trim() || isBusy()" [attr.aria-label]="isArabic() ? 'إرسال السؤال' : 'Send question'">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 4 17 8-17 8 3-8-3-8Z"/><path d="M7 12h14"/></svg>
+        </button>
+      </form>
+      <p class="roaya-assistant__disclaimer">{{ isArabic() ? 'قد تحتاج المعلومات المهمة لتأكيد من فريق رؤية.' : 'Confirm critical details with the Roaya team.' }}</p>
+    </div>
+  }
+
+  <button class="roaya-assistant__launcher" type="button" (click)="toggle()" [attr.aria-expanded]="isOpen()" [attr.aria-label]="isArabic() ? 'افتح مساعد رؤية' : 'Open Roaya Assistant'">
+    <span class="roaya-assistant__launcher-ring" aria-hidden="true"></span>
+    @if (isOpen()) {
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    } @else {
+      <svg viewBox="0 0 28 28" aria-hidden="true"><path d="M6.5 21h15a5 5 0 0 0 .3-10 8 8 0 0 0-15.1-1.4A6 6 0 0 0 6.5 21Z"/><path d="M10 14h8M10 17h5"/></svg>
+    }
+    <span>{{ isArabic() ? 'اسأل رؤية' : 'Ask Roaya' }}</span>
+  </button>
+</section>

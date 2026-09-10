@@ -46,6 +46,24 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(['error', 'warn', 'info', 'http', 'debug']).default('info'),
   LOG_FORMAT: z.enum(['dev', 'combined', 'common', 'short', 'tiny']).default('dev'),
 
+  // Grounded website assistant
+  RAG_GENERATION_PROVIDER: z.enum(['ollama', 'openai', 'extractive']).default('ollama'),
+  OLLAMA_BASE_URL: z.string().url().default('http://127.0.0.1:11434'),
+  OLLAMA_MODEL: z.string().default('qwen3.5:4b'),
+  OPENAI_API_KEY: z.string().optional(),
+  OPENAI_MODEL: z.string().default('gpt-5-nano'),
+  OPENAI_VECTOR_STORE_ID: z.string().optional(),
+  RAG_CORPUS_PATH: z.string().default('../roaya-website/rag/corpus.json'),
+  RAG_ENABLE_CMS: z.string().default('true').transform((value) => value === 'true'),
+  RAG_ENABLE_VECTOR_SEARCH: z.string().default('false').transform((value) => value === 'true'),
+  RAG_MAX_RESULTS: z.string().default('4').transform(Number),
+  RAG_MAX_CONTEXT_CHARS: z.string().default('4200').transform(Number),
+  RAG_MAX_OUTPUT_TOKENS: z.string().default('320').transform(Number),
+  RAG_CACHE_TTL_MS: z.string().default('600000').transform(Number),
+  RAG_CACHE_MAX_ENTRIES: z.string().default('200').transform(Number),
+  RAG_VECTOR_SCORE_THRESHOLD: z.string().default('0.58').transform(Number),
+  RAG_LOCAL_SCORE_THRESHOLD: z.string().default('0.34').transform(Number),
+
   // Data Retention (for analytics cleanup cron)
   RECORDING_RETENTION_DAYS: z.string().default('30').transform(Number),
   DATA_RETENTION_DAYS: z.string().default('90').transform(Number),
@@ -109,6 +127,28 @@ export const config = {
   logging: {
     level: env.LOG_LEVEL,
     format: env.LOG_FORMAT,
+  },
+  openai: {
+    apiKey: env.OPENAI_API_KEY,
+    model: env.OPENAI_MODEL,
+    vectorStoreId: env.OPENAI_VECTOR_STORE_ID,
+  },
+  ollama: {
+    baseUrl: env.OLLAMA_BASE_URL.replace(/\/$/, ''),
+    model: env.OLLAMA_MODEL,
+  },
+  rag: {
+    corpusPath: env.RAG_CORPUS_PATH,
+    generationProvider: env.RAG_GENERATION_PROVIDER,
+    enableCms: env.RAG_ENABLE_CMS,
+    enableVectorSearch: env.RAG_ENABLE_VECTOR_SEARCH,
+    maxResults: env.RAG_MAX_RESULTS,
+    maxContextChars: env.RAG_MAX_CONTEXT_CHARS,
+    maxOutputTokens: env.RAG_MAX_OUTPUT_TOKENS,
+    cacheTtlMs: env.RAG_CACHE_TTL_MS,
+    cacheMaxEntries: env.RAG_CACHE_MAX_ENTRIES,
+    vectorScoreThreshold: env.RAG_VECTOR_SCORE_THRESHOLD,
+    localScoreThreshold: env.RAG_LOCAL_SCORE_THRESHOLD,
   },
   dataRetention: {
     recordingRetentionDays: env.RECORDING_RETENTION_DAYS,

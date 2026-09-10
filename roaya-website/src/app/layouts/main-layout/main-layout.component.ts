@@ -13,6 +13,7 @@ import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
 import { CosmicLoaderComponent } from '../../shared/components/cosmic-loader/cosmic-loader.component';
 import { ConsentBannerComponent } from '../../shared/components/consent-banner/consent-banner.component';
+import { RoayaAssistantComponent } from '../../shared/components/roaya-assistant/roaya-assistant.component';
 import { Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
@@ -20,7 +21,7 @@ import { throttleTime } from 'rxjs/operators';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent, ConsentBannerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, CosmicLoaderComponent, ConsentBannerComponent, RoayaAssistantComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })

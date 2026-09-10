@@ -1,4 +1,12 @@
 {
+  "name": "roaya-rag-workspace",
+  "private": true,
+  "scripts": {
+    "dev:rag": "npm --prefix backend run dev:rag",
+    "rag:build": "node roaya-website/scripts/build-rag-corpus.mjs",
+    "rag:sync": "npm run rag:build && node backend/scripts/sync-openai-vector-store.mjs",
+    "build": "npm run rag:build && npm --prefix backend run build && npm --prefix roaya-website run build"
+  },
   "devDependencies": {
     "prisma": "^6.19.2",
     "shadcn": "^3.5.1"

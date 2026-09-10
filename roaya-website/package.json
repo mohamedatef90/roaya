@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "dev": "ng serve --open",
+    "rag:build": "node scripts/build-rag-corpus.mjs",
+    "prebuild": "npm run rag:build",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",

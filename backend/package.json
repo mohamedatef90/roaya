@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "dev:rag": "tsx src/rag-dev-server.ts",
     "build": "rm -rf dist && prisma generate && tsc",
+    "rag:sync": "node scripts/sync-openai-vector-store.mjs",
     "start": "node dist/index.js",
     "start:prod": "NODE_ENV=production node dist/index.js",
     "test": "vitest run",
