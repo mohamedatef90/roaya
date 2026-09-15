@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "roaya-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--prefix", "roaya-website", "ng", "serve", "--port", "4200"],
+      "port": 4200
+    }
+  ]
+}

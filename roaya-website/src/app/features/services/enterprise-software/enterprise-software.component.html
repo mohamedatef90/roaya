@@ -61,30 +61,140 @@
         </ul>
       </div>
 
-      <!-- Delivery pipeline. Six gates on one rail; the rail animates only
-           when motion is allowed (see the SCSS reduced-motion block). -->
+      <!--
+        HERO VISUAL — the work itself: a C# service being written on the back
+        screen, and the two things that service ends up behind, standing in
+        front of it. Decorative in full (one role="img" with a translated
+        label); every glyph inside is chrome, a filename or the code, so the
+        composition asserts nothing a crawler could read as a claim.
+
+        MOTION: the static DOM is the finished state. The component types the
+        code once on load and never loops — see animateHeroStage(). A reader
+        with prefers-reduced-motion never reaches it and simply gets the
+        finished screen.
+      -->
       <div
-        class="es-pipeline"
+        class="es-stage"
         data-reveal
         role="img"
-        [attr.aria-label]="'services.enterpriseSoftware.hero.pipelineAria' | translate"
+        [attr.aria-label]="'services.enterpriseSoftware.hero.visualAria' | translate"
       >
-        <div class="es-pipeline__rail" aria-hidden="true">
-          <span class="es-pipeline__pulse"></span>
+        <!-- Back plane: the editor -->
+        <div class="es-stage__editor" aria-hidden="true">
+          <div class="es-stage__chrome">
+            <span class="es-stage__dots"><i></i><i></i><i></i></span>
+            <span class="es-stage__file">CaseService.cs</span>
+            <span class="es-stage__lang">C#</span>
+          </div>
+
+          <div class="es-stage__code">
+            @for (line of heroCode; track $index; let i = $index) {
+              <span class="es-code__line"><span class="es-code__num">{{ i + 1 }}</span><span
+                class="es-code__ink"
+                [style.--es-indent]="line.i"
+              >@for (tk of line.t; track $index) {<span [class]="'es-tk es-tk--' + tk.k">{{ tk.v }}</span>}</span>@if (i === heroCode.length - 1) {<span class="es-code__caret"></span>}</span>
+            }
+          </div>
         </div>
-        <ol class="es-pipeline__stages">
-          @for (stage of stages; track stage; let i = $index) {
-            <li class="es-pipeline__stage" [style.--es-stage-index]="i">
-              <span class="es-pipeline__node" aria-hidden="true"></span>
-              <span class="es-pipeline__label">
-                {{ 'services.enterpriseSoftware.hero.stages.' + stage + '.label' | translate }}
+
+        <!-- Front plane, left: the web application -->
+        <div class="es-stage__device es-stage__web" aria-hidden="true">
+          <span class="es-stage__tag">{{ 'services.enterpriseSoftware.hero.visual.web' | translate }}</span>
+          <div class="es-mock es-mock--web">
+            <div class="es-mock__top">
+              <span class="es-mock__dots"><i></i><i></i><i></i></span>
+              <span class="es-mock__url"></span>
+            </div>
+            <div class="es-mock__body">
+              <nav class="es-mock__side">
+                <span class="es-mock__logo"></span>
+                @for (item of appNav; track item) {
+                  <span class="es-mock__nav" [class.es-mock__nav--on]="item === 'cases'">
+                    <i class="es-mock__glyph"></i>
+                    <em>{{ 'services.enterpriseSoftware.hero.app.nav.' + item | translate }}</em>
+                  </span>
+                }
+              </nav>
+
+              <div class="es-mock__main">
+                <div class="es-mock__head">
+                  <strong class="es-mock__h">{{ 'services.enterpriseSoftware.hero.app.title' | translate }}</strong>
+                  <span class="es-mock__btn">{{ 'services.enterpriseSoftware.hero.app.new' | translate }}</span>
+                </div>
+
+                <div class="es-mock__chips">
+                  @for (chip of appChips; track chip) {
+                    <span class="es-mock__chip" [class.es-mock__chip--on]="chip === 'all'">
+                      {{ 'services.enterpriseSoftware.hero.app.chips.' + chip | translate }}
+                    </span>
+                  }
+                </div>
+
+                <div class="es-mock__panel">
+                  <span class="es-mock__caption">{{ 'services.enterpriseSoftware.hero.app.chart' | translate }}</span>
+                  <div class="es-mock__chart">
+                    @for (bar of mockBars; track $index) {
+                      <span class="es-mock__bar" [style.--es-bar]="bar"></span>
+                    }
+                  </div>
+                </div>
+
+                <ul class="es-mock__list">
+                  @for (row of appRows; track row.key) {
+                    <li class="es-mock__row">
+                      <span class="es-mock__row-label">
+                        {{ 'services.enterpriseSoftware.hero.app.rows.' + row.key | translate }}
+                      </span>
+                      <span [class]="'es-mock__status es-mock__status--' + row.tone">
+                        {{ 'services.enterpriseSoftware.hero.app.status.' + row.tone | translate }}
+                      </span>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Front plane, right: the same console as a mobile app -->
+        <div class="es-stage__device es-stage__phone" aria-hidden="true">
+          <span class="es-stage__tag">{{ 'services.enterpriseSoftware.hero.visual.mobile' | translate }}</span>
+          <div class="es-mock es-mock--phone">
+            <span class="es-mock__notch"></span>
+
+            <div class="es-mock__phone-head">
+              <span class="es-mock__avatar"></span>
+              <strong class="es-mock__h">{{ 'services.enterpriseSoftware.hero.app.title' | translate }}</strong>
+            </div>
+
+            <div class="es-mock__phone-card">
+              <span class="es-mock__status es-mock__status--review">
+                {{ 'services.enterpriseSoftware.hero.app.status.review' | translate }}
               </span>
-              <span class="es-pipeline__note">
-                {{ 'services.enterpriseSoftware.hero.stages.' + stage + '.note' | translate }}
+              <span class="es-mock__row-label">
+                {{ 'services.enterpriseSoftware.hero.app.rows.licence' | translate }}
               </span>
-            </li>
-          }
-        </ol>
+            </div>
+
+            @for (row of appRows; track row.key) {
+              <div class="es-mock__phone-row">
+                <span class="es-mock__dot es-mock__dot--{{ row.tone }}"></span>
+                <span class="es-mock__row-label">
+                  {{ 'services.enterpriseSoftware.hero.app.rows.' + row.key | translate }}
+                </span>
+              </div>
+            }
+
+            <div class="es-mock__tabs">
+              @for (tab of appTabs; track tab.key) {
+                <span class="es-mock__tab" [class.es-mock__tab--on]="tab.key === 'cases'">
+                  <ng-icon [name]="tab.icon" />
+                  <em>{{ 'services.enterpriseSoftware.hero.app.tabs.' + tab.key | translate }}</em>
+                </span>
+              }
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -332,6 +442,98 @@
           </article>
         }
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AUTOMATION — the workflow canvas. Ported from a React/shadcn
+       workflow-builder block: the canvas chrome, typed nodes, dashed
+       flow connectors and legend are kept; the drag-and-drop is not.
+       Rearranging a diagram is a toy on a marketing page, and it was
+       the only part that needed framer-motion.
+
+       The travelling dashes are the page's one continuous animation,
+       and they only run while the canvas is on screen — the component
+       toggles .is-live from a ScrollTrigger (see gateAutomationFlow).
+       ============================================================ -->
+  <section class="es-section" data-reveal-group aria-labelledby="es-automation-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.automation.badge' | translate }}</p>
+        <h2 id="es-automation-title">{{ 'services.enterpriseSoftware.automation.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.automation.intro' | translate }}</p>
+      </header>
+
+      <!--
+        One role="img" with a translated label: the canvas is a diagram, so a
+        screen reader gets the sentence rather than a walk through fourteen
+        decorative spans. The prose beneath carries the same content as text.
+      -->
+      <div
+        class="es-flow"
+        data-reveal
+        role="img"
+        [attr.aria-label]="'services.enterpriseSoftware.automation.canvasAria' | translate"
+      >
+        <div class="es-flow__bar" aria-hidden="true">
+          <span class="es-flow__pill">{{ 'services.enterpriseSoftware.automation.example' | translate }}</span>
+          <span class="es-flow__name">{{ 'services.enterpriseSoftware.automation.canvasName' | translate }}</span>
+        </div>
+
+        <!-- Horizontal on a wide screen, stacked on a narrow one; the
+             connectors rotate with it in CSS. -->
+        <ol class="es-flow__canvas" aria-hidden="true">
+          @for (node of flowNodes; track node.key; let last = $last) {
+            <li class="es-flow__step">
+              <article class="es-flow__node" [class]="'es-flow__node es-flow__node--' + node.kind">
+                <div class="es-flow__node-head">
+                  <span class="es-flow__icon"><ng-icon [name]="node.icon" /></span>
+                  <span class="es-flow__kind">
+                    {{ 'services.enterpriseSoftware.automation.kinds.' + node.kind | translate }}
+                  </span>
+                </div>
+                <h3 class="es-flow__node-title">
+                  {{ 'services.enterpriseSoftware.automation.nodes.' + node.key + '.title' | translate }}
+                </h3>
+                <p class="es-flow__node-desc">
+                  {{ 'services.enterpriseSoftware.automation.nodes.' + node.key + '.note' | translate }}
+                </p>
+              </article>
+
+              @if (!last) {
+                <span class="es-flow__link">
+                  <span class="es-flow__dash"></span>
+                  <span class="es-flow__arrow"></span>
+                </span>
+              }
+            </li>
+          }
+        </ol>
+
+        <div class="es-flow__legend" aria-hidden="true">
+          @for (kind of flowLegend; track kind) {
+            <span class="es-flow__key" [class]="'es-flow__key es-flow__key--' + kind">
+              <i></i>{{ 'services.enterpriseSoftware.automation.kinds.' + kind | translate }}
+            </span>
+          }
+          <span class="es-flow__note">{{ 'services.enterpriseSoftware.automation.canvasNote' | translate }}</span>
+        </div>
+      </div>
+
+      <ul class="es-grid es-grid--3 es-automation__kinds">
+        @for (kind of automationKinds; track kind.key) {
+          <li class="es-card" data-reveal>
+            <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="kind.icon" /></span>
+            <h3>{{ 'services.enterpriseSoftware.automation.' + kind.key + '.title' | translate }}</h3>
+            <p>{{ 'services.enterpriseSoftware.automation.' + kind.key + '.desc' | translate }}</p>
+          </li>
+        }
+      </ul>
+
+      <p class="es-legend" data-reveal>
+        <ng-icon name="lucideScrollText" aria-hidden="true" />
+        <span>{{ 'services.enterpriseSoftware.automation.audit' | translate }}</span>
+      </p>
     </div>
   </section>
 

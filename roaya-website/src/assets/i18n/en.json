@@ -2416,6 +2416,44 @@
         "cta": "Talk to an engineering lead",
         "ctaSecondary": "See how we build",
         "pipelineAria": "How Roaya delivers software: discover, design, build, harden, launch, run",
+        "visualAria": "Roaya engineers the application and both of its faces: a C# service under development, with the web application and the mobile application it powers.",
+        "visual": {
+          "web": "Web",
+          "mobile": "Mobile"
+        },
+        "app": {
+          "title": "Cases",
+          "new": "New case",
+          "chart": "By stage",
+          "nav": {
+            "dashboard": "Dashboard",
+            "cases": "Cases",
+            "requests": "Requests",
+            "reports": "Reports",
+            "settings": "Settings"
+          },
+          "chips": {
+            "all": "All",
+            "open": "Open",
+            "review": "In review"
+          },
+          "rows": {
+            "licence": "Licence renewal",
+            "permit": "Permit request",
+            "records": "Records access"
+          },
+          "status": {
+            "review": "In review",
+            "ok": "Approved",
+            "open": "Open"
+          },
+          "tabs": {
+            "home": "Home",
+            "cases": "Cases",
+            "tasks": "Tasks",
+            "more": "More"
+          }
+        },
         "trust": {
           "secure": "Secure by design, not by audit",
           "bilingual": "Arabic-first and RTL native",
@@ -2693,6 +2731,59 @@
           "i3": "Alerting tied to user-visible symptoms rather than machine noise",
           "i4": "Audit trails where the record itself is part of the requirement"
         }
+      },
+      "automation": {
+        "badge": "Automation & integration",
+        "title": "The handoffs between systems, removed",
+        "intro": "Most of the delay in an institutional process is not the work — it is the wait between one system and the next. Automation is how that wait is engineered out, with every step recorded.",
+        "example": "Example",
+        "canvasName": "Workflow",
+        "canvasAria": "An example automated workflow: a request arrives from another system, is validated against the rules, is routed by case type, is written to the system of record, and the applicant and case officer are notified.",
+        "canvasNote": "Illustrative flow, not a customer workflow",
+        "kinds": {
+          "trigger": "Trigger",
+          "action": "Action",
+          "condition": "Condition"
+        },
+        "nodes": {
+          "receive": {
+            "title": "Request arrives",
+            "note": "A webhook or queue message from another system starts the run."
+          },
+          "validate": {
+            "title": "Rules applied",
+            "note": "Entitlements and business rules are checked before anything is written."
+          },
+          "route": {
+            "title": "Routed by type",
+            "note": "The branch decides which path and which owner the case takes."
+          },
+          "record": {
+            "title": "Written to record",
+            "note": "The system of record is updated in one transaction, not by hand."
+          },
+          "notify": {
+            "title": "People told",
+            "note": "Applicant and case officer are notified on the channel each of them uses."
+          }
+        },
+        "process": {
+          "title": "Process automation",
+          "desc": "High-volume, rule-driven work handled by software, so people are left with the judgement calls rather than the keystrokes."
+        },
+        "integration": {
+          "title": "Integration layers",
+          "desc": "One contract in front of systems that were never designed to talk to each other, so a change on either side stops breaking the other."
+        },
+        "events": {
+          "title": "Event-driven pipelines",
+          "desc": "Work that reacts to a change when it happens instead of polling for it on a timer and discovering it late."
+        },
+        "scheduled": {
+          "title": "Scheduled workflows",
+          "desc": "Recurring runs with retries, failure handling and an operator who is told when a run does not complete."
+        },
+        "audit": "Every run leaves an execution history: what triggered it, which branch it took, what it changed and who was notified. In a regulated process that record is not a feature of the automation — it is the reason the automation is allowed."
       },
       "govt": {
         "badge": "Public sector",
