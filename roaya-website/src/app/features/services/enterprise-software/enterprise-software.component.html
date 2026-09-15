@@ -34,7 +34,13 @@
         <p class="es-hero__lead" data-reveal>{{ 'services.enterpriseSoftware.hero.lead' | translate }}</p>
 
         <div class="es-hero__actions" data-reveal>
-          <a [routerLink]="'/contact' | localizeLink" class="es-btn es-btn--primary">
+          <!-- Lands on the form itself rather than the top of /contact: the
+               reader clicked a CTA, not a navigation link. -->
+          <a
+            [routerLink]="'/contact' | localizeLink"
+            fragment="roaya-contact-form"
+            class="es-btn es-btn--primary"
+          >
             {{ 'services.enterpriseSoftware.hero.cta' | translate }}
             <ng-icon name="lucideArrowRight" class="es-btn__icon rtl:rotate-180" aria-hidden="true" />
           </a>
@@ -310,8 +316,18 @@
       <ol class="es-gates">
         @for (phase of securityPhases; track phase.key; let i = $index) {
           <li class="es-gate" data-reveal>
+            <!-- Sweeps once as the gate reveals: the card is a checkpoint, and
+                 the pass reads as the check being run rather than as decoration.
+                 Transform-only, and removed from the flow (aria-hidden). -->
+            <span class="es-gate__scan" aria-hidden="true"></span>
             <div class="es-gate__marker" aria-hidden="true">
-              <span class="es-gate__num">{{ i + 1 }}</span>
+              <span class="es-gate__ring">
+                <svg viewBox="0 0 36 36" aria-hidden="true">
+                  <circle class="es-gate__ring-track" cx="18" cy="18" r="16" />
+                  <circle class="es-gate__ring-draw" cx="18" cy="18" r="16" />
+                </svg>
+                <span class="es-gate__num">{{ i + 1 }}</span>
+              </span>
               <ng-icon [name]="phase.icon" class="es-gate__icon" />
             </div>
             <div class="es-gate__body">
@@ -530,7 +546,7 @@
         }
       </ul>
 
-      <p class="es-legend" data-reveal>
+      <p class="es-note" data-reveal>
         <ng-icon name="lucideScrollText" aria-hidden="true" />
         <span>{{ 'services.enterpriseSoftware.automation.audit' | translate }}</span>
       </p>
@@ -570,6 +586,49 @@
         <h2 id="es-quality-title">{{ 'services.enterpriseSoftware.quality.title' | translate }}</h2>
         <p class="es-head__intro">{{ 'services.enterpriseSoftware.quality.intro' | translate }}</p>
       </header>
+
+      <!--
+        The test run. Same six layers as the cards below, shown as the thing a
+        reader recognises: a suite executing, each layer resolving in turn.
+
+        One role="img" with a translated label — the cards underneath carry the
+        same six layers as real text, so nothing here is the only copy of
+        anything. Runs once when scrolled to (runQualitySuite), never loops.
+      -->
+      <div
+        class="es-suite"
+        data-reveal
+        role="img"
+        [attr.aria-label]="'services.enterpriseSoftware.quality.suiteAria' | translate"
+      >
+        <div class="es-suite__bar" aria-hidden="true">
+          <span class="es-suite__dots"><i></i><i></i><i></i></span>
+          <span class="es-suite__name">{{ 'services.enterpriseSoftware.quality.suiteName' | translate }}</span>
+          <span class="es-suite__state">{{ 'services.enterpriseSoftware.quality.suiteState' | translate }}</span>
+        </div>
+
+        <ul class="es-suite__rows" aria-hidden="true">
+          @for (layer of qualityLayers; track layer.key) {
+            <li class="es-suite__row">
+              <span class="es-suite__icon"><ng-icon [name]="layer.icon" /></span>
+              <span class="es-suite__label">
+                {{ 'services.enterpriseSoftware.quality.' + layer.key + '.title' | translate }}
+              </span>
+              <span class="es-suite__track"><i class="es-suite__fill"></i></span>
+              <span class="es-suite__chip">
+                <svg class="es-suite__tick" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M3.5 8.5 L6.5 11.5 L12.5 4.5" />
+                </svg>
+                <em>{{ 'services.enterpriseSoftware.quality.pass' | translate }}</em>
+              </span>
+            </li>
+          }
+        </ul>
+
+        <p class="es-suite__foot" aria-hidden="true">
+          {{ 'services.enterpriseSoftware.quality.suiteFoot' | translate }}
+        </p>
+      </div>
 
       <ul class="es-grid es-grid--3">
         @for (layer of qualityLayers; track layer.key) {
@@ -707,7 +766,11 @@
         <p data-reveal>{{ 'services.enterpriseSoftware.cta.lead' | translate }}</p>
       </div>
       <div class="es-cta__actions" data-reveal>
-        <a [routerLink]="'/contact' | localizeLink" class="es-btn es-btn--solid">
+        <a
+          [routerLink]="'/contact' | localizeLink"
+          fragment="roaya-contact-form"
+          class="es-btn es-btn--solid"
+        >
           {{ 'services.enterpriseSoftware.cta.primary' | translate }}
           <ng-icon name="lucideArrowRight" class="es-btn__icon rtl:rotate-180" aria-hidden="true" />
         </a>

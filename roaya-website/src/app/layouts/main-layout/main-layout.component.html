@@ -82,6 +82,17 @@
           [viewAllLabel]="'megaMenu.viewAllResources'"
         />
 
+        <!-- Enterprise Software. Also reachable from the Solutions mega menu;
+             promoted to the top bar as a named destination, so it uses the
+             short common.* label rather than the page's full title. -->
+        <a
+          [routerLink]="'/services/enterprise-software' | localizeLink"
+          routerLinkActive="text-primary-500 dark:text-secondary-400 bg-primary-50 dark:bg-primary-900/30"
+          class="px-3 py-1.5 rounded-full text-content-secondary hover:text-primary-500 dark:hover:text-secondary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all font-medium focus-ring text-sm"
+        >
+          {{ 'common.enterpriseSoftware' | translate }}
+        </a>
+
         <!-- About -->
         <a
           [routerLink]="'/about' | localizeLink"
@@ -401,6 +412,16 @@
           class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
         >
           {{ 'common.resources' | translate }}
+        </a>
+
+        <!-- Enterprise Software -->
+        <a
+          [routerLink]="'/services/enterprise-software' | localizeLink"
+          (click)="closeMobileMenu()"
+          routerLinkActive="bg-primary-50 dark:bg-primary-900/30 text-primary-500 dark:text-secondary-400"
+          class="px-4 py-3 rounded-xl text-content-secondary hover:bg-surface-hover transition-colors font-medium text-lg"
+        >
+          {{ 'common.enterpriseSoftware' | translate }}
         </a>
 
         <!-- About -->

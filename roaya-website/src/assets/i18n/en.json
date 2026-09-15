@@ -5,6 +5,7 @@
     "industries": "Industries",
     "resources": "Resources",
     "pricing": "Pricing",
+    "enterpriseSoftware": "Enterprise Software",
     "about": "About",
     "contact": "Contact",
     "getStarted": "Get Started",
@@ -2818,6 +2819,11 @@
         "badge": "Quality engineering",
         "title": "Tests are how a system stays changeable",
         "intro": "A system without a test suite becomes unchangeable within two years. Roaya builds the suite alongside the software so the tenth release is as safe as the first.",
+        "suiteName": "test-suite",
+        "suiteState": "Green",
+        "pass": "Pass",
+        "suiteAria": "A test suite running: unit, integration, end-to-end, performance, accessibility and security layers each passing in turn.",
+        "suiteFoot": "A release does not leave the pipeline until every layer is green. A red layer stops the release; it does not get waived.",
         "unit": {
           "title": "Unit",
           "description": "Fast, isolated tests on domain logic, run on every commit."

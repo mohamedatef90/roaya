@@ -599,6 +599,95 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     });
 
     this.gateAutomationFlow();
+    this.runQualitySuite();
+    this.runSecurityGates();
+  }
+
+  /**
+   * The quality panel: six rows resolving in order — track fills, then the
+   * pass chip arrives with its tick drawing itself.
+   *
+   * once:true. A suite that re-runs every time you scroll past is a spinner,
+   * not a result; this plays when the reader first reaches it and then holds
+   * the finished state, which is also the state SSR serves and the state a
+   * reader with prefers-reduced-motion keeps.
+   */
+  private runQualitySuite(): void {
+    const suite = document.querySelector<HTMLElement>('.es-suite');
+    if (!suite) return;
+
+    const fills = gsap.utils.toArray<HTMLElement>('.es-suite__fill', suite);
+    const chips = gsap.utils.toArray<HTMLElement>('.es-suite__chip', suite);
+    const ticks = gsap.utils.toArray<SVGPathElement>('.es-suite__tick path', suite);
+    if (!fills.length) return;
+
+    gsap.set(fills, { scaleX: 0 });
+    gsap.set(chips, { autoAlpha: 0, x: 6 });
+    // Measured rather than assumed: the tick's length depends on the viewBox
+    // path, and a hard-coded dash array would show a stub on any edit to it.
+    ticks.forEach(tick => {
+      const len = tick.getTotalLength();
+      gsap.set(tick, { strokeDasharray: len, strokeDashoffset: len });
+    });
+
+    const trigger = ScrollTrigger.create({
+      trigger: suite,
+      start: 'top 78%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline();
+        fills.forEach((fill, i) => {
+          tl.to(fill, { scaleX: 1, duration: 0.45, ease: 'power2.out' }, i * 0.18)
+            .to(chips[i], { autoAlpha: 1, x: 0, duration: 0.25, ease: 'power2.out' }, i * 0.18 + 0.35)
+            .to(ticks[i], { strokeDashoffset: 0, duration: 0.3, ease: 'power2.out' }, i * 0.18 + 0.4);
+        });
+      }
+    });
+    this.scrollTriggers.push(trigger);
+  }
+
+  /**
+   * The security gates: each card's ring draws, then a single scan pass
+   * crosses it. One pass per card, on first reveal only — these are
+   * checkpoints, and a checkpoint that keeps re-checking is noise.
+   */
+  private runSecurityGates(): void {
+    const gates = gsap.utils.toArray<HTMLElement>('.es-gate');
+    if (!gates.length) return;
+
+    gates.forEach(gate => {
+      const ring = gate.querySelector<SVGCircleElement>('.es-gate__ring-draw');
+      const scan = gate.querySelector<HTMLElement>('.es-gate__scan');
+
+      if (ring) {
+        const len = ring.getTotalLength();
+        gsap.set(ring, { strokeDasharray: len, strokeDashoffset: len });
+      }
+      if (scan) {
+        gsap.set(scan, { xPercent: -100, autoAlpha: 0 });
+      }
+
+      const trigger = ScrollTrigger.create({
+        trigger: gate,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          const tl = gsap.timeline();
+          if (ring) {
+            tl.to(ring, { strokeDashoffset: 0, duration: 0.7, ease: 'power2.inOut' }, 0);
+          }
+          if (scan) {
+            // Crosses the card in the reading direction, so it mirrors in RTL
+            // with the rest of the page rather than sweeping backwards.
+            const dir = getComputedStyle(gate).direction === 'rtl' ? -1 : 1;
+            tl.set(scan, { xPercent: -100 * dir, autoAlpha: 1 }, 0.15)
+              .to(scan, { xPercent: 220 * dir, duration: 0.9, ease: 'power1.inOut' }, 0.15)
+              .set(scan, { autoAlpha: 0 });
+          }
+        }
+      });
+      this.scrollTriggers.push(trigger);
+    });
   }
 
   /**

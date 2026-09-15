@@ -16,7 +16,8 @@ import { InitLoaderComponent } from '../../shared/components/init-loader/init-lo
 import { ConsentBannerComponent } from '../../shared/components/consent-banner/consent-banner.component';
 import { Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { throttleTime, filter, take } from 'rxjs/operators';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Component({
   selector: 'app-main-layout',
@@ -345,8 +346,106 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.updateRouteState(event.urlAfterRedirects);
+        this.handleNavigationScroll();
       }
     });
+
+    // The first load carries its own fragment and fires no NavigationEnd we
+    // can rely on before the smoother exists, so it is handled separately.
+    this.scrollToFragment();
+  }
+
+  /**
+   * Put a newly navigated page at its top and re-measure the scroll triggers.
+   *
+   * Both halves of this are ScrollSmoother consequences, and without them a
+   * client-side navigation to a long animated page arrives broken:
+   *
+   *  - `scrollPositionRestoration: 'top'` in app.config.ts scrolls the
+   *    *document*, and the document never scrolls here — ScrollSmoother moves
+   *    #smooth-content with a transform instead. So the new page opened at
+   *    whatever offset the previous one was left at.
+   *  - ScrollTrigger keeps the start/end positions it measured for the page
+   *    that just unmounted. Every section on the new page sets its reveal
+   *    items to opacity 0 and waits for an onEnter that is never evaluated
+   *    against real coordinates, so the items stay invisible for good.
+   *
+   * Measured on /services/enterprise-software reached from the home page:
+   * 79 of its 85 [data-reveal] elements stayed at opacity 0, with the viewport
+   * parked 626px down the page. It read as "the page didn't load".
+   *
+   * Refreshed twice on purpose. The first pass covers the common case; the
+   * second lands after the 500ms ready-or-fallback window every animated page
+   * component uses, so triggers created late are measured against the settled
+   * layout rather than a half-rendered one.
+   */
+  private handleNavigationScroll(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const fragment = this.router.parseUrl(this.router.url).fragment;
+
+    if (fragment) {
+      this.scrollToFragment();
+    }
+
+    const settle = (resetScroll: boolean) => {
+      if (resetScroll && !fragment) {
+        const smoother = this.scrollSmootherService.getSmoother();
+        if (smoother) {
+          smoother.scrollTop(0);
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }
+      ScrollTrigger.refresh();
+    };
+
+    setTimeout(() => settle(true), 60);
+    setTimeout(() => settle(false), 600);
+  }
+
+  /**
+   * Take the URL fragment to its element.
+   *
+   * Angular's own anchorScrolling is enabled in app.config.ts and does nothing
+   * here: ScrollSmoother moves #smooth-content with a transform, so the
+   * document never scrolls and the browser has no offset to jump to. Landing
+   * on /contact#roaya-contact-form left the reader at the top of the page with
+   * the hash in the address bar and no indication anything was supposed to
+   * happen. Every in-page anchor on the site goes through this.
+   *
+   * Deliberately routed through the smoother's own scrollTo, which understands
+   * the transform, and deferred until it is ready — a fragment on a cold load
+   * arrives well before the 100ms init above.
+   */
+  private scrollToFragment(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const fragment = this.router.parseUrl(this.router.url).fragment;
+    if (!fragment) return;
+
+    const go = () => {
+      const target = document.getElementById(fragment);
+      if (!target) return;
+
+      if (this.scrollSmootherService.isReady()) {
+        // Offset clears the fixed header, which would otherwise cover the
+        // first field of whatever we just scrolled to.
+        this.scrollSmootherService.scrollTo(target, true, 'top 120px');
+      } else {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    this.scrollSmootherService.smootherReady$
+      .pipe(filter(ready => ready), take(1))
+      .subscribe(() => setTimeout(go, 80));
+
+    // The smoother may never report ready (reduced motion, or a failure in
+    // init); the anchor still has to work.
+    setTimeout(() => {
+      if (!this.scrollSmootherService.isReady()) go();
+    }, 600);
   }
 
   ngAfterViewInit(): void {
