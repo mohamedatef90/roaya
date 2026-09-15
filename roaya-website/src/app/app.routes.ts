@@ -70,6 +70,14 @@ const publicRoutes: Routes = [
         title: 'Email & Collaboration Solutions - Roaya IT'
       },
       {
+        path: 'services/enterprise-software',
+        loadComponent: () =>
+          import('./features/services/enterprise-software/enterprise-software.component').then(
+            m => m.EnterpriseSoftwareComponent
+          ),
+        title: 'Enterprise Software & Mobile Apps - Roaya IT'
+      },
+      {
         path: 'services/managed',
         loadComponent: () => import('./features/services/managed/managed.component').then(m => m.ManagedComponent),
         title: 'Managed IT Services & Support - Roaya IT'

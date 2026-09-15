@@ -83,6 +83,7 @@ export const BREADCRUMB_LABEL_KEYS: Readonly<Record<string, string>> = {
   '/services/ai': 'services.ai.title',
   '/services/devops': 'services.devops.title',
   '/services/email': 'services.email.title',
+  '/services/enterprise-software': 'services.enterpriseSoftware.title',
   '/services/managed': 'services.managed.title',
   '/services/sap': 'services.sap.title',
   '/services/security': 'services.security.title',
@@ -162,6 +163,13 @@ export const SERVICE_ENTITY_KEYS: Readonly<Record<string, ServiceEntityKeys>> = 
     descriptionKey: 'services.security.page.incidentResponse.hero.subtitle'
   },
   '/services/email': { nameKey: 'services.email.title' },
+  '/services/enterprise-software': {
+    nameKey: 'services.enterpriseSoftware.title',
+    // The hero lead, rendered verbatim in <main> by the page's own template.
+    // It describes capability only — no headcount, credential or SLA — so the
+    // Service node asserts nothing the claim registry has not cleared.
+    descriptionKey: 'services.enterpriseSoftware.hero.lead'
+  },
   '/services/managed': { nameKey: 'services.managed.title' },
   '/services/backup': { nameKey: 'services.backup.title' },
   '/services/consulting': { nameKey: 'services.consulting.title' },
@@ -199,6 +207,15 @@ export const FAQ_ENTITY_KEYS: Readonly<Record<string, readonly { questionKey: st
     { questionKey: 'home.faq.q2.question', answerKey: 'home.faq.q2.answer' },
     { questionKey: 'home.faq.q3.question', answerKey: 'home.faq.q3.answer' },
     { questionKey: 'home.faq.q4.question', answerKey: 'home.faq.q4.answer' }
+  ],
+  '/services/enterprise-software': [
+    { questionKey: 'services.enterpriseSoftware.faq.team.q', answerKey: 'services.enterpriseSoftware.faq.team.a' },
+    { questionKey: 'services.enterpriseSoftware.faq.mobile.q', answerKey: 'services.enterpriseSoftware.faq.mobile.a' },
+    { questionKey: 'services.enterpriseSoftware.faq.security.q', answerKey: 'services.enterpriseSoftware.faq.security.a' },
+    { questionKey: 'services.enterpriseSoftware.faq.standards.q', answerKey: 'services.enterpriseSoftware.faq.standards.a' },
+    { questionKey: 'services.enterpriseSoftware.faq.existing.q', answerKey: 'services.enterpriseSoftware.faq.existing.a' },
+    { questionKey: 'services.enterpriseSoftware.faq.after.q', answerKey: 'services.enterpriseSoftware.faq.after.a' },
+    { questionKey: 'services.enterpriseSoftware.faq.bilingual.q', answerKey: 'services.enterpriseSoftware.faq.bilingual.a' }
   ],
   '/services/aws': [
     { questionKey: 'services.aws.faq.tier.q', answerKey: 'services.aws.faq.tier.a' },

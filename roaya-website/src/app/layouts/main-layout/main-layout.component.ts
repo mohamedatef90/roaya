@@ -136,6 +136,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       route: '/services/devops',
       badge: 'New'
     },
+    {
+      id: 'enterprise-software',
+      title: 'services.enterpriseSoftware.title',
+      description: 'services.enterpriseSoftware.description',
+      icon: '&#128187;',
+      faIcon: 'faSolidCode',
+      route: '/services/enterprise-software',
+      badge: 'New'
+    },
     // === RIGHT COLUMN ===
     {
       id: 'security',

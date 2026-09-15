@@ -16,7 +16,8 @@ import {
   faSolidCrosshairs,
   faSolidUserShield,
   faSolidInfinity,
-  faSolidGlobe
+  faSolidGlobe,
+  faSolidCode
 } from '@ng-icons/font-awesome/solid';
 import { NavigationService } from '../../core/services/navigation.service';
 import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
@@ -53,7 +54,8 @@ interface ServiceDetail {
       faSolidCrosshairs,
       faSolidUserShield,
       faSolidInfinity,
-      faSolidGlobe
+      faSolidGlobe,
+      faSolidCode
     })
   ]
 })
@@ -118,6 +120,20 @@ export class ServicesComponent {
         'services.email.features.security',
         'services.email.features.collaboration',
         'services.email.features.archiving'
+      ]
+    },
+    {
+      id: 'enterprise-software',
+      title: 'services.enterpriseSoftware.title',
+      description: 'services.enterpriseSoftware.fullDescription',
+      icon: '&#128187;',
+      faIcon: 'faSolidCode',
+      route: '/services/enterprise-software',
+      features: [
+        'services.enterpriseSoftware.features.platforms',
+        'services.enterpriseSoftware.features.mobile',
+        'services.enterpriseSoftware.features.government',
+        'services.enterpriseSoftware.features.automation'
       ]
     },
     {

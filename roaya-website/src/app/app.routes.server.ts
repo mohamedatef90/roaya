@@ -67,6 +67,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'ar/services/devops', renderMode: RenderMode.Prerender },
   { path: 'services/email', renderMode: RenderMode.Prerender },
   { path: 'ar/services/email', renderMode: RenderMode.Prerender },
+  { path: 'services/enterprise-software', renderMode: RenderMode.Prerender },
+  { path: 'ar/services/enterprise-software', renderMode: RenderMode.Prerender },
   { path: 'services/managed', renderMode: RenderMode.Prerender },
   { path: 'ar/services/managed', renderMode: RenderMode.Prerender },
   { path: 'services/sap', renderMode: RenderMode.Prerender },

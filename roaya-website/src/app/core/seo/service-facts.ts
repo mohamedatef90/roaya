@@ -150,6 +150,7 @@ export const SERVICE_FACTS: readonly ServiceFactsRecord[] = [
       '/services/security/soc-solutions',
       '/services/security/incident-response',
       '/services/email',
+      '/services/enterprise-software',
       '/services/managed',
       '/services/backup',
       '/services/consulting',

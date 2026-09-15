@@ -27,6 +27,7 @@ import {
   faSolidUserShield,
   faSolidMicrochip,
   faSolidBrain,
+  faSolidCode,
   // Resources icons
   faSolidNewspaper,
   faSolidFolderOpen,
@@ -86,6 +87,7 @@ export interface MegaMenuGroup {
     faSolidUserShield,
     faSolidMicrochip,
     faSolidBrain,
+    faSolidCode,
     faSolidNewspaper,
     faSolidFolderOpen,
     faSolidFileLines,

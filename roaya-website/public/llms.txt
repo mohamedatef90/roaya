@@ -27,6 +27,7 @@ Every page below exists in English at its listed URL and in Arabic at the same p
 - [Managed IT services](https://roaya.co/services/managed)
 - [Backup & disaster recovery](https://roaya.co/services/backup)
 - [Email & collaboration](https://roaya.co/services/email)
+- [Enterprise software & mobile apps](https://roaya.co/services/enterprise-software): Custom enterprise platforms, government digital services, native and cross-platform mobile applications, and automation — built through a secure development lifecycle and supported after launch. Security practice described on the page (threat modelling, peer code review, SAST/DAST/dependency scanning in CI, OWASP ASVS and MASVS alignment, penetration testing before release) describes how Roaya engineers software; it is not a certification claim. Response and resolution commitments are contractual per engagement and are not published.
 - [SAP cloud operations](https://roaya.co/services/sap)
 - [DevOps services](https://roaya.co/services/devops)
 - [IT automation & AI solutions](https://roaya.co/services/automation)

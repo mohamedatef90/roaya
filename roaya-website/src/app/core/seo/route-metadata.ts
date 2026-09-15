@@ -130,6 +130,10 @@ export const ROUTE_METADATA: Readonly<Record<string, RouteMetadataEntry>> = {
     titleKey: 'services.email.title',
     descriptionKey: 'services.email.description'
   },
+  '/services/enterprise-software': {
+    titleKey: 'services.enterpriseSoftware.title',
+    descriptionKey: 'services.enterpriseSoftware.description'
+  },
   '/services/managed': {
     titleKey: 'services.managed.title',
     descriptionKey: 'services.managed.description'

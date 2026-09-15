@@ -2397,6 +2397,455 @@
       "ctaTitle": "Ready to Get Started with WorldPosta?",
       "ctaDescription": "Join thousands of businesses using WorldPosta for secure email, storage, and custom apps. Contact us for a free trial."
     },
+    "enterpriseSoftware": {
+      "title": "Enterprise Software & Mobile Apps",
+      "description": "Roaya builds enterprise and government platforms, mobile apps and automation, engineered secure through every phase of the lifecycle and supported after launch.",
+      "fullDescription": "Custom enterprise platforms, government digital services, mobile applications and automation — designed, built, secured and supported by one accountable engineering team.",
+      "features": {
+        "platforms": "Enterprise platforms and portals",
+        "mobile": "Native and cross-platform mobile apps",
+        "government": "Government digital services",
+        "automation": "Automation and system integration"
+      },
+      "hero": {
+        "kicker": "Custom software engineering",
+        "titleLine1": "Software your",
+        "titleAccent": "institution",
+        "titleLine2": "can depend on.",
+        "lead": "Enterprise platforms, government digital services, mobile applications and automation — designed, built, secured and supported by one accountable engineering team.",
+        "cta": "Talk to an engineering lead",
+        "ctaSecondary": "See how we build",
+        "pipelineAria": "How Roaya delivers software: discover, design, build, harden, launch, run",
+        "trust": {
+          "secure": "Secure by design, not by audit",
+          "bilingual": "Arabic-first and RTL native",
+          "support": "Supported long after launch"
+        },
+        "stages": {
+          "discover": {
+            "label": "Discover",
+            "note": "Constraints before code"
+          },
+          "design": {
+            "label": "Design",
+            "note": "Architecture and threat model"
+          },
+          "build": {
+            "label": "Build",
+            "note": "Working software each iteration"
+          },
+          "harden": {
+            "label": "Harden",
+            "note": "Tested by people who attack systems"
+          },
+          "launch": {
+            "label": "Launch",
+            "note": "Runbooks, monitoring, handover"
+          },
+          "run": {
+            "label": "Run",
+            "note": "Support, patching, evolution"
+          }
+        }
+      },
+      "capabilities": {
+        "badge": "What we build",
+        "title": "Four kinds of system, one engineering standard",
+        "intro": "Roaya builds the systems organisations run on rather than the ones they experiment with. The standard does not change between a citizen-facing service and an internal workflow tool.",
+        "platforms": {
+          "title": "Enterprise platforms",
+          "summary": "Core business systems that carry real operational load, real users and real consequences when they stop.",
+          "p1": "Workflow, approval and case-management systems that encode how the organisation actually works",
+          "p2": "Portals and self-service applications for customers, partners and staff",
+          "p3": "Line-of-business applications integrated with ERP, finance and HR systems already in place",
+          "p4": "Staged migration off legacy platforms, running old and new in parallel until the new one has earned the traffic"
+        },
+        "government": {
+          "title": "Government digital services",
+          "summary": "Citizen-facing services and internal public-sector systems, built for the constraints the sector actually imposes.",
+          "p1": "Bilingual service design where Arabic is the first language, not a translation layer",
+          "p2": "Accessibility written into acceptance criteria and tested before release",
+          "p3": "Auditable records: who changed what, when, and on whose authority",
+          "p4": "Interoperability with existing national and ministerial systems through documented interfaces"
+        },
+        "mobile": {
+          "title": "Mobile applications",
+          "summary": "Native and cross-platform apps held to the same engineering standard as the back end they talk to.",
+          "p1": "Native iOS and Android where platform behaviour, performance or device integration decide the outcome",
+          "p2": "Flutter and React Native where one codebase genuinely serves both platforms",
+          "p3": "Offline-first behaviour and graceful degradation on unreliable connections",
+          "p4": "Hardened local storage, certificate pinning, biometric authentication and device-integrity checks"
+        },
+        "automation": {
+          "title": "Automation & integration",
+          "summary": "Removing the manual handoffs between systems that were never designed to talk to each other.",
+          "p1": "Process automation and RPA for high-volume, rule-driven work",
+          "p2": "API platforms and integration layers that give scattered systems one contract",
+          "p3": "Event-driven pipelines that react to change instead of polling for it",
+          "p4": "Scheduled and rule-driven workflows with full execution history"
+        }
+      },
+      "bench": {
+        "badge": "The team",
+        "title": "A full bench, not a handful of generalists",
+        "intro": "Enterprise and government software fails at the seams — between analysis and architecture, between the application and the platform it runs on, between launch and the years that follow. Roaya staffs every one of those seams with people who do that discipline full time.",
+        "note": "Delivery teams are assembled per engagement from the disciplines below. The team that builds a system is the team that supports it.",
+        "roles": {
+          "product": {
+            "title": "Product & business analysis",
+            "description": "Turns institutional processes into specifications engineers can build and stakeholders recognise."
+          },
+          "architecture": {
+            "title": "Solution architecture",
+            "description": "Decides structure, integration and failure behaviour before the first line of code is written."
+          },
+          "backend": {
+            "title": "Backend engineering",
+            "description": "Domain logic, data access, APIs and the transactional correctness the business depends on."
+          },
+          "frontend": {
+            "title": "Frontend engineering",
+            "description": "Interfaces that stay fast and legible under real data volumes, in both Arabic and English."
+          },
+          "mobile": {
+            "title": "Mobile engineering",
+            "description": "Native and cross-platform specialists who ship to the app stores and live with review cycles."
+          },
+          "qa": {
+            "title": "Quality & test automation",
+            "description": "Builds the test suites that let the team change a working system without fear."
+          },
+          "devops": {
+            "title": "DevOps & SRE",
+            "description": "Pipelines, environments, release mechanics and the observability that makes production legible."
+          },
+          "security": {
+            "title": "Security engineering",
+            "description": "Threat models, secure design decisions and the controls that survive contact with an attacker."
+          },
+          "data": {
+            "title": "Data engineering",
+            "description": "Schema design, migrations, reporting separation and the classification of anything personal."
+          },
+          "ux": {
+            "title": "UX & accessibility",
+            "description": "Service design, interaction and the accessibility work that public-sector delivery requires."
+          },
+          "support": {
+            "title": "Application support",
+            "description": "The engineers who answer when something breaks, and who keep the system current between releases."
+          }
+        }
+      },
+      "security": {
+        "badge": "Secure by default",
+        "title": "Security is a phase gate, not a final inspection",
+        "intro": "Software that handles institutional or citizen data cannot be secured by testing it at the end. Roaya attaches a security obligation to each phase of delivery, and the build refuses to proceed when one is unmet.",
+        "phases": {
+          "design": {
+            "title": "Design",
+            "headline": "Threat modelling before the first line of code",
+            "i1": "Data-flow diagrams and trust boundaries drawn per feature, not per project",
+            "i2": "Abuse cases written alongside user stories — what a hostile user would try",
+            "i3": "Authentication, authorisation and session design decided at architecture rather than retrofitted",
+            "i4": "Security acceptance criteria attached to the story, so \"done\" includes them"
+          },
+          "code": {
+            "title": "Code",
+            "headline": "Every change inspected by a person and a machine",
+            "i1": "Mandatory peer code review before merge — no direct commits to protected branches",
+            "i2": "Secure coding standards specific to each language and framework in use",
+            "i3": "Secrets never committed to source; injected at deploy time from a managed store",
+            "i4": "Dependency provenance checked when a package is introduced, not only when it breaks"
+          },
+          "pipeline": {
+            "title": "Pipeline",
+            "headline": "The build refuses insecure code",
+            "i1": "Static analysis (SAST) on every commit, with findings surfaced in the merge request",
+            "i2": "Dependency and licence scanning (SCA) with a blocking severity threshold",
+            "i3": "Dynamic analysis (DAST) against a running build in a pre-production environment",
+            "i4": "Container and infrastructure-as-code scanning, so the platform is checked with the application"
+          },
+          "release": {
+            "title": "Release",
+            "headline": "Validated by people who attack systems for a living",
+            "i1": "Penetration testing by Roaya's own offensive security team before production",
+            "i2": "Findings triaged, fixed and retested — a report is not an outcome",
+            "i3": "Remediation verified independently before release sign-off",
+            "i4": "Monitoring and alerting wired in before launch, not after the first incident"
+          }
+        },
+        "standards": {
+          "title": "What we build against",
+          "note": "These are engineering standards the work is measured against. They describe our practice, not a certification we hold.",
+          "asvs": {
+            "name": "OWASP ASVS",
+            "scope": "Verification standard for web applications"
+          },
+          "masvs": {
+            "name": "OWASP MASVS",
+            "scope": "Verification standard for mobile applications"
+          },
+          "top10": {
+            "name": "OWASP Top 10 & API Top 10",
+            "scope": "Baseline vulnerability classes, checked every release"
+          },
+          "cwe": {
+            "name": "CWE",
+            "scope": "Common weakness taxonomy used to classify findings"
+          },
+          "ssdf": {
+            "name": "NIST SSDF",
+            "scope": "Secure software development framework shaping the lifecycle"
+          }
+        },
+        "crossLinkTitle": "The same team that tests everyone else tests us",
+        "crossLinkBody": "Roaya runs penetration testing as a service for other organisations. That team validates our own releases before they reach production, under the same methodology.",
+        "crossLinkCta": "See our penetration testing practice"
+      },
+      "delivery": {
+        "badge": "How we work",
+        "title": "Six phases, each with something you can inspect",
+        "intro": "Every phase ends in an artefact you can read and challenge. No phase ends in a status update.",
+        "legend": "Tile size follows how much of an engagement each phase actually occupies: build and run dominate the calendar, launch is a day.",
+        "discovery": {
+          "title": "Discovery",
+          "description": "Processes, constraints, integration points and the measures that will decide whether this worked.",
+          "output": "Scope, constraint register, success measures"
+        },
+        "architecture": {
+          "title": "Architecture",
+          "description": "Structure, data model, integration contracts and threat model, agreed before build starts.",
+          "output": "Solution architecture, threat model, integration map"
+        },
+        "build": {
+          "title": "Iterative delivery",
+          "description": "Working software every iteration, demonstrated against the acceptance criteria rather than described.",
+          "output": "Running increment, test suite, demo",
+          "weight": "The bulk of it",
+          "p1": "Fixed-length iterations, each ending in working software rather than a status report",
+          "p2": "Acceptance criteria agreed before the work starts and demonstrated when it ends",
+          "p3": "Scope changes priced and sequenced in the open, never absorbed silently"
+        },
+        "harden": {
+          "title": "Hardening",
+          "description": "Penetration testing, performance work under realistic load, and accessibility validation.",
+          "output": "Test report, remediation record, performance baseline"
+        },
+        "launch": {
+          "title": "Launch",
+          "description": "Cutover planned and rehearsed, monitoring live before traffic arrives, rollback path proven.",
+          "output": "Runbooks, monitoring, cutover plan"
+        },
+        "run": {
+          "title": "Run",
+          "description": "Support, patching and a standing backlog, so the system keeps pace with the organisation.",
+          "output": "Support model, patch cadence, evolution backlog",
+          "weight": "Measured in years",
+          "p1": "A named team that already knows the codebase",
+          "p2": "Runbooks rehearsed, not merely written",
+          "p3": "Framework and dependency currency kept up deliberately"
+        }
+      },
+      "stack": {
+        "badge": "Engineering depth",
+        "title": "The decisions behind the software",
+        "intro": "Technology choices are made per system against its load, lifespan and the team that will inherit it. What follows is the range we work across, not a checklist applied to every project.",
+        "architecture": {
+          "title": "Architecture",
+          "i1": "Modular monoliths where one deployable is the honest answer",
+          "i2": "Microservices where teams and scaling genuinely diverge",
+          "i3": "Event-driven designs for asynchronous, high-volume flows",
+          "i4": "Clean layering and domain-driven design where the domain earns the ceremony"
+        },
+        "integration": {
+          "title": "Integration",
+          "i1": "REST and GraphQL APIs with versioned, documented contracts",
+          "i2": "Message brokers and queues for decoupled, replayable flows",
+          "i3": "Batch and file interfaces for systems that still speak that way",
+          "i4": "Adapters and anti-corruption layers that keep legacy quirks out of new code"
+        },
+        "mobileEng": {
+          "title": "Mobile engineering",
+          "i1": "Swift and Kotlin for native iOS and Android",
+          "i2": "Flutter and React Native for shared-codebase delivery",
+          "i3": "Offline sync, conflict resolution and background processing",
+          "i4": "Push, deep linking, biometrics and enterprise distribution"
+        },
+        "data": {
+          "title": "Data",
+          "i1": "Relational and document stores chosen by access pattern, not preference",
+          "i2": "Migrations as versioned code, reversible and tested",
+          "i3": "Reporting separated from transactional load",
+          "i4": "Personal data classified and handled to its classification"
+        },
+        "cicd": {
+          "title": "CI/CD",
+          "i1": "Automated pipelines with quality and security gates that can block a release",
+          "i2": "Infrastructure as code, so environments are reproducible rather than remembered",
+          "i3": "Blue-green and canary releases where downtime is unacceptable",
+          "i4": "Artefact versioning and a rollback path proven before it is needed"
+        },
+        "observability": {
+          "title": "Observability",
+          "i1": "Structured logging with correlation across services",
+          "i2": "Metrics and distributed tracing from the first release",
+          "i3": "Alerting tied to user-visible symptoms rather than machine noise",
+          "i4": "Audit trails where the record itself is part of the requirement"
+        }
+      },
+      "govt": {
+        "badge": "Public sector",
+        "title": "What government delivery actually demands",
+        "intro": "Public-sector software carries obligations commercial software does not. These are designed in from the start, because none of them can be added to a finished system cheaply.",
+        "residency": {
+          "title": "Data residency",
+          "description": "Where data lives is an architectural decision taken with you at design, and documented."
+        },
+        "accessibility": {
+          "title": "Accessibility",
+          "description": "Keyboard operation, screen-reader semantics and contrast are acceptance criteria, tested before release."
+        },
+        "arabic": {
+          "title": "Arabic-first and RTL",
+          "description": "Layout mirrors, text renders correctly, and Arabic is designed first rather than retrofitted."
+        },
+        "audit": {
+          "title": "Auditability",
+          "description": "Who changed what, when and under whose authority — recorded where the record is the requirement."
+        },
+        "interop": {
+          "title": "Interoperability",
+          "description": "Documented interfaces to existing ministerial and national systems, versioned and supported."
+        },
+        "continuity": {
+          "title": "Continuity",
+          "description": "Source, documentation and runbooks are yours, so the system outlives any single supplier relationship."
+        }
+      },
+      "quality": {
+        "badge": "Quality engineering",
+        "title": "Tests are how a system stays changeable",
+        "intro": "A system without a test suite becomes unchangeable within two years. Roaya builds the suite alongside the software so the tenth release is as safe as the first.",
+        "unit": {
+          "title": "Unit",
+          "description": "Fast, isolated tests on domain logic, run on every commit."
+        },
+        "integration": {
+          "title": "Integration & contract",
+          "description": "Real boundaries exercised — database, queue, external API — with contracts pinned."
+        },
+        "e2e": {
+          "title": "End to end",
+          "description": "Critical user journeys automated against a deployed build, in both languages."
+        },
+        "performance": {
+          "title": "Performance",
+          "description": "Load and soak testing against realistic data volumes before launch, not after complaints."
+        },
+        "accessibility": {
+          "title": "Accessibility",
+          "description": "Automated checks plus manual keyboard and screen-reader passes."
+        },
+        "security": {
+          "title": "Security",
+          "description": "SAST, DAST and dependency scanning in the pipeline; penetration testing before release."
+        }
+      },
+      "support": {
+        "badge": "After launch",
+        "title": "Application support is the longest phase",
+        "intro": "A system is in build for months and in service for years. Roaya treats support as an engineering function, staffed by engineers who know the codebase, rather than a queue in front of it.",
+        "triage": {
+          "title": "Intake & triage",
+          "description": "One channel, one owner, and a severity classification agreed with you at handover."
+        },
+        "runbooks": {
+          "title": "Runbooks",
+          "description": "Every recurring operation documented and rehearsed, so recovery does not depend on one person."
+        },
+        "observability": {
+          "title": "Monitoring",
+          "description": "Alerting on user-visible symptoms, so the team often knows before the service desk does."
+        },
+        "patching": {
+          "title": "Patching & currency",
+          "description": "Scheduled updates for frameworks, libraries and platform; security patches handled out of cycle."
+        },
+        "evolution": {
+          "title": "Evolution",
+          "description": "A standing backlog, so the system keeps changing with the organisation instead of freezing."
+        },
+        "handover": {
+          "title": "Knowledge continuity",
+          "description": "Documentation and handover built for the day you take it in-house, whether or not you do."
+        },
+        "note": "Response and resolution commitments are agreed per engagement and written into the contract, rather than published here as a generic figure."
+      },
+      "faq": {
+        "badge": "Questions buyers ask",
+        "title": "Before you brief anyone",
+        "team": {
+          "q": "Who actually builds the software?",
+          "a": "Roaya delivery teams are assembled from our own engineering disciplines — business analysis, architecture, backend, frontend, mobile, quality, DevOps, security, data, UX and support. Teams are sized to the engagement, and the people who build a system are the people who support it afterwards."
+        },
+        "mobile": {
+          "q": "Do you build native or cross-platform mobile apps?",
+          "a": "Both, and the choice is made per project rather than by house preference. Native Swift and Kotlin when platform behaviour, performance or deep device integration decide the outcome; Flutter or React Native when one codebase genuinely serves both platforms without compromising the experience."
+        },
+        "security": {
+          "q": "How is security handled during development?",
+          "a": "Security is a gate at four phases. Threat modelling and security acceptance criteria at design; mandatory peer code review and secure coding standards at implementation; SAST, dependency scanning and DAST enforced in the pipeline; and penetration testing by our own offensive security team before production, with findings fixed and retested rather than logged."
+        },
+        "standards": {
+          "q": "Which security standards do you build against?",
+          "a": "Web applications are built and verified against OWASP ASVS, mobile applications against OWASP MASVS, with the OWASP Top 10 and API Top 10 as a per-release baseline and CWE used to classify findings. The delivery lifecycle follows NIST SSDF. These describe how we engineer; they are not certifications we are claiming to hold."
+        },
+        "existing": {
+          "q": "Can you work with the systems we already run?",
+          "a": "Yes, and most engagements require it. We integrate through documented REST or GraphQL contracts, message brokers, or batch interfaces where that is what a system speaks, and we place adapters between legacy quirks and new code so the old system does not shape the new one. Migration off a legacy platform is normally staged, running both in parallel until the new system has earned the traffic."
+        },
+        "after": {
+          "q": "What happens after launch?",
+          "a": "The team that built the system supports it. That covers triage against a severity classification agreed with you at handover, rehearsed runbooks, monitoring on user-visible symptoms, a scheduled patching cadence with security updates handled out of cycle, and a standing backlog so the system keeps changing with your organisation."
+        },
+        "bilingual": {
+          "q": "Can you deliver in Arabic as well as English?",
+          "a": "Yes, and Arabic is designed first rather than translated in at the end. Layouts mirror properly for right-to-left reading, Arabic typography is set deliberately, and both languages are covered in the automated end-to-end tests. Documentation and handover can be produced in either language."
+        }
+      },
+      "related": {
+        "badge": "Works with",
+        "title": "Where this connects",
+        "intro": "Software rarely arrives alone. These are the Roaya practices most engagements draw on alongside it.",
+        "security": {
+          "title": "Penetration testing",
+          "description": "The offensive security team that validates our releases."
+        },
+        "devops": {
+          "title": "DevOps services",
+          "description": "Pipelines, environments and release engineering at platform scale."
+        },
+        "automation": {
+          "title": "IT automation",
+          "description": "Operational automation beyond the application layer."
+        },
+        "ai": {
+          "title": "AI solutions",
+          "description": "Where a system needs judgement, not just rules."
+        },
+        "cloud": {
+          "title": "Cloud solutions",
+          "description": "The infrastructure the application runs on."
+        }
+      },
+      "cta": {
+        "title": "Bring us the system you cannot afford to get wrong",
+        "lead": "Tell us what the software has to do, what it has to integrate with, and what happens if it fails. We will come back with an architecture and an honest view of the work.",
+        "primary": "Talk to an engineering lead",
+        "secondary": "Request a custom quote"
+      }
+    },
     "aws": {
       "title": "AWS Partnership",
       "description": "Assess, migrate, secure and operate AWS with a local team that owns the outcome",

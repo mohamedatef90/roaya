@@ -1,0 +1,519 @@
+<!--
+  THESIS: Roaya is the engineering organisation institutions hand their
+  critical systems to — and the one that still answers the phone three years
+  later. Refuses the "digital transformation partner" brochure.
+  CLAIM DISCIPLINE: capability and practice only. No headcount, no SLA figure,
+  no certification claim. Depth is proved by naming the disciplines and the
+  engineering decisions, not by counting people.
+  MOTION: [data-reveal] inside [data-reveal-group], the AWS convention.
+-->
+<div class="es-page">
+
+  <!-- ============================================================
+       HERO — proposition left, delivery pipeline right. The pipeline
+       is the page's spine: it reappears as the Delivery section.
+       ============================================================ -->
+  <section class="es-hero" aria-labelledby="es-hero-title">
+    <div class="es-hero__bg" aria-hidden="true">
+      <div class="es-hero__gradient"></div>
+      <div class="es-hero__grid"></div>
+      <div class="es-hero__glow es-hero__glow--teal"></div>
+      <div class="es-hero__glow es-hero__glow--violet"></div>
+    </div>
+
+    <div class="container-custom es-hero__inner">
+      <div class="es-hero__copy">
+        <p class="es-kicker" data-reveal>{{ 'services.enterpriseSoftware.hero.kicker' | translate }}</p>
+
+        <h1 id="es-hero-title" class="es-hero__title" data-reveal>
+          {{ 'services.enterpriseSoftware.hero.titleLine1' | translate }}
+          <span class="es-hero__accent">{{ 'services.enterpriseSoftware.hero.titleAccent' | translate }}</span>
+          {{ 'services.enterpriseSoftware.hero.titleLine2' | translate }}
+        </h1>
+
+        <p class="es-hero__lead" data-reveal>{{ 'services.enterpriseSoftware.hero.lead' | translate }}</p>
+
+        <div class="es-hero__actions" data-reveal>
+          <a [routerLink]="'/contact' | localizeLink" class="es-btn es-btn--primary">
+            {{ 'services.enterpriseSoftware.hero.cta' | translate }}
+            <ng-icon name="lucideArrowRight" class="es-btn__icon rtl:rotate-180" aria-hidden="true" />
+          </a>
+          <!-- --invert is required here: the hero ground is dark in BOTH themes,
+               so the plain ghost button would paint light-theme dark text on it. -->
+          <a href="#es-delivery" class="es-btn es-btn--ghost es-btn--invert">
+            {{ 'services.enterpriseSoftware.hero.ctaSecondary' | translate }}
+          </a>
+        </div>
+
+        <ul class="es-hero__trust" data-reveal>
+          <li>
+            <ng-icon name="lucideShieldCheck" aria-hidden="true" />
+            <span>{{ 'services.enterpriseSoftware.hero.trust.secure' | translate }}</span>
+          </li>
+          <li>
+            <ng-icon name="lucideBookOpen" aria-hidden="true" />
+            <span>{{ 'services.enterpriseSoftware.hero.trust.bilingual' | translate }}</span>
+          </li>
+          <li>
+            <ng-icon name="lucideLifeBuoy" aria-hidden="true" />
+            <span>{{ 'services.enterpriseSoftware.hero.trust.support' | translate }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Delivery pipeline. Six gates on one rail; the rail animates only
+           when motion is allowed (see the SCSS reduced-motion block). -->
+      <div
+        class="es-pipeline"
+        data-reveal
+        role="img"
+        [attr.aria-label]="'services.enterpriseSoftware.hero.pipelineAria' | translate"
+      >
+        <div class="es-pipeline__rail" aria-hidden="true">
+          <span class="es-pipeline__pulse"></span>
+        </div>
+        <ol class="es-pipeline__stages">
+          @for (stage of stages; track stage; let i = $index) {
+            <li class="es-pipeline__stage" [style.--es-stage-index]="i">
+              <span class="es-pipeline__node" aria-hidden="true"></span>
+              <span class="es-pipeline__label">
+                {{ 'services.enterpriseSoftware.hero.stages.' + stage + '.label' | translate }}
+              </span>
+              <span class="es-pipeline__note">
+                {{ 'services.enterpriseSoftware.hero.stages.' + stage + '.note' | translate }}
+              </span>
+            </li>
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CAPABILITIES — four pillars, tabbed. Every panel stays in the
+       DOM so the served HTML carries all four for a crawler.
+       ============================================================ -->
+  <section class="es-section es-section--surface" data-reveal-group aria-labelledby="es-capabilities-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.capabilities.badge' | translate }}</p>
+        <h2 id="es-capabilities-title">{{ 'services.enterpriseSoftware.capabilities.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.capabilities.intro' | translate }}</p>
+      </header>
+
+      <div class="es-tabs" data-reveal role="tablist" [attr.aria-label]="'services.enterpriseSoftware.capabilities.title' | translate">
+        @for (cap of capabilities; track cap.id) {
+          <button
+            type="button"
+            role="tab"
+            class="es-tab"
+            [class.es-tab--active]="activeCapability() === cap.id"
+            [attr.aria-selected]="activeCapability() === cap.id"
+            [attr.aria-controls]="'es-cap-panel-' + cap.id"
+            [id]="'es-cap-tab-' + cap.id"
+            (click)="selectCapability(cap.id)"
+          >
+            <ng-icon [name]="cap.icon" aria-hidden="true" />
+            <span>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.title' | translate }}</span>
+          </button>
+        }
+      </div>
+
+      <div class="es-panels" data-reveal>
+        @for (cap of capabilities; track cap.id) {
+          <div
+            class="es-panel"
+            role="tabpanel"
+            [id]="'es-cap-panel-' + cap.id"
+            [attr.aria-labelledby]="'es-cap-tab-' + cap.id"
+            [class.es-panel--active]="activeCapability() === cap.id"
+            [attr.aria-hidden]="activeCapability() !== cap.id"
+          >
+            <div class="es-panel__lead">
+              <span class="es-panel__icon" aria-hidden="true">
+                <ng-icon [name]="cap.icon" />
+              </span>
+              <div>
+                <h3>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.title' | translate }}</h3>
+                <p>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.summary' | translate }}</p>
+              </div>
+            </div>
+            <ul class="es-panel__points">
+              @for (n of ['p1', 'p2', 'p3', 'p4']; track n) {
+                <li>
+                  <ng-icon name="lucideCheck" aria-hidden="true" />
+                  <span>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.' + n | translate }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       THE BENCH — the team story, told by discipline rather than
+       headcount. No figure here is a claim.
+       ============================================================ -->
+  <section class="es-section" data-reveal-group aria-labelledby="es-bench-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.bench.badge' | translate }}</p>
+        <h2 id="es-bench-title">{{ 'services.enterpriseSoftware.bench.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.bench.intro' | translate }}</p>
+      </header>
+
+      <ul class="es-bench">
+        @for (role of benchRoles; track role.key) {
+          <li class="es-bench__role" data-reveal>
+            <span class="es-bench__icon" aria-hidden="true">
+              <ng-icon [name]="role.icon" />
+            </span>
+            <h3>{{ 'services.enterpriseSoftware.bench.roles.' + role.key + '.title' | translate }}</h3>
+            <p>{{ 'services.enterpriseSoftware.bench.roles.' + role.key + '.description' | translate }}</p>
+          </li>
+        }
+      </ul>
+
+      <p class="es-note" data-reveal>
+        <ng-icon name="lucideUsers" aria-hidden="true" />
+        <span>{{ 'services.enterpriseSoftware.bench.note' | translate }}</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECURE BY DEFAULT — four phase gates. The page's technical core.
+       ============================================================ -->
+  <section class="es-section es-section--dark" data-reveal-group aria-labelledby="es-security-title">
+    <div class="es-section__bg" aria-hidden="true">
+      <div class="es-section__grid"></div>
+    </div>
+    <div class="container-custom">
+      <header class="es-head es-head--invert" data-reveal>
+        <p class="es-badge es-badge--invert">{{ 'services.enterpriseSoftware.security.badge' | translate }}</p>
+        <h2 id="es-security-title">{{ 'services.enterpriseSoftware.security.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.security.intro' | translate }}</p>
+      </header>
+
+      <ol class="es-gates">
+        @for (phase of securityPhases; track phase.key; let i = $index) {
+          <li class="es-gate" data-reveal>
+            <div class="es-gate__marker" aria-hidden="true">
+              <span class="es-gate__num">{{ i + 1 }}</span>
+              <ng-icon [name]="phase.icon" class="es-gate__icon" />
+            </div>
+            <div class="es-gate__body">
+              <p class="es-gate__phase">
+                {{ 'services.enterpriseSoftware.security.phases.' + phase.key + '.title' | translate }}
+              </p>
+              <h3 class="es-gate__headline">
+                {{ 'services.enterpriseSoftware.security.phases.' + phase.key + '.headline' | translate }}
+              </h3>
+              <ul class="es-gate__items">
+                @for (n of ['i1', 'i2', 'i3', 'i4']; track n) {
+                  <li>{{ 'services.enterpriseSoftware.security.phases.' + phase.key + '.' + n | translate }}</li>
+                }
+              </ul>
+            </div>
+          </li>
+        }
+      </ol>
+
+      <div class="es-standards" data-reveal>
+        <h3>{{ 'services.enterpriseSoftware.security.standards.title' | translate }}</h3>
+        <ul class="es-standards__list">
+          @for (std of securityStandards; track std) {
+            <li>
+              <span class="es-standards__name" dir="ltr">
+                {{ 'services.enterpriseSoftware.security.standards.' + std + '.name' | translate }}
+              </span>
+              <span class="es-standards__scope">
+                {{ 'services.enterpriseSoftware.security.standards.' + std + '.scope' | translate }}
+              </span>
+            </li>
+          }
+        </ul>
+        <p class="es-standards__note">{{ 'services.enterpriseSoftware.security.standards.note' | translate }}</p>
+      </div>
+
+      <div class="es-crosslink" data-reveal>
+        <div>
+          <h3>{{ 'services.enterpriseSoftware.security.crossLinkTitle' | translate }}</h3>
+          <p>{{ 'services.enterpriseSoftware.security.crossLinkBody' | translate }}</p>
+        </div>
+        <a [routerLink]="'/services/security/penetration-testing' | localizeLink" class="es-btn es-btn--ghost es-btn--invert">
+          {{ 'services.enterpriseSoftware.security.crossLinkCta' | translate }}
+          <ng-icon name="lucideArrowRight" class="es-btn__icon rtl:rotate-180" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DELIVERY — the hero pipeline, expanded. Each phase names the
+       artefact it ends in.
+       ============================================================ -->
+  <section id="es-delivery" class="es-section es-section--surface" data-reveal-group aria-labelledby="es-delivery-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.delivery.badge' | translate }}</p>
+        <h2 id="es-delivery-title">{{ 'services.enterpriseSoftware.delivery.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.delivery.intro' | translate }}</p>
+      </header>
+
+      <p class="es-legend" data-reveal>
+        <ng-icon name="lucideLayers" aria-hidden="true" />
+        <span>{{ 'services.enterpriseSoftware.delivery.legend' | translate }}</span>
+      </p>
+
+      <!--
+        Bento, not a uniform grid: tile size encodes how much of an engagement
+        each phase occupies (see deliverySteps in the component). DOM order is
+        chronological; CSS does the placement, so the <ol> still reads as the
+        real sequence for assistive tech and crawlers.
+      -->
+      <ol class="es-bento">
+        @for (step of deliverySteps; track step.key; let i = $index) {
+          <li class="es-tile" [class]="'es-tile es-tile--' + step.size" data-reveal>
+            <div class="es-tile__head">
+              <span class="es-tile__index" aria-hidden="true">{{ i + 1 < 10 ? '0' + (i + 1) : i + 1 }}</span>
+              @if (step.weight) {
+                <span class="es-tile__weight">
+                  {{ 'services.enterpriseSoftware.delivery.' + step.key + '.weight' | translate }}
+                </span>
+              }
+            </div>
+            <h3>{{ 'services.enterpriseSoftware.delivery.' + step.key + '.title' | translate }}</h3>
+            <p class="es-tile__desc">
+              {{ 'services.enterpriseSoftware.delivery.' + step.key + '.description' | translate }}
+            </p>
+            @if (step.weight) {
+              <ul class="es-tile__points">
+                @for (n of ['p1', 'p2', 'p3']; track n) {
+                  <li>{{ 'services.enterpriseSoftware.delivery.' + step.key + '.' + n | translate }}</li>
+                }
+              </ul>
+            }
+            <p class="es-tile__output">
+              <ng-icon name="lucideFileCheck" aria-hidden="true" />
+              <span>{{ 'services.enterpriseSoftware.delivery.' + step.key + '.output' | translate }}</span>
+            </p>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ENGINEERING DEPTH — the decisions, grouped.
+       ============================================================ -->
+  <section class="es-section" data-reveal-group aria-labelledby="es-stack-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.stack.badge' | translate }}</p>
+        <h2 id="es-stack-title">{{ 'services.enterpriseSoftware.stack.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.stack.intro' | translate }}</p>
+      </header>
+
+      <div class="es-stack">
+        @for (group of stackGroups; track group.key) {
+          <article class="es-stack__group" data-reveal>
+            <h3>
+              <span class="es-stack__icon" aria-hidden="true"><ng-icon [name]="group.icon" /></span>
+              {{ 'services.enterpriseSoftware.stack.' + group.key + '.title' | translate }}
+            </h3>
+            <ul>
+              @for (n of stackItemKeys; track n) {
+                <li>{{ 'services.enterpriseSoftware.stack.' + group.key + '.' + n | translate }}</li>
+              }
+            </ul>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PUBLIC SECTOR
+       ============================================================ -->
+  <section class="es-section es-section--surface" data-reveal-group aria-labelledby="es-govt-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.govt.badge' | translate }}</p>
+        <h2 id="es-govt-title">{{ 'services.enterpriseSoftware.govt.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.govt.intro' | translate }}</p>
+      </header>
+
+      <ul class="es-grid es-grid--3">
+        @for (point of govtPoints; track point.key) {
+          <li class="es-card" data-reveal>
+            <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="point.icon" /></span>
+            <h3>{{ 'services.enterpriseSoftware.govt.' + point.key + '.title' | translate }}</h3>
+            <p>{{ 'services.enterpriseSoftware.govt.' + point.key + '.description' | translate }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUALITY ENGINEERING
+       ============================================================ -->
+  <section class="es-section" data-reveal-group aria-labelledby="es-quality-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.quality.badge' | translate }}</p>
+        <h2 id="es-quality-title">{{ 'services.enterpriseSoftware.quality.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.quality.intro' | translate }}</p>
+      </header>
+
+      <ul class="es-grid es-grid--3">
+        @for (layer of qualityLayers; track layer.key) {
+          <li class="es-card" data-reveal>
+            <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="layer.icon" /></span>
+            <h3>{{ 'services.enterpriseSoftware.quality.' + layer.key + '.title' | translate }}</h3>
+            <p>{{ 'services.enterpriseSoftware.quality.' + layer.key + '.description' | translate }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       APPLICATION SUPPORT — the note about contractual response
+       commitments is deliberate, not an omission.
+       ============================================================ -->
+  <section class="es-section es-section--surface" data-reveal-group aria-labelledby="es-support-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.support.badge' | translate }}</p>
+        <h2 id="es-support-title">{{ 'services.enterpriseSoftware.support.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.support.intro' | translate }}</p>
+      </header>
+
+      <ul class="es-grid es-grid--3">
+        @for (element of supportElements; track element.key) {
+          <li class="es-card" data-reveal>
+            <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="element.icon" /></span>
+            <h3>{{ 'services.enterpriseSoftware.support.' + element.key + '.title' | translate }}</h3>
+            <p>{{ 'services.enterpriseSoftware.support.' + element.key + '.description' | translate }}</p>
+          </li>
+        }
+      </ul>
+
+      <p class="es-note" data-reveal>
+        <ng-icon name="lucideFileCheck" aria-hidden="true" />
+        <span>{{ 'services.enterpriseSoftware.support.note' | translate }}</span>
+      </p>
+
+      <!--
+        Buyer-answerable facts for this service (2026-09-02 AI-readiness, P1.1).
+        Every field for this route is currently `pending`, so the component
+        renders nothing — which is the designed behaviour. It sits inside this
+        section rather than in a section of its own so that "nothing" costs no
+        empty band today, and lands next to the support model when the pending
+        decisions are settled and the facts are published.
+      -->
+      <app-service-facts path="/services/enterprise-software" />
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FAQ — answers stay in the DOM and are collapsed by CSS, because
+       FAQ_ENTITY_KEYS emits a FAQPage node from this copy and schema
+       may only repeat what the served HTML contains.
+       ============================================================ -->
+  <section class="es-section es-section--surface" data-reveal-group aria-labelledby="es-faq-title">
+    <div class="container-custom es-faq__layout">
+      <header class="es-head es-head--start" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.faq.badge' | translate }}</p>
+        <h2 id="es-faq-title">{{ 'services.enterpriseSoftware.faq.title' | translate }}</h2>
+      </header>
+
+      <div class="es-faq" data-reveal>
+        @for (item of faqItems; track item.key; let i = $index) {
+          <div class="es-faq__item" [class.es-faq__item--open]="openFaq() === i">
+            <h3 class="es-faq__heading">
+              <button
+                type="button"
+                class="es-faq__question"
+                [attr.aria-expanded]="openFaq() === i"
+                [attr.aria-controls]="'es-faq-answer-' + i"
+                [id]="'es-faq-question-' + i"
+                (click)="toggleFaq(i)"
+              >
+                <span>{{ 'services.enterpriseSoftware.faq.' + item.key + '.q' | translate }}</span>
+                <ng-icon
+                  [name]="openFaq() === i ? 'lucideMinus' : 'lucidePlus'"
+                  class="es-faq__toggle"
+                  aria-hidden="true"
+                />
+              </button>
+            </h3>
+            <div
+              class="es-faq__answer"
+              role="region"
+              [id]="'es-faq-answer-' + i"
+              [attr.aria-labelledby]="'es-faq-question-' + i"
+            >
+              <p>{{ 'services.enterpriseSoftware.faq.' + item.key + '.a' | translate }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RELATED — also the internal-link-graph obligation: every new
+       page must both be linked to and link onward.
+       ============================================================ -->
+  <section class="es-section" data-reveal-group aria-labelledby="es-related-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.related.badge' | translate }}</p>
+        <h2 id="es-related-title">{{ 'services.enterpriseSoftware.related.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.related.intro' | translate }}</p>
+      </header>
+
+      <ul class="es-grid es-grid--3">
+        @for (service of relatedServices; track service.key) {
+          <li data-reveal>
+            <a [routerLink]="service.path | localizeLink" class="es-card es-card--link">
+              <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="service.icon" /></span>
+              <h3>
+                {{ 'services.enterpriseSoftware.related.' + service.key + '.title' | translate }}
+                <ng-icon name="lucideArrowRight" class="es-card__arrow rtl:rotate-180" aria-hidden="true" />
+              </h3>
+              <p>{{ 'services.enterpriseSoftware.related.' + service.key + '.description' | translate }}</p>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CLOSE — the one place the brand gradient is used.
+       ============================================================ -->
+  <section class="es-cta" data-reveal-group aria-labelledby="es-cta-title">
+    <div class="container-custom es-cta__inner">
+      <div class="es-cta__copy">
+        <h2 id="es-cta-title" data-reveal>{{ 'services.enterpriseSoftware.cta.title' | translate }}</h2>
+        <p data-reveal>{{ 'services.enterpriseSoftware.cta.lead' | translate }}</p>
+      </div>
+      <div class="es-cta__actions" data-reveal>
+        <a [routerLink]="'/contact' | localizeLink" class="es-btn es-btn--solid">
+          {{ 'services.enterpriseSoftware.cta.primary' | translate }}
+          <ng-icon name="lucideArrowRight" class="es-btn__icon rtl:rotate-180" aria-hidden="true" />
+        </a>
+        <a [routerLink]="'/pricing' | localizeLink" class="es-btn es-btn--ghost es-btn--invert">
+          {{ 'services.enterpriseSoftware.cta.secondary' | translate }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
