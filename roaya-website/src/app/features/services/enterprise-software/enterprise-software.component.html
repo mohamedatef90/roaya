@@ -45,8 +45,15 @@
             <ng-icon name="lucideArrowRight" class="es-btn__icon rtl:rotate-180" aria-hidden="true" />
           </a>
           <!-- --invert is required here: the hero ground is dark in BOTH themes,
-               so the plain ghost button would paint light-theme dark text on it. -->
-          <a href="#es-delivery" class="es-btn es-btn--ghost es-btn--invert">
+               so the plain ghost button would paint light-theme dark text on it.
+               routerLink + fragment, not a plain href="#…": ScrollSmoother
+               moves #smooth-content with a transform instead of scrolling the
+               document, so a native anchor jump has no document offset to act
+               on and silently does nothing. Routing through the Router fires
+               MainLayoutComponent's handleNavigationScroll/scrollToFragment,
+               which understands the transform — "every in-page anchor on the
+               site goes through this" per that method's own doc comment. -->
+          <a routerLink="." fragment="es-delivery" class="es-btn es-btn--ghost es-btn--invert">
             {{ 'services.enterpriseSoftware.hero.ctaSecondary' | translate }}
           </a>
         </div>
@@ -85,6 +92,8 @@
         role="img"
         [attr.aria-label]="'services.enterpriseSoftware.hero.visualAria' | translate"
       >
+        <span class="es-stage__ground" aria-hidden="true"></span>
+
         <!-- Back plane: the editor -->
         <div class="es-stage__editor" aria-hidden="true">
           <div class="es-stage__chrome">
@@ -101,6 +110,7 @@
               >@for (tk of line.t; track $index) {<span [class]="'es-tk es-tk--' + tk.k">{{ tk.v }}</span>}</span>@if (i === heroCode.length - 1) {<span class="es-code__caret"></span>}</span>
             }
           </div>
+          <span class="es-stage__minimap"></span>
         </div>
 
         <!-- Front plane, left: the web application -->
@@ -159,6 +169,7 @@
                 </ul>
               </div>
             </div>
+            <span class="es-mock__reflection"></span>
           </div>
         </div>
 
@@ -251,15 +262,21 @@
               </span>
               <div>
                 <h3>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.title' | translate }}</h3>
-                <p>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.summary' | translate }}</p>
               </div>
             </div>
+
+            <p class="es-panel__claim">
+              {{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.' + cap.lead | translate }}
+            </p>
+
             <ul class="es-panel__points">
               @for (n of ['p1', 'p2', 'p3', 'p4']; track n) {
-                <li>
-                  <ng-icon name="lucideCheck" aria-hidden="true" />
-                  <span>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.' + n | translate }}</span>
-                </li>
+                @if (n !== cap.lead) {
+                  <li>
+                    <ng-icon name="lucideCheck" aria-hidden="true" />
+                    <span>{{ 'services.enterpriseSoftware.capabilities.' + cap.key + '.' + n | translate }}</span>
+                  </li>
+                }
               }
             </ul>
           </div>
@@ -280,17 +297,36 @@
         <p class="es-head__intro">{{ 'services.enterpriseSoftware.bench.intro' | translate }}</p>
       </header>
 
-      <ul class="es-bench">
-        @for (role of benchRoles; track role.key) {
-          <li class="es-bench__role" data-reveal>
-            <span class="es-bench__icon" aria-hidden="true">
-              <ng-icon [name]="role.icon" />
-            </span>
-            <h3>{{ 'services.enterpriseSoftware.bench.roles.' + role.key + '.title' | translate }}</h3>
-            <p>{{ 'services.enterpriseSoftware.bench.roles.' + role.key + '.description' | translate }}</p>
+      <ol class="es-bench">
+        @for (group of benchGroups; track group.key; let groupIndex = $index) {
+          <li class="es-bench__group" data-reveal>
+            <div class="es-bench__marker" aria-hidden="true">
+              <span>{{ groupIndex + 1 }}</span>
+            </div>
+
+            <div class="es-bench__stage">
+              <header class="es-bench__stage-head">
+                <h3>{{ 'services.enterpriseSoftware.bench.phases.' + group.key | translate }}</h3>
+                <span class="es-bench__count">{{ group.roles.length }}</span>
+              </header>
+
+              <ul class="es-bench__roles">
+                @for (role of group.roles; track role.key) {
+                  <li class="es-bench__role">
+                    <span class="es-bench__icon" aria-hidden="true">
+                      <ng-icon [name]="role.icon" />
+                    </span>
+                    <div class="es-bench__copy">
+                      <h4>{{ 'services.enterpriseSoftware.bench.roles.' + role.key + '.title' | translate }}</h4>
+                      <p>{{ 'services.enterpriseSoftware.bench.roles.' + role.key + '.description' | translate }}</p>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </div>
           </li>
         }
-      </ul>
+      </ol>
 
       <p class="es-note" data-reveal>
         <ng-icon name="lucideUsers" aria-hidden="true" />
@@ -315,7 +351,7 @@
 
       <ol class="es-gates">
         @for (phase of securityPhases; track phase.key; let i = $index) {
-          <li class="es-gate" data-reveal>
+          <li class="es-gate" data-reveal tabindex="0">
             <!-- Sweeps once as the gate reveals: the card is a checkpoint, and
                  the pass reads as the check being run rather than as decoration.
                  Transform-only, and removed from the flow (aria-hidden). -->
@@ -452,7 +488,14 @@
             </h3>
             <ul>
               @for (n of stackItemKeys; track n) {
-                <li>{{ 'services.enterpriseSoftware.stack.' + group.key + '.' + n | translate }}</li>
+                @let item = ('services.enterpriseSoftware.stack.' + group.key + '.' + n | translate);
+                @let parts = splitStackDecision(item, group.key, n);
+                <li [attr.aria-label]="item">
+                  <strong class="es-stack__decision">{{ parts.decision }}</strong>
+                  @if (parts.context) {
+                    <span class="es-stack__context">{{ parts.context }}</span>
+                  }
+                </li>
               }
             </ul>
           </article>
@@ -463,14 +506,13 @@
 
   <!-- ============================================================
        AUTOMATION — the workflow canvas. Ported from a React/shadcn
-       workflow-builder block: the canvas chrome, typed nodes, dashed
-       flow connectors and legend are kept; the drag-and-drop is not.
+       workflow-builder block: the canvas chrome, typed nodes, flowing
+       wave connectors and legend are kept; the drag-and-drop is not.
        Rearranging a diagram is a toy on a marketing page, and it was
        the only part that needed framer-motion.
 
-       The travelling dashes are the page's one continuous animation,
-       and they only run while the canvas is on screen — the component
-       toggles .is-live from a ScrollTrigger (see gateAutomationFlow).
+       The connectors stay quiet until a node is hovered. While the canvas
+       is on screen, that hover sends one soft pulse through the full chain.
        ============================================================ -->
   <section class="es-section" data-reveal-group aria-labelledby="es-automation-title">
     <div class="container-custom">
@@ -501,7 +543,11 @@
         <ol class="es-flow__canvas" aria-hidden="true">
           @for (node of flowNodes; track node.key; let last = $last) {
             <li class="es-flow__step">
-              <article class="es-flow__node" [class]="'es-flow__node es-flow__node--' + node.kind">
+              <article
+                class="es-flow__node"
+                [class]="'es-flow__node es-flow__node--' + node.kind"
+                tabindex="0"
+              >
                 <div class="es-flow__node-head">
                   <span class="es-flow__icon"><ng-icon [name]="node.icon" /></span>
                   <span class="es-flow__kind">
@@ -518,8 +564,7 @@
 
               @if (!last) {
                 <span class="es-flow__link">
-                  <span class="es-flow__dash"></span>
-                  <span class="es-flow__arrow"></span>
+                  <span class="es-flow__line"></span>
                 </span>
               }
             </li>
@@ -564,7 +609,7 @@
         <p class="es-head__intro">{{ 'services.enterpriseSoftware.govt.intro' | translate }}</p>
       </header>
 
-      <ul class="es-grid es-grid--3">
+      <ul class="es-grid es-grid--3 es-grid--fixed3">
         @for (point of govtPoints; track point.key) {
           <li class="es-card" data-reveal>
             <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="point.icon" /></span>
@@ -630,7 +675,7 @@
         </p>
       </div>
 
-      <ul class="es-grid es-grid--3">
+      <ul class="es-grid es-grid--3 es-grid--fixed3">
         @for (layer of qualityLayers; track layer.key) {
           <li class="es-card" data-reveal>
             <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="layer.icon" /></span>
@@ -654,7 +699,7 @@
         <p class="es-head__intro">{{ 'services.enterpriseSoftware.support.intro' | translate }}</p>
       </header>
 
-      <ul class="es-grid es-grid--3">
+      <ul class="es-grid es-grid--3 es-grid--fixed3">
         @for (element of supportElements; track element.key) {
           <li class="es-card" data-reveal>
             <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="element.icon" /></span>
@@ -678,6 +723,35 @@
         decisions are settled and the facts are published.
       -->
       <app-service-facts path="/services/enterprise-software" />
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RELATED — also the internal-link-graph obligation: every new
+       page must both be linked to and link onward.
+       ============================================================ -->
+  <section class="es-section" data-reveal-group aria-labelledby="es-related-title">
+    <div class="container-custom">
+      <header class="es-head" data-reveal>
+        <p class="es-badge">{{ 'services.enterpriseSoftware.related.badge' | translate }}</p>
+        <h2 id="es-related-title">{{ 'services.enterpriseSoftware.related.title' | translate }}</h2>
+        <p class="es-head__intro">{{ 'services.enterpriseSoftware.related.intro' | translate }}</p>
+      </header>
+
+      <ul class="es-grid es-grid--3 es-grid--fixed3">
+        @for (service of relatedServices; track service.key) {
+          <li data-reveal>
+            <a [routerLink]="service.path | localizeLink" class="es-card es-card--link">
+              <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="service.icon" /></span>
+              <h3>
+                {{ 'services.enterpriseSoftware.related.' + service.key + '.title' | translate }}
+                <ng-icon name="lucideArrowRight" class="es-card__arrow rtl:rotate-180" aria-hidden="true" />
+              </h3>
+              <p>{{ 'services.enterpriseSoftware.related.' + service.key + '.description' | translate }}</p>
+            </a>
+          </li>
+        }
+      </ul>
     </div>
   </section>
 
@@ -724,35 +798,6 @@
           </div>
         }
       </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       RELATED — also the internal-link-graph obligation: every new
-       page must both be linked to and link onward.
-       ============================================================ -->
-  <section class="es-section" data-reveal-group aria-labelledby="es-related-title">
-    <div class="container-custom">
-      <header class="es-head" data-reveal>
-        <p class="es-badge">{{ 'services.enterpriseSoftware.related.badge' | translate }}</p>
-        <h2 id="es-related-title">{{ 'services.enterpriseSoftware.related.title' | translate }}</h2>
-        <p class="es-head__intro">{{ 'services.enterpriseSoftware.related.intro' | translate }}</p>
-      </header>
-
-      <ul class="es-grid es-grid--3">
-        @for (service of relatedServices; track service.key) {
-          <li data-reveal>
-            <a [routerLink]="service.path | localizeLink" class="es-card es-card--link">
-              <span class="es-card__icon" aria-hidden="true"><ng-icon [name]="service.icon" /></span>
-              <h3>
-                {{ 'services.enterpriseSoftware.related.' + service.key + '.title' | translate }}
-                <ng-icon name="lucideArrowRight" class="es-card__arrow rtl:rotate-180" aria-hidden="true" />
-              </h3>
-              <p>{{ 'services.enterpriseSoftware.related.' + service.key + '.description' | translate }}</p>
-            </a>
-          </li>
-        }
-      </ul>
     </div>
   </section>
 

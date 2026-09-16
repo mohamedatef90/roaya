@@ -64,12 +64,15 @@ import { ScrollSmootherService } from '../../../core/services/scroll-smoother.se
 import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
 
 type CapabilityId = 'platforms' | 'government' | 'mobile' | 'automation';
+type CapabilityPointKey = 'p1' | 'p2' | 'p3' | 'p4';
 
 interface Capability {
   id: CapabilityId;
   icon: string;
   /** i18n namespace under services.enterpriseSoftware.capabilities */
   key: CapabilityId;
+  /** Option B: the point promoted as this category's differentiating claim. */
+  lead: CapabilityPointKey;
 }
 
 interface SecurityPhase {
@@ -80,6 +83,18 @@ interface SecurityPhase {
 interface SimpleEntry {
   key: string;
   icon: string;
+}
+
+interface BenchGroup {
+  key: 'defineDesign' | 'build' | 'verifySecure' | 'run';
+  roles: readonly SimpleEntry[];
+}
+
+type StackItemKey = 'i1' | 'i2' | 'i3' | 'i4';
+
+interface StackDecisionParts {
+  decision: string;
+  context: string;
 }
 
 interface FaqEntry {
@@ -198,6 +213,7 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
    */
   private animationsInitialized = false;
   private fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+  private heroStageCleanup: (() => void) | null = null;
 
   /**
    * The hero editor's C#. Decorative (the whole composition is one role="img"),
@@ -288,26 +304,46 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
   readonly mockBars = [0.42, 0.68, 0.38, 0.82, 0.55, 0.9, 0.64] as const;
 
   readonly capabilities: readonly Capability[] = [
-    { id: 'platforms', key: 'platforms', icon: 'lucideBuilding2' },
-    { id: 'government', key: 'government', icon: 'lucideLandmark' },
-    { id: 'mobile', key: 'mobile', icon: 'lucideSmartphone' },
-    { id: 'automation', key: 'automation', icon: 'lucideWorkflow' }
+    { id: 'platforms', key: 'platforms', icon: 'lucideBuilding2', lead: 'p4' },
+    { id: 'government', key: 'government', icon: 'lucideLandmark', lead: 'p3' },
+    { id: 'mobile', key: 'mobile', icon: 'lucideSmartphone', lead: 'p4' },
+    { id: 'automation', key: 'automation', icon: 'lucideWorkflow', lead: 'p3' }
   ];
 
   readonly activeCapability = signal<CapabilityId>('platforms');
 
-  readonly benchRoles: readonly SimpleEntry[] = [
-    { key: 'product', icon: 'lucideClipboardList' },
-    { key: 'architecture', icon: 'lucideDraftingCompass' },
-    { key: 'backend', icon: 'lucideServer' },
-    { key: 'frontend', icon: 'lucideMonitor' },
-    { key: 'mobile', icon: 'lucideSmartphone' },
-    { key: 'qa', icon: 'lucideTestTube' },
-    { key: 'devops', icon: 'lucideGitBranch' },
-    { key: 'security', icon: 'lucideLock' },
-    { key: 'data', icon: 'lucideDatabase' },
-    { key: 'ux', icon: 'lucideAccessibility' },
-    { key: 'support', icon: 'lucideHeadset' }
+  readonly benchGroups: readonly BenchGroup[] = [
+    {
+      key: 'defineDesign',
+      roles: [
+        { key: 'product', icon: 'lucideClipboardList' },
+        { key: 'architecture', icon: 'lucideDraftingCompass' },
+        { key: 'ux', icon: 'lucideAccessibility' }
+      ]
+    },
+    {
+      key: 'build',
+      roles: [
+        { key: 'backend', icon: 'lucideServer' },
+        { key: 'frontend', icon: 'lucideMonitor' },
+        { key: 'mobile', icon: 'lucideSmartphone' },
+        { key: 'data', icon: 'lucideDatabase' }
+      ]
+    },
+    {
+      key: 'verifySecure',
+      roles: [
+        { key: 'qa', icon: 'lucideTestTube' },
+        { key: 'security', icon: 'lucideLock' }
+      ]
+    },
+    {
+      key: 'run',
+      roles: [
+        { key: 'devops', icon: 'lucideGitBranch' },
+        { key: 'support', icon: 'lucideHeadset' }
+      ]
+    }
   ];
 
   readonly securityPhases: readonly SecurityPhase[] = [
@@ -349,7 +385,65 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     { key: 'observability', icon: 'lucideActivity' }
   ];
 
-  readonly stackItemKeys = ['i1', 'i2', 'i3', 'i4'] as const;
+  readonly stackItemKeys: readonly StackItemKey[] = ['i1', 'i2', 'i3', 'i4'];
+
+  /**
+   * Option A splits each translated sentence at its existing natural clause.
+   * Both locale markers live here so the source copy and translation keys stay
+   * untouched; this is presentation metadata, not a second copy deck.
+   */
+  private readonly stackDecisionMarkers: Readonly<
+    Record<string, Readonly<Record<StackItemKey, readonly string[]>>>
+  > = {
+    architecture: {
+      i1: [' where ', ' حين '],
+      i2: [' where ', ' حين '],
+      i3: [' for ', ' للتدفقات'],
+      i4: [' where ', ' حين ']
+    },
+    integration: {
+      i1: [' with ', ' بعقود '],
+      i2: [' for ', ' لتدفقات '],
+      i3: [' for ', ' للأنظمة '],
+      i4: [' that ', ' تُبقي ']
+    },
+    mobileEng: {
+      i1: [' for ', ' للتطبيقات '],
+      i2: [' for ', ' للتسليم '],
+      i3: [' and background processing', ' والمعالجة في الخلفية'],
+      i4: [', biometrics', ' والمصادقة الحيوية']
+    },
+    data: {
+      i1: [' chosen ', ' تُختار '],
+      i2: [', reversible', '، قابلة'],
+      i3: [' separated ', ' عن '],
+      i4: [' and handled ', ' والتعامل ']
+    },
+    cicd: {
+      i1: [' with ', ' ببوابات '],
+      i2: [', so ', '، فتصبح '],
+      i3: [' where ', ' حين '],
+      i4: [' and a rollback ', ' ومسار ']
+    },
+    observability: {
+      i1: [' with ', ' مع '],
+      i2: [' from ', ' منذ '],
+      i3: [' tied ', ' مرتبطة '],
+      i4: [' where ', ' حيث ']
+    }
+  };
+
+  splitStackDecision(text: string, groupKey: string, itemKey: StackItemKey): StackDecisionParts {
+    const markers = this.stackDecisionMarkers[groupKey]?.[itemKey] ?? [];
+    const marker = markers.find(candidate => text.includes(candidate));
+    if (!marker) return { decision: text, context: '' };
+
+    const splitAt = text.indexOf(marker);
+    return {
+      decision: text.slice(0, splitAt).trim().replace(/[,،]$/, ''),
+      context: text.slice(splitAt).trim().replace(/^[,،]\s*/, '')
+    };
+  }
 
   readonly govtPoints: readonly SimpleEntry[] = [
     { key: 'residency', icon: 'lucideGlobe' },
@@ -444,7 +538,16 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId) || this.prefersReducedMotion()) {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // The active timeline marker communicates reading position rather than
+    // decoration, so it remains available when motion is reduced. Its CSS
+    // transition is removed in that mode.
+    if (this.prefersReducedMotion()) {
+      gsap.registerPlugin(ScrollTrigger);
+      this.initBenchProgress();
       return;
     }
 
@@ -467,6 +570,8 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     }
     this.scrollTriggers.forEach(trigger => trigger.kill());
     this.scrollTriggers = [];
+    this.heroStageCleanup?.();
+    this.heroStageCleanup = null;
   }
 
   /**
@@ -523,15 +628,15 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
       tl.to(caret, { autoAlpha: 1, duration: 0.2 });
     }
 
-    // The devices land while the last lines are still typing.
+    // The devices fade in while the last lines are still typing. Their
+    // transform belongs to the Studio Float CSS loop, so the entrance does
+    // not write an inline y/scale transform that would fight that motion.
     const devices = gsap.utils.toArray<HTMLElement>('.es-stage__device', stage);
     if (devices.length) {
       tl.from(
         devices,
         {
           opacity: 0,
-          y: 28,
-          scale: 0.96,
           duration: 0.55,
           stagger: 0.12,
           ease: 'power3.out'
@@ -556,6 +661,34 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Adds a small pointer-reactive tilt to the complete product stack. The
+   * three screens keep their own independent CSS float, so the stage movement
+   * reads as camera parallax rather than another animation on the devices.
+   */
+  private initHeroStageParallax(): void {
+    const stage = document.querySelector<HTMLElement>('.es-stage');
+    if (!stage || !window.matchMedia('(pointer: fine)').matches) return;
+
+    const onMove = (event: PointerEvent): void => {
+      const rect = stage.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      stage.style.transform = `rotateY(${x * 1.8}deg) rotateX(${-y * 1.5}deg)`;
+    };
+    const onLeave = (): void => {
+      stage.style.transform = '';
+    };
+
+    stage.addEventListener('pointermove', onMove);
+    stage.addEventListener('pointerleave', onLeave);
+    this.heroStageCleanup = () => {
+      stage.removeEventListener('pointermove', onMove);
+      stage.removeEventListener('pointerleave', onLeave);
+      stage.style.transform = '';
+    };
+  }
+
   private initMotion(): void {
     if (this.animationsInitialized || !isPlatformBrowser(this.platformId)) return;
     this.animationsInitialized = true;
@@ -573,6 +706,7 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     }
 
     this.animateHeroStage();
+    this.initHeroStageParallax();
 
     const groups = gsap.utils.toArray<HTMLElement>('.es-page [data-reveal-group]');
     groups.forEach(group => {
@@ -601,6 +735,47 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     this.gateAutomationFlow();
     this.runQualitySuite();
     this.runSecurityGates();
+    this.initBenchProgress();
+  }
+
+  /**
+   * Lights the seam marker belonging to the delivery moment currently crossing
+   * the reader's focal band. Only one marker is active at a time; leaving the
+   * Team section clears the state so the timeline does not appear "current"
+   * while the reader is elsewhere on the page.
+   */
+  private initBenchProgress(): void {
+    const bench = document.querySelector<HTMLElement>('.es-bench');
+    if (!bench) return;
+
+    const groups = gsap.utils.toArray<HTMLElement>('.es-bench__group', bench);
+    if (!groups.length) return;
+
+    const activate = (activeGroup: HTMLElement | null): void => {
+      groups.forEach(group => group.classList.toggle('is-active', group === activeGroup));
+    };
+
+    groups.forEach(group => {
+      const trigger = ScrollTrigger.create({
+        trigger: group,
+        start: 'top 58%',
+        end: 'bottom 42%',
+        onEnter: () => activate(group),
+        onEnterBack: () => activate(group)
+      });
+      this.scrollTriggers.push(trigger);
+    });
+
+    const sectionTrigger = ScrollTrigger.create({
+      trigger: bench,
+      start: 'top 80%',
+      end: 'bottom 20%',
+      onEnter: () => activate(groups[0]),
+      onEnterBack: () => activate(groups.at(-1) ?? null),
+      onLeave: () => activate(null),
+      onLeaveBack: () => activate(null)
+    });
+    this.scrollTriggers.push(sectionTrigger);
   }
 
   /**
@@ -690,17 +865,7 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  /**
-   * The automation canvas is the one thing on this page that animates
-   * continuously — the dashes travelling along the connectors are what make it
-   * read as a running workflow rather than a diagram of one.
-   *
-   * So it is gated on visibility. `.is-live` is added when the section enters
-   * the viewport and removed when it leaves, in both directions; the SCSS runs
-   * the dash keyframes only under that class. The 2026-09-14 motion inventory's
-   * first finding is that this site has 225 always-on animations and pauses
-   * none of them off-screen — this one does not join them.
-   */
+  /** Keep the workflow card wave idle outside the viewport. */
   private gateAutomationFlow(): void {
     const canvas = document.querySelector<HTMLElement>('.es-flow');
     if (!canvas) return;

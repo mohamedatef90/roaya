@@ -6,12 +6,24 @@ import { map, filter, take } from 'rxjs/operators';
  * Loading Service
  * Manages global loading state for the application.
  *
- * The app-open intro (see InitLoaderComponent) owns its own ~2.2s visual
+ * The app-open intro (see InitLoaderComponent) owns its own ~2.1s visual
  * timeline and calls `completeIntro()` when it is done. This service then
  * plays a short exit cross-fade — `isExiting` stays true for the length of
  * the transition — before removing the loader, so the landing page is never
  * revealed by an abrupt unmount. Safety timers cover the cases where the
  * intro never reports back.
+ *
+ * `isLoading` defaults to `true` (not `false`) on purpose: MainLayoutComponent
+ * only calls `show()` inside an `isPlatformBrowser` guard, so during SSR (and
+ * during the instant before the client hydrates) nothing ever calls `show()`.
+ * If the signal defaulted to `false`, the server-rendered HTML — and the
+ * first client paint before Angular finishes bootstrapping — would show the
+ * actual home page with no loader over it at all, which then gets covered by
+ * the loader a beat later once `ngOnInit` runs. That produced a visible
+ * "home page flashes, then the loader appears on top of it" sequence.
+ * Defaulting to `true` means the loader is present in the very first HTML
+ * the browser paints, so the home page is never revealed before the intro
+ * finishes. See docs/deploy/RUNTIME-ENV.md for why SSR output matters here.
  */
 @Injectable({
   providedIn: 'root',
@@ -20,9 +32,9 @@ export class LoadingService {
   private loadingCount = 0;
 
   /** Visual length of the intro sequence before the exit begins. */
-  private introDuration = 2200;
+  private introDuration = 2100;
   /** Length of the exit cross-fade; must match the loader's exit animation. */
-  private readonly exitDuration = 340;
+  private readonly exitDuration = 300;
   /** Fallback in case the intro never reports completion. */
   private readonly introFallbackSlack = 1500;
   /** Hard limit — the loader never outlives this. */
@@ -32,7 +44,8 @@ export class LoadingService {
   private exitTimeout: ReturnType<typeof setTimeout> | null = null;
   private maxTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  public isLoading = signal(false);
+  /** See class doc: starts `true` so SSR/first paint never reveals the page. */
+  public isLoading = signal(true);
   /** True while the loader is cross-fading out. */
   public isExiting = signal(false);
   /** True once the app reports it can safely be revealed. */

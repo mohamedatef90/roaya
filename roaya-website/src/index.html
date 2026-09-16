@@ -68,6 +68,25 @@
     })();
   </script>
 
+  <!--
+    No-JS fallback for the enterprise intro overlay (app-init-loader).
+
+    LoadingService.isLoading defaults to true so the loader is present in the
+    very first HTML the browser paints — this stops the home page from
+    flashing into view before the loader covers it. But that default is only
+    ever cleared by MainLayoutComponent/InitLoaderComponent JavaScript. With
+    JS disabled nothing clears it, so without this override the page content
+    (opacity 0.35 via .page-reveal--held while the loader is up) would stay
+    hidden behind the opaque loader forever. Keep in sync with
+    core/services/loading.service.ts and layouts/main-layout.
+  -->
+  <noscript>
+    <style>
+      app-init-loader { display: none !important; }
+      .page-reveal--held { opacity: 1 !important; }
+    </style>
+  </noscript>
+
   <!-- Preconnect to external domains for faster resource loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

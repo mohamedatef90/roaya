@@ -56,8 +56,13 @@ interface InitStage {
 export class InitLoaderComponent implements OnInit, OnDestroy {
   /** Stage the sequence holds on until the app reports it can transition. */
   private static readonly READY_GATE_MS = 1600;
-  /** READY lights up here; the exit cross-fade starts at COMPLETE_MS. */
-  private static readonly COMPLETE_MS = 2200;
+  /**
+   * READY lights up here; the exit cross-fade starts at COMPLETE_MS.
+   * Kept together with LoadingService's exitDuration so the full loader —
+   * intro plus exit fade — never exceeds ~2.4s, comfortably under the 2.5s
+   * ceiling the loader must respect end to end.
+   */
+  private static readonly COMPLETE_MS = 2100;
   /** Reduced-motion path: skip the sequence, hold the end state briefly. */
   private static readonly REDUCED_MOTION_MS = 700;
 
@@ -106,7 +111,7 @@ export class InitLoaderComponent implements OnInit, OnDestroy {
       label: 'Ready',
       sublabel: 'Experience',
       status: 'Your digital experience is ready',
-      at: 2000,
+      at: 1900,
       progress: 100,
     },
   ];

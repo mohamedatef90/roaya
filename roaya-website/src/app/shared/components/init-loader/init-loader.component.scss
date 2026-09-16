@@ -44,18 +44,21 @@ $exit: cubic-bezier(0.4, 0, 0.2, 1);
   direction: ltr;
 }
 
-/* --- Exit: content lifts and fades, the canvas dissolves to reveal the page - */
+/* --- Exit: content lifts and fades, the canvas dissolves to reveal the page -
+   Duration must match LoadingService's exitDuration (300ms): that's the
+   timer that unmounts this component, so the fade needs to finish at or
+   before it or the removal will cut it off mid-animation. */
 
 :host(.is-exiting) .init-loader {
-  animation: canvas-out 340ms $exit forwards;
+  animation: canvas-out 300ms $exit forwards;
 }
 
 :host(.is-exiting) .stack {
-  animation: stack-out 340ms $exit forwards;
+  animation: stack-out 300ms $exit forwards;
 }
 
 :host(.is-exiting) .fx {
-  animation: fade-out 260ms $exit forwards;
+  animation: fade-out 220ms $exit forwards;
 }
 
 @keyframes canvas-out {

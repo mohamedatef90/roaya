@@ -136,28 +136,6 @@
   }
 }
 
-.es-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  max-width: 54rem;
-  margin: 2.25rem auto 0;
-  padding: 1rem 1.25rem;
-  border-inline-start: 3px solid var(--color-secondary);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  background: var(--color-surface-elevated);
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-
-  ng-icon {
-    flex: none;
-    margin-top: 0.15rem;
-    font-size: 1.125rem;
-    color: var(--color-secondary-on-surface);
-  }
-}
-
 .es-section--surface .es-note {
   background: var(--color-background);
 }
@@ -949,6 +927,360 @@
   font-weight: 600;
 }
 
+/* ---- Studio Float -----------------------------------------------------
+
+   The hero keeps the same three product surfaces, but treats them like real
+   photographed screens: a recessed IDE, a light production browser and a
+   hardware-framed phone. Each plane floats independently; the float
+   animation and layering communicate depth on their own — deliberately flat,
+   no cast shadows, so no connector lines or decorative effects are needed.
+   ----------------------------------------------------------------------- */
+
+.es-stage {
+  height: clamp(28rem, 38vw, 34.75rem);
+  padding-bottom: 0;
+  perspective: 90rem;
+  transform-style: preserve-3d;
+  isolation: isolate;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 2% -5% -3%;
+    z-index: -2;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--es-teal-rgb), 0.1), transparent 64%);
+    filter: blur(1rem);
+    pointer-events: none;
+  }
+}
+
+.es-stage__ground {
+  display: none;
+}
+
+.es-mock__reflection {
+  display: none;
+}
+
+.es-stage__editor {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 1% 5%;
+  height: 20.75rem;
+  max-width: none;
+  border-color: rgba(175, 194, 214, 0.2);
+  border-radius: 0.875rem;
+  background: #0b1522;
+  transform-origin: center;
+  animation: es-studio-float-editor 8.2s ease-in-out infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+      calc(115deg * var(--es-dir)),
+      rgba(255, 255, 255, 0.035),
+      transparent 24%
+    );
+    mix-blend-mode: screen;
+  }
+}
+
+.es-stage__chrome {
+  min-height: 2.3125rem;
+  background: #111e2e;
+}
+
+.es-stage__code {
+  height: calc(100% - 2.3125rem);
+  padding-block: 0.75rem 1rem;
+  padding-inline: 0.875rem 5.5rem;
+  mask-image: linear-gradient(to right, #000 91%, transparent 100%);
+}
+
+.es-stage__minimap {
+  position: absolute;
+  inset-block: 3.25rem 0.875rem;
+  inset-inline-end: 0.75rem;
+  width: 4.5rem;
+  border-inline-start: 1px solid rgba(175, 194, 214, 0.08);
+  opacity: 0.36;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 0.25rem,
+    rgba(175, 194, 214, 0.24) 0.25rem 0.3125rem
+  );
+  mask-image: linear-gradient(to bottom, #000, transparent);
+}
+
+.es-stage__device {
+  filter: none;
+  will-change: transform;
+}
+
+.es-stage__tag {
+  display: none;
+}
+
+.es-stage__web {
+  inset-inline-start: 3%;
+  bottom: 0.6rem;
+  width: 72%;
+  max-width: none;
+  z-index: 4;
+  animation: es-studio-float-browser 7.4s 0.4s ease-in-out infinite;
+}
+
+.es-stage__phone {
+  inset-inline-end: 0;
+  bottom: 0;
+  z-index: 7;
+  width: clamp(7.8rem, 12.5vw, 9.2rem);
+  padding: 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 1.7rem;
+  background: linear-gradient(145deg, #485565, #151d28 34%, #313b48);
+  animation: es-studio-float-phone 6.6s 0.8s ease-in-out infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: -0.22rem;
+    inset-block-start: 3.6rem;
+    width: 0.2rem;
+    height: 3rem;
+    border-radius: 0 0.2rem 0.2rem 0;
+    background: #4c5764;
+  }
+}
+
+/* The production dashboard is deliberately light. It separates the shipped
+   product from the dark editor without adding another accent colour. */
+.es-mock--web {
+  border-color: #d9e0e6;
+  border-radius: 0.9rem;
+  background: #f7f8fa;
+  color: #667585;
+}
+
+.es-mock--web .es-mock__top {
+  min-height: 2.35rem;
+  border-bottom-color: #d8dee5;
+  background: #eef1f4;
+}
+
+.es-mock--web .es-mock__dots i:nth-child(1) { background: #e98378; }
+.es-mock--web .es-mock__dots i:nth-child(2) { background: #e5bb64; }
+.es-mock--web .es-mock__dots i:nth-child(3) { background: #7ecb8f; }
+
+.es-mock--web .es-mock__url {
+  height: 1.15rem;
+  max-width: none;
+  border: 1px solid #d9dfe5;
+  background: #ffffff;
+}
+
+.es-mock--web .es-mock__side {
+  width: 5.4rem;
+  padding: 0.75rem 0.5rem;
+  border-inline-end-color: rgba(255, 255, 255, 0.08);
+  background: #18283b;
+}
+
+.es-mock--web .es-mock__logo {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 0.35rem;
+  background: var(--es-teal);
+}
+
+.es-mock--web .es-mock__nav {
+  min-height: 1.35rem;
+  color: #8294a8;
+}
+
+.es-mock--web .es-mock__nav--on {
+  background: #253c53;
+  color: #ffffff;
+}
+
+.es-mock--web .es-mock__main {
+  gap: 0.45rem;
+  padding: 0.75rem;
+  background: #f7f8fa;
+}
+
+.es-mock--web .es-mock__h,
+.es-mock--web .es-mock__row-label {
+  color: #344356;
+}
+
+.es-mock--web .es-mock__btn {
+  border-radius: 0.4rem;
+  background: #276d7b;
+  color: #ffffff;
+}
+
+.es-mock--web .es-mock__chip {
+  border-color: #dfe5ea;
+  color: #7b8998;
+}
+
+.es-mock--web .es-mock__chip--on {
+  border-color: rgba(var(--es-teal-rgb), 0.48);
+  background: rgba(var(--es-teal-rgb), 0.12);
+  color: #317480;
+}
+
+.es-mock--web .es-mock__panel,
+.es-mock--web .es-mock__row {
+  border: 1px solid #e0e5ea;
+  background: #ffffff;
+}
+
+.es-mock--web .es-mock__caption {
+  color: #7d8b99;
+}
+
+.es-mock--web .es-mock__status--review {
+  background: #f0ebf7;
+  color: #725c8f;
+}
+
+.es-mock--web .es-mock__status--ok {
+  background: #edf6eb;
+  color: #4d8151;
+}
+
+.es-mock--web .es-mock__status--open {
+  background: #e9f4f5;
+  color: #317480;
+}
+
+.es-mock__reflection {
+  position: absolute;
+  inset-block: -28% -10%;
+  inset-inline-end: -58%;
+  width: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  opacity: 0;
+  transform: rotate(calc(18deg * var(--es-dir)));
+  pointer-events: none;
+  animation: es-studio-reflection 9s 1.2s ease-in-out infinite;
+}
+
+.es-mock--phone {
+  min-height: 16rem;
+  border: 0;
+  border-radius: 1.28rem;
+  padding: 1.65rem 0.55rem 0.45rem;
+  background: #f4f6f8;
+  color: #667585;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0.48rem;
+    inset-inline-start: 50%;
+    width: 2.7rem;
+    height: 0.72rem;
+    border-radius: 999px;
+    background: #090e15;
+    transform: translateX(calc(-50% * var(--es-dir)));
+    z-index: 3;
+  }
+}
+
+.es-mock--phone .es-mock__notch {
+  display: none;
+}
+
+.es-mock--phone .es-mock__h,
+.es-mock--phone .es-mock__row-label {
+  color: #2f3d4e;
+}
+
+.es-mock--phone .es-mock__avatar {
+  background: #dce8eb;
+}
+
+.es-mock--phone .es-mock__phone-card {
+  padding: 0.55rem;
+  border-color: #244057;
+  background: #173047;
+}
+
+.es-mock--phone .es-mock__phone-card .es-mock__row-label {
+  color: #ffffff;
+}
+
+.es-mock--phone .es-mock__phone-row {
+  min-height: 1.8rem;
+  border-bottom-color: #e1e5e9;
+}
+
+.es-mock--phone .es-mock__tabs {
+  border-top-color: #dde2e6;
+  color: #8995a2;
+}
+
+.es-mock--phone .es-mock__tab--on {
+  color: #286f7b;
+}
+
+/* Compact mobile navigation reads at true phone scale. */
+.es-mock--phone .es-mock__tab ng-icon {
+  display: block;
+  width: 0.375rem;
+  height: 0.375rem;
+  font-size: 0.375rem;
+  line-height: 0.375rem;
+}
+
+@keyframes es-studio-float-editor {
+  0%, 100% {
+    transform: translateY(0) rotateY(calc(-4deg * var(--es-dir))) rotateX(1deg);
+  }
+  50% {
+    transform: translateY(-0.5rem) rotateY(calc(-3deg * var(--es-dir))) rotateX(1.5deg);
+  }
+}
+
+@keyframes es-studio-float-browser {
+  0%, 100% {
+    transform: translateY(0) rotateY(calc(-2deg * var(--es-dir))) rotateX(1deg);
+  }
+  50% {
+    transform: translateY(-0.7rem) rotateY(calc(-1deg * var(--es-dir))) rotateX(0.5deg);
+  }
+}
+
+@keyframes es-studio-float-phone {
+  0%, 100% {
+    transform: translateY(0) rotateY(calc(-4deg * var(--es-dir))) rotateZ(calc(1deg * var(--es-dir)));
+  }
+  50% {
+    transform: translateY(-0.95rem) rotateY(calc(-2deg * var(--es-dir))) rotateZ(calc(0.2deg * var(--es-dir)));
+  }
+}
+
+@keyframes es-studio-reflection {
+  0%, 25% {
+    opacity: 0;
+    transform: translateX(0) rotate(calc(18deg * var(--es-dir)));
+  }
+  45% { opacity: 0.45; }
+  70%, 100% {
+    opacity: 0;
+    transform: translateX(calc(-330% * var(--es-dir))) rotate(calc(18deg * var(--es-dir)));
+  }
+}
+
 /* Under a coarse pointer the stage is narrow; pull the phone in so the two
    devices cannot squeeze each other off the column. */
 @media (max-width: 400px) {
@@ -1046,21 +1378,14 @@
 
 .es-panel__lead {
   display: flex;
+  align-items: center;
   gap: 1rem;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1rem;
 
   h3 {
-    margin: 0 0 0.375rem;
+    margin: 0;
     font-size: 1.25rem;
     font-weight: 700;
-  }
-
-  p {
-    margin: 0;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
   }
 }
 
@@ -1076,6 +1401,19 @@
   font-size: 1.375rem;
 }
 
+.es-panel__claim {
+  position: relative;
+  margin: 0 0 1.25rem;
+  padding: 1.125rem 1.25rem;
+  border-inline-start: 3px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-surface-active), transparent 78%);
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+}
+
 .es-panel__points {
   display: grid;
   gap: 0.75rem;
@@ -1084,8 +1422,8 @@
   list-style: none;
 
   @media (min-width: 900px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem 2rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem 1.5rem;
   }
 
   li {
@@ -1110,32 +1448,176 @@
    ============================================================ */
 
 .es-bench {
+  position: relative;
   display: grid;
-  gap: 1rem;
+  gap: 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+  /* Option A — one continuous seam connects the four delivery moments. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 1.375rem;
+    inset-inline-start: 1.375rem;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-secondary),
+      var(--color-border) 28%,
+      var(--color-border) 72%,
+      var(--color-secondary)
+    );
+  }
+}
+
+.es-bench__group {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: 1rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 1.375rem;
+    inset-inline-start: 2.75rem;
+    width: 1rem;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: 1.5rem;
+
+    &::after {
+      width: 1.5rem;
+    }
+  }
+}
+
+.es-bench__marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: 50%;
+  background: var(--color-background);
+  box-shadow: 0 0 0 0.375rem var(--color-background);
+  color: var(--color-secondary-on-surface);
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    color 220ms ease,
+    transform 220ms ease;
+
+  span {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+}
+
+.es-bench__group.is-active .es-bench__marker {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  box-shadow:
+    0 0 0 0.375rem var(--color-background),
+    0 0 0 0.5625rem rgba(var(--es-teal-rgb), 0.18),
+    0 0 1.5rem rgba(var(--es-teal-rgb), 0.42);
+  color: var(--color-primary-950);
+  transform: scale(1.08);
+}
+
+.es-bench__stage {
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, var(--color-surface-elevated), var(--color-background));
+
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+.es-bench__stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 750;
+    letter-spacing: -0.015em;
+    color: var(--color-text-primary);
+  }
+}
+
+.es-bench__count {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding-inline: 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface-active);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+}
+
+.es-bench__roles {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
 }
 
 .es-bench__role {
-  padding: 1.25rem 1.25rem 1.375rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  min-width: 0;
+  padding: 1rem;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   background: var(--color-surface-elevated);
   transition:
     border-color var(--transition-base),
-    transform var(--transition-base);
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
 
   &:hover {
     border-color: var(--color-secondary);
-    transform: translateY(-3px);
+    box-shadow: 0 0.75rem 2rem rgba(6, 30, 44, 0.08);
+    transform: translateY(-2px);
   }
 
-  h3 {
-    margin: 0.75rem 0 0.375rem;
-    font-size: 1rem;
+  h4 {
+    margin: 0 0 0.375rem;
+    font-size: 0.9375rem;
     font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text-primary);
   }
 
   p {
@@ -1149,12 +1631,17 @@
 .es-bench__icon {
   display: grid;
   place-items: center;
+  flex: 0 0 auto;
   width: 2.25rem;
   height: 2.25rem;
   border-radius: var(--radius-sm);
   background: var(--color-surface-active);
   color: var(--color-secondary-on-surface);
   font-size: 1.125rem;
+}
+
+.es-bench__copy {
+  min-width: 0;
 }
 
 /* ============================================================
@@ -1182,11 +1669,38 @@
   border: 1px solid var(--es-hairline);
   border-radius: var(--radius-lg);
   background: rgba(16, 31, 48, 0.55);
-  transition: border-color var(--transition-base);
+  outline: none;
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    opacity var(--transition-base),
+    filter var(--transition-base);
 
-  &:hover {
-    border-color: rgba(var(--es-violet-rgb), 0.45);
+  &:is(:hover, :focus-visible) {
+    z-index: 3;
+    border-color: rgba(var(--es-violet-rgb), 0.68);
+    box-shadow:
+      0 1.75rem 3.5rem rgba(0, 0, 0, 0.38),
+      0 0 0 1px rgba(var(--es-violet-rgb), 0.12),
+      0 0 2rem rgba(var(--es-violet-rgb), 0.14);
+    transform: translateY(-0.5rem) scale(1.04);
   }
+
+  &:focus-visible {
+    box-shadow:
+      0 0 0 3px rgba(var(--es-violet-rgb), 0.34),
+      0 1.75rem 3.5rem rgba(0, 0, 0, 0.38),
+      0 0 2rem rgba(var(--es-violet-rgb), 0.14);
+  }
+}
+
+/* Focus stack adapted to the larger two-column security cards. */
+.es-gates:has(.es-gate:is(:hover, :focus-visible))
+  .es-gate:not(:is(:hover, :focus-visible)) {
+  opacity: 0.46;
+  filter: saturate(0.35);
+  transform: scale(0.96);
 }
 
 .es-gate__marker {
@@ -1379,7 +1893,7 @@
   align-items: flex-start;
   gap: 0.875rem;
   max-width: 54rem;
-  margin: 0;
+  margin: 2.25rem auto 0;
   padding: 1.25rem 1.5rem;
   border-inline-start: 3px solid var(--color-secondary);
   border-radius: var(--radius-md);
@@ -1395,6 +1909,28 @@
     font-size: 1.125rem;
     color: var(--color-secondary-on-surface);
   }
+}
+
+/* The bench's closing note sits below a grid whose cards are indented past
+   the seam markers (see .es-bench__group's grid-template-columns) — start
+   the note at that same inset instead of the container edge, so its icon
+   lines up with the card content above it rather than the markers. */
+.es-bench + .es-note {
+  margin-inline-start: 3.75rem;
+  margin-inline-end: 0;
+
+  @media (min-width: 768px) {
+    margin-inline-start: 4.75rem;
+  }
+}
+
+/* Same concept for every other closing note that follows a card grid with no
+   marker column (automation's kinds, application support): the cards start
+   flush at the container edge, so the note should too, rather than centering
+   under a grid that isn't centered itself. */
+.es-grid--3 + .es-note {
+  margin-inline-start: 0;
+  margin-inline-end: auto;
 }
 
 .es-bento {
@@ -1581,14 +2117,66 @@
 .es-stack {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: 1fr;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .es-stack__group {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 1.5rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface-elevated);
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(
+      115deg,
+      transparent 22%,
+      rgba(var(--es-teal-rgb), 0.025) 38%,
+      rgba(var(--es-teal-rgb), 0.2) 50%,
+      rgba(var(--es-teal-rgb), 0.04) 62%,
+      transparent 78%
+    );
+    background-position: 180% 0;
+    background-size: 240% 100%;
+    opacity: 0;
+    transition:
+      background-position 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 180ms ease;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    border-color: rgba(var(--es-teal-rgb), 0.45);
+    box-shadow: 0 0.75rem 2.25rem rgba(6, 30, 44, 0.1);
+
+    &::before {
+      background-position: -80% 0;
+      opacity: 1;
+    }
+  }
 
   h3 {
     display: flex;
@@ -1601,30 +2189,26 @@
 
   ul {
     display: grid;
-    gap: 0.625rem;
+    gap: 0.75rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   li {
-    position: relative;
-    padding-inline-start: 1rem;
     font-size: 0.875rem;
     line-height: 1.55;
-    color: var(--color-text-secondary);
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset-inline-start: 0;
-      top: 0.55rem;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--color-secondary);
-    }
   }
+}
+
+.es-stack__decision {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.es-stack__context {
+  margin-inline-start: 0.375rem;
+  color: var(--color-text-tertiary);
 }
 
 .es-stack__icon {
@@ -1863,7 +2447,7 @@
    ============================================================
 
    Ported from a React/shadcn workflow-builder block. Kept: the canvas
-   chrome, the typed nodes, the dashed flow connectors, the legend.
+   chrome, the typed nodes, the flowing wave connectors, the legend.
    Dropped: drag-and-drop — rearranging a diagram is a toy on a marketing
    page, and it was the only part that needed framer-motion.
 
@@ -1950,9 +2534,16 @@
 }
 
 .es-flow__step {
+  --flow-wave-index: 0;
+
   display: flex;
   align-items: center;
   flex: 0 0 auto;
+
+  &:nth-child(2) { --flow-wave-index: 1; }
+  &:nth-child(3) { --flow-wave-index: 2; }
+  &:nth-child(4) { --flow-wave-index: 3; }
+  &:nth-child(5) { --flow-wave-index: 4; }
 
   @media (max-width: 899px) {
     flex-direction: column;
@@ -1960,9 +2551,39 @@
   }
 }
 
+.es-flow.is-live .es-flow__node {
+  animation: es-flow-node-wave 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation-delay: calc(var(--flow-wave-index) * 0.24s);
+}
+
+/* Pause the ambient wave during direct interaction so the existing focus
+   stack remains precise and does not fight the user's pointer or keyboard. */
+.es-flow.is-live .es-flow__canvas:has(.es-flow__node:is(:hover, :focus-visible))
+  .es-flow__node {
+  animation: none;
+}
+
+@keyframes es-flow-node-wave {
+  0%,
+  16%,
+  52%,
+  100% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-0.875rem);
+  }
+
+  40% {
+    transform: translateY(0.125rem);
+  }
+}
+
 /* ---- node ---- */
 
 .es-flow__node {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -1971,16 +2592,43 @@
   border: 1px solid rgba(var(--es-teal-rgb), 0.3);
   border-radius: var(--radius-lg, 0.75rem);
   background: rgba(16, 31, 48, 0.9);
-  transition: border-color var(--transition-base), transform var(--transition-base);
+  outline: none;
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    opacity var(--transition-base),
+    filter var(--transition-base);
 
-  &:hover {
+  &:is(:hover, :focus-visible) {
+    z-index: 3;
     border-color: rgba(var(--es-teal-rgb), 0.6);
-    transform: translateY(-2px);
+    box-shadow:
+      0 1.625rem 3.125rem rgba(0, 0, 0, 0.42),
+      0 0 0 1px rgba(var(--es-teal-rgb), 0.12),
+      0 0 2rem rgba(var(--es-teal-rgb), 0.14);
+    transform: translateY(-0.75rem) scale(1.07);
+  }
+
+  &:focus-visible {
+    box-shadow:
+      0 0 0 3px rgba(var(--es-teal-rgb), 0.32),
+      0 1.625rem 3.125rem rgba(0, 0, 0, 0.42),
+      0 0 2rem rgba(var(--es-teal-rgb), 0.14);
   }
 
   @media (max-width: 899px) {
     width: 100%;
   }
+}
+
+/* Option 10 — Focus stack. The selected node advances; the other four recede
+   without disappearing, so the full five-step workflow remains legible. */
+.es-flow__canvas:has(.es-flow__node:is(:hover, :focus-visible))
+  .es-flow__node:not(:is(:hover, :focus-visible)) {
+  opacity: 0.46;
+  filter: saturate(0.35);
+  transform: scale(0.96);
 }
 
 .es-flow__node--trigger {
@@ -2049,90 +2697,75 @@
 .es-flow__link {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
-  width: 2.5rem;
+  width: 3rem;
 
   @media (max-width: 899px) {
     flex-direction: column;
     width: 100%;
-    height: 2.25rem;
+    height: 2.5rem;
   }
 }
 
-.es-flow__dash {
+.es-flow__line {
   position: relative;
   flex: 1;
-  height: 2px;
+  height: 1px;
   overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--es-teal-rgb), 0.12),
+    rgba(var(--es-teal-rgb), 0.52) 50%,
+    rgba(var(--es-teal-rgb), 0.12)
+  );
+  transition: box-shadow var(--transition-base), background-color var(--transition-base);
 
-  /* A wide strip of dashes translated by exactly one period: the travel is a
-     transform, not a background-position, so it stays on the compositor. */
-  /* One dash period per cycle, along the reading direction. */
-  --es-dash-x: calc(14px * var(--es-dir));
-  --es-dash-y: 0;
-
-  &::before {
+  &::after {
     content: '';
     position: absolute;
-    inset-block: 0;
-    inset-inline: -2rem;
-    background: repeating-linear-gradient(
-      to right,
-      rgba(var(--es-teal-rgb), 0.75) 0 6px,
-      transparent 6px 14px
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--es-teal-hot) 50%,
+      transparent
     );
+    transition: opacity var(--transition-base);
   }
 
   @media (max-width: 899px) {
-    width: 2px;
-    height: auto;
-    /* Stacked: the same keyframe now travels down instead of across. */
-    --es-dash-x: 0;
-    --es-dash-y: 14px;
+    flex: none;
+    width: 1px;
+    height: 2.5rem;
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--es-teal-rgb), 0.12),
+      rgba(var(--es-teal-rgb), 0.52) 50%,
+      rgba(var(--es-teal-rgb), 0.12)
+    );
 
-    &::before {
-      inset-inline: 0;
-      inset-block: -2rem;
-      background: repeating-linear-gradient(
+    &::after {
+      background: linear-gradient(
         to bottom,
-        rgba(var(--es-teal-rgb), 0.75) 0 6px,
-        transparent 6px 14px
+        transparent,
+        var(--es-teal-hot) 50%,
+        transparent
       );
     }
   }
 }
 
-/* Only while the canvas is on screen — see gateAutomationFlow() in the
-   component. Nothing here runs against a section the reader has scrolled past.
- *
- * ONE keyframe, steered by two custom properties, rather than a horizontal and
- * a vertical variant. Angular rewrites @keyframes names for view encapsulation
- * but does NOT rewrite an animation reference inside an @media block: the
- * scoped `_ngcontent-xxx_es-flow-dash-down` was emitted, while the media query
- * still referenced the bare name, so the stacked layout animated nothing at
- * all. Keeping the only reference at the top level sidesteps that entirely,
- * and the media query just re-points the axis. */
-.es-flow.is-live .es-flow__dash::before {
-  animation: es-flow-dash 1.1s linear infinite;
-}
+/* The entire chain responds as one system: hovering any node illuminates the
+   hand-offs between every node, while .is-live keeps off-screen animation idle. */
+.es-flow.is-live .es-flow__canvas:has(.es-flow__node:is(:hover, :focus-visible)) {
+  .es-flow__line {
+    box-shadow: 0 0 0.75rem rgba(var(--es-teal-rgb), 0.5);
 
-@keyframes es-flow-dash {
-  to {
-    transform: translate(var(--es-dash-x, 0), var(--es-dash-y, 0));
-  }
-}
-
-.es-flow__arrow {
-  flex: none;
-  width: 0.4375rem;
-  height: 0.4375rem;
-  border-top: 2px solid rgba(var(--es-teal-rgb), 0.75);
-  border-inline-end: 2px solid rgba(var(--es-teal-rgb), 0.75);
-  /* Points along the reading direction: --es-dir flips it wholesale in RTL. */
-  transform: rotate(45deg) scaleX(var(--es-dir));
-
-  @media (max-width: 899px) {
-    transform: rotate(135deg);
+    &::after {
+      opacity: 0.95;
+    }
   }
 }
 
@@ -2204,6 +2837,16 @@
 
 .es-grid--3 {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Public sector, quality engineering, after-launch and works-with: three
+   cards in a row once there's room, rather than however many 280px minmax
+   happens to fit. Mobile and tablet still fall back to .es-grid--3's own
+   auto-fit above. */
+.es-grid--fixed3 {
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .es-card {
@@ -2437,9 +3080,42 @@
     opacity: 1;
   }
 
+  .es-stage,
+  .es-stage__editor,
+  .es-stage__web,
+  .es-stage__phone,
+  .es-mock__reflection {
+    animation: none !important;
+    transform: none !important;
+  }
+
   .es-btn:hover,
   .es-bench__role:hover,
   .es-card--link:hover {
+    transform: none;
+  }
+
+  .es-bench__marker {
+    transition: none;
+  }
+
+  .es-stack__group::before {
+    display: none;
+  }
+
+  .es-flow__node:is(:hover, :focus-visible),
+  .es-flow__canvas:has(.es-flow__node:is(:hover, :focus-visible))
+    .es-flow__node:not(:is(:hover, :focus-visible)) {
+    transform: none;
+  }
+
+  .es-flow__node {
+    animation: none !important;
+  }
+
+  .es-gate:is(:hover, :focus-visible),
+  .es-gates:has(.es-gate:is(:hover, :focus-visible))
+    .es-gate:not(:is(:hover, :focus-visible)) {
     transform: none;
   }
 

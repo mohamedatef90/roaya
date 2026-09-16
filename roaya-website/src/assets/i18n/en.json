@@ -2529,6 +2529,12 @@
         "title": "A full bench, not a handful of generalists",
         "intro": "Enterprise and government software fails at the seams — between analysis and architecture, between the application and the platform it runs on, between launch and the years that follow. Roaya staffs every one of those seams with people who do that discipline full time.",
         "note": "Delivery teams are assembled per engagement from the disciplines below. The team that builds a system is the team that supports it.",
+        "phases": {
+          "defineDesign": "Define & design",
+          "build": "Build",
+          "verifySecure": "Verify & secure",
+          "run": "Run"
+        },
         "roles": {
           "product": {
             "title": "Product & business analysis",
