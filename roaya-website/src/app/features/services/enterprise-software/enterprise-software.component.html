@@ -511,8 +511,8 @@
        Rearranging a diagram is a toy on a marketing page, and it was
        the only part that needed framer-motion.
 
-       The connectors stay quiet until a node is hovered. While the canvas
-       is on screen, that hover sends one soft pulse through the full chain.
+       While the canvas is on screen, one guided pulse moves through the
+       workflow and hands focus to each node in sequence.
        ============================================================ -->
   <section class="es-section" data-reveal-group aria-labelledby="es-automation-title">
     <div class="container-custom">
@@ -538,38 +538,46 @@
           <span class="es-flow__name">{{ 'services.enterpriseSoftware.automation.canvasName' | translate }}</span>
         </div>
 
-        <!-- Horizontal on a wide screen, stacked on a narrow one; the
-             connectors rotate with it in CSS. -->
-        <ol class="es-flow__canvas" aria-hidden="true">
-          @for (node of flowNodes; track node.key; let last = $last) {
-            <li class="es-flow__step">
-              <article
-                class="es-flow__node"
-                [class]="'es-flow__node es-flow__node--' + node.kind"
-                tabindex="0"
-              >
-                <div class="es-flow__node-head">
-                  <span class="es-flow__icon"><ng-icon [name]="node.icon" /></span>
-                  <span class="es-flow__kind">
-                    {{ 'services.enterpriseSoftware.automation.kinds.' + node.kind | translate }}
-                  </span>
-                </div>
-                <h3 class="es-flow__node-title">
-                  {{ 'services.enterpriseSoftware.automation.nodes.' + node.key + '.title' | translate }}
-                </h3>
-                <p class="es-flow__node-desc">
-                  {{ 'services.enterpriseSoftware.automation.nodes.' + node.key + '.note' | translate }}
-                </p>
-              </article>
+        <!-- One continuous wave passes behind the complete chain. The cards
+             remain the five real workflow nodes and stack cleanly on mobile. -->
+        <div class="es-flow__canvas-wrap">
+          <svg class="es-flow__connector" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="es-flow-relay-energy" x1="0" x2="1">
+                <stop offset="0" stop-color="var(--es-teal)" stop-opacity="0" />
+                <stop offset="0.5" stop-color="var(--es-teal)" />
+                <stop offset="1" stop-color="var(--es-violet)" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path class="es-flow__connector-base" d="M0,44 C62,10 125,78 250,44 S375,10 500,44 S625,78 750,44 S875,10 1000,44" pathLength="1000" />
+            <path class="es-flow__connector-energy" d="M0,44 C62,10 125,78 250,44 S375,10 500,44 S625,78 750,44 S875,10 1000,44" pathLength="1000" />
+          </svg>
 
-              @if (!last) {
-                <span class="es-flow__link">
-                  <span class="es-flow__line"></span>
-                </span>
-              }
-            </li>
-          }
-        </ol>
+          <ol class="es-flow__canvas" aria-hidden="true">
+            @for (node of flowNodes; track node.key) {
+              <li class="es-flow__step">
+                <article
+                  class="es-flow__node"
+                  [class]="'es-flow__node es-flow__node--' + node.kind"
+                  tabindex="0"
+                >
+                  <div class="es-flow__node-head">
+                    <span class="es-flow__icon"><ng-icon [name]="node.icon" /></span>
+                    <span class="es-flow__kind">
+                      {{ 'services.enterpriseSoftware.automation.kinds.' + node.kind | translate }}
+                    </span>
+                  </div>
+                  <h3 class="es-flow__node-title">
+                    {{ 'services.enterpriseSoftware.automation.nodes.' + node.key + '.title' | translate }}
+                  </h3>
+                  <p class="es-flow__node-desc">
+                    {{ 'services.enterpriseSoftware.automation.nodes.' + node.key + '.note' | translate }}
+                  </p>
+                </article>
+              </li>
+            }
+          </ol>
+        </div>
 
         <div class="es-flow__legend" aria-hidden="true">
           @for (kind of flowLegend; track kind) {
@@ -624,7 +632,7 @@
   <!-- ============================================================
        QUALITY ENGINEERING
        ============================================================ -->
-  <section class="es-section" data-reveal-group aria-labelledby="es-quality-title">
+  <section class="es-section es-section--quality" data-reveal-group aria-labelledby="es-quality-title">
     <div class="container-custom">
       <header class="es-head" data-reveal>
         <p class="es-badge">{{ 'services.enterpriseSoftware.quality.badge' | translate }}</p>

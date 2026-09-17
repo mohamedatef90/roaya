@@ -1659,9 +1659,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
   }
+
 }
 
 .es-gate {
+  --es-gate-ripple-delay: 0s;
   display: grid;
   grid-template-columns: 3.25rem minmax(0, 1fr);
   gap: 1rem;
@@ -1851,6 +1853,74 @@
     font-size: 0.9375rem;
     line-height: 1.6;
     color: var(--es-on-dark-muted);
+  }
+}
+
+.es-gate:nth-child(2) { --es-gate-ripple-delay: 1.6s; }
+.es-gate:nth-child(3) { --es-gate-ripple-delay: 3.2s; }
+.es-gate:nth-child(4) { --es-gate-ripple-delay: 4.8s; }
+
+/* Light mode keeps the security section distinct without carrying over the
+   heavy dark canvas. A cool-grey field and near-white cards preserve the
+   section hierarchy while keeping every security detail easy to scan. */
+:host-context([data-theme='light']) {
+  .es-section--dark {
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+
+  .es-section--dark .es-section__grid {
+    background-image:
+      linear-gradient(var(--color-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    opacity: 0.32;
+  }
+
+  .es-section--dark .es-head--invert h2,
+  .es-section--dark .es-gate__headline,
+  .es-section--dark .es-crosslink h3 {
+    color: var(--color-text-primary);
+  }
+
+  .es-section--dark .es-head--invert .es-head__intro,
+  .es-section--dark .es-gate__items li,
+  .es-section--dark .es-crosslink p {
+    color: var(--color-text-secondary);
+  }
+
+  .es-section--dark .es-gate,
+  .es-section--dark .es-standards {
+    border-color: var(--color-border-dark);
+    background: var(--color-background);
+  }
+
+  .es-section--dark .es-gate:is(:hover, :focus-visible) {
+    box-shadow:
+      0 1.25rem 2.75rem rgba(30, 41, 59, 0.12),
+      0 0 0 1px rgba(var(--es-violet-rgb), 0.1),
+      0 0 1.5rem rgba(var(--es-violet-rgb), 0.1);
+  }
+
+  .es-section--dark .es-gate__icon,
+  .es-section--dark .es-standards h3,
+  .es-section--dark .es-standards__scope,
+  .es-section--dark .es-standards__note {
+    color: var(--color-text-tertiary);
+  }
+
+  .es-section--dark .es-standards__name,
+  .es-section--dark .es-badge--invert {
+    color: var(--color-secondary-on-surface);
+  }
+
+  .es-section--dark .es-crosslink {
+    border-color: rgba(var(--es-teal-rgb), 0.3);
+    background: rgba(var(--es-teal-rgb), 0.06);
+  }
+
+  .es-section--dark .es-btn--invert {
+    border-color: var(--color-border-strong);
+    color: var(--color-text-primary);
   }
 }
 
@@ -2417,6 +2487,18 @@
   place-items: center;
   width: 2rem;
   height: 2rem;
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.65rem;
+    border: 1px solid rgba(var(--es-violet-rgb), 0.34);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.5);
+  }
 
   svg {
     position: absolute;
@@ -2442,6 +2524,55 @@
   stroke-linecap: round;
 }
 
+/* Option 03 — Trust ripple. Each verification marker takes one 1.6-second
+   turn; the cards stay fixed while the ring communicates progression. */
+.es-gates.is-live .es-gate__ring,
+.es-gates.is-live .es-gate__ring::after {
+  animation-delay: var(--es-gate-ripple-delay);
+  animation-duration: 6.4s;
+  animation-iteration-count: infinite;
+}
+
+.es-gates.is-live .es-gate__ring {
+  animation-name: es-gate-marker-trust;
+  animation-timing-function: ease;
+}
+
+.es-gates.is-live .es-gate__ring::after {
+  animation-name: es-gate-trust-ripple;
+  animation-timing-function: ease-out;
+}
+
+/* Hover or keyboard focus moves the ripple immediately to that gate. */
+.es-gates:has(.es-gate:is(:hover, :focus-visible)) .es-gate__ring,
+.es-gates:has(.es-gate:is(:hover, :focus-visible)) .es-gate__ring::after {
+  animation: none;
+}
+
+.es-gate:is(:hover, :focus-visible) .es-gate__ring {
+  box-shadow: 0 0 0 7px rgba(var(--es-violet-rgb), 0.08);
+}
+
+.es-gate:is(:hover, :focus-visible) .es-gate__ring::after {
+  animation: es-gate-trust-ripple-hover 1.65s ease-out infinite;
+}
+
+@keyframes es-gate-marker-trust {
+  0%, 24%, 100% { box-shadow: none; }
+  4%, 18% { box-shadow: 0 0 0 7px rgba(var(--es-violet-rgb), 0.08); }
+}
+
+@keyframes es-gate-trust-ripple {
+  0% { opacity: 0.72; transform: scale(0.5); }
+  22% { opacity: 0; transform: scale(1.5); }
+  22.1%, 100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes es-gate-trust-ripple-hover {
+  0% { opacity: 0.72; transform: scale(0.5); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
 /* ============================================================
    AUTOMATION — the workflow canvas
    ============================================================
@@ -2458,10 +2589,9 @@
    weight and outline instead — solid teal for the trigger, tinted for an
    action, dashed for a branch — with the legend naming each.
 
-   GROUND. The canvas is dark in both themes, like the hero editor, because it
-   is a picture of an application rather than a piece of the page. It uses the
-   same --es-ink / --es-teal tokens the hero does, so it is not the hard-coded
-   grey the 2026-09-14 design inventory flagged.
+   GROUND. The canvas follows the active theme: deep navy in dark mode and a
+   cool institutional grey in light mode. Teal remains the directional state
+   colour in both.
    ------------------------------------------------------------ */
 
 .es-flow {
@@ -2506,93 +2636,97 @@
 
 /* ---- the canvas ---- */
 
-.es-flow__canvas {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  margin: 0;
+.es-flow__canvas-wrap {
+  position: relative;
+  isolation: isolate;
   padding: 1.75rem 1.25rem;
-  list-style: none;
   overflow-x: auto;
-  /* Centred while the chain fits; `safe` keeps the first node reachable
-     instead of centring it out of reach once it does not. */
-  justify-content: safe center;
   scrollbar-width: thin;
   scrollbar-color: rgba(var(--es-teal-rgb), 0.35) transparent;
-  /* The node-editor dot grid. Sized off the shared pattern token so it lines
-     up with the grids elsewhere on the site. */
   background-image: radial-gradient(rgba(175, 194, 214, 0.16) 1px, transparent 1px);
   background-size: var(--pattern-grid-size, 32px) var(--pattern-grid-size, 32px);
 
-  /* Stacked on a narrow screen: the row becomes a column and every connector
-     rotates with it (see .es-flow__link below). */
   @media (max-width: 899px) {
-    flex-direction: column;
-    align-items: stretch;
     overflow-x: visible;
   }
 }
 
-.es-flow__step {
-  --flow-wave-index: 0;
-
-  display: flex;
-  align-items: center;
-  flex: 0 0 auto;
-
-  &:nth-child(2) { --flow-wave-index: 1; }
-  &:nth-child(3) { --flow-wave-index: 2; }
-  &:nth-child(4) { --flow-wave-index: 3; }
-  &:nth-child(5) { --flow-wave-index: 4; }
+.es-flow__canvas {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(11.5rem, 1fr));
+  gap: 1.5rem;
+  min-width: 65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   @media (max-width: 899px) {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    min-width: 0;
   }
+}
+
+.es-flow__step {
+  --flow-card-delay: 0s;
+  height: 100%;
+
+  &:nth-child(2) { --flow-card-delay: 1.6s; }
+  &:nth-child(3) { --flow-card-delay: 3.2s; }
+  &:nth-child(4) { --flow-card-delay: 4.8s; }
+  &:nth-child(5) { --flow-card-delay: 6.4s; }
 }
 
 .es-flow.is-live .es-flow__node {
-  animation: es-flow-node-wave 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  animation-delay: calc(var(--flow-wave-index) * 0.24s);
+  animation: es-flow-card-relay 8s cubic-bezier(0.2, 0.85, 0.25, 1) infinite;
+  animation-delay: var(--flow-card-delay);
 }
 
-/* Pause the ambient wave during direct interaction so the existing focus
-   stack remains precise and does not fight the user's pointer or keyboard. */
-.es-flow.is-live .es-flow__canvas:has(.es-flow__node:is(:hover, :focus-visible))
-  .es-flow__node {
+/* Direct interaction takes control from the automatic sequence. */
+.es-flow__canvas:is(:hover, :focus-within) .es-flow__node {
   animation: none;
 }
 
-@keyframes es-flow-node-wave {
-  0%,
-  16%,
-  52%,
-  100% {
-    transform: translateY(0);
+@keyframes es-flow-card-relay {
+  0%, 23%, 100% {
+    z-index: 1;
+    border-color: var(--flow-idle-border);
+    box-shadow: var(--flow-idle-shadow);
+    transform: translateY(0) scale(1);
   }
 
-  30% {
-    transform: translateY(-0.875rem);
-  }
-
-  40% {
-    transform: translateY(0.125rem);
+  4%, 17% {
+    z-index: 3;
+    border-color: var(--flow-active-border);
+    box-shadow: var(--flow-active-shadow);
+    transform: translateY(-6px) scale(1.045);
   }
 }
 
 /* ---- node ---- */
 
 .es-flow__node {
+  --flow-idle-border: rgba(var(--es-teal-rgb), 0.3);
+  --flow-active-border: rgba(var(--es-teal-rgb), 0.62);
+  --flow-idle-shadow: none;
+  --flow-active-shadow:
+    0 1.4rem 2.8rem rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(var(--es-teal-rgb), 0.48),
+    0 0 1.65rem rgba(var(--es-teal-rgb), 0.16);
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 11.5rem;
+  width: 100%;
+  height: 100%;
   padding: 0.875rem;
-  border: 1px solid rgba(var(--es-teal-rgb), 0.3);
+  border: 1px solid var(--flow-idle-border);
   border-radius: var(--radius-lg, 0.75rem);
   background: rgba(16, 31, 48, 0.9);
   outline: none;
+  isolation: isolate;
   transition:
     border-color var(--transition-base),
     transform var(--transition-base),
@@ -2602,12 +2736,12 @@
 
   &:is(:hover, :focus-visible) {
     z-index: 3;
-    border-color: rgba(var(--es-teal-rgb), 0.6);
+    border-color: var(--flow-active-border);
     box-shadow:
       0 1.625rem 3.125rem rgba(0, 0, 0, 0.42),
       0 0 0 1px rgba(var(--es-teal-rgb), 0.12),
       0 0 2rem rgba(var(--es-teal-rgb), 0.14);
-    transform: translateY(-0.75rem) scale(1.07);
+    transform: translateY(-6px) scale(1.045);
   }
 
   &:focus-visible {
@@ -2628,17 +2762,19 @@
   .es-flow__node:not(:is(:hover, :focus-visible)) {
   opacity: 0.46;
   filter: saturate(0.35);
-  transform: scale(0.96);
+  transform: none;
 }
 
 .es-flow__node--trigger {
+  --flow-idle-border: rgba(var(--es-teal-rgb), 0.65);
+  --flow-idle-shadow: 0 0 0 1px rgba(var(--es-teal-rgb), 0.18) inset;
   border-color: rgba(var(--es-teal-rgb), 0.65);
-  box-shadow: 0 0 0 1px rgba(var(--es-teal-rgb), 0.18) inset;
+  box-shadow: var(--flow-idle-shadow);
 }
 
 .es-flow__node--condition {
+  --flow-idle-border: rgba(175, 194, 214, 0.4);
   border-style: dashed;
-  border-color: rgba(175, 194, 214, 0.4);
 }
 
 .es-flow__node-head {
@@ -2694,79 +2830,57 @@
 
 /* ---- connector ---- */
 
-.es-flow__link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 3rem;
+.es-flow__connector {
+  position: absolute;
+  z-index: 0;
+  top: 1.75rem;
+  inset-inline-start: 10%;
+  display: none;
+  width: 80%;
+  height: 3.5rem;
+  overflow: visible;
+  pointer-events: none;
+  transform: scaleX(var(--es-dir));
+  transform-origin: center;
 
-  @media (max-width: 899px) {
-    flex-direction: column;
-    width: 100%;
-    height: 2.5rem;
+  @media (min-width: 1100px) {
+    display: block;
   }
 }
 
-.es-flow__line {
-  position: relative;
-  flex: 1;
-  height: 1px;
-  overflow: hidden;
-  background: linear-gradient(
-    90deg,
-    rgba(var(--es-teal-rgb), 0.12),
-    rgba(var(--es-teal-rgb), 0.52) 50%,
-    rgba(var(--es-teal-rgb), 0.12)
-  );
-  transition: box-shadow var(--transition-base), background-color var(--transition-base);
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--es-teal-hot) 50%,
-      transparent
-    );
-    transition: opacity var(--transition-base);
-  }
-
-  @media (max-width: 899px) {
-    flex: none;
-    width: 1px;
-    height: 2.5rem;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--es-teal-rgb), 0.12),
-      rgba(var(--es-teal-rgb), 0.52) 50%,
-      rgba(var(--es-teal-rgb), 0.12)
-    );
-
-    &::after {
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        var(--es-teal-hot) 50%,
-        transparent
-      );
-    }
-  }
+.es-flow__connector-base,
+.es-flow__connector-energy {
+  fill: none;
+  stroke-linecap: round;
 }
 
-/* The entire chain responds as one system: hovering any node illuminates the
-   hand-offs between every node, while .is-live keeps off-screen animation idle. */
-.es-flow.is-live .es-flow__canvas:has(.es-flow__node:is(:hover, :focus-visible)) {
-  .es-flow__line {
-    box-shadow: 0 0 0.75rem rgba(var(--es-teal-rgb), 0.5);
+.es-flow__connector-base {
+  stroke: rgba(var(--es-teal-rgb), 0.24);
+  stroke-width: 2;
+}
 
-    &::after {
-      opacity: 0.95;
-    }
-  }
+.es-flow__connector-energy {
+  stroke: url(#es-flow-relay-energy);
+  stroke-width: 5;
+  stroke-dasharray: 35 965;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(var(--es-teal-rgb), 0.55));
+}
+
+.es-flow.is-live .es-flow__connector-energy {
+  opacity: 0.9;
+  animation: es-flow-guided-wave 8s linear infinite;
+}
+
+.es-flow__canvas-wrap:has(.es-flow__node:is(:hover, :focus-visible))
+  .es-flow__connector-energy {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes es-flow-guided-wave {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1000; }
 }
 
 /* ---- legend ---- */
@@ -2820,6 +2934,84 @@
 
 .es-automation__kinds {
   margin-bottom: 1.5rem;
+}
+
+/* Light-mode workflow: cool grey canvas with neutral cards. The directional
+   wave and outside glow carry the motion without tinting the card surfaces. */
+:host-context([data-theme='light']) {
+  .es-flow {
+    border-color: var(--color-border-dark);
+    background: var(--color-surface-active);
+    color: var(--color-text-primary);
+  }
+
+  .es-flow__bar,
+  .es-flow__legend {
+    border-color: var(--color-border);
+    background: var(--color-surface-hover);
+  }
+
+  .es-flow__canvas-wrap {
+    background-color: var(--color-surface);
+    background-image: radial-gradient(
+      rgba(var(--color-border-strong-channels), 0.18) 1px,
+      transparent 1px
+    );
+  }
+
+  .es-flow__node {
+    --flow-idle-border: rgba(var(--es-teal-rgb), 0.42);
+    --flow-active-shadow:
+      0 22px 44px rgba(38, 69, 82, 0.13),
+      0 0 0 5px rgba(var(--es-teal-rgb), 0.07);
+    background: var(--color-background);
+  }
+
+  .es-flow__node:is(:hover, :focus-visible) {
+    box-shadow: var(--flow-active-shadow);
+  }
+
+  .es-flow__node:focus-visible {
+    box-shadow:
+      0 0 0 3px rgba(var(--es-teal-rgb), 0.26),
+      0 1.2rem 2.6rem rgba(30, 41, 59, 0.12),
+      0 0 1.35rem rgba(var(--es-teal-rgb), 0.1);
+  }
+
+  .es-flow__node--condition {
+    --flow-idle-border: var(--color-border-strong);
+  }
+
+  .es-flow__name,
+  .es-flow__kind,
+  .es-flow__node-desc,
+  .es-flow__legend,
+  .es-flow__note {
+    color: var(--color-text-tertiary);
+  }
+
+  .es-flow__node-title {
+    color: var(--color-text-primary);
+  }
+
+  .es-flow__icon {
+    background: rgba(var(--es-teal-rgb), 0.14);
+    color: var(--color-secondary-on-surface);
+  }
+
+  .es-flow__node--trigger .es-flow__icon {
+    background: var(--es-teal);
+    color: var(--color-text-primary);
+  }
+
+  .es-flow__node--condition .es-flow__icon {
+    background: var(--color-surface-active);
+    color: var(--color-text-secondary);
+  }
+
+  .es-flow__key--condition i {
+    border-color: var(--color-border-strong);
+  }
 }
 
 
@@ -3066,6 +3258,243 @@
   gap: 0.875rem;
 }
 
+/* The dark-theme CTA needs a genuinely high-contrast primary action. This is
+   intentionally scoped to dark mode so the light-theme treatment below stays
+   unchanged. */
+:host-context([data-theme='dark']) {
+  .es-cta .es-btn--solid,
+  .es-cta .es-btn--solid:link,
+  .es-cta .es-btn--solid:visited {
+    background: var(--color-secondary);
+    color: #102031;
+    -webkit-text-fill-color: #102031;
+
+    &:hover {
+      background: var(--color-secondary-hover);
+      color: #102031;
+    }
+  }
+
+  .es-cta .es-btn--solid .es-btn__icon {
+    color: currentColor;
+  }
+}
+
+/* Light-mode visual canvases ------------------------------------------------
+   The dark theme keeps the original ink treatment. In light mode, the hero,
+   quality console and closing CTA sit on the same restrained cool-grey family
+   so the page feels intentional without losing the teal interaction cues. */
+:host-context([data-theme='light']) {
+  .es-hero {
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+
+  .es-hero__gradient {
+    background: linear-gradient(
+      140deg,
+      var(--color-surface-hover) 0%,
+      var(--color-surface-active) 58%,
+      var(--color-surface-hover) 100%
+    );
+  }
+
+  .es-hero__grid {
+    background-image:
+      linear-gradient(var(--color-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    opacity: 0.5;
+  }
+
+  .es-hero__glow {
+    opacity: 0.08;
+  }
+
+  .es-hero__title {
+    color: var(--color-text-primary);
+  }
+
+  .es-hero__accent {
+    background: linear-gradient(
+      120deg,
+      var(--color-secondary-on-surface) 0%,
+      var(--color-primary-700) 58%,
+      var(--color-accent-700) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .es-hero .es-kicker {
+    color: var(--color-secondary-on-surface);
+  }
+
+  .es-hero__lead {
+    color: var(--color-text-secondary);
+  }
+
+  .es-hero__trust li {
+    color: var(--color-text-tertiary);
+  }
+
+  .es-hero .es-btn--invert {
+    border-color: var(--color-border-strong);
+    color: var(--color-text-primary);
+
+    &:hover {
+      background: var(--color-background);
+      border-color: rgba(var(--es-teal-rgb), 0.45);
+    }
+  }
+
+  .es-stage__editor {
+    border-color: var(--color-border-dark);
+    background: var(--color-surface-active);
+  }
+
+  .es-stage__chrome {
+    border-color: var(--color-border);
+    background: var(--color-surface-hover);
+  }
+
+  .es-stage__file {
+    color: var(--color-text-secondary);
+  }
+
+  .es-stage__lang {
+    border-color: rgba(var(--es-violet-rgb), 0.3);
+    background: rgba(var(--es-violet-rgb), 0.08);
+    color: var(--color-accent-800);
+  }
+
+  .es-code__num {
+    color: var(--color-text-tertiary);
+  }
+
+  .es-tk--kw,
+  .es-tk--at {
+    color: var(--color-accent-800);
+  }
+
+  .es-tk--ty {
+    color: var(--color-secondary-on-surface);
+  }
+
+  .es-tk--fn {
+    color: var(--color-primary-700);
+  }
+
+  .es-tk--st {
+    color: #3f6b37;
+  }
+
+  .es-tk--nm {
+    color: var(--color-text-primary);
+  }
+
+  .es-tk--pl {
+    color: var(--color-text-secondary);
+  }
+
+  .es-stage__minimap {
+    border-color: var(--color-border);
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 0.25rem,
+      var(--color-border-strong) 0.25rem 0.3125rem
+    );
+  }
+
+  .es-suite {
+    border-color: var(--color-border-dark);
+    background: var(--color-surface-active);
+    color: var(--color-text-primary);
+  }
+
+  .es-section--quality .es-badge,
+  .es-suite__icon,
+  .es-suite__state,
+  .es-suite__chip {
+    color: var(--color-secondary-on-surface);
+  }
+
+  .es-section--quality h2,
+  .es-section--quality .es-card h3 {
+    color: var(--color-text-primary);
+  }
+
+  .es-section--quality .es-head__intro,
+  .es-section--quality .es-card p {
+    color: var(--color-text-secondary);
+  }
+
+  .es-suite__bar,
+  .es-suite__foot {
+    border-color: var(--color-border);
+    background: var(--color-surface-hover);
+  }
+
+  .es-suite__name,
+  .es-suite__foot {
+    color: var(--color-text-secondary);
+  }
+
+  .es-suite__label {
+    color: var(--color-text-primary);
+  }
+
+  .es-suite__row:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.46);
+  }
+
+  .es-suite__track {
+    background: var(--color-border);
+  }
+
+  .es-cta {
+    background: var(--color-surface-active);
+    color: var(--color-text-primary);
+  }
+
+  .es-cta__copy {
+    h2 {
+      color: var(--color-text-primary);
+    }
+
+    p {
+      color: var(--color-text-secondary);
+    }
+  }
+
+  .es-cta .es-btn--solid,
+  .es-cta .es-btn--solid:link,
+  .es-cta .es-btn--solid:visited {
+    background: var(--color-primary-700);
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+
+    &:hover {
+      background: var(--color-primary-800);
+      color: #ffffff;
+    }
+  }
+
+  .es-cta .es-btn--solid .es-btn__icon {
+    color: currentColor;
+  }
+
+  .es-cta .es-btn--invert {
+    border-color: var(--color-border-strong);
+    color: var(--color-text-primary);
+
+    &:hover {
+      background: var(--color-background);
+      border-color: rgba(var(--es-teal-rgb), 0.45);
+    }
+  }
+}
+
 /* ============================================================
    Reduced motion — kill the one ambient animation outright and
    stop the hover translates. The global catch-all in styles.scss
@@ -3109,7 +3538,9 @@
     transform: none;
   }
 
-  .es-flow__node {
+  .es-flow__node,
+  .es-flow__node::before,
+  .es-flow__connector-energy {
     animation: none !important;
   }
 
@@ -3117,6 +3548,11 @@
   .es-gates:has(.es-gate:is(:hover, :focus-visible))
     .es-gate:not(:is(:hover, :focus-visible)) {
     transform: none;
+  }
+
+  .es-gate__ring,
+  .es-gate__ring::after {
+    animation: none !important;
   }
 
   .es-btn:hover .es-btn__icon,

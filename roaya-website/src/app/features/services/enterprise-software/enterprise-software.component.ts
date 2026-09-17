@@ -827,8 +827,9 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
    * checkpoints, and a checkpoint that keeps re-checking is noise.
    */
   private runSecurityGates(): void {
+    const sequence = document.querySelector<HTMLElement>('.es-gates');
     const gates = gsap.utils.toArray<HTMLElement>('.es-gate');
-    if (!gates.length) return;
+    if (!sequence || !gates.length) return;
 
     gates.forEach(gate => {
       const ring = gate.querySelector<SVGCircleElement>('.es-gate__ring-draw');
@@ -863,6 +864,17 @@ export class EnterpriseSoftwareComponent implements AfterViewInit, OnDestroy {
       });
       this.scrollTriggers.push(trigger);
     });
+
+    const rippleTrigger = ScrollTrigger.create({
+      trigger: sequence,
+      start: 'top 90%',
+      end: 'bottom 10%',
+      onEnter: () => sequence.classList.add('is-live'),
+      onEnterBack: () => sequence.classList.add('is-live'),
+      onLeave: () => sequence.classList.remove('is-live'),
+      onLeaveBack: () => sequence.classList.remove('is-live')
+    });
+    this.scrollTriggers.push(rippleTrigger);
   }
 
   /** Keep the workflow card wave idle outside the viewport. */
