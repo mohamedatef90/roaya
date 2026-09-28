@@ -9,6 +9,15 @@ import { SpinnerComponent } from '../../../shared/components/ui';
 
 // Services
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
+
+const SAVED_ADMIN_LOGIN_KEY = 'roaya_admin_login';
+
+interface SavedAdminLogin {
+  username: string;
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -414,6 +423,17 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/admin/dashboard']);
       return;
     }
+
+    const savedLogin = this.readSavedLogin() ?? this.defaultLogin();
+    if (!savedLogin) {
+      return;
+    }
+
+    this.loginForm.patchValue({
+      email: savedLogin.email,
+      password: savedLogin.password,
+      rememberMe: true,
+    });
   }
 
   onSubmit(): void {
@@ -425,7 +445,8 @@ export class LoginComponent implements OnInit {
     this.error.set(null);
     this.loading.set(true);
 
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
+    this.persistLogin(email, password, rememberMe);
 
     this.authService.login({ email, password }).subscribe({
       next: () => {
@@ -445,6 +466,46 @@ export class LoginComponent implements OnInit {
         this.error.set(errorMessage);
       },
     });
+  }
+
+  private defaultLogin(): SavedAdminLogin | null {
+    const { username, email, password } = environment.adminLogin;
+    if (!email || !password) {
+      return null;
+    }
+
+    return { username, email, password };
+  }
+
+  private readSavedLogin(): SavedAdminLogin | null {
+    const raw = localStorage.getItem(SAVED_ADMIN_LOGIN_KEY);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      const saved = JSON.parse(raw) as SavedAdminLogin;
+      if (!saved.email || !saved.password) {
+        return null;
+      }
+      return saved;
+    } catch {
+      return null;
+    }
+  }
+
+  private persistLogin(email: string, password: string, rememberMe: boolean): void {
+    if (!rememberMe) {
+      localStorage.removeItem(SAVED_ADMIN_LOGIN_KEY);
+      return;
+    }
+
+    const saved: SavedAdminLogin = {
+      username: environment.adminLogin.username || email,
+      email,
+      password,
+    };
+    localStorage.setItem(SAVED_ADMIN_LOGIN_KEY, JSON.stringify(saved));
   }
 
   private markFormGroupTouched(formGroup: FormGroup): void {

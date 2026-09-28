@@ -39,8 +39,9 @@ const envSchema = z.object({
   FORM_RATE_LIMIT_MAX: z.string().default('5').transform(Number),
   LOGIN_RATE_LIMIT_MAX: z.string().default('5').transform(Number),
 
-  // CORS
-  CORS_ORIGIN: z.string().default('http://localhost:3000'),
+  // CORS — comma-separated list. First origin is used for links in emails.
+  // Angular dev server is http://localhost:4200 (also opened as 127.0.0.1).
+  CORS_ORIGIN: z.string().default('http://localhost:4200,http://127.0.0.1:4200'),
 
   // Logging
   LOG_LEVEL: z.enum(['error', 'warn', 'info', 'http', 'debug']).default('info'),
@@ -104,7 +105,8 @@ export const config = {
     loginMaxRequests: env.LOGIN_RATE_LIMIT_MAX,
   },
   cors: {
-    origin: env.CORS_ORIGIN,
+    origin: env.CORS_ORIGIN.split(',')[0].trim(),
+    allowedOrigins: env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean),
   },
   logging: {
     level: env.LOG_LEVEL,

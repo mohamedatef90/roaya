@@ -223,6 +223,8 @@ export const routes: Routes = [
   // Arabic MUST be declared before the unprefixed tree: that tree ends in a
   // '**' child, which would otherwise swallow /ar/* as a 404 before the
   // Arabic branch is ever considered.
+
+  
   {
     path: 'ar',
     loadComponent: mainLayout,
@@ -232,6 +234,7 @@ export const routes: Routes = [
   },
 
   // Admin routes (standalone - no main layout)
+  
   {
     path: 'admin/login',
     loadComponent: () => import('./features/admin/login/login.component').then(m => m.LoginComponent),

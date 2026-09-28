@@ -8,6 +8,13 @@ export const environment = {
   // API Configuration
   apiUrl: 'http://localhost:3001/api/v1',
 
+  // Local admin sign-in. Used to prefill the login form in development only.
+  adminLogin: {
+    username: 'Super Admin',
+    email: 'admin@roaya.ai',
+    password: 'Admin@123456',
+  },
+
   // Google Cloud Translation API
   // Instructions to get your API key:
   // 1. Go to https://console.cloud.google.com

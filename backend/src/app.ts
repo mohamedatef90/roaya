@@ -31,11 +31,39 @@ app.use(helmet({
     },
   },
   crossOriginEmbedderPolicy: false,
+  // The admin app runs on another localhost port. same-origin blocks those
+  // responses in the browser even when CORS allows them (status 0).
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
+
+function isAllowedCorsOrigin(origin: string | undefined): boolean {
+  if (!origin) {
+    return true;
+  }
+
+  if (config.cors.allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  // ng serve picks a free port when 4200 is taken (for example 56020).
+  if (!config.app.isDevelopment) {
+    return false;
+  }
+
+  try {
+    const url = new URL(origin);
+    const localHost = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+    return localHost && (url.protocol === 'http:' || url.protocol === 'https:');
+  } catch {
+    return false;
+  }
+}
 
 // CORS
 app.use(cors({
-  origin: config.cors.origin,
+  origin(origin, callback) {
+    callback(null, isAllowedCorsOrigin(origin));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],

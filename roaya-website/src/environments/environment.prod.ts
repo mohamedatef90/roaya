@@ -8,6 +8,13 @@ export const environment = {
   // API Configuration
   apiUrl: '/api/v1',
 
+  // Production never prefills admin credentials.
+  adminLogin: {
+    username: '',
+    email: '',
+    password: '',
+  },
+
   // Google Cloud Translation API
   // SECURITY: This key should be restricted to your production domain
   // Go to Google Cloud Console → Credentials → Edit API Key
