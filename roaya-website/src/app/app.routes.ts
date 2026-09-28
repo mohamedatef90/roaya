@@ -231,15 +231,6 @@ export const routes: Routes = [
     children: publicRoutes
   },
 
-  // Public routes with main layout (header + footer) — English, unprefixed.
-  {
-    path: '',
-    loadComponent: mainLayout,
-    data: { locale: 'en' },
-    resolve: { locale: localeResolver },
-    children: publicRoutes
-  },
-
   // Admin routes (standalone - no main layout)
   {
     path: 'admin/login',
@@ -407,4 +398,13 @@ export const routes: Routes = [
     ]
   },
 
+  // Public routes with main layout (header + footer) — English, unprefixed.
+  // Keep this last because publicRoutes ends with a '**' catch-all.
+  {
+    path: '',
+    loadComponent: mainLayout,
+    data: { locale: 'en' },
+    resolve: { locale: localeResolver },
+    children: publicRoutes
+  }
 ];
