@@ -1,8 +1,10 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LocalizeLinkPipe } from '../../../core/i18n/localize-link.pipe';
+import { VisitorTrackingService } from '../../../core/services/visitor-tracking.service';
+import { AnalyticsService } from '../../../core/services/analytics.service';
 
 /**
  * GDPR Consent Banner
@@ -73,6 +75,9 @@ export class ConsentBannerComponent implements OnInit {
   showBanner = signal(false);
   allowRecording = false;
 
+  private readonly visitorTracking = inject(VisitorTrackingService);
+  private readonly analytics = inject(AnalyticsService);
+
   private readonly ANALYTICS_CONSENT_KEY = 'ra_analytics_consent';
   private readonly RECORDING_CONSENT_KEY = 'ra_recording_consent';
 
@@ -96,6 +101,11 @@ export class ConsentBannerComponent implements OnInit {
       localStorage.setItem(this.ANALYTICS_CONSENT_KEY, 'accepted');
       localStorage.setItem(this.RECORDING_CONSENT_KEY, this.allowRecording ? 'accepted' : 'declined');
       this.showBanner.set(false);
+      // The root tracking service initializes before a first-time visitor can
+      // answer this banner. Start it immediately after explicit consent so the
+      // visitor does not have to refresh the page before analytics begins.
+      this.visitorTracking.init();
+      this.analytics.enableTracking({ sendCurrentPage: true });
     } catch {
       // Silently fail if localStorage unavailable
     }

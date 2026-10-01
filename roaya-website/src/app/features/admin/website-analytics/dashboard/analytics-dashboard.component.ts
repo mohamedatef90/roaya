@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 import {
   WebsiteAnalyticsService,
   DateRange,
+  AnalyticsEventsSummary,
 } from '../../../../core/services/website-analytics.service';
 import { AnalyticsWebSocketService } from '../../../../core/services/analytics-websocket.service';
 
@@ -36,6 +37,22 @@ interface TopPageRow {
   uniqueVisitors: number;
   avgDuration: number;
   bounceRate: number;
+}
+
+interface FunnelStep {
+  label: string;
+  value: number;
+  percent: number;
+  icon: string;
+}
+
+interface BehaviorSignal {
+  label: string;
+  value: number;
+  helper: string;
+  icon: string;
+  route: string;
+  tone: 'warning' | 'danger' | 'info' | 'success';
 }
 
 /**
@@ -144,6 +161,78 @@ interface TopPageRow {
         </div>
         }
       </div>
+
+      <!-- Conversion journey: GA-style funnel + Hotjar-style behavior signals -->
+      <section class="journey-workspace" aria-labelledby="journey-title">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Experience intelligence</span>
+            <h2 id="journey-title">From first visit to qualified lead</h2>
+            <p>Follow the conversion path, then jump into recordings to understand where people struggle.</p>
+          </div>
+          <a routerLink="/admin/website-analytics/recordings" class="text-link">
+            Inspect recordings <i class="pi pi-arrow-up-right"></i>
+          </a>
+        </div>
+
+        <div class="journey-grid">
+          <article class="funnel-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="panel-label">Conversion funnel</span>
+                <strong>{{ conversionRate() | number:'1.1-1' }}%</strong>
+                <small>session-to-lead conversion</small>
+              </div>
+              <span class="signal-chip"><i class="pi pi-sparkles"></i> Live tracking</span>
+            </div>
+
+            <div class="funnel-track">
+              @for (step of funnelSteps(); track step.label; let i = $index) {
+                <div class="funnel-step">
+                  <div class="funnel-meta">
+                    <span class="step-icon"><i [class]="step.icon"></i></span>
+                    <span class="step-copy">
+                      <span>{{ step.label }}</span>
+                      <strong>{{ step.value | number }}</strong>
+                    </span>
+                    <span class="step-percent">{{ step.percent | number:'1.0-0' }}%</span>
+                  </div>
+                  <div class="funnel-bar" role="progressbar" [attr.aria-label]="step.label" [attr.aria-valuenow]="step.percent" aria-valuemin="0" aria-valuemax="100">
+                    <span [style.width.%]="step.percent"></span>
+                  </div>
+                  @if (i < funnelSteps().length - 1) {
+                    <i class="pi pi-angle-down funnel-connector" aria-hidden="true"></i>
+                  }
+                </div>
+              }
+            </div>
+          </article>
+
+          <aside class="behavior-panel">
+            <div class="panel-title-row">
+              <div>
+                <span class="panel-label">Behavior signals</span>
+                <h3>What needs attention</h3>
+              </div>
+              <a routerLink="/admin/website-analytics/heatmaps" aria-label="Open heatmaps"><i class="pi pi-arrow-right"></i></a>
+            </div>
+
+            <div class="signal-list">
+              @for (signal of behaviorSignals(); track signal.label) {
+                <a [routerLink]="signal.route" [class]="'signal-row ' + signal.tone">
+                  <span class="signal-icon"><i [class]="signal.icon"></i></span>
+                  <span class="signal-copy">
+                    <strong>{{ signal.value | number }}</strong>
+                    <span>{{ signal.label }}</span>
+                    <small>{{ signal.helper }}</small>
+                  </span>
+                  <i class="pi pi-chevron-right"></i>
+                </a>
+              }
+            </div>
+          </aside>
+        </div>
+      </section>
 
       <!-- Charts Row -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -272,6 +361,50 @@ interface TopPageRow {
           </p-card>
         </div>
       </div>
+
+      <section class="intelligence-grid" aria-label="Acquisition and events overview">
+        <article class="insight-panel">
+          <div class="panel-title-row">
+            <div>
+              <span class="panel-label">Acquisition</span>
+              <h3>Where sessions come from</h3>
+            </div>
+            <i class="pi pi-compass panel-corner-icon"></i>
+          </div>
+          <div class="ranked-list">
+            @for (source of trafficSources(); track source.label; let i = $index) {
+              <div class="ranked-row">
+                <span class="rank">{{ i + 1 }}</span>
+                <span class="rank-copy"><strong>{{ source.label }}</strong><small>{{ source.value | number }} sessions</small></span>
+                <span class="rank-bar"><span [style.width.%]="source.percent"></span></span>
+                <span class="rank-percent">{{ source.percent | number:'1.0-0' }}%</span>
+              </div>
+            } @empty {
+              <div class="empty-insight">Traffic sources will appear after the first tracked visits.</div>
+            }
+          </div>
+        </article>
+
+        <article class="insight-panel event-panel">
+          <div class="panel-title-row">
+            <div>
+              <span class="panel-label">Event stream</span>
+              <h3>Top interactions</h3>
+            </div>
+            <i class="pi pi-bolt panel-corner-icon"></i>
+          </div>
+          <div class="event-cloud">
+            @for (event of eventsSummary().topEvents.slice(0, 6); track event.eventName) {
+              <div class="event-pill">
+                <span>{{ formatEventName(event.eventName) }}</span>
+                <strong>{{ event.count | number }}</strong>
+              </div>
+            } @empty {
+              <div class="empty-insight">CTA clicks, scroll depth, forms and errors will appear here.</div>
+            }
+          </div>
+        </article>
+      </section>
 
       <!-- Bottom Row -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -516,7 +649,7 @@ interface TopPageRow {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, var(--accent-color) 0%, rgba(var(--accent-color), 0.7) 100%);
+        background: var(--accent-color);
         border-radius: 16px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 
@@ -949,95 +1082,216 @@ interface TopPageRow {
         color: $navy;
       }
 
-      // Dark Mode
-      [data-theme='dark'] {
-        .analytics-dashboard {
-          .page-header {
-            border-bottom-color: rgba(255, 255, 255, 0.1);
+      // Analytics command center
+      .journey-workspace {
+        margin: 0 0 1.5rem;
+        padding: 1.5rem;
+        border: 1px solid rgba($navy, 0.1);
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 86% 10%, rgba($teal, 0.13), transparent 28%),
+          linear-gradient(145deg, #ffffff 0%, #f7f9fc 100%);
+        box-shadow: 0 18px 50px rgba($navy, 0.08);
+      }
 
-            h1 {
-              background: linear-gradient(135deg, #93c5fd 0%, $teal 50%, #c4b5fd 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-            }
-          }
+      .section-heading,
+      .panel-title-row,
+      .panel-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+      }
 
-          .stat-card {
-            background: rgba(30, 41, 59, 0.85);
-            border-color: rgba(255, 255, 255, 0.08);
-          }
+      .section-heading {
+        margin-bottom: 1.25rem;
 
-          .stat-value,
-          .action-title,
-          .page-cell .page-title,
-          .country-info .country-name,
-          .country-visitors,
-          .legend-value {
-            color: #f1f5f9;
-          }
-
-          :host ::ng-deep .glass-card {
-            background: rgba(30, 41, 59, 0.85);
-            border-color: rgba(255, 255, 255, 0.08);
-          }
-
-          .chart-toggle {
-            background: rgba(255, 255, 255, 0.05);
-          }
-
-          .period-btn {
-            color: #94a3b8;
-
-            &:hover {
-              color: #f1f5f9;
-            }
-
-            &.active {
-              background: rgba(255, 255, 255, 0.1);
-              color: white;
-            }
-          }
-
-          .action-card {
-            background: rgba(255, 255, 255, 0.03);
-
-            &:hover {
-              background: rgba($teal, 0.1);
-            }
-          }
-
-          .country-bar {
-            background: rgba(255, 255, 255, 0.08);
-          }
-
-          .export-button {
-            background: rgba(30, 41, 59, 0.85);
-            border-color: rgba(255, 255, 255, 0.08);
-            color: #f1f5f9;
-
-            &:hover {
-              background: rgba($teal, 0.15);
-              border-color: $teal;
-              color: $teal;
-            }
-          }
-
-          .export-menu {
-            background: rgba(30, 41, 59, 0.95);
-            border-color: rgba(255, 255, 255, 0.1);
-          }
-
-          .export-menu-item {
-            background: transparent;
-            color: #cbd5e1;
-
-            &:hover {
-              background: rgba($teal, 0.15);
-              color: #f1f5f9;
-            }
-          }
+        h2 {
+          margin: 0.2rem 0 0.25rem;
+          color: #263c59;
+          font-size: clamp(1.15rem, 2vw, 1.45rem);
+          line-height: 1.2;
         }
+
+        p {
+          margin: 0;
+          color: #64748b;
+          font-size: 0.86rem;
+        }
+      }
+
+      .section-kicker,
+      .panel-label {
+        display: block;
+        color: $teal;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .text-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        flex: 0 0 auto;
+        color: $navy;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-decoration: none;
+
+        &:hover { color: $teal; }
+      }
+
+      .journey-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+        gap: 1rem;
+      }
+
+      .funnel-panel {
+        padding: 1.35rem;
+        border-radius: 18px;
+        color: white;
+        background:
+          radial-gradient(circle at 90% 15%, rgba(93, 183, 194, 0.42), transparent 30%),
+          linear-gradient(145deg, #314a69 0%, #425b7a 55%, #4c477a 100%);
+        overflow: hidden;
+      }
+
+      .panel-heading {
+        strong { display: block; margin-top: 0.25rem; font-size: 2.1rem; line-height: 1; }
+        small { color: rgba(255, 255, 255, 0.68); }
+        .panel-label { color: #9fe1e8; }
+      }
+
+      .signal-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.65rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.72rem;
+      }
+
+      .funnel-track { margin-top: 1.35rem; }
+      .funnel-step { position: relative; }
+      .funnel-meta { display: flex; align-items: center; gap: 0.65rem; }
+      .step-icon {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        color: #bff1f5;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .step-copy {
+        flex: 1;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.75rem;
+
+        span { color: rgba(255, 255, 255, 0.78); font-size: 0.78rem; }
+        strong { color: white; font-size: 1rem; }
+      }
+      .step-percent { width: 40px; text-align: right; color: #bff1f5; font-size: 0.72rem; font-weight: 700; }
+      .funnel-bar {
+        height: 7px;
+        margin: 0.55rem 0 0 44px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+
+        span { display: block; height: 100%; min-width: 2px; border-radius: inherit; background: linear-gradient(90deg, #5db7c2, #9fe1e8); transition: width 0.45s ease; }
+      }
+      .funnel-connector { display: block; margin: 0.25rem 0 0.15rem 54px; color: rgba(255, 255, 255, 0.34); font-size: 0.75rem; }
+
+      .behavior-panel,
+      .insight-panel {
+        padding: 1.25rem;
+        border: 1px solid rgba($navy, 0.08);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.88);
+      }
+
+      .panel-title-row {
+        h3 { margin: 0.2rem 0 0; color: #263c59; font-size: 1rem; }
+        > a, .panel-corner-icon {
+          display: grid;
+          place-items: center;
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          color: $navy;
+          background: rgba($teal, 0.12);
+          text-decoration: none;
+        }
+      }
+
+      .signal-list { display: grid; gap: 0.55rem; margin-top: 1rem; }
+      .signal-row {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.7rem;
+        border-radius: 12px;
+        color: $navy;
+        background: #f7f9fc;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover { transform: translateX(3px); box-shadow: 0 7px 18px rgba($navy, 0.08); }
+        > .pi-chevron-right { margin-left: auto; color: #94a3b8; font-size: 0.7rem; }
+        &.danger .signal-icon { color: #dc2626; background: #fee2e2; }
+        &.warning .signal-icon { color: #d97706; background: #fef3c7; }
+        &.info .signal-icon { color: $purple; background: rgba($purple, 0.12); }
+        &.success .signal-icon { color: #15803d; background: #dcfce7; }
+      }
+      .signal-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; }
+      .signal-copy {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: baseline;
+        column-gap: 0.4rem;
+        flex: 1;
+        min-width: 0;
+
+        strong { color: #263c59; font-size: 1rem; }
+        span { color: #475569; font-size: 0.78rem; font-weight: 600; }
+        small { grid-column: 1 / -1; color: #94a3b8; font-size: 0.66rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      }
+
+      .intelligence-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .ranked-list { display: grid; gap: 0.8rem; margin-top: 1.1rem; }
+      .ranked-row { display: grid; grid-template-columns: 24px minmax(105px, 0.8fr) minmax(90px, 1.2fr) 42px; align-items: center; gap: 0.7rem; }
+      .rank { color: #94a3b8; font-size: 0.72rem; font-weight: 700; }
+      .rank-copy { display: grid; min-width: 0; strong { overflow: hidden; color: #334155; font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; } small { color: #94a3b8; font-size: 0.66rem; } }
+      .rank-bar { height: 6px; border-radius: 99px; background: #edf2f7; overflow: hidden; span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, $teal, $purple); } }
+      .rank-percent { color: #64748b; font-size: 0.72rem; text-align: right; }
+      .event-cloud { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.1rem; }
+      .event-pill { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex: 1 1 145px; padding: 0.75rem 0.85rem; border-left: 3px solid $teal; border-radius: 4px 12px 12px 4px; background: #f7f9fc; color: #475569; font-size: 0.75rem; strong { color: $navy; } }
+      .empty-insight { padding: 1rem; border: 1px dashed rgba($navy, 0.16); border-radius: 12px; color: #94a3b8; font-size: 0.78rem; text-align: center; }
+
+      @media (max-width: 960px) {
+        .journey-grid,
+        .intelligence-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 640px) {
+        .analytics-dashboard { padding: 1rem; }
+        .page-header, .section-heading { flex-direction: column; }
+        .header-actions { width: 100%; flex-wrap: wrap; }
+        .journey-workspace { padding: 1rem; border-radius: 18px; }
+        .ranked-row { grid-template-columns: 20px minmax(90px, 1fr) 42px; }
+        .rank-bar { display: none; }
       }
     `,
   ],
@@ -1058,6 +1312,41 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
   activeUsers = signal(0);
   heatmapCount = signal(0);
   recordingsCount = signal(0);
+  totalSessions = signal(0);
+  bounceRate = signal(0);
+  eventsSummary = signal<AnalyticsEventsSummary>({
+    topEvents: [],
+    categoryBreakdown: [],
+    eventsOverTime: [],
+  });
+  trafficSources = signal<{ label: string; value: number; percent: number }[]>([]);
+
+  funnelSteps = computed<FunnelStep[]>(() => {
+    const sessions = this.totalSessions();
+    const engaged = Math.max(0, Math.round(sessions * (1 - this.bounceRate() / 100)));
+    const formStarts = this.eventCount('form_start');
+    const leads = this.eventCount('lead_submit');
+    const percentage = (value: number) => sessions > 0 ? Math.min(100, (value / sessions) * 100) : 0;
+
+    return [
+      { label: 'Sessions', value: sessions, percent: sessions > 0 ? 100 : 0, icon: 'pi pi-globe' },
+      { label: 'Engaged sessions', value: engaged, percent: percentage(engaged), icon: 'pi pi-eye' },
+      { label: 'Forms started', value: formStarts, percent: percentage(formStarts), icon: 'pi pi-pencil' },
+      { label: 'Qualified leads', value: leads, percent: percentage(leads), icon: 'pi pi-verified' },
+    ];
+  });
+
+  conversionRate = computed(() => {
+    const sessions = this.totalSessions();
+    return sessions > 0 ? (this.eventCount('lead_submit') / sessions) * 100 : 0;
+  });
+
+  behaviorSignals = computed<BehaviorSignal[]>(() => [
+    { label: 'Rage clicks', value: this.eventCount('rage_click'), helper: 'Repeated clicks in under one second', icon: 'pi pi-bolt', route: '/admin/website-analytics/recordings', tone: 'danger' },
+    { label: 'Dead clicks', value: this.eventCount('dead_click'), helper: 'Clickable-looking elements with no action', icon: 'pi pi-ban', route: '/admin/website-analytics/heatmaps', tone: 'warning' },
+    { label: 'JavaScript errors', value: this.eventCount('javascript_error'), helper: 'Client-side failures during visits', icon: 'pi pi-exclamation-triangle', route: '/admin/website-analytics/recordings', tone: 'info' },
+    { label: 'Deep scrolls', value: this.eventCount('scroll_90'), helper: 'Visitors reaching 90% of a page', icon: 'pi pi-arrow-down', route: '/admin/website-analytics/heatmaps', tone: 'success' },
+  ]);
 
   dateRangeOptions = [
     { label: 'Last 7 days', value: 'last7days' },
@@ -1125,6 +1414,8 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
 
     // Fire all requests in parallel
     this.analytics.getOverview(range).subscribe((overview) => {
+      this.totalSessions.set(overview.totalSessions);
+      this.bounceRate.set(overview.bounceRate);
       this.stats.set([
         {
           label: 'Unique Visitors',
@@ -1193,6 +1484,37 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     this.analytics.getSessions({ ...range, limit: 1 }).subscribe((res) => {
       this.recordingsCount.set(res.meta.total);
     });
+
+    this.analytics.getEventsSummary(range).subscribe((summary) => {
+      this.eventsSummary.set(summary);
+    });
+
+    this.analytics.getReferrers(range).subscribe((referrers) => {
+      const sorted = [...referrers].sort((a, b) => b.sessions - a.sessions).slice(0, 5);
+      const total = sorted.reduce((sum, item) => sum + item.sessions, 0);
+      this.trafficSources.set(sorted.map((item) => ({
+        label: this.formatReferrer(item.referrer),
+        value: item.sessions,
+        percent: total > 0 ? (item.sessions / total) * 100 : 0,
+      })));
+    });
+  }
+
+  private eventCount(eventName: string): number {
+    return this.eventsSummary().topEvents.find((event) => event.eventName === eventName)?.count ?? 0;
+  }
+
+  formatEventName(eventName: string): string {
+    return eventName.replace(/_/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+  }
+
+  private formatReferrer(referrer: string | null): string {
+    if (!referrer) return 'Direct / none';
+    try {
+      return new URL(referrer).hostname.replace(/^www\./, '');
+    } catch {
+      return referrer;
+    }
   }
 
   private loadPageViewsChart(): void {

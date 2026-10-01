@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { localeResolver } from './core/i18n/locale.resolver';
 import {
-  authGuard,
+  authGuardAsync,
   superAdminGuard,
   adminGuard,
   salesManagerGuard,
@@ -242,7 +242,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [authGuard],
+    canActivate: [authGuardAsync],
     loadComponent: () => import('./features/admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
     children: [
       {

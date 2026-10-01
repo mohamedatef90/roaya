@@ -5894,7 +5894,7 @@
           },
           "analytics": {
             "title": "Analytics Cookies",
-            "content": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. We use Google Analytics to track visitor behavior, measure site performance, and identify areas for improvement."
+            "content": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. We use Google Analytics to track visitor behavior, measure site performance, and identify areas for improvement. Hotjar heatmaps and session recordings run only if you allow session recording."
           },
           "marketing": {
             "title": "Marketing Cookies",
@@ -5922,6 +5922,7 @@
           "intro": "We use the following third-party services that may set cookies:",
           "items": {
             "googleAnalytics": "Google Analytics - for website analytics and performance tracking",
+            "hotjar": "Hotjar - for heatmaps and session recordings, only after you allow recording",
             "hubspot": "HubSpot - for customer relationship management and marketing automation"
           }
         },

@@ -6,7 +6,7 @@ export type Direction = 'ltr' | 'rtl';
 
 /**
  * Theme Service
- * Manages application theme (light/dark) and direction (LTR/RTL)
+ * Keeps the application on the light theme and manages direction (LTR/RTL).
  */
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class ThemeService {
    */
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  theme = signal<Theme>(this.getInitialTheme());
+  theme = signal<Theme>('light');
   direction = signal<Direction>(this.getInitialDirection());
 
   constructor() {
@@ -33,30 +33,6 @@ export class ThemeService {
       this.applyTheme(this.theme());
       this.applyDirection(this.direction());
     });
-  }
-
-  /**
-   * Get initial theme from localStorage or system preference
-   */
-  private getInitialTheme(): Theme {
-    // SSR guard: no browser storage/media queries on the server
-    if (!this.isBrowser) {
-      return 'light';
-    }
-    const stored = localStorage.getItem(this.THEME_KEY) as Theme;
-    if (stored && (stored === 'light' || stored === 'dark')) {
-      return stored;
-    }
-
-    // Check system preference
-    if (
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      return 'dark';
-    }
-
-    return 'light';
   }
 
   /**
@@ -83,17 +59,18 @@ export class ThemeService {
   }
 
   /**
-   * Toggle between light and dark themes
+   * Kept for backwards compatibility with any legacy callers.
+   * The application is intentionally light-only.
    */
   toggleTheme(): void {
-    this.theme.set(this.theme() === 'light' ? 'dark' : 'light');
+    this.theme.set('light');
   }
 
   /**
    * Set specific theme
    */
-  setTheme(theme: Theme): void {
-    this.theme.set(theme);
+  setTheme(_theme: Theme): void {
+    this.theme.set('light');
   }
 
   /**
@@ -113,21 +90,12 @@ export class ThemeService {
   /**
    * Apply theme to document
    */
-  private applyTheme(theme: Theme): void {
+  private applyTheme(_theme: Theme): void {
     if (!this.isBrowser) return; // SSR guard
     const root = document.documentElement;
-    root.setAttribute('data-theme', theme);
-
-    // Mirror the attribute as a `.dark` class. Two separate consumers still
-    // select on the class rather than the attribute, and neither worked while
-    // nothing set it:
-    //   - SCSS partials (admin-theme, _helpers, _typography, _reset)
-    //   - the `.dark` half of the darkMode variant in tailwind.config.js
-    // The attribute stays the source of truth; this is a mirror, not a
-    // second switch.
-    root.classList.toggle('dark', theme === 'dark');
-
-    localStorage.setItem(this.THEME_KEY, theme);
+    root.setAttribute('data-theme', 'light');
+    root.classList.remove('dark');
+    localStorage.setItem(this.THEME_KEY, 'light');
   }
 
   /**
@@ -145,7 +113,7 @@ export class ThemeService {
    * Check if current theme is dark
    */
   isDarkTheme(): boolean {
-    return this.theme() === 'dark';
+    return false;
   }
 
   /**

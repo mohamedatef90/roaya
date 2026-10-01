@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { VisitorTrackingService } from './core/services/visitor-tracking.service';
+import { AnalyticsService } from './core/services/analytics.service';
 import { SEOService } from './core/services/seo.service';
 import { StructuredDataService } from './core/services/structured-data.service';
 
@@ -27,6 +28,9 @@ import { StructuredDataService } from './core/services/structured-data.service';
 })
 export class App {
   private readonly tracking = inject(VisitorTrackingService);
+  // Instantiated at the root so GA and Hotjar run on every public route,
+  // including pages that never inject the service themselves.
+  private readonly analytics = inject(AnalyticsService);
   // Instantiated at the root so every route (server and browser) gets a
   // self-referencing canonical URL, not only pages that use SEOService.
   private readonly seo = inject(SEOService);

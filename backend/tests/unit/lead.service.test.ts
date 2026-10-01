@@ -218,7 +218,8 @@ describe('LeadService', () => {
         ] as any)
         .mockResolvedValueOnce([
           { source: LeadSource.CONTACT_FORM, _count: 60 },
-        ] as any);
+        ] as any)
+        .mockResolvedValueOnce([{ source: LeadSource.CONTACT_FORM, status: LeadStatus.NEW, _count: 40 }] as any);
 
       const { leadService } = await import('../../src/application/services/lead.service.js');
       

@@ -3,11 +3,11 @@ import { config } from '../../config/environment.js';
 import { logger } from '../../shared/utils/logger.js';
 
 // Initialize SendGrid
-if (config.email.sendgridApiKey) {
+if (!config.email.smtp.host && config.email.sendgridApiKey) {
   sgMail.setApiKey(config.email.sendgridApiKey);
   logger.info('SendGrid client initialized');
-} else {
-  logger.warn('SendGrid API key not configured - emails will be logged only');
+} else if (!config.email.smtp.host) {
+  logger.warn('Email delivery provider is not configured');
 }
 
 interface SendGridMessage {

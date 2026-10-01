@@ -2,7 +2,6 @@ import { Component, HostListener, signal, computed, inject, OnInit, OnDestroy, A
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
 import { LocalizeLinkPipe } from '../../core/i18n/localize-link.pipe';
 import { NavigationService } from '../../core/services/navigation.service';
@@ -10,7 +9,6 @@ import { LoadingService } from '../../core/services/loading.service';
 import { ScrollSmootherService } from '../../core/services/scroll-smoother.service';
 import { MegaMenuComponent, MegaMenuItem } from '../../shared/components/mega-menu/mega-menu.component';
 import { ScrollIndicatorComponent } from '../../shared/components/scroll-indicator/scroll-indicator.component';
-import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
 import { InitLoaderComponent } from '../../shared/components/init-loader/init-loader.component';
 import { ConsentBannerComponent } from '../../shared/components/consent-banner/consent-banner.component';
@@ -22,13 +20,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, LocalizeLinkPipe, MegaMenuComponent, ScrollIndicatorComponent, ThemeToggleComponent, LanguageSelectorComponent, InitLoaderComponent, ConsentBannerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, LocalizeLinkPipe, MegaMenuComponent, ScrollIndicatorComponent, LanguageSelectorComponent, InitLoaderComponent, ConsentBannerComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   // Inject services using modern inject() function
-  readonly themeService = inject(ThemeService);
   readonly languageService = inject(LanguageService);
   readonly navigationService = inject(NavigationService);
   readonly loadingService = inject(LoadingService);
@@ -518,10 +515,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isHomeRoute = url === '/' || url === '';
     const pathname = url.split(/[?#]/, 1)[0].replace(/\/+$/, '');
     this.showScrollIndicator = pathname !== '/services/aws';
-  }
-
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
   }
 
   toggleLanguage(): void {

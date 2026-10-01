@@ -37,6 +37,11 @@ export class VisitorTrackingService {
   private scrollListenerAttached = false;
   private lastScrollTime = 0;
   private readonly SCROLL_THROTTLE_MS = 500;
+  private scrollMilestonesSent = new Set<number>();
+
+  // Behavioral signals used by the admin experience dashboard
+  private recentClicks: Array<{ key: string; timestamp: number }> = [];
+  private startedForms = new Set<string>();
 
   // rrweb recording state
   private recordingStopFn: (() => void) | null = null;
@@ -65,6 +70,7 @@ export class VisitorTrackingService {
       this.listenToRouteChanges();
       this.registerBeforeUnload();
       this.attachScrollListener();
+      this.attachBehaviorListeners();
     } catch {
       // Silently ignore – tracking must never break the app
     }
@@ -83,6 +89,28 @@ export class VisitorTrackingService {
     this.destroyRef.onDestroy(() => {
       document.removeEventListener('click', this.handleClick);
     });
+  }
+
+  /** Track a consented, privacy-safe product or conversion event. */
+  trackCustomEvent(
+    eventName: string,
+    eventCategory: 'conversion' | 'engagement' | 'behavior' | 'error' = 'engagement',
+    eventData: Record<string, unknown> = {},
+  ): void {
+    try {
+      const path = window.location.pathname;
+      if (!this.sessionId || this.isAdminRoute(path) || !this.hasAnalyticsConsent()) return;
+
+      this.http.post(`${this.trackingUrl}/event`, {
+        sessionId: this.sessionId,
+        eventName: eventName.substring(0, 255),
+        eventCategory,
+        eventData,
+        pagePath: path,
+      }, { withCredentials: true }).subscribe({ error: () => {} });
+    } catch {
+      // Tracking must never interrupt the user journey.
+    }
   }
 
   // ─── Private helpers ────────────────────────────────────
@@ -207,6 +235,7 @@ export class VisitorTrackingService {
     this.previousPath = path;
     this.pageEnteredAt = Date.now();
     this.maxScrollDepth = 0;
+    this.scrollMilestonesSent.clear();
   }
 
   private handleClick = (event: MouseEvent): void => {
@@ -243,9 +272,89 @@ export class VisitorTrackingService {
               : undefined,
         }, { withCredentials: true })
         .subscribe({ error: () => {} });
+
+      this.captureClickSignals(target, now);
     } catch {
       // Silently fail
     }
+  };
+
+  private captureClickSignals(target: HTMLElement, timestamp: number): void {
+    const interactive = target.closest<HTMLElement>('a, button, [role="button"], input[type="submit"]');
+    const targetKey = [
+      target.tagName.toLowerCase(),
+      target.id ? `#${target.id}` : '',
+      typeof target.className === 'string' && target.className
+        ? `.${target.className.split(/\s+/).slice(0, 2).join('.')}`
+        : '',
+    ].join('');
+
+    this.recentClicks = this.recentClicks.filter((click) => timestamp - click.timestamp <= 1000);
+    this.recentClicks.push({ key: targetKey, timestamp });
+    const sameTargetClicks = this.recentClicks.filter((click) => click.key === targetKey);
+
+    if (sameTargetClicks.length === 3) {
+      this.trackCustomEvent('rage_click', 'behavior', {
+        elementTag: target.tagName.toLowerCase(),
+        elementId: target.id || undefined,
+      });
+      this.recentClicks = [];
+    }
+
+    if (interactive) {
+      const anchor = interactive.closest<HTMLAnchorElement>('a');
+      let destination: string | undefined;
+      if (anchor?.href) {
+        try {
+          destination = new URL(anchor.href, window.location.origin).pathname;
+        } catch {
+          destination = undefined;
+        }
+      }
+      this.trackCustomEvent('cta_click', 'engagement', {
+        elementTag: interactive.tagName.toLowerCase(),
+        elementId: interactive.id || undefined,
+        destination,
+      });
+    } else if (getComputedStyle(target).cursor === 'pointer') {
+      this.trackCustomEvent('dead_click', 'behavior', {
+        elementTag: target.tagName.toLowerCase(),
+        elementId: target.id || undefined,
+      });
+    }
+  }
+
+  private attachBehaviorListeners(): void {
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('error', this.handleWindowError);
+      window.addEventListener('unhandledrejection', this.handleUnhandledRejection);
+      document.addEventListener('focusin', this.handleFormFocus, { passive: true });
+    });
+
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('error', this.handleWindowError);
+      window.removeEventListener('unhandledrejection', this.handleUnhandledRejection);
+      document.removeEventListener('focusin', this.handleFormFocus);
+    });
+  }
+
+  private handleWindowError = (): void => {
+    this.trackCustomEvent('javascript_error', 'error', { kind: 'window_error' });
+  };
+
+  private handleUnhandledRejection = (): void => {
+    this.trackCustomEvent('javascript_error', 'error', { kind: 'unhandled_rejection' });
+  };
+
+  private handleFormFocus = (event: FocusEvent): void => {
+    const target = event.target as HTMLElement | null;
+    const form = target?.closest<HTMLFormElement>('form');
+    if (!form) return;
+
+    const formKey = (form.id || form.getAttribute('name') || 'anonymous-form').substring(0, 120);
+    if (this.startedForms.has(formKey)) return;
+    this.startedForms.add(formKey);
+    this.trackCustomEvent('form_start', 'conversion', { formId: formKey });
   };
 
   private registerBeforeUnload(): void {
@@ -456,6 +565,13 @@ export class VisitorTrackingService {
 
       // Update max scroll depth
       this.maxScrollDepth = Math.max(this.maxScrollDepth, Math.min(100, scrollDepth));
+
+      for (const milestone of [25, 50, 75, 90]) {
+        if (this.maxScrollDepth >= milestone && !this.scrollMilestonesSent.has(milestone)) {
+          this.scrollMilestonesSent.add(milestone);
+          this.trackCustomEvent(`scroll_${milestone}`, 'engagement', { depth: milestone });
+        }
+      }
     } catch {
       // Silently fail
     }

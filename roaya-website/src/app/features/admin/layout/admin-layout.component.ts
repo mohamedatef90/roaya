@@ -27,7 +27,6 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 // Services
 import { AuthService } from '../../../core/services/auth.service';
 import { LanguageService } from '../../../core/services/language.service';
-import { ThemeService } from '../../../core/services/theme.service';
 import { IdleTimeoutService } from '../../../core/services/idle-timeout.service';
 
 /**
@@ -38,7 +37,6 @@ import { IdleTimeoutService } from '../../../core/services/idle-timeout.service'
 export interface AdminMenuItem {
   label?: string;
   icon?: string;
-  svgIcon?: string; // SVG path for inline rendering
   routerLink?: string[];
   items?: AdminMenuItem[];
   command?: () => void;
@@ -48,21 +46,6 @@ export interface AdminMenuItem {
   // Badge for view-only access
   viewOnly?: boolean;
 }
-
-// SVG icon paths for consistent rendering (Lucide-style icons)
-export const ADMIN_ICONS = {
-  home: `<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
-  users: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
-  chartBar: `<path d="M3 3v18h18"/><rect width="4" height="7" x="7" y="10" rx="1"/><rect width="4" height="12" x="15" y="5" rx="1"/>`,
-  fileEdit: `<path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5"/><polyline points="14 2 14 8 20 8"/><path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"/>`,
-  globe: `<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>`,
-  eye: `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>`,
-  mail: `<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>`,
-  userEdit: `<path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.01Z"/><circle cx="10" cy="7" r="4"/>`,
-  settings: `<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>`,
-  user: `<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
-  logout: `<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>`,
-};
 
 @Component({
   selector: 'app-admin-layout',
@@ -96,7 +79,6 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   // Inject services
   public authService = inject(AuthService);
   public languageService = inject(LanguageService);
-  public themeService = inject(ThemeService);
   public idleTimeoutService = inject(IdleTimeoutService);
   private router = inject(Router);
 
@@ -104,7 +86,6 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   sidebarCollapsed = signal(false);
   mobileSidebarVisible = signal(false);
   currentUser = this.authService.currentUserSignal;
-  isDarkMode = this.themeService.theme;
   currentLang = this.languageService.language;
   pageTitle = signal('Dashboard');
 
@@ -117,28 +98,28 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
     return [
       {
         label: 'Dashboard',
-        svgIcon: ADMIN_ICONS.home,
+        icon: 'home',
         routerLink: ['/admin/dashboard'],
         // Dashboard visible to all authenticated users
         visible: () => true,
       },
       {
         label: 'Leads',
-        svgIcon: ADMIN_ICONS.users,
+        icon: 'users',
         routerLink: ['/admin/leads'],
         // Lead management - SALES_REP+ only
         visible: () => this.authService.canManageLeads(),
       },
       {
         label: 'Analytics',
-        svgIcon: ADMIN_ICONS.chartBar,
+        icon: 'chartBar',
         routerLink: ['/admin/analytics'],
         // Analytics overview - SALES_REP+ only
         visible: () => this.authService.canViewAnalytics(),
       },
       {
         label: 'Content',
-        svgIcon: ADMIN_ICONS.fileEdit,
+        icon: 'fileEdit',
         // Content management - ADMIN+ only
         visible: () => this.authService.canManageContent(),
         items: [
@@ -149,7 +130,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Website',
-        svgIcon: ADMIN_ICONS.globe,
+        icon: 'globe',
         // Website content - ADMIN+ only
         visible: () => this.authService.canManageTeamContent(),
         items: [
@@ -161,7 +142,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Website Analytics',
-        svgIcon: ADMIN_ICONS.eye,
+        icon: 'eye',
         // Website analytics - ADMIN+ only
         visible: () => this.authService.isAdmin(),
         items: [
@@ -173,14 +154,14 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Email Templates',
-        svgIcon: ADMIN_ICONS.mail,
+        icon: 'mail',
         routerLink: ['/admin/email-templates'],
         // Email templates - ADMIN+ only
         visible: () => this.authService.canManageEmailTemplates(),
       },
       {
         label: 'Users',
-        svgIcon: ADMIN_ICONS.userEdit,
+        icon: 'userEdit',
         routerLink: ['/admin/users'],
         // Users - ADMIN+ can view, SUPER_ADMIN can manage
         visible: () => this.authService.canViewUsers(),
@@ -189,7 +170,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Settings',
-        svgIcon: ADMIN_ICONS.settings,
+        icon: 'settings',
         routerLink: ['/admin/settings'],
         // Settings - SUPER_ADMIN only
         visible: () => this.authService.canManageSettings(),
@@ -201,12 +182,12 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   userMenuItems: AdminMenuItem[] = [
     {
       label: 'Profile',
-      svgIcon: ADMIN_ICONS.user,
+      icon: 'user',
       command: () => this.viewProfile(),
     },
     {
       label: 'Settings',
-      svgIcon: ADMIN_ICONS.settings,
+      icon: 'settings',
       command: () => this.openSettings(),
     },
     {
@@ -214,7 +195,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
     },
     {
       label: 'Logout',
-      svgIcon: ADMIN_ICONS.logout,
+      icon: 'logout',
       command: () => this.logout(),
     },
   ];
@@ -304,10 +285,6 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
 
   toggleSubmenu(index: number): void {
     this.expandedMenus[index] = !this.expandedMenus[index];
-  }
-
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
   }
 
   toggleLanguage(): void {

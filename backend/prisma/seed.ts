@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { PrismaClient, UserRole, LeadStatus, LeadSource, LeadPriority } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 

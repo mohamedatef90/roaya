@@ -1,3 +1,5 @@
+@use './styles/theme';
+
 /* Roaya IT - Global Styles */
 
 /* Tailwind directives */
@@ -6,7 +8,7 @@
 @tailwind utilities;
 
 /* Import PrimeNG Theme (for admin panel) */
-@import './styles/theme.scss';
+
 
 /* ========================================
    Theme Variables

@@ -106,8 +106,12 @@ describe('Auth API Integration Tests', () => {
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
       expect(response.body.data.user.email).toBe('admin@test.com');
-      expect(response.body.data.tokens.accessToken).toBeDefined();
-      expect(response.body.data.tokens.refreshToken).toBeDefined();
+      expect(response.body.data.expiresIn).toBeDefined();
+      const cookies = response.headers['set-cookie'];
+      expect(cookies).toEqual(expect.arrayContaining([
+        expect.stringContaining('access_token='),
+        expect.stringContaining('refresh_token='),
+      ]));
     });
 
     it('should return 401 for invalid credentials', async () => {
@@ -211,8 +215,13 @@ describe('Auth API Integration Tests', () => {
 
   describe('POST /api/v1/auth/logout', () => {
     it('should return 401 without authentication', async () => {
-      const response = await request(app)
+      const agent = request.agent(app);
+      const csrf = await agent.get('/api/v1/auth/csrf-token');
+      const csrfToken = csrf.body.data.csrfToken as string;
+
+      const response = await agent
         .post('/api/v1/auth/logout')
+        .set('X-CSRF-Token', csrfToken)
         .send({});
 
       expect(response.status).toBe(401);

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { authService } from '../../application/services/auth.service.js';
 import { AuthenticatedRequest, ApiResponse } from '../../shared/types/index.js';
 import { config } from '../../config/environment.js';
+import { ValidationError } from '../../domain/exceptions/index.js';
 import { extractClientIp } from '../../shared/utils/security-logger.js';
 import {
   LoginInput,
@@ -80,7 +81,9 @@ export class AuthController {
       const refreshToken = req.cookies.refresh_token || req.body.refreshToken;
 
       if (!refreshToken) {
-        throw new Error('Refresh token not found');
+        throw new ValidationError('Refresh token is required', {
+          refreshToken: ['Refresh token is required'],
+        });
       }
 
       const tokens = await authService.refreshTokens(refreshToken, {

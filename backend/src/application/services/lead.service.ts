@@ -11,6 +11,9 @@ import { calculatePagination, getPaginationSkip } from '../../shared/utils/helpe
 import { NotFoundError, ConflictError } from '../../domain/exceptions/index.js';
 import { LeadStatus, LeadSource, Prisma } from '@prisma/client';
 import { emailQueue } from '../../infrastructure/email/email-queue.js';
+import { config } from '../../config/environment.js';
+import { redis } from '../../config/redis.js';
+import { emailService } from './email.service.js';
 
 export class LeadService {
   async createLead(data: CreateLeadDTO, metadata?: { ipAddress?: string; userAgent?: string; referrer?: string }) {
@@ -62,9 +65,24 @@ export class LeadService {
       },
     });
 
-    // Queue emails
-    await emailQueue.addLeadConfirmationEmail(lead);
-    await emailQueue.addAdminNotificationEmail(lead);
+    // Local SMTP testing works without a Redis installation.
+    // Production retains the existing persistent queue and retry behavior.
+    if (config.app.isDevelopment && redis.status !== 'ready') {
+      const sent = await emailService.sendAdminNewLeadNotification({
+        ...lead,
+        formData: { answers: lead.formData ?? {}, jobTitle: lead.jobTitle, website: lead.website },
+      });
+      await prisma.notification.create({ data: {
+        leadId: lead.id, type: 'admin_notification', subject: 'Roaya - New form submission',
+        body: 'Local development SMTP notification', recipient: config.email.adminEmail,
+        status: sent ? 'SENT' : 'FAILED', sentAt: sent ? new Date() : null,
+        errorMsg: sent ? null : 'SMTP notification failed',
+      } });
+      if (!sent) logger.error('Local form was saved but SMTP notification failed', { leadId: lead.id });
+    } else {
+      await emailQueue.addLeadConfirmationEmail(lead);
+      await emailQueue.addAdminNotificationEmail(lead);
+    }
 
     logger.info('Lead created successfully', { leadId: lead.id });
     return lead;

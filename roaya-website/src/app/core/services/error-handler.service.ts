@@ -259,6 +259,9 @@ export class GlobalErrorHandler implements ErrorHandler {
   private errorLogging = inject(ErrorLoggingService);
 
   handleError(error: Error | HttpErrorResponse): void {
+    // Build-time prerender intentionally uses local fallback data.
+    // Only ignore that explicit marker; real network failures are still reported.
+    if (error instanceof HttpErrorResponse && error.error?.code === 'SSR_API_SKIPPED') return;
     // Silently ignore AbortError (happens during page refresh/navigation)
     const errorAny = error as any;
     if (errorAny?.name === 'AbortError' ||

@@ -175,8 +175,8 @@ describe('Leads API Integration Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
-      expect(response.body.data).toHaveLength(1);
-      expect(response.body.meta.total).toBe(1);
+      expect(response.body.data.leads).toHaveLength(1);
+      expect(response.body.data.meta.total).toBe(1);
     });
 
     it('should return 401 without authentication', async () => {
@@ -267,9 +267,14 @@ describe('Leads API Integration Tests', () => {
         status: 'CONTACTED',
       } as any);
 
-      const response = await request(app)
+      const agent = request.agent(app);
+      const csrf = await agent.get('/api/v1/auth/csrf-token');
+      const csrfToken = csrf.body.data.csrfToken as string;
+
+      const response = await agent
         .patch(`/api/v1/leads/${TEST_LEAD_ID}`)
         .set('Authorization', 'Bearer valid-token')
+        .set('X-CSRF-Token', csrfToken)
         .send({ status: 'CONTACTED' });
 
       expect(response.status).toBe(200);

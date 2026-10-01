@@ -108,19 +108,21 @@ export const roleGuard = (allowedRoles: string[]) => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    if (!authService.isAuthenticated()) {
-      return router.createUrlTree(['/admin/login']);
-    }
+    const resolveRole = (): boolean | UrlTree => {
+      if (authService.hasRole(...allowedRoles)) return true;
+      return router.createUrlTree(['/admin/dashboard'], {
+        queryParams: { error: 'insufficient_permissions' },
+      });
+    };
 
-    if (authService.hasRole(...allowedRoles)) {
-      return true;
-    }
+    if (authService.isAuthenticated()) return resolveRole();
 
-    // User is authenticated but doesn't have required role
-    // Redirect to dashboard with error message
-    return router.createUrlTree(['/admin/dashboard'], {
-      queryParams: { error: 'insufficient_permissions' },
-    });
+    // A full page refresh restores the httpOnly-cookie session asynchronously.
+    // Verify first so deep links do not get redirected before the profile loads.
+    return authService.verifySession().pipe(
+      map((isValid) => isValid ? resolveRole() : router.createUrlTree(['/admin/login'])),
+      catchError(() => of(router.createUrlTree(['/admin/login']))),
+    );
   };
 };
 

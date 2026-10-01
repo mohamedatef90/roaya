@@ -20,6 +20,8 @@ interface LeadEmailJob {
   source?: string;
   message?: string | null;
   estimatedValue?: number | null;
+  formData?: unknown;
+  createdAt?: Date | string;
 }
 
 // Create queue
@@ -63,6 +65,8 @@ async function processEmailJob(job: Job<LeadEmailJob>): Promise<void> {
           company: data.company,
           source: data.source ?? 'CONTACT_FORM',
           message: data.message,
+          formData: data.formData,
+          createdAt: data.createdAt,
         });
         break;
 
@@ -81,8 +85,8 @@ async function processEmailJob(job: Job<LeadEmailJob>): Promise<void> {
         leadId: data.leadId,
         type: data.type,
         subject: `Email: ${data.type}`,
-        body: `Email sent to ${data.email}`,
-        recipient: data.email,
+        body: `Email to ${data.type === 'admin_notification' ? config.email.adminEmail : data.email}`,
+        recipient: data.type === 'admin_notification' ? config.email.adminEmail : data.email,
         status: success ? 'SENT' : 'FAILED',
         sentAt: success ? new Date() : null,
         errorMsg: success ? null : 'Email delivery failed',
@@ -152,6 +156,10 @@ export const emailQueue = {
     company?: string | null;
     source: string;
     message?: string | null;
+    formData?: unknown;
+    createdAt?: Date | string;
+    jobTitle?: string | null;
+    website?: string | null;
   }): Promise<void> {
     await emailQueueInstance.add('admin_notification', {
       type: 'admin_notification',
@@ -163,6 +171,8 @@ export const emailQueue = {
       company: lead.company,
       source: lead.source,
       message: lead.message,
+      formData: { answers: lead.formData ?? {}, jobTitle: lead.jobTitle, website: lead.website },
+      createdAt: lead.createdAt,
     });
   },
 

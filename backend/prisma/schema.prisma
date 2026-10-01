@@ -614,6 +614,7 @@ model PageView {
   device    String? // desktop, mobile, tablet
   browser   String?
   duration  Int? // seconds on page
+  scrollDepth Int? @map("scroll_depth") // maximum page depth reached (0-100)
   createdAt DateTime @default(now()) @map("created_at")
 
   // Relations

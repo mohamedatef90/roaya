@@ -2,12 +2,18 @@ import { config } from '../../config/environment.js';
 import { logger } from '../../shared/utils/logger.js';
 import { prisma } from '../../config/database.js';
 import { sendgridClient } from '../../infrastructure/email/sendgrid.client.js';
+import { sendSmtpEmail } from '../../infrastructure/email/smtp.client.js';
+import { renderFormNotification } from '../../infrastructure/email/form-notification.template.js';
 import { EmailMessage, EmailTemplateData } from '../../shared/types/index.js';
 
 export class EmailService {
   async sendEmail(message: EmailMessage): Promise<boolean> {
     try {
-      await sendgridClient.send({
+      if (config.email.smtp.host) {
+        await sendSmtpEmail(message);
+      } else {
+        if (!config.email.sendgridApiKey) throw new Error('Email delivery provider is not configured');
+        await sendgridClient.send({
         to: message.to,
         from: {
           email: config.email.fromEmail,
@@ -16,7 +22,8 @@ export class EmailService {
         subject: message.subject,
         html: message.html,
         text: message.text,
-      });
+        });
+      }
 
       logger.info('Email sent successfully', { to: message.to, subject: message.subject });
       return true;
@@ -77,19 +84,13 @@ export class EmailService {
     source: string;
     message?: string | null;
     id: string;
+    formData?: unknown;
+    createdAt?: Date | string;
   }): Promise<boolean> {
     const adminUrl = `${config.cors.origin}/admin/leads/${lead.id}`;
     
-    return this.sendTemplatedEmail('admin_new_lead', config.email.adminEmail, {
-      firstName: lead.firstName,
-      lastName: lead.lastName,
-      email: lead.email,
-      phone: lead.phone ?? 'Not provided',
-      company: lead.company ?? 'Not provided',
-      source: lead.source,
-      message: lead.message ?? 'No message',
-      adminUrl,
-    });
+    const { html, text } = renderFormNotification(lead, adminUrl);
+    return this.sendEmail({ to: config.email.adminEmail, subject: 'Roaya - New form submission', text, html });
   }
 
   async sendROICalculatorResults(lead: {

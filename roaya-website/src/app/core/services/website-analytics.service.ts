@@ -48,6 +48,12 @@ export interface PageViewTimeSeries {
   views: number;
 }
 
+export interface AnalyticsEventsSummary {
+  topEvents: { eventName: string; count: number }[];
+  categoryBreakdown: { category: string; count: number }[];
+  eventsOverTime: { date: string; count: number }[];
+}
+
 export interface HeatmapPoint {
   x: number;
   y: number;
@@ -218,6 +224,20 @@ export class WebsiteAnalyticsService {
       .pipe(
         map((r) => r.data),
         catchError(() => of([])),
+      );
+  }
+
+  /** GET /events/summary */
+  getEventsSummary(range?: DateRange): Observable<AnalyticsEventsSummary> {
+    return this.http
+      .get<ApiResponse<AnalyticsEventsSummary>>(`${this.baseUrl}/events/summary`, {
+        params: this.buildDateParams(range),
+      })
+      .pipe(
+        map((r) => r.data),
+        catchError(() =>
+          of({ topEvents: [], categoryBreakdown: [], eventsOverTime: [] }),
+        ),
       );
   }
 

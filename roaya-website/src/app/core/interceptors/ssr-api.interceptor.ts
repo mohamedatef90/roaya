@@ -61,6 +61,7 @@ export const ssrApiInterceptor: HttpInterceptorFn = (req, next) => {
         new HttpErrorResponse({
           url: req.url,
           status: 0,
+          error: { code: 'SSR_API_SKIPPED' },
           statusText: 'Backend API is not called during server-side rendering',
         })
     );

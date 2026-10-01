@@ -316,20 +316,10 @@ export class WebsiteAnalyticsService {
       return null;
     }
 
-    // Update duration (and scroll depth if column exists)
-    const updateData: any = {
+    const updateData = {
       duration,
+      ...(scrollDepth !== undefined ? { scrollDepth } : {}),
     };
-
-    // Try to update scroll_depth if provided and column exists
-    if (scrollDepth !== undefined) {
-      try {
-        updateData.scrollDepth = scrollDepth;
-      } catch {
-        // Column doesn't exist yet - silently skip
-        logger.debug('Scroll depth column not available');
-      }
-    }
 
     const updated = await prisma.pageView.update({
       where: { id: pageView.id },
@@ -751,8 +741,8 @@ export class WebsiteAnalyticsService {
       WHERE pv.created_at >= ${from}
         AND pv.created_at <= ${to}
         AND s.is_bot = false
-      GROUP BY DATE_TRUNC(${truncateFormat}, pv.created_at)
-      ORDER BY date ASC
+      GROUP BY 1
+      ORDER BY 1 ASC
     `;
 
     return data.map((d) => ({

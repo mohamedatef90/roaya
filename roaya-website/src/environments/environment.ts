@@ -42,8 +42,10 @@ export const environment = {
     maxCharsPerRequest: 5000,
   },
 
-  // Analytics
-  googleAnalyticsId: '', // GA4 Measurement ID
+  // Analytics. Leave blank locally so dev traffic stays out of production reports.
+  // Production values live in environment.prod.ts.
+  googleAnalyticsId: '',
+  hotjarSiteId: '',
 
   // Error Logging (Sentry)
   // Instructions to get your DSN:

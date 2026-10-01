@@ -8,8 +8,8 @@
 --   5. Create analytics_daily_summary pre-aggregation table
 --   6. Add composite indexes for common query patterns
 --
--- IMPORTANT: Steps 1-5 run inside a transaction. Step 6 (CONCURRENTLY indexes)
---            must run outside the transaction block.
+-- IMPORTANT: Prisma runs this migration inside a transaction, so the indexes
+--            in step 6 use standard CREATE INDEX statements.
 -- ============================================================================
 
 
@@ -166,49 +166,44 @@ COMMENT ON COLUMN "analytics_daily_summary"."country_breakdown"
 -- ============================================================================
 -- STEP 6: ADD COMPOSITE INDEXES
 -- ============================================================================
--- These are created with CREATE INDEX CONCURRENTLY so they do not hold an
--- exclusive lock on the table during build. This is critical for production
--- deployments on tables that may already have significant data.
---
--- NOTE: CONCURRENTLY cannot run inside a transaction block. If this migration
--- is executed by Prisma (which wraps in a transaction), these statements will
--- automatically fall back to a standard CREATE INDEX. For manual production
--- deployment, run steps 1-5 first, then run step 6 separately outside a
--- transaction.
+-- Prisma executes this migration transactionally, so these indexes must use
+-- standard CREATE INDEX statements. Production deployments that need
+-- zero-downtime index creation should apply equivalent CONCURRENTLY indexes in
+-- a separate, non-transactional operational step.
 -- ============================================================================
 
 -- 6a. page_views(session_id, created_at DESC)
 --     Covers: "list page views for a session, most recent first"
 --     Used by: session detail view, session replay timeline
-CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_pv_session_created"
+CREATE INDEX IF NOT EXISTS "idx_pv_session_created"
     ON "page_views"("session_id", "created_at" DESC);
 
 -- 6b. page_views(created_at, path)
 --     Covers: "page views in a date range filtered/grouped by path"
 --     Used by: top-pages report, path-level analytics
-CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_pv_created_path"
+CREATE INDEX IF NOT EXISTS "idx_pv_created_path"
     ON "page_views"("created_at", "path");
 
 -- 6c. heatmap_clicks(path, created_at)
 --     Covers: "all clicks on a given page in a date range"
 --     Used by: heatmap overlay rendering
-CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_hc_path_created"
+CREATE INDEX IF NOT EXISTS "idx_hc_path_created"
     ON "heatmap_clicks"("path", "created_at");
 
 -- 6d. analytics_sessions(visitor_id, started_at DESC)
 --     Covers: "all sessions for a visitor, most recent first"
 --     Used by: visitor profile / history view
-CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_as_visitor_started"
+CREATE INDEX IF NOT EXISTS "idx_as_visitor_started"
     ON "analytics_sessions"("visitor_id", "started_at" DESC);
 
 -- 6e. analytics_sessions(started_at, country)
 --     Covers: "sessions in a date range grouped/filtered by country"
 --     Used by: geo analytics dashboard widget
-CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_as_started_country"
+CREATE INDEX IF NOT EXISTS "idx_as_started_country"
     ON "analytics_sessions"("started_at", "country");
 
 -- 6f. analytics_sessions(started_at, device)
 --     Covers: "sessions in a date range grouped/filtered by device type"
 --     Used by: device breakdown dashboard widget
-CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_as_started_device"
+CREATE INDEX IF NOT EXISTS "idx_as_started_device"
     ON "analytics_sessions"("started_at", "device");

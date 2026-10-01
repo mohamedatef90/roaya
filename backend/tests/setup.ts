@@ -8,7 +8,11 @@ process.env.REDIS_HOST = 'localhost';
 process.env.REDIS_PORT = '6379';
 process.env.CORS_ORIGIN = 'http://localhost:3000';
 process.env.SENDGRID_API_KEY = '';
+delete process.env.SMTP_HOST;
+process.env.SMTP_USER = '';
+process.env.SMTP_PASS = '';
 process.env.ADMIN_NOTIFICATION_EMAIL = 'test@test.com';
+process.env.LOG_FORMAT = 'dev';
 
 // Mock Prisma client
 vi.mock('@prisma/client', () => {
@@ -78,6 +82,7 @@ vi.mock('@prisma/client', () => {
 
   return {
     PrismaClient: vi.fn(() => mockPrisma),
+    PackageType: { SUBSCRIPTION: 'SUBSCRIPTION', ONE_TIME: 'ONE_TIME', CUSTOM: 'CUSTOM' },
     LeadStatus: {
       NEW: 'NEW',
       CONTACTED: 'CONTACTED',
@@ -124,6 +129,43 @@ vi.mock('@prisma/client', () => {
       PENDING_REVIEW: 'PENDING_REVIEW',
       PUBLISHED: 'PUBLISHED',
       ARCHIVED: 'ARCHIVED',
+    },
+    EmailTemplateCategory: {
+      TRANSACTIONAL: 'TRANSACTIONAL',
+      MARKETING: 'MARKETING',
+      NOTIFICATION: 'NOTIFICATION',
+    },
+    LogoCategory: {
+      CLIENT: 'CLIENT',
+      PARTNER: 'PARTNER',
+      TECHNOLOGY: 'TECHNOLOGY',
+      CERTIFICATION: 'CERTIFICATION',
+    },
+    DocAccessLevel: {
+      PUBLIC: 'PUBLIC',
+      INTERNAL: 'INTERNAL',
+      ADMIN: 'ADMIN',
+    },
+    ActivityType: {
+      NOTE: 'NOTE',
+      EMAIL_SENT: 'EMAIL_SENT',
+      EMAIL_RECEIVED: 'EMAIL_RECEIVED',
+      CALL: 'CALL',
+      MEETING: 'MEETING',
+      STATUS_CHANGE: 'STATUS_CHANGE',
+      ASSIGNMENT_CHANGE: 'ASSIGNMENT_CHANGE',
+      FOLLOW_UP: 'FOLLOW_UP',
+    },
+    NotificationStatus: {
+      PENDING: 'PENDING',
+      SENT: 'SENT',
+      FAILED: 'FAILED',
+      READ: 'READ',
+    },
+    Prisma: {
+      sql: (strings: TemplateStringsArray, ...values: unknown[]) => ({ strings, values }),
+      join: (values: unknown[], separator = ',') => ({ values, separator }),
+      PrismaClientKnownRequestError: class PrismaClientKnownRequestError extends Error {},
     },
   };
 });

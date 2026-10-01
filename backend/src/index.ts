@@ -1,5 +1,5 @@
 import app from './app.js';
-import { config, connectDatabase, disconnectDatabase, connectRedis, disconnectRedis } from './config/index.js';
+import { config, connectDatabase, disconnectDatabase, connectRedis, disconnectRedis, redis } from './config/index.js';
 import { logger } from './shared/utils/logger.js';
 import { startEmailWorker, stopEmailWorker } from './infrastructure/email/email-queue.js';
 import { startAnalyticsCleanupScheduler, stopAnalyticsCleanupScheduler } from './infrastructure/cron/index.js';
@@ -7,17 +7,27 @@ import { setupAnalyticsWebSocket, stopBroadcast } from './infrastructure/websock
 
 async function bootstrap() {
   try {
+    let redisAvailable = false;
+
     // Connect to database
     await connectDatabase();
     logger.info('Database connection established');
 
     // Connect to Redis
-    await connectRedis();
-    logger.info('Redis connection established');
+    try {
+      await connectRedis();
+      redisAvailable = true;
+      logger.info('Redis connection established');
 
-    // Start email worker
-    startEmailWorker();
-    logger.info('Email worker started');
+      // The email queue depends on Redis, so only start it when Redis is ready.
+      startEmailWorker();
+      logger.info('Email worker started');
+    } catch (error) {
+      // Authentication and the admin dashboard can run without the email queue.
+      // This keeps local development usable when Redis is not installed.
+      redis.disconnect();
+      logger.warn('Redis unavailable; continuing without the email worker', { error });
+    }
 
     // Start analytics cleanup scheduler
     startAnalyticsCleanupScheduler();
@@ -45,8 +55,10 @@ async function bootstrap() {
         try {
           stopBroadcast();
           stopAnalyticsCleanupScheduler();
-          await stopEmailWorker();
-          await disconnectRedis();
+          if (redisAvailable) {
+            await stopEmailWorker();
+            await disconnectRedis();
+          }
           await disconnectDatabase();
           logger.info('All connections closed');
           process.exit(0);

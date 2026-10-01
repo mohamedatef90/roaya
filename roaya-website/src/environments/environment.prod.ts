@@ -30,8 +30,10 @@ export const environment = {
     maxCharsPerRequest: 5000,
   },
 
-  // Analytics
-  googleAnalyticsId: '', // GA4 Measurement ID (e.g., G-XXXXXXXXXX)
+  // Analytics. GA4 is the measurement already used by the GTM container in index.html.
+  // Hotjar Site ID is the number in the Hotjar tracking code (Sites & Organizations).
+  googleAnalyticsId: 'G-NPLQ20N4NX',
+  hotjarSiteId: '',
 
   // Error Logging (Sentry)
   // SECURITY: Restrict this DSN to your production domain in Sentry settings

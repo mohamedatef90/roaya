@@ -1,7 +1,15 @@
 import { z } from 'zod';
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Local project settings should take precedence over machine-wide variables
+// during development. Production keeps the host environment authoritative.
+if (process.env.NODE_ENV !== 'test') {
+  dotenv.config({ override: process.env.NODE_ENV !== 'production' });
+}
+// Private local SMTP settings; production uses its server environment/.env.
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+  dotenv.config({ path: '.env.local', override: true });
+}
 
 const envSchema = z.object({
   // Application
@@ -24,6 +32,14 @@ const envSchema = z.object({
 
   // CSRF
   CSRF_SECRET: z.string().min(32, 'CSRF_SECRET must be at least 32 characters').optional(),
+
+  // SMTP (takes precedence over SendGrid when configured)
+  SMTP_HOST: z.string().min(1).optional(),
+  SMTP_PORT: z.string().default('465').transform(Number).pipe(z.number().int().min(1).max(65535)),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  MAIL_FROM: z.string().email().optional(),
+  FORMS_RECEIVER: z.string().email().optional(),
 
   // SendGrid
   SENDGRID_API_KEY: z.string().optional(),
@@ -94,9 +110,10 @@ export const config = {
   },
   email: {
     sendgridApiKey: env.SENDGRID_API_KEY,
-    fromEmail: env.SENDGRID_FROM_EMAIL,
+    fromEmail: env.MAIL_FROM ?? env.SENDGRID_FROM_EMAIL,
     fromName: env.SENDGRID_FROM_NAME,
-    adminEmail: env.ADMIN_NOTIFICATION_EMAIL,
+    adminEmail: env.FORMS_RECEIVER ?? env.ADMIN_NOTIFICATION_EMAIL,
+    smtp: { host: env.SMTP_HOST, port: env.SMTP_PORT, user: env.SMTP_USER, pass: env.SMTP_PASS },
   },
   rateLimit: {
     windowMs: env.RATE_LIMIT_WINDOW_MS,
@@ -105,7 +122,7 @@ export const config = {
     loginMaxRequests: env.LOGIN_RATE_LIMIT_MAX,
   },
   cors: {
-    origin: env.CORS_ORIGIN.split(',')[0].trim(),
+    origin: env.CORS_ORIGIN.split(',')[0]?.trim() || 'http://localhost:4200',
     allowedOrigins: env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean),
   },
   logging: {
